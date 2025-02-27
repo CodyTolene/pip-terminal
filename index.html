@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pip-Boy Mod Terminal</title>
+    <!-- THIRD PARTY SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.espruino.com/js/uart.js"></script>
+    <!-- STYLESHEETS -->
     <link rel="stylesheet" href="styles/buttons.css" />
     <link rel="stylesheet" href="styles/headers.css" />
     <link rel="stylesheet" href="styles/inputs.css" />
@@ -109,12 +112,11 @@
       <div id="log"></div>
     </aside>
 
-    <script src="scripts/uart.js"></script>
+    <!-- LOCAL SCRIPTS -->
     <script src="scripts/controls.js"></script>
     <script src="scripts/log.js"></script>
     <script src="scripts/links.js"></script>
     <script src="scripts/main.js"></script>
-
     <script>
       const VERSION = "1.0.0";
       logMessage("✅ Initialized Pip-Boy Mod Terminal v" + VERSION);

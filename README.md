@@ -51,20 +51,20 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 
 ## License(s)
 
-This project is licensed under the MIT License. See the [LICENSE_MIT][link-license-mit] file for more information.
+This project is licensed under the MIT License. See the [MIT License][link-license-mit] file for more information.
 
-`SPDX-License-Identifier: MIT`
+This project uses the following third party libraries:
 
-One file, "scripts/uart.js" is licensed under the Mozilla Public License 2.0. See the [LICENSE_MPL][link-license-mpl] file for more information.
-
-`SPDX-License-Identifier: MPL-2.0`
+- jszip: A library for creating, reading, and editing .zip files. Licensed under the [MIT License][link-license-mit].
+- jquery: A fast, small, and feature-rich JavaScript library. Licensed under the [MIT License][link-license-mit].
+- espruino uart.js: A library for interfacing with the Espruino UART. Licensed under the [Mozilla Public License 2.0][link-license-mpl].
 
 This project uses the **Monofonto** font by Typodermic Fonts Inc. for the project PNG logo.
 
 - Free for desktop and image/logo use (commercial & non-commercial).
 - Download from: [Typodermic Fonts][link-font-monofonto]
 
-`SPDX-License-Identifier: LicenseRef-Typodermic-Free-Desktop`
+`SPDX-License-Identifier: MIT, MPL-2.0, LicenseRef-Typodermic-Free-Desktop`
 
 By using this software, you acknowledge and agree to the terms of these licenses.
 
