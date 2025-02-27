@@ -556,18 +556,7 @@ To do:
             this.rxDataHandlerPacket = "";
             this.rxDataHandlerTimeout = setTimeout(() => {
               this.rxDataHandlerTimeout = undefined;
-              log(
-                0,
-                `Packet timeout (2s, data=${
-                  this.rxDataHandlerPacket
-                    ? this.rxDataHandlerPacket
-                        .substr(0, 10)
-                        .split("")
-                        .map((c) => c.charCodeAt())
-                        .join(",") + "..."
-                    : "?"
-                })`
-              );
+              log(0, "Packet timeout (2s)");
               this.rxDataHandlerPacket = undefined;
             }, 2000);
             ch = undefined;
@@ -594,7 +583,6 @@ To do:
     /* Send a packet of type "RESPONSE/EVAL/EVENT/FILE_SEND/DATA" to Espruino
      options = {
        noACK : bool (don't wait to acknowledgement)
-       timeout : int (optional, milliseconds, default=1000)
      }
   */
     espruinoSendPacket(pkType, data, options) {
@@ -613,65 +601,48 @@ To do:
         throw new Error("'pkType' not one of " + Object.keys(PKTYPES));
       let connection = this;
       return new Promise((resolve, reject) => {
-        let timeout = setTimeout(() => {
-          timeout = undefined;
-          cleanup();
-          reject("espruinoSendPacket Timeout");
-        }, options.timeout || 1000);
-        function cleanup() {
-          if (timeout) clearTimeout(timeout);
+        function tidy() {
           connection.removeListener("ack", onACK);
           connection.removeListener("nak", onNAK);
-          connection.removeListener("close", onClose);
         }
         function onACK(ok) {
-          cleanup();
+          tidy();
           setTimeout(resolve, 0);
         }
         function onNAK(ok) {
-          cleanup();
-          setTimeout(reject, 0, "NAK received");
+          tidy();
+          setTimeout(reject, 0);
         }
-        function onClose() {
-          cleanup();
-          setTimeout(reject, 0, "Connection Closed.");
-        }
-
         if (!options.noACK) {
           connection.parsePackets = true;
           connection.on("ack", onACK);
           connection.on("nak", onNAK);
         }
-        connection.on("close", onClose);
         let flags = data.length | PKTYPES[pkType];
-        connection
-          .write(
-            String.fromCharCode(
-              /*DLE*/ 16,
-              /*SOH*/ 1,
-              (flags >> 8) & 0xff,
-              flags & 0xff
-            ) + data
-          )
-          .then(
-            () => {
-              // write complete
-              if (options.noACK) {
-                cleanup(); // no need to clean onACK/NAK* but the timeout and close handler needs removing
-                setTimeout(resolve, 0); // if not listening for acks, just resolve immediately
-              }
-            },
-            (err) => {
-              cleanup();
-              reject(err);
+        connection.write(
+          String.fromCharCode(
+            /*DLE*/ 16,
+            /*SOH*/ 1,
+            (flags >> 8) & 0xff,
+            flags & 0xff
+          ) + data,
+          function () {
+            // write complete
+            if (options.noACK) {
+              setTimeout(resolve, 0); // if not listening for acks, just resolve immediately
             }
-          );
+          },
+          (err) => {
+            tidy();
+            reject(err);
+          }
+        );
       });
     }
     /* Send a file to Espruino using 2v25 packets.
      options = { // mainly passed to Espruino
        fs : true // optional -> write using require("fs") (to SD card)
-       noACK : bool // (don't wait for acknowledgements)
+       noACK : bool // (don't wait to acknowledgements)
        chunkSize : int // size of chunks to send (default 1024) for safety this depends on how big your device's input buffer is if there isn't flow control
        progress : (chunkNo,chunkCount)=>{} // callback to report upload progress
        timeout : int (optional, milliseconds, default=1000)
@@ -691,10 +662,6 @@ To do:
       if (options.chunkSize) {
         CHUNK = options.chunkSize;
         delete options.chunkSize;
-      }
-      if (options.timeout) {
-        packetOptions = options.timeout;
-        delete options.timeout;
       }
       if (options.progress) {
         progressHandler = options.progress;
@@ -742,7 +709,6 @@ To do:
         }
         function cleanup() {
           connection.removeListener("packet", onPacket);
-          connection.removeListener("close", onClose);
           if (timeout) {
             clearTimeout(timeout);
             timeout = undefined;
@@ -759,13 +725,8 @@ To do:
             scheduleTimeout();
           }
         }
-        function onClose() {
-          cleanup();
-          setTimeout(reject, 0, "Connection Closed.");
-        }
         connection.parsePackets = true;
         connection.on("packet", onPacket);
-        connection.on("close", onClose);
         scheduleTimeout();
         connection
           .espruinoSendPacket("FILE_RECV", JSON.stringify(options))
@@ -794,7 +755,6 @@ To do:
 
         function cleanup() {
           connection.removeListener("packet", onPacket);
-          connection.removeListener("close", onClose);
           if (timeout) {
             clearTimeout(timeout);
             timeout = undefined;
@@ -809,13 +769,8 @@ To do:
           cleanup();
           setTimeout(resolve, 0, parseRJSON(data));
         }
-        function onClose() {
-          cleanup();
-          setTimeout(reject, 0, "Connection Closed.");
-        }
         connection.parsePackets = true;
         connection.on("packet", onPacket);
-        connection.on("close", onClose);
         let timeout = setTimeout(() => {
           timeout = undefined;
           cleanup();
@@ -1118,10 +1073,7 @@ To do:
             .catch(function (error) {
               if (writer) {
                 writer.releaseLock();
-                // catch "Failed to execute 'close' on 'WritableStreamDefaultWriter': This writable stream writer has been released and cannot be closed"
-                try {
-                  writer.close();
-                } catch (e) {}
+                writer.close();
               }
               writer = undefined;
               log(0, "SEND ERROR: " + error);

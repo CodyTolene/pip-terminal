@@ -1,0 +1,10 @@
+input {
+  font-size: 1rem;
+  margin-top: 1rem;
+  padding: 0.25rem;
+  width: 100%;
+}
+
+input:disabled {
+  background-color: #333;
+}

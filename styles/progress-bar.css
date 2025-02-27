@@ -1,0 +1,10 @@
+#progressContainer {
+  display: none;
+  margin-top: 20px;
+}
+
+#progressBar {
+  background-color: #00ff00;
+  height: 20px;
+  width: 0%;
+}
