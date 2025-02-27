@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pip-Boy Mod Terminal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <main>
+      <section id="connect">
+        <h2>Pip-Boy Mod Terminal</h2>
+
+        <div id="intro">
+          <p>
+            A special terminal for giving you a bit more control over your
+            Pip-Boy 3000 Mk V!
+            <a onclick="logDisclaimer()">View Disclaimer</a>.
+          </p>
+
+          <p>
+            Purchase the device from the Bethesda store
+            <a
+              href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
+              target="_blank"
+              >here</a
+            >. View the official upgrade site
+            <a
+              href="https://www.thewandcompany.com/pip-boy/upgrade/"
+              target="_blank"
+              >here</a
+            >.
+          </p>
+        </div>
+
+        <button id="connectButton" onclick="connect()">Connect Device</button>
+
+        <button id="disconnectButton" onclick="disconnect()" disabled>
+          Disconnect Device
+        </button>
+
+        <button id="rebootButton" onclick="reboot()" disabled>
+          Restart Device
+        </button>
+      </section>
+
+      <div id="connected-controls">
+        <div class="row">
+          <section id="personalize">
+            <h3>Personalize</h3>
+            <input
+              disabled
+              id="ownerName"
+              maxlength="20"
+              placeholder="Set Owner"
+              type="text"
+            />
+            <button id="saveNameButton" onclick="setOwnerName()" disabled>
+              Save Owner
+            </button>
+            <button id="resetNameButton" onclick="resetOwnerName()" disabled>
+              Reset Owner
+            </button>
+          </section>
+
+          <section id="firmware">
+            <h3>Firmware Upgrade</h3>
+            <p>
+              <button id="fetchLinksButton" onclick="fetchLatestUpdateLinks()">
+                Fetch Latest Firmware Links
+              </button>
+            </p>
+            <input type="file" id="fileInput" accept=".zip" disabled />
+            <button id="upgradeButton" onclick="startUpgrade()" disabled>
+              Start Upgrade
+            </button>
+            <div id="progressContainer">
+              <p>Uploading: <span id="progressText">0%</span></p>
+              <div style="width: 100%; background: #ddd; height: 20px">
+                <div id="progressBar"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="row">
+          <section id="videos">
+            <h3>Videos</h3>
+            <p>Update videos.</p>
+          </section>
+
+          <section id="music">
+            <h3>Music</h3>
+            <p>Update music.</p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <div id="log"></div>
+    </aside>
+
+    <script src="scripts/uart.js"></script>
+    <script src="scripts/controls.js"></script>
+    <script src="scripts/log.js"></script>
+    <script src="scripts/links.js"></script>
+    <script src="scripts/main.js"></script>
+
+    <script>
+      const VERSION = "1.0.0";
+      logMessage("✅ Initialized Pip-Boy Mod Terminal v" + VERSION);
+      logMessage("✅ Ready to connect!");
+    </script>
+  </body>
+</html>
