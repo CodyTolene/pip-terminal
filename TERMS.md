@@ -8,9 +8,9 @@ For more information, see the full [Terms of Use document][link-terms].
 
 Welcome to the Pip-Boy Mod Terminal project ("the Project"). This software provides additional customization options for the Pip-Boy 3000 Mk V. The Project is developed as a personal, non-commercial tool for enthusiasts. By accessing or using this software, you agree to abide by the following Disclaimer and Terms of Use.
 
-### No Affiliation with Bethesda Softworks
+### No Affiliation with Bethesda Softworks or The Wand Company
 
-The Pip-Boy Mod Terminal is an independent, fan-created project and is not affiliated with, endorsed by, or associated with Bethesda Softworks, LLC or any of its parent companies, subsidiaries, or affiliates. All trademarks, logos, and brand names are the property of their respective owners.
+The Pip-Boy Mod Terminal is an independent, fan-created project and is not affiliated with, endorsed by, or associated with Bethesda Softworks, LLC, The Wand Company, or any of their parent companies, subsidiaries, or affiliates. All trademarks, logos, and brand names are the property of their respective owners.
 
 ### Acceptable Use
 

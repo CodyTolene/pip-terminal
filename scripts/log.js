@@ -1,10 +1,13 @@
-function logDisclaimer() {
+function logTermsOfUse() {
   logMessage(
-    "⚖️ Bethesda Softworks, LLC. All trademarks, logos, and " +
-      "brand names are the property of their respective owners. " +
-      "This project is for personal use only and is not intended " +
-      "for commercial purposes. Use of any materials is at your " +
-      "own risk."
+    "⚖️ Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, " +
+      "and brand names are the property of their respective owners. This " +
+      "project is for personal use only and is not intended for commercial " +
+      "purposes. Use of any materials is at your own risk."
+  );
+  logLink(
+    "🔗 More info",
+    "https://github.com/CodyTolene/pip-boy-mod-terminal/blob/main/TERMS.md"
   );
 }
 
