@@ -20,34 +20,61 @@ function setOwnerInputValue(value) {
 // Disable all controls
 function disableAllControls() {
   $("#connectButton").prop("disabled", true);
-  $("#rebootButton").prop("disabled", true);
+  $("#restartButton").prop("disabled", true);
   $("#ownerName").prop("disabled", true);
   $("#saveNameButton").prop("disabled", true);
   $("#resetNameButton").prop("disabled", true);
   $("#fileInput").prop("disabled", true);
   $("#upgradeButton").prop("disabled", true);
   $("#disconnectButton").prop("disabled", true);
+  $("#shutdownButton").prop("disabled", true);
+  $("#sleepButton").prop("disabled", true);
+  $("#wakeButton").prop("disabled", true);
 }
 
 // Enable all controls except "Connect" when connected.
 function enableAllControlsExceptConnect() {
   $("#connectButton").prop("disabled", true);
-  $("#rebootButton").prop("disabled", false);
+  $("#restartButton").prop("disabled", false);
   $("#ownerName").prop("disabled", false);
   $("#saveNameButton").prop("disabled", false);
   $("#resetNameButton").prop("disabled", false);
   $("#fileInput").prop("disabled", false);
   $("#disconnectButton").prop("disabled", false);
+  $("#shutdownButton").prop("disabled", false);
+  $("#sleepButton").prop("disabled", false);
+  $("#wakeButton").prop("disabled", false);
 }
 
 // Disable all controls except "Connect" when disconnected.
 function disableAllControlsExceptConnect() {
   $("#connectButton").prop("disabled", false);
-  $("#rebootButton").prop("disabled", true);
+  $("#restartButton").prop("disabled", true);
   $("#ownerName").prop("disabled", true);
   $("#saveNameButton").prop("disabled", true);
   $("#resetNameButton").prop("disabled", true);
   $("#fileInput").prop("disabled", true);
   $("#upgradeButton").prop("disabled", true);
   $("#disconnectButton").prop("disabled", true);
+  $("#shutdownButton").prop("disabled", true);
+  $("#sleepButton").prop("disabled", true);
+  $("#wakeButton").prop("disabled", true);
+}
+
+// Set controls when the device is awakened
+function setIsAwakeControls() {
+  $("#sleepButton").prop("disabled", false);
+  $("#wakeButton").prop("disabled", true);
+}
+
+// Set controls when the device is put asleep
+function setIsAsleepControls() {
+  $("#sleepButton").prop("disabled", true);
+  $("#wakeButton").prop("disabled", false);
+}
+
+// Disable all sleep and awake controls
+function disableSleepAwakeControls() {
+  $("#sleepButton").prop("disabled", true);
+  $("#wakeButton").prop("disabled", true);
 }

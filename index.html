@@ -15,20 +15,20 @@
     <link rel="stylesheet" href="styles/links.css" />
     <link rel="stylesheet" href="styles/log-window.css" />
     <link rel="stylesheet" href="styles/progress-bar.css" />
+    <link rel="stylesheet" href="styles/uart.css" />
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
     <main>
+      <!-- INTRO & MAIN CONNECTION CONTROLS -->
       <section id="connect">
         <h2>Pip-Boy Mod Terminal</h2>
-
         <div id="intro">
           <p>
             A special terminal for giving you a bit more control over your
             Pip-Boy 3000 Mk V!
             <a onclick="logTermsOfUse()">Terms of Use</a>.
           </p>
-
           <p>
             Purchase the device from the Bethesda store
             <a
@@ -43,22 +43,26 @@
             >.
           </p>
         </div>
-
         <button id="connectButton" onclick="connect()">Connect Device</button>
-
-        <button id="disconnectButton" onclick="disconnect()" disabled>
-          Disconnect Device
-        </button>
-
-        <button id="rebootButton" onclick="reboot()" disabled>
-          Restart Device
-        </button>
+        <div id="connection-buttons">
+          <button id="disconnectButton" onclick="disconnect()" disabled>
+            Disconnect
+          </button>
+          <button id="restartButton" onclick="restart()" disabled>
+            Restart
+          </button>
+          <button id="sleepButton" onclick="sleep()" disabled>Sleep</button>
+          <button id="wakeButton" onclick="wake()" disabled>Wake</button>
+          <button id="shutdownButton" onclick="shutdown()" disabled>
+            Shutdown
+          </button>
+        </div>
       </section>
-
+      <!-- CONTROLS ACTIVATED WHEN CONNECTED -->
       <div id="connected-controls">
         <div class="row">
           <section id="personalize">
-            <h3>Personalize</h3>
+            <h3>Owner Name</h3>
             <input
               disabled
               id="ownerName"
@@ -66,25 +70,26 @@
               placeholder="Set Owner"
               type="text"
             />
-            <button id="saveNameButton" onclick="setOwnerName()" disabled>
-              Save Owner
-            </button>
-            <button id="resetNameButton" onclick="resetOwnerName()" disabled>
-              Reset Owner
-            </button>
+            <div id="owner-buttons">
+              <button id="saveNameButton" onclick="setOwnerName()" disabled>
+                Save Owner
+              </button>
+              <button id="resetNameButton" onclick="resetOwnerName()" disabled>
+                Reset Owner
+              </button>
+            </div>
           </section>
-
           <section id="firmware">
             <h3>Firmware Upgrade</h3>
-            <p>
-              <button id="fetchLinksButton" onclick="fetchLatestUpdateLinks()">
-                Fetch Latest Firmware Links
-              </button>
-            </p>
             <input type="file" id="fileInput" accept=".zip" disabled />
-            <button id="upgradeButton" onclick="startUpgrade()" disabled>
-              Start Upgrade
-            </button>
+            <div id="update-buttons">
+              <button id="fetchLinksButton" onclick="fetchLatestUpdateLinks()">
+                Fetch Links
+              </button>
+              <button id="upgradeButton" onclick="startUpgrade()" disabled>
+                Start Upgrade
+              </button>
+            </div>
             <div id="progressContainer">
               <p>Uploading: <span id="progressText">0%</span></p>
               <div style="width: 100%; background: #ddd; height: 20px">
@@ -93,13 +98,11 @@
             </div>
           </section>
         </div>
-
         <div class="row">
           <section id="videos">
             <h3>Videos</h3>
             <p>Update videos.</p>
           </section>
-
           <section id="music">
             <h3>Music</h3>
             <p>Update music.</p>
@@ -107,11 +110,10 @@
         </div>
       </div>
     </main>
-
+    <!-- LOGS WINDOW -->
     <aside>
       <div id="log"></div>
     </aside>
-
     <!-- LOCAL SCRIPTS -->
     <script src="scripts/controls.js"></script>
     <script src="scripts/log.js"></script>

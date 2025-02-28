@@ -23,3 +23,13 @@ button:disabled {
   color: #53754d;
   cursor: not-allowed;
 }
+
+div#owner-buttons,
+div#connection-buttons,
+div#update-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+}
