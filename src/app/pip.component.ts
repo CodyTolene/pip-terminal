@@ -10,6 +10,7 @@ import { PipSetDataService } from 'src/app/services/pip-set-data.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
+import { PipTabModule } from './components/pip-tabs/pip-tab.module';
 import { PipCommandService } from './services/pip-command.service';
 import { PipGetDataService } from './services/pip-get-data.service';
 import { clearLog, logLink, logMessage } from './utilities/pip-log.util';
@@ -19,7 +20,8 @@ const VERSION = '1.0.0';
 @Component({
   selector: 'pip-mod-terminal',
   templateUrl: './pip.component.html',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PipTabModule],
+  styleUrl: './pip.component.scss',
   providers: [
     PipCommandService,
     PipConnectionService,

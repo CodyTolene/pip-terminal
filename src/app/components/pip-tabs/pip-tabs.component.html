@@ -1,0 +1,18 @@
+<nav class="tab-bar" role="tablist">
+  <div class="tab-spacer"></div>
+  <ng-container *ngFor="let tab of tabs; let i = index">
+    <button
+      #tabButton
+      class="tab-button"
+      (click)="selectTab(i)"
+      [class.active]="i === activeIndex"
+      type="button"
+    >
+      {{ tab.label }}
+    </button>
+    <div class="tab-spacer"></div>
+  </ng-container>
+</nav>
+<div class="tab-content">
+  <ng-content></ng-content>
+</div>

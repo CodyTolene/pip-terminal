@@ -1,134 +1,146 @@
-<div class="terminal-container">
-  <h2>Pip-Boy Mod Terminal</h2>
+<pip-tabs>
+  <pip-tab label="STAT">
+    <div class="terminal-container">
+      <h2>Pip-Boy Mod Terminal</h2>
 
-  <p>
-    A special terminal for giving you a bit more control over your Pip-Boy 3000
-    Mk V!
-    <a href="javascript:void(0)" (click)="logTermsOfUse()">Terms of Use</a>.
-  </p>
-  <p>
-    Purchase the device from the Bethesda store
-    <a
-      href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
-      target="_blank"
-      >here</a
-    >. View the official upgrade site
-    <a href="https://www.thewandcompany.com/pip-boy/upgrade/" target="_blank"
-      >here</a
-    >.
-  </p>
+      <p>
+        A special terminal for giving you a bit more control over your Pip-Boy
+        3000 Mk V!
+        <a href="javascript:void(0)" (click)="logTermsOfUse()">Terms of Use</a>.
+      </p>
+      <p>
+        Purchase the device from the Bethesda store
+        <a
+          href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
+          target="_blank"
+          >here</a
+        >. View the official upgrade site
+        <a
+          href="https://www.thewandcompany.com/pip-boy/upgrade/"
+          target="_blank"
+          >here</a
+        >.
+      </p>
 
-  <div class="connection-buttons">
-    <button
-      (click)="connect()"
-      [disabled]="signals.isConnected() || signals.disableAllControls()"
-    >
-      Connect
-    </button>
-    <button
-      (click)="disconnect()"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    >
-      Disconnect
-    </button>
-    <button
-      (click)="restart()"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    >
-      Restart
-    </button>
-    <button
-      (click)="sleep()"
-      [disabled]="
-        !signals.isConnected() ||
-        signals.isSleeping() ||
-        signals.disableAllControls()
-      "
-    >
-      Sleep
-    </button>
-    <button
-      (click)="wake()"
-      [disabled]="
-        !signals.isConnected() ||
-        !signals.isSleeping() ||
-        signals.disableAllControls()
-      "
-    >
-      Wake
-    </button>
-    <button
-      (click)="shutdown()"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    >
-      Shutdown
-    </button>
-  </div>
-
-  <div class="owner-section">
-    <h3>Owner Name</h3>
-    <input
-      [(ngModel)]="ownerName"
-      maxlength="20"
-      placeholder="Set Owner"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    />
-    <button
-      (click)="setOwnerName(ownerName)"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    >
-      Save Owner
-    </button>
-    <button
-      (click)="resetOwnerName()"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    >
-      Reset Owner
-    </button>
-  </div>
-
-  <div class="firmware-section">
-    <h3>Firmware Upgrade</h3>
-    <input
-      type="file"
-      (change)="onFileSelected($event)"
-      accept=".zip"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    />
-    <button
-      (click)="fetchLatestUpdateLinks()"
-      [disabled]="signals.disableAllControls()"
-    >
-      Fetch Links
-    </button>
-    <button
-      (click)="startUpgrade()"
-      [disabled]="
-        !selectedFile || !signals.isConnected() || signals.disableAllControls()
-      "
-    >
-      Start Upgrade
-    </button>
-
-    <div class="progress-container" *ngIf="signals.upgradeProgress() > 0">
-      <p>Uploading: {{ signals.upgradeProgress() }}%</p>
-      <div class="progress-bar">
-        <div
-          class="progress-fill"
-          [style.width.%]="signals.upgradeProgress()"
-        ></div>
+      <div class="connection-buttons">
+        <button
+          (click)="connect()"
+          [disabled]="signals.isConnected() || signals.disableAllControls()"
+        >
+          Connect
+        </button>
+        <button
+          (click)="disconnect()"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        >
+          Disconnect
+        </button>
+        <button
+          (click)="restart()"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        >
+          Restart
+        </button>
+        <button
+          (click)="sleep()"
+          [disabled]="
+            !signals.isConnected() ||
+            signals.isSleeping() ||
+            signals.disableAllControls()
+          "
+        >
+          Sleep
+        </button>
+        <button
+          (click)="wake()"
+          [disabled]="
+            !signals.isConnected() ||
+            !signals.isSleeping() ||
+            signals.disableAllControls()
+          "
+        >
+          Wake
+        </button>
+        <button
+          (click)="shutdown()"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        >
+          Shutdown
+        </button>
       </div>
-    </div>
-  </div>
 
-  <h3>Logs:</h3>
-  <div class="log-window">
-    <div *ngFor="let entry of signals.logMessages()">
-      {{ entry.text }}{{ entry.url ? '&#58;' : '' }}
-      @if (entry.url) {
-        <a [href]="entry.url" target="_blank">{{ entry.url }}</a>
-      }
+      <div class="owner-section">
+        <h3>Owner Name</h3>
+        <input
+          [(ngModel)]="ownerName"
+          maxlength="20"
+          placeholder="Set Owner"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        />
+        <button
+          (click)="setOwnerName(ownerName)"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        >
+          Save Owner
+        </button>
+        <button
+          (click)="resetOwnerName()"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        >
+          Reset Owner
+        </button>
+      </div>
+
+      <div class="firmware-section">
+        <h3>Firmware Upgrade</h3>
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          accept=".zip"
+          [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        />
+        <button
+          (click)="fetchLatestUpdateLinks()"
+          [disabled]="signals.disableAllControls()"
+        >
+          Fetch Links
+        </button>
+        <button
+          (click)="startUpgrade()"
+          [disabled]="
+            !selectedFile ||
+            !signals.isConnected() ||
+            signals.disableAllControls()
+          "
+        >
+          Start Upgrade
+        </button>
+
+        <div class="progress-container" *ngIf="signals.upgradeProgress() > 0">
+          <p>Uploading: {{ signals.upgradeProgress() }}%</p>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="signals.upgradeProgress()"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Logs:</h3>
+      <div class="log-window">
+        <div *ngFor="let entry of signals.logMessages()">
+          {{ entry.text }}{{ entry.url ? '&#58;' : '' }}
+          @if (entry.url) {
+            <a [href]="entry.url" target="_blank">{{ entry.url }}</a>
+          }
+        </div>
+      </div>
+      <button (click)="clearLog()">Clear Log</button>
     </div>
-  </div>
-  <button (click)="clearLog()">Clear Log</button>
-</div>
+  </pip-tab>
+  <pip-tab label="INV">TODO: INVENTORY content here...</pip-tab>
+  <pip-tab label="DATA">TODO: DATA content here...</pip-tab>
+  <pip-tab label="MAP">TODO: MAP content here...</pip-tab>
+  <pip-tab label="RADIO">TODO: RADIO content here...</pip-tab>
+</pip-tabs>
