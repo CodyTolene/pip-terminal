@@ -1,5 +1,0 @@
-/* Select Port Window (`uart.js`) */
-body > div * {
-  /* Reset back from global 'boarder-box' (`main.css`) for alignment. */
-  box-sizing: content-box;
-}

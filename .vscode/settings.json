@@ -1,0 +1,11 @@
+{
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.wrapTabs": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeLens": false,
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp"
+    }
+}
