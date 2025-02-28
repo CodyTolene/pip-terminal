@@ -24,12 +24,10 @@
       "components/*": ["src/app/components/*"],
       "constants/*": ["src/app/constants/*"],
       "decorators/*": ["src/app/decorators/*"],
+      "directives/*": ["src/app/directives/*"],
       "enumerators/*": ["src/app/enums/*"],
       "environments/*": ["src/environments/*"],
-      "guards/*": ["src/app/guards/*"],
-      "layout/*": ["src/app/layout/*"],
       "models/*": ["src/app/models/*"],
-      "page/*": ["src/app/page/*"],
       "pipes/*": ["src/app/pipes/*"],
       "services/*": ["src/app/services/*"],
       "utilities/*": ["src/app/utilities/*"]

@@ -1,8 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 
-import { AppComponent } from './app/app.component';
-import { appConfig } from './app/app.config';
+import { PipModTerminalComponent } from './app/pip.component';
+import { appConfig } from './app/pip.config';
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
+bootstrapApplication(PipModTerminalComponent, appConfig).catch((err) =>
   console.error(err),
 );
