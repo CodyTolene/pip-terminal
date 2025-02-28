@@ -1,9 +1,9 @@
-html,
-body {
-  height: 100%;
-}
+@use 'font' as font;
 
-body {
+body,
+html {
+  @include font.default-font();
+
+  height: 100vh;
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

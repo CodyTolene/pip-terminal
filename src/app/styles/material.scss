@@ -1,15 +1,6 @@
-@use '@angular/material' as mat;
+// Core Material styles
+@use './material/material-forms.scss';
+@use './material/material-icons.scss';
 
-html {
-  @include mat.theme(
-    (
-      color: (
-        theme-type: light,
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
-}
+// Theme
+@use './material/material-theme-light.scss';
