@@ -1,15 +1,12 @@
 @use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
-
-$pip-green: #00ff00;
-$pip-green-dark: #006600;
-$pip-black: #001100;
 
 :host {
   display: flex;
   flex-direction: column;
-  background-color: $pip-black;
-  color: $pip-green;
+  background-color: col.$pip-black;
+  color: col.$pip-green;
   box-sizing: border-box;
 
   nav {
@@ -21,7 +18,7 @@ $pip-black: #001100;
 
   button {
     background-color: transparent;
-    color: $pip-green-dark;
+    color: col.$pip-green-dark;
     cursor: pointer;
     font-weight: bold;
     padding: 0.5rem 0.5rem;
@@ -32,7 +29,7 @@ $pip-black: #001100;
 
     > .label {
       display: block;
-      background-color: $pip-black;
+      background-color: col.$pip-black;
       padding: 0 0.25rem;
 
       @include bps.media('max', 'md') {
@@ -48,18 +45,22 @@ $pip-black: #001100;
       }
 
       &:hover {
-        color: $pip-green;
+        color: col.$pip-green;
       }
     }
 
     &.active {
-      background-color: $pip-black;
-      color: $pip-green;
+      background-color: col.$pip-black;
+      color: col.$pip-green;
       z-index: 2;
     }
   }
 
   .tab-content {
-    background-color: $pip-black;
+    background-color: col.$pip-black;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
   }
 }

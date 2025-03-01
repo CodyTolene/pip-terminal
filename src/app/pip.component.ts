@@ -5,6 +5,7 @@ import { PipFileService } from 'services/pip-file.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
 
@@ -21,7 +22,13 @@ const VERSION = '1.0.0';
 @Component({
   selector: 'pip-mod-terminal',
   templateUrl: './pip.component.html',
-  imports: [CommonModule, FormsModule, PipSubTabModule, PipTabModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    PipSubTabModule,
+    PipTabModule,
+  ],
   styleUrl: './pip.component.scss',
   providers: [
     PipCommandService,

@@ -5,6 +5,7 @@ import { Component, Input, signal } from '@angular/core';
   template: `@if (isActive()) {
     <ng-content />
   }`,
+  styles: [``],
   // eslint-disable-next-line @angular-eslint/prefer-standalone
   standalone: false,
 })

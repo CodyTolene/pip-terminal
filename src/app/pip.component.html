@@ -1,32 +1,41 @@
 <pip-tabs>
   <pip-tab label="STAT">
-    <pip-sub-tabs>
-      <pip-sub-tab label="STATUS"> </pip-sub-tab>
+    <pip-sub-tabs #statSubTabs>
+      <pip-sub-tab label="STATUS">
+        <h2>Pip-Boy Mod Terminal</h2>
+        <p>
+          A special terminal for giving you a bit more control over your Pip-Boy
+          3000 Mk V!
+        </p>
+        <p>
+          Purchase the device from the Bethesda store
+          <a
+            href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
+            target="_blank"
+            >here</a
+          >. View the official upgrade site
+          <a
+            href="https://www.thewandcompany.com/pip-boy/upgrade/"
+            target="_blank"
+            >here</a
+          >.
+        </p>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          class="status-icon"
+          [class.active]="signals.isConnected()"
+          fontIcon="cell_tower"
+        ></mat-icon>
+        <h1 [class.active]="signals.isConnected()">
+          CONNECTION {{ signals.isConnected() ? 'ESTABLISHED' : 'OFFLINE' }}
+        </h1>
+        <p *ngIf="!signals.isConnected()">
+          <button (click)="statSubTabs.selectTab(1)">Connect</button>
+        </p>
+      </pip-sub-tab>
       <pip-sub-tab label="CONNECT">
         <div class="terminal-container">
-          <h2>Pip-Boy Mod Terminal</h2>
-
-          <p>
-            A special terminal for giving you a bit more control over your
-            Pip-Boy 3000 Mk V!
-            <a href="javascript:void(0)" (click)="logTermsOfUse()"
-              >Terms of Use</a
-            >.
-          </p>
-          <p>
-            Purchase the device from the Bethesda store
-            <a
-              href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
-              target="_blank"
-              >here</a
-            >. View the official upgrade site
-            <a
-              href="https://www.thewandcompany.com/pip-boy/upgrade/"
-              target="_blank"
-              >here</a
-            >.
-          </p>
-
           <div class="connection-buttons">
             <button
               (click)="connect()"
@@ -161,10 +170,23 @@
           <button (click)="clearLog()">Clear Log</button>
         </div>
       </pip-sub-tab>
+      <pip-sub-tab label="DIAGNOSTICS"></pip-sub-tab>
     </pip-sub-tabs>
   </pip-tab>
-  <pip-tab label="INV">TODO: INVENTORY content here...</pip-tab>
-  <pip-tab label="DATA">TODO: DATA content here...</pip-tab>
-  <pip-tab label="MAP">TODO: MAP content here...</pip-tab>
-  <pip-tab label="RADIO">TODO: RADIO content here...</pip-tab>
+  <pip-tab label="INV">
+    <pip-sub-tabs>
+      <pip-sub-tab label="ATTACHMENTS"></pip-sub-tab>
+      <pip-sub-tab label="APPAREL"></pip-sub-tab>
+      <pip-sub-tab label="AID"></pip-sub-tab>
+    </pip-sub-tabs>
+  </pip-tab>
+  <pip-tab label="DATA">
+    <pip-sub-tabs>
+      <pip-sub-tab label="CLOCK"></pip-sub-tab>
+      <pip-sub-tab label="STATS"></pip-sub-tab>
+      <pip-sub-tab label="MAINTENANCE"></pip-sub-tab>
+    </pip-sub-tabs>
+  </pip-tab>
+  <pip-tab label="MAP"></pip-tab>
+  <pip-tab label="RADIO"></pip-tab>
 </pip-tabs>
