@@ -1,0 +1,33 @@
+.connect-section {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+
+  > button {
+    width: 100%;
+  }
+}
+
+input {
+  height: 2rem;
+}
+
+.owner-section,
+.firmware-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+
+  > input {
+    width: 100%;
+  }
+
+  // 50% width buttons (flex)
+  > button {
+    width: 100%;
+  }
+}
