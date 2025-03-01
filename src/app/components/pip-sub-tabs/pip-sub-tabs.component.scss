@@ -2,94 +2,64 @@
 @use '../../styles/variables' as var;
 
 $pip-green: #00ff00;
+$pip-green-dark: #006600;
 $pip-black: #001100;
-
-$border-width: 2px;
 
 :host {
   display: flex;
   flex-direction: column;
   background-color: $pip-black;
   color: $pip-green;
-  position: relative;
   box-sizing: border-box;
-  padding-top: 1rem;
 
   nav {
     display: flex;
     position: relative;
+    justify-content: space-evenly;
     width: 100%;
-
-    > .spacer {
-      flex-grow: 1;
-      border-bottom: $border-width solid $pip-green;
-    }
   }
 
   button {
     background-color: transparent;
-    border: $border-width solid transparent;
-    border-bottom-color: $pip-green;
-    color: $pip-green;
+    color: $pip-green-dark;
     cursor: pointer;
     font-weight: bold;
     padding: 0.5rem 0.5rem;
     text-transform: uppercase;
     z-index: 1;
-    margin-right: -$border-width;
-    margin-left: -$border-width;
-    height: 1rem;
-    font-size: var.$font-xxl;
+    font-size: var.$font-xl;
+    border: none;
 
     > .label {
       display: block;
-      position: relative;
-      bottom: 1.5rem;
       background-color: $pip-black;
       padding: 0 0.25rem;
 
       @include bps.media('max', 'md') {
-        font-size: var.$font-xl;
-        bottom: 1.25rem;
+        font-size: var.$font-lg;
       }
 
       @include bps.media('max', 'sm') {
-        font-size: var.$font-lg;
-        bottom: 1.1rem;
+        font-size: var.$font-md;
       }
 
       @include bps.media('max', 'xs') {
-        font-size: var.$font-md;
-        bottom: 1rem;
+        font-size: var.$font-sm;
       }
-
-      &:hover {
-        color: white;
-      }
-    }
-
-    &:hover {
-      color: $pip-green;
-    }
-
-    &:not(.active) > .label {
-      background-color: transparent;
-    }
-
-    &.active {
-      background-color: $pip-black;
-      border-color: $pip-green;
-      border-bottom-color: $pip-black;
-      z-index: 2;
 
       &:hover {
         color: $pip-green;
       }
     }
+
+    &.active {
+      background-color: $pip-black;
+      color: $pip-green;
+      z-index: 2;
+    }
   }
 
   .tab-content {
     background-color: $pip-black;
-    padding: 1rem;
   }
 }

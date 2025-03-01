@@ -7,18 +7,18 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { PipTabComponent } from './pip-tab.component';
+import { PipSubTabComponent } from './pip-sub-tab.component';
 
 @Component({
-  selector: 'pip-tabs',
-  templateUrl: './pip-tabs.component.html',
-  styleUrls: ['./pip-tabs.component.scss'],
+  selector: 'pip-sub-tabs',
+  templateUrl: './pip-sub-tabs.component.html',
+  styleUrls: ['./pip-sub-tabs.component.scss'],
   // eslint-disable-next-line @angular-eslint/prefer-standalone
   standalone: false,
 })
-export class PipTabsComponent implements AfterViewInit {
-  @ContentChildren(PipTabComponent, { descendants: true })
-  public readonly tabs!: QueryList<PipTabComponent>;
+export class PipSubTabsComponent implements AfterViewInit {
+  @ContentChildren(PipSubTabComponent, { descendants: true })
+  public readonly tabs!: QueryList<PipSubTabComponent>;
 
   @ViewChildren('tabButton', { read: ElementRef })
   public readonly tabButtonRefs!: QueryList<ElementRef<HTMLButtonElement>>;
