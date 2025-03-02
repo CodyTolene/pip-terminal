@@ -125,9 +125,9 @@ export class PipConnectComponent implements OnInit {
     await this.deviceService.sleep();
   }
 
-  protected async startUpgrade(): Promise<void> {
+  protected async startUpdate(): Promise<void> {
     if (this.selectedFile) {
-      await this.fileService.startUpgrade(this.selectedFile);
+      await this.fileService.startUpdate(this.selectedFile);
     } else {
       logMessage('⚠️ No file selected.');
     }

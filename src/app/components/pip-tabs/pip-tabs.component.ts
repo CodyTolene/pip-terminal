@@ -32,7 +32,8 @@ export class PipTabsComponent implements AfterViewInit {
   public selectTab(index: number): void {
     this.activeIndex = index;
     this.tabs.forEach((tab, i) => {
-      tab.isActive.set(i === index);
+      const isActive = i === index;
+      tab.setActive(isActive);
     });
   }
 }

@@ -16,7 +16,7 @@ export class PipFileService {
     private readonly deviceService: PipDeviceService,
   ) {}
 
-  public async startUpgrade(file: File): Promise<void> {
+  public async startUpdate(file: File): Promise<void> {
     const zipData = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(zipData);
     const files = Object.entries(zip.files).filter(([_, file]) => !file.dir);
@@ -37,9 +37,9 @@ export class PipFileService {
       }
       uploaded += uploadedSize;
       const percent = Math.round((uploaded / totalSize) * 100);
-      pipSignals.upgradeProgress.set(percent);
+      pipSignals.updateProgress.set(percent);
     }
-    logMessage('✅ Firmware upgrade complete! Rebooting...');
+    logMessage('✅ Firmware update complete! Rebooting...');
     await this.deviceService.restart();
   }
 

@@ -18,7 +18,7 @@
 - [Web App](#web-app)
   - [Connecting](#connecting)
   - [Personalizing](#personalizing)
-  - [Firmware Upgrade](#firmware-upgrade)
+  - [Firmware Update](#firmware-update)
   - [Videos](#videos)
   - [Music](#music)
 - [License(s)](#licenses)
@@ -53,7 +53,7 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-### Firmware Upgrade <a name="firmware-upgrade"></a>
+### Firmware Update <a name="firmware-update"></a>
 
 ...
 

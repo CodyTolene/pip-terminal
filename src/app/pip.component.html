@@ -1,5 +1,8 @@
 <pip-tabs>
-  <pip-tab label="STAT">
+  <pip-tab
+    label="STAT"
+    (isActiveChange)="$event ? statSubTabs.selectTab(0) : null"
+  >
     <pip-sub-tabs #statSubTabs>
       <pip-sub-tab label="STATUS">
         <pip-status>
@@ -14,8 +17,11 @@
       </pip-sub-tab>
     </pip-sub-tabs>
   </pip-tab>
-  <pip-tab label="INV">
-    <pip-sub-tabs>
+  <pip-tab
+    label="INV"
+    (isActiveChange)="$event ? invSubTabs.selectTab(0) : null"
+  >
+    <pip-sub-tabs #invSubTabs>
       <pip-sub-tab label="ATTACHMENTS">
         <pip-attachments />
       </pip-sub-tab>
@@ -27,8 +33,11 @@
       </pip-sub-tab>
     </pip-sub-tabs>
   </pip-tab>
-  <pip-tab label="DATA">
-    <pip-sub-tabs>
+  <pip-tab
+    label="DATA"
+    (isActiveChange)="$event ? dataSubTabs.selectTab(0) : null"
+  >
+    <pip-sub-tabs #dataSubTabs>
       <pip-sub-tab label="CLOCK">
         <pip-clock />
       </pip-sub-tab>

@@ -10,5 +10,5 @@ export const pipSignals = {
   logMessages: signal<LogEntry[]>([]),
   ownerName: signal<string>('<NONE>'),
   progress: signal<number>(0),
-  upgradeProgress: signal<number>(0),
+  updateProgress: signal<number>(0),
 };

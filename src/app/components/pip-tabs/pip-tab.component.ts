@@ -1,4 +1,11 @@
-import { Component, Input, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  Signal,
+  signal,
+} from '@angular/core';
 
 @Component({
   selector: 'pip-tab',
@@ -11,5 +18,22 @@ import { Component, Input, signal } from '@angular/core';
 })
 export class PipTabComponent {
   @Input({ required: true }) public label!: string;
-  @Input() public isActive = signal<boolean>(false);
+
+  @Input({ required: false })
+  public set isActive(value: boolean) {
+    this.#isActive.set(value);
+  }
+  public get isActive(): Signal<boolean> {
+    return this.#isActive.asReadonly();
+  }
+
+  @Output()
+  public readonly isActiveChange = new EventEmitter<boolean>();
+
+  #isActive = signal<boolean>(false);
+
+  public setActive(value: boolean): void {
+    this.#isActive.set(value);
+    this.isActiveChange.emit(value);
+  }
 }

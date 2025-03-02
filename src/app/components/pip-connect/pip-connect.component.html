@@ -88,13 +88,24 @@
   </section>
 
   <section>
-    <h3>Firmware Upgrade</h3>
-    <input
-      type="file"
-      (change)="onFileSelected($event)"
-      accept=".zip"
-      [disabled]="!signals.isConnected() || signals.disableAllControls()"
-    />
+    <h3>Firmware Update</h3>
+    <div class="file-upload">
+      <label
+        [class.disabled]="
+          !signals.isConnected() || signals.disableAllControls()
+        "
+        for="fileInput"
+        >Upload File</label
+      >
+      <input
+        (change)="onFileSelected($event)"
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        accept=".zip"
+        id="fileInput"
+        type="file"
+      />
+    </div>
+
     <button
       (click)="fetchLatestUpdateLinks()"
       [disabled]="signals.disableAllControls()"
@@ -102,19 +113,19 @@
       Fetch Links
     </button>
     <button
-      (click)="startUpgrade()"
+      (click)="startUpdate()"
       [disabled]="
         !selectedFile || !signals.isConnected() || signals.disableAllControls()
       "
     >
       Start Upgrade
     </button>
-    <div *ngIf="signals.upgradeProgress() > 0">
-      <p>Uploading: {{ signals.upgradeProgress() }}%</p>
+    <div *ngIf="signals.updateProgress() > 0">
+      <p>Uploading: {{ signals.updateProgress() }}%</p>
       <div class="progress-bar">
         <div
           class="progress-fill"
-          [style.width.%]="signals.upgradeProgress()"
+          [style.width.%]="signals.updateProgress()"
         ></div>
       </div>
     </div>
