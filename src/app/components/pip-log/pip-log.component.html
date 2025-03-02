@@ -1,0 +1,11 @@
+<aside>
+  <h3>Log:</h3>
+  <div class="log-window">
+    <div *ngFor="let entry of signals.logMessages()">
+      {{ entry.text }}{{ entry.url ? '&#58;' : '' }}
+      @if (entry.url) {
+        <a [href]="entry.url" target="_blank">{{ entry.url }}</a>
+      }
+    </div>
+  </div>
+</aside>

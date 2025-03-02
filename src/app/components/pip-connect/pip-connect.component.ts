@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
+import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
+
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipGetDataService } from 'src/app/services/pip-get-data.service';
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
@@ -18,7 +20,7 @@ import { clearLog, logLink, logMessage } from 'src/app/utilities/pip-log.util';
 @Component({
   selector: 'pip-connect',
   templateUrl: './pip-connect.component.html',
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, PipLogComponent],
   styleUrl: './pip-connect.component.scss',
   providers: [
     PipCommandService,

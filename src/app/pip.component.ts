@@ -3,7 +3,16 @@ import { Component } from '@angular/core';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
+import { PipAidComponent } from './components/pip-aid/pip-aid.component';
+import { PipApparelComponent } from './components/pip-apparel/pip-apparel.component';
+import { PipAttachmentsComponent } from './components/pip-attachments/pip-attachments.component';
+import { PipClockComponent } from './components/pip-clock/pip-clock.component';
 import { PipConnectComponent } from './components/pip-connect/pip-connect.component';
+import { PipDiagnosisComponent } from './components/pip-diagnosis/pip-diagnosis.component';
+import { PipMaintenanceComponent } from './components/pip-maintenance/pip-maintenance.component';
+import { PipMapComponent } from './components/pip-map/pip-map.component';
+import { PipRadioComponent } from './components/pip-radio/pip-radio.component';
+import { PipStatsComponent } from './components/pip-stats/pip-stats.component';
 import { PipStatusComponent } from './components/pip-status/pip-status.component';
 import { PipSubTabModule } from './components/pip-sub-tabs/pip-sub-tab.module';
 import { PipTabModule } from './components/pip-tabs/pip-tab.module';
@@ -13,10 +22,19 @@ import { PipTabModule } from './components/pip-tabs/pip-tab.module';
   templateUrl: './pip.component.html',
   imports: [
     CommonModule,
+    PipAidComponent,
+    PipApparelComponent,
+    PipAttachmentsComponent,
+    PipClockComponent,
     PipConnectComponent,
+    PipDiagnosisComponent,
+    PipMaintenanceComponent,
+    PipMapComponent,
+    PipRadioComponent,
+    PipStatsComponent,
+    PipStatusComponent,
     PipSubTabModule,
     PipTabModule,
-    PipStatusComponent,
   ],
   styleUrl: './pip.component.scss',
   providers: [],
