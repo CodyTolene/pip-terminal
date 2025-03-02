@@ -1,112 +1,134 @@
-<section class="connect-section">
-  <button
-    (click)="connect()"
-    [disabled]="signals.isConnected() || signals.disableAllControls()"
-  >
-    Connect
-  </button>
-  <button
-    (click)="disconnect()"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  >
-    Disconnect
-  </button>
-  <button
-    (click)="restart()"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  >
-    Restart
-  </button>
-  <button
-    (click)="sleep()"
-    [disabled]="
-      !signals.isConnected() ||
-      signals.isSleeping() ||
-      signals.disableAllControls()
-    "
-  >
-    Sleep
-  </button>
-  <button
-    (click)="wake()"
-    [disabled]="
-      !signals.isConnected() ||
-      !signals.isSleeping() ||
-      signals.disableAllControls()
-    "
-  >
-    Wake
-  </button>
-  <button
-    (click)="shutdown()"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  >
-    Shutdown
-  </button>
-</section>
+<!-- <button (click)="clearLog()">Clear Log</button> -->
 
-<section class="owner-section">
-  <h3>Owner Name</h3>
-  <input
-    [(ngModel)]="ownerName"
-    maxlength="20"
-    placeholder="Set Owner"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  />
-  <button
-    (click)="setOwnerName(ownerName)"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  >
-    Save Owner
-  </button>
-  <button
-    (click)="resetOwnerName()"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  >
-    Reset Owner
-  </button>
-</section>
+<main>
+  <section>
+    <div class="connect-buttons">
+      <div class="image-wrapper">
+        <img src="images/pip.png" alt="Pip" />
+        <div class="image-overlay">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            class="status-icon"
+            [class.active]="signals.isConnected()"
+            fontIcon="cell_tower"
+          ></mat-icon>
+          <p>
+            {{ signals.isConnected() ? 'CONNECTED' : 'OFFLINE' }}
+          </p>
+        </div>
+      </div>
+      <button
+        (click)="connect()"
+        [disabled]="signals.isConnected() || signals.disableAllControls()"
+      >
+        Connect
+      </button>
+      <button
+        (click)="disconnect()"
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+      >
+        Disconnect
+      </button>
+      <button
+        (click)="sleep()"
+        [disabled]="
+          !signals.isConnected() ||
+          signals.isSleeping() ||
+          signals.disableAllControls()
+        "
+      >
+        Sleep
+      </button>
+      <button
+        (click)="wake()"
+        [disabled]="
+          !signals.isConnected() ||
+          !signals.isSleeping() ||
+          signals.disableAllControls()
+        "
+      >
+        Wake
+      </button>
+      <button
+        (click)="restart()"
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+      >
+        Restart
+      </button>
+      <button
+        (click)="shutdown()"
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+      >
+        Shutdown
+      </button>
+    </div>
+  </section>
 
-<section class="firmware-section">
-  <h3>Firmware Upgrade</h3>
-  <input
-    type="file"
-    (change)="onFileSelected($event)"
-    accept=".zip"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
-  />
-  <button
-    (click)="fetchLatestUpdateLinks()"
-    [disabled]="signals.disableAllControls()"
-  >
-    Fetch Links
-  </button>
-  <button
-    (click)="startUpgrade()"
-    [disabled]="
-      !selectedFile || !signals.isConnected() || signals.disableAllControls()
-    "
-  >
-    Start Upgrade
-  </button>
-  <div class="progress-container" *ngIf="signals.upgradeProgress() > 0">
-    <p>Uploading: {{ signals.upgradeProgress() }}%</p>
-    <div class="progress-bar">
-      <div
-        class="progress-fill"
-        [style.width.%]="signals.upgradeProgress()"
-      ></div>
+  <section>
+    <h3>Owner Name</h3>
+    <input
+      [(ngModel)]="ownerName"
+      maxlength="20"
+      placeholder="Set Owner"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    />
+    <button
+      (click)="setOwnerName(ownerName)"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    >
+      Save Owner
+    </button>
+    <button
+      (click)="resetOwnerName()"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    >
+      Reset Owner
+    </button>
+  </section>
+
+  <section>
+    <h3>Firmware Upgrade</h3>
+    <input
+      type="file"
+      (change)="onFileSelected($event)"
+      accept=".zip"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    />
+    <button
+      (click)="fetchLatestUpdateLinks()"
+      [disabled]="signals.disableAllControls()"
+    >
+      Fetch Links
+    </button>
+    <button
+      (click)="startUpgrade()"
+      [disabled]="
+        !selectedFile || !signals.isConnected() || signals.disableAllControls()
+      "
+    >
+      Start Upgrade
+    </button>
+    <div *ngIf="signals.upgradeProgress() > 0">
+      <p>Uploading: {{ signals.upgradeProgress() }}%</p>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="signals.upgradeProgress()"
+        ></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<aside>
+  <h3>Log:</h3>
+  <div class="log-window">
+    <div *ngFor="let entry of signals.logMessages()">
+      {{ entry.text }}{{ entry.url ? '&#58;' : '' }}
+      @if (entry.url) {
+        <a [href]="entry.url" target="_blank">{{ entry.url }}</a>
+      }
     </div>
   </div>
-</section>
-
-<h3>Logs:</h3>
-<div class="log-window">
-  <div *ngFor="let entry of signals.logMessages()">
-    {{ entry.text }}{{ entry.url ? '&#58;' : '' }}
-    @if (entry.url) {
-      <a [href]="entry.url" target="_blank">{{ entry.url }}</a>
-    }
-  </div>
-</div>
-<button (click)="clearLog()">Clear Log</button>
+</aside>

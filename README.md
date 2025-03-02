@@ -1,6 +1,6 @@
 <div align="center">
   <img align="center" src=".github/images/logo/logo.png" />
-  <h1 align="center">Pip-Boy Mod Terminal</h1>
+  <h1 align="center">Pip Terminal</h1>
   <p align="center">
     A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!
   </p>

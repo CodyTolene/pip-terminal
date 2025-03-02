@@ -1,0 +1,24 @@
+@use 'colors' as col;
+
+@mixin scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: col.$pip-green col.$pip-green-darkest;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: col.$pip-green-darkest;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: col.$pip-green;
+    border-radius: 6px;
+    border: 2px solid col.$pip-black;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: col.$pip-green-light;
+  }
+}

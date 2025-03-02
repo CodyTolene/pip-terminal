@@ -15,8 +15,6 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { clearLog, logLink, logMessage } from 'src/app/utilities/pip-log.util';
 
-const VERSION = '1.0.0';
-
 @Component({
   selector: 'pip-connect',
   templateUrl: './pip-connect.component.html',
@@ -45,8 +43,8 @@ export class PipConnectComponent implements OnInit {
   protected signals = pipSignals;
 
   public ngOnInit(): void {
-    logMessage('✅ Initialized Pip-Boy Mod Terminal v' + VERSION);
-    logMessage('✅ Ready to connect!');
+    logMessage('✅ Initialized Pip Terminal');
+    logMessage('✅ Ready to connect');
   }
 
   protected async connect(): Promise<void> {

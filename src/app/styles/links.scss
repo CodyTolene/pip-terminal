@@ -1,0 +1,11 @@
+@use 'colors' as col;
+
+a {
+  color: col.$pip-green-dark;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+    color: col.$pip-green;
+  }
+}

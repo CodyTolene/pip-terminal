@@ -1,4 +1,4 @@
-<h2>Pip-Boy Mod Terminal</h2>
+<h2>Pip Terminal</h2>
 <p>
   A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk
   V!
@@ -16,10 +16,10 @@
 </p>
 
 <mat-icon
+  [class.active]="signals.isConnected()"
   aria-hidden="false"
   aria-label="Example home icon"
   class="status-icon"
-  [class.active]="signals.isConnected()"
   fontIcon="cell_tower"
 ></mat-icon>
 
