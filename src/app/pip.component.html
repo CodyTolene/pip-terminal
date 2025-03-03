@@ -1,3 +1,13 @@
+<mat-icon
+  (click)="statSubTabs.selectTab(1)"
+  [class.active]="signals.isConnected()"
+  aria-hidden="false"
+  aria-label="Example home icon"
+  class="status-icon"
+  fontIcon="cell_tower"
+  [matTooltip]="signals.isConnected() ? 'Connected' : 'Disconnected'"
+></mat-icon>
+
 <pip-tabs>
   <pip-tab
     label="STAT"

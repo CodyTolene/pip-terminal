@@ -1,3 +1,4 @@
+@use 'styles/breakpoints' as bps;
 @use 'styles/colors' as col;
 
 pip-tabs {
@@ -15,4 +16,32 @@ pip-sub-tabs {
 pip-tab {
   height: 100%;
   width: 100%;
+}
+
+.status-icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  color: col.$pip-green;
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
+  color: col.$pip-green-dark;
+
+  @include bps.media('max', 'md') {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    padding: 0.25rem;
+  }
+
+  &.active {
+    color: col.$pip-green;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }

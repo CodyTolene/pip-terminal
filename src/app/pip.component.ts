@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -22,6 +24,8 @@ import { PipTabModule } from './components/pip-tabs/pip-tab.module';
   templateUrl: './pip.component.html',
   imports: [
     CommonModule,
+    MatIconModule,
+    MatTooltipModule,
     PipAidComponent,
     PipApparelComponent,
     PipAttachmentsComponent,
