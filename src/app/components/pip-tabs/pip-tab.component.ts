@@ -10,7 +10,7 @@ import {
 
 @Component({
   selector: 'pip-tab',
-  template: `@if (isActive()) {
+  template: `@if (isActive() || loadInBackground) {
     <ng-content />
   }`,
   styles: [
@@ -35,6 +35,8 @@ export class PipTabComponent {
   public get isActive(): Signal<boolean> {
     return this.#isActive.asReadonly();
   }
+
+  @Input({ required: false }) public loadInBackground = false;
 
   @HostBinding('class.active')
   public get isActiveClass(): boolean {
