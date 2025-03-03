@@ -4,11 +4,11 @@ import { Component } from '@angular/core';
 import { PipLogComponent } from '../pip-log/pip-log.component';
 
 @Component({
-  selector: 'pip-diagnosis',
-  templateUrl: './pip-diagnosis.component.html',
+  selector: 'pip-diagnostics',
+  templateUrl: './pip-diagnostics.component.html',
   imports: [CommonModule, PipLogComponent],
-  styleUrl: './pip-diagnosis.component.scss',
+  styleUrl: './pip-diagnostics.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipDiagnosisComponent {}
+export class PipDiagnosticsComponent {}

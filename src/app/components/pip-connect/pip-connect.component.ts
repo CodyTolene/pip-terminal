@@ -15,7 +15,7 @@ import { PipSetDataService } from 'src/app/services/pip-set-data.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
-import { clearLog, logLink, logMessage } from 'src/app/utilities/pip-log.util';
+import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 
 @Component({
   selector: 'pip-connect',
@@ -34,10 +34,10 @@ import { clearLog, logLink, logMessage } from 'src/app/utilities/pip-log.util';
 })
 export class PipConnectComponent implements OnInit {
   public constructor(
-    private connectionService: PipConnectionService,
-    private deviceService: PipDeviceService,
-    private fileService: PipFileService,
-    private setDataService: PipSetDataService,
+    private readonly connectionService: PipConnectionService,
+    private readonly deviceService: PipDeviceService,
+    private readonly fileService: PipFileService,
+    private readonly setDataService: PipSetDataService,
   ) {}
 
   protected ownerName: string | null = null;
@@ -52,10 +52,6 @@ export class PipConnectComponent implements OnInit {
   protected async connect(): Promise<void> {
     await this.connectionService.connect();
     await this.deviceService.initialize();
-  }
-
-  protected clearLog(): void {
-    clearLog();
   }
 
   protected async disconnect(): Promise<void> {

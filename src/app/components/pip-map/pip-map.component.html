@@ -1,1 +1,5 @@
-MAP CONTENT
+@if (this.options) {
+  <google-map [options]="options" />
+} @else {
+  Loading map...
+}

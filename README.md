@@ -21,6 +21,9 @@
   - [Firmware Update](#firmware-update)
   - [Videos](#videos)
   - [Music](#music)
+- [Contribution](#contribution)
+  - [Prerequisites](#prerequisites)
+  - [Development](#development)
 - [License(s)](#licenses)
 - [Terms of Use](#terms)
 - [Wrapping Up](#wrapping-up)
@@ -70,6 +73,37 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 <!---------------------------------------------------------------------------->
 
 ### Music <a name="music"></a>
+
+...
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+## Contribution <a name="contribution"></a>
+
+### Prerequisites <a name="prerequisites"></a>
+
+Node.js: https://nodejs.org/en/download/
+
+Firebase CLI with: `npm install -g firebase-tools`
+
+### Project Setup <a name="project-setup"></a>
+
+1. Login to Firebase: `firebase login`
+
+2. Firebase init: `firebase init`
+
+3. Select the following options:
+
+   - "Hosting: Configure files for Firebase Hosting and (optionally) set up
+     GitHub Action deploys."
+   - "Use an existing project."
+   - Select project.
+
+4. Install Firebase `ng add @angular/fire`
+
+### Development <a name="development"></a>
 
 ...
 

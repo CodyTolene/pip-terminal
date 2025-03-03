@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
+import { clearLog } from 'src/app/utilities/pip-log.util';
+
 @Component({
   selector: 'pip-log',
   templateUrl: './pip-log.component.html',
@@ -12,5 +14,9 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class PipLogComponent {
-  protected signals = pipSignals;
+  protected readonly signals = pipSignals;
+
+  protected clearLog(): void {
+    clearLog();
+  }
 }

@@ -8,7 +8,7 @@ import { PipApparelComponent } from './components/pip-apparel/pip-apparel.compon
 import { PipAttachmentsComponent } from './components/pip-attachments/pip-attachments.component';
 import { PipClockComponent } from './components/pip-clock/pip-clock.component';
 import { PipConnectComponent } from './components/pip-connect/pip-connect.component';
-import { PipDiagnosisComponent } from './components/pip-diagnosis/pip-diagnosis.component';
+import { PipDiagnosticsComponent } from './components/pip-diagnostics/pip-diagnostics.component';
 import { PipMaintenanceComponent } from './components/pip-maintenance/pip-maintenance.component';
 import { PipMapComponent } from './components/pip-map/pip-map.component';
 import { PipRadioComponent } from './components/pip-radio/pip-radio.component';
@@ -27,7 +27,7 @@ import { PipTabModule } from './components/pip-tabs/pip-tab.module';
     PipAttachmentsComponent,
     PipClockComponent,
     PipConnectComponent,
-    PipDiagnosisComponent,
+    PipDiagnosticsComponent,
     PipMaintenanceComponent,
     PipMapComponent,
     PipRadioComponent,
