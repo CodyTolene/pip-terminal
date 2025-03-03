@@ -1,0 +1,104 @@
+<mat-icon
+  (click)="statSubTabs.selectTab(1)"
+  [class.active]="signals.isConnected()"
+  aria-hidden="false"
+  aria-label="Example home icon"
+  class="status-icon"
+  fontIcon="cell_tower"
+  [matTooltip]="signals.isConnected() ? 'Connected' : 'Disconnected'"
+></mat-icon>
+
+<pip-tabs #tabs>
+  <pip-tab
+    label="STAT"
+    (isActiveChange)="$event ? statSubTabs.selectTab(0) : null"
+  >
+    <pip-sub-tabs #statSubTabs>
+      <pip-sub-tab label="STATUS">
+        <pip-status>
+          <button (click)="statSubTabs.selectTab(1)">Connect</button>
+        </pip-status>
+      </pip-sub-tab>
+      <pip-sub-tab label="CONNECT">
+        <pip-connect>
+          <section class="personalize-buttons">
+            <button
+              [disabled]="
+                !signals.isConnected() || signals.disableAllControls()
+              "
+              (click)="switchToTabs(tabs, 2, dataSubTabs, 2)"
+            >
+              Personalize
+            </button>
+            <button
+              [disabled]="
+                !signals.isConnected() || signals.disableAllControls()
+              "
+              (click)="switchToTabs(tabs, 2, dataSubTabs, 2)"
+            >
+              Firmware Update
+            </button>
+          </section>
+        </pip-connect>
+      </pip-sub-tab>
+      <pip-sub-tab label="DIAGNOSTICS">
+        <pip-diagnostics />
+      </pip-sub-tab>
+    </pip-sub-tabs>
+  </pip-tab>
+  <pip-tab
+    label="INV"
+    (isActiveChange)="$event ? invSubTabs.selectTab(0) : null"
+  >
+    <pip-sub-tabs #invSubTabs>
+      <pip-sub-tab label="ATTACHMENTS">
+        <pip-attachments />
+      </pip-sub-tab>
+      <pip-sub-tab label="APPAREL">
+        <pip-apparel />
+      </pip-sub-tab>
+      <pip-sub-tab label="AID">
+        <pip-aid />
+      </pip-sub-tab>
+    </pip-sub-tabs>
+  </pip-tab>
+  <pip-tab
+    label="DATA"
+    (isActiveChange)="$event ? dataSubTabs.selectTab(0) : null"
+  >
+    <pip-sub-tabs #dataSubTabs>
+      <pip-sub-tab label="CLOCK">
+        <pip-clock />
+      </pip-sub-tab>
+      <pip-sub-tab label="STATS">
+        <pip-stats />
+      </pip-sub-tab>
+      <pip-sub-tab label="MAINTENANCE">
+        <pip-maintenance>
+          <section class="connect-buttons">
+            <button
+              (click)="switchToTabs(tabs, 0, statSubTabs, 1)"
+              [disabled]="signals.isConnected() || signals.disableAllControls()"
+            >
+              Connect
+            </button>
+            <button
+              (click)="switchToTabs(tabs, 0, statSubTabs, 1)"
+              [disabled]="
+                !signals.isConnected() || signals.disableAllControls()
+              "
+            >
+              Disconnect
+            </button>
+          </section>
+        </pip-maintenance>
+      </pip-sub-tab>
+    </pip-sub-tabs>
+  </pip-tab>
+  <pip-tab label="MAP">
+    <pip-map />
+  </pip-tab>
+  <pip-tab label="RADIO" [loadInBackground]="true">
+    <pip-radio />
+  </pip-tab>
+</pip-tabs>

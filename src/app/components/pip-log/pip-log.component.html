@@ -1,0 +1,16 @@
+<aside>
+  <h3>Log</h3>
+  <div class="log-window">
+    @for (entry of signals.logMessages(); track entry) {
+      <div>
+        {{ entry.text }}{{ entry.url ? '&#58;' : '' }}
+        @if (entry.url) {
+          <a [href]="entry.url" target="_blank">{{ entry.url }}</a>
+        }
+      </div>
+    }
+    @if (signals.logMessages().length === 0) {
+      <div>❎ Log empty.</div>
+    }
+  </div>
+</aside>

@@ -1,0 +1,19 @@
+{
+  "name": "Pip Terminal",
+  "short_name": "PipTerm",
+  "theme_color": "#00ff00",
+  "background_color": "#001100",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "images/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

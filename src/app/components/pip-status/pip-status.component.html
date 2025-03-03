@@ -1,0 +1,32 @@
+<h2>Pip Terminal</h2>
+<p>
+  A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk
+  V!
+</p>
+<p>
+  Purchase the device from the Bethesda store
+  <a
+    href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
+    target="_blank"
+    >here</a
+  >. View the official upgrade site
+  <a href="https://www.thewandcompany.com/pip-boy/upgrade/" target="_blank"
+    >here</a
+  >.
+</p>
+
+<mat-icon
+  [class.active]="signals.isConnected()"
+  aria-hidden="false"
+  aria-label="Example home icon"
+  class="status-icon"
+  fontIcon="cell_tower"
+></mat-icon>
+
+<h1 [class.active]="signals.isConnected()">
+  CONNECTION {{ signals.isConnected() ? 'ESTABLISHED' : 'OFFLINE' }}
+</h1>
+
+<p *ngIf="!signals.isConnected()">
+  <ng-content />
+</p>

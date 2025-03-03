@@ -1,0 +1,47 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "baseUrl": "./",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "paths": {
+      "src/*": ["src/*"],
+      "components/*": ["src/app/components/*"],
+      "constants/*": ["src/app/constants/*"],
+      "decorators/*": ["src/app/decorators/*"],
+      "directives/*": ["src/app/directives/*"],
+      "enumerators/*": ["src/app/enums/*"],
+      "environments/*": ["src/environments/*"],
+      "models/*": ["src/app/models/*"],
+      "pipes/*": ["src/app/pipes/*"],
+      "services/*": ["src/app/services/*"],
+      "signals/*": ["src/app/signals/*"],
+      "utilities/*": ["src/app/utilities/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

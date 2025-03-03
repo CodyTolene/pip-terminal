@@ -1,0 +1,11 @@
+// Fonts
+@use './app/styles/font/font-face-roboto.scss';
+@use './app/styles/font/font-face-material-icons.scss';
+
+// Material styles
+@use './app/styles/material';
+
+// Main styles
+@use './app/styles/body';
+@use './app/styles/buttons';
+@use './app/styles/links';

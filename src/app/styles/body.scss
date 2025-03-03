@@ -1,0 +1,9 @@
+@use 'font' as font;
+
+body,
+html {
+  @include font.default-font();
+
+  height: 100vh;
+  margin: 0;
+}

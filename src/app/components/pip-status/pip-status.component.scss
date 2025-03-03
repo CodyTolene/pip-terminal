@@ -1,0 +1,36 @@
+@use '../../styles/colors' as col;
+
+$icon-size: 500px;
+
+mat-icon.status-icon {
+  color: col.$pip-green-dark;
+  display: block;
+  align-items: center;
+  font-size: $icon-size;
+  height: $icon-size;
+  justify-content: center;
+  margin: 0 auto;
+  min-width: $icon-size;
+  margin-top: 1rem;
+
+  &.active {
+    color: col.$pip-green;
+  }
+}
+
+h1 {
+  color: col.$pip-green-dark;
+  text-align: center;
+  width: 100%;
+
+  &.active {
+    color: col.$pip-green;
+  }
+}
+
+h2,
+p {
+  color: col.$pip-green;
+  text-align: center;
+  width: 100%;
+}

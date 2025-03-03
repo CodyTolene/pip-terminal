@@ -1,0 +1,17 @@
+<nav role="tablist">
+  <div class="spacer"></div>
+  @for (tab of tabs; let i = $index; track i) {
+    <button
+      #tabButton
+      (click)="selectTab(i)"
+      [class.active]="i === activeIndex"
+      type="button"
+    >
+      <span class="label">{{ tab.label }}</span>
+    </button>
+    <div class="spacer"></div>
+  }
+</nav>
+<div class="tab-content">
+  <ng-content></ng-content>
+</div>

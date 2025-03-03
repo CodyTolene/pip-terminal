@@ -1,0 +1,67 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  background-color: col.$pip-black;
+  color: col.$pip-green;
+  position: relative;
+  box-sizing: border-box;
+
+  nav {
+    display: flex;
+    position: relative;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  button {
+    background-color: transparent;
+    color: col.$pip-green-dark;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.5rem 0.5rem;
+    text-transform: uppercase;
+    z-index: 1;
+    font-size: var.$font-xl;
+    border: none;
+
+    > .label {
+      display: block;
+      background-color: col.$pip-black;
+      padding: 0 0.25rem;
+
+      @include bps.media('max', 'md') {
+        font-size: var.$font-lg;
+      }
+
+      @include bps.media('max', 'sm') {
+        font-size: var.$font-md;
+      }
+
+      @include bps.media('max', 'xs') {
+        font-size: var.$font-sm;
+      }
+
+      &:hover {
+        color: col.$pip-green;
+      }
+    }
+
+    &.active {
+      background-color: col.$pip-black;
+      color: col.$pip-green;
+      z-index: 2;
+    }
+  }
+
+  .tab-content {
+    background-color: col.$pip-black;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+  }
+}
