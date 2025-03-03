@@ -131,7 +131,16 @@ project PNG logo.
 - Free for desktop and image/logo use (commercial & non-commercial).
 - Download from: [Typodermic Fonts][link-font-monofonto]
 
-`SPDX-License-Identifier: MIT, MPL-2.0, LicenseRef-Typodermic-Free-Desktop`
+This project uses sounds found on FreeSound.org. The sounds are licensed under
+the Creative Commons 0 License. The list of sounds can be found below:
+
+- [`tick.wav`](https://freesound.org/people/Joao_Janz/sounds/477704/) by
+  Joao_Janz
+
+- [`tick-2.wav`](https://freesound.org/people/joedeshon/sounds/119415/) by
+  joedeshon
+
+`SPDX-License-Identifiers: MIT, MPL-2.0, LicenseRef-Typodermic-Free-Desktop, CC0-1.0`
 
 By using this software, you acknowledge and agree to the terms of these
 licenses.

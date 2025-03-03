@@ -26,13 +26,25 @@ export class PipSubTabsComponent implements AfterViewInit {
   public activeIndex = 0;
 
   public ngAfterViewInit(): void {
-    this.selectTab(0);
+    if (this.tabs.length > 0) {
+      this.selectTab(0, false);
+    }
   }
 
-  public selectTab(index: number): void {
-    this.activeIndex = index;
+  public selectTab(index: number, playSound = true): void {
     this.tabs.forEach((tab, i) => {
       tab.isActive.set(i === index);
     });
+
+    if (playSound || this.activeIndex === index) {
+      this.playTickSound();
+    }
+
+    this.activeIndex = index;
+  }
+
+  private playTickSound(): void {
+    const audio = new Audio('sounds/tick-2.wav');
+    audio.play();
   }
 }
