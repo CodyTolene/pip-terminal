@@ -18,6 +18,19 @@ pip-tab {
   width: 100%;
 }
 
+.personalize-buttons,
+.connect-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+
+  > button {
+    flex: 0 1 calc(50% - 0.5rem);
+  }
+}
+
 .status-icon {
   position: fixed;
   top: 0;

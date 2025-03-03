@@ -43,7 +43,7 @@ export class PipDeviceService {
     logMessage(`🆔 Device ID: ${pipSignals.deviceId()}`);
 
     pipSignals.isSleeping.set(await this.getDataService.getIsSleeping());
-    logMessage(`🛌 Sleeping: ${pipSignals.isSleeping()}`);
+    logMessage(`🛌 Sleeping: ${pipSignals.isSleeping() ? 'True' : 'False'}`);
 
     pipSignals.disableAllControls.set(false);
   }

@@ -3,10 +3,14 @@ import { Injectable } from '@angular/core';
 import { pipSignals } from '../signals/pip.signals';
 import { logMessage } from '../utilities/pip-log.util';
 import { PipCommandService } from './pip-command.service';
+import { PipDeviceService } from './pip-device.service';
 
 @Injectable({ providedIn: 'root' })
 export class PipSetDataService {
-  public constructor(private readonly commandService: PipCommandService) {}
+  public constructor(
+    private readonly commandService: PipCommandService,
+    private readonly deviceService: PipDeviceService,
+  ) {}
 
   public async setOwnerName(name: string | null): Promise<void> {
     name =
@@ -36,6 +40,7 @@ export class PipSetDataService {
     if (success) {
       pipSignals.ownerName.set(name);
       logMessage(`✅ Owner set to: ${name}`);
+      await this.deviceService.restart();
     } else {
       logMessage('❌ Failed to set owner name.');
     }
@@ -58,6 +63,7 @@ export class PipSetDataService {
     if (success) {
       pipSignals.ownerName.set('<NONE>');
       logMessage('✅ Owner name reset!');
+      await this.deviceService.restart();
     } else {
       logMessage('❌ Failed to reset owner name.');
     }

@@ -8,7 +8,7 @@
   [matTooltip]="signals.isConnected() ? 'Connected' : 'Disconnected'"
 ></mat-icon>
 
-<pip-tabs>
+<pip-tabs #tabs>
   <pip-tab
     label="STAT"
     (isActiveChange)="$event ? statSubTabs.selectTab(0) : null"
@@ -20,7 +20,26 @@
         </pip-status>
       </pip-sub-tab>
       <pip-sub-tab label="CONNECT">
-        <pip-connect />
+        <pip-connect>
+          <section class="personalize-buttons">
+            <button
+              [disabled]="
+                !signals.isConnected() || signals.disableAllControls()
+              "
+              (click)="switchToTabs(tabs, 2, dataSubTabs, 2)"
+            >
+              Personalize
+            </button>
+            <button
+              [disabled]="
+                !signals.isConnected() || signals.disableAllControls()
+              "
+              (click)="switchToTabs(tabs, 2, dataSubTabs, 2)"
+            >
+              Firmware Update
+            </button>
+          </section>
+        </pip-connect>
       </pip-sub-tab>
       <pip-sub-tab label="DIAGNOSTICS">
         <pip-diagnostics />
@@ -55,14 +74,31 @@
         <pip-stats />
       </pip-sub-tab>
       <pip-sub-tab label="MAINTENANCE">
-        <pip-maintenance />
+        <pip-maintenance>
+          <section class="connect-buttons">
+            <button
+              (click)="switchToTabs(tabs, 0, statSubTabs, 1)"
+              [disabled]="signals.isConnected() || signals.disableAllControls()"
+            >
+              Connect
+            </button>
+            <button
+              (click)="switchToTabs(tabs, 0, statSubTabs, 1)"
+              [disabled]="
+                !signals.isConnected() || signals.disableAllControls()
+              "
+            >
+              Disconnect
+            </button>
+          </section>
+        </pip-maintenance>
       </pip-sub-tab>
     </pip-sub-tabs>
   </pip-tab>
   <pip-tab label="MAP">
     <pip-map />
   </pip-tab>
-  <pip-tab label="RADIO" [loadInBackground]="false">
+  <pip-tab label="RADIO" [loadInBackground]="true">
     <pip-radio />
   </pip-tab>
 </pip-tabs>

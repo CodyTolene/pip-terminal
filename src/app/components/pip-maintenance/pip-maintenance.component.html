@@ -1,4 +1,75 @@
-<div class="coming-soon">
-  <h2>Coming Soon</h2>
-  <p>MAINTANENCE will be available in a future release.</p>
-</div>
+<!-- <button (click)="clearLog()">Clear Log</button> -->
+
+<main>
+  <section>
+    <h3>Connection Status</h3>
+    <ng-content />
+  </section>
+  <section>
+    <h3>Owner Name</h3>
+    <input
+      [(ngModel)]="ownerName"
+      maxlength="20"
+      placeholder="Set Owner"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    />
+    <button
+      (click)="setOwnerName(ownerName)"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    >
+      Save Owner
+    </button>
+    <button
+      (click)="resetOwnerName()"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    >
+      Reset Owner
+    </button>
+  </section>
+
+  <section>
+    <h3>Firmware Update</h3>
+    <div class="file-upload">
+      <label
+        [class.disabled]="
+          !signals.isConnected() || signals.disableAllControls()
+        "
+        for="fileInput"
+        >Upload File</label
+      >
+      <input
+        (change)="onFileSelected($event)"
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        accept=".zip"
+        id="fileInput"
+        type="file"
+      />
+    </div>
+
+    <button
+      (click)="fetchLatestUpdateLinks()"
+      [disabled]="signals.disableAllControls()"
+    >
+      Fetch Links
+    </button>
+    <button
+      (click)="startUpdate()"
+      [disabled]="
+        !selectedFile || !signals.isConnected() || signals.disableAllControls()
+      "
+    >
+      Start Upgrade
+    </button>
+    <div *ngIf="signals.updateProgress() > 0">
+      <p>Uploading: {{ signals.updateProgress() }}%</p>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="signals.updateProgress()"
+        ></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<pip-log />
