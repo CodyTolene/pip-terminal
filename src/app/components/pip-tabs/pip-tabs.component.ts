@@ -31,21 +31,21 @@ export class PipTabsComponent implements AfterViewInit {
     }
   }
 
-  public selectTab(index: number, playSound = true): void {
+  public async selectTab(index: number, playSound = true): Promise<void> {
     this.tabs.forEach((tab, i) => {
       const isActive = i === index;
       tab.isActive = isActive;
     });
 
-    if (playSound || this.activeIndex === index) {
-      this.playTickSound();
+    if (playSound) {
+      await this.playTickSound();
     }
 
     this.activeIndex = index;
   }
 
-  private playTickSound(): void {
+  private async playTickSound(): Promise<void> {
     const audio = new Audio('sounds/tick.wav');
-    audio.play();
+    await audio.play();
   }
 }
