@@ -1,11 +1,15 @@
 <div align="center">
-  <img align="center" src=".github/images/logo/logo.png" />
+  <img align="center" src=".github/images/logo/pip-terminal.png" />
   <h1 align="center">Pip Terminal</h1>
   <p align="center">
     A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!
   </p>
   <p align="center">
-    Purchase the device from the Bethesda store [here][link-pip-boy]. View the official upgrade site [here][link-upgrade].
+    Purchase the device from the Bethesda store 
+    <a href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica">
+      here</a>. View the official upgrade site 
+    <a href="https://www.thewandcompany.com/pip-boy/upgrade/">
+      here</a>.
   </p>
 </div>
 
@@ -34,7 +38,9 @@
 
 ## Web App <a name="web-app"></a>
 
-https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
+https://www.pip-boy.com
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -44,6 +50,8 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 
 ...
 
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -51,6 +59,8 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 ### Personalizing <a name="personalizing"></a>
 
 ...
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -60,6 +70,8 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 
 ...
 
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -68,6 +80,8 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 
 ...
 
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -75,6 +89,8 @@ https://raw.githack.com/CodyTolene/pip-boy-mod-terminal/main/index.html
 ### Music <a name="music"></a>
 
 ...
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -106,6 +122,8 @@ Firebase CLI with: `npm install -g firebase-tools`
 ### Development <a name="development"></a>
 
 ...
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -145,6 +163,8 @@ the Creative Commons 0 License. The list of sounds can be found below:
 By using this software, you acknowledge and agree to the terms of these
 licenses.
 
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -157,6 +177,8 @@ use only and is not intended for commercial purposes. Use of any materials is at
 your own risk.
 
 For more information, see the full [Terms of Use][link-terms] document.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -194,8 +216,5 @@ Cody Tolene
 [link-font-monofonto]: https://typodermicfonts.com/monofonto/
 [link-license-mit]: /LICENSE_MIT.md
 [link-license-mpl]: /LICENSE_MPL.md
-[link-pip-boy]:
-  https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica
 [link-terms]: /TERMS.md
-[link-upgrade]: https://www.thewandcompany.com/pip-boy/upgrade/
 [url-new-issue]: https://github.com/CodyTolene/pip-boy-mod-terminal/issues
