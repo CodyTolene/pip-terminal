@@ -1,11 +1,15 @@
+import { PipSoundEnum, PipTabLabelEnum } from 'src/app/enums';
+
+import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
+  AfterContentInit,
   Component,
   ContentChildren,
-  ElementRef,
   QueryList,
-  ViewChildren,
 } from '@angular/core';
+
+import { PipSoundService } from 'src/app/services/pip-sound.service';
+import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { PipTabComponent } from './pip-tab.component';
 
@@ -13,39 +17,42 @@ import { PipTabComponent } from './pip-tab.component';
   selector: 'pip-tabs',
   templateUrl: './pip-tabs.component.html',
   styleUrls: ['./pip-tabs.component.scss'],
-  // eslint-disable-next-line @angular-eslint/prefer-standalone
-  standalone: false,
+  imports: [CommonModule],
+  providers: [],
 })
-export class PipTabsComponent implements AfterViewInit {
-  @ContentChildren(PipTabComponent, { descendants: true })
-  public readonly tabs!: QueryList<PipTabComponent>;
+export class PipTabsComponent implements AfterContentInit {
+  public constructor(
+    private readonly pipSoundService: PipSoundService,
+    private readonly pipTabsService: PipTabsService,
+  ) {}
 
-  @ViewChildren('tabButton', { read: ElementRef })
-  public readonly tabButtonRefs!: QueryList<ElementRef<HTMLButtonElement>>;
+  @ContentChildren(PipTabComponent)
+  protected tabs!: QueryList<PipTabComponent>;
 
-  public activeIndex = 0;
+  public ngAfterContentInit(): void {
+    this.tabs.changes.subscribe(() => this.syncTabs());
+    this.syncTabs();
+  }
 
-  public ngAfterViewInit(): void {
-    if (this.tabs.length > 0) {
-      this.selectTab(0, false);
+  protected getActiveTabLabel(): PipTabLabelEnum | null {
+    return this.pipTabsService.activeTabLabel();
+  }
+
+  protected async selectTab(index: number): Promise<void> {
+    const tab = this.tabs.get(index);
+    if (tab) {
+      this.pipTabsService.switchToTab(tab.label);
+      await this.playTabSelectSound();
     }
   }
 
-  public async selectTab(index: number, playSound = true): Promise<void> {
-    this.tabs.forEach((tab, i) => {
-      const isActive = i === index;
-      tab.isActive = isActive;
-    });
-
-    if (playSound) {
-      await this.playTickSound();
-    }
-
-    this.activeIndex = index;
+  private async playTabSelectSound(): Promise<void> {
+    await this.pipSoundService.playSound(PipSoundEnum.TICK_TAB, 50);
   }
 
-  private async playTickSound(): Promise<void> {
-    const audio = new Audio('sounds/tick.wav');
-    await audio.play();
+  private syncTabs(): void {
+    if (this.tabs.length > 0 && !this.pipTabsService.activeTabLabel()) {
+      this.pipTabsService.switchToTab(this.tabs.first.label);
+    }
   }
 }

@@ -62,10 +62,20 @@
       >
         Shutdown
       </button>
+      <button
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        (click)="goToMaintenanceTab()"
+      >
+        Personalize
+      </button>
+      <button
+        [disabled]="!signals.isConnected() || signals.disableAllControls()"
+        (click)="goToMaintenanceTab()"
+      >
+        Firmware Update
+      </button>
     </div>
   </section>
-
-  <ng-content />
 </main>
 
 <pip-log />

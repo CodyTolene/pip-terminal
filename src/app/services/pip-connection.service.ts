@@ -50,7 +50,14 @@ export class PipConnectionService {
       logMessage('✅ Disconnected');
     }
     this.connection = null;
+    pipSignals.deviceId.set(null);
+    pipSignals.firmwareVersion.set(null);
     pipSignals.isConnected.set(false);
+    pipSignals.isSleeping.set(false);
+    pipSignals.javascriptVersion.set(null);
+    pipSignals.ownerName.set('<NONE>');
+    pipSignals.progress.set(0);
+    pipSignals.updateProgress.set(0);
   }
 
   private setupConnectionListeners(): void {

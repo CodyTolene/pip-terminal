@@ -1,9 +1,19 @@
-<!-- <button (click)="clearLog()">Clear Log</button> -->
-
 <main>
   <section>
     <h3>Connection Status</h3>
-    <ng-content />
+    <button
+      (click)="connect()"
+      [disabled]="signals.isConnected() || signals.disableAllControls()"
+    >
+      Connect
+    </button>
+    <button
+      (click)="disconnect()"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    >
+      Disconnect
+    </button>
+    <button (click)="goToConnectTab()">Go to Connect Tab</button>
   </section>
   <section>
     <h3>Owner Name</h3>
@@ -26,7 +36,6 @@
       Reset Owner
     </button>
   </section>
-
   <section>
     <h3>Firmware Update</h3>
     <div class="file-upload">
@@ -45,7 +54,6 @@
         type="file"
       />
     </div>
-
     <button
       (click)="fetchLatestUpdateLinks()"
       [disabled]="signals.disableAllControls()"
