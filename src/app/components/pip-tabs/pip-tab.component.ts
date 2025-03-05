@@ -1,50 +1,64 @@
+import { PipSoundEnum, PipTabLabelEnum } from 'src/app/enums';
+
+import { CommonModule } from '@angular/common';
 import {
+  AfterContentInit,
   Component,
-  EventEmitter,
-  HostBinding,
+  ContentChildren,
   Input,
-  Output,
-  Signal,
-  signal,
+  QueryList,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
+
+import { PipSoundService } from 'src/app/services/pip-sound.service';
+import { PipTabsService } from 'src/app/services/pip-tabs.service';
+
+import { PipSubTabComponent } from './pip-sub-tab.component';
 
 @Component({
   selector: 'pip-tab',
-  template: `@if (isActive() || loadInBackground) {
-    <ng-content />
-  }`,
-  styles: [
-    `
-      :host:not(.active) {
-        display: none;
-        visibility: hidden;
-      }
-    `,
-  ],
-  // eslint-disable-next-line @angular-eslint/prefer-standalone
-  standalone: false,
+  templateUrl: './pip-tab.component.html',
+  styleUrls: ['./pip-tab.component.scss'],
+  imports: [CommonModule],
+  providers: [],
 })
-export class PipTabComponent {
-  @Input({ required: true }) public label!: string;
+export class PipTabComponent implements AfterContentInit {
+  public constructor(
+    private readonly pipSoundService: PipSoundService,
+    private readonly pipTabsService: PipTabsService,
+  ) {}
 
-  public set isActive(value: boolean) {
-    this.#isActive.set(value);
-    this.isActiveChange.emit(value);
+  @Input({ required: true }) public label!: PipTabLabelEnum;
+
+  @ViewChild('content', { static: true })
+  public content!: TemplateRef<unknown>;
+
+  @ContentChildren(PipSubTabComponent)
+  protected subTabs!: QueryList<PipSubTabComponent>;
+
+  public ngAfterContentInit(): void {
+    const subTabLabels = this.subTabs.map((subTab) => subTab.label);
+    this.pipTabsService.setSubTabs(this.label, subTabLabels);
+
+    if (
+      subTabLabels.length > 0 &&
+      this.pipTabsService.getActiveSubTabIndex(this.label) === 0
+    ) {
+      this.pipTabsService.setActiveSubTabIndex(this.label, 0);
+    }
   }
 
-  public get isActive(): Signal<boolean> {
-    return this.#isActive.asReadonly();
+  protected getActiveSubTabIndex(label: PipTabLabelEnum): number {
+    return this.pipTabsService.getActiveSubTabIndex(label);
   }
 
-  @Input({ required: false }) public loadInBackground = false;
-
-  @HostBinding('class.active')
-  public get isActiveClass(): boolean {
-    return this.#isActive();
+  protected async selectSubTab(index: number): Promise<void> {
+    this.pipTabsService.setActiveSubTabIndex(this.label, index);
+    await this.playSubTabSelectSound();
   }
 
-  @Output()
-  public readonly isActiveChange = new EventEmitter<boolean>();
-
-  #isActive = signal<boolean>(false);
+  private async playSubTabSelectSound(): Promise<void> {
+    await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 25);
+  }
 }

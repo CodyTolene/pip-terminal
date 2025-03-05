@@ -1,4 +1,5 @@
 import { PipFileService } from 'services/pip-file.service';
+import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component, EffectRef, OnDestroy, effect } from '@angular/core';
@@ -7,7 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
+import { PipConnectionService } from 'src/app/services/pip-connection.service';
+import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
+import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -23,8 +27,11 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 })
 export class PipMaintenanceComponent implements OnDestroy {
   public constructor(
+    private readonly connectionService: PipConnectionService,
+    private readonly deviceService: PipDeviceService,
     private readonly fileService: PipFileService,
     private readonly setDataService: PipSetDataService,
+    private readonly pipTabsService: PipTabsService,
   ) {
     this.ownerNameEffect = effect(() => {
       const name = this.signals.ownerName();
@@ -34,6 +41,9 @@ export class PipMaintenanceComponent implements OnDestroy {
 
   protected ownerName: string | null = null;
   protected selectedFile: File | null = null;
+
+  protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
+  protected readonly PipTabLabelEnum = PipTabLabelEnum;
   protected readonly signals = pipSignals;
 
   private readonly ownerNameEffect: EffectRef;
@@ -65,6 +75,22 @@ export class PipMaintenanceComponent implements OnDestroy {
       const message = error instanceof Error ? error.message : String(error);
       logMessage('❌ Error fetching firmware links: ' + message);
     }
+  }
+
+  protected async connect(): Promise<void> {
+    await this.connectionService.connect();
+    await this.deviceService.initialize();
+  }
+
+  protected async disconnect(): Promise<void> {
+    await this.connectionService.disconnect();
+  }
+
+  protected async goToConnectTab(): Promise<void> {
+    await this.pipTabsService.switchToTab(
+      PipTabLabelEnum.STAT,
+      PipSubTabLabelEnum.CONNECT,
+    );
   }
 
   protected onFileSelected(event: Event): void {

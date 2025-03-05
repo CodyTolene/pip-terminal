@@ -1,0 +1,58 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+nav.tab-header {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  width: 100%;
+}
+
+button.tab-button {
+  background-color: transparent;
+  border: none;
+  color: col.$pip-green-dark;
+  cursor: pointer;
+  font-size: var.$font-xl;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem;
+  text-transform: uppercase;
+  z-index: 1;
+
+  > .label {
+    background-color: col.$pip-black;
+    display: block;
+    padding: 0 0.25rem;
+
+    @include bps.media('max', 'md') {
+      font-size: var.$font-lg;
+    }
+
+    @include bps.media('max', 'sm') {
+      font-size: var.$font-md;
+    }
+
+    @include bps.media('max', 'xs') {
+      font-size: var.$font-sm;
+    }
+
+    &:hover {
+      color: col.$pip-green;
+    }
+  }
+
+  &.active {
+    background-color: col.$pip-black;
+    color: col.$pip-green;
+    z-index: 2;
+  }
+}
+
+.subtab-content {
+  background-color: col.$pip-black;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+  width: 100%;
+}

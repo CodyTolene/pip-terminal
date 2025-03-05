@@ -1,10 +1,10 @@
-<nav role="tablist">
+<nav class="tabs-header" role="tablist">
   <div class="spacer"></div>
-  @for (tab of tabs; let i = $index; track i) {
+  @for (tab of tabs; let i = $index; track tab) {
     <button
-      #tabButton
       (click)="selectTab(i)"
-      [class.active]="i === activeIndex"
+      class="tabs-button"
+      [class.active]="getActiveTabLabel() === tab.label"
       type="button"
     >
       <span class="label">{{ tab.label }}</span>
@@ -12,6 +12,11 @@
     <div class="spacer"></div>
   }
 </nav>
+
 <div class="tab-content">
-  <ng-content></ng-content>
+  @for (tab of tabs; track tab) {
+    @if (getActiveTabLabel() === tab.label) {
+      <ng-container *ngTemplateOutlet="tab.content"></ng-container>
+    }
+  }
 </div>

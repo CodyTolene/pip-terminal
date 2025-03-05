@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, WritableSignal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -22,11 +22,14 @@ import { PipMapComponent } from './components/pip-map/pip-map.component';
 import { PipRadioComponent } from './components/pip-radio/pip-radio.component';
 import { PipStatsComponent } from './components/pip-stats/pip-stats.component';
 import { PipStatusComponent } from './components/pip-status/pip-status.component';
-import { PipSubTabModule } from './components/pip-sub-tabs/pip-sub-tab.module';
-import { PipSubTabsComponent } from './components/pip-sub-tabs/pip-sub-tabs.component';
-import { PipTabModule } from './components/pip-tabs/pip-tab.module';
+import { PipSubTabComponent } from './components/pip-tabs/pip-sub-tab.component';
+import { PipTabComponent } from './components/pip-tabs/pip-tab.component';
 import { PipTabsComponent } from './components/pip-tabs/pip-tabs.component';
+import { PipTabLabelEnum } from './enums';
+import { PipSubTabLabelEnum } from './enums/pip-sub-tab-label.enum';
 import { PipFileService } from './services/pip-file.service';
+import { PipSoundService } from './services/pip-sound.service';
+import { PipTabsService } from './services/pip-tabs.service';
 
 @Component({
   selector: 'pip-mod-terminal',
@@ -46,8 +49,9 @@ import { PipFileService } from './services/pip-file.service';
     PipRadioComponent,
     PipStatsComponent,
     PipStatusComponent,
-    PipSubTabModule,
-    PipTabModule,
+    PipSubTabComponent,
+    PipTabComponent,
+    PipTabsComponent,
   ],
   styleUrl: './pip.component.scss',
   providers: [
@@ -57,18 +61,27 @@ import { PipFileService } from './services/pip-file.service';
     PipFileService,
     PipGetDataService,
     PipSetDataService,
+    PipTabsService,
+    PipSoundService,
   ],
 })
 export class PipModTerminalComponent {
-  protected signals = pipSignals;
+  public constructor(
+    private readonly pipSoundService: PipSoundService,
+    private readonly pipTabsService: PipTabsService,
+  ) {
+    this.soundVolume = this.pipSoundService.globalVolumePercent;
+  }
 
-  protected async switchToTabs(
-    tabs: PipTabsComponent,
-    tabsIndex: number,
-    subTabs: PipSubTabsComponent,
-    subTabsIndex: number,
-  ): Promise<void> {
-    await tabs.selectTab(tabsIndex);
-    await subTabs.selectTab(subTabsIndex);
+  protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
+  protected readonly PipTabLabelEnum = PipTabLabelEnum;
+  protected readonly signals = pipSignals;
+  protected readonly soundVolume: WritableSignal<number>;
+
+  protected async goToConnectTab(): Promise<void> {
+    await this.pipTabsService.switchToTab(
+      PipTabLabelEnum.STAT,
+      PipSubTabLabelEnum.CONNECT,
+    );
   }
 }

@@ -16,7 +16,7 @@ import { clearLog } from 'src/app/utilities/pip-log.util';
   standalone: true,
 })
 export class PipDiagnosticsComponent {
-  protected signals = pipSignals;
+  protected readonly signals = pipSignals;
 
   protected clearLog(): void {
     clearLog();
