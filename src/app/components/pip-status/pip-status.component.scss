@@ -49,6 +49,7 @@ mat-icon.status-icon {
 }
 
 h1 {
+  margin-bottom: 1rem;
   color: col.$pip-green-dark;
   text-align: center;
   width: 100%;
@@ -59,13 +60,13 @@ h1 {
 }
 
 h1,
+h3,
 p {
   color: col.$pip-green;
   text-align: center;
   width: 100%;
 }
 
-h1,
 button {
-  margin-bottom: 1rem;
+  margin: 1rem;
 }
