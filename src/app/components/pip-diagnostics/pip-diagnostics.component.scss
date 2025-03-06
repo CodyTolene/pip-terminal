@@ -14,8 +14,8 @@
     flex-direction: column;
   }
 
-  > section,
-  > pip-log {
+  section,
+  pip-log {
     flex: 1 1 50%;
     max-height: 100%;
     overflow-x: hidden;
@@ -24,9 +24,20 @@
     @include sb.scrollbar;
   }
 
-  > section {
+  @include bps.media('max', 'md') {
+    > section {
+      flex: 1 1 70%;
+    }
+
+    > pip-log {
+      border-top: 4px dashed col.$pip-green;
+      flex: 1 1 30%;
+    }
+  }
+
+  section {
     align-content: flex-start;
-    border-right: 1px dashed col.$pip-green;
+    border-right: 4px dashed col.$pip-green;
     display: flex;
     flex-direction: column;
 
@@ -70,7 +81,8 @@ dl {
 }
 
 h3 {
-  border-bottom: 1px dashed col.$pip-green;
+  border-bottom: 2px dashed col.$pip-green;
+  margin-top: 0;
   padding-bottom: 1rem;
 }
 
