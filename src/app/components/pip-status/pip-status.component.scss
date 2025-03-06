@@ -1,6 +1,28 @@
 @use '../../styles/colors' as col;
+@use '../../styles/breakpoints' as bps;
 
 $icon-size: 500px;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  width: 100%;
+}
+
+main > section {
+  // Select the first section
+  &:first-of-type {
+    border-bottom: 2px dashed col.$pip-green;
+  }
+
+  // Select the last section
+  &:last-of-type {
+    border-top: 2px dashed col.$pip-green;
+  }
+}
 
 mat-icon.status-icon {
   color: col.$pip-green-dark;
@@ -16,9 +38,18 @@ mat-icon.status-icon {
   &.active {
     color: col.$pip-green;
   }
+
+  @include bps.media('max', 'md') {
+    width: calc($icon-size / 2);
+    height: calc($icon-size / 2);
+    font-size: calc($icon-size / 2);
+    min-width: calc($icon-size / 2);
+    text-align: center;
+  }
 }
 
 h1 {
+  margin-bottom: 1rem;
   color: col.$pip-green-dark;
   text-align: center;
   width: 100%;
@@ -28,9 +59,14 @@ h1 {
   }
 }
 
-h2,
+h1,
+h3,
 p {
   color: col.$pip-green;
   text-align: center;
   width: 100%;
+}
+
+button {
+  margin: 1rem;
 }

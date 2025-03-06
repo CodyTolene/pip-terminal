@@ -13,17 +13,28 @@
     flex-direction: column;
   }
 
-  > main,
-  > pip-log {
+  main,
+  pip-log {
     flex: 1 1 50%;
     max-height: 100%;
     padding: 1rem;
   }
 
-  > main {
+  @include bps.media('max', 'md') {
+    > main {
+      flex: 1 1 70%;
+    }
+
+    > pip-log {
+      border-top: 4px dashed col.$pip-green;
+      flex: 1 1 30%;
+    }
+  }
+
+  main {
     @include sb.scrollbar;
     align-content: flex-start;
-    border-right: 1px dashed col.$pip-green;
+    border-right: 4px dashed col.$pip-green;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -51,6 +62,12 @@
       }
     }
   }
+}
+
+h3 {
+  border-bottom: 2px dashed col.$pip-green;
+  margin-top: 0;
+  padding-bottom: 1rem;
 }
 
 .connect-buttons {
