@@ -1,4 +1,4 @@
-import { PipTabLabelEnum } from 'src/app/enums';
+import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -19,5 +19,7 @@ export class PipStatusComponent {
   public constructor(protected readonly pipTabsService: PipTabsService) {}
 
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
+  protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
+
   protected readonly signals = pipSignals;
 }

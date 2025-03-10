@@ -9,8 +9,20 @@
     <link rel="manifest" href="site.webmanifest" />
     <meta name="theme-color" content="#00ff00" />
     <script src="scripts/uart.js"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-1Z6DNZH2C2"
+    ></script>
   </head>
   <body>
-    <pip-mod-terminal></pip-mod-terminal>
+    <pip-root></pip-root>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-1Z6DNZH2C2');
+    </script>
   </body>
 </html>

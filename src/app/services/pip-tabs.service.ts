@@ -1,53 +1,90 @@
-import {
-  PipSoundEnum,
-  PipSubTabLabelEnum,
-  PipTabLabelEnum,
-} from 'src/app/enums';
+import { filter } from 'rxjs';
+import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
+import { getEnumMember, isNonEmptyString } from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
-
-import { PipSoundService } from 'src/app/services/pip-sound.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class PipTabsService {
-  public constructor(private readonly pipSoundService: PipSoundService) {}
+  public constructor(private readonly router: Router) {}
 
   public activeTabLabel = signal<PipTabLabelEnum | null>(null);
-
   private activeSubTabIndexes = signal<Record<string, number>>({});
-  private subTabLabels = new Map<PipTabLabelEnum, PipSubTabLabelEnum[]>();
 
-  public setSubTabs(
-    tabLabel: PipTabLabelEnum,
-    subTabLabels: PipSubTabLabelEnum[],
-  ): void {
-    this.subTabLabels.set(tabLabel, subTabLabels);
+  private subTabLabels = new Map<PipTabLabelEnum, PipSubTabLabelEnum[]>();
+  private isInitialized = false;
+
+  public initialize(): void {
+    if (this.isInitialized) {
+      console.warn('PipTabsService already initialized!');
+      return;
+    }
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(async ({ url }: NavigationEnd) => {
+        const urlPieces = url.split('/').slice(1);
+
+        const goToDefaultTab = async (): Promise<void> => {
+          await this.switchToTab(
+            PipTabLabelEnum.STAT,
+            PipSubTabLabelEnum.STATUS,
+          );
+        };
+
+        if (!isNonEmptyString(urlPieces[0])) {
+          goToDefaultTab();
+          return;
+        }
+
+        const tabLabel = urlPieces[0].toUpperCase();
+        const subTabLabel =
+          isNonEmptyString(urlPieces[1]) && urlPieces[1] !== 'null'
+            ? urlPieces[1].toUpperCase()
+            : null;
+
+        const tab = getEnumMember(PipTabLabelEnum, tabLabel);
+        const subTab = subTabLabel
+          ? getEnumMember(PipSubTabLabelEnum, subTabLabel)
+          : null;
+
+        if (!tab) {
+          goToDefaultTab();
+          return;
+        }
+
+        await this.switchToTab(tab, subTab);
+      });
   }
 
   public async switchToTab(
     tabLabel: PipTabLabelEnum,
-    subTabOrIndex?: PipSubTabLabelEnum | number,
+    subTabOrIndex?: PipSubTabLabelEnum | number | null,
   ): Promise<void> {
     this.activeTabLabel.set(tabLabel);
 
+    let subTabIndex = 0;
     if (typeof subTabOrIndex === 'number') {
-      this.setActiveSubTabIndex(tabLabel, subTabOrIndex);
+      subTabIndex = subTabOrIndex;
     } else if (typeof subTabOrIndex === 'string') {
-      const subTabIndex = this.getSubTabIndex(tabLabel, subTabOrIndex);
+      subTabIndex = this.getSubTabIndex(tabLabel, subTabOrIndex);
       if (subTabIndex === -1) {
         console.warn(
           `SubTab '${subTabOrIndex}' not found under tab '${tabLabel}'`,
         );
-        this.setActiveSubTabIndex(tabLabel, 0);
-      } else {
-        this.setActiveSubTabIndex(tabLabel, subTabIndex);
+        subTabIndex = 0;
       }
-    } else {
-      this.setActiveSubTabIndex(tabLabel, 0);
     }
 
-    await this.pipSoundService.playSound(PipSoundEnum.TICK_TAB, 50);
-    await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 25);
+    this.setActiveSubTabIndex(tabLabel, subTabIndex);
+
+    const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
+    if (subTabLabel) {
+      this.router.navigate([tabLabel.toLowerCase(), subTabLabel.toLowerCase()]);
+    } else {
+      this.router.navigate([tabLabel.toLowerCase()]);
+    }
   }
 
   public setActiveSubTabIndex(
@@ -59,8 +96,23 @@ export class PipTabsService {
     this.activeSubTabIndexes.set(map);
   }
 
+  public setSubTabs(
+    tabLabel: PipTabLabelEnum,
+    subTabLabels: PipSubTabLabelEnum[],
+  ): void {
+    this.subTabLabels.set(tabLabel, subTabLabels);
+  }
+
   public getActiveSubTabIndex(tabLabel: PipTabLabelEnum): number {
     return this.activeSubTabIndexes()[tabLabel] ?? 0;
+  }
+
+  public getActiveSubTabLabel(
+    tabLabel: PipTabLabelEnum,
+  ): PipSubTabLabelEnum | null {
+    const subTabs = this.subTabLabels.get(tabLabel) ?? [];
+    const activeIndex = this.getActiveSubTabIndex(tabLabel);
+    return subTabs[activeIndex] ?? subTabs[0] ?? null;
   }
 
   private getSubTabIndex(
@@ -69,5 +121,12 @@ export class PipTabsService {
   ): number {
     const subTabs = this.subTabLabels.get(tabLabel) ?? [];
     return subTabs.indexOf(subTabLabel);
+  }
+
+  private getSubTabLabel(
+    tabLabel: PipTabLabelEnum,
+    index: number,
+  ): PipSubTabLabelEnum | null {
+    return this.subTabLabels.get(tabLabel)?.[index] ?? null;
   }
 }

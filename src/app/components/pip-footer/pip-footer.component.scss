@@ -1,0 +1,22 @@
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  align-items: center;
+  background-color: col.$pip-green-darkest;
+  border-top: 2px solid col.$pip-black;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  font-size: 20px;
+  padding: 0;
+
+  > div {
+    align-items: center;
+    border-right: 4px solid col.$pip-black;
+    display: flex;
+    height: 100%;
+    padding: 0 1rem;
+  }
+}

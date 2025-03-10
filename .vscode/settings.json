@@ -1,11 +1,10 @@
 {
-    "workbench.editor.enablePreview": false,
-    "workbench.editor.wrapTabs": true,
-    "editor.tabSize": 2,
+    "[csharp]": { "editor.defaultFormatter": "ms-dotnettools.csharp" },
+    "editor.codeLens": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "editor.codeLens": false,
-    "[csharp]": {
-        "editor.defaultFormatter": "ms-dotnettools.csharp"
-    }
+    "editor.tabSize": 2,
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.wrapTabs": true
 }

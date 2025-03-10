@@ -1,3 +1,4 @@
+import { routes } from 'src/app/pip.routes';
 import { environment } from 'src/environments/environment';
 
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
@@ -14,17 +15,10 @@ import {
 } from '@angular/fire/app-check';
 import { provideRouter } from '@angular/router';
 
-import { PipModTerminalComponent } from './pip.component';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter([
-      {
-        path: '',
-        component: PipModTerminalComponent,
-      },
-    ]),
+    provideRouter(routes),
     provideFirebaseApp(() =>
       initializeApp(environment.google.firebase, 'pip-terminal'),
     ),

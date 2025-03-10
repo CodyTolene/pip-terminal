@@ -3,8 +3,9 @@
   @for (tab of tabs; let i = $index; track tab) {
     <button
       (click)="selectTab(i)"
-      class="tabs-button"
       [class.active]="getActiveTabLabel() === tab.label"
+      [routerLink]="[tab.label.toLowerCase(), getActiveSubTabLabel(tab)]"
+      class="tabs-button"
       type="button"
     >
       <span class="label">{{ tab.label }}</span>

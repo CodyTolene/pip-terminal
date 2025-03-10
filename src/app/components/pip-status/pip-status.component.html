@@ -43,7 +43,14 @@
     </h1>
 
     <p *ngIf="!signals.isConnected()">
-      <button (click)="pipTabsService.switchToTab(PipTabLabelEnum.STAT, 1)">
+      <button
+        (click)="
+          pipTabsService.switchToTab(
+            PipTabLabelEnum.STAT,
+            PipSubTabLabelEnum.CONNECT
+          )
+        "
+      >
         Connect
       </button>
     </p>

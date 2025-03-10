@@ -6,7 +6,7 @@
   box-sizing: border-box;
   display: flex;
   height: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
   flex-direction: row;
 
   @include bps.media('max', 'md') {
@@ -34,7 +34,7 @@
   main {
     @include sb.scrollbar;
     align-content: flex-start;
-    border-right: 4px dashed col.$pip-green;
+    border-right: 2px dashed col.$pip-green;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
