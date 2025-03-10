@@ -4,6 +4,7 @@
       @for (subTab of subTabs; let i = $index; track i) {
         <button
           (click)="selectSubTab(i)"
+          [routerLink]="[label.toLowerCase(), subTab.label.toLowerCase()]"
           [class.active]="getActiveSubTabIndex(label) === i"
           class="tab-button"
           type="button"

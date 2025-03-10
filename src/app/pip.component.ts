@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, WritableSignal } from '@angular/core';
+import { Component, OnInit, WritableSignal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -32,7 +32,7 @@ import { PipSoundService } from './services/pip-sound.service';
 import { PipTabsService } from './services/pip-tabs.service';
 
 @Component({
-  selector: 'pip-mod-terminal',
+  selector: 'pip-root',
   templateUrl: './pip.component.html',
   imports: [
     CommonModule,
@@ -65,7 +65,7 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipSoundService,
   ],
 })
-export class PipModTerminalComponent {
+export class PipComponent implements OnInit {
   public constructor(
     private readonly pipSoundService: PipSoundService,
     private readonly pipTabsService: PipTabsService,
@@ -77,6 +77,10 @@ export class PipModTerminalComponent {
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
   protected readonly signals = pipSignals;
   protected readonly soundVolume: WritableSignal<number>;
+
+  public ngOnInit(): void {
+    this.pipTabsService.initialize();
+  }
 
   protected async goToConnectTab(): Promise<void> {
     await this.pipTabsService.switchToTab(

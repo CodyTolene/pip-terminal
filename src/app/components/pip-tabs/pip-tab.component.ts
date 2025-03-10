@@ -10,6 +10,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { PipSoundService } from 'src/app/services/pip-sound.service';
 import { PipTabsService } from 'src/app/services/pip-tabs.service';
@@ -20,7 +21,7 @@ import { PipSubTabComponent } from './pip-sub-tab.component';
   selector: 'pip-tab',
   templateUrl: './pip-tab.component.html',
   styleUrls: ['./pip-tab.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   providers: [],
 })
 export class PipTabComponent implements AfterContentInit {
@@ -55,10 +56,6 @@ export class PipTabComponent implements AfterContentInit {
 
   protected async selectSubTab(index: number): Promise<void> {
     this.pipTabsService.setActiveSubTabIndex(this.label, index);
-    await this.playSubTabSelectSound();
-  }
-
-  private async playSubTabSelectSound(): Promise<void> {
     await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 25);
   }
 }
