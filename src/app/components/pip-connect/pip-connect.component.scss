@@ -6,7 +6,7 @@
   box-sizing: border-box;
   display: flex;
   height: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
   flex-direction: row;
 
   @include bps.media('max', 'md') {

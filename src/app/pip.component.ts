@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, WritableSignal } from '@angular/core';
+import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { PipFooterComponent } from 'src/app/components/pip-footer/pip-footer.component';
 
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
@@ -37,6 +40,7 @@ import { PipTabsService } from './services/pip-tabs.service';
   imports: [
     CommonModule,
     MatIconModule,
+    MatLuxonDateModule,
     MatTooltipModule,
     PipAidComponent,
     PipApparelComponent,
@@ -44,6 +48,7 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipClockComponent,
     PipConnectComponent,
     PipDiagnosticsComponent,
+    PipFooterComponent,
     PipMaintenanceComponent,
     PipMapComponent,
     PipRadioComponent,
