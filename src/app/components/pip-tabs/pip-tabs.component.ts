@@ -32,7 +32,6 @@ export class PipTabsComponent implements AfterContentInit {
 
   public async ngAfterContentInit(): Promise<void> {
     this.tabs.changes.subscribe(async () => await this.syncTabs());
-    // await this.syncTabs();
   }
 
   protected getActiveSubTabIndex(tab: PipTabComponent): number {
