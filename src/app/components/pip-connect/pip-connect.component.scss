@@ -34,7 +34,7 @@
   main {
     @include sb.scrollbar;
     align-content: flex-start;
-    border-right: 4px dashed col.$pip-green;
+    border-right: 2px dashed col.$pip-green;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
