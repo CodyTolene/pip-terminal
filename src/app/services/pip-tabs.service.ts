@@ -1,3 +1,4 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
 import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
 import { getEnumMember, isNonEmptyString } from 'src/app/utilities';
@@ -5,6 +6,7 @@ import { getEnumMember, isNonEmptyString } from 'src/app/utilities';
 import { Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
+@UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class PipTabsService {
   public constructor(private readonly router: Router) {}
@@ -22,7 +24,10 @@ export class PipTabsService {
     }
 
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        untilDestroyed(this),
+      )
       .subscribe(async ({ url }: NavigationEnd) => {
         const urlPieces = url.split('/').slice(1);
 

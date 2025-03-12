@@ -17,17 +17,17 @@ export class PipConnectionService {
       this.connection = await UART.connectAsync();
 
       if (!this.connection?.isOpen) {
-        logMessage('❌ Connection failed.');
+        logMessage('Connection failed.');
         return this.retryOrAbort(retryCount, maxRetries);
       }
 
       this.setupConnectionListeners();
 
-      logMessage('✅ Connected!');
+      logMessage('Connected!');
 
       pipSignals.isConnected.set(true);
     } catch (error) {
-      logMessage(`❌ Connection error: ${(error as Error)?.message}`);
+      logMessage(`Connection error: ${(error as Error)?.message}`);
       return this.retryOrAbort(retryCount, maxRetries);
     }
   }
@@ -42,12 +42,12 @@ export class PipConnectionService {
           error.message.includes('cancel') &&
           error.message.includes('released')
         ) {
-          logMessage('⚠️ Stream already released — ignoring.');
+          logMessage('Stream already released — ignoring.');
         } else {
           throw error;
         }
       }
-      logMessage('✅ Disconnected');
+      logMessage('Disconnected');
     }
     this.connection = null;
     pipSignals.deviceId.set(null);
@@ -62,22 +62,22 @@ export class PipConnectionService {
 
   private setupConnectionListeners(): void {
     if (!this.connection || !this.connection.isOpen) {
-      logMessage('❌ Failed to set up connection listeners.');
+      logMessage('Failed to set up connection listeners.');
       return;
     }
 
     this.connection.on('close', () => this.disconnect());
     this.connection.on('error', (err) =>
-      logMessage(`❌ Connection error: ${err}`),
+      logMessage(`Connection error: ${err}`),
     );
   }
 
   private retryOrAbort(retryCount: number, maxRetries: number): void {
     if (retryCount < maxRetries) {
-      logMessage(`🔄 Retrying connection (${retryCount + 1}/${maxRetries})...`);
+      logMessage(`Retrying connection (${retryCount + 1}/${maxRetries})...`);
       setTimeout(() => this.connect(retryCount + 1, maxRetries), 1000);
     } else {
-      logMessage('🚨 Max retries reached.');
+      logMessage('Max retries reached.');
     }
   }
 }

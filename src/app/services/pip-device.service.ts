@@ -19,67 +19,67 @@ export class PipDeviceService {
 
   public async initialize(): Promise<void> {
     if (!this.connectionService.connection) {
-      throw new Error('❌ No active connection');
+      throw new Error('No active connection');
     }
 
     pipSignals.disableAllControls.set(true);
 
-    logMessage('🔍 Fetching device information...');
+    logMessage('Fetching device information...');
 
     pipSignals.ownerName.set(await this.getDataService.getOwnerName());
-    logMessage(`🏷️ Owner: ${pipSignals.ownerName()}`);
+    logMessage(` Owner: ${pipSignals.ownerName()}`);
 
     pipSignals.firmwareVersion.set(
       await this.getDataService.getFirmwareVersion(),
     );
-    logMessage(`🔧 Firmware version: ${pipSignals.firmwareVersion()}`);
+    logMessage(`Firmware version: ${pipSignals.firmwareVersion()}`);
 
     pipSignals.javascriptVersion.set(
       await this.getDataService.getJavascriptVersion(),
     );
-    logMessage(`📦 JS version: ${pipSignals.javascriptVersion()}`);
+    logMessage(`JS version: ${pipSignals.javascriptVersion()}`);
 
     pipSignals.deviceId.set(await this.getDataService.getId());
-    logMessage(`🆔 Device ID: ${pipSignals.deviceId()}`);
+    logMessage(`Device ID: ${pipSignals.deviceId()}`);
 
     pipSignals.isSleeping.set(await this.getDataService.getIsSleeping());
-    logMessage(`🛌 Sleeping: ${pipSignals.isSleeping() ? 'True' : 'False'}`);
+    logMessage(`Sleeping: ${pipSignals.isSleeping() ? 'True' : 'False'}`);
 
     pipSignals.disableAllControls.set(false);
   }
 
   public async restart(): Promise<void> {
     if (!this.connectionService.connection?.isOpen) {
-      logMessage('❌ Please connect to the device first.');
+      logMessage('Please connect to the device first.');
       return;
     }
 
     try {
-      logMessage('♻️ Rebooting now...');
+      logMessage('Rebooting now...');
       await this.commandService.cmd('setTimeout(() => { E.reboot(); }, 100);');
     } catch (error) {
-      logMessage(`❌ Error: ${(error as Error)?.message}`);
+      logMessage(`Error: ${(error as Error)?.message}`);
     }
   }
 
   public async sleep(): Promise<void> {
     if (!this.connectionService.connection?.isOpen) {
-      logMessage('❌ Please connect to the device first.');
+      logMessage('Please connect to the device first.');
       return;
     }
 
     let isAsleep = await this.getDataService.getIsSleeping();
     if (isAsleep === true) {
-      logMessage('⚠️ Already sleeping.');
+      logMessage('Already sleeping.');
       pipSignals.isSleeping.set(true);
       return;
     } else if (isAsleep === 'BUSY') {
-      logMessage('⚠️ Pip is busy. Retrying...');
+      logMessage('Pip is busy. Retrying...');
       await wait(1000);
       return this.sleep();
     }
 
-    logMessage('💤 Sleeping now...');
+    logMessage('Sleeping now...');
 
     pipSignals.disableAllControls.set(true);
 
@@ -97,22 +97,22 @@ export class PipDeviceService {
 
         isAsleep = await this.getDataService.getIsSleeping();
         logMessage(
-          `💤 Sleep check [Attempt ${attempt + 1}/${maxRetries}]: ${isAsleep}`,
+          `Sleep check [Attempt ${attempt + 1}/${maxRetries}]: ${isAsleep}`,
         );
 
         if (isAsleep === true) {
-          logMessage('✅ Successfully set to sleep.');
+          logMessage('Successfully set to sleep.');
           pipSignals.disableAllControls.set(false);
           pipSignals.isSleeping.set(true);
           return;
         } else if (isAsleep === false) {
-          logMessage('❌ Unexpected response, retrying...');
+          logMessage('Unexpected response, retrying...');
         }
       }
 
-      logMessage('❌ Failed to confirm sleep after multiple attempts.');
+      logMessage('Failed to confirm sleep after multiple attempts.');
     } catch (error) {
-      logMessage(`❌ Error: ${(error as Error)?.message}`);
+      logMessage(`Error: ${(error as Error)?.message}`);
     }
 
     pipSignals.disableAllControls.set(false);
@@ -121,23 +121,23 @@ export class PipDeviceService {
 
   public async wake(): Promise<void> {
     if (!this.connectionService.connection?.isOpen) {
-      logMessage('❌ Please connect to the device first.');
+      logMessage('Please connect to the device first.');
       return;
     }
 
     let isAsleep: boolean | 'BUSY' | null =
       await this.getDataService.getIsSleeping();
     if (isAsleep === false) {
-      logMessage('⚠️ Already awake.');
+      logMessage('Already awake.');
       pipSignals.isSleeping.set(false);
       return;
     } else if (isAsleep === 'BUSY') {
-      logMessage('⚠️ Pip is busy. Retrying...');
+      logMessage('Pip is busy. Retrying...');
       await wait(1000);
       return this.wake();
     }
 
-    logMessage('🚨 Waking up now...');
+    logMessage('Waking up now...');
 
     pipSignals.disableAllControls.set(true);
 
@@ -159,15 +159,15 @@ export class PipDeviceService {
       await wait(1000);
 
       if (isAsleep === false) {
-        logMessage('🌞 Successfully woke up.');
+        logMessage('Successfully woke up.');
         pipSignals.disableAllControls.set(false);
         pipSignals.isSleeping.set(false);
         return;
       } else {
-        logMessage('❌ Failed to wake up, please try again.');
+        logMessage('Failed to wake up, please try again.');
       }
     } catch (error) {
-      logMessage(`❌ Error: ${(error as Error)?.message}`);
+      logMessage(`Error: ${(error as Error)?.message}`);
     }
 
     pipSignals.disableAllControls.set(false);
@@ -176,11 +176,11 @@ export class PipDeviceService {
 
   public async shutdown(): Promise<void> {
     if (!this.connectionService.connection?.isOpen) {
-      logMessage('❌ Please connect to the device first.');
+      logMessage('Please connect to the device first.');
       return;
     }
 
-    logMessage('🛑 Shutting down...');
+    logMessage('Shutting down...');
 
     pipSignals.disableAllControls.set(true);
 
@@ -194,7 +194,7 @@ export class PipDeviceService {
         await wait(1500);
 
         const shutdownSuccess = (): void => {
-          logMessage('✅ Shutdown complete.');
+          logMessage('Shutdown complete.');
           pipSignals.disableAllControls.set(false);
           pipSignals.isConnected.set(false);
         };
@@ -206,7 +206,7 @@ export class PipDeviceService {
 
         const isBusy = (await this.getDataService.getIsSleeping()) === 'BUSY';
         logMessage(
-          `🛑 Shutdown check [Attempt ${attempt + 1}/${maxRetries}]: ${isBusy ? 'BUSY' : 'OK'}`,
+          `Shutdown check [Attempt ${attempt + 1}/${maxRetries}]: ${isBusy ? 'BUSY' : 'OK'}`,
         );
 
         if (!isBusy || !this.connectionService.connection?.isOpen) {
@@ -215,9 +215,9 @@ export class PipDeviceService {
         }
       }
 
-      logMessage('❌ Shutdown confirmation failed after multiple attempts.');
+      logMessage('Shutdown confirmation failed after multiple attempts.');
     } catch (error) {
-      logMessage(`❌ Error: ${(error as Error)?.message}`);
+      logMessage(`Error: ${(error as Error)?.message}`);
     }
 
     pipSignals.disableAllControls.set(false);

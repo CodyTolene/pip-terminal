@@ -30,8 +30,8 @@ export class PipMaintenanceComponent implements OnDestroy {
     private readonly connectionService: PipConnectionService,
     private readonly deviceService: PipDeviceService,
     private readonly fileService: PipFileService,
-    private readonly setDataService: PipSetDataService,
     private readonly pipTabsService: PipTabsService,
+    private readonly setDataService: PipSetDataService,
   ) {
     this.ownerNameEffect = effect(() => {
       const name = this.signals.ownerName();
@@ -53,7 +53,7 @@ export class PipMaintenanceComponent implements OnDestroy {
   }
 
   protected async fetchLatestUpdateLinks(): Promise<void> {
-    logMessage('📡 Fetching latest update links...');
+    logMessage('Fetching latest update links...');
 
     const upgradeUrl =
       'https://thewandcompany.com/pip-boy/upgrade/readlink.php?link=upgrade.zip';
@@ -69,11 +69,11 @@ export class PipMaintenanceComponent implements OnDestroy {
       const releaseFileName = await releaseResponse.text();
       const releaseLink = `https://thewandcompany.com/pip-boy/upgrade/${releaseFileName.trim()}`;
 
-      logLink('🔗 Latest Upgrade ZIP', upgradeLink);
-      logLink('🔗 Latest Full Firmware ZIP', releaseLink);
+      logLink('Latest Upgrade ZIP', upgradeLink);
+      logLink('Latest Full Firmware ZIP', releaseLink);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      logMessage('❌ Error fetching firmware links: ' + message);
+      logMessage('Error fetching firmware links: ' + message);
     }
   }
 
@@ -110,7 +110,7 @@ export class PipMaintenanceComponent implements OnDestroy {
     if (this.selectedFile) {
       await this.fileService.startUpdate(this.selectedFile);
     } else {
-      logMessage('⚠️ No file selected.');
+      logMessage('No file selected.');
     }
   }
 }

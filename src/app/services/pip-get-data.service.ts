@@ -70,7 +70,7 @@ export class PipGetDataService {
     );
 
     if (result === null) {
-      logMessage('❌ Failed to fetch sleeping state.');
+      logMessage('Failed to fetch sleeping state.');
       return false;
     } else if (result === 'BUSY') {
       return 'BUSY';

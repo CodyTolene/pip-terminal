@@ -1,6 +1,7 @@
 import { signal } from '@angular/core';
 
 export const pipSignals = {
+  batteryLevel: signal<number>(0),
   deviceId: signal<string | null>(null),
   disableAllControls: signal<boolean>(false),
   firmwareVersion: signal<string | null>(null),

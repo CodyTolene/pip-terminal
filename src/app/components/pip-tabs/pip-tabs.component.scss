@@ -60,10 +60,6 @@ button.tabs-button {
       font-size: var.$font-md;
       bottom: 1rem;
     }
-
-    &:hover {
-      color: white;
-    }
   }
 
   &:hover {
@@ -72,6 +68,10 @@ button.tabs-button {
 
   &:not(.active) > .label {
     background-color: transparent;
+
+    &:hover {
+      color: col.$pip-green;
+    }
   }
 
   &.active {

@@ -32,14 +32,14 @@ export class PipFileService {
       const fileData = await file.async('uint8array');
       const uploadedSize = await this.uploadFileToPip(path, fileData);
       if (uploadedSize === 0) {
-        logMessage(`❌ Failed to upload ${path}. Aborting.`);
+        logMessage(`Failed to upload ${path}. Aborting.`);
         return;
       }
       uploaded += uploadedSize;
       const percent = Math.round((uploaded / totalSize) * 100);
       pipSignals.updateProgress.set(percent);
     }
-    logMessage('✅ Firmware update complete! Rebooting...');
+    logMessage('Firmware update complete! Rebooting...');
     await this.deviceService.restart();
   }
 
@@ -60,7 +60,7 @@ export class PipFileService {
       );
       return fileData.length;
     } catch (error) {
-      logMessage(`❌ Upload failed for ${path}: ${(error as Error)?.message}`);
+      logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
       return 0;
     }
   }

@@ -1,3 +1,4 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
@@ -18,5 +19,57 @@
     display: flex;
     height: 100%;
     padding: 0 1rem;
+
+    > span {
+      &.colon {
+        text-align: center;
+        width: 8px;
+      }
+
+      &.spacer {
+        width: 16px;
+      }
+    }
+  }
+}
+
+div.battery-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+
+  .battery {
+    background-color: col.$pip-green-dark;
+    border: 1px solid col.$pip-green;
+    color: col.$pip-green-darkest;
+    display: flex;
+    font-size: var.$font-md;
+    height: 18px;
+    line-height: 24px;
+    margin-right: 0;
+    text-align: center;
+    width: 100px;
+  }
+
+  .battery-cap {
+    background-color: col.$pip-green;
+    height: 10px;
+    margin-right: 0.5rem;
+    width: 4px;
+  }
+}
+
+div.version-container {
+  border-left: 4px solid col.$pip-black;
+  border-right: none;
+  font-size: 20px;
+  margin-left: auto;
+
+  @include bps.media('max', 'md') {
+    border-left: none;
+    border-right: 4px solid col.$pip-black;
+    margin-left: 0;
   }
 }

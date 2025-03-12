@@ -1,4 +1,4 @@
 interface LogEntry {
-  text: string;
+  message: string;
   url?: string;
 }

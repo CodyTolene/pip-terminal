@@ -37,10 +37,10 @@ export class PipConnectComponent implements OnInit {
   protected readonly signals = pipSignals;
 
   public ngOnInit(): void {
-    logMessage('✅ Initialized Pip Terminal');
-    logMessage('✅ Ready to connect');
+    logMessage('Initialized Pip Terminal');
+    logMessage('Ready to connect');
     logMessage(
-      '⚖️ Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, ' +
+      'Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, ' +
         'and brand names are the property of their respective owners. This ' +
         'project is for personal use only and is not intended for commercial ' +
         'purposes. Use of any materials is at your own risk.',

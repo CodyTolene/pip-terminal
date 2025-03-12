@@ -20,7 +20,7 @@ export class PipCommandService {
   ): Promise<T | null> {
     const connection = this.connectionService.connection;
 
-    if (!connection?.isOpen) throw new Error('❌ Not connected');
+    if (!connection?.isOpen) throw new Error('Not connected');
 
     try {
       return await connection.espruinoEval<T>(command, {
@@ -30,11 +30,11 @@ export class PipCommandService {
     } catch {
       if (retries < this.MAX_RETRIES) {
         logMessage(
-          `⚠️ Command failed, retrying (${retries + 1}/${this.MAX_RETRIES})...`,
+          `Command failed, retrying (${retries + 1}/${this.MAX_RETRIES})...`,
         );
         return this.cmd<T>(command, options, retries + 1);
       }
-      logMessage(`❌ Command permanently failed.`);
+      logMessage(`Command permanently failed.`);
       return null;
     }
   }
