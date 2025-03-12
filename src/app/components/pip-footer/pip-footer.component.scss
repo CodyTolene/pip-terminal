@@ -18,5 +18,44 @@
     display: flex;
     height: 100%;
     padding: 0 1rem;
+
+    > span {
+      &.colon {
+        text-align: center;
+        width: 8px;
+      }
+
+      &.spacer {
+        width: 16px;
+      }
+    }
+  }
+}
+
+div.battery-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+
+  .battery {
+    background-color: col.$pip-green-dark;
+    border: 1px solid col.$pip-green;
+    color: col.$pip-green-darkest;
+    display: flex;
+    font-size: 16px;
+    height: 18px;
+    line-height: 24px;
+    margin-right: 0;
+    text-align: center;
+    width: 100px;
+  }
+
+  .battery-cap {
+    background-color: col.$pip-green;
+    height: 10px;
+    margin-right: 0.5rem;
+    width: 4px;
   }
 }

@@ -3,9 +3,15 @@ type DateTimeFormat =
   | 'MM/dd/yyyy, hh:mm a' // 01/01/2025, 01:00 AM
   | 'MM/dd/yyyy, hh:mm a (ZZZZ)' // 01/01/2025, 01:00 AM (CDT)
   | 'MM/dd/yyyy' // 01/01/2025
+  | 'hh:mm' // 01:00
+  | 'hh:mm a' // 01:00 AM
+  | 'hh' // 01
+  | 'mm' // 00
+  | 'mm a' // 00 AM
   | 'h:mm a (ZZZZ)' // 1:00 AM (CDT)
   // Relative date ("Today", "in 3 days", "3 days ago", etc.). If relative date
   // is greater than a week, return full date 'MM/dd/yyyy'.
   | 'relative-date'
-  // Relative date and time ("Today, 2:00 PM", "04/29/1990, 11:00 AM", etc.).
-  | 'relative-datetime';
+  // Relative date and time ("Today, 2:00 PM", "01/01/2025, 11:00 AM", etc.).
+  | 'relative-datetime'
+  | 'yyyy-MM-dd'; // 2025-01-01

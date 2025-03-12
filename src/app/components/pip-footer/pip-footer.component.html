@@ -1,3 +1,21 @@
 <div>
-  {{ currentDateTime | dateTime: 'MM/dd/yyyy, hh:mm a' }}
+  {{ subscriptionChanges | async | dateTime: 'yyyy-MM-dd' }}
+  <span class="spacer"></span>
+  {{ subscriptionChanges | async | dateTime: 'hh' }}
+  <span class="colon">{{ (isBlinkingChanges | async) ? ':' : '' }}</span>
+  {{ subscriptionChanges | async | dateTime: 'mm' }}
+</div>
+<div class="battery-container">
+  <div class="battery">
+    <div
+      [style.width]="pipSignals.batteryLevel() + '%'"
+      class="battery-level"
+    ></div>
+  </div>
+  <div class="battery-cap"></div>
+  <mat-icon
+    aria-hidden="false"
+    aria-label="Power Icon"
+    fontIcon="flash_on"
+  ></mat-icon>
 </div>

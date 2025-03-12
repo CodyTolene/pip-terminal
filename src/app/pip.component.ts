@@ -85,6 +85,9 @@ export class PipComponent implements OnInit {
 
   public ngOnInit(): void {
     this.pipTabsService.initialize();
+
+    // Todo: Make this dynamic
+    pipSignals.batteryLevel.set(100);
   }
 
   protected async goToConnectTab(): Promise<void> {

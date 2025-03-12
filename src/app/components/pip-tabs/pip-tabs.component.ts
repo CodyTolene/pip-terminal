@@ -1,3 +1,4 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PipSoundEnum, PipTabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,7 @@ import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { PipTabComponent } from './pip-tab.component';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-tabs',
   templateUrl: './pip-tabs.component.html',
@@ -31,7 +33,9 @@ export class PipTabsComponent implements AfterContentInit {
   protected tabs!: QueryList<PipTabComponent>;
 
   public async ngAfterContentInit(): Promise<void> {
-    this.tabs.changes.subscribe(async () => await this.syncTabs());
+    this.tabs.changes
+      .pipe(untilDestroyed(this))
+      .subscribe(async () => await this.syncTabs());
   }
 
   protected getActiveSubTabIndex(tab: PipTabComponent): number {
@@ -53,7 +57,7 @@ export class PipTabsComponent implements AfterContentInit {
     if (tab) {
       const subTabLabel = this.pipTabsService.getActiveSubTabLabel(tab.label);
       await this.pipTabsService.switchToTab(tab.label, subTabLabel);
-      await this.pipSoundService.playSound(PipSoundEnum.TICK_TAB, 50);
+      await this.pipSoundService.playSound(PipSoundEnum.TICK_TAB, 100);
     }
   }
 

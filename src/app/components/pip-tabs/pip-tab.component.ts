@@ -56,6 +56,6 @@ export class PipTabComponent implements AfterContentInit {
 
   protected async selectSubTab(index: number): Promise<void> {
     this.pipTabsService.setActiveSubTabIndex(this.label, index);
-    await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 25);
+    await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 75);
   }
 }

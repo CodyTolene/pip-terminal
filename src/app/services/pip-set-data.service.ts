@@ -20,7 +20,7 @@ export class PipSetDataService {
         .replace(/[^\u0020-\u007E]/g, '') ?? null;
 
     if (!name) {
-      logMessage('⚠️ Invalid owner name.');
+      logMessage('Invalid owner name.');
       return;
     }
 
@@ -39,10 +39,10 @@ export class PipSetDataService {
     `);
     if (success) {
       pipSignals.ownerName.set(name);
-      logMessage(`✅ Owner set to: ${name}`);
+      logMessage(`Owner set to: ${name}`);
       await this.deviceService.restart();
     } else {
-      logMessage('❌ Failed to set owner name.');
+      logMessage('Failed to set owner name.');
     }
   }
 
@@ -62,10 +62,10 @@ export class PipSetDataService {
     `);
     if (success) {
       pipSignals.ownerName.set('<NONE>');
-      logMessage('✅ Owner name reset!');
+      logMessage('Owner name reset!');
       await this.deviceService.restart();
     } else {
-      logMessage('❌ Failed to reset owner name.');
+      logMessage('Failed to reset owner name.');
     }
   }
 }
