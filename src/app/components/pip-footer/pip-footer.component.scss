@@ -13,6 +13,11 @@
   font-size: 20px;
   padding: 0;
 
+  @include bps.media('max', 'md') {
+    font-size: var.$font-sm;
+    white-space: nowrap;
+  }
+
   > div {
     align-items: center;
     border-right: 4px solid col.$pip-black;
@@ -51,6 +56,10 @@ div.battery-container {
     margin-right: 0;
     text-align: center;
     width: 100px;
+
+    @include bps.media('max', 'md') {
+      width: 80px;
+    }
   }
 
   .battery-cap {
@@ -69,7 +78,8 @@ div.version-container {
 
   @include bps.media('max', 'md') {
     border-left: none;
-    border-right: 4px solid col.$pip-black;
+    border-right: none;
+    font-size: var.$font-sm;
     margin-left: 0;
   }
 }
