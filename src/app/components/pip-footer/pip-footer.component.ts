@@ -18,7 +18,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 })
 export class PipFooterComponent {
   protected readonly pipSignals = pipSignals;
-  protected readonly versionNumber = '1.4.1';
+  protected readonly versionNumber = '1.4.2';
 
   protected readonly subscriptionChanges = timer(0, 1000).pipe(
     map(() => DateTime.local()),
