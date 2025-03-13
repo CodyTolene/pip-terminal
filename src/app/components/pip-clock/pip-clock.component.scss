@@ -1,22 +1,83 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
 
 :host {
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 100%;
   width: 100%;
 }
 
-.coming-soon {
+.clock {
   align-items: center;
   box-sizing: border-box;
   color: col.$pip-green;
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex-direction: row;
+  font-size: 400px;
+  line-height: 400px;
+  font-weight: bolder;
   justify-content: center;
-  padding: 1rem;
+  padding: 0;
   text-align: center;
   width: 100%;
+
+  @include bps.media('max', 'lg') {
+    font-size: 300px;
+    line-height: 300px;
+  }
+
+  @include bps.media('max', 'md') {
+    font-size: 200px;
+    line-height: 200px;
+  }
+
+  @include bps.media('max', 'sm') {
+    font-size: 150px;
+    line-height: 150px;
+  }
+
+  .colon {
+    color: col.$pip-green-dark;
+    text-align: center;
+
+    &.blinking {
+      color: col.$pip-green;
+    }
+  }
+}
+
+.meridiem {
+  color: col.$pip-green;
+  font-size: 80px;
+  line-height: 80px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  left: -7rem;
+
+  @include bps.media('max', 'lg') {
+    font-size: 80px;
+    line-height: 80px;
+    left: -5rem;
+  }
+
+  @include bps.media('max', 'md') {
+    font-size: 70px;
+    line-height: 70px;
+    left: -3rem;
+  }
+
+  @include bps.media('max', 'sm') {
+    font-size: 40px;
+    line-height: 40px;
+    left: -2.5rem;
+  }
 }
 
 p {

@@ -6,8 +6,10 @@ type DateTimeFormat =
   | 'hh:mm' // 01:00
   | 'hh:mm a' // 01:00 AM
   | 'hh' // 01
+  | 'h' // 1
   | 'mm' // 00
   | 'mm a' // 00 AM
+  | 'a' // AM
   | 'h:mm a (ZZZZ)' // 1:00 AM (CDT)
   // Relative date ("Today", "in 3 days", "3 days ago", etc.). If relative date
   // is greater than a week, return full date 'MM/dd/yyyy'.
