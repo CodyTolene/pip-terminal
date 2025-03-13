@@ -78,6 +78,12 @@
       </div>
     </div>
   </section>
+  <section>
+    <h3>Date and Time</h3>
+    <button [disabled]="!signals.isConnected()" (click)="setDateTimeCurrent()">
+      Set to Current
+    </button>
+  </section>
 </main>
 
 <pip-log />

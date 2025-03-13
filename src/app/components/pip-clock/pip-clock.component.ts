@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 
 import { PipTimeService } from 'src/app/services/pip-time.service';
 
+import { pipSignals } from 'src/app/signals/pip.signals';
+
 @Component({
   selector: 'pip-clock',
   templateUrl: './pip-clock.component.html',
@@ -22,5 +24,6 @@ export class PipClockComponent {
   }
 
   protected readonly isTimeBlinkingChanges: Observable<boolean>;
+  protected readonly signals = pipSignals;
   protected readonly timeChanges: Observable<DateTime>;
 }
