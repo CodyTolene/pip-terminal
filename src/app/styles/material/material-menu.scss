@@ -1,0 +1,34 @@
+@use '../colors' as col;
+
+div.mat-mdc-menu-content {
+  background-color: col.$pip-green;
+  padding: 0;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    padding: 0.5rem;
+    margin: 0;
+  }
+
+  .mat-mdc-menu-item {
+    height: 1.5rem;
+    min-height: 1.5rem;
+  }
+
+  button.mat-mdc-menu-item {
+    text-transform: none;
+
+    > svg {
+      display: none;
+      visibility: hidden;
+    }
+
+    mat-icon {
+      color: black;
+    }
+  }
+}

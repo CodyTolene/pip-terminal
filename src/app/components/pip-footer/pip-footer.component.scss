@@ -80,8 +80,18 @@ div.battery-container {
 div.version-container {
   border-left: 4px solid col.$pip-black;
   border-right: none;
-  font-size: 20px;
   margin-left: auto;
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: col.$pip-green;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+  }
 
   @include bps.media('max', 'md') {
     border-left: none;

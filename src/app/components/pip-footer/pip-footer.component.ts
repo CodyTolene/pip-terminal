@@ -7,6 +7,7 @@ import { DateTimePipe } from 'src/app/pipes';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { PipTabsService } from 'src/app/services/pip-tabs.service';
 import { PipTimeService } from 'src/app/services/pip-time.service';
@@ -16,7 +17,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 @Component({
   selector: 'pip-footer',
   templateUrl: './pip-footer.component.html',
-  imports: [CommonModule, DateTimePipe, MatIconModule],
+  imports: [CommonModule, DateTimePipe, MatIconModule, MatMenuModule],
   styleUrl: './pip-footer.component.scss',
   providers: [],
   standalone: true,
