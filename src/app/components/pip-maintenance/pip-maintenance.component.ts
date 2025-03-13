@@ -103,6 +103,10 @@ export class PipMaintenanceComponent implements OnDestroy {
     await this.setDataService.resetOwnerName();
   }
 
+  protected async restart(): Promise<void> {
+    await this.deviceService.restart();
+  }
+
   protected async setDateTimeCurrent(): Promise<void> {
     await this.setDataService.setDateTimeCurrent();
   }

@@ -8,6 +8,12 @@
       Connect
     </button>
     <button
+      (click)="restart()"
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    >
+      Restart
+    </button>
+    <button
       (click)="disconnect()"
       [disabled]="!signals.isConnected() || signals.disableAllControls()"
     >
@@ -80,7 +86,10 @@
   </section>
   <section>
     <h3>Date and Time</h3>
-    <button [disabled]="!signals.isConnected()" (click)="setDateTimeCurrent()">
+    <button
+      [disabled]="!signals.isConnected() || signals.disableAllControls()"
+      (click)="setDateTimeCurrent()"
+    >
       Set to Current
     </button>
   </section>
