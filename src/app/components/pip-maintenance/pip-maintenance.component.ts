@@ -90,6 +90,7 @@ export class PipMaintenanceComponent implements OnDestroy {
     await this.pipTabsService.switchToTab(
       PipTabLabelEnum.STAT,
       PipSubTabLabelEnum.CONNECT,
+      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 

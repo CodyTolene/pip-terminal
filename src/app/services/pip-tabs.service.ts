@@ -75,8 +75,7 @@ export class PipTabsService {
   public async switchToTab(
     tabLabel: PipTabLabelEnum,
     subTabOrIndex?: PipSubTabLabelEnum | number | null,
-    playMainTabSound = false,
-    playSubTabSound = false,
+    { playMainTabSound, playSubTabSound }: SwitchTabOptions = {},
   ): Promise<void> {
     this.activeTabLabel.set(tabLabel);
 
@@ -153,4 +152,9 @@ export class PipTabsService {
   ): PipSubTabLabelEnum | null {
     return this.subTabLabels.get(tabLabel)?.[index] ?? null;
   }
+}
+
+interface SwitchTabOptions {
+  playMainTabSound?: boolean;
+  playSubTabSound?: boolean;
 }

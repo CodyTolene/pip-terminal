@@ -22,4 +22,12 @@ export class PipStatusComponent {
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
 
   protected readonly signals = pipSignals;
+
+  protected async switchToConnectTab(): Promise<void> {
+    await this.pipTabsService.switchToTab(
+      PipTabLabelEnum.STAT,
+      PipSubTabLabelEnum.CONNECT,
+      { playMainTabSound: true, playSubTabSound: true },
+    );
+  }
 }

@@ -41,6 +41,7 @@ export class PipFooterComponent {
     await this.pipTabsService.switchToTab(
       PipTabLabelEnum.DATA,
       PipSubTabLabelEnum.CLOCK,
+      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 }

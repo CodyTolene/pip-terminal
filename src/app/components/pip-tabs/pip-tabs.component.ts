@@ -38,7 +38,10 @@ export class PipTabsComponent {
   protected async selectTab(index: number): Promise<void> {
     const tab = this.tabs.get(index);
     if (tab) {
-      await this.pipTabsService.switchToTab(tab.label, 0, true);
+      await this.pipTabsService.switchToTab(tab.label, 0, {
+        playMainTabSound: true,
+        playSubTabSound: false,
+      });
     }
   }
 }
