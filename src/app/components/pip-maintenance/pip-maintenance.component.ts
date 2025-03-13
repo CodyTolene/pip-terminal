@@ -90,6 +90,7 @@ export class PipMaintenanceComponent implements OnDestroy {
     await this.pipTabsService.switchToTab(
       PipTabLabelEnum.STAT,
       PipSubTabLabelEnum.CONNECT,
+      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 
@@ -100,6 +101,10 @@ export class PipMaintenanceComponent implements OnDestroy {
 
   protected async resetOwnerName(): Promise<void> {
     await this.setDataService.resetOwnerName();
+  }
+
+  protected async setDateTimeCurrent(): Promise<void> {
+    await this.setDataService.setDateTimeCurrent();
   }
 
   protected async setOwnerName(name: string | null): Promise<void> {

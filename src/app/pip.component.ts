@@ -11,6 +11,7 @@ import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { PipGetDataService } from 'src/app/services/pip-get-data.service';
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
+import { PipTimeService } from 'src/app/services/pip-time.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -66,8 +67,9 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipFileService,
     PipGetDataService,
     PipSetDataService,
-    PipTabsService,
     PipSoundService,
+    PipTabsService,
+    PipTimeService,
   ],
 })
 export class PipComponent implements OnInit {
@@ -94,6 +96,7 @@ export class PipComponent implements OnInit {
     await this.pipTabsService.switchToTab(
       PipTabLabelEnum.STAT,
       PipSubTabLabelEnum.CONNECT,
+      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 }

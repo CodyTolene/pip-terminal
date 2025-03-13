@@ -1,15 +1,24 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
-import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
+import {
+  PipSoundEnum,
+  PipSubTabLabelEnum,
+  PipTabLabelEnum,
+} from 'src/app/enums';
 import { getEnumMember, isNonEmptyString } from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
+import { PipSoundService } from 'src/app/services/pip-sound.service';
+
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class PipTabsService {
-  public constructor(private readonly router: Router) {}
+  public constructor(
+    private readonly pipSoundService: PipSoundService,
+    private readonly router: Router,
+  ) {}
 
   public activeTabLabel = signal<PipTabLabelEnum | null>(null);
   private activeSubTabIndexes = signal<Record<string, number>>({});
@@ -66,6 +75,7 @@ export class PipTabsService {
   public async switchToTab(
     tabLabel: PipTabLabelEnum,
     subTabOrIndex?: PipSubTabLabelEnum | number | null,
+    { playMainTabSound, playSubTabSound }: SwitchTabOptions = {},
   ): Promise<void> {
     this.activeTabLabel.set(tabLabel);
 
@@ -82,7 +92,11 @@ export class PipTabsService {
       }
     }
 
-    this.setActiveSubTabIndex(tabLabel, subTabIndex);
+    if (playMainTabSound) {
+      await this.pipSoundService.playSound(PipSoundEnum.TICK_TAB, 100);
+    }
+
+    await this.setActiveSubTabIndex(tabLabel, subTabIndex, playSubTabSound);
 
     const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
     if (subTabLabel) {
@@ -92,13 +106,17 @@ export class PipTabsService {
     }
   }
 
-  public setActiveSubTabIndex(
+  public async setActiveSubTabIndex(
     tabLabel: PipTabLabelEnum,
     subTabIndex: number,
-  ): void {
+    playSubTabSound = false,
+  ): Promise<void> {
     const map = { ...this.activeSubTabIndexes() };
     map[tabLabel] = subTabIndex;
     this.activeSubTabIndexes.set(map);
+    if (playSubTabSound) {
+      await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 50);
+    }
   }
 
   public setSubTabs(
@@ -134,4 +152,9 @@ export class PipTabsService {
   ): PipSubTabLabelEnum | null {
     return this.subTabLabels.get(tabLabel)?.[index] ?? null;
   }
+}
+
+interface SwitchTabOptions {
+  playMainTabSound?: boolean;
+  playSubTabSound?: boolean;
 }

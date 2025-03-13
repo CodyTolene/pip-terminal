@@ -1,4 +1,4 @@
-import { PipSoundEnum, PipTabLabelEnum } from 'src/app/enums';
+import { PipTabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipSoundService } from 'src/app/services/pip-sound.service';
 import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { PipSubTabComponent } from './pip-sub-tab.component';
@@ -25,10 +24,7 @@ import { PipSubTabComponent } from './pip-sub-tab.component';
   providers: [],
 })
 export class PipTabComponent implements AfterContentInit {
-  public constructor(
-    private readonly pipSoundService: PipSoundService,
-    private readonly pipTabsService: PipTabsService,
-  ) {}
+  public constructor(private readonly pipTabsService: PipTabsService) {}
 
   @Input({ required: true }) public label!: PipTabLabelEnum;
 
@@ -38,7 +34,7 @@ export class PipTabComponent implements AfterContentInit {
   @ContentChildren(PipSubTabComponent)
   protected subTabs!: QueryList<PipSubTabComponent>;
 
-  public ngAfterContentInit(): void {
+  public async ngAfterContentInit(): Promise<void> {
     const subTabLabels = this.subTabs.map((subTab) => subTab.label);
     this.pipTabsService.setSubTabs(this.label, subTabLabels);
 
@@ -46,7 +42,7 @@ export class PipTabComponent implements AfterContentInit {
       subTabLabels.length > 0 &&
       this.pipTabsService.getActiveSubTabIndex(this.label) === 0
     ) {
-      this.pipTabsService.setActiveSubTabIndex(this.label, 0);
+      await this.pipTabsService.setActiveSubTabIndex(this.label, 0);
     }
   }
 
@@ -55,7 +51,6 @@ export class PipTabComponent implements AfterContentInit {
   }
 
   protected async selectSubTab(index: number): Promise<void> {
-    this.pipTabsService.setActiveSubTabIndex(this.label, index);
-    await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 75);
+    await this.pipTabsService.setActiveSubTabIndex(this.label, index, true);
   }
 }

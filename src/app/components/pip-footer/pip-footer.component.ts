@@ -1,31 +1,47 @@
 import { DateTime } from 'luxon';
-import { map, shareReplay, timer } from 'rxjs';
+import { Observable } from 'rxjs';
+import { APP_VERSION } from 'src/app/constants';
+import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
 import { DateTimePipe } from 'src/app/pipes';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+
+import { PipTabsService } from 'src/app/services/pip-tabs.service';
+import { PipTimeService } from 'src/app/services/pip-time.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 @Component({
   selector: 'pip-footer',
   templateUrl: './pip-footer.component.html',
-  imports: [CommonModule, DateTimePipe, MatIconModule],
+  imports: [CommonModule, DateTimePipe, MatIconModule, MatMenuModule],
   styleUrl: './pip-footer.component.scss',
   providers: [],
   standalone: true,
 })
 export class PipFooterComponent {
+  public constructor(
+    private readonly pipTabsService: PipTabsService,
+    private readonly pipTimeService: PipTimeService,
+  ) {
+    this.isTimeBlinkingChanges = this.pipTimeService.isTimeBlinkingChanges;
+    this.timeChanges = this.pipTimeService.timeChanges;
+  }
+
   protected readonly pipSignals = pipSignals;
-  protected readonly versionNumber = '1.4.2';
+  protected readonly versionNumber = APP_VERSION;
 
-  protected readonly subscriptionChanges = timer(0, 1000).pipe(
-    map(() => DateTime.local()),
-    shareReplay(1),
-  );
+  protected readonly isTimeBlinkingChanges: Observable<boolean>;
+  protected readonly timeChanges: Observable<DateTime>;
 
-  protected readonly isBlinkingChanges = this.subscriptionChanges.pipe(
-    map((date) => date.second % 2 === 0),
-  );
+  protected async goToClockTab(): Promise<void> {
+    await this.pipTabsService.switchToTab(
+      PipTabLabelEnum.DATA,
+      PipSubTabLabelEnum.CLOCK,
+      { playMainTabSound: true, playSubTabSound: true },
+    );
+  }
 }

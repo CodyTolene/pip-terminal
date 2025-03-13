@@ -60,6 +60,7 @@ export class PipConnectComponent implements OnInit {
     await this.pipTabsService.switchToTab(
       PipTabLabelEnum.DATA,
       PipSubTabLabelEnum.MAINTENANCE,
+      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 

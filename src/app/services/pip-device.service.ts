@@ -27,7 +27,7 @@ export class PipDeviceService {
     logMessage('Fetching device information...');
 
     pipSignals.ownerName.set(await this.getDataService.getOwnerName());
-    logMessage(` Owner: ${pipSignals.ownerName()}`);
+    logMessage(`Owner: ${pipSignals.ownerName()}`);
 
     pipSignals.firmwareVersion.set(
       await this.getDataService.getFirmwareVersion(),
