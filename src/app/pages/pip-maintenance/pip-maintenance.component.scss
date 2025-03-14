@@ -66,6 +66,10 @@
     > section.owner,
     > section.firmware {
       flex: 0 1 calc(50% - 0.75rem);
+
+      @include bps.media('max', 'lg') {
+        flex: 0 1 100%;
+      }
     }
   }
 }
