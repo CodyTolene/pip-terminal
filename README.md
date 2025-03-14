@@ -28,6 +28,7 @@
 - [Contribution](#contribution)
   - [Prerequisites](#prerequisites)
   - [Development](#development)
+  - [Versioning](#versioning)
 - [License(s)](#licenses)
 - [Terms of Use](#terms)
 - [Wrapping Up](#wrapping-up)
@@ -102,26 +103,42 @@ https://www.pip-boy.com
 
 Node.js: https://nodejs.org/en/download/
 
-Firebase CLI with: `npm install -g firebase-tools`
-
-### Project Setup <a name="project-setup"></a>
-
-1. Login to Firebase: `firebase login`
-
-2. Firebase init: `firebase init`
-
-3. Select the following options:
-
-   - "Hosting: Configure files for Firebase Hosting and (optionally) set up
-     GitHub Action deploys."
-   - "Use an existing project."
-   - Select project.
-
-4. Install Firebase `ng add @angular/fire`
-
 ### Development <a name="development"></a>
 
-...
+To get started with development follow these steps:
+
+1. Clone the repository.
+
+2. Run `npm install` to install the project dependencies.
+
+3. Run `npm run start` to start the development app.
+
+4. Open a browser and navigate to `http://localhost:4200`.
+
+5. Make changes to the code and the browser will automatically reload.
+
+6. Update the version by following the steps here in [Versioning](#versioning).
+
+7. Add your changes and push to a new branch.
+
+8. Open a pull request to the `main` branch.
+
+9. Wait for the pull request to be reviewed and merged.
+
+Thank you for any and all contributions!
+
+### Versioning <a name="versioning"></a>
+
+There is one single source of truth for the project version. This is the
+`package.json` file. Steps to update version:
+
+1. Update the "version" property in the `package.json` file.
+
+2. Run `npm run update:version` to manually update the version across the
+   project.
+
+> ![Info][img-info] Running `npm run start` or `npm run build` will also update
+> the version automatically, and globally from the current `package.json` file.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 

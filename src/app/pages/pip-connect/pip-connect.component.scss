@@ -1,0 +1,130 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  padding: 1rem 1rem 0 1rem;
+  flex-direction: row;
+
+  @include bps.media('max', 'md') {
+    flex-direction: column;
+  }
+
+  main,
+  pip-log {
+    flex: 1 1 50%;
+    max-height: 100%;
+    padding: 1rem;
+  }
+
+  @include bps.media('max', 'md') {
+    > main {
+      flex: 1 1 70%;
+    }
+
+    > pip-log {
+      border-top: 2px dashed col.$pip-green;
+      flex: 1 1 30%;
+    }
+  }
+
+  main {
+    @include sb.scrollbar;
+    align-content: flex-start;
+    // border-right: 2px dashed col.$pip-green;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    // @include bps.media('max', 'md') {
+    //   border-right: none;
+    // }
+
+    > section {
+      box-sizing: border-box;
+      flex: 0 1 calc(50% - 0.5rem);
+      min-width: 300px;
+
+      &:first-child {
+        flex: 0 1 100%;
+      }
+    }
+  }
+}
+
+pip-actions-connection {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+pip-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.image-wrapper {
+  flex: 0 1 100%;
+  position: relative;
+
+  img {
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .image-overlay {
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    position: absolute;
+    left: -10%;
+    top: 50%;
+    transform: translate(0, -50%);
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
+
+    p {
+      margin: 0;
+    }
+
+    mat-icon.status-icon {
+      $icon-size: 250px;
+
+      align-items: center;
+      color: col.$pip-green-dark;
+      display: block;
+      font-size: $icon-size;
+      height: $icon-size;
+      justify-content: center;
+      margin: 0 auto;
+      min-width: $icon-size;
+
+      @include bps.media('max', 'lg') {
+        $lg-size: calc($icon-size / 2);
+
+        font-size: $lg-size;
+        height: $lg-size;
+        min-width: $lg-size;
+      }
+
+      @include bps.media('max', 'md') {
+        $md-size: calc($icon-size / 3);
+
+        font-size: $md-size;
+        height: $md-size;
+        min-width: $md-size;
+      }
+
+      &.active {
+        color: col.$pip-green;
+      }
+    }
+  }
+}

@@ -1,7 +1,51 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+// https://material.angular.io/components/form-field/styling
+:root {
+  @include mat.form-field-overrides(
+    (
+      //container-height: 2rem,
+      filled-caret-color: col.$pip-green,
+      filled-container-color: col.$pip-green,
+      filled-disabled-container-color: col.$pip-green-darkest,
+      filled-disabled-input-text-color: col.$pip-green-dark,
+      filled-disabled-label-text-color: col.$gray-darkest,
+      filled-focus-active-indicator-color: col.$pip-green,
+      filled-focus-label-text-color: col.$pip-green,
+      filled-hover-label-text-color: col.$pip-green,
+      filled-input-text-color: col.$pip-green,
+      filled-input-text-placeholder-color: col.$pip-green-dark,
+      filled-label-text-color: col.$pip-green,
+      filled-active-indicator-color: col.$pip-green,
+      trailing-icon-color: col.$pip-green,
+      leading-icon-color: col.$pip-green,
+      disabled-leading-icon-color: col.$pip-green-darkest,
+      disabled-trailing-icon-color: col.$pip-green-darkest,
+      enabled-select-arrow-color: col.$pip-green,
+      disabled-select-arrow-color: col.$pip-green-darkest,
+      filled-error-hover-active-indicator-color: col.$pip-green,
+      filled-hover-active-indicator-color: col.$pip-green-dark
+    )
+  );
+}
+
 mat-form-field {
   width: 100%;
 
-  .mdc-text-field {
-    background-color: white;
+  .mdc-text-field,
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input,
+  input {
+    color: col.$pip-green;
+  }
+
+  .mat-mdc-form-field-hint-wrapper,
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+    visibility: hidden;
   }
 }

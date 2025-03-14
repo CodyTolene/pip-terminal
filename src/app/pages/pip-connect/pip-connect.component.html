@@ -1,0 +1,25 @@
+<main>
+  <section>
+    <div class="image-wrapper">
+      <img src="images/pip.png" alt="Pip" />
+      <div class="image-overlay">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          class="status-icon"
+          [class.active]="signals.isConnected()"
+          fontIcon="cell_tower"
+        ></mat-icon>
+        <p>
+          {{ signals.isConnected() ? 'CONNECTED' : 'OFFLINE' }}
+        </p>
+      </div>
+    </div>
+    <pip-actions-connection
+      [isGoToConnectTabButtonVisible]="false"
+      [isGoToMaintenanceTabButtonVisible]="true"
+    />
+  </section>
+</main>
+
+<pip-log />

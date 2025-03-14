@@ -1,0 +1,115 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+button {
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+
+:host {
+  align-items: center;
+  background-color: col.$pip-green-darkest;
+  border-top: 2px solid col.$pip-black;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  font-size: 20px;
+  padding: 0;
+
+  @include bps.media('max', 'md') {
+    font-size: var.$font-sm;
+    white-space: nowrap;
+  }
+
+  > div,
+  > button {
+    align-items: center;
+    background-color: transparent;
+    border-right: 4px solid col.$pip-black;
+    color: col.$pip-green;
+    display: flex;
+    height: 100%;
+    padding: 0 1rem;
+
+    > span {
+      &.colon {
+        text-align: center;
+        width: 8px;
+      }
+
+      &.spacer {
+        width: 16px;
+      }
+    }
+  }
+}
+
+div.clock-container:hover {
+  cursor: pointer;
+}
+
+div.battery-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+
+  .battery {
+    background-color: col.$pip-green-dark;
+    border: 1px solid col.$pip-green;
+    color: col.$pip-green-darkest;
+    display: flex;
+    font-size: var.$font-md;
+    height: 18px;
+    line-height: 24px;
+    margin-right: 0;
+    text-align: center;
+    width: 100px;
+
+    @include bps.media('max', 'md') {
+      width: 80px;
+    }
+  }
+
+  .battery-cap {
+    background-color: col.$pip-green;
+    height: 10px;
+    margin-right: 0.5rem;
+    width: 4px;
+  }
+}
+
+div.version-container {
+  border-left: 4px solid col.$pip-black;
+  border-right: none;
+  margin-left: auto;
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: col.$pip-green;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+  }
+
+  @include bps.media('max', 'md') {
+    border-left: none;
+    border-right: none;
+    font-size: var.$font-sm;
+    margin-left: 0;
+  }
+}

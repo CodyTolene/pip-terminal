@@ -1,0 +1,61 @@
+<h3>Connection Status</h3>
+<pip-button
+  (click)="connect()"
+  [disabled]="signals.isConnected() || signals.disableAllControls()"
+  class="connect-button"
+>
+  Connect
+</pip-button>
+<pip-button
+  (click)="disconnect()"
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  class="disconnect-button"
+>
+  Disconnect
+</pip-button>
+<pip-button
+  (click)="sleep()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.isSleeping() ||
+    signals.disableAllControls()
+  "
+>
+  Sleep
+</pip-button>
+<pip-button
+  (click)="wake()"
+  [disabled]="
+    !signals.isConnected() ||
+    !signals.isSleeping() ||
+    signals.disableAllControls()
+  "
+>
+  Wake
+</pip-button>
+<pip-button
+  (click)="restart()"
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+>
+  Restart
+</pip-button>
+<pip-button
+  (click)="shutdown()"
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+>
+  Shutdown
+</pip-button>
+<pip-button
+  *ngIf="isGoToConnectTabButtonVisible"
+  (click)="goToConnectTab()"
+  class="connect-tab-button"
+  >Go to Connect Tab</pip-button
+>
+<pip-button
+  *ngIf="isGoToMaintenanceTabButtonVisible"
+  (click)="goToMaintenanceTab()"
+  [disabled]="signals.disableAllControls()"
+  class="maintenance-button"
+>
+  Go to Maintenance Tab
+</pip-button>

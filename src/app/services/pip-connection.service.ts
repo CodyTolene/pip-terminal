@@ -28,7 +28,6 @@ export class PipConnectionService {
       pipSignals.isConnected.set(true);
     } catch (error) {
       logMessage(`Connection error: ${(error as Error)?.message}`);
-      return this.retryOrAbort(retryCount, maxRetries);
     }
   }
 

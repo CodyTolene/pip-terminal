@@ -1,0 +1,39 @@
+<h3>Date and Time</h3>
+<pip-button
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  (click)="setDateTimeCurrent()"
+>
+  Set to {{ timeChanges | async | dateTime: 'yyyy-MM-dd h:mm:ss a' }}
+</pip-button>
+<form [formGroup]="formGroup">
+  <pro-input-datepicker
+    [formControl]="formGroup.controls.date"
+    appearance="fill"
+    label="Date"
+    placeholder="Enter or select a date"
+  ></pro-input-datepicker>
+  <pro-input-timepicker
+    [formControl]="formGroup.controls.time"
+    appearance="fill"
+    interval="1min"
+    label="Time"
+    placeholder="Enter or select a time"
+  ></pro-input-timepicker>
+</form>
+<pip-button
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    (formGroup.controls.date.value === null &&
+      formGroup.controls.time.value === null)
+  "
+  (click)="clearForm()"
+>
+  Clear
+</pip-button>
+<pip-button
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  (click)="setDateTime()"
+>
+  Set Custom Date and Time
+</pip-button>
