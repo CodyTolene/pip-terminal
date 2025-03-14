@@ -1,7 +1,7 @@
 import { FormDirective, InputComponent } from '@proangular/pro-form';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -30,10 +30,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
   providers: [],
   standalone: true,
 })
-export class PipActionsOwnerComponent
-  extends FormDirective<OwnerFormGroup>
-  implements OnInit
-{
+export class PipActionsOwnerComponent extends FormDirective<OwnerFormGroup> {
   public constructor(private readonly setDataService: PipSetDataService) {
     super();
 
@@ -45,11 +42,8 @@ export class PipActionsOwnerComponent
   protected override readonly formGroup = formGroup;
   protected readonly signals = pipSignals;
 
-  public ngOnInit(): void {
-    this.formGroup.reset();
-  }
-
   protected async resetOwnerName(): Promise<void> {
+    this.formGroup.reset();
     await this.setDataService.resetOwnerName();
   }
 
@@ -70,9 +64,17 @@ export class PipActionsOwnerComponent
       !pipSignals.isConnected() || pipSignals.disableAllControls();
 
     if (shouldDisable) {
+      this.formGroup.reset();
       this.formGroup.controls.name.disable({ emitEvent: false });
     } else {
       this.formGroup.controls.name.enable({ emitEvent: false });
+      // Set initial name value
+      let currentName: string | null = this.signals.ownerName();
+      if (currentName === '<NONE>') {
+        currentName = null;
+      }
+
+      this.formGroup.controls.name.setValue(currentName, { emitEvent: false });
     }
   }
 }
