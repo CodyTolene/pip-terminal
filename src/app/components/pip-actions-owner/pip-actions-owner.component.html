@@ -1,19 +1,30 @@
 <h3>Owner Information</h3>
-<input
+
+<!-- <input
   [(ngModel)]="ownerName"
   maxlength="20"
   placeholder="Set Owner"
   [disabled]="!signals.isConnected() || signals.disableAllControls()"
-/>
-<pip-button
-  (click)="setOwnerName(ownerName)"
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
->
-  Save Name
-</pip-button>
+/> -->
 <pip-button
   (click)="resetOwnerName()"
   [disabled]="!signals.isConnected() || signals.disableAllControls()"
 >
   Reset Name
+</pip-button>
+
+<form [formGroup]="formGroup">
+  <pro-input
+    [formControl]="formGroup.controls.name"
+    appearance="fill"
+    label="Owner Name"
+    placeholder="Set Owner Name"
+  ></pro-input>
+</form>
+
+<pip-button
+  (click)="setOwnerName()"
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+>
+  Save Name
 </pip-button>

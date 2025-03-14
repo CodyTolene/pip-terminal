@@ -15,14 +15,10 @@
         </p>
       </div>
     </div>
-    <pip-actions-connection />
-    <pip-button
-      (click)="goToMaintenanceTab()"
-      [disabled]="signals.disableAllControls()"
-      class="maintenance-button"
-    >
-      Go to Maintenance Tab
-    </pip-button>
+    <pip-actions-connection
+      [isGoToConnectTabButtonVisible]="false"
+      [isGoToMaintenanceTabButtonVisible]="true"
+    />
   </section>
 </main>
 

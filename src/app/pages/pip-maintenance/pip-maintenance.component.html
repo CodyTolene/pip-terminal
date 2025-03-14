@@ -1,15 +1,17 @@
 <main>
   <section>
-    <pip-actions-connection />
-    <pip-button (click)="goToConnectTab()">Go to Connect Tab</pip-button>
+    <pip-actions-connection
+      [isGoToConnectTabButtonVisible]="true"
+      [isGoToMaintenanceTabButtonVisible]="false"
+    />
   </section>
-  <section>
+  <section class="owner">
     <pip-actions-owner />
   </section>
-  <section>
+  <section class="firmware">
     <pip-actions-firmware />
   </section>
-  <section>
+  <section class="date-time">
     <pip-actions-date-time />
   </section>
 </main>

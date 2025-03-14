@@ -4,9 +4,11 @@ import {
   InputTimepickerComponent,
 } from '@proangular/pro-form';
 import { DateTime } from 'luxon';
+import { Observable } from 'rxjs';
+import { DateTimePipe } from 'src/app/pipes';
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -17,14 +19,18 @@ import {
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
+import { PipTimeService } from 'src/app/services/pip-time.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
+
+import { logMessage } from 'src/app/utilities/pip-log.util';
 
 @Component({
   selector: 'pip-actions-date-time',
   templateUrl: './pip-actions-date-time.component.html',
   imports: [
     CommonModule,
+    DateTimePipe,
     InputDatepickerComponent,
     InputTimepickerComponent,
     PipButtonComponent,
@@ -35,12 +41,35 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup> {
-  public constructor(private readonly setDataService: PipSetDataService) {
+  public constructor(
+    private readonly pipTimeService: PipTimeService,
+    private readonly setDataService: PipSetDataService,
+  ) {
     super();
+
+    this.timeChanges = this.pipTimeService.timeChanges;
+
+    effect(() => {
+      this.updateFormControlState();
+    });
   }
 
   protected override readonly formGroup = formGroup;
   protected readonly signals = pipSignals;
+  protected readonly timeChanges: Observable<DateTime>;
+
+  protected clearForm(): void {
+    if (
+      !this.signals.isConnected() ||
+      this.signals.disableAllControls() ||
+      (this.formGroup.controls.date.value === null &&
+        this.formGroup.controls.time.value === null)
+    ) {
+      return;
+    }
+
+    this.formGroup.reset();
+  }
 
   protected async setDateTimeCurrent(): Promise<void> {
     await this.setDataService.setDateTimeCurrent();
@@ -48,6 +77,20 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
 
   protected async setDateTime(): Promise<void> {
     if (this.formGroup.invalid) {
+      this.highlightInvalidControls();
+      // this.scrollToFirstInvalidControl();
+
+      const dateInvalid = this.formGroup.controls.date.invalid;
+      const timeInvalid = this.formGroup.controls.time.invalid;
+
+      const message =
+        dateInvalid && timeInvalid
+          ? 'Date and time invalid!'
+          : dateInvalid
+            ? 'Date invalid!'
+            : 'Time invalid!';
+
+      logMessage(message);
       return;
     }
 
@@ -66,6 +109,19 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
     });
 
     await this.setDataService.setDateTime(dateTime);
+  }
+
+  private updateFormControlState(): void {
+    const shouldDisable =
+      !pipSignals.isConnected() || pipSignals.disableAllControls();
+
+    if (shouldDisable) {
+      this.formGroup.controls.date.disable({ emitEvent: false });
+      this.formGroup.controls.time.disable({ emitEvent: false });
+    } else {
+      this.formGroup.controls.date.enable({ emitEvent: false });
+      this.formGroup.controls.time.enable({ emitEvent: false });
+    }
   }
 }
 

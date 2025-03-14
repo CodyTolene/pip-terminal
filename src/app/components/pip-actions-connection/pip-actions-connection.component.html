@@ -45,3 +45,17 @@
 >
   Shutdown
 </pip-button>
+<pip-button
+  *ngIf="isGoToConnectTabButtonVisible"
+  (click)="goToConnectTab()"
+  class="connect-tab-button"
+  >Go to Connect Tab</pip-button
+>
+<pip-button
+  *ngIf="isGoToMaintenanceTabButtonVisible"
+  (click)="goToMaintenanceTab()"
+  [disabled]="signals.disableAllControls()"
+  class="maintenance-button"
+>
+  Go to Maintenance Tab
+</pip-button>

@@ -1,12 +1,13 @@
 import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
+import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -22,7 +23,11 @@ export class PipActionsConnectionComponent {
   public constructor(
     private readonly connectionService: PipConnectionService,
     private readonly deviceService: PipDeviceService,
+    private readonly pipTabsService: PipTabsService,
   ) {}
+
+  @Input() public isGoToConnectTabButtonVisible = false;
+  @Input() public isGoToMaintenanceTabButtonVisible = false;
 
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
@@ -35,6 +40,22 @@ export class PipActionsConnectionComponent {
 
   protected async disconnect(): Promise<void> {
     await this.connectionService.disconnect();
+  }
+
+  protected async goToConnectTab(): Promise<void> {
+    await this.pipTabsService.switchToTab(
+      PipTabLabelEnum.STAT,
+      PipSubTabLabelEnum.CONNECT,
+      { playMainTabSound: true, playSubTabSound: true },
+    );
+  }
+
+  protected async goToMaintenanceTab(): Promise<void> {
+    await this.pipTabsService.switchToTab(
+      PipTabLabelEnum.DATA,
+      PipSubTabLabelEnum.MAINTENANCE,
+      { playMainTabSound: true, playSubTabSound: true },
+    );
   }
 
   protected async restart(): Promise<void> {

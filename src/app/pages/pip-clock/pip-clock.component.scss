@@ -59,24 +59,24 @@
   padding: 0;
   text-align: center;
   position: relative;
-  left: -7rem;
+  left: -3rem;
 
   @include bps.media('max', 'lg') {
     font-size: 80px;
     line-height: 80px;
-    left: -5rem;
+    left: -2rem;
   }
 
   @include bps.media('max', 'md') {
     font-size: 70px;
     line-height: 70px;
-    left: -3rem;
+    left: -1rem;
   }
 
   @include bps.media('max', 'sm') {
     font-size: 40px;
     line-height: 40px;
-    left: -2.5rem;
+    left: 0;
   }
 }
 

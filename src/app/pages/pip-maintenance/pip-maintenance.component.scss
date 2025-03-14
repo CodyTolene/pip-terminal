@@ -34,16 +34,16 @@
   main {
     @include sb.scrollbar;
     align-content: flex-start;
-    border-right: 2px dashed col.$pip-green;
+    // border-right: 2px dashed col.$pip-green;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     overflow-x: hidden;
     overflow-y: auto;
 
-    @include bps.media('max', 'md') {
-      border-right: none;
-    }
+    // @include bps.media('max', 'md') {
+    //   border-right: none;
+    // }
 
     > section {
       box-sizing: border-box;
@@ -62,9 +62,18 @@
         width: 100%;
       }
     }
+
+    > section.owner,
+    > section.firmware {
+      flex: 0 1 calc(50% - 0.75rem);
+    }
   }
 }
 
 pip-button {
   margin-top: 1rem;
+}
+
+main > section.date-time {
+  flex: 0 1 calc(100% - 0.5rem);
 }

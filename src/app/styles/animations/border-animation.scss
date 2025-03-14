@@ -1,0 +1,18 @@
+@use '../colors' as col;
+
+@mixin borderAnimation($duration: 2s) {
+  @keyframes borderAnimation {
+    0% {
+      border-color: transparent;
+    }
+    50% {
+      border-color: col.$pip-green-darkest;
+    }
+    100% {
+      border-color: transparent;
+    }
+  }
+
+  animation: borderAnimation $duration infinite;
+  border: 2px dashed col.$pip-green-darkest;
+}
