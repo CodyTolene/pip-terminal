@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
@@ -19,7 +18,6 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
     FormsModule,
     MatIconModule,
     PipActionsConnectionComponent,
-    PipButtonComponent,
     PipLogComponent,
   ],
   styleUrl: './pip-connect.component.scss',
