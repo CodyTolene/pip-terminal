@@ -15,7 +15,6 @@ import { PipTimeService } from 'src/app/services/pip-time.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
-import { PipAttachmentsComponent } from './components/pip-attachments/pip-attachments.component';
 import { PipTabLabelEnum } from './enums';
 import { PipSubTabLabelEnum } from './enums/pip-sub-tab-label.enum';
 import { PipSubTabComponent } from './layout/pip-tabs/pip-sub-tab.component';
@@ -23,6 +22,7 @@ import { PipTabComponent } from './layout/pip-tabs/pip-tab.component';
 import { PipTabsComponent } from './layout/pip-tabs/pip-tabs.component';
 import { PipAidComponent } from './pages/pip-aid/pip-aid.component';
 import { PipApparelComponent } from './pages/pip-apparel/pip-apparel.component';
+import { PipAttachmentsComponent } from './pages/pip-attachments/pip-attachments.component';
 import { PipClockComponent } from './pages/pip-clock/pip-clock.component';
 import { PipConnectComponent } from './pages/pip-connect/pip-connect.component';
 import { PipDiagnosticsComponent } from './pages/pip-diagnostics/pip-diagnostics.component';

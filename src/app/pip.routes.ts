@@ -1,5 +1,6 @@
 import { PipAidComponent } from 'src/app/pages/pip-aid/pip-aid.component';
 import { PipApparelComponent } from 'src/app/pages/pip-apparel/pip-apparel.component';
+import { PipAttachmentsComponent } from 'src/app/pages/pip-attachments/pip-attachments.component';
 import { PipClockComponent } from 'src/app/pages/pip-clock/pip-clock.component';
 import { PipConnectComponent } from 'src/app/pages/pip-connect/pip-connect.component';
 import { PipDiagnosticsComponent } from 'src/app/pages/pip-diagnostics/pip-diagnostics.component';
@@ -11,8 +12,6 @@ import { PipStatusComponent } from 'src/app/pages/pip-status/pip-status.componen
 import { PipComponent } from 'src/app/pip.component';
 
 import { Routes } from '@angular/router';
-
-import { PipAttachmentsComponent } from 'src/app/components/pip-attachments/pip-attachments.component';
 
 export const routes: Routes = [
   {
