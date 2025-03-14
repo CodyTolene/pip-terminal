@@ -1,0 +1,27 @@
+<h3>Date and Time</h3>
+<pip-button
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  (click)="setDateTimeCurrent()"
+>
+  Set to Current
+</pip-button>
+<form [formGroup]="formGroup">
+  <pro-input-datepicker
+    [formControl]="formGroup.controls.date"
+    label="Date"
+    placeholder="Enter or select a date"
+  ></pro-input-datepicker>
+  <pro-input-timepicker
+    [formControl]="formGroup.controls.time"
+    label="Time"
+    placeholder="Enter or select a time"
+  ></pro-input-timepicker>
+</form>
+<pip-button
+  [disabled]="
+    !signals.isConnected() || signals.disableAllControls() || formGroup.invalid
+  "
+  (click)="setDateTime()"
+>
+  Set to Current
+</pip-button>

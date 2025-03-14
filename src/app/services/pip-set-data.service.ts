@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { firstValueFrom } from 'rxjs';
 
 import { Injectable } from '@angular/core';
@@ -17,6 +18,42 @@ export class PipSetDataService {
     private readonly deviceService: PipDeviceService,
     private readonly pipTimeService: PipTimeService,
   ) {}
+
+  public async setDateTime(dateTime: DateTime<boolean>): Promise<void> {
+    const timestampSeconds = dateTime.toSeconds();
+    const timezoneOffset = dateTime.offset / 60;
+
+    const result: { success: boolean; message?: unknown } | null = await this
+      .commandService.cmd(`
+      (() => {
+        try {
+          setTime(${timestampSeconds});
+          E.setTimeZone(${timezoneOffset});
+          settings.timezone = ${timezoneOffset};
+          settings.century = 20;
+          saveSettings();
+          tm0 = null;
+          if (typeof drawFooter === 'function') drawFooter();
+          return { success: true };
+        } catch (e) {
+          return { 
+            message: e || 'Failed to set time.',
+            success: false,
+          };
+        }
+      })()
+    `);
+
+    const timeFormatted = dateTime.toFormat('yyyy-MM-dd h:mm:ss a');
+    if (result?.success) {
+      logMessage(`Date and time successfully set to ${timeFormatted}.`);
+    } else {
+      logMessage(
+        `Failed to set date and time to ${timeFormatted} with error: ` +
+          `${String(result?.message) || 'Unknown error'}`,
+      );
+    }
+  }
 
   public async setDateTimeCurrent(): Promise<void> {
     const currentDateTime = await firstValueFrom(
@@ -46,12 +83,12 @@ export class PipSetDataService {
       })()
     `);
 
+    const timeFormatted = currentDateTime.toFormat('yyyy-MM-dd h:mm:ss a');
     if (result?.success) {
-      const timeFormatted = currentDateTime.toFormat('yyyy-MM-dd h:mm:ss a');
-      logMessage(`Date and time set to ${timeFormatted}.`);
+      logMessage(`Date and time successfully set to ${timeFormatted}.`);
     } else {
       logMessage(
-        'Failed to set date and time to current with error: ' +
+        `Failed to set date and time to current ${timeFormatted} with error: ` +
           `${String(result?.message) || 'Unknown error'}`,
       );
     }

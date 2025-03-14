@@ -1,0 +1,92 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  padding: 1rem 1rem 0 1rem;
+  flex-direction: row;
+  width: 100%;
+
+  @include bps.media('max', 'md') {
+    flex-direction: column;
+  }
+
+  section,
+  pip-log {
+    flex: 1 1 50%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1rem;
+    @include sb.scrollbar;
+  }
+
+  @include bps.media('max', 'md') {
+    > section {
+      flex: 1 1 70%;
+    }
+
+    > pip-log {
+      border-top: 2px dashed col.$pip-green;
+      flex: 1 1 30%;
+    }
+  }
+
+  section {
+    align-content: flex-start;
+    border-right: 2px dashed col.$pip-green;
+    display: flex;
+    flex-direction: column;
+
+    @include bps.media('max', 'md') {
+      border-right: none;
+    }
+  }
+}
+
+dl {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-bottom: 0;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    width: 100%;
+
+    dt::after {
+      // `: `
+      content: ':\00a0';
+    }
+
+    dt {
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+    }
+
+    dd {
+      color: col.$pip-green;
+      font-weight: bolder;
+      text-transform: uppercase;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+h3 {
+  border-bottom: 2px dashed col.$pip-green;
+  margin-top: 0;
+  padding-bottom: 1rem;
+}
+
+pip-button {
+  margin-top: 1rem;
+  width: 100%;
+}

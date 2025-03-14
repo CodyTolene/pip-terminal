@@ -1,0 +1,42 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+
+@mixin background {
+  background-color: col.$pip-green;
+  border-radius: 0.25rem;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  transition: color 0.2s;
+
+  &:hover {
+    background-color: col.$pip-green-light;
+  }
+
+  .disabled,
+  &:has([disabled]) {
+    background-color: col.$pip-green-darkest;
+    color: col.$gray-darkest;
+    cursor: not-allowed;
+  }
+}
+
+:host {
+  display: block;
+  @include background;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: bolder;
+  height: 100%;
+  padding: 0.5rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+  @include background;
+  background-color: inherit;
+}

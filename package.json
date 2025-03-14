@@ -1,7 +1,7 @@
 {
   "name": "pip-boy-mod-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "1.4.2",
+  "version": "1.5.2",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://λ.guru/",
   "private": true,
@@ -18,6 +18,8 @@
     "prepare": "husky install",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
+    "prebuild": "npm run update:version",
+    "prestart": "npm run update:version",
     "start": "ng serve --open --hmr=false",
     "start:hmr": "ng serve --open --hmr=true",
     "start:prod": "ng serve --configuration production --open",
@@ -26,6 +28,7 @@
     "update:angular:run": "ng update",
     "update:packages:check": "ncu",
     "update:packages:run": "ncu -u",
+    "update:version": "ts-node --project .scripts/tsconfig.scripts.json .scripts/update-version.ts",
     "watch": "ng build --watch --configuration development"
   },
   "dependencies": {
@@ -44,6 +47,7 @@
     "@angular/router": "^19.2.0",
     "@espruino-tools/uart": "^1.7.10",
     "@ngneat/until-destroy": "^10.0.0",
+    "@proangular/pro-form": "^19.1.1",
     "jszip": "^3.10.1",
     "luxon": "^3.5.0",
     "rxjs": "~7.8.0",
@@ -70,6 +74,7 @@
     "npm-check-updates": "^17.1.15",
     "patch-package": "^8.0.0",
     "prettier": "^3.5.2",
+    "ts-node": "^10.9.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "8.23.0"
   }
