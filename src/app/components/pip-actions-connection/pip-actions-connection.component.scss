@@ -31,4 +31,8 @@ pip-button {
   &.check-battery-button {
     flex: 0 1 calc(100%);
   }
+
+  @include bps.media('max', 'sm') {
+    flex: 0 1 calc(100%);
+  }
 }
