@@ -1,4 +1,5 @@
 import { PipFooterComponent } from 'src/app/layout/pip-footer/pip-footer.component';
+import { PipRadioSetComponent } from 'src/app/pages/pip-radio-set/pip-radio-set.component';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, WritableSignal } from '@angular/core';
@@ -53,6 +54,7 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipMaintenanceComponent,
     PipMapComponent,
     PipRadioComponent,
+    PipRadioSetComponent,
     PipStatsComponent,
     PipStatusComponent,
     PipSubTabComponent,

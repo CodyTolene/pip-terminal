@@ -8,23 +8,23 @@ import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 @Component({
-  selector: 'pip-actions-factory-test',
-  templateUrl: './pip-actions-factory-test.component.html',
+  selector: 'pip-actions-testing',
+  templateUrl: './pip-actions-testing.component.html',
   imports: [CommonModule, PipButtonComponent],
-  styleUrl: './pip-actions-factory-test.component.scss',
+  styleUrl: './pip-actions-testing.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipActionsFactoryTestComponent {
+export class PipActionsTestingComponent {
   public constructor(private readonly pipDeviceService: PipDeviceService) {}
 
   protected readonly signals = pipSignals;
 
-  protected async factoryTestMode(): Promise<void> {
-    await this.pipDeviceService.factoryTestMode();
-  }
-
   protected async demoMode(): Promise<void> {
     await this.pipDeviceService.demoMode();
+  }
+
+  protected async factoryTestMode(): Promise<void> {
+    await this.pipDeviceService.factoryTestMode();
   }
 }
