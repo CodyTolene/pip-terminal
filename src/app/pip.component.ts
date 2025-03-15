@@ -1,4 +1,5 @@
 import { PipFooterComponent } from 'src/app/layout/pip-footer/pip-footer.component';
+import { PipRadioSetComponent } from 'src/app/pages/pip-radio-set/pip-radio-set.component';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, WritableSignal } from '@angular/core';
@@ -53,6 +54,7 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipMaintenanceComponent,
     PipMapComponent,
     PipRadioComponent,
+    PipRadioSetComponent,
     PipStatsComponent,
     PipStatusComponent,
     PipSubTabComponent,
@@ -78,6 +80,7 @@ export class PipComponent implements OnInit {
     private readonly pipTabsService: PipTabsService,
   ) {
     this.soundVolume = this.pipSoundService.globalVolumePercent;
+    pipSignals.batteryLevel.set(100);
   }
 
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
@@ -87,9 +90,6 @@ export class PipComponent implements OnInit {
 
   public ngOnInit(): void {
     this.pipTabsService.initialize();
-
-    // Todo: Make this dynamic
-    pipSignals.batteryLevel.set(100);
   }
 
   protected async goToConnectTab(): Promise<void> {

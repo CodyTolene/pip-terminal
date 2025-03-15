@@ -6,6 +6,7 @@ import { PipConnectComponent } from 'src/app/pages/pip-connect/pip-connect.compo
 import { PipDiagnosticsComponent } from 'src/app/pages/pip-diagnostics/pip-diagnostics.component';
 import { PipMaintenanceComponent } from 'src/app/pages/pip-maintenance/pip-maintenance.component';
 import { PipMapComponent } from 'src/app/pages/pip-map/pip-map.component';
+import { PipRadioSetComponent } from 'src/app/pages/pip-radio-set/pip-radio-set.component';
 import { PipRadioComponent } from 'src/app/pages/pip-radio/pip-radio.component';
 import { PipStatsComponent } from 'src/app/pages/pip-stats/pip-stats.component';
 import { PipStatusComponent } from 'src/app/pages/pip-status/pip-status.component';
@@ -19,16 +20,23 @@ export const routes: Routes = [
     component: PipComponent,
     children: [
       { path: ':subTab', component: PipStatusComponent },
-      { path: 'connect', component: PipConnectComponent },
-      { path: 'diagnostics', component: PipDiagnosticsComponent },
-      { path: 'attachments', component: PipAttachmentsComponent },
-      { path: 'apparel', component: PipApparelComponent },
-      { path: 'aid', component: PipAidComponent },
-      { path: 'clock', component: PipClockComponent },
-      { path: 'stats', component: PipStatsComponent },
-      { path: 'maintenance', component: PipMaintenanceComponent },
+      // "STAT" Tab:
+      { path: 'stat/status', component: PipStatusComponent },
+      { path: 'stat/connect', component: PipConnectComponent },
+      { path: 'stat/diagnostics', component: PipDiagnosticsComponent },
+      // "INV" Tab:
+      { path: 'inv/attachments', component: PipAttachmentsComponent },
+      { path: 'inv/apparel', component: PipApparelComponent },
+      { path: 'inv/aid', component: PipAidComponent },
+      // "DATA" Tab:
+      { path: 'data/clock', component: PipClockComponent },
+      { path: 'data/stats', component: PipStatsComponent },
+      { path: 'data/maintenance', component: PipMaintenanceComponent },
+      // "MAP" Tab:
       { path: 'map', component: PipMapComponent },
-      { path: 'radio', component: PipRadioComponent },
+      // "RADIO" Tab:
+      { path: 'radio/set', component: PipRadioComponent },
+      { path: 'radio/play', component: PipRadioSetComponent },
     ],
   },
   { path: '', redirectTo: 'stat/status', pathMatch: 'full' },

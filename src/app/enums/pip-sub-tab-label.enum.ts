@@ -11,4 +11,7 @@ export enum PipSubTabLabelEnum {
   CLOCK = 'CLOCK',
   STATS = 'STATS',
   MAINTENANCE = 'MAINTENANCE',
+  // "RADIO" Tab:
+  PLAY = 'PLAY',
+  SET = 'SET',
 }

@@ -4,12 +4,9 @@
 @use '../../styles/scrollbar' as sb;
 
 :host {
-  box-sizing: border-box;
   border: 2px dashed transparent;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 1rem;
 
   &:hover {
@@ -22,13 +19,6 @@ h3 {
 }
 
 pip-button {
-  flex: 0 1 calc(50% - 0.5rem);
-
-  &.connect-button,
-  &.disconnect-button,
-  &.maintenance-button,
-  &.connect-tab-button,
-  &.check-battery-button {
-    flex: 0 1 calc(100%);
-  }
+  margin-bottom: 1rem;
+  width: 100%;
 }

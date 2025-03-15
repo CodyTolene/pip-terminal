@@ -1,7 +1,9 @@
 <mat-icon
   (click)="goToConnectTab()"
   [class.active]="signals.isConnected()"
-  [matTooltip]="signals.isConnected() ? 'Connected' : 'Disconnected'"
+  [matTooltip]="
+    signals.isConnected() ? 'Device Connected' : 'Device Disconnected'
+  "
   aria-hidden="false"
   aria-label="Connected Icon"
   class="status-icon"
@@ -54,7 +56,12 @@
     <pip-map />
   </pip-tab>
   <pip-tab [label]="PipTabLabelEnum.RADIO">
-    <pip-radio />
+    <pip-sub-tab [label]="PipSubTabLabelEnum.SET">
+      <pip-radio-set />
+    </pip-sub-tab>
+    <pip-sub-tab [label]="PipSubTabLabelEnum.PLAY">
+      <pip-radio />
+    </pip-sub-tab>
   </pip-tab>
 </pip-tabs>
 <pip-footer />

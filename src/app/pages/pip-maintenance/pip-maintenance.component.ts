@@ -7,6 +7,7 @@ import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-co
 import { PipActionsDateTimeComponent } from 'src/app/components/pip-actions-date-time/pip-actions-date-time.component';
 import { PipActionsFirmwareComponent } from 'src/app/components/pip-actions-firmware/pip-actions-firmware.component';
 import { PipActionsOwnerComponent } from 'src/app/components/pip-actions-owner/pip-actions-owner.component';
+import { PipActionsTestingComponent } from 'src/app/components/pip-actions-testing/pip-actions-testing.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
 @Component({
@@ -20,6 +21,7 @@ import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
     PipActionsDateTimeComponent,
     PipActionsFirmwareComponent,
     PipActionsOwnerComponent,
+    PipActionsTestingComponent,
     PipLogComponent,
   ],
   styleUrl: './pip-maintenance.component.scss',

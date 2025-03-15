@@ -46,6 +46,13 @@
   Shutdown
 </pip-button>
 <pip-button
+  (click)="checkBattery()"
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  class="check-battery-button"
+>
+  Check Battery Level
+</pip-button>
+<pip-button
   *ngIf="isGoToConnectTabButtonVisible"
   (click)="goToConnectTab()"
   class="connect-tab-button"

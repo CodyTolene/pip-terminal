@@ -8,22 +8,40 @@
 <div class="battery-container">
   <div class="battery">
     <div
+      [matTooltip]="
+        pipSignals.isConnected()
+          ? pipSignals.batteryLevel().toString() + '%'
+          : undefined
+      "
       [style.width]="pipSignals.batteryLevel() + '%'"
       class="battery-level"
     ></div>
   </div>
   <div class="battery-cap"></div>
-  <mat-icon
-    aria-hidden="false"
-    aria-label="Power Icon"
-    fontIcon="flash_on"
-  ></mat-icon>
+  @if (pipSignals.isConnected()) {
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Power Icon"
+      fontIcon="flash_on"
+    ></mat-icon>
+  } @else {
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Disconnected Icon"
+      fontIcon="power_off"
+      matTooltip="Device Disconnected"
+    ></mat-icon>
+  }
 </div>
 <div class="version-container">
   <button [matMenuTriggerFor]="menu" aria-label="Version History">
     v{{ versionNumber }}
   </button>
   <mat-menu #menu="matMenu" yPosition="above">
+    <button mat-menu-item [matMenuTriggerFor]="v160">
+      <mat-icon iconPositionStart>chevron_left</mat-icon>
+      v1.6.x
+    </button>
     <button mat-menu-item [matMenuTriggerFor]="v150">
       <mat-icon iconPositionStart>chevron_left</mat-icon>
       v1.5.x
@@ -50,6 +68,14 @@
     </button>
   </mat-menu>
 </div>
+
+<mat-menu #v160="matMenu">
+  <h3>Change Log:</h3>
+  <span mat-menu-item>- Stage radio set tab</span>
+  <span mat-menu-item>- Add factory test mode</span>
+  <span mat-menu-item>- Add demo mode</span>
+  <span mat-menu-item>- Battery level display</span>
+</mat-menu>
 
 <mat-menu #v150="matMenu">
   <h3>Change Log:</h3>
