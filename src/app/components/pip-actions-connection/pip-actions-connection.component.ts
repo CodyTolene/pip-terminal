@@ -1,4 +1,5 @@
 import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
+import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
@@ -7,6 +8,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
+import { PipGetDataService } from 'src/app/services/pip-get-data.service';
 import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
@@ -23,6 +25,7 @@ export class PipActionsConnectionComponent {
   public constructor(
     private readonly connectionService: PipConnectionService,
     private readonly deviceService: PipDeviceService,
+    private readonly getDataService: PipGetDataService,
     private readonly pipTabsService: PipTabsService,
   ) {}
 
@@ -36,6 +39,12 @@ export class PipActionsConnectionComponent {
   protected async connect(): Promise<void> {
     await this.connectionService.connect();
     await this.deviceService.initialize();
+  }
+
+  protected async checkBattery(): Promise<void> {
+    const batteryLevel = await this.getDataService.getBatteryLevel();
+    pipSignals.batteryLevel.set(batteryLevel);
+    logMessage(`Battery level: ${batteryLevel}%`);
   }
 
   protected async disconnect(): Promise<void> {

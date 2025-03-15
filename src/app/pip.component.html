@@ -1,7 +1,9 @@
 <mat-icon
   (click)="goToConnectTab()"
   [class.active]="signals.isConnected()"
-  [matTooltip]="signals.isConnected() ? 'Connected' : 'Disconnected'"
+  [matTooltip]="
+    signals.isConnected() ? 'Device Connected' : 'Device Disconnected'
+  "
   aria-hidden="false"
   aria-label="Connected Icon"
   class="status-icon"

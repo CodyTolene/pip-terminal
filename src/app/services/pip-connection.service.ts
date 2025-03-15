@@ -57,6 +57,7 @@ export class PipConnectionService {
     pipSignals.ownerName.set('<NONE>');
     pipSignals.progress.set(0);
     pipSignals.updateProgress.set(0);
+    pipSignals.batteryLevel.set(100);
   }
 
   private setupConnectionListeners(): void {

@@ -80,6 +80,7 @@ export class PipComponent implements OnInit {
     private readonly pipTabsService: PipTabsService,
   ) {
     this.soundVolume = this.pipSoundService.globalVolumePercent;
+    pipSignals.batteryLevel.set(100);
   }
 
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
@@ -89,9 +90,6 @@ export class PipComponent implements OnInit {
 
   public ngOnInit(): void {
     this.pipTabsService.initialize();
-
-    // Todo: Make this dynamic
-    pipSignals.batteryLevel.set(100);
   }
 
   protected async goToConnectTab(): Promise<void> {

@@ -66,7 +66,7 @@ div.battery-container {
   padding-right: 0.5rem;
 
   .battery {
-    background-color: col.$pip-green-dark;
+    background-color: col.$pip-green-darkest;
     border: 1px solid col.$pip-green;
     color: col.$pip-green-darkest;
     display: flex;
@@ -79,6 +79,12 @@ div.battery-container {
 
     @include bps.media('max', 'md') {
       width: 80px;
+    }
+
+    .battery-level {
+      background-color: col.$pip-green-dark;
+      height: 100%;
+      width: 100%;
     }
   }
 
