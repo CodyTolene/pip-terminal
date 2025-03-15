@@ -45,7 +45,70 @@ export class PipDeviceService {
     pipSignals.isSleeping.set(await this.getDataService.getIsSleeping());
     logMessage(`Sleeping: ${pipSignals.isSleeping() ? 'True' : 'False'}`);
 
+    pipSignals.batteryLevel.set(await this.getDataService.getBatteryLevel());
+    logMessage(`Battery level: ${pipSignals.batteryLevel()}%`);
+
     pipSignals.disableAllControls.set(false);
+  }
+
+  public async demoMode(): Promise<void> {
+    if (!this.connectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return;
+    }
+    // Pip.demoMode
+
+    logMessage('Entering demo mode...');
+    pipSignals.disableAllControls.set(true);
+
+    try {
+      const result = await this.commandService.cmd<string>(`
+        (() => {
+          try {
+            enterDemoMode();
+            return 'Demo mode activated.';
+          } catch (error) {
+            return 'Error: ' + error.message;
+          }
+        })()
+      `);
+      logMessage(result ?? 'Error: No response from device.');
+    } catch (error) {
+      logMessage(`Error: ${(error as Error)?.message}`);
+    } finally {
+      pipSignals.disableAllControls.set(false);
+    }
+  }
+
+  public async factoryTestMode(): Promise<void> {
+    if (!this.connectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+    }
+
+    logMessage('Entering factory test mode...');
+    pipSignals.disableAllControls.set(true);
+
+    try {
+      const result = await this.commandService.cmd<string>(`
+        (() => {
+          try {
+            factoryTestMode();
+            return 'Factory test mode activated.';
+          } catch (error) {
+            return 'Error: ' + error.message;
+          }
+        })()
+      `);
+
+      logMessage(result ?? 'Error: No response from device.');
+      return;
+    } catch (error) {
+      const errorMessage = `Error: ${(error as Error)?.message}`;
+      logMessage(errorMessage);
+      return;
+    } finally {
+      pipSignals.disableAllControls.set(false);
+    }
   }
 
   public async restart(): Promise<void> {

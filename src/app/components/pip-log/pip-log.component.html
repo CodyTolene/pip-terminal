@@ -1,6 +1,6 @@
 <aside>
   <h3>Log</h3>
-  <div class="log-window">
+  <div>
     @for (entry of signals.logMessages(); track entry) {
       <div>
         <b>λ</b>&nbsp;&nbsp;{{ entry.message }}{{ entry.url ? '&#58;' : '' }}

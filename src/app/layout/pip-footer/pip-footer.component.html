@@ -24,6 +24,10 @@
     v{{ versionNumber }}
   </button>
   <mat-menu #menu="matMenu" yPosition="above">
+    <button mat-menu-item [matMenuTriggerFor]="v160">
+      <mat-icon iconPositionStart>chevron_left</mat-icon>
+      v1.6.x
+    </button>
     <button mat-menu-item [matMenuTriggerFor]="v150">
       <mat-icon iconPositionStart>chevron_left</mat-icon>
       v1.5.x
@@ -50,6 +54,11 @@
     </button>
   </mat-menu>
 </div>
+
+<mat-menu #v160="matMenu">
+  <h3>Change Log:</h3>
+  <span mat-menu-item>- </span>
+</mat-menu>
 
 <mat-menu #v150="matMenu">
   <h3>Change Log:</h3>

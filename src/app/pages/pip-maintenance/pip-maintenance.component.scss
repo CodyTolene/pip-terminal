@@ -34,28 +34,14 @@
   main {
     @include sb.scrollbar;
     align-content: flex-start;
-    // border-right: 2px dashed col.$pip-green;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
-    overflow-x: hidden;
     overflow-y: auto;
-
-    // @include bps.media('max', 'md') {
-    //   border-right: none;
-    // }
 
     > section {
       box-sizing: border-box;
-      flex: 0 1 calc(50% - 0.5rem);
-
-      &:first-child {
-        flex: 0 1 100%;
-      }
-
-      @include bps.media('max', 'md') {
-        flex: 0 1 calc(100% - 0.5rem);
-      }
+      flex: 0 1 100%;
 
       pip-button {
         margin-bottom: 1rem;
@@ -63,8 +49,7 @@
       }
     }
 
-    > section.owner,
-    > section.firmware {
+    > section {
       flex: 0 1 calc(50% - 0.75rem);
 
       @include bps.media('max', 'lg') {
@@ -76,8 +61,4 @@
 
 pip-button {
   margin-top: 1rem;
-}
-
-main > section.date-time {
-  flex: 0 1 calc(100% - 0.5rem);
 }
