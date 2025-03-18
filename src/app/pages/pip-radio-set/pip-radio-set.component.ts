@@ -75,7 +75,7 @@ export class PipRadioSetComponent {
 
     this.uploadProgress[nameWithExtension] = 0;
     this.signals.isUploadingFile.set(false);
-
+    this.uploadFileInputs[name] = null;
     this.pipDeviceService.restart();
   }
 }

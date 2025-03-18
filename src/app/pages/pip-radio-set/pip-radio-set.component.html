@@ -67,6 +67,7 @@
         (click)="uploadFile(name)"
         [disabled]="
           !uploadFileInputs[name] ||
+          !signals.isConnected() ||
           signals.disableAllControls() ||
           signals.isUploadingFile()
         "
