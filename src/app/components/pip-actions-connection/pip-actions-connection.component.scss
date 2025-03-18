@@ -28,7 +28,8 @@ pip-button {
   &.disconnect-button,
   &.maintenance-button,
   &.connect-tab-button,
-  &.check-battery-button {
+  &.check-battery-button,
+  &.check-sd-button {
     flex: 0 1 calc(100%);
   }
 

@@ -1,3 +1,5 @@
+import { isNonEmptyObject } from 'src/app/utilities';
+
 import { Injectable } from '@angular/core';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -108,5 +110,38 @@ export class PipGetDataService {
       return 'BUSY';
     }
     return !!result;
+  }
+
+  public async getSDCardStats(): Promise<CardStats> {
+    const result = await this.commandService.cmd<string>(`
+      (() => {
+        if (!Pip.isSDCardInserted()) return "Error: No SD card inserted.";
+  
+        try {
+          let fs = require('fs');
+          let stats = fs.getFree();
+          let freeMb = (stats.freeSectors * stats.sectorSize) / 1e6;
+          let totalMb = (stats.totalSectors * stats.sectorSize) / 1e6;
+  
+          return JSON.stringify({ totalMb: totalMb.toFixed(0), freeMb: freeMb.toFixed(0) });
+        } catch (error) {
+          return "SD card space check failed: " + error.message;
+        }
+      })()
+    `);
+
+    if (!isNonEmptyObject(result)) {
+      throw new Error(`Invalid SD card response: ${result}`);
+    }
+
+    try {
+      const parsedResult = JSON.parse(result);
+      return {
+        totalMb: Number(parsedResult.totalMb),
+        freeMb: Number(parsedResult.freeMb),
+      };
+    } catch (error) {
+      throw new Error(`Invalid SD card response: ${error}`);
+    }
   }
 }

@@ -5,17 +5,10 @@
       This page allows you to upload WAV files to the radio. You must be
       connected to the device to upload files.
     </p>
-    <pip-button
-      (click)="connect()"
-      [disabled]="
-        signals.isConnected() ||
-        signals.disableAllControls() ||
-        signals.isUploadingFile()
-      "
-      class="connect-button"
-    >
-      {{ signals.isConnected() ? 'Connected' : 'Connect' }}
-    </pip-button>
+    <pip-actions-connection
+      [isGoToConnectTabButtonVisible]="true"
+      [isGoToMaintenanceTabButtonVisible]="false"
+    />
   </section>
   <section>
     <h3>Radio Host Files - Upload WAV Files (DX01 - DX03)</h3>

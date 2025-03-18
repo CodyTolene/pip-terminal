@@ -12,5 +12,6 @@ export const pipSignals = {
   logMessages: signal<LogEntry[]>([]),
   ownerName: signal<string>('<NONE>'),
   progress: signal<number>(0),
+  sdCardMbSpace: signal<CardStats>({ freeMb: 0, totalMb: 0 }),
   updateProgress: signal<number>(0),
 };
