@@ -7,6 +7,7 @@ export const pipSignals = {
   firmwareVersion: signal<string | null>(null),
   isConnected: signal<boolean>(false),
   isSleeping: signal<boolean | 'BUSY'>(false),
+  isUploadingFile: signal<boolean>(false),
   javascriptVersion: signal<string | null>(null),
   logMessages: signal<LogEntry[]>([]),
   ownerName: signal<string>('<NONE>'),

@@ -10,6 +10,10 @@ declare const UART: UartStatic;
 
 @Injectable({ providedIn: 'root' })
 export class PipConnectionService {
+  public constructor() {
+    UART.ports = ['Web Serial']; // Restrict to Web Serial only
+  }
+
   public connection: EspruinoConnection | null = null;
 
   public async connect(retryCount = 0, maxRetries = 10): Promise<void> {

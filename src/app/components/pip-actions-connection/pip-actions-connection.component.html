@@ -1,14 +1,22 @@
 <h3>Connection Status</h3>
 <pip-button
   (click)="connect()"
-  [disabled]="signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   class="connect-button"
 >
-  Connect
+  {{ signals.isConnected() ? 'Connected' : 'Connect' }}
 </pip-button>
 <pip-button
   (click)="disconnect()"
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   class="disconnect-button"
 >
   Disconnect
@@ -18,7 +26,8 @@
   [disabled]="
     !signals.isConnected() ||
     signals.isSleeping() ||
-    signals.disableAllControls()
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
   "
 >
   Sleep
@@ -28,26 +37,39 @@
   [disabled]="
     !signals.isConnected() ||
     !signals.isSleeping() ||
-    signals.disableAllControls()
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
   "
 >
   Wake
 </pip-button>
 <pip-button
   (click)="restart()"
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
 >
   Restart
 </pip-button>
 <pip-button
   (click)="shutdown()"
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
 >
   Shutdown
 </pip-button>
 <pip-button
   (click)="checkBattery()"
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   class="check-battery-button"
 >
   Check Battery Level
@@ -61,7 +83,6 @@
 <pip-button
   *ngIf="isGoToMaintenanceTabButtonVisible"
   (click)="goToMaintenanceTab()"
-  [disabled]="signals.disableAllControls()"
   class="maintenance-button"
 >
   Go to Maintenance Tab

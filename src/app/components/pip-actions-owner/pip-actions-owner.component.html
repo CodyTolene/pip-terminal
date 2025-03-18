@@ -2,7 +2,11 @@
 
 <pip-button
   (click)="resetOwnerName()"
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
 >
   Reset Name
 </pip-button>
@@ -21,6 +25,7 @@
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||
+    signals.isUploadingFile() ||
     formGroup.controls.name.value === signals.ownerName()
   "
 >

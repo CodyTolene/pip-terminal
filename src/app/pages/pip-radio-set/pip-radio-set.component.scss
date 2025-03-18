@@ -1,25 +1,107 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
 
 :host {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.coming-soon {
-  align-items: center;
   box-sizing: border-box;
-  color: col.$pip-green;
   display: flex;
-  flex-direction: column;
   height: 100%;
-  justify-content: center;
-  padding: 1rem;
-  text-align: center;
-  width: 100%;
+  padding: 1rem 1rem 0 1rem;
+  flex-direction: row;
+
+  @include bps.media('max', 'md') {
+    flex-direction: column;
+  }
+
+  main,
+  pip-log {
+    flex: 1 1 50%;
+    max-height: 100%;
+    padding: 1rem;
+  }
+
+  @include bps.media('max', 'md') {
+    > main {
+      flex: 1 1 70%;
+    }
+
+    > pip-log {
+      border-top: 2px dashed col.$pip-green;
+      flex: 1 1 30%;
+    }
+  }
+
+  main {
+    @include sb.scrollbar;
+    align-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+
+    > section {
+      box-sizing: border-box;
+      flex: 0 1 100%;
+
+      pip-button {
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+    }
+
+    > section {
+      flex: 0 1 calc(50% - 0.75rem);
+
+      @include bps.media('max', 'lg') {
+        flex: 0 1 100%;
+      }
+    }
+  }
 }
 
-p {
-  margin: 0;
-  padding: 0;
+.file-upload {
+  position: relative;
+  margin-bottom: 1rem;
+
+  input[type='file'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  label {
+    background-color: col.$pip-green;
+    border-radius: 0.25rem;
+    border: none;
+    color: col.$gray-darkest;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    width: calc(100% - 2rem);
+
+    &.disabled {
+      background-color: col.$pip-green-darkest;
+      color: col.$gray-darkest;
+      cursor: not-allowed;
+    }
+  }
+
+  label:not(.disabled):hover {
+    background-color: col.$pip-green-light;
+  }
+}
+
+.divider {
+  border-top: 1px solid col.$pip-green-darkest;
+  margin: 1rem 0;
+}
+
+pip-button {
+  margin-top: 1rem;
 }

@@ -1,12 +1,20 @@
 <h3>Testing</h3>
 <pip-button
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   (click)="factoryTestMode()"
 >
   Factory Test Mode
 </pip-button>
 <pip-button
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   (click)="demoMode()"
 >
   Demo Mode

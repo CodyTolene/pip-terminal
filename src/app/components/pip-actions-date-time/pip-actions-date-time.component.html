@@ -1,6 +1,10 @@
 <h3>Date and Time</h3>
 <pip-button
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   (click)="setDateTimeCurrent()"
 >
   Set to {{ timeChanges | async | dateTime: 'yyyy-MM-dd h:mm:ss a' }}
@@ -24,6 +28,7 @@
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||
+    signals.isUploadingFile() ||
     (formGroup.controls.date.value === null &&
       formGroup.controls.time.value === null)
   "
@@ -32,7 +37,11 @@
   Clear
 </pip-button>
 <pip-button
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   (click)="setDateTime()"
 >
   Set Custom Date and Time

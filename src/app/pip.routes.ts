@@ -35,8 +35,8 @@ export const routes: Routes = [
       // "MAP" Tab:
       { path: 'map', component: PipMapComponent },
       // "RADIO" Tab:
-      { path: 'radio/set', component: PipRadioComponent },
       { path: 'radio/play', component: PipRadioSetComponent },
+      { path: 'radio/set', component: PipRadioComponent },
     ],
   },
   { path: '', redirectTo: 'stat/status', pathMatch: 'full' },
