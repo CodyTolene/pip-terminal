@@ -17,6 +17,9 @@ import { provideRouter } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // provideServiceWorker('ngsw-worker.json', {
+    //   enabled: true,
+    // }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideFirebaseApp(() =>
