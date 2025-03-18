@@ -1,13 +1,21 @@
 <h3>Firmware Update</h3>
 <div class="file-upload">
   <label
-    [class.disabled]="!signals.isConnected() || signals.disableAllControls()"
+    [class.disabled]="
+      !signals.isConnected() ||
+      signals.disableAllControls() ||
+      signals.isUploadingFile()
+    "
     for="fileInput"
     >Upload File</label
   >
   <input
     (change)="onFileSelected($event)"
-    [disabled]="!signals.isConnected() || signals.disableAllControls()"
+    [disabled]="
+      !signals.isConnected() ||
+      signals.disableAllControls() ||
+      signals.isUploadingFile()
+    "
     accept=".zip"
     id="fileInput"
     type="file"
@@ -15,21 +23,24 @@
 </div>
 <pip-button
   (click)="fetchLatestUpdateLinks()"
-  [disabled]="signals.disableAllControls()"
+  [disabled]="signals.disableAllControls() || signals.isUploadingFile()"
 >
   Fetch Links
 </pip-button>
 <pip-button
   (click)="startUpdate()"
   [disabled]="
-    !selectedFile || !signals.isConnected() || signals.disableAllControls()
+    !selectedFile ||
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
   "
 >
-  Start Upgrade
+  Start Update
 </pip-button>
 <div *ngIf="signals.updateProgress() > 0">
-  <p>Uploading: {{ signals.updateProgress() }}%</p>
-  <div class="progress-bar">
-    <div class="progress-fill" [style.width.%]="signals.updateProgress()"></div>
-  </div>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="signals.updateProgress()"
+  ></mat-progress-bar>
 </div>

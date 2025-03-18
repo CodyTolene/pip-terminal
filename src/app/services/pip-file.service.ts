@@ -2,6 +2,8 @@ import JSZip from 'jszip';
 
 import { Injectable } from '@angular/core';
 
+import { PipCommandService } from 'src/app/services/pip-command.service';
+
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -12,8 +14,9 @@ import { PipDeviceService } from './pip-device.service';
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
   public constructor(
-    private readonly connectionService: PipConnectionService,
-    private readonly deviceService: PipDeviceService,
+    private readonly pipCommandService: PipCommandService,
+    private readonly pipConnectionService: PipConnectionService,
+    private readonly pipDeviceService: PipDeviceService,
   ) {}
 
   public async startUpdate(file: File): Promise<void> {
@@ -38,30 +41,66 @@ export class PipFileService {
       uploaded += uploadedSize;
       const percent = Math.round((uploaded / totalSize) * 100);
       pipSignals.updateProgress.set(percent);
+      logMessage(`Uploading ${file.name}: ${percent}%`, true);
     }
     logMessage('Firmware update complete! Rebooting...');
-    await this.deviceService.restart();
+    await this.pipDeviceService.restart();
   }
 
   private async uploadFileToPip(
     path: string,
     fileData: Uint8Array,
+    onProgress?: (progress: number) => void,
   ): Promise<number> {
     const fileString = new TextDecoder('latin1').decode(fileData);
+
     try {
-      await this.connectionService.connection?.espruinoSendFile(
+      await this.pipConnectionService.connection?.espruinoSendFile(
         path,
         fileString,
         {
           fs: true,
           chunkSize: 1024,
           noACK: true,
+          progress: (chunkNo: number, chunkCount: number) => {
+            const percent = Math.round((chunkNo / chunkCount) * 100);
+            if (onProgress) onProgress(percent);
+          },
         },
       );
+
       return fileData.length;
     } catch (error) {
       logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
       return 0;
+    }
+  }
+
+  public async uploadWavFile(
+    file: File,
+    onProgress?: (progress: number) => void,
+  ): Promise<void> {
+    if (!file.type.includes('audio/wav')) {
+      logMessage('Invalid file type. Please select a .wav file.');
+      return;
+    }
+
+    const filePath = `/RADIO/${file.name}`;
+    logMessage(`Uploading ${file.name}...`);
+
+    const fileData = await file.arrayBuffer();
+    const uint8Array = new Uint8Array(fileData);
+
+    const success = await this.uploadFileToPip(
+      filePath,
+      uint8Array,
+      onProgress,
+    );
+
+    if (!success) {
+      logMessage(`Failed to upload ${file.name}.`);
+    } else {
+      logMessage(`Upload complete: ${file.name}.`);
     }
   }
 }

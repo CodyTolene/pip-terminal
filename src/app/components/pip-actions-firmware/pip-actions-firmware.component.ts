@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
@@ -14,7 +15,13 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 @Component({
   selector: 'pip-actions-firmware',
   templateUrl: './pip-actions-firmware.component.html',
-  imports: [CommonModule, FormsModule, MatIconModule, PipButtonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatProgressBarModule,
+    PipButtonComponent,
+  ],
   styleUrl: './pip-actions-firmware.component.scss',
   providers: [],
   standalone: true,
@@ -58,7 +65,9 @@ export class PipActionsFirmwareComponent {
 
   protected async startUpdate(): Promise<void> {
     if (this.selectedFile) {
+      this.signals.isUploadingFile.set(true);
       await this.fileService.startUpdate(this.selectedFile);
+      this.signals.isUploadingFile.set(true);
     } else {
       logMessage('No file selected.');
     }

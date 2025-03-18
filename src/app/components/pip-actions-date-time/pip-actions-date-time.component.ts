@@ -62,6 +62,7 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
     if (
       !this.signals.isConnected() ||
       this.signals.disableAllControls() ||
+      this.signals.isUploadingFile() ||
       (this.formGroup.controls.date.value === null &&
         this.formGroup.controls.time.value === null)
     ) {
@@ -113,7 +114,9 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
 
   private updateFormControlState(): void {
     const shouldDisable =
-      !pipSignals.isConnected() || pipSignals.disableAllControls();
+      !pipSignals.isConnected() ||
+      pipSignals.disableAllControls() ||
+      pipSignals.isUploadingFile();
 
     if (shouldDisable) {
       this.formGroup.controls.date.disable({ emitEvent: false });

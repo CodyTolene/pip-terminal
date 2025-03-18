@@ -61,7 +61,9 @@ export class PipActionsOwnerComponent extends FormDirective<OwnerFormGroup> {
 
   private updateFormControlState(): void {
     const shouldDisable =
-      !pipSignals.isConnected() || pipSignals.disableAllControls();
+      !pipSignals.isConnected() ||
+      pipSignals.disableAllControls() ||
+      pipSignals.isUploadingFile();
 
     if (shouldDisable) {
       this.formGroup.reset();

@@ -1,4 +1,89 @@
-<div class="coming-soon">
-  <h1>SET</h1>
-  <p>This page will be available in a future release.</p>
-</div>
+<main>
+  <section>
+    <h2>Radio Set</h2>
+    <p>
+      This page allows you to upload WAV files to the radio. You must be
+      connected to the device to upload files.
+    </p>
+    <pip-button
+      (click)="connect()"
+      [disabled]="
+        signals.isConnected() ||
+        signals.disableAllControls() ||
+        signals.isUploadingFile()
+      "
+      class="connect-button"
+    >
+      {{ signals.isConnected() ? 'Connected' : 'Connect' }}
+    </pip-button>
+  </section>
+  <section>
+    <h3>Radio Host Files - Upload WAV Files (DX01 - DX03)</h3>
+    <ng-container *ngFor="let name of dxFileNames; let i = index">
+      <ng-content
+        *ngTemplateOutlet="
+          uploadTemplate;
+          context: { i, max: dxFileNames.length, name }
+        "
+      />
+    </ng-container>
+  </section>
+  <section>
+    <h3>Radio Music Files - Upload WAV Files (MX01 - MX16)</h3>
+    <ng-container *ngFor="let name of mxFileNames; let i = index">
+      <ng-content
+        *ngTemplateOutlet="
+          uploadTemplate;
+          context: { i, max: mxFileNames.length, name }
+        "
+      />
+    </ng-container>
+    <ng-template #uploadTemplate let-i="i" let-max="max" let-name="name">
+      <div class="file-upload">
+        <label
+          [class.disabled]="
+            !signals.isConnected() ||
+            signals.disableAllControls() ||
+            signals.isUploadingFile()
+          "
+          for="uploadInput-{{ name }}"
+        >
+          Select WAV File for {{ name }}
+        </label>
+        <input
+          (change)="onUploadFileSelected($event, name)"
+          [disabled]="
+            !signals.isConnected() ||
+            signals.disableAllControls() ||
+            signals.isUploadingFile()
+          "
+          accept=".wav"
+          id="uploadInput-{{ name }}"
+          type="file"
+        />
+      </div>
+
+      <pip-button
+        (click)="uploadFile(name)"
+        [disabled]="
+          !uploadFileInputs[name] ||
+          signals.disableAllControls() ||
+          signals.isUploadingFile()
+        "
+      >
+        Upload {{ name }}
+      </pip-button>
+
+      <div *ngIf="uploadProgress[name] > 0">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="uploadProgress[name]"
+        ></mat-progress-bar>
+      </div>
+
+      <div class="divider" *ngIf="i < max - 1"></div>
+    </ng-template>
+  </section>
+</main>
+
+<pip-log />

@@ -20,11 +20,9 @@
 ## Index <a name="index"></a>
 
 - [Web App](#web-app)
-  - [Connecting](#connecting)
-  - [Personalizing](#personalizing)
-  - [Firmware Update](#firmware-update)
-  - [Videos](#videos)
-  - [Music](#music)
+- [Device](#device)
+  - [Connecting Directly](#connecting-directly)
+  - [Commands](#commands)
 - [Contribution](#contribution)
   - [Prerequisites](#prerequisites)
   - [Development](#development)
@@ -41,15 +39,10 @@
 
 https://www.pip-boy.com
 
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Connecting <a name="connecting"></a>
-
-...
+The web app simplifies the process of sending commands to the Pip-Boy 3000 Mk V.
+The app is built using Angular and is hosted on Google Firebase. The app is
+designed to be responsive and work on all devices. The app is also a PWA, so you
+can install it on your device and use it offline.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -57,29 +50,21 @@ https://www.pip-boy.com
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-### Personalizing <a name="personalizing"></a>
+## Device <a name="device"></a>
 
-...
+### Connecting Directly <a name="connecting-directly"></a>
 
-<p align="right">[ <a href="#index">Index</a> ]</p>
+Connecting directly to the Pip-Boy 3000 Mk V is possible using the Espruino CLI
+and a USB cable. The following steps will guide you through the process:
 
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Firmware Update <a name="firmware-update"></a>
-
-...
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Videos <a name="videos"></a>
-
-...
+```bash
+# Install the Espruino CLI
+npm install -g espruino
+# List out all possible serial ports
+espruino --list
+# Connect to the serial port (update the COM port)
+espruino -p COM12
+```
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -87,9 +72,82 @@ https://www.pip-boy.com
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-### Music <a name="music"></a>
+### Commands <a name="commands"></a>
 
-...
+#### Pip Functions (Hardware & Display-Related)
+
+`Pip.{functionName}`
+
+- **Power Management** (`off, offOrSleep, wake, setLCDPower`)
+- **Audio Control** (`audioStart, audioStop, audioGetFree`)
+- **DAC Control** (`initDAC, writeDACReg, setDACMode`)
+- **Input Handling** (`knob1Click, knob2Click, powerButtonHandler`)
+- **Graphics Manipulation** (`blitImage, setPalette`)
+- **Hardware Interactions** (`measurePin, getID, isSDCardInserted`)
+
+#### E Functions (System & Utility)
+
+`E.{functionName}`
+
+- **System Utilities** (`reboot, rebootToDFU, enableWatchdog, kickWatchdog`)
+- **Memory Management** (`defrag, memoryMap, dumpVariables, getSizeOf`)
+- **String & Data Handling** (`asUTF8, fromUTF8, toString, toJS, toUint8Array`)
+- **Hardware-Level Operations** (`getTemperature, getAnalogVRef, setClock`)
+- **Mathematical Functions** (`FFT, variance, sum, CRC32`)
+- **Graphics & UI Utilities** (`showMenu, showPrompt, showMessage`)
+
+#### Global Functions (Core & Utilities)
+
+`{functionName}`
+
+- **Execution Control**  
+  (`setTimeout, clearTimeout, setInterval, clearInterval, changeInterval`)
+- **Event Watching** (`setWatch, clearWatch`)
+- **File & Storage Management** (`File, StorageFile`)
+- **System & Console** (`process, console, reset, save`)
+- **Timers & Sleep** (`setSleepIndicator, setDeepSleep`)
+- **Data Encoding** (`atob, btoa, encodeURIComponent, decodeURIComponent`)
+- **Mathematical Operations** (`Math, parseFloat, parseInt`)
+- **Memory & Debugging** (`dump, peek8, peek16, peek32, poke8, poke16, poke32`)
+
+#### Hardware I/O Functions
+
+`{functionName}`
+
+- **Analog & Digital I/O**  
+  (`analogRead, analogWrite, digitalRead, digitalWrite, digitalPulse`)
+- **Pin Management** (`pinMode, getPinMode`)
+- **Communication Protocols** (`SPI, I2C, OneWire, Serial`)
+- **Waveform Handling** (`Waveform`)
+- **Power Management** (`setBusyIndicator, getPowerUsage`)
+
+#### Graphics & UI Functions
+
+`{functionName}`
+
+- **Graphics Object** (`Graphics`)
+- **Predefined Graphics** (`drawVaultTecLogo, drawVaultNumLogo, drawText`)
+- **UI Navigation** (`showMainMenu, showTorch, submenuBlank, submenuClock`)
+- **Submenu Management**  
+  (`submenuRadio, submenuStatus, submenuConnect, submenuDiagnostics, submenuRad, submenuMap, submenuSetDateTime, submenuSetAlarmTime`)
+
+#### Process Functions
+
+`process.{functionName}`
+
+- **Memory Handling** (`memory`)
+
+#### Console Functions
+
+`console.{functionName}`
+
+- **Logging & Debugging** (`debug, error, info, log, warn`)
+
+#### Modules Functions
+
+`Modules.{functionName}`
+
+- **Module Caching** (`addCached, getCached, removeAllCached, removeCached`)
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -203,9 +261,8 @@ For more information, see the full [Terms of Use][link-terms] document.
 
 ## Wrapping Up <a name="wrapping-up"></a>
 
-Thank you to Bethesda & The Wand Company for such a fun device to tinker with,
-I'm having a lot of fun with this project as embedded systems are a passion of
-mine. If you have any questions, please let me know by opening an issue
+Thank you to Bethesda & The Wand Company for such a fun device to tinker with!
+If you have any questions, please let me know by opening an issue
 [here][url-new-issue].
 
 | Type                                                                      | Info                                                           |
