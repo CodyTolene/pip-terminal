@@ -75,6 +75,17 @@
   Check Battery Level
 </pip-button>
 <pip-button
+  (click)="getSDCardMBSpace()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="check-sd-button"
+>
+  Check SD Card Space
+</pip-button>
+<pip-button
   *ngIf="isGoToConnectTabButtonVisible"
   (click)="goToConnectTab()"
   class="connect-tab-button"

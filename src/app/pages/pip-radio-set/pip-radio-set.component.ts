@@ -5,9 +5,9 @@ import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
-import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { PipFileService } from 'src/app/services/pip-file.service';
 
@@ -21,6 +21,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   imports: [
     CommonModule,
     MatProgressBarModule,
+    PipActionsConnectionComponent,
     PipButtonComponent,
     PipLogComponent,
   ],
@@ -29,7 +30,6 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 })
 export class PipRadioSetComponent {
   public constructor(
-    private readonly pipConnectionService: PipConnectionService,
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {}
@@ -40,11 +40,6 @@ export class PipRadioSetComponent {
   protected readonly dxFileNames = dxFileNames;
   protected readonly mxFileNames = mxFileNames;
   protected readonly signals = pipSignals;
-
-  protected async connect(): Promise<void> {
-    await this.pipConnectionService.connect();
-    await this.pipDeviceService.initialize();
-  }
 
   protected onUploadFileSelected(event: Event, name: string): void {
     const input = event.target as HTMLInputElement;

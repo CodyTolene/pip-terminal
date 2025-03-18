@@ -83,6 +83,9 @@ export class PipComponent implements OnInit {
     pipSignals.batteryLevel.set(100);
   }
 
+  // private readonly swUpdate = inject(SwUpdate);
+  // private readonly appRef = inject(ApplicationRef);
+
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
   protected readonly signals = pipSignals;
@@ -90,6 +93,7 @@ export class PipComponent implements OnInit {
 
   public ngOnInit(): void {
     this.pipTabsService.initialize();
+    // this.checkForUpdates();
   }
 
   protected async goToConnectTab(): Promise<void> {
@@ -99,4 +103,36 @@ export class PipComponent implements OnInit {
       { playMainTabSound: true, playSubTabSound: true },
     );
   }
+
+  // private checkForUpdates(): void {
+  //   if (!this.swUpdate.isEnabled) {
+  //     console.warn('Service Worker is not enabled.');
+  //     return;
+  //   }
+
+  //   // Check for updates every 5 minutes
+  //   interval(5 * 60 * 1000).subscribe(async () => {
+  //     try {
+  //       const updateAvailable = await this.swUpdate.checkForUpdate();
+  //       if (updateAvailable) {
+  //         // eslint-disable-next-line no-console
+  //         console.log('New update available. Applying now...');
+  //         await this.swUpdate.activateUpdate();
+  //         location.reload();
+  //       }
+  //     } catch (error) {
+  //       console.error('Error checking for updates:', error);
+  //     }
+  //   });
+
+  //   // Also listen for update notifications
+  //   this.swUpdate.versionUpdates.subscribe(async (event) => {
+  //     if (event.type === 'VERSION_READY') {
+  //       // eslint-disable-next-line no-console
+  //       console.log('New version detected. Reloading...');
+  //       await this.swUpdate.activateUpdate();
+  //       location.reload();
+  //     }
+  //   });
+  // }
 }

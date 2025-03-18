@@ -1,19 +1,15 @@
-import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
-
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
+import { PipActionsCustomizeRadioLinkComponent } from 'src/app/components/pip-actions-customize-radio-link/pip-actions-customize-radio-link.component';
 import { PipActionsDateTimeComponent } from 'src/app/components/pip-actions-date-time/pip-actions-date-time.component';
 import { PipActionsFirmwareComponent } from 'src/app/components/pip-actions-firmware/pip-actions-firmware.component';
 import { PipActionsOwnerComponent } from 'src/app/components/pip-actions-owner/pip-actions-owner.component';
 import { PipActionsTestingComponent } from 'src/app/components/pip-actions-testing/pip-actions-testing.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
-
-import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 @Component({
   selector: 'pip-maintenance',
@@ -23,25 +19,15 @@ import { PipTabsService } from 'src/app/services/pip-tabs.service';
     FormsModule,
     MatIconModule,
     PipActionsConnectionComponent,
+    PipActionsCustomizeRadioLinkComponent,
     PipActionsDateTimeComponent,
     PipActionsFirmwareComponent,
     PipActionsOwnerComponent,
     PipActionsTestingComponent,
-    PipButtonComponent,
     PipLogComponent,
   ],
   styleUrl: './pip-maintenance.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipMaintenanceComponent {
-  public constructor(private readonly pipTabsService: PipTabsService) {}
-
-  protected async goToRadioSetTab(): Promise<void> {
-    await this.pipTabsService.switchToTab(
-      PipTabLabelEnum.RADIO,
-      PipSubTabLabelEnum.SET,
-      { playMainTabSound: true, playSubTabSound: true },
-    );
-  }
-}
+export class PipMaintenanceComponent {}

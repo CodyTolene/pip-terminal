@@ -47,6 +47,14 @@ export class PipActionsConnectionComponent {
     logMessage(`Battery level: ${batteryLevel}%`);
   }
 
+  protected async getSDCardMBSpace(): Promise<void> {
+    const sdCardStats = await this.getDataService.getSDCardStats();
+    pipSignals.sdCardMbSpace.set(sdCardStats);
+    logMessage(
+      `MicroSD Card: ${sdCardStats.freeMb} / ${sdCardStats.totalMb} MB`,
+    );
+  }
+
   protected async disconnect(): Promise<void> {
     await this.connectionService.disconnect();
   }
