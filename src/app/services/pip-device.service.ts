@@ -79,7 +79,7 @@ export class PipDeviceService {
             
             // Stop the radio if it's playing
             if (Pip.radioOn) {
-                rd.enable(false); // Disable radio
+                rd.enable(false);
                 Pip.radioOn = false;
             }
 

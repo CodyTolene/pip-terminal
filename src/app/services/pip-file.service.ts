@@ -29,7 +29,7 @@ export class PipFileService {
     );
     const totalSize = fileSizes.reduce((acc, size) => acc + size, 0);
 
-    this.pipDeviceService.clearScreen('Updating...');
+    await this.pipDeviceService.clearScreen('Updating...');
 
     for (const [path, file] of files) {
       const fileData = await file.async('uint8array');
@@ -98,14 +98,14 @@ export class PipFileService {
     const fileData = await file.arrayBuffer();
     const uint8Array = new Uint8Array(fileData);
 
-    this.pipDeviceService.clearScreen(`Uploading ${filePath}`);
+    await this.pipDeviceService.clearScreen(`Uploading ${filePath}`);
 
     await this.uploadFileToPip(filePath, uint8Array, onProgress);
 
     // Wait for 1 second to allow the device to process the file
     await wait(1000);
 
-    this.pipDeviceService.clearScreen(
+    await this.pipDeviceService.clearScreen(
       'Completed! Continue uploading',
       'or restart to apply changes.',
       { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
