@@ -1,4 +1,5 @@
 import JSZip from 'jszip';
+import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
@@ -28,6 +29,8 @@ export class PipFileService {
     );
     const totalSize = fileSizes.reduce((acc, size) => acc + size, 0);
 
+    this.pipDeviceService.clearScreen('Updating...');
+
     for (const [path, file] of files) {
       const fileData = await file.async('uint8array');
       const uploadedSize = await this.uploadFileToPip(path, fileData);
@@ -38,9 +41,14 @@ export class PipFileService {
       uploaded += uploadedSize;
       const percent = Math.round((uploaded / totalSize) * 100);
       pipSignals.updateProgress.set(percent);
+
       logMessage(`Uploading ${file.name}: ${percent}%`, true);
     }
-    logMessage('Firmware update complete! Rebooting...');
+
+    // Wait for 1 second to allow the device to process the files
+    await wait(1000);
+
+    logMessage('Update complete! Restarting...');
     await this.pipDeviceService.restart();
   }
 
@@ -50,8 +58,6 @@ export class PipFileService {
     onProgress?: (progress: number) => void,
   ): Promise<number> {
     const fileString = new TextDecoder('latin1').decode(fileData);
-
-    this.pipDeviceService.clearScreen(`Uploading ${path}`);
 
     try {
       await this.pipConnectionService.connection?.espruinoSendFile(
@@ -69,15 +75,6 @@ export class PipFileService {
             }
           },
         },
-      );
-
-      // Wait for 1 second to allow the device to process the file
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      this.pipDeviceService.clearScreen(
-        'Completed! Continue uploading',
-        'or restart to apply changes.',
-        { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
       );
 
       return fileData.length;
@@ -101,6 +98,17 @@ export class PipFileService {
     const fileData = await file.arrayBuffer();
     const uint8Array = new Uint8Array(fileData);
 
+    this.pipDeviceService.clearScreen(`Uploading ${filePath}`);
+
     await this.uploadFileToPip(filePath, uint8Array, onProgress);
+
+    // Wait for 1 second to allow the device to process the file
+    await wait(1000);
+
+    this.pipDeviceService.clearScreen(
+      'Completed! Continue uploading',
+      'or restart to apply changes.',
+      { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
+    );
   }
 }
