@@ -23,6 +23,8 @@
 - [Device](#device)
   - [Connecting Directly](#connecting-directly)
   - [Commands](#commands)
+  - [Music](#music)
+  - [Videos](#videos)
 - [Contribution](#contribution)
   - [Prerequisites](#prerequisites)
   - [Development](#development)
@@ -148,6 +150,65 @@ espruino -p COM12
 `Modules.{functionName}`
 
 - **Module Caching** (`addCached, getCached, removeAllCached, removeCached`)
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Music <a href="music"></a>
+
+Music must be converted to a specific format before it can be played on the
+device. Using the `ffmpeg` command-line tool, you can convert music to the
+correct format. The following command will convert an MP3 file to a WAV file
+with the correct settings:
+
+```bash
+`ffmpeg -i "input.mp3" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
+```
+
+If you would like to shorten it to X seconds only you can add the `-t 10` (10
+seconds example):
+
+```bash
+`ffmpeg -i "input.mp3" -t 10 -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
+```
+
+Convert a whole folder of music (ie `/music`) to an output folder
+(`/music/output`), you can use the following command:
+
+```bash
+mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
+```
+
+Usefule links:
+
+Fallout New Vegas
+
+- https://archive.org/details/johann-sebastian-bach-concerto-for-2-violins-in-d-minor-allegro-ma-non-troppo
+
+Fallout 3
+
+- https://archive.org/details/Fallout_3_galaxy_news_radio-2008
+
+Fallout 4
+
+- https://archive.org/details/rebuild-renew
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Videos <a name="videos"></a>
+
+Videos must be converted to a specific format before they can be played on the
+device. Using the `ffmpeg` command-line tool, you can convert videos to the
+correct format.
+
+TODO
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 

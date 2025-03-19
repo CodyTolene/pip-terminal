@@ -8,7 +8,6 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
-import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { PipFileService } from 'src/app/services/pip-file.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
@@ -29,10 +28,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class PipRadioSetComponent {
-  public constructor(
-    private readonly pipDeviceService: PipDeviceService,
-    private readonly pipFileService: PipFileService,
-  ) {}
+  public constructor(private readonly pipFileService: PipFileService) {}
 
   protected uploadFileInputs: { [key: string]: File | null } = {};
   protected uploadProgress: { [key: string]: number } = {};
@@ -59,11 +55,16 @@ export class PipRadioSetComponent {
       type: 'audio/wav',
     });
 
+    // Display the raw file name from the user
+    logMessage(`Uploading "${pendingFile.name}" as "${file.name}"...`);
+
     this.signals.isUploadingFile.set(true);
 
-    await this.pipFileService.uploadWavFile(file, (progress) => {
+    logMessage(`Uploading "${nameWithExtension}": 0%`);
+
+    await this.pipFileService.uploadRadioWavFile(file, (progress) => {
       if (progress !== this.uploadProgress[nameWithExtension]) {
-        logMessage(`Uploading ${nameWithExtension}: ${progress}%`, true);
+        logMessage(`Uploading "${nameWithExtension}": ${progress}%`, true);
       }
       this.uploadProgress[nameWithExtension] = progress;
     });
@@ -71,7 +72,9 @@ export class PipRadioSetComponent {
     this.uploadProgress[nameWithExtension] = 0;
     this.signals.isUploadingFile.set(false);
     this.uploadFileInputs[name] = null;
-    this.pipDeviceService.restart();
+
+    logMessage(`Upload complete for "${file.name}"!`);
+    logMessage('Continue uploading, or restart the device to apply changes.');
   }
 }
 

@@ -39,7 +39,33 @@
   <dl>
     <div>
       <dt>Device Sleeping</dt>
-      <dd>{{ signals.isSleeping() === true ? 'Yes' : 'No' }}</dd>
+      <dd>
+        {{
+          signals.isConnected()
+            ? signals.isSleeping() === true
+              ? 'Yes'
+              : 'No'
+            : 'N/A'
+        }}
+      </dd>
+    </div>
+  </dl>
+  <dl>
+    <div>
+      <dt>Battery Level</dt>
+      <dd>
+        {{
+          signals.isConnected() ? signals.batteryLevel() + '&percnt;' : 'N/A'
+        }}
+      </dd>
+    </div>
+  </dl>
+  <dl>
+    <div>
+      <dt>SD Card Space</dt>
+      <dd *ngIf="signals.sdCardMbSpace() as sdCardStats">
+        {{ sdCardStats.freeMb }} / {{ sdCardStats.totalMb }} MB
+      </dd>
     </div>
   </dl>
   <pip-button [disabled]="!signals.logMessages().length" (click)="clearLog()">
