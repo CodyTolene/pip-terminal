@@ -67,7 +67,7 @@ export class PipActionsFirmwareComponent {
     if (this.selectedFile) {
       this.signals.isUploadingFile.set(true);
       await this.fileService.startUpdate(this.selectedFile);
-      this.signals.isUploadingFile.set(true);
+      this.signals.isUploadingFile.set(false);
     } else {
       logMessage('No file selected.');
     }
