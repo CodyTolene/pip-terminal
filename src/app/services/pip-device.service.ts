@@ -1,3 +1,5 @@
+import { isNonEmptyString } from '@proangular/pro-form';
+
 import { Injectable } from '@angular/core';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
@@ -12,13 +14,13 @@ import { PipGetDataService } from './pip-get-data.service';
 @Injectable({ providedIn: 'root' })
 export class PipDeviceService {
   public constructor(
-    private readonly commandService: PipCommandService,
-    private readonly connectionService: PipConnectionService,
-    private readonly getDataService: PipGetDataService,
+    private readonly pipConnectionService: PipConnectionService,
+    private readonly pipGetDataService: PipGetDataService,
+    private readonly pipCommandService: PipCommandService,
   ) {}
 
   public async initialize(): Promise<void> {
-    if (!this.connectionService.connection) {
+    if (!this.pipConnectionService.connection) {
       throw new Error('No active connection');
     }
 
@@ -26,33 +28,101 @@ export class PipDeviceService {
 
     logMessage('Fetching device information...');
 
-    pipSignals.ownerName.set(await this.getDataService.getOwnerName());
+    pipSignals.ownerName.set(await this.pipGetDataService.getOwnerName());
     logMessage(`Owner: ${pipSignals.ownerName()}`);
 
     pipSignals.firmwareVersion.set(
-      await this.getDataService.getFirmwareVersion(),
+      await this.pipGetDataService.getFirmwareVersion(),
     );
     logMessage(`Firmware version: ${pipSignals.firmwareVersion()}`);
 
     pipSignals.javascriptVersion.set(
-      await this.getDataService.getJavascriptVersion(),
+      await this.pipGetDataService.getJavascriptVersion(),
     );
     logMessage(`JS version: ${pipSignals.javascriptVersion()}`);
 
-    pipSignals.deviceId.set(await this.getDataService.getId());
+    pipSignals.deviceId.set(await this.pipGetDataService.getId());
     logMessage(`Device ID: ${pipSignals.deviceId()}`);
 
-    pipSignals.isSleeping.set(await this.getDataService.getIsSleeping());
+    pipSignals.isSleeping.set(await this.pipGetDataService.getIsSleeping());
     logMessage(`Sleeping: ${pipSignals.isSleeping() ? 'True' : 'False'}`);
 
-    pipSignals.batteryLevel.set(await this.getDataService.getBatteryLevel());
+    pipSignals.batteryLevel.set(await this.pipGetDataService.getBatteryLevel());
     logMessage(`Battery level: ${pipSignals.batteryLevel()}%`);
+
+    const sdCardStats = await this.pipGetDataService.getSDCardStats();
+    pipSignals.sdCardMbSpace.set(sdCardStats);
+    logMessage(
+      `SD card space: ${sdCardStats.freeMb} / ${sdCardStats.totalMb} MB`,
+    );
 
     pipSignals.disableAllControls.set(false);
   }
 
+  public async clearScreen(
+    message?: string,
+    messageTwo?: string,
+    video?: { filename: string; x: number; y: number },
+  ): Promise<boolean> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first before clearing screen.');
+      return false;
+    }
+
+    try {
+      const result = await this.pipCommandService.cmd<boolean>(`
+        (() => {
+          try {
+            // Remove any UI
+            Pip.remove();  
+            Pip.removeSubmenu && Pip.removeSubmenu();
+            
+            // Stop the radio if it's playing
+            if (Pip.radioOn) {
+                rd.enable(false); // Disable radio
+                Pip.radioOn = false;
+            }
+
+            // Clear the screen
+            g.clear(1);
+
+            // Set font and align text
+            g.setFontMonofonto23();
+            g.setFontAlign(0, 0);
+
+            // Message(s)
+            ${
+              isNonEmptyString(message)
+                ? `g.drawString("${message}", g.getWidth() / 2, g.getHeight() ${video ? '- 75' : '/ 2 - 10'});`
+                : ''
+            }
+            ${
+              isNonEmptyString(messageTwo)
+                ? `g.drawString("${messageTwo}", g.getWidth() / 2, g.getHeight() ${video ? '- 40' : '/ 2 + 20'});`
+                : ''
+            }
+            
+            // Video
+            ${video ? `Pip.videoStart("${video.filename}", { x: ${video.x}, y: ${video.y} });` : ''}
+
+            // Force a display refresh
+            g.flip();
+          } catch (error) {
+            return 'Error: ' + error.message;
+          }
+        })()
+      `);
+
+      return result ?? false;
+    } catch (error) {
+      logMessage(`Error: ${(error as Error)?.message}`);
+    }
+
+    return false;
+  }
+
   public async demoMode(): Promise<void> {
-    if (!this.connectionService.connection?.isOpen) {
+    if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
       return;
     }
@@ -62,7 +132,7 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const result = await this.commandService.cmd<string>(`
+      const result = await this.pipCommandService.cmd<string>(`
         (() => {
           try {
             enterDemoMode();
@@ -81,7 +151,7 @@ export class PipDeviceService {
   }
 
   public async factoryTestMode(): Promise<void> {
-    if (!this.connectionService.connection?.isOpen) {
+    if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
     }
 
@@ -89,7 +159,7 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const result = await this.commandService.cmd<string>(`
+      const result = await this.pipCommandService.cmd<string>(`
         (() => {
           try {
             factoryTestMode();
@@ -112,26 +182,28 @@ export class PipDeviceService {
   }
 
   public async restart(): Promise<void> {
-    if (!this.connectionService.connection?.isOpen) {
+    if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
       return;
     }
 
     try {
       logMessage('Rebooting now...');
-      await this.commandService.cmd('setTimeout(() => { E.reboot(); }, 100);');
+      await this.pipCommandService.cmd(
+        'setTimeout(() => { E.reboot(); }, 100);',
+      );
     } catch (error) {
       logMessage(`Error: ${(error as Error)?.message}`);
     }
   }
 
   public async sleep(): Promise<void> {
-    if (!this.connectionService.connection?.isOpen) {
+    if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
       return;
     }
 
-    let isAsleep = await this.getDataService.getIsSleeping();
+    let isAsleep = await this.pipGetDataService.getIsSleeping();
     if (isAsleep === true) {
       logMessage('Already sleeping.');
       pipSignals.isSleeping.set(true);
@@ -147,7 +219,7 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      await this.commandService.cmd(`
+      await this.pipCommandService.cmd(`
         (() => { 
           Pip.sleeping = true; 
           Pip.offOrSleep({ immediate:false, forceOff:false, playSound:true }); 
@@ -158,7 +230,7 @@ export class PipDeviceService {
       for (let attempt = 0; attempt < maxRetries; attempt++) {
         await wait(1500);
 
-        isAsleep = await this.getDataService.getIsSleeping();
+        isAsleep = await this.pipGetDataService.getIsSleeping();
         logMessage(
           `Sleep check [Attempt ${attempt + 1}/${maxRetries}]: ${isAsleep}`,
         );
@@ -183,13 +255,13 @@ export class PipDeviceService {
   }
 
   public async wake(): Promise<void> {
-    if (!this.connectionService.connection?.isOpen) {
+    if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
       return;
     }
 
     let isAsleep: boolean | 'BUSY' | null =
-      await this.getDataService.getIsSleeping();
+      await this.pipGetDataService.getIsSleeping();
     if (isAsleep === false) {
       logMessage('Already awake.');
       pipSignals.isSleeping.set(false);
@@ -205,7 +277,7 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      isAsleep = await this.commandService.cmd<boolean | 'BUSY'>(`
+      isAsleep = await this.pipCommandService.cmd<boolean | 'BUSY'>(`
         (() => {
           if (Pip.sleeping) {
             Pip.sleeping = false;
@@ -238,7 +310,7 @@ export class PipDeviceService {
   }
 
   public async shutdown(): Promise<void> {
-    if (!this.connectionService.connection?.isOpen) {
+    if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
       return;
     }
@@ -248,7 +320,7 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      await this.commandService.cmd(
+      await this.pipCommandService.cmd(
         'Pip.offOrSleep({ immediate:false, forceOff:true, playSound:true })',
       );
 
@@ -262,17 +334,18 @@ export class PipDeviceService {
           pipSignals.isConnected.set(false);
         };
 
-        if (!this.connectionService.connection?.isOpen) {
+        if (!this.pipConnectionService.connection?.isOpen) {
           shutdownSuccess();
           return;
         }
 
-        const isBusy = (await this.getDataService.getIsSleeping()) === 'BUSY';
+        const isBusy =
+          (await this.pipGetDataService.getIsSleeping()) === 'BUSY';
         logMessage(
           `Shutdown check [Attempt ${attempt + 1}/${maxRetries}]: ${isBusy ? 'BUSY' : 'OK'}`,
         );
 
-        if (!isBusy || !this.connectionService.connection?.isOpen) {
+        if (!isBusy || !this.pipConnectionService.connection?.isOpen) {
           shutdownSuccess();
           return;
         }

@@ -51,7 +51,7 @@ export class PipActionsConnectionComponent {
     const sdCardStats = await this.getDataService.getSDCardStats();
     pipSignals.sdCardMbSpace.set(sdCardStats);
     logMessage(
-      `MicroSD Card: ${sdCardStats.freeMb} / ${sdCardStats.totalMb} MB`,
+      `SD card space: ${sdCardStats.freeMb} / ${sdCardStats.totalMb} MB`,
     );
   }
 

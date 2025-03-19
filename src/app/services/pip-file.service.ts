@@ -2,8 +2,6 @@ import JSZip from 'jszip';
 
 import { Injectable } from '@angular/core';
 
-import { PipCommandService } from 'src/app/services/pip-command.service';
-
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -14,7 +12,6 @@ import { PipDeviceService } from './pip-device.service';
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
   public constructor(
-    private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
     private readonly pipDeviceService: PipDeviceService,
   ) {}
@@ -54,6 +51,8 @@ export class PipFileService {
   ): Promise<number> {
     const fileString = new TextDecoder('latin1').decode(fileData);
 
+    this.pipDeviceService.clearScreen(`Uploading ${path}`);
+
     try {
       await this.pipConnectionService.connection?.espruinoSendFile(
         path,
@@ -64,9 +63,21 @@ export class PipFileService {
           noACK: true,
           progress: (chunkNo: number, chunkCount: number) => {
             const percent = Math.round((chunkNo / chunkCount) * 100);
-            if (onProgress) onProgress(percent);
+
+            if (onProgress) {
+              onProgress(percent);
+            }
           },
         },
+      );
+
+      // Wait for 1 second to allow the device to process the file
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      this.pipDeviceService.clearScreen(
+        'Completed! Continue uploading',
+        'or restart to apply changes.',
+        { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
       );
 
       return fileData.length;
@@ -76,7 +87,7 @@ export class PipFileService {
     }
   }
 
-  public async uploadWavFile(
+  public async uploadRadioWavFile(
     file: File,
     onProgress?: (progress: number) => void,
   ): Promise<void> {
@@ -86,21 +97,10 @@ export class PipFileService {
     }
 
     const filePath = `/RADIO/${file.name}`;
-    logMessage(`Uploading ${file.name}...`);
 
     const fileData = await file.arrayBuffer();
     const uint8Array = new Uint8Array(fileData);
 
-    const success = await this.uploadFileToPip(
-      filePath,
-      uint8Array,
-      onProgress,
-    );
-
-    if (!success) {
-      logMessage(`Failed to upload ${file.name}.`);
-    } else {
-      logMessage(`Upload complete: ${file.name}.`);
-    }
+    await this.uploadFileToPip(filePath, uint8Array, onProgress);
   }
 }
