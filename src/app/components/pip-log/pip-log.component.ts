@@ -1,12 +1,16 @@
+import { clearLog } from 'src/app/utilities';
+
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, Component, ElementRef } from '@angular/core';
+
+import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 @Component({
   selector: 'pip-log',
   templateUrl: './pip-log.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, PipButtonComponent],
   styleUrl: './pip-log.component.scss',
   standalone: true,
 })
@@ -25,6 +29,10 @@ export class PipLogComponent implements AfterViewChecked {
     }
 
     this.previousLogLength = logMessages.length;
+  }
+
+  protected clearLog(): void {
+    clearLog();
   }
 
   private scrollToBottom(): void {

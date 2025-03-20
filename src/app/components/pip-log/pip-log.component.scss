@@ -9,6 +9,17 @@
 
 h3 {
   border-bottom: 2px dashed col.$pip-green;
+  display: flex;
+  flex-direction: row;
+  line-height: 2rem;
   margin-top: 0;
   padding-bottom: 1rem;
+  justify-content: space-between;
+  width: 100%;
+}
+
+pip-button {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
