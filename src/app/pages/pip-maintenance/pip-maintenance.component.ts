@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
 import { PipActionsCustomizeRadioLinkComponent } from 'src/app/components/pip-actions-customize-radio-link/pip-actions-customize-radio-link.component';
 import { PipActionsDateTimeComponent } from 'src/app/components/pip-actions-date-time/pip-actions-date-time.component';
 import { PipActionsFirmwareComponent } from 'src/app/components/pip-actions-firmware/pip-actions-firmware.component';
 import { PipActionsOwnerComponent } from 'src/app/components/pip-actions-owner/pip-actions-owner.component';
+import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipActionsTestingComponent } from 'src/app/components/pip-actions-testing/pip-actions-testing.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
@@ -18,7 +18,7 @@ import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
     CommonModule,
     FormsModule,
     MatIconModule,
-    PipActionsConnectionComponent,
+    PipActionsPrimaryComponent,
     PipActionsCustomizeRadioLinkComponent,
     PipActionsDateTimeComponent,
     PipActionsFirmwareComponent,

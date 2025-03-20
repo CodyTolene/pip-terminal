@@ -1,4 +1,18 @@
 <h3>Firmware Update</h3>
+<pip-button
+  (click)="fetchLatestUpdateLinks()"
+  [disabled]="
+    signals.disableAllControls() ||
+    signals.isUploadingFile() ||
+    (isFetchingChanges | async)
+  "
+>
+  @if (isFetchingChanges | async) {
+    Fetch Links ({{ countdownChanges | async }})
+  } @else {
+    Fetch Links
+  }
+</pip-button>
 <div class="file-upload">
   <label
     [class.disabled]="
@@ -7,7 +21,7 @@
       signals.isUploadingFile()
     "
     for="fileInput"
-    >Upload File</label
+    >Select Zip File</label
   >
   <input
     (change)="onFileSelected($event)"
@@ -22,12 +36,6 @@
   />
 </div>
 <pip-button
-  (click)="fetchLatestUpdateLinks()"
-  [disabled]="signals.disableAllControls() || signals.isUploadingFile()"
->
-  Fetch Links
-</pip-button>
-<pip-button
   (click)="startUpdate()"
   [disabled]="
     !selectedFile ||
@@ -36,7 +44,7 @@
     signals.isUploadingFile()
   "
 >
-  Start Update
+  Start Upload
 </pip-button>
 <div *ngIf="signals.updateProgress() > 0">
   <mat-progress-bar

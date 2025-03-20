@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
+import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
@@ -17,7 +17,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
     CommonModule,
     FormsModule,
     MatIconModule,
-    PipActionsConnectionComponent,
+    PipActionsPrimaryComponent,
     PipLogComponent,
   ],
   styleUrl: './pip-connect.component.scss',

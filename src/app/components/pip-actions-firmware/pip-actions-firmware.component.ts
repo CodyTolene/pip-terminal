@@ -1,3 +1,14 @@
+import {
+  BehaviorSubject,
+  Observable,
+  firstValueFrom,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  takeWhile,
+  timer,
+} from 'rxjs';
 import { PipFileService } from 'services/pip-file.service';
 
 import { CommonModule } from '@angular/common';
@@ -5,6 +16,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
@@ -20,6 +32,7 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
     FormsModule,
     MatIconModule,
     MatProgressBarModule,
+    MatTooltipModule,
     PipButtonComponent,
   ],
   styleUrl: './pip-actions-firmware.component.scss',
@@ -29,11 +42,36 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 export class PipActionsFirmwareComponent {
   public constructor(private readonly fileService: PipFileService) {}
 
+  private readonly isFetchingSubject = new BehaviorSubject<boolean>(false);
+
+  protected readonly isFetchingChanges: Observable<boolean> =
+    this.isFetchingSubject.asObservable().pipe(shareReplay(1));
+
+  protected readonly countdownChanges: Observable<number> =
+    this.isFetchingChanges.pipe(
+      switchMap((isFetching) =>
+        isFetching
+          ? timer(0, 1000).pipe(
+              map((elapsed) => 60 - elapsed),
+              takeWhile((remaining) => remaining >= 0),
+              startWith(60),
+            )
+          : timer(0).pipe(map(() => 0)),
+      ),
+    );
+
   protected selectedFile: File | null = null;
 
   protected readonly signals = pipSignals;
 
   protected async fetchLatestUpdateLinks(): Promise<void> {
+    const isFetching = await firstValueFrom(this.isFetchingChanges);
+    if (isFetching) {
+      return;
+    }
+
+    this.isFetchingSubject.next(true);
+
     logMessage('Fetching latest update links...');
 
     const upgradeUrl =
@@ -56,6 +94,9 @@ export class PipActionsFirmwareComponent {
       const message = error instanceof Error ? error.message : String(error);
       logMessage('Error fetching firmware links: ' + message);
     }
+
+    // Re-enable the button after 60 seconds
+    timer(60000).subscribe(() => this.isFetchingSubject.next(false));
   }
 
   protected onFileSelected(event: Event): void {

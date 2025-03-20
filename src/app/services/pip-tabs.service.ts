@@ -93,7 +93,7 @@ export class PipTabsService {
     }
 
     if (playMainTabSound) {
-      await this.pipSoundService.playSound(PipSoundEnum.TICK_TAB, 100);
+      await this.pipSoundService.playWebsiteSound(PipSoundEnum.TICK_TAB, 100);
     }
 
     await this.setActiveSubTabIndex(tabLabel, subTabIndex, playSubTabSound);
@@ -115,7 +115,7 @@ export class PipTabsService {
     map[tabLabel] = subTabIndex;
     this.activeSubTabIndexes.set(map);
     if (playSubTabSound) {
-      await this.pipSoundService.playSound(PipSoundEnum.TICK_SUBTAB, 50);
+      await this.pipSoundService.playWebsiteSound(PipSoundEnum.TICK_SUBTAB, 50);
     }
   }
 

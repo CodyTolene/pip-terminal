@@ -1,5 +1,10 @@
 <aside>
-  <h3>Log</h3>
+  <h3>
+    <span>Log</span>
+    <pip-button (click)="clearLog()" [disabled]="!signals.logMessages().length">
+      Clear
+    </pip-button>
+  </h3>
   <div>
     @for (entry of signals.logMessages(); track entry) {
       <div>

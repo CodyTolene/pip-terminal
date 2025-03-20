@@ -3,6 +3,8 @@ import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
+import { PipCommandService } from 'src/app/services/pip-command.service';
+
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -13,6 +15,7 @@ import { PipDeviceService } from './pip-device.service';
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
   public constructor(
+    private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
     private readonly pipDeviceService: PipDeviceService,
   ) {}
@@ -52,7 +55,7 @@ export class PipFileService {
     await this.pipDeviceService.restart();
   }
 
-  private async uploadFileToPip(
+  public async uploadFileToPip(
     path: string,
     fileData: Uint8Array,
     onProgress?: (progress: number) => void,
@@ -82,33 +85,5 @@ export class PipFileService {
       logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
       return 0;
     }
-  }
-
-  public async uploadRadioWavFile(
-    file: File,
-    onProgress?: (progress: number) => void,
-  ): Promise<void> {
-    if (!file.type.includes('audio/wav')) {
-      logMessage('Invalid file type. Please select a .wav file.');
-      return;
-    }
-
-    const filePath = `/RADIO/${file.name}`;
-
-    const fileData = await file.arrayBuffer();
-    const uint8Array = new Uint8Array(fileData);
-
-    await this.pipDeviceService.clearScreen(`Uploading ${filePath}`);
-
-    await this.uploadFileToPip(filePath, uint8Array, onProgress);
-
-    // Wait for 1 second to allow the device to process the file
-    await wait(1000);
-
-    await this.pipDeviceService.clearScreen(
-      'Completed! Continue uploading',
-      'or restart to apply changes.',
-      { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
-    );
   }
 }

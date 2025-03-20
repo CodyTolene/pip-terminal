@@ -1,3 +1,5 @@
+import { DX_RADIO_FILE_NAMES, MX_RADIO_FILE_NAMES } from 'src/app/constants';
+import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -5,10 +7,10 @@ import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
+import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
-import { PipFileService } from 'src/app/services/pip-file.service';
+import { PipSoundService } from 'src/app/services/pip-sound.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -20,7 +22,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   imports: [
     CommonModule,
     MatProgressBarModule,
-    PipActionsConnectionComponent,
+    PipActionsPrimaryComponent,
     PipButtonComponent,
     PipLogComponent,
   ],
@@ -28,19 +30,30 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class PipRadioSetComponent {
-  public constructor(private readonly pipFileService: PipFileService) {}
+  public constructor(private readonly pipSoundService: PipSoundService) {}
 
   protected uploadFileInputs: { [key: string]: File | null } = {};
   protected uploadProgress: { [key: string]: number } = {};
 
-  protected readonly dxFileNames = dxFileNames;
-  protected readonly mxFileNames = mxFileNames;
+  protected readonly DxRadioFileNameEnum = DxRadioFileNameEnum;
+  protected readonly MxRadioFileNameEnum = MxRadioFileNameEnum;
+
+  protected readonly dxFileNames = DX_RADIO_FILE_NAMES;
+  protected readonly mxFileNames = MX_RADIO_FILE_NAMES;
+
   protected readonly signals = pipSignals;
 
   protected onUploadFileSelected(event: Event, name: string): void {
     const input = event.target as HTMLInputElement;
     this.uploadFileInputs[name] = input.files?.[0] || null;
     this.uploadProgress[name] = 0;
+  }
+
+  protected async playRadioFileOnDevice(
+    radioFileName: DxRadioFileNameEnum | MxRadioFileNameEnum,
+  ): Promise<void> {
+    logMessage(`Playing radio file "${radioFileName}"...`);
+    await this.pipSoundService.playRadioFileOnDevice(radioFileName);
   }
 
   protected async uploadFile(name: string): Promise<void> {
@@ -62,7 +75,7 @@ export class PipRadioSetComponent {
 
     logMessage(`Uploading "${nameWithExtension}": 0%`);
 
-    await this.pipFileService.uploadRadioWavFile(file, (progress) => {
+    await this.pipSoundService.uploadRadioWavFile(file, (progress) => {
       if (progress !== this.uploadProgress[nameWithExtension]) {
         logMessage(`Uploading "${nameWithExtension}": ${progress}%`, true);
       }
@@ -77,24 +90,3 @@ export class PipRadioSetComponent {
     logMessage('Continue uploading, or restart the device to apply changes.');
   }
 }
-
-const dxFileNames = ['DX01', 'DX02', 'DX03'];
-
-const mxFileNames = [
-  'MX01',
-  'MX02',
-  'MX03',
-  'MX04',
-  'MX05',
-  'MX06',
-  'MX07',
-  'MX08',
-  'MX09',
-  'MX10',
-  'MX11',
-  'MX12',
-  'MX13',
-  'MX14',
-  'MX15',
-  'MX16',
-];
