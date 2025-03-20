@@ -62,6 +62,7 @@ export class PipConnectionService {
     pipSignals.progress.set(0);
     pipSignals.updateProgress.set(0);
     pipSignals.batteryLevel.set(100);
+    pipSignals.sdCardMbSpace.set({ freeMb: 0, totalMb: 0 });
   }
 
   private setupConnectionListeners(): void {
