@@ -1,7 +1,10 @@
 import JSZip from 'jszip';
+import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
 import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
+
+import { PipCommandService } from 'src/app/services/pip-command.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -13,6 +16,7 @@ import { PipDeviceService } from './pip-device.service';
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
   public constructor(
+    private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
     private readonly pipDeviceService: PipDeviceService,
   ) {}
@@ -110,5 +114,46 @@ export class PipFileService {
       'or restart to apply changes.',
       { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
     );
+  }
+
+  public async playRadioFileOnDevice(
+    radioFileName: DxRadioFileNameEnum | MxRadioFileNameEnum,
+  ): Promise<boolean> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first before clearing screen.');
+      return false;
+    }
+
+    try {
+      const result = await this.pipCommandService.cmd<boolean>(`
+        (() => {
+          try {
+            // Stop any existing audio
+            if (Pip.audioStop) {
+              Pip.audioStop();
+            }
+
+            // Stop the radio if it's playing
+            if (Pip.radioOn) {
+              rd.enable(false);
+              Pip.radioOn = false;
+            }
+
+            // Play the radio file
+            Pip.audioStart("RADIO/${radioFileName}.wav");
+
+            return true;
+          } catch {
+            return false;
+          }
+        })()
+      `);
+
+      return result ?? false;
+    } catch (error) {
+      logMessage(`Error: ${(error as Error)?.message}`);
+    }
+
+    return false;
   }
 }

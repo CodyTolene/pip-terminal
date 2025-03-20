@@ -12,26 +12,41 @@
   </section>
   <section>
     <h3>Radio Host Files - Upload WAV Files (DX01 - DX03)</h3>
-    <ng-container *ngFor="let name of dxFileNames; let i = index">
+    <div
+      *ngFor="let name of dxFileNames; let i = index"
+      class="upload-container"
+    >
       <ng-content
         *ngTemplateOutlet="
           uploadTemplate;
           context: { i, max: dxFileNames.length, name }
         "
       />
-    </ng-container>
+    </div>
   </section>
   <section>
     <h3>Radio Music Files - Upload WAV Files (MX01 - MX16)</h3>
-    <ng-container *ngFor="let name of mxFileNames; let i = index">
+    <div
+      *ngFor="let name of mxFileNames; let i = index"
+      class="upload-container"
+    >
       <ng-content
         *ngTemplateOutlet="
           uploadTemplate;
           context: { i, max: mxFileNames.length, name }
         "
       />
-    </ng-container>
+    </div>
     <ng-template #uploadTemplate let-i="i" let-max="max" let-name="name">
+      <pip-button
+        (click)="playRadioFileOnDevice(name)"
+        [disabled]="
+          !signals.isConnected() ||
+          signals.disableAllControls() ||
+          signals.isUploadingFile()
+        "
+        >Play current {{ name }}</pip-button
+      >
       <div class="file-upload">
         <label
           [class.disabled]="
@@ -55,7 +70,6 @@
           type="file"
         />
       </div>
-
       <pip-button
         (click)="uploadFile(name)"
         [disabled]="
@@ -67,15 +81,12 @@
       >
         Upload {{ name }}
       </pip-button>
-
       <div *ngIf="uploadProgress[name] > 0">
         <mat-progress-bar
           mode="determinate"
           [value]="uploadProgress[name]"
         ></mat-progress-bar>
       </div>
-
-      <div class="divider" *ngIf="i < max - 1"></div>
     </ng-template>
   </section>
 </main>

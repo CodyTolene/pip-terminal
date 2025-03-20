@@ -76,11 +76,16 @@ export class PipDeviceService {
             // Remove any UI
             Pip.remove();  
             Pip.removeSubmenu && Pip.removeSubmenu();
-            
+
+            // Stop any existing audio
+            if (Pip.audioStop) {
+              Pip.audioStop();
+            }
+
             // Stop the radio if it's playing
             if (Pip.radioOn) {
-                rd.enable(false);
-                Pip.radioOn = false;
+              rd.enable(false);
+              Pip.radioOn = false;
             }
 
             // Clear the screen
