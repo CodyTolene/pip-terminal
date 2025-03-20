@@ -9,23 +9,25 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { PipGetDataService } from 'src/app/services/pip-get-data.service';
+import { PipSoundService } from 'src/app/services/pip-sound.service';
 import { PipTabsService } from 'src/app/services/pip-tabs.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 @Component({
-  selector: 'pip-actions-connection',
-  templateUrl: './pip-actions-connection.component.html',
+  selector: 'pip-actions-primary',
+  templateUrl: './pip-actions-primary.component.html',
   imports: [CommonModule, PipButtonComponent],
-  styleUrl: './pip-actions-connection.component.scss',
+  styleUrl: './pip-actions-primary.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipActionsConnectionComponent {
+export class PipActionsPrimaryComponent {
   public constructor(
-    private readonly connectionService: PipConnectionService,
-    private readonly deviceService: PipDeviceService,
-    private readonly getDataService: PipGetDataService,
+    private readonly pipConnectionService: PipConnectionService,
+    private readonly pipDeviceService: PipDeviceService,
+    private readonly pipGetDataService: PipGetDataService,
+    private readonly pipSoundService: PipSoundService,
     private readonly pipTabsService: PipTabsService,
   ) {}
 
@@ -37,18 +39,18 @@ export class PipActionsConnectionComponent {
   protected readonly signals = pipSignals;
 
   protected async connect(): Promise<void> {
-    await this.connectionService.connect();
-    await this.deviceService.initialize();
+    await this.pipConnectionService.connect();
+    await this.pipDeviceService.initialize();
   }
 
   protected async checkBattery(): Promise<void> {
-    const batteryLevel = await this.getDataService.getBatteryLevel();
+    const batteryLevel = await this.pipGetDataService.getBatteryLevel();
     pipSignals.batteryLevel.set(batteryLevel);
     logMessage(`Battery level: ${batteryLevel}%`);
   }
 
   protected async getSDCardMBSpace(): Promise<void> {
-    const sdCardStats = await this.getDataService.getSDCardStats();
+    const sdCardStats = await this.pipGetDataService.getSDCardStats();
     pipSignals.sdCardMbSpace.set(sdCardStats);
     logMessage(
       `SD card space: ${sdCardStats.freeMb} / ${sdCardStats.totalMb} MB`,
@@ -56,7 +58,7 @@ export class PipActionsConnectionComponent {
   }
 
   protected async disconnect(): Promise<void> {
-    await this.connectionService.disconnect();
+    await this.pipConnectionService.disconnect();
   }
 
   protected async goToConnectTab(): Promise<void> {
@@ -76,18 +78,23 @@ export class PipActionsConnectionComponent {
   }
 
   protected async restart(): Promise<void> {
-    await this.deviceService.restart();
+    await this.pipDeviceService.restart();
   }
 
   protected async shutdown(): Promise<void> {
-    await this.deviceService.shutdown();
+    await this.pipDeviceService.shutdown();
   }
 
   protected async sleep(): Promise<void> {
-    await this.deviceService.sleep();
+    await this.pipDeviceService.sleep();
+  }
+
+  protected async stopAllSounds(): Promise<void> {
+    logMessage('Stopping all sounds on device...');
+    await this.pipSoundService.stopAllSoundsOnDevice();
   }
 
   protected async wake(): Promise<void> {
-    await this.deviceService.wake();
+    await this.pipDeviceService.wake();
   }
 }

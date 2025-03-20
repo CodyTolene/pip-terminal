@@ -7,10 +7,10 @@ import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipActionsConnectionComponent } from 'src/app/components/pip-actions-connection/pip-actions-connection.component';
+import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
-import { PipFileService } from 'src/app/services/pip-file.service';
+import { PipSoundService } from 'src/app/services/pip-sound.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -22,7 +22,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   imports: [
     CommonModule,
     MatProgressBarModule,
-    PipActionsConnectionComponent,
+    PipActionsPrimaryComponent,
     PipButtonComponent,
     PipLogComponent,
   ],
@@ -30,7 +30,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class PipRadioSetComponent {
-  public constructor(private readonly pipFileService: PipFileService) {}
+  public constructor(private readonly pipSoundService: PipSoundService) {}
 
   protected uploadFileInputs: { [key: string]: File | null } = {};
   protected uploadProgress: { [key: string]: number } = {};
@@ -53,7 +53,7 @@ export class PipRadioSetComponent {
     radioFileName: DxRadioFileNameEnum | MxRadioFileNameEnum,
   ): Promise<void> {
     logMessage(`Playing radio file "${radioFileName}"...`);
-    await this.pipFileService.playRadioFileOnDevice(radioFileName);
+    await this.pipSoundService.playRadioFileOnDevice(radioFileName);
   }
 
   protected async uploadFile(name: string): Promise<void> {
@@ -75,7 +75,7 @@ export class PipRadioSetComponent {
 
     logMessage(`Uploading "${nameWithExtension}": 0%`);
 
-    await this.pipFileService.uploadRadioWavFile(file, (progress) => {
+    await this.pipSoundService.uploadRadioWavFile(file, (progress) => {
       if (progress !== this.uploadProgress[nameWithExtension]) {
         logMessage(`Uploading "${nameWithExtension}": ${progress}%`, true);
       }

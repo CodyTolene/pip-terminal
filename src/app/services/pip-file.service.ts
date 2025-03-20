@@ -1,5 +1,4 @@
 import JSZip from 'jszip';
-import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
 import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
@@ -56,7 +55,7 @@ export class PipFileService {
     await this.pipDeviceService.restart();
   }
 
-  private async uploadFileToPip(
+  public async uploadFileToPip(
     path: string,
     fileData: Uint8Array,
     onProgress?: (progress: number) => void,
@@ -86,74 +85,5 @@ export class PipFileService {
       logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
       return 0;
     }
-  }
-
-  public async uploadRadioWavFile(
-    file: File,
-    onProgress?: (progress: number) => void,
-  ): Promise<void> {
-    if (!file.type.includes('audio/wav')) {
-      logMessage('Invalid file type. Please select a .wav file.');
-      return;
-    }
-
-    const filePath = `/RADIO/${file.name}`;
-
-    const fileData = await file.arrayBuffer();
-    const uint8Array = new Uint8Array(fileData);
-
-    await this.pipDeviceService.clearScreen(`Uploading ${filePath}`);
-
-    await this.uploadFileToPip(filePath, uint8Array, onProgress);
-
-    // Wait for 1 second to allow the device to process the file
-    await wait(1000);
-
-    await this.pipDeviceService.clearScreen(
-      'Completed! Continue uploading',
-      'or restart to apply changes.',
-      { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
-    );
-  }
-
-  public async playRadioFileOnDevice(
-    radioFileName: DxRadioFileNameEnum | MxRadioFileNameEnum,
-  ): Promise<boolean> {
-    if (!this.pipConnectionService.connection?.isOpen) {
-      logMessage('Please connect to the device first before clearing screen.');
-      return false;
-    }
-
-    try {
-      const result = await this.pipCommandService.cmd<boolean>(`
-        (() => {
-          try {
-            // Stop any existing audio
-            if (Pip.audioStop) {
-              Pip.audioStop();
-            }
-
-            // Stop the radio if it's playing
-            if (Pip.radioOn) {
-              rd.enable(false);
-              Pip.radioOn = false;
-            }
-
-            // Play the radio file
-            Pip.audioStart("RADIO/${radioFileName}.wav");
-
-            return true;
-          } catch {
-            return false;
-          }
-        })()
-      `);
-
-      return result ?? false;
-    } catch (error) {
-      logMessage(`Error: ${(error as Error)?.message}`);
-    }
-
-    return false;
   }
 }

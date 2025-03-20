@@ -1,4 +1,4 @@
-<h3>Connection Status</h3>
+<h3>Primary Functions</h3>
 <pip-button
   (click)="connect()"
   [disabled]="
@@ -84,6 +84,17 @@
   class="check-sd-button"
 >
   Check SD Card Space
+</pip-button>
+<pip-button
+  (click)="stopAllSounds()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="stop-all-sounds-button"
+>
+  Stop All Sounds
 </pip-button>
 <pip-button
   *ngIf="isGoToConnectTabButtonVisible"

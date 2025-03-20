@@ -227,7 +227,7 @@ export class PipDeviceService {
       await this.pipCommandService.cmd(`
         (() => { 
           Pip.sleeping = true; 
-          Pip.offOrSleep({ immediate:false, forceOff:false, playSound:true }); 
+          Pip.offOrSleep({ immediate:false, forceOff:false, playWebsiteSound:true }); 
         })()
       `);
 
@@ -326,7 +326,7 @@ export class PipDeviceService {
 
     try {
       await this.pipCommandService.cmd(
-        'Pip.offOrSleep({ immediate:false, forceOff:true, playSound:true })',
+        'Pip.offOrSleep({ immediate:false, forceOff:true, playWebsiteSound:true })',
       );
 
       const maxRetries = 10;
