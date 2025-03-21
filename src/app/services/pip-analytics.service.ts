@@ -9,41 +9,47 @@ import { Injectable } from '@angular/core';
 export class PipAnalyticsService {
   private isInitialized = false;
 
-  public initialize(): void {
-    const { production: isProduction } = environment;
+  public async initialize(): Promise<void> {
     const { measurementId } = environment.google.firebase;
 
     if (this.isInitialized) {
       console.warn('Google Analytics is already initialized!');
-      return;
-    } else if (!isProduction) {
+      return Promise.resolve();
+    } else if (!environment.production) {
       // eslint-disable-next-line no-console
       console.info('Google Analytics disabled in development mode.');
-      return;
+      return Promise.resolve();
     } else if (!isNonEmptyString(measurementId)) {
       throw new Error('Google Analytics measurement ID is not set');
     }
 
-    this.loadGoogleAnalytics(measurementId);
-    this.isInitialized = true;
-  }
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      script.async = true;
+      script.defer = true;
 
-  private loadGoogleAnalytics(measurementId: string): void {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    document.head.appendChild(script);
+      script.onload = () => {
+        window.dataLayer = window.dataLayer || [];
 
-    script.onload = () => {
-      window.dataLayer = window.dataLayer || [];
+        const gtag = (...args: unknown[]): void => {
+          window.dataLayer.push(...args);
+        };
 
-      const gtag = (...args: unknown[]): void => {
-        window.dataLayer.push(...args);
+        window.gtag = gtag;
+        window.gtag('js', new Date());
+        window.gtag('config', measurementId);
+
+        this.isInitialized = true;
+        resolve();
       };
 
-      window.gtag = gtag;
-      window.gtag('js', new Date());
-      window.gtag('config', measurementId);
-    };
+      script.onerror = (error) => {
+        console.error('Failed to load Google Analytics script', error);
+        reject(error);
+      };
+
+      document.head.appendChild(script);
+    });
   }
 }

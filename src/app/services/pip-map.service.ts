@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class PipMapService {
   private isInitialized = false;
 
-  public initialize(): Promise<void> {
+  public async initialize(): Promise<void> {
     if (this.isInitialized) {
       return Promise.resolve();
     }
