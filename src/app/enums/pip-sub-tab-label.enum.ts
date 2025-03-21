@@ -6,7 +6,7 @@ export enum PipSubTabLabelEnum {
   // "INV" Tab:
   ATTACHMENTS = 'ATTACHMENTS',
   APPAREL = 'APPAREL',
-  GAMES = 'GAMES',
+  APPS = 'APPS',
   // "DATA" Tab:
   CLOCK = 'CLOCK',
   STATS = 'STATS',

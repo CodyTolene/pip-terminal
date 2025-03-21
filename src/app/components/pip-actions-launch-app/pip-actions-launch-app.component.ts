@@ -15,30 +15,30 @@ import { PipFileService } from 'src/app/services/pip-file.service';
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 @Component({
-  selector: 'pip-actions-launch-game',
-  templateUrl: './pip-actions-launch-game.component.html',
+  selector: 'pip-actions-launch-app',
+  templateUrl: './pip-actions-launch-app.component.html',
   imports: [CommonModule, MatExpansionModule, PipButtonComponent],
-  styleUrl: './pip-actions-launch-game.component.scss',
+  styleUrl: './pip-actions-launch-app.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipActionsLaunchGameComponent {
+export class PipActionslaunchAppComponent {
   public constructor(
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {}
 
-  protected readonly GamesEnum = GamesEnum;
+  protected readonly AppsEnum = AppsEnum;
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
 
   protected readonly signals = pipSignals;
 
-  public async launchGame(game: GamesEnum): Promise<void> {
-    const script = await this.loadGameScript(game);
+  public async launchApp(app: AppsEnum): Promise<void> {
+    const script = await this.loadAppScript(app);
 
     if (!script) {
-      logMessage(`Failed to load ${game} script.`);
+      logMessage(`Failed to load ${app} script.`);
       return;
     }
 
@@ -49,51 +49,51 @@ export class PipActionsLaunchGameComponent {
     logMessage(`Ensuring "${dir}/" directory exists...`);
     const result = await this.pipFileService.createSDCardDirectory(dir);
     if (!result) {
-      logMessage(`Failed to upload ${game} to device.`);
+      logMessage(`Failed to upload ${app} to device.`);
       return;
     }
 
     const zip = new JSZip();
-    zip.file(`${dir}/${game}.js`, script);
+    zip.file(`${dir}/${app}.js`, script);
 
     const zipBlob = await zip.generateAsync({ type: 'blob' });
-    const zipFile = new File([zipBlob], `${game}.zip`, {
+    const zipFile = new File([zipBlob], `${app}.zip`, {
       type: 'application/zip',
     });
 
-    logMessage(`Uploading ${game}...`);
+    logMessage(`Uploading ${app}...`);
 
     const uploadSuccess = await this.pipFileService.uploadZipToDevice(
       zipFile,
       false,
     );
     if (!uploadSuccess) {
-      logMessage(`Failed to upload ${game} to device.`);
+      logMessage(`Failed to upload ${app} to device.`);
       return;
     }
 
-    const launchMessage = `Launching ${game}...`;
+    const launchMessage = `Launching ${app}...`;
     await this.pipDeviceService.clearScreen(launchMessage);
     logMessage(launchMessage);
     await wait(2000);
 
-    await this.pipFileService.launchFileOnDevice(`${dir}/${game}.js`);
+    await this.pipFileService.launchFileOnDevice(`${dir}/${app}.js`);
 
     pipSignals.disableAllControls.set(false);
   }
 
-  private async loadGameScript(game: GamesEnum): Promise<string | null> {
+  private async loadAppScript(app: AppsEnum): Promise<string | null> {
     try {
-      const response = await fetch(`games/${game}.js`);
-      const gameScript = await response.text();
-      return isNonEmptyString(gameScript) ? gameScript : null;
+      const response = await fetch(`USER/${app}.js`);
+      const appScript = await response.text();
+      return isNonEmptyString(appScript) ? appScript : null;
     } catch (error) {
-      console.error(`Failed to load ${game} script:`, error);
+      console.error(`Failed to load ${app} script:`, error);
       return null;
     }
   }
 }
 
-enum GamesEnum {
+enum AppsEnum {
   PIPSNAKE = 'PipSnake',
 }

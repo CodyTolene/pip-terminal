@@ -1,9 +1,9 @@
 import { PipApparelComponent } from 'src/app/pages/pip-apparel/pip-apparel.component';
+import { PipAppsComponent } from 'src/app/pages/pip-apps/pip-apps.component';
 import { PipAttachmentsComponent } from 'src/app/pages/pip-attachments/pip-attachments.component';
 import { PipClockComponent } from 'src/app/pages/pip-clock/pip-clock.component';
 import { PipConnectComponent } from 'src/app/pages/pip-connect/pip-connect.component';
 import { PipDiagnosticsComponent } from 'src/app/pages/pip-diagnostics/pip-diagnostics.component';
-import { PipGamesComponent } from 'src/app/pages/pip-games/pip-games.component';
 import { PipMaintenanceComponent } from 'src/app/pages/pip-maintenance/pip-maintenance.component';
 import { PipMapComponent } from 'src/app/pages/pip-map/pip-map.component';
 import { PipRadioSetComponent } from 'src/app/pages/pip-radio-set/pip-radio-set.component';
@@ -27,7 +27,8 @@ export const routes: Routes = [
       // "INV" Tab:
       { path: 'inv/attachments', component: PipAttachmentsComponent },
       { path: 'inv/apparel', component: PipApparelComponent },
-      { path: 'inv/games', component: PipGamesComponent },
+      { path: 'inv/apps', component: PipAppsComponent },
+      { path: 'inv/games', component: PipAppsComponent },
       // "DATA" Tab:
       { path: 'data/clock', component: PipClockComponent },
       { path: 'data/stats', component: PipStatsComponent },

@@ -24,7 +24,7 @@ export class PipFileService {
    * Create a directory on the device's SD card. If the directory already
    * exists, it will not be created.
    *
-   * @param directory The directory to create on the device (ie "GAMES").
+   * @param directory The directory to create on the device (ie "USER").
    * @returns True if the directory was created successfully or already
    * exists, false otherwise.
    */
@@ -103,7 +103,7 @@ export class PipFileService {
   /**
    * Launches a file on the device.
    *
-   * @param path The path to the file on the device (ie "GAMES/doom.js").
+   * @param path The path to the file on the device (ie "USER/doom.js").
    * @returns True if the file was loaded successfully, false otherwise.
    */
   public async launchFileOnDevice(path: string): Promise<boolean> {

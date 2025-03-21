@@ -1,4 +1,4 @@
-<h3>Games List</h3>
+<h3>App & Games List</h3>
 <section>
   <h4>Pip-Snake</h4>
   <mat-accordion displayMode="flat">
@@ -29,13 +29,17 @@
       signals.disableAllControls() ||
       signals.isUploadingFile()
     "
-    (click)="launchGame(GamesEnum.PIPSNAKE)"
+    (click)="launchApp(AppsEnum.PIPSNAKE)"
   >
     Launch Pip-Snake
   </pip-button>
 </section>
 <section>
-  <h4>Other Games</h4>
-  <p>More games will be added in the future. Stay tuned for updates!</p>
+  <h4>Other Apps</h4>
+  <p>
+    More apps & games will be added here in the future. Feel free to contribute
+    your own custom apps by checking out the open-source repository on GitHub
+    <a href="https://github.com/CodyTolene/pip-apps" target="_blank">here</a>.
+  </p>
 </section>
 <pip-button [disabled]="true"> More to come... </pip-button>
