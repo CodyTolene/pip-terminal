@@ -30,13 +30,13 @@ export class PipActionsQuickNavComponent {
   }
   #disableConnectTab = false;
 
-  @Input() public set disableGamesTab(value: BooleanInput) {
-    this.#disableGamesTab = coerceBooleanProperty(value);
+  @Input() public set disableAppsTab(value: BooleanInput) {
+    this.#disableAppsTab = coerceBooleanProperty(value);
   }
-  public get disableGamesTab(): boolean {
-    return this.#disableGamesTab;
+  public get disableAppsTab(): boolean {
+    return this.#disableAppsTab;
   }
-  #disableGamesTab = false;
+  #disableAppsTab = false;
 
   @Input() public set disableMaintenanceTab(value: BooleanInput) {
     this.#disableMaintenanceTab = coerceBooleanProperty(value);

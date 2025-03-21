@@ -22,11 +22,11 @@ import { PipSubTabComponent } from './layout/pip-tabs/pip-sub-tab.component';
 import { PipTabComponent } from './layout/pip-tabs/pip-tab.component';
 import { PipTabsComponent } from './layout/pip-tabs/pip-tabs.component';
 import { PipApparelComponent } from './pages/pip-apparel/pip-apparel.component';
+import { PipAppsComponent } from './pages/pip-apps/pip-apps.component';
 import { PipAttachmentsComponent } from './pages/pip-attachments/pip-attachments.component';
 import { PipClockComponent } from './pages/pip-clock/pip-clock.component';
 import { PipConnectComponent } from './pages/pip-connect/pip-connect.component';
 import { PipDiagnosticsComponent } from './pages/pip-diagnostics/pip-diagnostics.component';
-import { PipGamesComponent } from './pages/pip-games/pip-games.component';
 import { PipMaintenanceComponent } from './pages/pip-maintenance/pip-maintenance.component';
 import { PipMapComponent } from './pages/pip-map/pip-map.component';
 import { PipRadioComponent } from './pages/pip-radio/pip-radio.component';
@@ -44,7 +44,7 @@ import { PipTabsService } from './services/pip-tabs.service';
     MatIconModule,
     MatLuxonDateModule,
     MatTooltipModule,
-    PipGamesComponent,
+    PipAppsComponent,
     PipApparelComponent,
     PipAttachmentsComponent,
     PipClockComponent,
