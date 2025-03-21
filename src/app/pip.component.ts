@@ -94,7 +94,7 @@ export class PipComponent implements OnInit {
   protected readonly signals = pipSignals;
   protected readonly soundVolume: WritableSignal<number>;
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.pipAnalyticsService.initialize();
     this.pipTabsService.initialize();
     // this.checkForUpdates();
