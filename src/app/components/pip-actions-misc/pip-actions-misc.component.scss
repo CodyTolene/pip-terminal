@@ -24,10 +24,10 @@ h3 {
 pip-button {
   flex: 0 1 calc(50% - 0.5rem);
 
-  &.connect-button,
-  &.disconnect-button,
-  &.maintenance-button,
-  &.connect-tab-button {
+  &.check-battery-button,
+  &.check-sd-button,
+  &.view-sd-button,
+  &.stop-all-sounds-button {
     flex: 0 1 calc(100%);
   }
 

@@ -5,10 +5,7 @@
       This page allows you to upload WAV files to the radio. You must be
       connected to the device to upload files.
     </p>
-    <pip-actions-primary
-      [isGoToConnectTabButtonVisible]="true"
-      [isGoToMaintenanceTabButtonVisible]="false"
-    />
+    <pip-actions-primary />
   </section>
   <section>
     <h3>Radio Host Files - Upload WAV Files (DX01 - DX03)</h3>
@@ -88,6 +85,9 @@
         ></mat-progress-bar>
       </div>
     </ng-template>
+  </section>
+  <section>
+    <pip-actions-quick-nav disableRadioSetTab />
   </section>
 </main>
 

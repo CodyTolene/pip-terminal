@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -10,10 +9,8 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 @Component({
   selector: 'pip-actions-testing',
   templateUrl: './pip-actions-testing.component.html',
-  imports: [CommonModule, PipButtonComponent],
-  styleUrl: './pip-actions-testing.component.scss',
-  providers: [],
-  standalone: true,
+  styleUrls: ['./pip-actions-testing.component.scss'],
+  imports: [PipButtonComponent],
 })
 export class PipActionsTestingComponent {
   public constructor(private readonly pipDeviceService: PipDeviceService) {}

@@ -28,21 +28,21 @@
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  (click)="setDateTime()"
+>
+  Set Custom Date and Time
+</pip-button>
+<pip-button
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
     signals.isUploadingFile() ||
     (formGroup.controls.date.value === null &&
       formGroup.controls.time.value === null)
   "
   (click)="clearForm()"
 >
-  Clear
-</pip-button>
-<pip-button
-  [disabled]="
-    !signals.isConnected() ||
-    signals.disableAllControls() ||
-    signals.isUploadingFile()
-  "
-  (click)="setDateTime()"
->
-  Set Custom Date and Time
+  Clear Inputs
 </pip-button>

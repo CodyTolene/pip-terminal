@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class PipMapService {
-  private isLoaded = false;
+  private isInitialized = false;
 
-  public load(): Promise<void> {
-    if (this.isLoaded) {
+  public initialize(): Promise<void> {
+    if (this.isInitialized) {
       return Promise.resolve();
     }
 
@@ -18,7 +18,7 @@ export class PipMapService {
       script.defer = true;
 
       script.onload = () => {
-        this.isLoaded = true;
+        this.isInitialized = true;
         resolve();
       };
 

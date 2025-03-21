@@ -8,7 +8,7 @@ export const environment: EnvironmentCredentials = {
       apiKey: 'AIzaSyBhWM3EaT62lKlKqJJNP5Ggc-O98k2B5TY',
       authDomain: 'pip-terminal.firebaseapp.com',
       messagingSenderId: '438882577130',
-      measurementId: 'G-1Z6DNZH2C2',
+      measurementId: '', // No analytics for development
     },
     maps: {
       apiKey: 'AIzaSyBhWM3EaT62lKlKqJJNP5Ggc-O98k2B5TY',

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
+import { PipActionsQuickNavComponent } from 'src/app/components/pip-actions-quick-nav/pip-actions-quick-nav.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
@@ -18,6 +19,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
     FormsModule,
     MatIconModule,
     PipActionsPrimaryComponent,
+    PipActionsQuickNavComponent,
     PipLogComponent,
   ],
   styleUrl: './pip-connect.component.scss',
