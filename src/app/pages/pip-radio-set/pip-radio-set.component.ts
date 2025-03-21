@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipActionsMiscComponent } from 'src/app/components/pip-actions-misc/pip-actions-misc.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipActionsQuickNavComponent } from 'src/app/components/pip-actions-quick-nav/pip-actions-quick-nav.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
@@ -15,14 +16,13 @@ import { PipSoundService } from 'src/app/services/pip-sound.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-
 @Component({
   selector: 'pip-radio-set',
   templateUrl: './pip-radio-set.component.html',
   imports: [
     CommonModule,
     MatProgressBarModule,
+    PipActionsMiscComponent,
     PipActionsPrimaryComponent,
     PipActionsQuickNavComponent,
     PipButtonComponent,
@@ -34,7 +34,10 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 export class PipRadioSetComponent {
   public constructor(private readonly pipSoundService: PipSoundService) {}
 
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   protected uploadFileInputs: { [key: string]: File | null } = {};
+
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   protected uploadProgress: { [key: string]: number } = {};
 
   protected readonly DxRadioFileNameEnum = DxRadioFileNameEnum;
