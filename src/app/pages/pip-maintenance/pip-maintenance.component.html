@@ -1,9 +1,16 @@
 <main>
   <section>
-    <pip-actions-primary
-      [isGoToConnectTabButtonVisible]="true"
-      [isGoToMaintenanceTabButtonVisible]="false"
-    />
+    <h2>Maintenance</h2>
+    <p>
+      This page contains all the basic maintenance actions you can perform on
+      the device.
+    </p>
+  </section>
+  <section>
+    <pip-actions-primary />
+  </section>
+  <section>
+    <pip-actions-misc />
   </section>
   <section>
     <pip-actions-owner />
@@ -18,7 +25,7 @@
     <pip-actions-testing />
   </section>
   <section>
-    <pip-actions-customize-radio-link />
+    <pip-actions-quick-nav disableMaintenanceTab />
   </section>
 </main>
 <pip-log />

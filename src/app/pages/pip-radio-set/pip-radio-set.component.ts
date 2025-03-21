@@ -8,6 +8,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
+import { PipActionsQuickNavComponent } from 'src/app/components/pip-actions-quick-nav/pip-actions-quick-nav.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
 import { PipSoundService } from 'src/app/services/pip-sound.service';
@@ -23,6 +24,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
     CommonModule,
     MatProgressBarModule,
     PipActionsPrimaryComponent,
+    PipActionsQuickNavComponent,
     PipButtonComponent,
     PipLogComponent,
   ],

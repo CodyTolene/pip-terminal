@@ -1,5 +1,12 @@
-@if (this.options) {
-  <google-map [options]="options" />
+@if (isProduction) {
+  @if (this.options) {
+    <google-map [options]="options" />
+  } @else {
+    Loading map...
+  }
 } @else {
-  Loading map...
+  <div class="banner">
+    <h1>MAP</h1>
+    <p>Map is disabled during local development.</p>
+  </div>
 }

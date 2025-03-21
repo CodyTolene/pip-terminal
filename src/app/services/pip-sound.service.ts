@@ -140,7 +140,11 @@ export class PipSoundService {
 
     await this.pipDeviceService.clearScreen(`Uploading ${filePath}`);
 
-    await this.pipFileService.uploadFileToPip(filePath, uint8Array, onProgress);
+    await this.pipFileService.sendFileToDevice(
+      filePath,
+      uint8Array,
+      onProgress,
+    );
 
     // Wait for 1 second to allow the device to process the file
     await wait(1000);

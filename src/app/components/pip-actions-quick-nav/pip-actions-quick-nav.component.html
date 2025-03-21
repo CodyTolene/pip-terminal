@@ -1,0 +1,26 @@
+<h3>Quick Links</h3>
+<pip-button
+  (click)="goToTabs(PipTabLabelEnum.STAT, PipSubTabLabelEnum.CONNECT)"
+  [disabled]="disableConnectTab"
+  class="connect-tab-button"
+  >Go to Connect Tab</pip-button
+>
+<pip-button
+  (click)="goToTabs(PipTabLabelEnum.INV, PipSubTabLabelEnum.GAMES)"
+  [disabled]="disableGamesTab"
+  class="games-tab-button"
+  >Go to Games Tab</pip-button
+>
+<pip-button
+  (click)="goToTabs(PipTabLabelEnum.DATA, PipSubTabLabelEnum.MAINTENANCE)"
+  [disabled]="disableMaintenanceTab"
+  class="maintenance-button"
+>
+  Go to Maintenance Tab
+</pip-button>
+<pip-button
+  (click)="goToTabs(PipTabLabelEnum.RADIO, PipSubTabLabelEnum.SET)"
+  [disabled]="disableRadioSetTab"
+  class="radio-tab-button"
+  >Go to Radio Set Tab</pip-button
+>

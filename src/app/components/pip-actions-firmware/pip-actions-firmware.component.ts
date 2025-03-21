@@ -104,10 +104,10 @@ export class PipActionsFirmwareComponent {
     this.selectedFile = input.files?.[0] || null;
   }
 
-  protected async startUpdate(): Promise<void> {
+  protected async uploadZipToDevice(): Promise<void> {
     if (this.selectedFile) {
       this.signals.isUploadingFile.set(true);
-      await this.fileService.startUpdate(this.selectedFile);
+      await this.fileService.uploadZipToDevice(this.selectedFile);
       this.signals.isUploadingFile.set(false);
     } else {
       logMessage('No file selected.');

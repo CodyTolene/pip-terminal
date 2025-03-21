@@ -1,0 +1,41 @@
+<h3>Games List</h3>
+<section>
+  <h4>Pip-Snake</h4>
+  <mat-accordion displayMode="flat">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Instructions</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        Pip-Snake is a simple game where you control a snake that moves around
+        the screen. The snake grows longer as it eats food, and the game is over
+        when the snake runs into itself. The goal is to eat as much food as
+        possible before the game ends.
+      </p>
+      <p>
+        Use the radio tune-up button to turn clockwise, and the radio tune-down
+        button to turn counter-clockwise. Press the front radio on/off button to
+        restart the game, and press the top torch button to stop/exit the game.
+      </p>
+      <p>
+        Tip: you can hit the edges of the screen and the snake will wrap around
+        to the other side.
+      </p>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <pip-button
+    [disabled]="
+      !signals.isConnected() ||
+      signals.disableAllControls() ||
+      signals.isUploadingFile()
+    "
+    (click)="launchGame(GamesEnum.PIPSNAKE)"
+  >
+    Launch Pip-Snake
+  </pip-button>
+</section>
+<section>
+  <h4>Other Games</h4>
+  <p>More games will be added in the future. Stay tuned for updates!</p>
+</section>
+<pip-button [disabled]="true"> More to come... </pip-button>

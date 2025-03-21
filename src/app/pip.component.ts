@@ -7,6 +7,7 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { PipAnalyticsService } from 'src/app/services/pip-analytics.service';
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
@@ -21,12 +22,12 @@ import { PipSubTabLabelEnum } from './enums/pip-sub-tab-label.enum';
 import { PipSubTabComponent } from './layout/pip-tabs/pip-sub-tab.component';
 import { PipTabComponent } from './layout/pip-tabs/pip-tab.component';
 import { PipTabsComponent } from './layout/pip-tabs/pip-tabs.component';
-import { PipAidComponent } from './pages/pip-aid/pip-aid.component';
 import { PipApparelComponent } from './pages/pip-apparel/pip-apparel.component';
 import { PipAttachmentsComponent } from './pages/pip-attachments/pip-attachments.component';
 import { PipClockComponent } from './pages/pip-clock/pip-clock.component';
 import { PipConnectComponent } from './pages/pip-connect/pip-connect.component';
 import { PipDiagnosticsComponent } from './pages/pip-diagnostics/pip-diagnostics.component';
+import { PipGamesComponent } from './pages/pip-games/pip-games.component';
 import { PipMaintenanceComponent } from './pages/pip-maintenance/pip-maintenance.component';
 import { PipMapComponent } from './pages/pip-map/pip-map.component';
 import { PipRadioComponent } from './pages/pip-radio/pip-radio.component';
@@ -44,7 +45,7 @@ import { PipTabsService } from './services/pip-tabs.service';
     MatIconModule,
     MatLuxonDateModule,
     MatTooltipModule,
-    PipAidComponent,
+    PipGamesComponent,
     PipApparelComponent,
     PipAttachmentsComponent,
     PipClockComponent,
@@ -63,6 +64,7 @@ import { PipTabsService } from './services/pip-tabs.service';
   ],
   styleUrl: './pip.component.scss',
   providers: [
+    PipAnalyticsService,
     PipCommandService,
     PipConnectionService,
     PipDeviceService,
@@ -76,6 +78,7 @@ import { PipTabsService } from './services/pip-tabs.service';
 })
 export class PipComponent implements OnInit {
   public constructor(
+    private readonly pipAnalyticsService: PipAnalyticsService,
     private readonly pipSoundService: PipSoundService,
     private readonly pipTabsService: PipTabsService,
   ) {
@@ -92,6 +95,7 @@ export class PipComponent implements OnInit {
   protected readonly soundVolume: WritableSignal<number>;
 
   public ngOnInit(): void {
+    this.pipAnalyticsService.initialize();
     this.pipTabsService.initialize();
     // this.checkForUpdates();
   }

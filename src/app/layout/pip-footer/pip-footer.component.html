@@ -38,6 +38,10 @@
     v{{ versionNumber }}
   </button>
   <mat-menu #menu="matMenu" yPosition="above">
+    <button mat-menu-item [matMenuTriggerFor]="v170">
+      <mat-icon iconPositionStart>chevron_left</mat-icon>
+      v1.7.x
+    </button>
     <button mat-menu-item [matMenuTriggerFor]="v160">
       <mat-icon iconPositionStart>chevron_left</mat-icon>
       v1.6.x
@@ -68,6 +72,16 @@
     </button>
   </mat-menu>
 </div>
+
+<mat-menu #v170="matMenu">
+  <h3>Change Log:</h3>
+  <span mat-menu-item>- Dynamic Analytics asset loading</span>
+  <span mat-menu-item>- Dynamic Map asset loading</span>
+  <span mat-menu-item>- Get and display SD card contents</span>
+  <span mat-menu-item>- Update "AID" tab to "GAMES" tab</span>
+  <span mat-menu-item>- Add game of Snake!</span>
+  <span mat-menu-item>- Add Quick Links Section</span>
+</mat-menu>
 
 <mat-menu #v160="matMenu">
   <h3>Change Log:</h3>

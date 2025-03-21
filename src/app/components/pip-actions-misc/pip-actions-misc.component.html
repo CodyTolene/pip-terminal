@@ -1,0 +1,45 @@
+<h3>Misc Functions</h3>
+<pip-button
+  (click)="checkBattery()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="check-battery-button"
+>
+  Check Battery Level
+</pip-button>
+<pip-button
+  (click)="getSDCardMBSpace()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="check-sd-button"
+>
+  Check SD Card Space
+</pip-button>
+<pip-button
+  (click)="getSDCardContents()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="view-sd-button"
+>
+  View SD Card Contents
+</pip-button>
+<pip-button
+  (click)="stopAllSounds()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="stop-all-sounds-button"
+>
+  Stop All Sounds
+</pip-button>

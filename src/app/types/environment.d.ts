@@ -1,15 +1,7 @@
 interface EnvironmentCredentials {
   production: boolean;
   google: {
-    firebase: {
-      projectId: string;
-      appId: string;
-      storageBucket: string;
-      apiKey: string;
-      authDomain: string;
-      messagingSenderId: string;
-      measurementId: string;
-    };
+    firebase: import('@angular/fire/app').FirebaseOptions;
     maps: {
       apiKey: string;
     };

@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -15,10 +17,16 @@ import { PipMapService } from 'src/app/services/pip-map.service';
 export class PipMapComponent implements OnInit {
   public constructor(private readonly pipMapService: PipMapService) {}
 
-  public options: google.maps.MapOptions | null = null;
+  protected options: google.maps.MapOptions | null = null;
+
+  protected readonly isProduction = environment.production;
 
   public async ngOnInit(): Promise<void> {
-    await this.pipMapService.load();
+    if (!this.isProduction) {
+      return;
+    }
+
+    await this.pipMapService.initialize();
 
     this.options = {
       center: { lat: 36.114647, lng: -115.172813 }, // Las Vegas, NV

@@ -118,6 +118,19 @@ section:not(:first-child) {
   }
 }
 
+section:last-child {
+  border: none;
+  padding: 0;
+
+  &:hover {
+    border: none;
+  }
+}
+
+pip-actions-quick-nav {
+  width: 100%;
+}
+
 h3,
 p {
   margin-top: 0;

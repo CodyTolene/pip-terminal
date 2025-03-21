@@ -110,4 +110,9 @@ export interface UartConnectionOptions {
 
 declare global {
   const UART: UartStatic;
+
+  interface Window {
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
+  }
 }

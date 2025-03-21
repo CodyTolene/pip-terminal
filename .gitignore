@@ -48,3 +48,8 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Script outputs
+./scripts/output/*
+./scripts/output/
+./scripts/output

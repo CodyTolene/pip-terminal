@@ -36,7 +36,7 @@
   />
 </div>
 <pip-button
-  (click)="startUpdate()"
+  (click)="uploadZipToDevice()"
   [disabled]="
     !selectedFile ||
     !signals.isConnected() ||
