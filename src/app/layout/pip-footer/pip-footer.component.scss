@@ -101,12 +101,13 @@ div.version-container {
   border-right: none;
   margin-left: auto;
 
-  button {
+  span {
     background-color: transparent;
     border: none;
     color: col.$pip-green;
-    cursor: pointer;
+    cursor: default;
     font-size: 1rem;
+    font-weight: bolder;
     margin: 0;
     padding: 0;
     text-transform: none;
