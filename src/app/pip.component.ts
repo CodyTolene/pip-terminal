@@ -7,7 +7,6 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { PipAnalyticsService } from 'src/app/services/pip-analytics.service';
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
@@ -64,7 +63,6 @@ import { PipTabsService } from './services/pip-tabs.service';
   ],
   styleUrl: './pip.component.scss',
   providers: [
-    PipAnalyticsService,
     PipCommandService,
     PipConnectionService,
     PipDeviceService,
@@ -78,7 +76,6 @@ import { PipTabsService } from './services/pip-tabs.service';
 })
 export class PipComponent implements OnInit {
   public constructor(
-    private readonly pipAnalyticsService: PipAnalyticsService,
     private readonly pipSoundService: PipSoundService,
     private readonly pipTabsService: PipTabsService,
   ) {
@@ -86,18 +83,13 @@ export class PipComponent implements OnInit {
     pipSignals.batteryLevel.set(100);
   }
 
-  // private readonly swUpdate = inject(SwUpdate);
-  // private readonly appRef = inject(ApplicationRef);
-
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
   protected readonly signals = pipSignals;
   protected readonly soundVolume: WritableSignal<number>;
 
   public async ngOnInit(): Promise<void> {
-    this.pipAnalyticsService.initialize();
     this.pipTabsService.initialize();
-    // this.checkForUpdates();
   }
 
   protected async goToConnectTab(): Promise<void> {
@@ -107,36 +99,4 @@ export class PipComponent implements OnInit {
       { playMainTabSound: true, playSubTabSound: true },
     );
   }
-
-  // private checkForUpdates(): void {
-  //   if (!this.swUpdate.isEnabled) {
-  //     console.warn('Service Worker is not enabled.');
-  //     return;
-  //   }
-
-  //   // Check for updates every 5 minutes
-  //   interval(5 * 60 * 1000).subscribe(async () => {
-  //     try {
-  //       const updateAvailable = await this.swUpdate.checkForUpdate();
-  //       if (updateAvailable) {
-  //         // eslint-disable-next-line no-console
-  //         console.log('New update available. Applying now...');
-  //         await this.swUpdate.activateUpdate();
-  //         location.reload();
-  //       }
-  //     } catch (error) {
-  //       console.error('Error checking for updates:', error);
-  //     }
-  //   });
-
-  //   // Also listen for update notifications
-  //   this.swUpdate.versionUpdates.subscribe(async (event) => {
-  //     if (event.type === 'VERSION_READY') {
-  //       // eslint-disable-next-line no-console
-  //       console.log('New version detected. Reloading...');
-  //       await this.swUpdate.activateUpdate();
-  //       location.reload();
-  //     }
-  //   });
-  // }
 }
