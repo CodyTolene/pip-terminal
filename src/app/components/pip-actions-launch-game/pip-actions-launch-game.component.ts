@@ -44,7 +44,7 @@ export class PipActionsLaunchGameComponent {
 
     pipSignals.disableAllControls.set(true);
 
-    const dir = 'GAMES';
+    const dir = 'USER';
 
     logMessage(`Ensuring "${dir}/" directory exists...`);
     const result = await this.pipFileService.createSDCardDirectory(dir);
