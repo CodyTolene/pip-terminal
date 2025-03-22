@@ -1,0 +1,38 @@
+import { Observable, catchError, map, of } from 'rxjs';
+import { PipApp } from 'src/app/models';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class PipAppsService {
+  public constructor(private readonly http: HttpClient) {}
+
+  private readonly registryUrl =
+    'https://raw.githubusercontent.com/CodyTolene/pip-apps/main/USER/_registry.json';
+
+  public fetchRegistry(): Observable<readonly PipApp[] | undefined> {
+    return this.http.get<readonly PipApp[] | undefined>(this.registryUrl).pipe(
+      map((response) => {
+        if (!response) {
+          throw new Error('No response from API');
+        }
+        return PipApp.deserializeList(response);
+      }),
+      catchError((error: unknown) => {
+        console.error(error);
+        return of(undefined);
+      }),
+    );
+  }
+
+  public fetchAppScript(url: string): Observable<string | null> {
+    return this.http.get(url, { responseType: 'text' }).pipe(
+      map((scriptText) => (scriptText?.trim() ? scriptText : null)),
+      catchError((error: unknown) => {
+        console.error('Failed to load app script:', error);
+        return of(null);
+      }),
+    );
+  }
+}
