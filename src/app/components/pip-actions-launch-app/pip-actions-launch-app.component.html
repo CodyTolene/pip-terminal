@@ -19,7 +19,7 @@
             <strong>File:</strong>
             <a [href]="app.url" target="_blank"> USER/{{ app.id }}.js</a>
           </p>
-          <p><strong>Version:</strong> {{ app.version }}.js</p>
+          <p><strong>Version:</strong> {{ app.version }}</p>
         </mat-expansion-panel>
       </mat-accordion>
       <pip-button
@@ -40,10 +40,16 @@
 <section>
   <h4>Other Apps</h4>
   <p>
-    More apps & games will be added here in the future. Feel free to contribute
-    your own custom apps and games by checking out the open-source repository on
-    GitHub
-    <a href="https://github.com/CodyTolene/pip-apps" target="_blank">here</a>.
+    Additional apps and games will be available here over time as the project
+    continues to grow. If you're interested in contributing, you're welcome to
+    explore the open-source repository on
+    <a
+      href="https://github.com/CodyTolene/pip-apps"
+      target="_blank"
+      rel="noopener noreferrer"
+      >GitHub</a
+    >
+    and submit your own custom creations!
   </p>
 </section>
-<pip-button [disabled]="true"> More to come... </pip-button>
+<pip-button (click)="goToAppsGithub()">Get Started Now!</pip-button>

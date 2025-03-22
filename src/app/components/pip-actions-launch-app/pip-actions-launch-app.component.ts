@@ -7,6 +7,7 @@ import { logLink, logMessage, wait } from 'src/app/utilities';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
@@ -19,7 +20,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 @Component({
   selector: 'pip-actions-launch-app',
   templateUrl: './pip-actions-launch-app.component.html',
-  imports: [CommonModule, MatExpansionModule, PipButtonComponent],
+  imports: [CommonModule, MatExpansionModule, PipButtonComponent, RouterModule],
   styleUrl: './pip-actions-launch-app.component.scss',
   providers: [],
   standalone: true,
@@ -39,6 +40,14 @@ export class PipActionslaunchAppComponent {
   protected readonly signals = pipSignals;
 
   protected readonly pipAppsChanges: Observable<readonly PipApp[] | undefined>;
+
+  public async goToAppsGithub(): Promise<void> {
+    const appsGithubUrl = 'https://github.com/CodyTolene/pip-apps';
+
+    logLink('Opening', appsGithubUrl);
+
+    window.open(appsGithubUrl, '_blank');
+  }
 
   public async launchApp(pipApp: PipApp, dir = 'USER'): Promise<void> {
     const appFileName = pipApp.id;
