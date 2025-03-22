@@ -1,7 +1,7 @@
 {
   "name": "pip-boy-mod-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
@@ -50,6 +50,7 @@
     "@espruino-tools/uart": "^1.7.10",
     "@ngneat/until-destroy": "^10.0.0",
     "@proangular/pro-form": "^19.1.1",
+    "io-ts": "^2.2.22",
     "jszip": "^3.10.1",
     "luxon": "^3.5.0",
     "rxjs": "~7.8.0",

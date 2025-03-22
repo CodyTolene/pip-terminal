@@ -7,6 +7,7 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { PipAppsService } from 'src/app/services/pip-apps.service';
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
@@ -63,6 +64,7 @@ import { PipTabsService } from './services/pip-tabs.service';
   ],
   styleUrl: './pip.component.scss',
   providers: [
+    PipAppsService,
     PipCommandService,
     PipConnectionService,
     PipDeviceService,

@@ -1,6 +1,7 @@
 import { routes } from 'src/app/pip.routes';
 import { environment } from 'src/environments/environment';
 
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import {
   ScreenTrackingService,
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() =>
       initializeApp(environment.google.firebase, 'pip-terminal'),
     ),
+    provideHttpClient(withFetch()),
     provideAnalytics(() => getAnalytics()),
     ScreenTrackingService,
     provideAppCheck(() => {

@@ -41,7 +41,7 @@ export class PipFileService {
             fs.readdir("${directory}");
             return { 
               success: true,
-              message: 'Directory "${directory}" already exists.',
+              message: 'Directory "${directory}/" already exists.',
             };
           } catch (error) { 
             try {

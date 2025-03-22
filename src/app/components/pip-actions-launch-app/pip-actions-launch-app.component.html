@@ -1,44 +1,48 @@
 <h3>App & Games List</h3>
-<section>
-  <h4>Pip-Snake</h4>
-  <mat-accordion displayMode="flat">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>Instructions</mat-panel-title>
-      </mat-expansion-panel-header>
-      <p>
-        Pip-Snake is a simple game where you control a snake that moves around
-        the screen. The snake grows longer as it eats food, and the game is over
-        when the snake runs into itself. The goal is to eat as much food as
-        possible before the game ends.
-      </p>
-      <p>
-        Use the radio tune-up button to turn clockwise, and the radio tune-down
-        button to turn counter-clockwise. Press the front radio on/off button to
-        restart the game, and press the top torch button to stop/exit the game.
-      </p>
-      <p>
-        Tip: you can hit the edges of the screen and the snake will wrap around
-        to the other side.
-      </p>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <pip-button
-    [disabled]="
-      !signals.isConnected() ||
-      signals.disableAllControls() ||
-      signals.isUploadingFile()
-    "
-    (click)="launchApp(AppsEnum.PIPSNAKE)"
-  >
-    Launch Pip-Snake
-  </pip-button>
-</section>
+@if (pipAppsChanges | async; as apps) {
+  @for (app of apps; track app.id) {
+    <section>
+      <h4>{{ app.name }}</h4>
+      <mat-accordion displayMode="flat">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Information</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            <strong>Author:</strong> {{ app.author }}
+            {{ app.homepage ? '&lt;' + app.homepage + '&gt;' : '' }}
+          </p>
+          <p><strong>Description:</strong> {{ app.description }}</p>
+          <p><strong>Instructions:</strong> {{ app.instructions }}</p>
+          <p *ngIf="app.tip"><strong>Tip:</strong> {{ app.tip }}</p>
+          <p>
+            <strong>File:</strong>
+            <a [href]="app.url" target="_blank"> USER/{{ app.id }}.js</a>
+          </p>
+          <p><strong>Version:</strong> {{ app.version }}.js</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <pip-button
+        [disabled]="
+          !signals.isConnected() ||
+          signals.disableAllControls() ||
+          signals.isUploadingFile()
+        "
+        (click)="launchApp(app)"
+      >
+        Launch {{ app.name }}
+      </pip-button>
+    </section>
+  }
+} @else {
+  Loading apps...
+}
 <section>
   <h4>Other Apps</h4>
   <p>
     More apps & games will be added here in the future. Feel free to contribute
-    your own custom apps by checking out the open-source repository on GitHub
+    your own custom apps and games by checking out the open-source repository on
+    GitHub
     <a href="https://github.com/CodyTolene/pip-apps" target="_blank">here</a>.
   </p>
 </section>
