@@ -22,7 +22,7 @@
   Check SD Card Space
 </pip-button>
 <pip-button
-  (click)="getSDCardContents()"
+  (click)="getDirectoryFileList()"
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||

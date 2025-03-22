@@ -1,6 +1,9 @@
 import { signal } from '@angular/core';
 
+import { PipAppBase } from 'src/app/models/pip-app.model';
+
 export const pipSignals = {
+  appInfo: signal<readonly PipAppBase[]>([]),
   batteryLevel: signal<number>(0),
   deviceId: signal<string | null>(null),
   disableAllControls: signal<boolean>(false),

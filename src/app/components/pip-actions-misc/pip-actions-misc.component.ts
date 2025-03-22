@@ -34,8 +34,8 @@ export class PipActionsMiscComponent {
     logMessage(`Battery level: ${batteryLevel}%`);
   }
 
-  protected async getSDCardContents(): Promise<void> {
-    const sdCardContents = await this.pipFileService.getSDCardContents();
+  protected async getDirectoryFileList(): Promise<void> {
+    const sdCardContents = await this.pipFileService.getDirectoryFileList();
 
     logMessage(
       'SD Card Contents:' +

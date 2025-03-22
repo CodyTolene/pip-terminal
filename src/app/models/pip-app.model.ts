@@ -2,18 +2,62 @@ import * as io from 'io-ts';
 import { apiDecorator } from 'src/app/decorators';
 import { decode } from 'src/app/utilities';
 
-type PipAppApi = io.TypeOf<typeof PipApp.Codec>;
+type PipAppBaseApi = io.TypeOf<typeof PipAppBase.BaseCodec>;
+const baseApi = apiDecorator<PipAppBaseApi>();
 
+type PipAppApi = io.TypeOf<typeof PipApp.Codec>;
 const api = apiDecorator<PipAppApi>();
 
-export class PipApp {
-  public constructor(args: ClassProperties<PipAppApi>) {
+export class PipAppBase {
+  public constructor(args: PipAppBaseApi) {
+    this.id = args.id;
+    this.name = args.name;
+  }
+
+  public static readonly BaseCodec = io.type(
+    {
+      id: io.string,
+      name: io.string,
+    },
+    'PipAppBaseApi',
+  );
+
+  @baseApi({ key: 'id' }) public readonly id: string;
+  @baseApi({ key: 'name' }) public readonly name: string;
+
+  public static deserialize(value: unknown): PipAppBase {
+    const decoded = decode(PipAppBase.BaseCodec, value);
+    return new PipAppBase({
+      id: decoded.id,
+      name: decoded.name,
+    });
+  }
+
+  public static deserializeList(
+    values: readonly unknown[],
+  ): readonly PipAppBase[] {
+    if (!Array.isArray(values)) {
+      throw new Error('Expected array of PipAppBase objects.');
+    }
+    return values.map(PipAppBase.deserialize);
+  }
+
+  public serialize(): PipAppBaseApi {
+    return {
+      id: this.id,
+      name: this.name,
+    };
+  }
+}
+
+export class PipApp extends PipAppBase {
+  public constructor(args: PipAppApi) {
+    super(args);
+
     this.author = args.author;
     this.description = args.description;
     this.homepage = args.homepage;
-    this.id = args.id;
     this.instructions = args.instructions;
-    this.name = args.name;
     this.tip = args.tip;
     this.version = args.version;
 
@@ -36,22 +80,20 @@ export class PipApp {
       tip: io.union([io.undefined, io.string]),
       version: io.string,
     },
-    'PipApp',
+    'PipAppApi',
   );
 
   @api({ key: 'author' }) public readonly author: string;
   @api({ key: 'description' }) public readonly description: string;
   @api({ key: 'homepage' }) public readonly homepage?: string;
-  @api({ key: 'id' }) public readonly id: string;
   @api({ key: 'instructions' }) public readonly instructions: string;
-  @api({ key: 'name' }) public readonly name: string;
   @api({ key: 'tip' }) public readonly tip?: string;
   @api({ key: 'version' }) public readonly version: string;
 
   // Computed values
   public readonly url: string;
 
-  public static deserialize(value: unknown): PipApp {
+  public static override deserialize(value: unknown): PipApp {
     const decoded = decode(PipApp.Codec, value);
     return new PipApp({
       author: decoded.author,
@@ -65,10 +107,25 @@ export class PipApp {
     });
   }
 
-  public static deserializeList(values: readonly unknown[]): readonly PipApp[] {
+  public static override deserializeList(
+    values: readonly unknown[],
+  ): readonly PipApp[] {
     if (!Array.isArray(values)) {
       throw new Error('Expected array of PipApp objects.');
     }
     return values.map(PipApp.deserialize);
+  }
+
+  public override serialize(): PipAppApi {
+    return {
+      author: this.author,
+      description: this.description,
+      homepage: this.homepage,
+      id: this.id,
+      instructions: this.instructions,
+      name: this.name,
+      tip: this.tip,
+      version: this.version,
+    };
   }
 }

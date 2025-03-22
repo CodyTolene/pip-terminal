@@ -2,6 +2,8 @@ import { isNonEmptyString } from '@proangular/pro-form';
 
 import { Injectable } from '@angular/core';
 
+import { PipFileService } from 'src/app/services/pip-file.service';
+
 import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -14,9 +16,10 @@ import { PipGetDataService } from './pip-get-data.service';
 @Injectable({ providedIn: 'root' })
 export class PipDeviceService {
   public constructor(
+    private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
     private readonly pipGetDataService: PipGetDataService,
-    private readonly pipCommandService: PipCommandService,
+    private readonly pipFileService: PipFileService,
   ) {}
 
   public async initialize(): Promise<void> {
@@ -26,7 +29,7 @@ export class PipDeviceService {
 
     pipSignals.disableAllControls.set(true);
 
-    logMessage('Fetching device information...');
+    logMessage('Loading device information...');
 
     pipSignals.ownerName.set(await this.pipGetDataService.getOwnerName());
     logMessage(`Owner: ${pipSignals.ownerName()}`);
@@ -55,6 +58,9 @@ export class PipDeviceService {
     logMessage(
       `SD card space: ${sdCardStats.freeMb} / ${sdCardStats.totalMb} MB`,
     );
+
+    const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
+    pipSignals.appInfo.set(deviceAppInfo ?? []);
 
     pipSignals.disableAllControls.set(false);
   }
@@ -219,7 +225,7 @@ export class PipDeviceService {
       return this.sleep();
     }
 
-    logMessage('Sleeping now...');
+    logMessage('Entering sleep mode...');
 
     pipSignals.disableAllControls.set(true);
 
@@ -241,7 +247,7 @@ export class PipDeviceService {
         );
 
         if (isAsleep === true) {
-          logMessage('Successfully set to sleep.');
+          logMessage('Successfully set to sleep mode.');
           pipSignals.disableAllControls.set(false);
           pipSignals.isSleeping.set(true);
           return;
