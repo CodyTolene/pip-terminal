@@ -57,7 +57,7 @@ export class PipRadioSetComponent {
   protected async playRadioFileOnDevice(
     radioFileName: DxRadioFileNameEnum | MxRadioFileNameEnum,
   ): Promise<void> {
-    logMessage(`Playing radio file "${radioFileName}"...`);
+    logMessage(`Playing radio file "${radioFileName}".`);
     await this.pipSoundService.playRadioFileOnDevice(radioFileName);
   }
 

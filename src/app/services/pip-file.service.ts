@@ -1,7 +1,8 @@
-import JSZip from 'jszip';
-import { wait } from 'src/app/utilities';
+import JSZip, { JSZipObject } from 'jszip';
 
 import { Injectable } from '@angular/core';
+
+import { PipAppBase } from 'src/app/models/pip-app.model';
 
 import { PipCommandService } from 'src/app/services/pip-command.service';
 
@@ -10,14 +11,12 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
 import { PipConnectionService } from './pip-connection.service';
-import { PipDeviceService } from './pip-device.service';
 
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
   public constructor(
     private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
-    private readonly pipDeviceService: PipDeviceService,
   ) {}
 
   /**
@@ -28,7 +27,9 @@ export class PipFileService {
    * @returns True if the directory was created successfully or already
    * exists, false otherwise.
    */
-  public async createSDCardDirectory(directory: string): Promise<boolean> {
+  public async createDirectoryIfNonExistent(
+    directory: string,
+  ): Promise<boolean> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
     }
@@ -74,25 +75,87 @@ export class PipFileService {
     }
   }
 
-  public async getSDCardContents(): Promise<string[] | null> {
+  /**
+   * Deletes a file on the device.
+   *
+   * @param file The name of the file to delete (e.g., "MyFile.js").
+   * @param dir The directory where the file is located (e.g., "USER").
+   * @returns True if the file was deleted successfully, false otherwise.
+   */
+  public async deleteFileOnDevice(file: string, dir: string): Promise<boolean> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
+      return false;
     }
 
+    const fullPath = `${dir}/${file}`;
+
     try {
-      const resultSd = await this.pipCommandService.cmd<string[]>(`
+      const result = await this.pipCommandService.cmd<{
+        success: boolean;
+        message: string;
+      }>(`
         (() => {
           var fs = require("fs");
           try {
-            var filenames = fs.readdir();
-            return filenames;
-          } catch (err) {
-            return ['ERROR', err.message];
+            fs.unlink("${fullPath}");
+            return { 
+              success: true,
+              message: 'File "${fullPath}" deleted successfully.'
+            };
+          } catch (error) {
+            return { success: false, message: error.message };
           }
         })()
       `);
 
-      return resultSd;
+      if (!result?.success) {
+        logMessage(
+          `Failed to delete "${fullPath}": ${result?.message || 'Unknown error'}`,
+        );
+        return false;
+      } else {
+        logMessage(result.message);
+        return true;
+      }
+    } catch (error) {
+      const errorMessage = `Error deleting file: ${(error as Error)?.message}`;
+      logMessage(errorMessage);
+      return false;
+    }
+  }
+
+  public async getDirectoryFileList(directory = ''): Promise<string[] | null> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return null;
+    }
+
+    try {
+      const resultSd = await this.pipCommandService.cmd<string>(`
+        (() => {
+          var fs = require("fs");
+          try {
+            var filenames = fs.readdir(${JSON.stringify(directory)});
+            return JSON.stringify(filenames);
+          } catch (err) {
+            return JSON.stringify({ error: err.message });
+          }
+        })()
+      `);
+
+      if (!resultSd) {
+        logMessage('Failed to get a response from the device.');
+        return null;
+      }
+
+      const parsed = JSON.parse(resultSd);
+      if (parsed?.error) {
+        logMessage(`Failed to read directory: ${parsed.error}`);
+        return null;
+      }
+
+      return parsed;
     } catch (error) {
       const errorMessage = `Error: ${(error as Error)?.message}`;
       logMessage(errorMessage);
@@ -132,13 +195,66 @@ export class PipFileService {
         logMessage(`Failed to load "${path}" file on device: ${error}`);
         return false;
       } else {
-        logMessage(result.message);
         return true;
       }
     } catch (error) {
       const errorMessage = `Error: ${(error as Error)?.message}`;
       logMessage(errorMessage);
       return false;
+    }
+  }
+
+  /**
+   * Retrieves all app info files from the device and parses them into PipAppBase objects.
+   *
+   * @returns A list of PipAppBase objects or null if the read fails.
+   */
+  public async getDeviceAppInfo(): Promise<readonly PipAppBase[] | null> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return null;
+    }
+
+    try {
+      const fileNameList = await this.getDirectoryFileList('APPINFO/');
+      const fileNameListJson =
+        fileNameList?.filter((fileName) => fileName.endsWith('.json')) ?? [];
+
+      const apps: PipAppBase[] = [];
+
+      for (const fileName of fileNameListJson) {
+        const filePath = `APPINFO/${fileName}`;
+        const fileContent = await this.pipCommandService.cmd<string>(`
+          (() => {
+            var fs = require("fs");
+            try {
+              return fs.readFile("${filePath}");
+            } catch (error) {
+              return JSON.stringify({ error: error.message });
+            }
+          })()
+        `);
+
+        if (typeof fileContent === 'string') {
+          try {
+            const parsed = JSON.parse(fileContent);
+            if (parsed?.error) {
+              logMessage(`Failed to read "${filePath}": ${parsed.error}`);
+              continue;
+            }
+            if (parsed?.id && parsed?.name) {
+              apps.push(new PipAppBase({ id: parsed.id, name: parsed.name }));
+            }
+          } catch {
+            logMessage(`Invalid JSON in file: "${filePath}"`);
+          }
+        }
+      }
+
+      return apps;
+    } catch (error) {
+      logMessage(`Error fetching app info: ${(error as Error)?.message}`);
+      return null;
     }
   }
 
@@ -188,19 +304,18 @@ export class PipFileService {
    * @param file The zip file to upload.
    * @returns Whether the upload was successful.
    */
-  public async uploadZipToDevice(file: File, restart = true): Promise<boolean> {
+  public async uploadZipToDevice(file: File): Promise<boolean> {
     const zipData = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(zipData);
     const files = Object.entries(zip.files).filter(([_, file]) => !file.dir);
-
-    let uploaded = 0;
-
     const fileSizes = await Promise.all(
       files.map(async ([_, file]) => (await file.async('uint8array')).length),
     );
     const totalSize = fileSizes.reduce((acc, size) => acc + size, 0);
 
-    await this.pipDeviceService.clearScreen('Uploading Zip...');
+    let run = 0;
+    let currentFile: JSZipObject | null = null;
+    let uploaded = 0;
 
     for (const [path, file] of files) {
       const fileData = await file.async('uint8array');
@@ -213,21 +328,11 @@ export class PipFileService {
       const percent = Math.round((uploaded / totalSize) * 100);
       pipSignals.updateProgress.set(percent);
 
-      logMessage(`Uploading ${file.name}: ${percent}%`, true);
+      const percentDisplay = percent >= 99 ? 100 : percent;
+      logMessage(`Uploading ${file.name}: ${percentDisplay}%`, run !== 0);
+      run = currentFile === file ? run + 1 : 0;
+      currentFile = file;
     }
-
-    // Wait for 1 second to allow the device to process the files
-    await wait(1000);
-
-    if (restart) {
-      logMessage('Update complete! Restarting...');
-      await this.pipDeviceService.restart();
-    }
-
-    await this.pipDeviceService.clearScreen('Upload complete...');
-
-    // Wait for 1 second to give time for the message to display
-    await wait(1000);
 
     return true;
   }

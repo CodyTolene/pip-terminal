@@ -10,6 +10,7 @@ import {
   timer,
 } from 'rxjs';
 import { PipFileService } from 'services/pip-file.service';
+import { wait } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -19,6 +20,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+
+import { PipDeviceService } from 'src/app/services/pip-device.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
@@ -40,7 +43,10 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
   standalone: true,
 })
 export class PipActionsFirmwareComponent {
-  public constructor(private readonly fileService: PipFileService) {}
+  public constructor(
+    private readonly pipDeviceService: PipDeviceService,
+    private readonly pipFileService: PipFileService,
+  ) {}
 
   private readonly isFetchingSubject = new BehaviorSubject<boolean>(false);
 
@@ -72,7 +78,7 @@ export class PipActionsFirmwareComponent {
 
     this.isFetchingSubject.next(true);
 
-    logMessage('Fetching latest update links...');
+    logMessage('Fetching latest update links.');
 
     const upgradeUrl =
       'https://thewandcompany.com/pip-boy/upgrade/readlink.php?link=upgrade.zip';
@@ -107,7 +113,14 @@ export class PipActionsFirmwareComponent {
   protected async uploadZipToDevice(): Promise<void> {
     if (this.selectedFile) {
       this.signals.isUploadingFile.set(true);
-      await this.fileService.uploadZipToDevice(this.selectedFile);
+
+      await this.pipDeviceService.clearScreen('Uploading Zip.');
+      await this.pipFileService.uploadZipToDevice(this.selectedFile);
+      await wait(1000);
+      logMessage('Update complete! Restarting...');
+      await wait(1000);
+      await this.pipDeviceService.restart();
+
       this.signals.isUploadingFile.set(false);
     } else {
       logMessage('No file selected.');
