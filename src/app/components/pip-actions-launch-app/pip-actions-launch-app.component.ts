@@ -33,48 +33,104 @@ export class PipActionslaunchAppComponent {
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {
-    this.pipAppsChanges = this.pipAppsService.fetchRegistry();
+    this.availablePipAppsChanges = this.pipAppsService.fetchRegistry();
   }
 
-  protected readonly PipTabLabelEnum = PipTabLabelEnum;
-  protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
+  /* The directory of the app within the zip file and on the device. */
+  protected readonly appDir = 'USER';
 
+  /* The directory of the app meta within the zip file and on the device. */
+  protected readonly appMetaDir = 'APPINFO';
+
+  protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
+  protected readonly PipTabLabelEnum = PipTabLabelEnum;
+
+  protected readonly availablePipAppsChanges: Observable<
+    readonly PipApp[] | undefined
+  >;
   protected readonly signals = pipSignals;
 
-  protected readonly pipAppsChanges: Observable<readonly PipApp[] | undefined>;
-
-  public goToAppsGithub(): void {
-    window.open('https://github.com/CodyTolene/pip-apps', '_blank');
-  }
-
-  public async launchApp(app: PipApp, appDir = 'USER'): Promise<void> {
+  protected async delete(app: PipApp): Promise<void> {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const script = await this.fetchAppScript(app, appDir);
+      // Delete the files
+      await this.pipFileService.deleteFileOnDevice(`${app.id}.js`, this.appDir);
+      await this.pipFileService.deleteFileOnDevice(
+        `${app.id}.json`,
+        this.appMetaDir,
+      );
+
+      logMessage(`Deleted ${app.name} successfully!`);
+
+      wait(2000);
+
+      await this.pipDeviceService.clearScreen(
+        'Completed! Continue deleting',
+        'or restart to apply changes.',
+        { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
+      );
+
+      // Refresh the app list after deleting an app.
+      const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
+      pipSignals.appInfo.set(deviceAppInfo ?? []);
+    } finally {
+      pipSignals.disableAllControls.set(false);
+    }
+  }
+
+  protected goToAppsGithub(): void {
+    window.open('https://github.com/CodyTolene/pip-apps', '_blank');
+  }
+
+  protected isAppInfoUploaded(app: PipApp): boolean {
+    const currentAppInfo = this.signals.appInfo();
+    if (!currentAppInfo) return false;
+
+    return currentAppInfo.some((info) => info.id === app.id) ?? false;
+  }
+
+  protected async install(app: PipApp): Promise<void> {
+    pipSignals.disableAllControls.set(true);
+
+    try {
+      const script = await this.fetchAppScript(app);
       if (!script) return;
 
-      const appDirExists = await this.createDirectoryIfNonExistent(appDir);
+      const appDirExists = await this.createDirectoryIfNonExistent(this.appDir);
       if (!appDirExists) return;
 
-      const appMetaDir = 'APPINFO';
-      const appMetaDirExists =
-        await this.createDirectoryIfNonExistent(appMetaDir);
+      const appMetaDirExists = await this.createDirectoryIfNonExistent(
+        this.appMetaDir,
+      );
       if (!appMetaDirExists) return;
 
-      const zipFile = await this.createAppZipFile(
-        app,
-        appDir,
-        appMetaDir,
-        script,
-      );
+      const zipFile = await this.createAppZipFile(app, script);
 
       const uploadSuccess = await this.uploadZipFile(app, zipFile);
       if (!uploadSuccess) return;
 
-      await wait(1000);
+      await wait(2000);
 
-      const launchAppSuccess = await this.launchAppOnDevice(app, appDir);
+      await this.pipDeviceService.clearScreen(
+        'Completed! Continue uploading',
+        'or restart to apply changes.',
+        { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
+      );
+
+      // Refresh the app list after deleting an app.
+      const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
+      pipSignals.appInfo.set(deviceAppInfo ?? []);
+    } finally {
+      pipSignals.disableAllControls.set(false);
+    }
+  }
+
+  protected async launch(app: PipApp): Promise<void> {
+    pipSignals.disableAllControls.set(true);
+
+    try {
+      const launchAppSuccess = await this.launchAppOnDevice(app, this.appDir);
       if (!launchAppSuccess) return;
 
       logMessage(`Launched ${app.name} successfully!`);
@@ -107,23 +163,16 @@ export class PipActionslaunchAppComponent {
    * Create a zip file containing the app.
    *
    * @param app The app meta used to craft the zip file.
-   * @param appDir The directory of the app within the zip file.
-   * @param appMetaDir The directory of the app meta within the zip file.
    * @param script The script to zip in the file.
    * @returns The zip file containing the app.
    */
-  private async createAppZipFile(
-    app: PipApp,
-    appDir: string,
-    appMetaDir: string,
-    script: string,
-  ): Promise<File> {
+  private async createAppZipFile(app: PipApp, script: string): Promise<File> {
     const zip = new JSZip();
-    zip.file(`${appDir}/${app.id}.js`, script);
+    zip.file(`${this.appDir}/${app.id}.js`, script);
 
     const pipAppBase = new PipAppBase(app);
     zip.file(
-      `${appMetaDir}/${app.id}.json`,
+      `${this.appMetaDir}/${app.id}.json`,
       JSON.stringify(pipAppBase.serialize()),
     );
 
@@ -142,12 +191,9 @@ export class PipActionslaunchAppComponent {
    * @param dir The directory to fetch the script from.
    * @returns The script for the app, or null if the script could not be fetched.
    */
-  private async fetchAppScript(
-    app: PipApp,
-    dir: string,
-  ): Promise<string | null> {
+  private async fetchAppScript(app: PipApp): Promise<string | null> {
     const publicAppUrl = 'https://github.com/CodyTolene/pip-apps';
-    logLink(`Fetching "${dir}/${app.id}.js" from`, publicAppUrl);
+    logLink(`Fetching "${this.appDir}/${app.id}.js" from`, publicAppUrl);
 
     const script = await firstValueFrom(
       this.pipAppsService.fetchAppScript(app.url),

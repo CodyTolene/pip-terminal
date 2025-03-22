@@ -18,9 +18,27 @@ h3 {
   margin-top: 0;
 }
 
+h4 {
+  margin-bottom: 0;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 pip-button {
-  margin-bottom: 1rem;
-  width: 100%;
+  flex: 0 1 calc(100%);
+
+  &.install-button,
+  &.delete-button {
+    flex: 0 1 calc(50% - 0.5rem);
+
+    @include bps.media('max', 'sm') {
+      flex: 0 1 calc(100%);
+    }
+  }
 }
 
 p {
@@ -29,7 +47,7 @@ p {
 
 mat-accordion {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   width: 100%;
 }
 

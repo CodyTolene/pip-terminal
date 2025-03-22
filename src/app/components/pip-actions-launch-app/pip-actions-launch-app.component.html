@@ -1,5 +1,5 @@
 <h3>App & Games List</h3>
-@if (pipAppsChanges | async; as apps) {
+@if (availablePipAppsChanges | async; as apps) {
   @for (app of apps; track app.id) {
     <section>
       <h4>{{ app.name }}</h4>
@@ -26,12 +26,34 @@
         [disabled]="
           !signals.isConnected() ||
           signals.disableAllControls() ||
-          signals.isUploadingFile()
+          signals.isUploadingFile() ||
+          isAppInfoUploaded(app)
         "
-        (click)="launchApp(app)"
+        (click)="install(app)"
+        class="install-button"
+        >Install {{ app.name }}</pip-button
       >
-        Launch {{ app.name }}
-      </pip-button>
+      <pip-button
+        [disabled]="
+          !signals.isConnected() ||
+          signals.disableAllControls() ||
+          signals.isUploadingFile() ||
+          !isAppInfoUploaded(app)
+        "
+        class="delete-button"
+        (click)="delete(app)"
+        >Delete {{ app.name }}</pip-button
+      >
+      <pip-button
+        [disabled]="
+          !signals.isConnected() ||
+          signals.disableAllControls() ||
+          signals.isUploadingFile() ||
+          !isAppInfoUploaded(app)
+        "
+        (click)="launch(app)"
+        >Launch {{ app.name }}</pip-button
+      >
     </section>
   }
 } @else {

@@ -75,6 +75,56 @@ export class PipFileService {
     }
   }
 
+  /**
+   * Deletes a file on the device.
+   *
+   * @param file The name of the file to delete (e.g., "MyFile.js").
+   * @param dir The directory where the file is located (e.g., "USER").
+   * @returns True if the file was deleted successfully, false otherwise.
+   */
+  public async deleteFileOnDevice(file: string, dir: string): Promise<boolean> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return false;
+    }
+
+    const fullPath = `${dir}/${file}`;
+
+    try {
+      const result = await this.pipCommandService.cmd<{
+        success: boolean;
+        message: string;
+      }>(`
+        (() => {
+          var fs = require("fs");
+          try {
+            fs.unlink("${fullPath}");
+            return { 
+              success: true,
+              message: 'File "${fullPath}" deleted successfully.'
+            };
+          } catch (error) {
+            return { success: false, message: error.message };
+          }
+        })()
+      `);
+
+      if (!result?.success) {
+        logMessage(
+          `Failed to delete "${fullPath}": ${result?.message || 'Unknown error'}`,
+        );
+        return false;
+      } else {
+        logMessage(result.message);
+        return true;
+      }
+    } catch (error) {
+      const errorMessage = `Error deleting file: ${(error as Error)?.message}`;
+      logMessage(errorMessage);
+      return false;
+    }
+  }
+
   public async getDirectoryFileList(directory = ''): Promise<string[] | null> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
