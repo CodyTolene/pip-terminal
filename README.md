@@ -109,6 +109,12 @@ Convert a whole folder of music (ie `/music`) to an output folder
 mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
 ```
 
+Increase volume with `volume=`:
+
+```bash
+mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -af "volume=10dB" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
+```
+
 Usefule links:
 
 Fallout New Vegas

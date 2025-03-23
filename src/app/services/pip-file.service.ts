@@ -151,7 +151,6 @@ export class PipFileService {
 
       const parsed = JSON.parse(resultSd);
       if (parsed?.error) {
-        logMessage(`Failed to read directory: ${parsed.error}`);
         return null;
       }
 
