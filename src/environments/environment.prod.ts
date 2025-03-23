@@ -1,4 +1,6 @@
 export const environment: EnvironmentCredentials = {
+  appsDir: 'USER',
+  appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/main',
   production: true,
   google: {
     firebase: {

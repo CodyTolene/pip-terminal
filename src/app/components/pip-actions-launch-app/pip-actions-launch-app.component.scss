@@ -49,6 +49,10 @@ mat-accordion {
   display: flex;
   margin-bottom: 0;
   width: 100%;
+
+  mat-expansion-panel {
+    width: 100%;
+  }
 }
 
 .apps-header {

@@ -1,5 +1,6 @@
 import { Observable, catchError, map, of } from 'rxjs';
 import { PipApp } from 'src/app/models';
+import { environment } from 'src/environments/environment';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,11 +9,9 @@ import { Injectable } from '@angular/core';
 export class PipAppsService {
   public constructor(private readonly http: HttpClient) {}
 
-  private readonly registryUrl =
-    'https://raw.githubusercontent.com/CodyTolene/pip-apps/main/USER/_registry.json';
-
   public fetchRegistry(): Observable<readonly PipApp[] | undefined> {
-    return this.http.get<readonly PipApp[] | undefined>(this.registryUrl).pipe(
+    const registryUrl = `${environment.appsUrl}/${environment.appsDir}/_registry.json`;
+    return this.http.get<readonly PipApp[] | undefined>(registryUrl).pipe(
       map((response) => {
         if (!response) {
           throw new Error('No response from API');
@@ -26,7 +25,7 @@ export class PipAppsService {
     );
   }
 
-  public fetchAppScript(url: string): Observable<string | null> {
+  public fetchAsset(url: string): Observable<string | null> {
     return this.http.get(url, { responseType: 'text' }).pipe(
       map((scriptText) => (scriptText?.trim() ? scriptText : null)),
       catchError((error: unknown) => {

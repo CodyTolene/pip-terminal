@@ -2,6 +2,7 @@ import * as io from 'io-ts';
 import { apiDecorator } from 'src/app/decorators';
 import { PipAppTypeEnum } from 'src/app/enums';
 import { decode } from 'src/app/utilities';
+import { environment } from 'src/environments/environment';
 
 type PipAppBaseApi = io.TypeOf<typeof PipAppBase.BaseCodec>;
 const baseApi = apiDecorator<PipAppBaseApi>();
@@ -61,6 +62,7 @@ export class PipApp extends PipAppBase {
     super(args);
 
     this.author = args.author;
+    this.dependencies = args.dependencies ?? [];
     this.description = args.description;
     this.homepage = args.homepage;
     this.instructions = args.instructions;
@@ -69,8 +71,7 @@ export class PipApp extends PipAppBase {
     this.version = args.version;
 
     // Temporary values
-    const baseUrl =
-      'https://raw.githubusercontent.com/CodyTolene/pip-apps/main/USER';
+    const baseUrl = `${environment.appsUrl}/${environment.appsDir}`;
 
     // Computed values
     this.url = `${baseUrl}/${this.id}.js`;
@@ -79,6 +80,7 @@ export class PipApp extends PipAppBase {
   public static readonly Codec = io.type(
     {
       author: io.string,
+      dependencies: io.union([io.undefined, io.readonlyArray(io.string)]),
       description: io.string,
       homepage: io.union([io.undefined, io.string]),
       id: io.string,
@@ -95,6 +97,7 @@ export class PipApp extends PipAppBase {
   );
 
   @api({ key: 'author' }) public readonly author: string;
+  @api({ key: 'dependencies' }) public readonly dependencies: readonly string[];
   @api({ key: 'description' }) public readonly description: string;
   @api({ key: 'homepage' }) public readonly homepage?: string;
   @api({ key: 'instructions' }) public readonly instructions: string;
@@ -109,6 +112,7 @@ export class PipApp extends PipAppBase {
     const decoded = decode(PipApp.Codec, value);
     return new PipApp({
       author: decoded.author,
+      dependencies: decoded.dependencies,
       description: decoded.description,
       homepage: decoded.homepage,
       id: decoded.id,
@@ -132,6 +136,7 @@ export class PipApp extends PipAppBase {
   public override serialize(): PipAppApi {
     return {
       author: this.author,
+      dependencies: this.dependencies,
       description: this.description,
       homepage: this.homepage,
       id: this.id,
