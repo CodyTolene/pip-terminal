@@ -125,6 +125,85 @@ export class PipFileService {
     }
   }
 
+  /**
+   * Deletes the directory and all its contents on the device.
+   *
+   * @param directory The directory to delete.
+   * @returns True if the directory was deleted successfully, false otherwise.
+   */
+  public async deleteDirectoryOnDevice(directory: string): Promise<boolean> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return false;
+    }
+
+    try {
+      const result = await this.pipCommandService.cmd<{
+        success: boolean;
+        message: string;
+      }>(`
+        (() => {
+          var fs = require("fs");
+          var logs = [];
+      
+          function deleteFilesRecursive(path) {
+            try {
+              logs.push("Reading: " + path);
+              var files = fs.readdir(path);
+      
+              files.forEach(function (file) {
+                if (file === "." || file === "..") return;
+                var full = path + "/" + file;
+      
+                try {
+                  fs.readdir(full);
+                  // If we get here, it's a directory — skip it
+                  logs.push("Skipping directory: " + full);
+                } catch (err) {
+                  // Not a directory, delete file
+                  try {
+                    fs.unlink(full);
+                    logs.push("Deleted file: " + full);
+                  } catch (delErr) {
+                    logs.push("Failed to delete file: " + full + " — " + delErr.message);
+                  }
+                }
+              });
+      
+              return true;
+            } catch (e) {
+              logs.push("Failed to read directory: " + path + " — " + e.message);
+              return false;
+            }
+          }
+      
+          try {
+            var ok = deleteFilesRecursive("${directory}");
+            return {
+              success: ok,
+              message: logs.join("\\n")
+            };
+          } catch (error) {
+            return { success: false, message: "Fatal error: " + error.message };
+          }
+        })()
+      `);
+
+      if (!result?.success) {
+        logMessage(`Failed to delete "${directory}":`);
+        logMessage(result?.message || 'Unknown error');
+        return false;
+      } else {
+        // logMessage(result.message);
+        return true;
+      }
+    } catch (error) {
+      const errorMessage = `Error deleting directory: ${(error as Error)?.message}`;
+      logMessage(errorMessage);
+      return false;
+    }
+  }
+
   public async getDirectoryFileList(directory = ''): Promise<string[] | null> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');

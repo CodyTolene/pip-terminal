@@ -22,7 +22,7 @@
   Check SD Card Space
 </pip-button>
 <pip-button
-  (click)="getDirectoryFileList()"
+  (click)="getRootDirectoryFileList()"
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||
@@ -30,7 +30,7 @@
   "
   class="view-sd-button"
 >
-  View SD Card Contents
+  View Root SD Contents
 </pip-button>
 <pip-button
   (click)="stopAllSounds()"
@@ -42,4 +42,15 @@
   class="stop-all-sounds-button"
 >
   Stop All Sounds
+</pip-button>
+<pip-button
+  (click)="deleteAllApps()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
+  class="delete-apps-button"
+>
+  Delete All Apps & Games
 </pip-button>
