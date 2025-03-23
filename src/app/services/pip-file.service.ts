@@ -1,4 +1,5 @@
 import JSZip, { JSZipObject } from 'jszip';
+import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
@@ -18,6 +19,8 @@ export class PipFileService {
     private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
   ) {}
+
+  private isUploading = false;
 
   /**
    * Create a directory on the device's SD card. If the directory already
@@ -355,6 +358,12 @@ export class PipFileService {
     fileData: Uint8Array,
     onProgress?: (progress: number) => void,
   ): Promise<number> {
+    while (this.isUploading) {
+      await wait(50); // wait before trying again
+    }
+
+    this.isUploading = true;
+
     const fileString = new TextDecoder('latin1').decode(fileData);
 
     try {
@@ -379,6 +388,8 @@ export class PipFileService {
     } catch (error) {
       logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
       return 0;
+    } finally {
+      this.isUploading = false;
     }
   }
 

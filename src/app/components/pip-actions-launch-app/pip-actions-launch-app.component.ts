@@ -185,7 +185,7 @@ export class PipActionslaunchAppComponent {
    * exists, false otherwise.
    */
   private async createDirectoryIfNonExistent(dir: string): Promise<boolean> {
-    logMessage(`Ensuring "${dir}/" directory exists.`);
+    logMessage(`Ensuring "${dir}" directory exists.`);
 
     const result = await this.pipFileService.createDirectoryIfNonExistent(dir);
 
@@ -225,6 +225,8 @@ export class PipActionslaunchAppComponent {
         const dependencyUrl = `${baseUrl}/${dependency}`;
 
         const asset = await this.fetchAppAsset(dependencyUrl);
+
+        await wait(250);
 
         if (!asset) {
           logMessage(`Failed to load asset from ${dependencyUrl}.`);
