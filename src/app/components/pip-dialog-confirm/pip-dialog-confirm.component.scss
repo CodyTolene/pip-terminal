@@ -1,0 +1,16 @@
+@use '../../styles/colors' as col;
+
+.mat-mdc-button:not(:disabled) {
+  border-radius: 4px;
+  height: 2rem;
+}
+
+.mat-mdc-button:not(:disabled) {
+  color: col.$gray-darkest;
+  background-color: col.$pip-green-light;
+}
+
+.mat-mdc-button:disabled {
+  color: col.$gray-light;
+  background-color: col.$pip-green-light;
+}

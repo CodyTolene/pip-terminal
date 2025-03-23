@@ -51,6 +51,16 @@ mat-accordion {
   width: 100%;
 }
 
+.apps-header {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.games-header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
 a:hover {
   color: col.$pip-green-darkest;
 }

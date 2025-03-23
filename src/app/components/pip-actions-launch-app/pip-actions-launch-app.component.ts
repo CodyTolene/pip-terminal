@@ -1,8 +1,12 @@
 import JSZip from 'jszip';
-import { Observable, firstValueFrom } from 'rxjs';
-import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
+import { Observable, filter, firstValueFrom, map, shareReplay } from 'rxjs';
+import {
+  PipAppTypeEnum,
+  PipSubTabLabelEnum,
+  PipTabLabelEnum,
+} from 'src/app/enums';
 import { PipApp } from 'src/app/models';
-import { logLink, logMessage, wait } from 'src/app/utilities';
+import { isNonEmptyObject, logLink, logMessage, wait } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -33,8 +37,18 @@ export class PipActionslaunchAppComponent {
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {
-    this.availablePipAppsChanges = this.pipAppsService.fetchRegistry();
+    this.availablePipAppsChanges = this.pipAppsService
+      .fetchRegistry()
+      .pipe(filter(isNonEmptyObject), shareReplay(1));
+    this.pipAppsChanges = this.availablePipAppsChanges.pipe(
+      map((apps) => apps.filter((app) => app.type === PipAppTypeEnum.APP)),
+    );
+    this.pipGamesChanges = this.availablePipAppsChanges.pipe(
+      map((apps) => apps.filter((app) => app.type === PipAppTypeEnum.GAME)),
+    );
   }
+
+  protected readonly signals = pipSignals;
 
   /* The directory of the app within the zip file and on the device. */
   protected readonly appDir = 'USER';
@@ -42,13 +56,13 @@ export class PipActionslaunchAppComponent {
   /* The directory of the app meta within the zip file and on the device. */
   protected readonly appMetaDir = 'APPINFO';
 
+  protected readonly PipAppTypeEnum = PipAppTypeEnum;
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
 
-  protected readonly availablePipAppsChanges: Observable<
-    readonly PipApp[] | undefined
-  >;
-  protected readonly signals = pipSignals;
+  protected readonly availablePipAppsChanges: Observable<readonly PipApp[]>;
+  protected readonly pipAppsChanges: Observable<readonly PipApp[]>;
+  protected readonly pipGamesChanges: Observable<readonly PipApp[]>;
 
   protected async delete(app: PipApp): Promise<void> {
     pipSignals.disableAllControls.set(true);
@@ -83,11 +97,24 @@ export class PipActionslaunchAppComponent {
     window.open('https://github.com/CodyTolene/pip-apps', '_blank');
   }
 
-  protected isAppInfoUploaded(app: PipApp): boolean {
+  protected isAppInstalled(app: PipApp): boolean {
     const currentAppInfo = this.signals.appInfo();
-    if (!currentAppInfo) return false;
+    return currentAppInfo?.some(({ id }) => id === app.id) ?? false;
+  }
 
-    return currentAppInfo.some((info) => info.id === app.id) ?? false;
+  protected isAppUpdatable(app: PipApp): boolean {
+    const currentDeviceAppToCheck = this.signals
+      .appInfo()
+      ?.find(({ id }) => id === app.id);
+    if (!currentDeviceAppToCheck) return false;
+
+    const currentVersion = currentDeviceAppToCheck.version;
+    const newVersion = app.version;
+
+    if (!currentVersion) return true; // No version on device, definitely update
+    if (!newVersion || newVersion === currentVersion) return false;
+
+    return isVersionNewer(newVersion, currentVersion);
   }
 
   protected async install(app: PipApp): Promise<void> {
@@ -97,13 +124,15 @@ export class PipActionslaunchAppComponent {
       const script = await this.fetchAppScript(app);
       if (!script) return;
 
-      const appDirExists = await this.createDirectoryIfNonExistent(this.appDir);
-      if (!appDirExists) return;
+      const createAppDirSuccess = await this.createDirectoryIfNonExistent(
+        this.appDir,
+      );
+      if (!createAppDirSuccess) return;
 
-      const appMetaDirExists = await this.createDirectoryIfNonExistent(
+      const createAppMetaDirSucess = await this.createDirectoryIfNonExistent(
         this.appMetaDir,
       );
-      if (!appMetaDirExists) return;
+      if (!createAppMetaDirSucess) return;
 
       const zipFile = await this.createAppZipFile(app, script);
 
@@ -170,7 +199,10 @@ export class PipActionslaunchAppComponent {
     const zip = new JSZip();
     zip.file(`${this.appDir}/${app.id}.js`, script);
 
-    const pipAppBase = new PipAppBase(app);
+    const pipAppBase = new PipAppBase({
+      ...app,
+      name: `[${app.type}] ${app.name}`,
+    });
     zip.file(
       `${this.appMetaDir}/${app.id}.json`,
       JSON.stringify(pipAppBase.serialize()),
@@ -241,4 +273,18 @@ export class PipActionslaunchAppComponent {
     await this.pipDeviceService.clearScreen('Upload complete.');
     return true;
   }
+}
+
+function isVersionNewer(a: string, b: string): boolean {
+  const aParts = a.split('.').map(Number);
+  const bParts = b.split('.').map(Number);
+
+  for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+    const aVal = aParts[i] ?? 0;
+    const bVal = bParts[i] ?? 0;
+    if (aVal > bVal) return true;
+    if (aVal < bVal) return false;
+  }
+
+  return false; // Versions are equal
 }

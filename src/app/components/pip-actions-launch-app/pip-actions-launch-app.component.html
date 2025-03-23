@@ -1,77 +1,91 @@
-<h3>App & Games List</h3>
-@if (availablePipAppsChanges | async; as apps) {
-  @for (app of apps; track app.id) {
-    <section>
-      <h4>{{ app.name }}</h4>
-      <mat-accordion displayMode="flat">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Information</mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>
-            <strong>Author:</strong> {{ app.author }}
-            {{ app.homepage ? '&lt;' + app.homepage + '&gt;' : '' }}
-          </p>
-          <p><strong>Description:</strong> {{ app.description }}</p>
-          <p><strong>Instructions:</strong> {{ app.instructions }}</p>
-          <p *ngIf="app.tip"><strong>Tip:</strong> {{ app.tip }}</p>
-          <p>
-            <strong>File:</strong>
-            <a [href]="app.url" target="_blank"> USER/{{ app.id }}.js</a>
-          </p>
-          <p><strong>Version:</strong> {{ app.version }}</p>
-        </mat-expansion-panel>
-      </mat-accordion>
+@if (availablePipAppsChanges | async) {
+  <h3 class="apps-header">App List</h3>
+  @for (app of pipAppsChanges | async; track app.id) {
+    <ng-container
+      [ngTemplateOutlet]="appTemplate"
+      [ngTemplateOutletContext]="{ app: app }"
+    ></ng-container>
+  }
+  <h3 class="games-header">Game List</h3>
+  @for (app of pipGamesChanges | async; track app.id) {
+    <ng-container
+      [ngTemplateOutlet]="appTemplate"
+      [ngTemplateOutletContext]="{ app: app }"
+    ></ng-container>
+  }
+} @else {
+  Loading apps...
+}
+
+<ng-template #appTemplate let-app="app">
+  <section>
+    <h4>{{ app.name }}</h4>
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Information</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          <strong>Author:</strong> {{ app.author }}
+          {{ app.homepage ? '&lt;' + app.homepage + '&gt;' : '' }}
+        </p>
+        <p><strong>Description:</strong> {{ app.description }}</p>
+        <p><strong>Instructions:</strong> {{ app.instructions }}</p>
+        <p *ngIf="app.tip"><strong>Tip:</strong> {{ app.tip }}</p>
+        <p>
+          <strong>File:</strong>
+          <a [href]="app.url" target="_blank"> USER/{{ app.id }}.js</a>
+        </p>
+        <p><strong>Version:</strong> {{ app.version }}</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+    @if (!isAppInstalled(app)) {
       <pip-button
         [disabled]="
           !signals.isConnected() ||
           signals.disableAllControls() ||
-          signals.isUploadingFile() ||
-          isAppInfoUploaded(app)
+          signals.isUploadingFile()
         "
         (click)="install(app)"
         class="install-button"
         >Install {{ app.name }}</pip-button
       >
+    } @else if (isAppUpdatable(app)) {
       <pip-button
         [disabled]="
           !signals.isConnected() ||
           signals.disableAllControls() ||
-          signals.isUploadingFile() ||
-          !isAppInfoUploaded(app)
+          signals.isUploadingFile()
         "
-        class="delete-button"
-        (click)="delete(app)"
-        >Delete {{ app.name }}</pip-button
+        (click)="install(app)"
+        class="install-button"
+        >Update {{ app.name }}</pip-button
       >
-      <pip-button
-        [disabled]="
-          !signals.isConnected() ||
-          signals.disableAllControls() ||
-          signals.isUploadingFile() ||
-          !isAppInfoUploaded(app)
-        "
-        (click)="launch(app)"
-        >Launch {{ app.name }}</pip-button
+    } @else {
+      <pip-button [disabled]="true" class="install-button"
+        >Installed</pip-button
       >
-    </section>
-  }
-} @else {
-  Loading apps...
-}
-<section>
-  <h4>Other Apps</h4>
-  <p>
-    Additional apps and games will be available here over time as the project
-    continues to grow. If you're interested in contributing, you're welcome to
-    explore the open-source repository on
-    <a
-      href="https://github.com/CodyTolene/pip-apps"
-      target="_blank"
-      rel="noopener noreferrer"
-      >GitHub</a
+    }
+    <pip-button
+      [disabled]="
+        !signals.isConnected() ||
+        signals.disableAllControls() ||
+        signals.isUploadingFile() ||
+        !isAppInstalled(app)
+      "
+      class="delete-button"
+      (click)="delete(app)"
+      >Delete {{ app.name }}</pip-button
     >
-    and submit your own custom creations!
-  </p>
-</section>
-<pip-button (click)="goToAppsGithub()">Get Started Now!</pip-button>
+    <pip-button
+      [disabled]="
+        !signals.isConnected() ||
+        signals.disableAllControls() ||
+        signals.isUploadingFile() ||
+        !isAppInstalled(app)
+      "
+      (click)="launch(app)"
+      >Launch {{ app.name }}</pip-button
+    >
+  </section>
+</ng-template>

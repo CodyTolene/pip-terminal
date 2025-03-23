@@ -1,0 +1,25 @@
+@use '../colors' as col;
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.dialog-overrides(
+    (
+      container-color: col.$pip-green,
+      subhead-color: col.$pip-green,
+      supporting-text-color: col.$gray-darkest,
+    )
+  );
+}
+
+.mat-mdc-dialog-container {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    &.mat-mdc-dialog-title {
+      color: col.$gray-darkest;
+    }
+  }
+}

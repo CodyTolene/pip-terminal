@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { PipActionslaunchAppComponent } from 'src/app/components/pip-actions-launch-app/pip-actions-launch-app.component';
+import { PipActionsMiscComponent } from 'src/app/components/pip-actions-misc/pip-actions-misc.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipActionsQuickNavComponent } from 'src/app/components/pip-actions-quick-nav/pip-actions-quick-nav.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
@@ -11,9 +12,10 @@ import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
   templateUrl: './pip-apps.component.html',
   imports: [
     CommonModule,
-    PipActionslaunchAppComponent,
+    PipActionsMiscComponent,
     PipActionsPrimaryComponent,
     PipActionsQuickNavComponent,
+    PipActionslaunchAppComponent,
     PipLogComponent,
   ],
   styleUrl: './pip-apps.component.scss',

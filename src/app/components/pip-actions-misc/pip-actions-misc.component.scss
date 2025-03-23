@@ -19,15 +19,13 @@
 
 h3 {
   margin-top: 0;
+  width: 100%;
 }
 
 pip-button {
   flex: 0 1 calc(50% - 0.5rem);
 
-  &.check-battery-button,
-  &.check-sd-button,
-  &.view-sd-button,
-  &.stop-all-sounds-button {
+  &.delete-apps-button {
     flex: 0 1 calc(100%);
   }
 
