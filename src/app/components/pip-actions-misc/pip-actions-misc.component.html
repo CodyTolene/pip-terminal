@@ -44,6 +44,7 @@
   Stop All Sounds
 </pip-button>
 <pip-button
+  *ngIf="!hideDeleteAllAppsButton"
   (click)="deleteAllApps()"
   [disabled]="
     !signals.isConnected() ||

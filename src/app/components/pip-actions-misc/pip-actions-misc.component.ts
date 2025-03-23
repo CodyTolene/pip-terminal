@@ -1,8 +1,9 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { logMessage } from 'src/app/utilities';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -34,6 +35,14 @@ export class PipActionsMiscComponent {
     private readonly pipGetDataService: PipGetDataService,
     private readonly pipSoundService: PipSoundService,
   ) {}
+
+  @Input() public set hideDeleteAllAppsButton(value: BooleanInput) {
+    this.#hideDeleteAllAppsButton = coerceBooleanProperty(value);
+  }
+  public get hideDeleteAllAppsButton(): boolean {
+    return this.#hideDeleteAllAppsButton;
+  }
+  #hideDeleteAllAppsButton = false;
 
   protected readonly signals = pipSignals;
 
