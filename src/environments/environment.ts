@@ -1,4 +1,6 @@
 export const environment: EnvironmentCredentials = {
+  appsDir: 'USER',
+  appsUrl: '', // Root of "public" folder
   production: false,
   google: {
     firebase: {

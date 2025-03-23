@@ -53,3 +53,6 @@ Thumbs.db
 ./scripts/output/*
 ./scripts/output/
 ./scripts/output
+
+# Apps folder
+public/USER

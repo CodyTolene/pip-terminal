@@ -7,6 +7,7 @@ import {
 } from 'src/app/enums';
 import { PipApp } from 'src/app/models';
 import { isNonEmptyObject, logLink, logMessage, wait } from 'src/app/utilities';
+import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -50,9 +51,6 @@ export class PipActionslaunchAppComponent {
 
   protected readonly signals = pipSignals;
 
-  /* The directory of the app within the zip file and on the device. */
-  protected readonly appDir = 'USER';
-
   /* The directory of the app meta within the zip file and on the device. */
   protected readonly appMetaDir = 'APPINFO';
 
@@ -68,12 +66,22 @@ export class PipActionslaunchAppComponent {
     pipSignals.disableAllControls.set(true);
 
     try {
-      // Delete the files
-      await this.pipFileService.deleteFileOnDevice(`${app.id}.js`, this.appDir);
+      // Delete the main files
+      await this.pipFileService.deleteFileOnDevice(
+        `${app.id}.js`,
+        environment.appsDir,
+      );
       await this.pipFileService.deleteFileOnDevice(
         `${app.id}.json`,
         this.appMetaDir,
       );
+      // Delete all dependencies
+      for (const dependency of app.dependencies) {
+        await this.pipFileService.deleteFileOnDevice(
+          dependency,
+          environment.appsDir,
+        );
+      }
 
       logMessage(`Deleted ${app.name} successfully!`);
 
@@ -121,11 +129,8 @@ export class PipActionslaunchAppComponent {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const script = await this.fetchAppScript(app);
-      if (!script) return;
-
       const createAppDirSuccess = await this.createDirectoryIfNonExistent(
-        this.appDir,
+        environment.appsDir,
       );
       if (!createAppDirSuccess) return;
 
@@ -134,7 +139,8 @@ export class PipActionslaunchAppComponent {
       );
       if (!createAppMetaDirSucess) return;
 
-      const zipFile = await this.createAppZipFile(app, script);
+      const zipFile = await this.createAppZipFile(app);
+      if (!zipFile) return;
 
       const uploadSuccess = await this.uploadZipFile(app, zipFile);
       if (!uploadSuccess) return;
@@ -159,7 +165,10 @@ export class PipActionslaunchAppComponent {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const launchAppSuccess = await this.launchAppOnDevice(app, this.appDir);
+      const launchAppSuccess = await this.launchAppOnDevice(
+        app,
+        environment.appsDir,
+      );
       if (!launchAppSuccess) return;
 
       logMessage(`Launched ${app.name} successfully!`);
@@ -195,9 +204,49 @@ export class PipActionslaunchAppComponent {
    * @param script The script to zip in the file.
    * @returns The zip file containing the app.
    */
-  private async createAppZipFile(app: PipApp, script: string): Promise<File> {
+  private async createAppZipFile(app: PipApp): Promise<File | null> {
+    const script = await this.fetchAppScript(app);
+    if (!script) {
+      logMessage(`Failed to load ${app.id} script.`);
+      return null;
+    }
+
     const zip = new JSZip();
-    zip.file(`${this.appDir}/${app.id}.js`, script);
+
+    // Zip the main file
+    zip.file(`${environment.appsDir}/${app.id}.js`, script);
+
+    if (app.dependencies.length > 0) {
+      logMessage('App has dependencies, fetching...');
+
+      // Loop through any extra files to add to the zip
+      for (const dependency of app.dependencies) {
+        const baseUrl = `${environment.appsUrl}/${environment.appsDir}`;
+        const dependencyUrl = `${baseUrl}/${dependency}`;
+
+        const asset = await this.fetchAppAsset(dependencyUrl);
+
+        if (!asset) {
+          logMessage(`Failed to load asset from ${dependencyUrl}.`);
+          return null;
+        }
+
+        zip.file(`${environment.appsDir}/${dependency}`, asset);
+      }
+
+      // For each asset directy, make sure it exists before upload
+      for (const [fileName, zipFile] of Object.entries(zip.files)) {
+        if (zipFile.dir) {
+          const createDirSuccess =
+            await this.createDirectoryIfNonExistent(fileName);
+
+          if (!createDirSuccess) {
+            logMessage(`Failed to create directory "${fileName}" on device.`);
+            return null;
+          }
+        }
+      }
+    }
 
     const pipAppBase = new PipAppBase({
       ...app,
@@ -224,11 +273,11 @@ export class PipActionslaunchAppComponent {
    * @returns The script for the app, or null if the script could not be fetched.
    */
   private async fetchAppScript(app: PipApp): Promise<string | null> {
-    const publicAppUrl = 'https://github.com/CodyTolene/pip-apps';
-    logLink(`Fetching "${this.appDir}/${app.id}.js" from`, publicAppUrl);
+    const publicAppUrl = `${environment.appsUrl}/${environment.appsDir}`;
+    logLink(`Fetching "${publicAppUrl}/${app.id}.js" from`, publicAppUrl);
 
     const script = await firstValueFrom(
-      this.pipAppsService.fetchAppScript(app.url),
+      this.pipAppsService.fetchAsset(app.url),
     );
 
     if (!script) {
@@ -237,6 +286,17 @@ export class PipActionslaunchAppComponent {
     }
 
     return script;
+  }
+
+  private async fetchAppAsset(url: string): Promise<string | null> {
+    const asset = await firstValueFrom(this.pipAppsService.fetchAsset(url));
+
+    if (!asset) {
+      logMessage(`Failed to load asset from ${url}.`);
+      return null;
+    }
+
+    return asset;
   }
 
   /**
