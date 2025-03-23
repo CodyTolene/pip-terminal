@@ -1,8 +1,12 @@
 import JSZip from 'jszip';
-import { Observable, firstValueFrom } from 'rxjs';
-import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
+import { Observable, filter, firstValueFrom, map, shareReplay } from 'rxjs';
+import {
+  PipAppTypeEnum,
+  PipSubTabLabelEnum,
+  PipTabLabelEnum,
+} from 'src/app/enums';
 import { PipApp } from 'src/app/models';
-import { logLink, logMessage, wait } from 'src/app/utilities';
+import { isNonEmptyObject, logLink, logMessage, wait } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -33,8 +37,18 @@ export class PipActionslaunchAppComponent {
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {
-    this.availablePipAppsChanges = this.pipAppsService.fetchRegistry();
+    this.availablePipAppsChanges = this.pipAppsService
+      .fetchRegistry()
+      .pipe(filter(isNonEmptyObject), shareReplay(1));
+    this.pipAppsChanges = this.availablePipAppsChanges.pipe(
+      map((apps) => apps.filter((app) => app.type === PipAppTypeEnum.APP)),
+    );
+    this.pipGamesChanges = this.availablePipAppsChanges.pipe(
+      map((apps) => apps.filter((app) => app.type === PipAppTypeEnum.GAME)),
+    );
   }
+
+  protected readonly signals = pipSignals;
 
   /* The directory of the app within the zip file and on the device. */
   protected readonly appDir = 'USER';
@@ -42,13 +56,13 @@ export class PipActionslaunchAppComponent {
   /* The directory of the app meta within the zip file and on the device. */
   protected readonly appMetaDir = 'APPINFO';
 
+  protected readonly PipAppTypeEnum = PipAppTypeEnum;
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
 
-  protected readonly availablePipAppsChanges: Observable<
-    readonly PipApp[] | undefined
-  >;
-  protected readonly signals = pipSignals;
+  protected readonly availablePipAppsChanges: Observable<readonly PipApp[]>;
+  protected readonly pipAppsChanges: Observable<readonly PipApp[]>;
+  protected readonly pipGamesChanges: Observable<readonly PipApp[]>;
 
   protected async delete(app: PipApp): Promise<void> {
     pipSignals.disableAllControls.set(true);

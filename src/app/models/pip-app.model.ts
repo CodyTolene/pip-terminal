@@ -1,5 +1,6 @@
 import * as io from 'io-ts';
 import { apiDecorator } from 'src/app/decorators';
+import { PipAppTypeEnum } from 'src/app/enums';
 import { decode } from 'src/app/utilities';
 
 type PipAppBaseApi = io.TypeOf<typeof PipAppBase.BaseCodec>;
@@ -12,24 +13,28 @@ export class PipAppBase {
   public constructor(args: PipAppBaseApi) {
     this.id = args.id;
     this.name = args.name;
+    this.version = args.version;
   }
 
   public static readonly BaseCodec = io.type(
     {
       id: io.string,
       name: io.string,
+      version: io.union([io.undefined, io.string]),
     },
     'PipAppBaseApi',
   );
 
   @baseApi({ key: 'id' }) public readonly id: string;
   @baseApi({ key: 'name' }) public readonly name: string;
+  @baseApi({ key: 'version' }) public readonly version?: string;
 
   public static deserialize(value: unknown): PipAppBase {
     const decoded = decode(PipAppBase.BaseCodec, value);
     return new PipAppBase({
       id: decoded.id,
       name: decoded.name,
+      version: decoded.version,
     });
   }
 
@@ -46,6 +51,7 @@ export class PipAppBase {
     return {
       id: this.id,
       name: this.name,
+      version: this.version,
     };
   }
 }
@@ -59,6 +65,7 @@ export class PipApp extends PipAppBase {
     this.homepage = args.homepage;
     this.instructions = args.instructions;
     this.tip = args.tip;
+    this.type = args.type;
     this.version = args.version;
 
     // Temporary values
@@ -78,6 +85,10 @@ export class PipApp extends PipAppBase {
       instructions: io.string,
       name: io.string,
       tip: io.union([io.undefined, io.string]),
+      type: io.union([
+        io.literal(PipAppTypeEnum.APP),
+        io.literal(PipAppTypeEnum.GAME),
+      ]),
       version: io.string,
     },
     'PipAppApi',
@@ -88,7 +99,8 @@ export class PipApp extends PipAppBase {
   @api({ key: 'homepage' }) public readonly homepage?: string;
   @api({ key: 'instructions' }) public readonly instructions: string;
   @api({ key: 'tip' }) public readonly tip?: string;
-  @api({ key: 'version' }) public readonly version: string;
+  @api({ key: 'type' }) public readonly type: PipAppTypeEnum;
+  @api({ key: 'version' }) public override readonly version: string;
 
   // Computed values
   public readonly url: string;
@@ -103,6 +115,7 @@ export class PipApp extends PipAppBase {
       instructions: decoded.instructions,
       name: decoded.name,
       tip: decoded.tip,
+      type: decoded.type,
       version: decoded.version,
     });
   }
@@ -125,6 +138,7 @@ export class PipApp extends PipAppBase {
       instructions: this.instructions,
       name: this.name,
       tip: this.tip,
+      type: this.type,
       version: this.version,
     };
   }

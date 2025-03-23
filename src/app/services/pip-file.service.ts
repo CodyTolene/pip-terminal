@@ -242,7 +242,13 @@ export class PipFileService {
               continue;
             }
             if (parsed?.id && parsed?.name) {
-              apps.push(new PipAppBase({ id: parsed.id, name: parsed.name }));
+              apps.push(
+                new PipAppBase({
+                  id: parsed.id,
+                  name: parsed.name,
+                  version: parsed.version,
+                }),
+              );
             }
           } catch {
             logMessage(`Invalid JSON in file: "${filePath}"`);
