@@ -1,29 +1,30 @@
-@if (availablePipAppsChanges | async) {
-  <h3 class="apps-header">App List</h3>
-  @for (app of pipAppsChanges | async; track app.id) {
-    <ng-container
-      [ngTemplateOutlet]="appTemplate"
-      [ngTemplateOutletContext]="{ app: app }"
-    ></ng-container>
+<main>
+  @if (availablePipAppsChanges | async) {
+    <h3 class="apps-header">App List</h3>
+    @for (app of pipAppsChanges | async; track app.id) {
+      <ng-container
+        [ngTemplateOutlet]="appTemplate"
+        [ngTemplateOutletContext]="{ app: app }"
+      ></ng-container>
+    }
+    <h3 class="games-header">Game List</h3>
+    @for (app of pipGamesChanges | async; track app.id) {
+      <ng-container
+        [ngTemplateOutlet]="appTemplate"
+        [ngTemplateOutletContext]="{ app: app }"
+      ></ng-container>
+    }
+  } @else {
+    Loading apps...
   }
-  <h3 class="games-header">Game List</h3>
-  @for (app of pipGamesChanges | async; track app.id) {
-    <ng-container
-      [ngTemplateOutlet]="appTemplate"
-      [ngTemplateOutletContext]="{ app: app }"
-    ></ng-container>
-  }
-} @else {
-  Loading apps...
-}
+</main>
 
 <ng-template #appTemplate let-app="app">
   <section>
-    <h4>{{ app.name }}</h4>
     <mat-accordion displayMode="flat">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Information</mat-panel-title>
+          <mat-panel-title>{{ app.name }}</mat-panel-title>
         </mat-expansion-panel-header>
         <p>
           <strong>Author:</strong> {{ app.author }}
@@ -48,7 +49,7 @@
         "
         (click)="install(app)"
         class="install-button"
-        >Install {{ app.name }}</pip-button
+        >Install</pip-button
       >
     } @else if (isAppUpdatable(app)) {
       <pip-button
@@ -59,7 +60,7 @@
         "
         (click)="install(app)"
         class="install-button"
-        >Update {{ app.name }}</pip-button
+        >Update to {{ app.version }}</pip-button
       >
     } @else {
       <pip-button [disabled]="true" class="install-button"
@@ -75,7 +76,7 @@
       "
       class="delete-button"
       (click)="delete(app)"
-      >Delete {{ app.name }}</pip-button
+      >Delete</pip-button
     >
     <pip-button
       [disabled]="
@@ -85,7 +86,7 @@
         !isAppInstalled(app)
       "
       (click)="launch(app)"
-      >Launch {{ app.name }}</pip-button
+      >Launch</pip-button
     >
   </section>
 </ng-template>
