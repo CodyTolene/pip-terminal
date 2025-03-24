@@ -16,16 +16,26 @@
 
 h3 {
   margin-top: 0;
+  width: 100%;
 }
 
-h4 {
-  margin-bottom: 0;
-}
-
-section {
+main {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   gap: 1rem;
+
+  section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    flex: 0 1 calc(50% - 0.5rem);
+    align-content: flex-start;
+
+    @include bps.media('max', 'md') {
+      flex: 0 1 calc(100%);
+    }
+  }
 }
 
 pip-button {
