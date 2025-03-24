@@ -384,6 +384,8 @@ export class PipFileService {
         },
       );
 
+      await wait(200);
+
       return fileData.length;
     } catch (error) {
       logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
