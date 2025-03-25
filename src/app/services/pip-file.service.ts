@@ -346,6 +346,55 @@ export class PipFileService {
   }
 
   /**
+   * Reads and parses a JSON file from the device.
+   *
+   * @param path The path to the JSON file on the device (e.g., "USER/_config.json").
+   * @returns The parsed JSON object or null if the read fails.
+   */
+  public async readJsonFileFromDevice(path: string): Promise<unknown | null> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return null;
+    }
+
+    try {
+      const result = await this.pipCommandService.cmd<string>(`
+        (() => {
+          var fs = require("fs");
+          try {
+            var content = fs.readFile("${path}");
+            return content;
+          } catch (error) {
+            return JSON.stringify({ error: error.message });
+          }
+        })()
+      `);
+
+      // Check if it returned an error message
+      if (typeof result === 'string') {
+        try {
+          const parsed = JSON.parse(result);
+          if (parsed?.error) {
+            logMessage(`Failed to read "${path}" from device: ${parsed.error}`);
+            return null;
+          }
+          return parsed;
+        } catch {
+          logMessage(`Invalid JSON in file: "${path}"`);
+          return null;
+        }
+      }
+
+      return null;
+    } catch (error) {
+      logMessage(
+        `Error reading "${path}" from device: ${(error as Error)?.message}`,
+      );
+      return null;
+    }
+  }
+
+  /**
    * Sends a single file to the device.
    *
    * @param path The path to save the file to on the device.
