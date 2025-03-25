@@ -4,19 +4,15 @@
 @use '../../styles/scrollbar' as sb;
 
 :host {
-  border: 2px dashed transparent;
   display: flex;
   flex-direction: column;
   padding: 1rem;
-
-  &:hover {
-    @include ani.borderAnimation;
-  }
 }
 
 h3 {
   margin-top: 0;
   width: 100%;
+  margin-bottom: 0;
 }
 
 main {
@@ -26,15 +22,17 @@ main {
   gap: 1rem;
 
   section {
+    border: 2px dashed transparent;
+    &:hover {
+      @include ani.borderAnimation;
+    }
+
+    align-content: flex-start;
     display: flex;
     flex-wrap: wrap;
+    flex: 0 1 calc(100%);
     gap: 1rem;
-    flex: 0 1 calc(50% - 0.5rem);
-    align-content: flex-start;
-
-    @include bps.media('max', 'md') {
-      flex: 0 1 calc(100%);
-    }
+    padding: 1rem;
   }
 }
 
