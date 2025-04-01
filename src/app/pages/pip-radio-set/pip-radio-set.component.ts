@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipActionsMiscComponent } from 'src/app/components/pip-actions-misc/pip-actions-misc.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/pip-actions-primary/pip-actions-primary.component';
 import { PipActionsQuickNavComponent } from 'src/app/components/pip-actions-quick-nav/pip-actions-quick-nav.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
 import { PipLogComponent } from 'src/app/components/pip-log/pip-log.component';
 
 import { PipSoundService } from 'src/app/services/pip-sound.service';

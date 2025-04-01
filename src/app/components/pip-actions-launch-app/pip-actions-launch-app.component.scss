@@ -22,17 +22,17 @@ main {
   gap: 1rem;
 
   section {
-    border: 2px dashed transparent;
-    &:hover {
-      @include ani.borderAnimation;
-    }
-
     align-content: flex-start;
+    border: 2px dashed transparent;
     display: flex;
     flex-wrap: wrap;
     flex: 0 1 calc(100%);
     gap: 1rem;
     padding: 1rem;
+
+    &:hover {
+      @include ani.borderAnimation;
+    }
   }
 }
 

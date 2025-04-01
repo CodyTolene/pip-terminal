@@ -16,7 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
 
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
 import { PipTimeService } from 'src/app/services/pip-time.service';

@@ -1,3 +1,4 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import JSZip from 'jszip';
 import { Observable, filter, firstValueFrom, map, shareReplay } from 'rxjs';
 import {
@@ -6,15 +7,20 @@ import {
   PipTabLabelEnum,
 } from 'src/app/enums';
 import { PipApp } from 'src/app/models';
-import { isNonEmptyObject, logLink, logMessage, wait } from 'src/app/utilities';
+import { isNonEmptyObject, logMessage, wait } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
+import {
+  PipDialogConfirmComponent,
+  PipDialogConfirmInput,
+} from 'src/app/components/pip-dialog-confirm/pip-dialog-confirm.component';
 
 import { PipAppBase } from 'src/app/models/pip-app.model';
 
@@ -24,10 +30,17 @@ import { PipFileService } from 'src/app/services/pip-file.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-actions-launch-app',
   templateUrl: './pip-actions-launch-app.component.html',
-  imports: [CommonModule, MatExpansionModule, PipButtonComponent, RouterModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatExpansionModule,
+    PipButtonComponent,
+    RouterModule,
+  ],
   styleUrl: './pip-actions-launch-app.component.scss',
   providers: [],
   standalone: true,
@@ -49,6 +62,8 @@ export class PipActionslaunchAppComponent {
     );
   }
 
+  private readonly dialog = inject(MatDialog);
+
   protected readonly signals = pipSignals;
 
   /* The directory of the app meta within the zip file and on the device. */
@@ -63,42 +78,98 @@ export class PipActionslaunchAppComponent {
   protected readonly pipGamesChanges: Observable<readonly PipApp[]>;
 
   protected async delete(app: PipApp): Promise<void> {
-    pipSignals.disableAllControls.set(true);
+    const dialogRef = this.dialog.open<
+      PipDialogConfirmComponent,
+      PipDialogConfirmInput,
+      boolean | null
+    >(PipDialogConfirmComponent, {
+      data: {
+        message: `Are you sure you want to delete "${app.name}" from the device?`,
+      },
+    });
 
-    try {
-      // Delete the main files
-      await this.pipFileService.deleteFileOnDevice(
-        `${app.id}.js`,
-        environment.appsDir,
-      );
-      await this.pipFileService.deleteFileOnDevice(
-        `${app.id}.json`,
-        this.appMetaDir,
-      );
-      // Delete all dependencies
-      for (const dependency of app.dependencies) {
-        await this.pipFileService.deleteFileOnDevice(
-          dependency,
-          environment.appsDir,
-        );
-      }
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe(async (result) => {
+        if (!result) return;
 
-      logMessage(`Deleted ${app.name} successfully!`);
+        pipSignals.disableAllControls.set(true);
 
-      wait(2000);
+        try {
+          // Delete the main files
+          await this.pipFileService.deleteFileOnDevice(
+            `${app.id}.js`,
+            environment.appsDir,
+          );
+          await this.pipFileService.deleteFileOnDevice(
+            `${app.id}.json`,
+            this.appMetaDir,
+          );
 
-      await this.pipDeviceService.clearScreen(
-        'Completed! Continue deleting',
-        'or restart to apply changes.',
-        { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
-      );
+          // Delete all contents in the USER directory
+          if (app.dependencies.length > 0) {
+            logMessage('App has dependencies, deleting...');
+            await wait(1000);
 
-      // Refresh the app list after deleting an app.
-      const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
-      pipSignals.appInfo.set(deviceAppInfo ?? []);
-    } finally {
-      pipSignals.disableAllControls.set(false);
-    }
+            const appDirectory = `USER/${app.id}`;
+            const appDirList = [
+              ...(await this.pipFileService.getAllDirectoryContents(
+                appDirectory,
+              )),
+            ]
+              .filter((fileMeta) => fileMeta.type === 'dir')
+              // Sort by the directory with the most '/' in the path first
+              .sort((a, b) => {
+                const aSlashCount = a.path.split('/').length;
+                const bSlashCount = b.path.split('/').length;
+                return bSlashCount - aSlashCount;
+              });
+
+            for (const appDir of appDirList) {
+              const deleteSuccess =
+                await this.pipFileService.deleteDirectoryOnDevice(appDir.path);
+
+              if (deleteSuccess) {
+                logMessage(`Deleted all dependencies in ${appDir.path}`);
+              } else {
+                logMessage(
+                  `Failed to delete all dependencies in ${appDir.path}`,
+                );
+                logMessage('Please try again later.');
+                return;
+              }
+            }
+
+            // Once all nested directories are deleted, delete the base directory
+            const appDirectoryDeleteSuccess =
+              await this.pipFileService.deleteDirectoryOnDevice(appDirectory);
+            if (appDirectoryDeleteSuccess) {
+              logMessage(`Deleted ${appDirectory}`);
+            } else {
+              logMessage(`Failed to delete ${appDirectory}`);
+              logMessage('Please try again later.');
+              return;
+            }
+          }
+
+          logMessage(`Deleted ${app.name} successfully!`);
+
+          wait(2000);
+
+          await this.pipDeviceService.clearScreen(
+            'Completed! Continue deleting',
+            'or restart to apply changes.',
+            { filename: 'UI/THUMBDOWN.avi', x: 160, y: 40 },
+          );
+
+          // Refresh the app list after deleting an app.
+          const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
+          pipSignals.appInfo.set(deviceAppInfo ?? []);
+        } finally {
+          pipSignals.disableAllControls.set(false);
+        }
+      });
   }
 
   protected goToAppsGithub(): void {
@@ -158,6 +229,7 @@ export class PipActionslaunchAppComponent {
       pipSignals.appInfo.set(deviceAppInfo ?? []);
     } finally {
       pipSignals.disableAllControls.set(false);
+      logMessage(`Installed ${app.name} successfully!`);
     }
   }
 
@@ -218,6 +290,7 @@ export class PipActionslaunchAppComponent {
 
     if (app.dependencies.length > 0) {
       logMessage('App has dependencies, fetching...');
+      await wait(1000);
 
       // Loop through any extra files to add to the zip
       for (const dependency of app.dependencies) {
@@ -232,6 +305,8 @@ export class PipActionslaunchAppComponent {
           logMessage(`Failed to load asset from ${dependencyUrl}.`);
           return null;
         }
+
+        logMessage(`Packing ${dependency}...`);
 
         zip.file(`${environment.appsDir}/${dependency}`, asset);
       }
@@ -275,8 +350,7 @@ export class PipActionslaunchAppComponent {
    * @returns The script for the app, or null if the script could not be fetched.
    */
   private async fetchAppScript(app: PipApp): Promise<string | null> {
-    const publicAppUrl = `${environment.appsUrl}/${environment.appsDir}`;
-    logLink(`Fetching "${publicAppUrl}/${app.id}.js" from`, publicAppUrl);
+    logMessage(`Fetching "${app.id}.js"`);
 
     const script = await firstValueFrom(
       this.pipAppsService.fetchAsset(app.url),

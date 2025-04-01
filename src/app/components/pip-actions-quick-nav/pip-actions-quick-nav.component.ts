@@ -4,7 +4,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
 
 import { PipTabsService } from 'src/app/services/pip-tabs.service';
 

@@ -3,7 +3,7 @@ import { clearLog } from 'src/app/utilities';
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, Component, ElementRef } from '@angular/core';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
 
 import { PipDeviceService } from 'src/app/services/pip-device.service';
 
