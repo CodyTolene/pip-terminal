@@ -1,5 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ReplaySubject, map } from 'rxjs';
+import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
@@ -99,10 +100,12 @@ export class PipFileExplorerComponent implements OnInit {
   protected async refresh(): Promise<void> {
     this.isInitialized = false;
     this.signals.disableAllControls.set(true);
+    logMessage('Loading file list...');
 
     const fileMetaList = await this.pipFileService.getAllDirectoryContents();
     this.fileMetaListSubject.next([...fileMetaList]);
 
+    logMessage('File list loaded successfully.');
     this.signals.disableAllControls.set(false);
     this.isInitialized = true;
   }

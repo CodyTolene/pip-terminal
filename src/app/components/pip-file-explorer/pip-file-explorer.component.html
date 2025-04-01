@@ -4,7 +4,7 @@
   [disabled]="!signals.isConnected() || signals.disableAllControls()"
   (click)="refresh()"
 >
-  {{ isInitialized ? 'Refresh' : 'Initialize' }}
+  {{ isInitialized ? 'Refresh Files' : 'Load Files' }}
 </pip-button>
 
 @if (signals.isConnected() && this.isInitialized) {
@@ -15,7 +15,9 @@
   >
     <!-- Leaf node -->
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-      <button mat-icon-button disabled>D</button>
+      <button mat-icon-button disabled>
+        <mat-icon>description</mat-icon>
+      </button>
       {{ node.name }}
     </mat-tree-node>
 
