@@ -1,0 +1,40 @@
+<h3>File Explorer</h3>
+
+<pip-button
+  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  (click)="refresh()"
+>
+  {{ isInitialized ? 'Refresh' : 'Initialize' }}
+</pip-button>
+
+@if (signals.isConnected() && this.isInitialized) {
+  <mat-tree
+    #tree
+    [dataSource]="fileTree()"
+    [childrenAccessor]="childrenAccessor"
+  >
+    <!-- Leaf node -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+      <button mat-icon-button disabled>D</button>
+      {{ node.name }}
+    </mat-tree-node>
+
+    <!-- Expandable directory node -->
+    <mat-tree-node
+      *matTreeNodeDef="let node; when: hasChild"
+      matTreeNodePadding
+      matTreeNodeToggle
+    >
+      <button
+        mat-icon-button
+        matTreeNodeToggle
+        [attr.aria-label]="'Toggle ' + node.name"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+      {{ node.name }}
+    </mat-tree-node>
+  </mat-tree>
+}

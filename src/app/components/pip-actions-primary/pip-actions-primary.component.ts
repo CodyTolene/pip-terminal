@@ -3,7 +3,7 @@ import { PipSubTabLabelEnum, PipTabLabelEnum } from 'src/app/enums';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/pip-button/pip-button.component';
 
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';

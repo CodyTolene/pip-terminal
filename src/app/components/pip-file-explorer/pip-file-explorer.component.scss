@@ -1,0 +1,24 @@
+@use '../../styles/animations/border-animation' as ani;
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+
+:host {
+  border: 2px dashed transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  &:hover {
+    @include ani.borderAnimation;
+  }
+}
+
+h3 {
+  margin-top: 0;
+}
+
+pip-button {
+  margin-bottom: 1rem;
+  width: 100%;
+}
