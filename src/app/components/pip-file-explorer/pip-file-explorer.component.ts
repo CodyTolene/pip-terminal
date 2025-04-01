@@ -77,6 +77,7 @@ export class PipFileExplorerComponent implements OnInit {
         }
 
         const tree = Array.from(rootMap.values());
+        this.sortTree(tree);
         return tree;
       }),
     );
@@ -104,6 +105,15 @@ export class PipFileExplorerComponent implements OnInit {
 
     this.signals.disableAllControls.set(false);
     this.isInitialized = true;
+  }
+
+  private sortTree(nodes: FileNode[]): void {
+    nodes.sort((a, b) => a.name.localeCompare(b.name));
+    for (const node of nodes) {
+      if (node.children) {
+        this.sortTree(node.children);
+      }
+    }
   }
 }
 
