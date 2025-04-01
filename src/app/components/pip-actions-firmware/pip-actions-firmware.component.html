@@ -1,4 +1,4 @@
-<h3>Firmware Update</h3>
+<h3>Zip Update</h3>
 <pip-button
   (click)="fetchLatestUpdateLinks()"
   [disabled]="
@@ -8,9 +8,9 @@
   "
 >
   @if (isFetchingChanges | async) {
-    Fetch Links ({{ countdownChanges | async }})
+    Fetch FW Links ({{ countdownChanges | async }})
   } @else {
-    Fetch Links
+    Fetch FW Links
   }
 </pip-button>
 <div class="file-upload">

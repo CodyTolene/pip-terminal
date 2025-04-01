@@ -129,6 +129,103 @@ export class PipFileService {
   }
 
   /**
+   * Recursively fetches all files and directories from a given directory.
+   *
+   * @param dir The starting directory ('' or '/' for root).
+   * @returns Flat list of all file and directory metadata.
+   */
+  public async getAllDirectoryContents(
+    dir = '',
+    log = false,
+  ): Promise<readonly DirMeta[]> {
+    const allFiles: DirMeta[] = [];
+
+    const walkDirectory = async (currentDir: string): Promise<void> => {
+      const fileMetaList =
+        (await this.getImmediateDirectoryContents(currentDir)) ?? [];
+
+      for (const fileMeta of fileMetaList) {
+        allFiles.push(fileMeta);
+
+        if (log) logMessage(`${fileMeta.type} - ${fileMeta.path}`);
+
+        if (fileMeta.type === 'dir') {
+          await walkDirectory(fileMeta.path);
+        }
+      }
+    };
+
+    await walkDirectory(dir);
+    return allFiles;
+  }
+
+  /**
+   * Gets the contents (files and directories) of a given path on the device.
+   *
+   * @param path The directory path to read ('' or '/' for root).
+   * @returns Array of entries with name, path, and type (file or dir).
+   */
+  public async getImmediateDirectoryContents(
+    path: string,
+  ): Promise<readonly DirMeta[] | null> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return null;
+    }
+
+    try {
+      const result = await this.pipCommandService.cmd<{
+        success: boolean;
+        entries: readonly DirMeta[];
+        message: string;
+      }>(`
+        (() => {
+          var fs = require("fs");
+          var entries = [];
+          var logs = [];
+
+          function resolvePath(dir, file) {
+            if (dir === "/" || dir === "") return "/" + file;
+            return dir + "/" + file;
+          }
+
+          try {
+            var list = fs.readdir("${path}");
+            list.forEach(name => {
+              var full = resolvePath("${path}", name);
+              var type = "file";
+              try {
+                fs.readdir(full);
+                type = "dir";
+              } catch (_) {}
+              entries.push({ name: name, path: full, type: type });
+            });
+
+            return {
+              success: true,
+              entries: entries,
+              message: "Found " + entries.length + " entries."
+            };
+          } catch (e) {
+            return { success: false, entries: [], message: "Failed to read: " + e.message };
+          }
+        })()
+      `);
+
+      if (!result?.success) {
+        logMessage(`Failed to list "${path}":`);
+        logMessage(result?.message || 'Unknown error');
+        return null;
+      }
+
+      return result.entries;
+    } catch (error) {
+      logMessage(`Error reading directory: ${(error as Error)?.message}`);
+      return null;
+    }
+  }
+
+  /**
    * Deletes the directory and all its contents on the device.
    *
    * @param directory The directory to delete.
@@ -161,7 +258,9 @@ export class PipFileService {
                 try {
                   fs.readdir(full);
                   // If we get here, it's a directory — skip it
-                  logs.push("Skipping directory: " + full);
+                  // logs.push("Skipping directory: " + full);
+                  fs.rmdir(full);
+                  logs.push("Deleted directory: " + full);
                 } catch (err) {
                   // Not a directory, delete file
                   try {
@@ -204,43 +303,6 @@ export class PipFileService {
       const errorMessage = `Error deleting directory: ${(error as Error)?.message}`;
       logMessage(errorMessage);
       return false;
-    }
-  }
-
-  public async getDirectoryFileList(directory = ''): Promise<string[] | null> {
-    if (!this.pipConnectionService.connection?.isOpen) {
-      logMessage('Please connect to the device first.');
-      return null;
-    }
-
-    try {
-      const resultSd = await this.pipCommandService.cmd<string>(`
-        (() => {
-          var fs = require("fs");
-          try {
-            var filenames = fs.readdir(${JSON.stringify(directory)});
-            return JSON.stringify(filenames);
-          } catch (err) {
-            return JSON.stringify({ error: err.message });
-          }
-        })()
-      `);
-
-      if (!resultSd) {
-        logMessage('Failed to get a response from the device.');
-        return null;
-      }
-
-      const parsed = JSON.parse(resultSd);
-      if (parsed?.error) {
-        return null;
-      }
-
-      return parsed;
-    } catch (error) {
-      const errorMessage = `Error: ${(error as Error)?.message}`;
-      logMessage(errorMessage);
-      return null;
     }
   }
 
@@ -297,13 +359,16 @@ export class PipFileService {
     }
 
     try {
-      const fileNameList = await this.getDirectoryFileList('APPINFO/');
-      const fileNameListJson =
-        fileNameList?.filter((fileName) => fileName.endsWith('.json')) ?? [];
+      const fileMetaList = await this.getImmediateDirectoryContents('APPINFO/');
+      const fileMetaListJson =
+        fileMetaList?.filter((fileMeta) => fileMeta.path.endsWith('.json')) ??
+        [];
 
       const apps: PipAppBase[] = [];
 
-      for (const fileName of fileNameListJson) {
+      for (const fileName of fileMetaListJson.map(
+        (fileMeta) => fileMeta.name,
+      )) {
         const filePath = `APPINFO/${fileName}`;
         const fileContent = await this.pipCommandService.cmd<string>(`
           (() => {
