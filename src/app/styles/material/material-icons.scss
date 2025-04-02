@@ -1,7 +1,7 @@
 // https://developers.google.com/fonts/docs/material_icons
 
-.material-icons {
-  font-family: 'Material Icons';
+.material-icons,
+.material-icons-outlined {
   font-weight: normal;
   font-style: normal;
   font-size: 24px; /* Preferred icon size */
@@ -24,6 +24,14 @@
 
   /* Support for IE. */
   font-feature-settings: 'liga';
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+}
+
+.material-icons-outlined {
+  font-family: 'Material Icons Outlined';
 }
 
 mat-datepicker-toggle.mat-datepicker-toggle,

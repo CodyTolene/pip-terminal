@@ -81,7 +81,7 @@ export class PipActionsMiscComponent {
         // Delete all contents in the USER directory
         const appDirectory = 'USER';
         const appDirList = [
-          ...(await this.pipFileService.getAllDirectoryContents(appDirectory)),
+          ...(await this.pipFileService.getTree(appDirectory)),
         ]
           .filter((fileMeta) => fileMeta.type === 'dir')
           // Sort by the directory with the most '/' in the path first
@@ -118,9 +118,7 @@ export class PipActionsMiscComponent {
         // Now delete the APPINFO directory
         const appMetaDirectory = 'APPINFO';
         const appMetaDirList = [
-          ...(await this.pipFileService.getAllDirectoryContents(
-            appMetaDirectory,
-          )),
+          ...(await this.pipFileService.getTree(appMetaDirectory)),
         ]
           .filter((fileMeta) => fileMeta.type === 'dir')
           // Sort by the directory with the most '/' in the path first
@@ -163,7 +161,7 @@ export class PipActionsMiscComponent {
   public async logAllDirectoryContents(): Promise<void> {
     logMessage('Fetching all directory contents...');
     const rootDir = '';
-    await this.pipFileService.getAllDirectoryContents(rootDir, true);
+    await this.pipFileService.getTree(rootDir, true);
   }
 
   protected async getSDCardMBSpace(): Promise<void> {
