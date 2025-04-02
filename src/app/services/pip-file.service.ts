@@ -128,101 +128,102 @@ export class PipFileService {
     }
   }
 
-  /**
-   * Recursively fetches all files and directories from a given directory.
-   *
-   * @param dir The starting directory ('' or '/' for root).
-   * @returns Flat list of all file and directory metadata.
-   */
-  public async getAllDirectoryContents(
-    dir = '',
-    log = false,
-  ): Promise<readonly DirMeta[]> {
-    const allFiles: DirMeta[] = [];
-
-    const walkDirectory = async (currentDir: string): Promise<void> => {
-      const fileMetaList =
-        (await this.getImmediateDirectoryContents(currentDir)) ?? [];
-
-      for (const fileMeta of fileMetaList) {
-        allFiles.push(fileMeta);
-
-        if (log) logMessage(`${fileMeta.type} - ${fileMeta.path}`);
-
-        if (fileMeta.type === 'dir') {
-          await walkDirectory(fileMeta.path);
-        }
-      }
-    };
-
-    await walkDirectory(dir);
-    return allFiles;
-  }
-
-  /**
-   * Gets the contents (files and directories) of a given path on the device.
-   *
-   * @param path The directory path to read ('' or '/' for root).
-   * @returns Array of entries with name, path, and type (file or dir).
-   */
-  public async getImmediateDirectoryContents(
-    path: string,
-  ): Promise<readonly DirMeta[] | null> {
+  public async getBranch(dir = '', log = false): Promise<readonly Branch[]> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
-      return null;
+      return [];
     }
 
-    try {
-      const result = await this.pipCommandService.cmd<{
-        success: boolean;
-        entries: readonly DirMeta[];
-        message: string;
-      }>(`
-        (() => {
-          var fs = require("fs");
-          var entries = [];
-          var logs = [];
+    const escapedPath = dir.replace(/"/g, '\\"');
 
-          function resolvePath(dir, file) {
-            if (dir === "/" || dir === "") return "/" + file;
-            return dir + "/" + file;
-          }
+    const result = await this.pipCommandService.cmd<{
+      success: boolean;
+      entries: Array<{
+        name: string;
+        path: string;
+        type: 'file' | 'dir';
+        size: number;
+        modified: string;
+      }>;
+      message: string;
+    }>(`
+      (() => {
+        var fs = require("fs");
+  
+        function resolvePath(dir, file) {
+          if (dir === "/" || dir === "") return "/" + file;
+          return dir + "/" + file;
+        }
+  
+        var entries = [];
+        try {
+          var list = fs.readdir("${escapedPath}");
+          list.forEach(function(name) {
+            var full = resolvePath("${escapedPath}", name);
+            try {
+              var stat = fs.statSync(full);
+              entries.push({
+                name: name,
+                path: full,
+                type: stat.dir ? "dir" : "file",
+                size: stat.size,
+                modified: stat.mtime
+              });
+            } catch (_) {}
+          });
+  
+          return {
+            success: true,
+            entries: entries,
+            message: "Listed " + entries.length + " entries."
+          };
+        } catch (e) {
+          return {
+            success: false,
+            entries: [],
+            message: "Failed to read: " + e.message
+          };
+        }
+      })()
+    `);
 
-          try {
-            var list = fs.readdir("${path}");
-            list.forEach(name => {
-              var full = resolvePath("${path}", name);
-              var type = "file";
-              try {
-                fs.readdir(full);
-                type = "dir";
-              } catch (_) {}
-              entries.push({ name: name, path: full, type: type });
-            });
+    if (!result?.success) {
+      logMessage(`Failed to list "${dir}": ${result?.message}`);
+      return [];
+    }
 
-            return {
-              success: true,
-              entries: entries,
-              message: "Found " + entries.length + " entries."
-            };
-          } catch (e) {
-            return { success: false, entries: [], message: "Failed to read: " + e.message };
-          }
-        })()
-      `);
+    const nodes: Branch[] = [];
 
-      if (!result?.success) {
-        logMessage(`Failed to list "${path}":`);
-        logMessage(result?.message || 'Unknown error');
-        return null;
+    for (const entry of result.entries) {
+      if (log) logMessage(`${entry.type} - ${entry.path}`);
+      nodes.push(entry);
+    }
+
+    return nodes;
+  }
+
+  public async getTree(dir = '', log = false): Promise<readonly Branch[]> {
+    const walk = async (path: string): Promise<Branch[]> => {
+      const branches = await this.getBranch(path, log);
+      const tree: Branch[] = [];
+
+      for (const branch of branches) {
+        if (log) logMessage(`${branch.type} - ${branch.path}`);
+
+        if (branch.type === 'dir') {
+          tree.push({
+            ...branch,
+            children: await walk(branch.path),
+          });
+        } else {
+          tree.push(branch);
+        }
       }
 
-      return result.entries;
-    } catch (error) {
-      logMessage(`Error reading directory: ${(error as Error)?.message}`);
-      return null;
-    }
+      return tree;
+    };
+
+    return walk(dir);
   }
 
   /**
@@ -359,7 +360,7 @@ export class PipFileService {
     }
 
     try {
-      const fileMetaList = await this.getImmediateDirectoryContents('APPINFO/');
+      const fileMetaList = await this.getBranch('APPINFO/');
       const fileMetaListJson =
         fileMetaList?.filter((fileMeta) => fileMeta.path.endsWith('.json')) ??
         [];

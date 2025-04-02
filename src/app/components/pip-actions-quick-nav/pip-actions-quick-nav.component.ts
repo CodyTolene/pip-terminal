@@ -22,6 +22,14 @@ export class PipActionsQuickNavComponent {
   protected readonly PipTabLabelEnum = PipTabLabelEnum;
   protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
 
+  @Input() public set disableAppsTab(value: BooleanInput) {
+    this.#disableAppsTab = coerceBooleanProperty(value);
+  }
+  public get disableAppsTab(): boolean {
+    return this.#disableAppsTab;
+  }
+  #disableAppsTab = false;
+
   @Input() public set disableConnectTab(value: BooleanInput) {
     this.#disableConnectTab = coerceBooleanProperty(value);
   }
@@ -30,13 +38,13 @@ export class PipActionsQuickNavComponent {
   }
   #disableConnectTab = false;
 
-  @Input() public set disableAppsTab(value: BooleanInput) {
-    this.#disableAppsTab = coerceBooleanProperty(value);
+  @Input() public set disableDiagnosticsSetTab(value: BooleanInput) {
+    this.#disableDiagnosticsSetTab = coerceBooleanProperty(value);
   }
-  public get disableAppsTab(): boolean {
-    return this.#disableAppsTab;
+  public get disableDiagnosticsSetTab(): boolean {
+    return this.#disableDiagnosticsSetTab;
   }
-  #disableAppsTab = false;
+  #disableDiagnosticsSetTab = false;
 
   @Input() public set disableMaintenanceTab(value: BooleanInput) {
     this.#disableMaintenanceTab = coerceBooleanProperty(value);
@@ -53,6 +61,14 @@ export class PipActionsQuickNavComponent {
     return this.#disableRadioSetTab;
   }
   #disableRadioSetTab = false;
+
+  @Input() public set disableStatsTab(value: BooleanInput) {
+    this.#disableStatsTab = coerceBooleanProperty(value);
+  }
+  public get disableStatsTab(): boolean {
+    return this.#disableStatsTab;
+  }
+  #disableStatsTab = false;
 
   protected async goToTabs(
     tab: PipTabLabelEnum,

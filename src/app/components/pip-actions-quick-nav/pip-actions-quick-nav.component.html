@@ -24,3 +24,15 @@
   class="radio-tab-button"
   >Go to Radio Set Tab</pip-button
 >
+<pip-button
+  (click)="goToTabs(PipTabLabelEnum.DATA, PipSubTabLabelEnum.STATS)"
+  [disabled]="disableStatsTab"
+  class="radio-tab-button"
+  >Go to Stats Tab</pip-button
+>
+<pip-button
+  (click)="goToTabs(PipTabLabelEnum.STAT, PipSubTabLabelEnum.DIAGNOSTICS)"
+  [disabled]="disableDiagnosticsSetTab"
+  class="radio-tab-button"
+  >Go to Diagnostics Tab</pip-button
+>

@@ -114,9 +114,7 @@ export class PipActionslaunchAppComponent {
 
             const appDirectory = `USER/${app.id}`;
             const appDirList = [
-              ...(await this.pipFileService.getAllDirectoryContents(
-                appDirectory,
-              )),
+              ...(await this.pipFileService.getTree(appDirectory)),
             ]
               .filter((fileMeta) => fileMeta.type === 'dir')
               // Sort by the directory with the most '/' in the path first

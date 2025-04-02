@@ -2,6 +2,7 @@
 @use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
 @use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
 
 :host {
   border: 2px dashed transparent;
@@ -21,4 +22,22 @@ h3 {
 pip-button {
   margin-bottom: 1rem;
   width: 100%;
+}
+
+mat-tree {
+  border-radius: 4px;
+
+  mat-tree-node {
+    &:not(.disabled) {
+      cursor: pointer;
+
+      &:hover {
+        background-color: col.$pip-green-light;
+      }
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
 }

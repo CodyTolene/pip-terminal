@@ -13,30 +13,39 @@
     [dataSource]="fileTree()"
     [childrenAccessor]="childrenAccessor"
   >
-    <!-- Leaf node -->
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-      <button mat-icon-button disabled>
-        <mat-icon>description</mat-icon>
-      </button>
-      {{ node.name }}
-    </mat-tree-node>
-
-    <!-- Expandable directory node -->
+    <!-- BRANCH -->
     <mat-tree-node
-      *matTreeNodeDef="let node; when: hasChild"
+      *matTreeNodeDef="let branch"
+      [class.disabled]="branch.type === 'dir'"
+      matTreeNodePadding
+    >
+      <button mat-icon-button [disabled]="branch.type === 'dir'">
+        <mat-icon fontSet="material-icons-outlined">
+          {{ getBranchIcon(branch) }}
+        </mat-icon>
+      </button>
+      {{ branch.name }}&nbsp;
+      <span>
+        {{ branch.type === 'dir' ? ' (empty)' : ''
+        }}{{ getSizeDisplay(branch.size) }}
+      </span>
+    </mat-tree-node>
+    <!-- TREE -->
+    <mat-tree-node
+      *matTreeNodeDef="let branch; when: hasChild"
       matTreeNodePadding
       matTreeNodeToggle
     >
       <button
         mat-icon-button
         matTreeNodeToggle
-        [attr.aria-label]="'Toggle ' + node.name"
+        [attr.aria-label]="'Toggle ' + branch.name"
       >
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+        <mat-icon fontSet="material-icons-outlined" class="mat-icon-rtl-mirror">
+          {{ getTreeIcon(tree, branch) }}
         </mat-icon>
       </button>
-      {{ node.name }}
+      {{ branch.name }}
     </mat-tree-node>
   </mat-tree>
 }
