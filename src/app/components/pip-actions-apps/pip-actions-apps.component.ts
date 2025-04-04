@@ -148,10 +148,13 @@ export class PipActionsAppsComponent {
           }
 
           // Sort folders deepest-first before deletion
-          const sortedDepList = [
-            ...appDepFolderList,
-            `${appBaseDir}/${app.id}`,
-          ].sort((a, b) => b.split('/').length - a.split('/').length);
+          const sortedDepList = [...appDepFolderList];
+          if (app.dependencies.length > 0) {
+            sortedDepList.push(`${appBaseDir}/${app.id}`);
+          }
+          sortedDepList.sort(
+            (a, b) => b.split('/').length - a.split('/').length,
+          );
 
           // Delete empty directories
           for (const path of sortedDepList) {
