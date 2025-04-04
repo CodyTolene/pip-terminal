@@ -47,6 +47,13 @@
       flex: 0 1 calc(50% - 0.75rem);
       gap: 1rem;
 
+      img.fan-art {
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+
       .upload-container {
         display: flex;
         flex-direction: column;

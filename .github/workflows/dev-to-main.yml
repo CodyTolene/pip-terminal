@@ -1,23 +1,27 @@
-name: Deploy to Firebase Hosting on merge
+name: Deploy Preview for Dev
+
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
 jobs:
-  build_and_deploy:
+  deploy_preview:
+    if: github.head_ref == 'dev'
     runs-on: ubuntu-latest
     steps:
-      # Build and verify code
+      # Build and verify front-end code
       - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:check
       - run: npm run build:prod
-      # Deploy to production
+      # Deploy preview
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount:
             ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PIP_TERMINAL }}
-          channelId: live
+          channelId: preview
+          expires: 30d
           projectId: pip-terminal
