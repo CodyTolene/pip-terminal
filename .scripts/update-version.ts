@@ -22,4 +22,4 @@ writeFileSync(versionFilePath, versionContent, 'utf8');
 writeFileSync(packageLockPath, JSON.stringify(packageLock, null, 2) + '\n', 'utf8');
 
 // eslint-disable-next-line no-console
-console.log(`✔ Updated "app-version.ts" and "package-lock.json" to version: ${version}`);
+console.log(`Updated "app-version.ts" and "package-lock.json" to version: ${version}`);

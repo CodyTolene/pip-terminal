@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pip-boy-mod-terminal": {
+    "pip-terminal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/pip-boy-mod-terminal",
+            "outputPath": "dist/pip-terminal",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "pip-boy-mod-terminal:build:production"
+              "buildTarget": "pip-terminal:build:production"
             },
             "development": {
-              "buildTarget": "pip-boy-mod-terminal:build:development"
+              "buildTarget": "pip-terminal:build:development"
             }
           },
           "defaultConfiguration": "development"

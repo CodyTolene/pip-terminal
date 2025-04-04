@@ -4,6 +4,9 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
 
 import { PipConnectionService } from './pip-connection.service';
 
+/**
+ * Service to execute commands on the Espruino (Pip-Boy) device.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipCommandService {
   public constructor(
@@ -13,6 +16,15 @@ export class PipCommandService {
   private readonly EVAL_TIMEOUT = 2000;
   private readonly MAX_RETRIES = 10;
 
+  /**
+   * Executes a command on the Espruino device with retry logic.
+   *
+   * @param command The command to execute on the Espruino device.
+   * @param options The options to pass to the command.
+   * @param retries The number of retries to attempt in case of failure.
+   * @returns The result of the command execution, or null if it fails
+   * after the maximum number of retries.
+   */
   public async cmd<T>(
     command: string,
     options = {},

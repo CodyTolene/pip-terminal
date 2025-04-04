@@ -7,6 +7,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DateTimePipe implements PipeTransform {
   private readonly defaultFormat: DateTimeFormat = 'MM/dd/yyyy';
 
+  /**
+   * Transforms a DateTime object into a formatted string for display.
+   *
+   * @param value The value to transform.
+   * @returns The transformed value as a string.
+   */
   public transform(
     value: DateTime | null | undefined | unknown,
     format: DateTimeFormat = this.defaultFormat,

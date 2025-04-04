@@ -37,13 +37,15 @@
 
   section {
     align-content: flex-start;
-    // border-right: 2px dashed col.$pip-green;
     display: flex;
     flex-direction: column;
 
-    // @include bps.media('max', 'md') {
-    //   border-right: none;
-    // }
+    img.fan-art {
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
   }
 }
 
@@ -80,10 +82,10 @@ dl {
   }
 }
 
-h3 {
+h1 {
   border-bottom: 2px dashed col.$pip-green;
   margin-top: 0;
-  padding-bottom: 1rem;
+  padding-bottom: 1.25rem;
 }
 
 pip-button {

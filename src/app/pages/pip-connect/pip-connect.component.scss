@@ -34,31 +34,29 @@
   main {
     @include sb.scrollbar;
     align-content: flex-start;
-    // border-right: 2px dashed col.$pip-green;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     overflow-x: hidden;
     overflow-y: auto;
 
-    // @include bps.media('max', 'md') {
-    //   border-right: none;
-    // }
-
     > section {
       box-sizing: border-box;
       flex: 0 1 calc(50% - 0.5rem);
       min-width: 300px;
+      flex: 0 1 100%;
 
-      &:first-child {
-        flex: 0 1 100%;
+      img.fan-art {
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
       }
     }
   }
 }
 
 pip-actions-primary {
-  margin-top: 1rem;
   width: 100%;
 }
 
@@ -71,6 +69,7 @@ pip-button {
 .image-wrapper {
   flex: 0 1 100%;
   position: relative;
+  padding: 2rem;
 
   img {
     height: 100%;
@@ -95,7 +94,7 @@ pip-button {
     }
 
     mat-icon.status-icon {
-      $icon-size: 250px;
+      $icon-size: 225px;
 
       align-items: center;
       color: col.$pip-green-dark;
@@ -127,4 +126,8 @@ pip-button {
       }
     }
   }
+}
+
+h2 {
+  width: 100%;
 }

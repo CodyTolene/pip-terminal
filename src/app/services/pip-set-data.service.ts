@@ -11,6 +11,10 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
+/**
+ * A service for setting data on the Pip device, such as date and time,
+ * owner name, and other settings.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipSetDataService {
   public constructor(
@@ -19,6 +23,11 @@ export class PipSetDataService {
     private readonly pipTimeService: PipTimeService,
   ) {}
 
+  /**
+   * Sets the date and time on the device.
+   *
+   * @param dateTime The date and time to set on the device.
+   */
   public async setDateTime(dateTime: DateTime<boolean>): Promise<void> {
     const timestampSeconds = dateTime.toSeconds();
     const timezoneOffset = dateTime.offset / 60;
@@ -55,6 +64,9 @@ export class PipSetDataService {
     }
   }
 
+  /**
+   * Sets the date and time on the device to the users local time.
+   */
   public async setDateTimeCurrent(): Promise<void> {
     const currentDateTime = await firstValueFrom(
       this.pipTimeService.timeChanges,
@@ -94,6 +106,12 @@ export class PipSetDataService {
     }
   }
 
+  /**
+   * Sets the owner name on the device.
+   *
+   * @param name The name to set as the owner of the device.
+   * @returns A promise that resolves when the owner name is set.
+   */
   public async setOwnerName(name: string | null): Promise<void> {
     name =
       name
@@ -128,6 +146,11 @@ export class PipSetDataService {
     }
   }
 
+  /**
+   * Resets the owner name on the device to empty.
+   *
+   * @returns A promise that resolves when the owner name is reset.
+   */
   public async resetOwnerName(): Promise<void> {
     const success = await this.commandService.cmd(`
       (() => {

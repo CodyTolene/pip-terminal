@@ -12,6 +12,9 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { PipSoundService } from 'src/app/services/pip-sound.service';
 
+/**
+ * Service for managing tabs and sub-tabs in the application.
+ */
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class PipTabsService {
@@ -72,6 +75,15 @@ export class PipTabsService {
       });
   }
 
+  /**
+   * Switches to a specified tab and sub-tab in the application.
+   *
+   * @param tabLabel The label of the tab to switch to.
+   * @param subTabOrIndex The label of the sub-tab to switch to, or the index of the
+   * sub-tab. If not provided, the first sub-tab will be used.
+   * @param playMainTabSound Whether to play the sound for switching tabs.
+   * @param playSubTabSound Whether to play the sound for switching sub-tabs.
+   */
   public async switchToTab(
     tabLabel: PipTabLabelEnum,
     subTabOrIndex?: PipSubTabLabelEnum | number | null,
@@ -106,6 +118,13 @@ export class PipTabsService {
     }
   }
 
+  /**
+   * Sets the active sub-tab index for a given tab label.
+   *
+   * @param tabLabel The label of the tab.
+   * @param subTabIndex The index of the sub-tab to set as active.
+   * @param playSubTabSound Whether to play the sound for switching sub-tabs.
+   */
   public async setActiveSubTabIndex(
     tabLabel: PipTabLabelEnum,
     subTabIndex: number,
@@ -119,6 +138,12 @@ export class PipTabsService {
     }
   }
 
+  /**
+   * Sets the sub-tab labels for a given tab label.
+   *
+   * @param tabLabel The label of the tab.
+   * @param subTabLabels The array of sub-tab labels to set.
+   */
   public setSubTabs(
     tabLabel: PipTabLabelEnum,
     subTabLabels: PipSubTabLabelEnum[],
@@ -126,10 +151,23 @@ export class PipTabsService {
     this.subTabLabels.set(tabLabel, subTabLabels);
   }
 
+  /**
+   * Gets the sub-tab labels for a given tab label.
+   *
+   * @param tabLabel The label of the tab.
+   * @returns The array of sub-tab labels for the specified tab.
+   */
   public getActiveSubTabIndex(tabLabel: PipTabLabelEnum): number {
     return this.activeSubTabIndexes()[tabLabel] ?? 0;
   }
 
+  /**
+   * Gets the active sub-tab label for a given tab label.
+   *
+   * @param tabLabel The label of the tab.
+   * @returns The active sub-tab label for the specified tab, or null if not
+   * found.
+   */
   public getActiveSubTabLabel(
     tabLabel: PipTabLabelEnum,
   ): PipSubTabLabelEnum | null {
@@ -138,6 +176,13 @@ export class PipTabsService {
     return subTabs[activeIndex] ?? subTabs[0] ?? null;
   }
 
+  /**
+   * Gets the index of a sub-tab label for a given tab label.
+   *
+   * @param tabLabel The label of the tab.
+   * @param subTabLabel The label of the sub-tab.
+   * @returns The index of the sub-tab label, or -1 if not found.
+   */
   private getSubTabIndex(
     tabLabel: PipTabLabelEnum,
     subTabLabel: PipSubTabLabelEnum,
@@ -146,6 +191,13 @@ export class PipTabsService {
     return subTabs.indexOf(subTabLabel);
   }
 
+  /**
+   * Gets the sub-tab label for a given tab label and index.
+   *
+   * @param tabLabel The label of the tab.
+   * @param index The index of the sub-tab.
+   * @returns The sub-tab label, or null if not found.
+   */
   private getSubTabLabel(
     tabLabel: PipTabLabelEnum,
     index: number,
@@ -154,6 +206,9 @@ export class PipTabsService {
   }
 }
 
+/**
+ * Options for switching tabs.
+ */
 interface SwitchTabOptions {
   playMainTabSound?: boolean;
   playSubTabSound?: boolean;

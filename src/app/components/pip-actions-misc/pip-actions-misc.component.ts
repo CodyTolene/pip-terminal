@@ -1,4 +1,5 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { firstValueFrom } from 'rxjs';
 import { logMessage } from 'src/app/utilities';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -12,6 +13,7 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/pip-dialog-confirm/pip-dialog-confirm.component';
 
+import { PipAppsService } from 'src/app/services/pip-apps.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
 import { PipFileService } from 'src/app/services/pip-file.service';
 import { PipGetDataService } from 'src/app/services/pip-get-data.service';
@@ -30,6 +32,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 })
 export class PipActionsMiscComponent {
   public constructor(
+    private readonly pipAppsService: PipAppsService,
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
     private readonly pipGetDataService: PipGetDataService,
@@ -78,78 +81,98 @@ export class PipActionsMiscComponent {
           return;
         }
 
-        // Delete all contents in the USER directory
-        const appDirectory = 'USER';
-        const appDirList = [
-          ...(await this.pipFileService.getTree(appDirectory)),
-        ]
-          .filter((fileMeta) => fileMeta.type === 'dir')
-          // Sort by the directory with the most '/' in the path first
-          .sort((a, b) => {
-            const aSlashCount = a.path.split('/').length;
-            const bSlashCount = b.path.split('/').length;
-            return bSlashCount - aSlashCount;
-          });
+        const installedBaseAppList = this.signals.currentDeviceAppList();
 
-        for (const appDir of appDirList) {
-          const deleteSuccess =
-            await this.pipFileService.deleteDirectoryOnDevice(appDir.path);
+        const currentDeviceAppList = await firstValueFrom(
+          this.pipAppsService.fetchRegistry(),
+        );
 
-          if (deleteSuccess) {
-            logMessage(`Deleted contents in ${appDir.path}`);
-          } else {
-            logMessage(`Failed to delete contents in ${appDir.path}`);
-            logMessage('Please try again later.');
-            return;
-          }
-        }
+        const apps =
+          currentDeviceAppList?.filter((app) =>
+            installedBaseAppList.some(
+              (installedApp) => installedApp.id === app.id,
+            ),
+          ) ?? [];
 
-        // Once all nested directories are deleted, delete the base directory
-        const appDirectoryDeleteSuccess =
-          await this.pipFileService.deleteDirectoryOnDevice(appDirectory);
-        if (appDirectoryDeleteSuccess) {
-          logMessage(`Deleted ${appDirectory}`);
-        } else {
-          logMessage(`Failed to delete ${appDirectory}`);
-          logMessage('Please try again later.');
+        if (apps.length === 0) {
+          logMessage('No apps to delete.');
           return;
         }
 
-        // Now delete the APPINFO directory
+        const appBaseDir = 'USER';
         const appMetaDirectory = 'APPINFO';
-        const appMetaDirList = [
-          ...(await this.pipFileService.getTree(appMetaDirectory)),
-        ]
-          .filter((fileMeta) => fileMeta.type === 'dir')
-          // Sort by the directory with the most '/' in the path first
-          .sort((a, b) => {
-            const aSlashCount = a.path.split('/').length;
-            const bSlashCount = b.path.split('/').length;
-            return bSlashCount - aSlashCount;
-          });
 
-        for (const appMetaDir of appMetaDirList) {
-          const deleteSuccess =
-            await this.pipFileService.deleteDirectoryOnDevice(appMetaDir.path);
+        let deleteSuccess = false;
+        const appDepFolderList: string[] = [];
 
+        for (const app of apps) {
+          // First delete all app dependencies
+          for (const dep of app.dependencies) {
+            const path = `${appBaseDir}/${dep}`;
+            deleteSuccess = await this.pipFileService.deleteFileOnDevice(path);
+            if (deleteSuccess) {
+              logMessage(`Deleted ${path}`);
+            } else {
+              logMessage(`Failed to delete ${path}`);
+              logMessage('Please try again later.');
+              return;
+            }
+          }
+
+          // Clean up the app dependency empty folders
+          for (const dep of app.dependencies) {
+            // Get the directory minus the file name
+            const depPath = dep.substring(0, dep.lastIndexOf('/'));
+            const path = `${appBaseDir}/${depPath}`;
+            // Add the path to the list if it doesn't already exist
+            if (!appDepFolderList.includes(path)) {
+              appDepFolderList.push(path);
+            }
+          }
+
+          // Delete the apps meta json
+          const appMetaPath = `${appMetaDirectory}/${app.id}.json`;
+          deleteSuccess =
+            await this.pipFileService.deleteFileOnDevice(appMetaPath);
           if (deleteSuccess) {
-            logMessage(`Deleted contents in ${appMetaDir.path}`);
+            logMessage(`Deleted ${appMetaPath}`);
           } else {
-            logMessage(`Failed to delete contents in ${appMetaDir.path}`);
+            logMessage(`Failed to delete ${appMetaPath}`);
+            logMessage('Please try again later.');
+            return;
+          }
+
+          // Then delete the app itself
+          const appPath = `${appBaseDir}/${app.id}.js`;
+          deleteSuccess = await this.pipFileService.deleteFileOnDevice(appPath);
+          if (deleteSuccess) {
+            logMessage(`Deleted ${appPath}`);
+          } else {
+            logMessage(`Failed to delete ${appPath}`);
             logMessage('Please try again later.');
             return;
           }
         }
 
-        // Once all nested directories are deleted, delete the base directory
-        const appMetaDirectoryDeleteSuccess =
-          await this.pipFileService.deleteDirectoryOnDevice(appMetaDirectory);
-        if (appMetaDirectoryDeleteSuccess) {
-          logMessage(`Deleted ${appMetaDirectory}`);
-        } else {
-          logMessage(`Failed to delete ${appMetaDirectory}`);
-          logMessage('Please try again later.');
-          return;
+        const sortedDepList = [...appDepFolderList, appBaseDir]
+          // Sort by the directory with the most '/' in the path first
+          .sort((a, b) => {
+            const aSlashCount = a.split('/').length;
+            const bSlashCount = b.split('/').length;
+            return bSlashCount - aSlashCount;
+          });
+
+        // Delete the app dependency folders
+        for (const path of sortedDepList) {
+          deleteSuccess =
+            await this.pipFileService.deleteDirectoryOnDevice(path);
+          if (deleteSuccess) {
+            logMessage(`Deleted ${path} directory.`);
+          } else {
+            logMessage(`Failed to delete ${path}`);
+            logMessage('Please try again later.');
+            return;
+          }
         }
 
         logMessage('All apps deleted successfully.');
