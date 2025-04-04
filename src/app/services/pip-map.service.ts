@@ -2,10 +2,18 @@ import { environment } from 'src/environments/environment';
 
 import { Injectable } from '@angular/core';
 
+/**
+ * Service responsible for initializing the Google Maps JavaScript API.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipMapService {
   private isInitialized = false;
 
+  /**
+   * Initializes the Google Maps JavaScript API.
+   *
+   * @returns A promise that resolves when the API is loaded.
+   */
   public async initialize(): Promise<void> {
     if (this.isInitialized) {
       return Promise.resolve();

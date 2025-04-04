@@ -13,6 +13,10 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
 
 import { PipConnectionService } from './pip-connection.service';
 
+/**
+ * A service for handling files, apps, directories and other file-related
+ * items on the device.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
   public constructor(
@@ -79,19 +83,94 @@ export class PipFileService {
   }
 
   /**
+   * Deletes the directory and all its contents on the device.
+   *
+   * @param directory The directory to delete.
+   * @returns True if the directory was deleted successfully, false otherwise.
+   */
+  public async deleteDirectoryOnDevice(directory: string): Promise<boolean> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return false;
+    }
+
+    try {
+      const result = await this.pipCommandService.cmd<{
+        success: boolean;
+        message: string;
+      }>(`
+          (() => {
+            var fs = require("fs");
+            var logs = [];
+        
+            function deleteFilesRecursive(path) {
+              try {
+                logs.push("Reading: " + path);
+                var files = fs.readdir(path);
+        
+                files.forEach(function (file) {
+                  if (file === "." || file === "..") return;
+                  var full = path + "/" + file;
+        
+                  try {
+                    fs.readdir(full);
+                  } catch (err) {
+                    // Not a directory, delete file
+                    try {
+                      fs.unlink(full);
+                      logs.push("Deleted file: " + full);
+                    } catch (delErr) {
+                      logs.push("Failed to delete file: " + full + " — " + delErr.message);
+                    }
+                  }
+                });
+        
+                return true;
+              } catch (e) {
+                logs.push("Failed to read directory: " + path + " — " + e.message);
+                return false;
+              }
+            }
+        
+            try {
+              var ok = deleteFilesRecursive("${directory}");
+              return {
+                success: ok,
+                message: logs.join("\\n")
+              };
+            } catch (error) {
+              return { success: false, message: "Fatal error: " + error.message };
+            }
+          })()
+        `);
+
+      if (!result?.success) {
+        logMessage(`Failed to delete "${directory}":`);
+        logMessage(result?.message || 'Unknown error');
+        return false;
+      } else {
+        logMessage(result.message);
+        return true;
+      }
+    } catch (error) {
+      const errorMessage = `Error deleting directory: ${(error as Error)?.message}`;
+      logMessage(errorMessage);
+      return false;
+    }
+  }
+
+  /**
    * Deletes a file on the device.
    *
    * @param file The name of the file to delete (e.g., "MyFile.js").
    * @param dir The directory where the file is located (e.g., "USER").
    * @returns True if the file was deleted successfully, false otherwise.
    */
-  public async deleteFileOnDevice(file: string, dir: string): Promise<boolean> {
+  public async deleteFileOnDevice(path: string): Promise<boolean> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
       return false;
     }
-
-    const fullPath = `${dir}/${file}`;
 
     try {
       const result = await this.pipCommandService.cmd<{
@@ -101,10 +180,10 @@ export class PipFileService {
         (() => {
           var fs = require("fs");
           try {
-            fs.unlink("${fullPath}");
+            fs.unlink("${path}");
             return { 
               success: true,
-              message: 'File "${fullPath}" deleted successfully.'
+              message: 'File "${path}" deleted successfully.'
             };
           } catch (error) {
             return { success: false, message: error.message };
@@ -114,11 +193,11 @@ export class PipFileService {
 
       if (!result?.success) {
         logMessage(
-          `Failed to delete "${fullPath}": ${result?.message || 'Unknown error'}`,
+          `Failed to delete "${path}": ${result?.message || 'Unknown error'}`,
         );
         return false;
       } else {
-        logMessage(result.message);
+        // logMessage(result.message);
         return true;
       }
     } catch (error) {
@@ -128,6 +207,13 @@ export class PipFileService {
     }
   }
 
+  /**
+   * Lists all entries in a directory on the device.
+   *
+   * @param dir The directory to list (e.g., "USER").
+   * @param log Whether to log the entries to the console.
+   * @returns A list of entries in the directory.
+   */
   public async getBranch(dir = '', log = false): Promise<readonly Branch[]> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -202,6 +288,78 @@ export class PipFileService {
     return nodes;
   }
 
+  /**
+   * Retrieves all app info files from the device and parses them into PipAppBase objects.
+   *
+   * @returns A list of PipAppBase objects or null if the read fails.
+   */
+  public async getDeviceAppInfo(): Promise<readonly PipAppBase[] | null> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+      return null;
+    }
+
+    try {
+      const fileMetaList = await this.getBranch('APPINFO/');
+      const fileMetaListJson =
+        fileMetaList?.filter((fileMeta) => fileMeta.path.endsWith('.json')) ??
+        [];
+
+      const apps: PipAppBase[] = [];
+
+      for (const fileName of fileMetaListJson.map(
+        (fileMeta) => fileMeta.name,
+      )) {
+        const filePath = `APPINFO/${fileName}`;
+        const fileContent = await this.pipCommandService.cmd<string>(`
+            (() => {
+              var fs = require("fs");
+              try {
+                return fs.readFile("${filePath}");
+              } catch (error) {
+                return JSON.stringify({ error: error.message });
+              }
+            })()
+          `);
+
+        if (typeof fileContent === 'string') {
+          try {
+            const parsed = JSON.parse(fileContent);
+            if (parsed?.error) {
+              logMessage(`Failed to read "${filePath}": ${parsed.error}`);
+              continue;
+            }
+            if (parsed?.id && parsed?.name) {
+              apps.push(
+                new PipAppBase({
+                  id: parsed.id,
+                  name: parsed.name,
+                  version: parsed.version,
+                }),
+              );
+            }
+          } catch {
+            logMessage(`Invalid JSON in file: "${filePath}"`);
+          }
+        }
+      }
+
+      return apps;
+    } catch (error) {
+      logMessage(`Error fetching app info: ${(error as Error)?.message}`);
+      return null;
+    }
+  }
+
+  /**
+   * Recursively lists all entries in a directory on the device.
+   *
+   * @note We have to recrusively walk the directories here instead
+   * of on the device, so that we don't get a "stack overflow" error.
+   * @param dir The root directory to list (e.g., "USER").
+   * @param log Whether to log the entries to the console.
+   * @returns A full, recursive list of entries in the directory.
+   */
   public async getTree(dir = '', log = false): Promise<readonly Branch[]> {
     const walk = async (path: string): Promise<Branch[]> => {
       const branches = await this.getBranch(path, log);
@@ -224,87 +382,6 @@ export class PipFileService {
     };
 
     return walk(dir);
-  }
-
-  /**
-   * Deletes the directory and all its contents on the device.
-   *
-   * @param directory The directory to delete.
-   * @returns True if the directory was deleted successfully, false otherwise.
-   */
-  public async deleteDirectoryOnDevice(directory: string): Promise<boolean> {
-    if (!this.pipConnectionService.connection?.isOpen) {
-      logMessage('Please connect to the device first.');
-      return false;
-    }
-
-    try {
-      const result = await this.pipCommandService.cmd<{
-        success: boolean;
-        message: string;
-      }>(`
-        (() => {
-          var fs = require("fs");
-          var logs = [];
-      
-          function deleteFilesRecursive(path) {
-            try {
-              logs.push("Reading: " + path);
-              var files = fs.readdir(path);
-      
-              files.forEach(function (file) {
-                if (file === "." || file === "..") return;
-                var full = path + "/" + file;
-      
-                try {
-                  fs.readdir(full);
-                  // If we get here, it's a directory — skip it
-                  // logs.push("Skipping directory: " + full);
-                  fs.rmdir(full);
-                  logs.push("Deleted directory: " + full);
-                } catch (err) {
-                  // Not a directory, delete file
-                  try {
-                    fs.unlink(full);
-                    logs.push("Deleted file: " + full);
-                  } catch (delErr) {
-                    logs.push("Failed to delete file: " + full + " — " + delErr.message);
-                  }
-                }
-              });
-      
-              return true;
-            } catch (e) {
-              logs.push("Failed to read directory: " + path + " — " + e.message);
-              return false;
-            }
-          }
-      
-          try {
-            var ok = deleteFilesRecursive("${directory}");
-            return {
-              success: ok,
-              message: logs.join("\\n")
-            };
-          } catch (error) {
-            return { success: false, message: "Fatal error: " + error.message };
-          }
-        })()
-      `);
-
-      if (!result?.success) {
-        logMessage(`Failed to delete "${directory}":`);
-        logMessage(result?.message || 'Unknown error');
-        return false;
-      } else {
-        // logMessage(result.message);
-        return true;
-      }
-    } catch (error) {
-      const errorMessage = `Error deleting directory: ${(error as Error)?.message}`;
-      logMessage(errorMessage);
-      return false;
-    }
   }
 
   /**
@@ -345,69 +422,6 @@ export class PipFileService {
       const errorMessage = `Error: ${(error as Error)?.message}`;
       logMessage(errorMessage);
       return false;
-    }
-  }
-
-  /**
-   * Retrieves all app info files from the device and parses them into PipAppBase objects.
-   *
-   * @returns A list of PipAppBase objects or null if the read fails.
-   */
-  public async getDeviceAppInfo(): Promise<readonly PipAppBase[] | null> {
-    if (!this.pipConnectionService.connection?.isOpen) {
-      logMessage('Please connect to the device first.');
-      return null;
-    }
-
-    try {
-      const fileMetaList = await this.getBranch('APPINFO/');
-      const fileMetaListJson =
-        fileMetaList?.filter((fileMeta) => fileMeta.path.endsWith('.json')) ??
-        [];
-
-      const apps: PipAppBase[] = [];
-
-      for (const fileName of fileMetaListJson.map(
-        (fileMeta) => fileMeta.name,
-      )) {
-        const filePath = `APPINFO/${fileName}`;
-        const fileContent = await this.pipCommandService.cmd<string>(`
-          (() => {
-            var fs = require("fs");
-            try {
-              return fs.readFile("${filePath}");
-            } catch (error) {
-              return JSON.stringify({ error: error.message });
-            }
-          })()
-        `);
-
-        if (typeof fileContent === 'string') {
-          try {
-            const parsed = JSON.parse(fileContent);
-            if (parsed?.error) {
-              logMessage(`Failed to read "${filePath}": ${parsed.error}`);
-              continue;
-            }
-            if (parsed?.id && parsed?.name) {
-              apps.push(
-                new PipAppBase({
-                  id: parsed.id,
-                  name: parsed.name,
-                  version: parsed.version,
-                }),
-              );
-            }
-          } catch {
-            logMessage(`Invalid JSON in file: "${filePath}"`);
-          }
-        }
-      }
-
-      return apps;
-    } catch (error) {
-      logMessage(`Error fetching app info: ${(error as Error)?.message}`);
-      return null;
     }
   }
 

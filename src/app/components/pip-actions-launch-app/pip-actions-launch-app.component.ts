@@ -99,12 +99,10 @@ export class PipActionslaunchAppComponent {
         try {
           // Delete the main files
           await this.pipFileService.deleteFileOnDevice(
-            `${app.id}.js`,
-            environment.appsDir,
+            `${environment.appsDir}/${app.id}.js`,
           );
           await this.pipFileService.deleteFileOnDevice(
-            `${app.id}.json`,
-            this.appMetaDir,
+            `${this.appMetaDir}/${app.id}.json`,
           );
 
           // Delete all contents in the USER directory
@@ -163,7 +161,7 @@ export class PipActionslaunchAppComponent {
 
           // Refresh the app list after deleting an app.
           const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
-          pipSignals.appInfo.set(deviceAppInfo ?? []);
+          pipSignals.currentDeviceAppList.set(deviceAppInfo ?? []);
         } finally {
           pipSignals.disableAllControls.set(false);
         }
@@ -175,13 +173,13 @@ export class PipActionslaunchAppComponent {
   }
 
   protected isAppInstalled(app: PipApp): boolean {
-    const currentAppInfo = this.signals.appInfo();
+    const currentAppInfo = this.signals.currentDeviceAppList();
     return currentAppInfo?.some(({ id }) => id === app.id) ?? false;
   }
 
   protected isAppUpdatable(app: PipApp): boolean {
     const currentDeviceAppToCheck = this.signals
-      .appInfo()
+      .currentDeviceAppList()
       ?.find(({ id }) => id === app.id);
     if (!currentDeviceAppToCheck) return false;
 
@@ -224,7 +222,7 @@ export class PipActionslaunchAppComponent {
 
       // Refresh the app list after deleting an app.
       const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
-      pipSignals.appInfo.set(deviceAppInfo ?? []);
+      pipSignals.currentDeviceAppList.set(deviceAppInfo ?? []);
     } finally {
       pipSignals.disableAllControls.set(false);
       logMessage(`Installed ${app.name} successfully!`);

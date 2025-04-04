@@ -6,6 +6,9 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
 
 import { PipCommandService } from './pip-command.service';
 
+/**
+ * Service for interacting with the Pip device to retrieve various data.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipGetDataService {
   public constructor(private readonly commandService: PipCommandService) {}
