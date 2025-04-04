@@ -3,7 +3,7 @@ interface EnvironmentCredentials {
   appsDir: string;
   /**
    * Dev: The URL to the root of the "public" folder.
-   * Prod: The URL to the root of the "pip-apps" repository.
+   * Prod: The URL to the root of the "pip-actions-apps" repository.
    */
   appsUrl: string;
   production: boolean;

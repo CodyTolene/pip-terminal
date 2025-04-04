@@ -32,8 +32,8 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 
 @UntilDestroy()
 @Component({
-  selector: 'pip-actions-launch-app',
-  templateUrl: './pip-actions-launch-app.component.html',
+  selector: 'pip-actions-apps',
+  templateUrl: './pip-actions-apps.component.html',
   imports: [
     CommonModule,
     MatDialogModule,
@@ -41,11 +41,11 @@ import { pipSignals } from 'src/app/signals/pip.signals';
     PipButtonComponent,
     RouterModule,
   ],
-  styleUrl: './pip-actions-launch-app.component.scss',
+  styleUrl: './pip-actions-apps.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipActionslaunchAppComponent {
+export class PipActionsAppsComponent {
   public constructor(
     private readonly pipAppsService: PipAppsService,
     private readonly pipDeviceService: PipDeviceService,
@@ -169,7 +169,7 @@ export class PipActionslaunchAppComponent {
   }
 
   protected goToAppsGithub(): void {
-    window.open('https://github.com/CodyTolene/pip-apps', '_blank');
+    window.open('https://github.com/CodyTolene/pip-actions-apps', '_blank');
   }
 
   protected isAppInstalled(app: PipApp): boolean {

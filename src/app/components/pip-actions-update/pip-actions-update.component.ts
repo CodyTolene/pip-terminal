@@ -28,8 +28,8 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 
 @Component({
-  selector: 'pip-actions-firmware',
-  templateUrl: './pip-actions-firmware.component.html',
+  selector: 'pip-actions-update',
+  templateUrl: './pip-actions-update.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -38,11 +38,11 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
     MatTooltipModule,
     PipButtonComponent,
   ],
-  styleUrl: './pip-actions-firmware.component.scss',
+  styleUrl: './pip-actions-update.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipActionsFirmwareComponent {
+export class PipActionsUpdateComponent {
   public constructor(
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
