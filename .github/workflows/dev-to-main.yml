@@ -5,6 +5,11 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened]
 
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
 jobs:
   deploy_preview:
     if: |
