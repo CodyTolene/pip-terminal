@@ -1,7 +1,7 @@
 {
-  "name": "pip-boy-mod-terminal",
+  "name": "pip-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
@@ -12,7 +12,6 @@
     "angular-version": "ng --version",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
-    "get:fw-refs": "ts-node --project .scripts/tsconfig.scripts.json .scripts/get-fw-refs.ts",
     "lint": "ng lint",
     "ng": "ng",
     "postinstall": "is-ci || husky install && patch-package",

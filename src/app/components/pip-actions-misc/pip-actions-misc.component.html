@@ -47,7 +47,7 @@
   *ngIf="!hideDeleteAllAppsButton"
   (click)="deleteAllApps()"
   [disabled]="
-    signals.appInfo().length === 0 ||
+    signals.currentDeviceAppList().length === 0 ||
     !signals.isConnected() ||
     signals.disableAllControls() ||
     signals.isUploadingFile()

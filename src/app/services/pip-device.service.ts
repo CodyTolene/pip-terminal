@@ -13,15 +13,27 @@ import { PipCommandService } from './pip-command.service';
 import { PipConnectionService } from './pip-connection.service';
 import { PipGetDataService } from './pip-get-data.service';
 
+/**
+ * Service responsible for managing device interactions, including initialization,
+ * screen clearing, demo mode, factory test mode, restarting, sleep/wake operations,
+ * and shutdown functionality.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipDeviceService {
   public constructor(
     private readonly pipCommandService: PipCommandService,
     private readonly pipConnectionService: PipConnectionService,
-    private readonly pipGetDataService: PipGetDataService,
     private readonly pipFileService: PipFileService,
+    private readonly pipGetDataService: PipGetDataService,
   ) {}
 
+  /**
+   * Initializes the device by retrieving and setting various device information,
+   * such as owner name, firmware version, JavaScript version, device ID, sleep state,
+   * battery level, SD card stats, and installed apps.
+   *
+   * @throws Error if there is no active connection to the device.
+   */
   public async initialize(): Promise<void> {
     if (!this.pipConnectionService.connection) {
       throw new Error('No active connection');
@@ -60,11 +72,19 @@ export class PipDeviceService {
     );
 
     const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
-    pipSignals.appInfo.set(deviceAppInfo ?? []);
+    pipSignals.currentDeviceAppList.set(deviceAppInfo ?? []);
 
     pipSignals.disableAllControls.set(false);
   }
 
+  /**
+   * Clears the device screen, optionally displaying messages or playing a video.
+   *
+   * @param message - Optional primary message to display on the screen.
+   * @param messageTwo - Optional secondary message to display on the screen.
+   * @param video - Optional video configuration with filename and position.
+   * @returns A promise that resolves to `true` if the screen was cleared successfully, or `false` otherwise.
+   */
   public async clearScreen(
     message?: string,
     messageTwo?: string,
@@ -132,6 +152,7 @@ export class PipDeviceService {
     return false;
   }
 
+  /** Activates the demo mode on the device. */
   public async demoMode(): Promise<void> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -161,6 +182,7 @@ export class PipDeviceService {
     }
   }
 
+  /** Activates the factory test mode on the device. */
   public async factoryTestMode(): Promise<void> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -192,6 +214,7 @@ export class PipDeviceService {
     }
   }
 
+  /** Restarts the device by issuing a reboot command. */
   public async restart(): Promise<void> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -208,6 +231,7 @@ export class PipDeviceService {
     }
   }
 
+  /** Puts the device into sleep mode. */
   public async sleep(): Promise<void> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -265,6 +289,7 @@ export class PipDeviceService {
     pipSignals.isSleeping.set(false);
   }
 
+  /** Wakes the device from sleep mode. */
   public async wake(): Promise<void> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -320,6 +345,7 @@ export class PipDeviceService {
     pipSignals.isSleeping.set(true);
   }
 
+  /** Shuts down the device. */
   public async shutdown(): Promise<void> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');

@@ -52,4 +52,4 @@ The developers reserve the right to modify or update these Terms of Use at any t
 
 For inquiries, please contact the Project maintainers via the official GitHub repository.
 
-https://github.com/CodyTolene/pip-boy-mod-terminal
+https://github.com/CodyTolene/pip-terminal

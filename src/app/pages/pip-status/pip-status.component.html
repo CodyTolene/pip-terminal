@@ -1,32 +1,58 @@
 <main>
-  <h1>Welcome to the Pip-Boy.com Terminal!</h1>
+  <h1>Welcome to the Pip-Boy Terminal!</h1>
 
-  <section>
+  <section class="intro">
     <p>
-      This is a <strong>fan-made website</strong>. It includes functionality to
-      <strong>connect to your official Pip-Boy 3000 Mk V device</strong>.
+      This is a <strong>fan-made terminal interface</strong> designed to
+      interact with your <strong>Pip-Boy 3000 Mk V</strong>.
     </p>
-
     <p>
-      To purchase the official Pip-Boy 3000 Mk V, visit the
+      You can contribute freely to this project if you have any ideas or
+      suggestions by visiting
+      <a href="https://github.com/CodyTolene/pip-terminal" target="_blank"
+        >GitHub</a
+      >. This project is open-source and welcomes contributions from everyone
+      all across the wasteland!
+    </p>
+    <p>
+      If you have any questions, feel free to reach out to your neerest
+      overseer, or the
+      <a href="" target="_blank">Discord</a> channel.
+    </p>
+    <p>
+      Use this site to connect, add apps, games, browse files, update files,
+      unlock hidden features of your device, and more! Need the official unit?
+      You can purchase the Pip-Boy 3000 Mk V directly from the
       <a
         href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
         target="_blank"
         >Bethesda Gear Store</a
       >.
     </p>
-
     <p>
-      Need the official firmware upgrade site? You can find that directly from
-      The Wand Company
+      For official firmware updates, visit
       <a href="https://www.thewandcompany.com/pip-boy/upgrade/" target="_blank"
-        >here</a
+        >The Wand Company</a
       >.
     </p>
   </section>
 
-  <section>
-    <h3>Pip-Boy 3000 Mk V</h3>
+  <section class="fan-art">
+    <img
+      src="images/fan-art/thumbs-up-green.png"
+      alt="Fan Art"
+      title="Fan Art"
+    />
+    <p class="image-note"><em>Note:</em> The image above is fan art.</p>
+  </section>
+
+  <section class="connect">
+    <h2>Pip-Boy 3000 Mk V</h2>
+
+    <p>
+      Once connected, you can view device status, launch custom apps, play
+      amedia, and explore your file system using the terminal interface.
+    </p>
 
     <mat-icon
       [class.active]="signals.isConnected()"
@@ -46,16 +72,20 @@
   </section>
 
   <section>
+    <h3>Disclaimer</h3>
+
     <p>
-      <em>Important Disclaimer:</em> This website is
+      <em>Note:</em> This project is an unofficial, community-driven fan tool.
+      It is
       <strong
         >not affiliated with, endorsed by, or approved by Bethesda
         Softworks</strong
       >.
     </p>
+
     <p>
-      All trademarks, including "Pip-Boy," are the property of Bethesda
-      Softworks.
+      All related trademarks, including <strong>"Pip-Boy"</strong>, remain the
+      property of Bethesda Softworks.
     </p>
   </section>
 </main>

@@ -13,6 +13,9 @@ import { PipFileService } from 'src/app/services/pip-file.service';
 
 import { PipDeviceService } from './pip-device.service';
 
+/**
+ * Service for managing sounds on the Pip device and website.
+ */
 @Injectable({ providedIn: 'root' })
 export class PipSoundService {
   public constructor(
@@ -24,11 +27,18 @@ export class PipSoundService {
     this.preloadWebsiteSounds();
   }
 
-  // Global volume (0-100%)
+  /** Global _website_ volume (0-100%) */
   public globalVolumePercent = signal(100);
 
   private readonly sounds = new Map<PipSoundEnum, HTMLAudioElement>();
 
+  /**
+   * Plays a radio file on the device.
+   *
+   * @param radioFileName The name of the radio file to play.
+   * @returns A promise that resolves to true if the radio file was played
+   * successfully, false otherwise.
+   */
   public async playRadioFileOnDevice(
     radioFileName: DxRadioFileNameEnum | MxRadioFileNameEnum,
   ): Promise<boolean> {
@@ -58,6 +68,12 @@ export class PipSoundService {
     }
   }
 
+  /**
+   * Plays a sound on the website.
+   *
+   * @param name The name of the sound to play.
+   * @param volumePercent The volume percentage (0-100%).
+   */
   public async playWebsiteSound(
     name: PipSoundEnum,
     volumePercent = 100,
@@ -85,10 +101,21 @@ export class PipSoundService {
     }
   }
 
+  /**
+   * Sets the global website volume.
+   *
+   * @param percent The volume percentage (0-100%).
+   */
   public setGlobalWebsiteVolume(percent: number): void {
     this.globalVolumePercent.set(Math.max(0, Math.min(100, percent)));
   }
 
+  /**
+   * Stops all sounds on the device.
+   *
+   * @returns A promise that resolves to true if all sounds were stopped
+   * successfully, false otherwise.
+   */
   public async stopAllSoundsOnDevice(): Promise<boolean> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first before clearing screen.');
@@ -124,6 +151,12 @@ export class PipSoundService {
     }
   }
 
+  /**
+   * Uploads a .wav file to the device.
+   *
+   * @param file The .wav file to upload.
+   * @param onProgress Optional callback for upload progress.
+   */
   public async uploadRadioWavFile(
     file: File,
     onProgress?: (progress: number) => void,
@@ -156,11 +189,18 @@ export class PipSoundService {
     );
   }
 
+  /** Preloads website sounds. */
   private preloadWebsiteSounds(): void {
     this.registerWebsiteSound(PipSoundEnum.TICK_TAB, 'sounds/tick.wav');
     this.registerWebsiteSound(PipSoundEnum.TICK_SUBTAB, 'sounds/tick-2.wav');
   }
 
+  /**
+   * Registers a sound for the website.
+   *
+   * @param name The name of the sound.
+   * @param path The path to the sound file.
+   */
   private registerWebsiteSound(name: PipSoundEnum, path: string): void {
     const audio = new Audio(path);
     audio.load(); // Preload

@@ -1,0 +1,27 @@
+name: Deploy Preview for Dev
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy_preview:
+    if: github.head_ref == 'dev'
+    runs-on: ubuntu-latest
+    steps:
+      # Build and verify front-end code
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run prettier:check
+      - run: npm run build:prod
+      # Deploy preview
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount:
+            ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PIP_TERMINAL }}
+          channelId: preview
+          expires: 30d
+          projectId: pip-terminal

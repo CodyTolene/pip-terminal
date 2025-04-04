@@ -47,6 +47,13 @@
         margin-bottom: 1rem;
         width: 100%;
       }
+
+      img.fan-art {
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
     }
 
     > section {
@@ -64,11 +71,14 @@ pip-button {
   flex: 0 1 calc(100%);
 }
 
-h3,
-p {
+h3 {
   margin-top: 0;
   width: 100%;
   margin-bottom: 0;
+}
+
+p {
+  width: 100%;
 }
 
 h2 {

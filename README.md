@@ -29,6 +29,7 @@
   - [Prerequisites](#prerequisites)
   - [Development](#development)
   - [Versioning](#versioning)
+  - [Content Guidelines](#content-guidelines)
 - [License(s)](#licenses)
 - [Terms of Use](#terms)
 - [Wrapping Up](#wrapping-up)
@@ -76,7 +77,7 @@ espruino -p COM12
 
 ### Commands <a name="commands"></a>
 
-See API file for more information [here][API.md].
+See API file for more information [here](API.md).
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -117,17 +118,12 @@ mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -af "volume=10dB" -ac 1 -ar 
 
 Usefule links:
 
-Fallout New Vegas
-
-- https://archive.org/details/johann-sebastian-bach-concerto-for-2-violins-in-d-minor-allegro-ma-non-troppo
-
-Fallout 3
-
-- https://archive.org/details/Fallout_3_galaxy_news_radio-2008
-
-Fallout 4
-
-- https://archive.org/details/rebuild-renew
+| Title  | Link                 |
+| :----- | :------------------- |
+| ffmpeg | [Site][link-ffmpeg]  |
+| FoNV ♪ | [Archive][link-fonv] |
+| Fo3 ♪  | [Archive][link-fo3]  |
+| Fo4 ♫  | [Archive][link-fo4]  |
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -155,6 +151,12 @@ TODO
 
 Node.js: https://nodejs.org/en/download/
 
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
 ### Development <a name="development"></a>
 
 To get started with development follow these steps:
@@ -179,6 +181,12 @@ To get started with development follow these steps:
 
 Thank you for any and all contributions!
 
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
 ### Versioning <a name="versioning"></a>
 
 There is one single source of truth for the project version. This is the
@@ -198,10 +206,36 @@ There is one single source of truth for the project version. This is the
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
+### Content Guidelines <a name="content-guidelines"></a>
+
+When contributing to this project, please ensure that all assets and code are
+original, properly licensed, or free to use. We encourage creativity and
+experimentation, but ask contributors to respect copyright and legal guidelines.
+
+Avoid including materials that may be subject to copyright or licensing
+restrictions, such as:
+
+- Music
+- Videos
+- Images
+- Fonts
+- Text
+- Source code from other projects
+
+If you're ever unsure whether something is appropriate to include, feel free to
+ask in a discussion or open an issue.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
 ## License(s) <a name="licenses"></a>
 
-This project is licensed under the MIT License. See the [MIT
-License][link-license-mit] file for more information.
+This project is licensed under the Creative Commons Attribution-NonCommercial
+4.0 International License. See the [license][link-license] file for more
+information.
 
 This project uses the following third party libraries:
 
@@ -227,10 +261,10 @@ the Creative Commons 0 License. The list of sounds can be found below:
 - [`tick-2.wav`](https://freesound.org/people/joedeshon/sounds/119415/) by
   joedeshon
 
-`SPDX-License-Identifiers: MIT, MPL-2.0, LicenseRef-Typodermic-Free-Desktop, CC0-1.0`
+`SPDX-License-Identifiers: CC-BY-NC-4.0, MPL-2.0, LicenseRef-Typodermic-Free-Desktop, CC0-1.0`
 
-By using this software, you acknowledge and agree to the terms of these
-licenses.
+> ![Warn][img-warn] By using this software, you acknowledge and agree to the
+> terms of these licenses.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -257,7 +291,7 @@ For more information, see the full [Terms of Use][link-terms] document.
 
 Thank you to Bethesda & The Wand Company for such a fun device to tinker with!
 If you have any questions, please let me know by opening an issue
-[here][url-new-issue].
+[here][link-new-issue].
 
 | Type                                                                      | Info                                                           |
 | :------------------------------------------------------------------------ | :------------------------------------------------------------- |
@@ -277,12 +311,18 @@ Cody Tolene
 <!-- IMAGE REFERENCES -->
 
 [img-info]: .github/images/ng-icons/info.svg
-[img-warning]: .github/images/ng-icons/warn.svg
+[img-warn]: .github/images/ng-icons/warn.svg
 
 <!-- LINK REFERENCES -->
 
+[link-ffmpeg]: https://ffmpeg.org/
+[link-fo3]: https://archive.org/details/Fallout_3_galaxy_news_radio-2008
+[link-fo4]: https://archive.org/details/rebuild-renew
 [link-font-monofonto]: https://typodermicfonts.com/monofonto/
+[link-fonv]:
+  https://archive.org/details/johann-sebastian-bach-concerto-for-2-violins-in-d-minor-allegro-ma-non-troppo
 [link-license-mit]: /LICENSE_MIT.md
 [link-license-mpl]: /LICENSE_MPL.md
+[link-license]: /LICENSE.md
+[link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
 [link-terms]: /TERMS.md
-[url-new-issue]: https://github.com/CodyTolene/pip-boy-mod-terminal/issues
