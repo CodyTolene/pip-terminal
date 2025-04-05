@@ -44,9 +44,14 @@
 👉 https://www.Pip-Boy.com
 
 The web app simplifies the process of sending commands to the Pip-Boy 3000 Mk V.
-The app is built using Angular and is hosted on Google Firebase. The app is
-designed to be responsive and work on all devices. The app is also a PWA, so you
-can install it on your device and use it offline.
+It's built using Angular and hosted on Google Firebase, designed to be
+responsive across devices. The app is also a PWA, so you can install it and use
+it offline, perfect for adventures away from the Vault.
+
+This is a community-driven project, and your ideas, tools, and experiments are
+welcome here. Whether you're crafting new apps, tweaking UI, or just exploring
+what's possible with the Pip-Boy, you're part of something bigger, a growing
+network of Vault-Tec engineers bringing old tech back to life.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -54,12 +59,12 @@ can install it on your device and use it offline.
 
 Join the Community
 
-- 🎮 Contribute to the [Pip Apps & Games repository][link-pip-apps]
-- 🖥️ Join the [Pip-Boy.com Discord][link-discord]
-- 🤖 Join the [RobCo Industries Discord][link-discord-robco-industries]
-- 🕸️ Visit the [RobCo Industries Website][link-robco-industries]
-- 🐛 Report issues [here][link-new-issue]
-- 💡 Suggest features in [Discussions][link-github-discussions]
+- 🎮 Contribute to the [Pip Apps & Games repository][link-pip-apps].
+- 🖥️ Join the [Pip-Boy.com Discord][link-discord].
+- 🤖 Join the [RobCo Industries Discord][link-discord-robco-industries].
+- 🕸️ Visit the [RobCo Industries Website][link-robco-industries].
+- 🐛 Report issues [here][link-new-issue].
+- 💡 Suggest features in [Discussions][link-github-discussions].
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -102,9 +107,9 @@ See API file for more information [here](API.md).
 ### Music <a href="music"></a>
 
 Music must be converted to a specific format before it can be played on the
-device. Using the `ffmpeg` command-line tool, you can convert music to the
-correct format. The following command will convert an MP3 file to a WAV file
-with the correct settings:
+device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert music
+to the correct format. The following command will convert an MP3 file to a WAV
+file with the correct settings:
 
 ```bash
 `ffmpeg -i "input.mp3" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
@@ -130,15 +135,6 @@ Increase volume with `volume=`:
 mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -af "volume=10dB" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
 ```
 
-Useful links:
-
-| Title  | Link                 |
-| :----- | :------------------- |
-| ffmpeg | [Site][link-ffmpeg]  |
-| FoNV ♪ | [Archive][link-fonv] |
-| Fo3 ♪  | [Archive][link-fo3]  |
-| Fo4 ♫  | [Archive][link-fo4]  |
-
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
@@ -148,8 +144,8 @@ Useful links:
 ### Videos <a name="videos"></a>
 
 Videos must be converted to a specific format before they can be played on the
-device. Using the `ffmpeg` command-line tool, you can convert videos to the
-correct format.
+device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert
+videos to the correct format.
 
 TODO
 
@@ -335,11 +331,7 @@ Cody Tolene
 [link-discord-robco-industries]: https://discord.gg/WNEuWsck6n
 [link-discord]: https://discord.gg/zQmAkEg8XG
 [link-ffmpeg]: https://ffmpeg.org/
-[link-fo3]: https://archive.org/details/Fallout_3_galaxy_news_radio-2008
-[link-fo4]: https://archive.org/details/rebuild-renew
 [link-font-monofonto]: https://typodermicfonts.com/monofonto/
-[link-fonv]:
-  https://archive.org/details/johann-sebastian-bach-concerto-for-2-violins-in-d-minor-allegro-ma-non-troppo
 [link-github-discussions]:
   https://github.com/CodyTolene/pip-terminal/discussions
 [link-license-mit]: /LICENSE_MIT.md
