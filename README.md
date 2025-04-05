@@ -1,6 +1,6 @@
 <div align="center">
   <img align="center" src=".github/images/logo/pip-terminal.png" />
-  <h1 align="center">Pip Terminal</h1>
+  <h1 align="center">Pip Terminal (<a href="https://www.Pip-Boy.com">Pip-Boy.com</a>)</h1>
   <p align="center">
     A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!
   </p>
