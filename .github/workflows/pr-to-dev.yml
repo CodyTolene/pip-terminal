@@ -8,6 +8,7 @@ jobs:
   check_build:
     runs-on: ubuntu-latest
     steps:
+      # Build and verify front-end code
       - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run lint
