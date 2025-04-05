@@ -1,6 +1,6 @@
 <div align="center">
   <img align="center" src=".github/images/logo/pip-terminal.png" />
-  <h1 align="center">Pip Terminal</h1>
+  <h1 align="center">Pip Terminal (<a href="https://www.Pip-Boy.com">Pip-Boy.com</a>)</h1>
   <p align="center">
     A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!
   </p>
@@ -20,6 +20,7 @@
 ## Index <a name="index"></a>
 
 - [Web App](#web-app)
+- [Community](#community)
 - [Device](#device)
   - [Connecting Directly](#connecting-directly)
   - [Commands](#commands)
@@ -38,14 +39,32 @@
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Web App <a name="web-app"></a>
+## 🕸️ Web App <a name="web-app"></a>
 
-https://www.pip-boy.com
+👉 https://www.Pip-Boy.com
 
 The web app simplifies the process of sending commands to the Pip-Boy 3000 Mk V.
-The app is built using Angular and is hosted on Google Firebase. The app is
-designed to be responsive and work on all devices. The app is also a PWA, so you
-can install it on your device and use it offline.
+It's built using Angular and hosted on Google Firebase, designed to be
+responsive across devices. The app is also a PWA, so you can install it and use
+it offline, perfect for adventures away from the Vault.
+
+This is a community-driven project, and your ideas, tools, and experiments are
+welcome here. Whether you're crafting new apps, tweaking UI, or just exploring
+what's possible with the Pip-Boy, you're part of something bigger, a growing
+network of Vault-Tec engineers bringing old tech back to life.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+## 💬 Community <a name="community"></a>
+
+Join the Community
+
+- 🎮 Contribute to the [Pip Apps & Games repository][link-pip-apps].
+- 🖥️ Join the [Pip-Boy.com Discord][link-discord].
+- 🤖 Join the [RobCo Industries Discord][link-discord-robco-industries].
+- 🕸️ Visit the [RobCo Industries Website][link-robco-industries].
+- 🐛 Report issues [here][link-new-issue].
+- 💡 Suggest features in [Discussions][link-github-discussions].
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -53,7 +72,7 @@ can install it on your device and use it offline.
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Device <a name="device"></a>
+## 🖥️ Device <a name="device"></a>
 
 ### Connecting Directly <a name="connecting-directly"></a>
 
@@ -88,9 +107,9 @@ See API file for more information [here](API.md).
 ### Music <a href="music"></a>
 
 Music must be converted to a specific format before it can be played on the
-device. Using the `ffmpeg` command-line tool, you can convert music to the
-correct format. The following command will convert an MP3 file to a WAV file
-with the correct settings:
+device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert music
+to the correct format. The following command will convert an MP3 file to a WAV
+file with the correct settings:
 
 ```bash
 `ffmpeg -i "input.mp3" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
@@ -116,15 +135,6 @@ Increase volume with `volume=`:
 mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -af "volume=10dB" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
 ```
 
-Usefule links:
-
-| Title  | Link                 |
-| :----- | :------------------- |
-| ffmpeg | [Site][link-ffmpeg]  |
-| FoNV ♪ | [Archive][link-fonv] |
-| Fo3 ♪  | [Archive][link-fo3]  |
-| Fo4 ♫  | [Archive][link-fo4]  |
-
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
@@ -134,8 +144,8 @@ Usefule links:
 ### Videos <a name="videos"></a>
 
 Videos must be converted to a specific format before they can be played on the
-device. Using the `ffmpeg` command-line tool, you can convert videos to the
-correct format.
+device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert
+videos to the correct format.
 
 TODO
 
@@ -145,7 +155,7 @@ TODO
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Contribution <a name="contribution"></a>
+## 🛠️ Contribution <a name="contribution"></a>
 
 ### Prerequisites <a name="prerequisites"></a>
 
@@ -161,23 +171,26 @@ Node.js: https://nodejs.org/en/download/
 
 To get started with development follow these steps:
 
-1. Clone the repository.
+1. Fork and clone the repository (`dev` branch).
 
-2. Run `npm install` to install the project dependencies.
+2. Create a new branch `git checkout -b <your-branch-name>`.
 
-3. Run `npm run start` to start the development app.
+3. Run `npm install` in the root folder to install the project dependencies.
 
-4. Open a browser and navigate to `http://localhost:4200`.
+4. Run `npm run start` to start the development app.
 
-5. Make changes to the code and the browser will automatically reload.
+5. Open a browser and navigate to `http://localhost:4200`.
 
-6. Update the version by following the steps here in [Versioning](#versioning).
+6. Make your changes to the code (browser will automatically reload).
 
-7. Add your changes and push to a new branch.
+7. Push your changes up to GitHub.
 
-8. Open a pull request to the `main` branch.
+8. Open a pull request to the `dev` branch here.
 
 9. Wait for the pull request to be reviewed and merged.
+
+10. Once in the `dev` branch, your code will go out to production in the next
+    release.
 
 Thank you for any and all contributions!
 
@@ -231,7 +244,7 @@ ask in a discussion or open an issue.
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## License(s) <a name="licenses"></a>
+## ⚖️ License(s) <a name="licenses"></a>
 
 This project is licensed under the Creative Commons Attribution-NonCommercial
 4.0 International License. See the [license][link-license] file for more
@@ -272,7 +285,7 @@ the Creative Commons 0 License. The list of sounds can be found below:
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Terms of Use <a name="terms"></a>
+## 📜 Terms of Use <a name="terms"></a>
 
 Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, and brand
 names are the property of their respective owners. This project is for personal
@@ -287,7 +300,7 @@ For more information, see the full [Terms of Use][link-terms] document.
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Wrapping Up <a name="wrapping-up"></a>
+## 🏁 Wrapping Up <a name="wrapping-up"></a>
 
 Thank you to Bethesda & The Wand Company for such a fun device to tinker with!
 If you have any questions, please let me know by opening an issue
@@ -315,14 +328,16 @@ Cody Tolene
 
 <!-- LINK REFERENCES -->
 
+[link-discord-robco-industries]: https://discord.gg/WNEuWsck6n
+[link-discord]: https://discord.gg/zQmAkEg8XG
 [link-ffmpeg]: https://ffmpeg.org/
-[link-fo3]: https://archive.org/details/Fallout_3_galaxy_news_radio-2008
-[link-fo4]: https://archive.org/details/rebuild-renew
 [link-font-monofonto]: https://typodermicfonts.com/monofonto/
-[link-fonv]:
-  https://archive.org/details/johann-sebastian-bach-concerto-for-2-violins-in-d-minor-allegro-ma-non-troppo
+[link-github-discussions]:
+  https://github.com/CodyTolene/pip-terminal/discussions
 [link-license-mit]: /LICENSE_MIT.md
 [link-license-mpl]: /LICENSE_MPL.md
 [link-license]: /LICENSE.md
 [link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
+[link-pip-apps]: https://github.com/CodyTolene/pip-apps
+[link-robco-industries]: https://log.robco-industries.org/
 [link-terms]: /TERMS.md
