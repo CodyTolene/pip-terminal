@@ -11,6 +11,7 @@ import { PipAppsService } from 'src/app/services/pip-apps.service';
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-file.service';
 import { PipGetDataService } from 'src/app/services/pip-get-data.service';
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
 import { PipTimeService } from 'src/app/services/pip-time.service';
@@ -33,7 +34,6 @@ import { PipMapComponent } from './pages/pip-map/pip-map.component';
 import { PipRadioComponent } from './pages/pip-radio/pip-radio.component';
 import { PipStatsComponent } from './pages/pip-stats/pip-stats.component';
 import { PipStatusComponent } from './pages/pip-status/pip-status.component';
-import { PipFileService } from './services/pip-file.service';
 import { PipSoundService } from './services/pip-sound.service';
 import { PipTabsService } from './services/pip-tabs.service';
 
@@ -78,6 +78,7 @@ import { PipTabsService } from './services/pip-tabs.service';
 })
 export class PipComponent implements OnInit {
   public constructor(
+    private readonly pipFileService: PipFileService,
     private readonly pipSoundService: PipSoundService,
     private readonly pipTabsService: PipTabsService,
   ) {
@@ -92,6 +93,7 @@ export class PipComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     this.pipTabsService.initialize();
+    await this.pipFileService.initialize();
   }
 
   protected async goToConnectTab(): Promise<void> {

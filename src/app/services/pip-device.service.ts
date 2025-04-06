@@ -1,4 +1,4 @@
-import { isNonEmptyString } from '@proangular/pro-form';
+import { PipCommandsEnum } from 'src/app/enums';
 
 import { Injectable } from '@angular/core';
 
@@ -96,53 +96,19 @@ export class PipDeviceService {
     }
 
     try {
-      const result = await this.pipCommandService.cmd<boolean>(`
-        (() => {
-          try {
-            // Remove any UI
-            Pip.remove();  
-            Pip.removeSubmenu && Pip.removeSubmenu();
+      const command = PipCommandsEnum.CLEAR_SCREEN;
+      let script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return false;
+      }
 
-            // Stop any existing audio
-            if (Pip.audioStop) {
-              Pip.audioStop();
-            }
+      script = script
+        .replace(/MESSAGE/g, JSON.stringify(message ?? ''))
+        .replace(/MESSAGE_TWO/g, JSON.stringify(messageTwo ?? ''))
+        .replace(/VIDEO/g, video ? JSON.stringify(video) : 'null');
 
-            // Stop the radio if it's playing
-            if (Pip.radioOn) {
-              rd.enable(false);
-              Pip.radioOn = false;
-            }
-
-            // Clear the screen
-            g.clear(1);
-
-            // Set font and align text
-            g.setFontMonofonto23();
-            g.setFontAlign(0, 0);
-
-            // Message(s)
-            ${
-              isNonEmptyString(message)
-                ? `g.drawString("${message}", g.getWidth() / 2, g.getHeight() ${video ? '- 75' : '/ 2 - 10'});`
-                : ''
-            }
-            ${
-              isNonEmptyString(messageTwo)
-                ? `g.drawString("${messageTwo}", g.getWidth() / 2, g.getHeight() ${video ? '- 40' : '/ 2 + 20'});`
-                : ''
-            }
-            
-            // Video
-            ${video ? `Pip.videoStart("${video.filename}", { x: ${video.x}, y: ${video.y} });` : ''}
-
-            // Force a display refresh
-            g.flip();
-          } catch (error) {
-            return 'Error: ' + error.message;
-          }
-        })()
-      `);
+      const result = await this.pipCommandService.cmd<boolean>(script);
 
       return result ?? false;
     } catch (error) {
@@ -158,22 +124,19 @@ export class PipDeviceService {
       logMessage('Please connect to the device first.');
       return;
     }
-    // Pip.demoMode
 
     logMessage('Entering demo mode...');
     pipSignals.disableAllControls.set(true);
 
     try {
-      const result = await this.pipCommandService.cmd<string>(`
-        (() => {
-          try {
-            enterDemoMode();
-            return 'Demo mode activated.';
-          } catch (error) {
-            return 'Error: ' + error.message;
-          }
-        })()
-      `);
+      const command = PipCommandsEnum.ENTER_DEMO_MODE;
+      const script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return;
+      }
+
+      const result = await this.pipCommandService.cmd<string>(script);
       logMessage(result ?? 'Error: No response from device.');
     } catch (error) {
       logMessage(`Error: ${(error as Error)?.message}`);
@@ -192,16 +155,14 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const result = await this.pipCommandService.cmd<string>(`
-        (() => {
-          try {
-            factoryTestMode();
-            return 'Factory test mode activated.';
-          } catch (error) {
-            return 'Error: ' + error.message;
-          }
-        })()
-      `);
+      const command = PipCommandsEnum.ENTER_FACTORY_MODE;
+      const script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return;
+      }
+
+      const result = await this.pipCommandService.cmd<string>(script);
 
       logMessage(result ?? 'Error: No response from device.');
       return;
@@ -221,11 +182,20 @@ export class PipDeviceService {
       return;
     }
 
+    logMessage('Rebooting now...');
+
     try {
-      logMessage('Rebooting now...');
-      await this.pipCommandService.cmd(
-        'setTimeout(() => { E.reboot(); }, 100);',
-      );
+      const command = PipCommandsEnum.RESTART_DEVICE;
+      let script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return;
+      }
+
+      const timeoutMs = 100;
+      script = script.replace(/TIMEOUT_MS/g, `${timeoutMs}`);
+
+      await this.pipCommandService.cmd(script);
     } catch (error) {
       logMessage(`Error: ${(error as Error)?.message}`);
     }
@@ -254,12 +224,14 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      await this.pipCommandService.cmd(`
-        (() => { 
-          Pip.sleeping = true; 
-          Pip.offOrSleep({ immediate:false, forceOff:false, playWebsiteSound:true }); 
-        })()
-      `);
+      const command = PipCommandsEnum.ENTER_SLEEP_MODE;
+      const script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return;
+      }
+
+      await this.pipCommandService.cmd(script);
 
       const maxRetries = 10;
       for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -313,19 +285,14 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      isAsleep = await this.pipCommandService.cmd<boolean | 'BUSY'>(`
-        (() => {
-          if (Pip.sleeping) {
-            Pip.sleeping = false;
-            Pip.wake();
-            Pip.brightness = 20;
-            Pip.addWatches();
-            setTimeout(() => { Pip.fadeOn([LCD_BL, LED_RED, LED_GREEN]); }, 100);
-            showMainMenu();
-          }
-          return Pip.sleeping;
-        })()
-      `);
+      const command = PipCommandsEnum.WAKE_DEVICE;
+      const script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return;
+      }
+
+      isAsleep = await this.pipCommandService.cmd<boolean | 'BUSY'>(script);
 
       await wait(1000);
 
@@ -357,9 +324,14 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      await this.pipCommandService.cmd(
-        'Pip.offOrSleep({ immediate:false, forceOff:true, playWebsiteSound:true })',
-      );
+      const command = PipCommandsEnum.SHUTDOWN_DEVICE;
+      const script = await this.pipCommandService.getCommandScript(command);
+      if (!script) {
+        logMessage(`Error: Unable to load command ${command}.`);
+        return;
+      }
+
+      await this.pipCommandService.cmd(script);
 
       const maxRetries = 10;
       for (let attempt = 0; attempt < maxRetries; attempt++) {

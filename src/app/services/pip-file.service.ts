@@ -1,4 +1,5 @@
 import JSZip, { JSZipObject } from 'jszip';
+import { PipCommandsEnum } from 'src/app/enums';
 import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
@@ -24,7 +25,76 @@ export class PipFileService {
     private readonly pipConnectionService: PipConnectionService,
   ) {}
 
+  private isInitialized = false;
   private isUploading = false;
+
+  private commandScripts: {
+    createDir: string;
+    deleteDir: string;
+    listDir: string;
+    deleteFile: string;
+    getApps: string;
+  } | null = null;
+
+  /**
+   * Initializes the command scripts for file operations.
+   */
+  public async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      logMessage('PipFileService is already initialized.');
+      return;
+    }
+
+    const createDir = await this.pipCommandService.getCommandScript(
+      PipCommandsEnum.DIR_CREATE,
+    );
+    if (!createDir) {
+      logMessage('Error: Unable to load command DIR_CREATE.');
+      return;
+    }
+
+    const deleteDir = await this.pipCommandService.getCommandScript(
+      PipCommandsEnum.DIR_DELETE,
+    );
+    if (!deleteDir) {
+      logMessage('Error: Unable to load command DIR_DELETE.');
+      return;
+    }
+
+    const deleteFile = await this.pipCommandService.getCommandScript(
+      PipCommandsEnum.FILE_DELETE,
+    );
+    if (!deleteFile) {
+      logMessage('Error: Unable to load command FILE_DELETE.');
+      return;
+    }
+
+    const listDir = await this.pipCommandService.getCommandScript(
+      PipCommandsEnum.DIR_LIST,
+    );
+    if (!listDir) {
+      logMessage('Error: Unable to load command DIR_LIST.');
+      return;
+    }
+
+    const getApps = await this.pipCommandService.getCommandScript(
+      PipCommandsEnum.GET_APPS,
+    );
+    if (!getApps) {
+      logMessage('Error: Unable to load command GET_APPS.');
+      return;
+    }
+
+    this.commandScripts = {
+      createDir,
+      deleteDir,
+      deleteFile,
+      getApps,
+      listDir,
+    };
+
+    this.isInitialized = true;
+  }
 
   /**
    * Create a directory on the device's SD card. If the directory already
@@ -42,28 +112,18 @@ export class PipFileService {
     }
 
     try {
-      const result = await this.pipCommandService.cmd<CreateDirResult>(`
-        (() => {
-          var fs = require("fs");
-          try {
-            fs.readdir("${directory}");
-            return { 
-              success: true,
-              message: 'Directory "${directory}/" already exists.',
-            };
-          } catch (error) { 
-            try {
-              fs.mkdir("${directory}");
-              return { 
-                success: true,
-                message: 'Directory "${directory}" created successfully on device.',
-              };
-            } catch (mkdirError) {
-              return { success: false, message: mkdirError.message };
-            }
-          }
-        })()
-      `);
+      const command = this.commandScripts?.createDir.replace(
+        /DIRECTORY/g,
+        JSON.stringify(directory),
+      );
+      if (!command) {
+        logMessage(
+          `Error: Unable to load command ${PipCommandsEnum.DIR_CREATE}.`,
+        );
+        return false;
+      }
+
+      const result = await this.pipCommandService.cmd<CreateDirResult>(command);
 
       if (!result?.success) {
         const error = result?.message || 'Unknown error';
@@ -95,54 +155,21 @@ export class PipFileService {
     }
 
     try {
+      const command = this.commandScripts?.deleteDir.replace(
+        /DIRECTORY/g,
+        JSON.stringify(directory),
+      );
+      if (!command) {
+        logMessage(
+          `Error: Unable to load command ${PipCommandsEnum.DIR_DELETE}.`,
+        );
+        return false;
+      }
+
       const result = await this.pipCommandService.cmd<{
         success: boolean;
         message: string;
-      }>(`
-          (() => {
-            var fs = require("fs");
-            var logs = [];
-        
-            function deleteFilesRecursive(path) {
-              try {
-                logs.push("Reading: " + path);
-                var files = fs.readdir(path);
-        
-                files.forEach(function (file) {
-                  if (file === "." || file === "..") return;
-                  var full = path + "/" + file;
-        
-                  try {
-                    fs.readdir(full);
-                  } catch (err) {
-                    // Not a directory, delete file
-                    try {
-                      fs.unlink(full);
-                      logs.push("Deleted file: " + full);
-                    } catch (delErr) {
-                      logs.push("Failed to delete file: " + full + " — " + delErr.message);
-                    }
-                  }
-                });
-        
-                return true;
-              } catch (e) {
-                logs.push("Failed to read directory: " + path + " — " + e.message);
-                return false;
-              }
-            }
-        
-            try {
-              var ok = deleteFilesRecursive("${directory}");
-              return {
-                success: ok,
-                message: logs.join("\\n")
-              };
-            } catch (error) {
-              return { success: false, message: "Fatal error: " + error.message };
-            }
-          })()
-        `);
+      }>(command);
 
       if (!result?.success) {
         logMessage(`Failed to delete "${directory}":`);
@@ -173,23 +200,21 @@ export class PipFileService {
     }
 
     try {
+      const command = this.commandScripts?.deleteFile.replace(
+        /PATH/g,
+        JSON.stringify(path),
+      );
+      if (!command) {
+        logMessage(
+          `Error: Unable to load command ${PipCommandsEnum.FILE_DELETE}.`,
+        );
+        return false;
+      }
+
       const result = await this.pipCommandService.cmd<{
         success: boolean;
         message: string;
-      }>(`
-        (() => {
-          var fs = require("fs");
-          try {
-            fs.unlink("${path}");
-            return { 
-              success: true,
-              message: 'File "${path}" deleted successfully.'
-            };
-          } catch (error) {
-            return { success: false, message: error.message };
-          }
-        })()
-      `);
+      }>(command);
 
       if (!result?.success) {
         logMessage(
@@ -221,6 +246,14 @@ export class PipFileService {
     }
 
     const escapedPath = dir.replace(/"/g, '\\"');
+    const command = this.commandScripts?.listDir.replace(
+      /DIRECTORY/g,
+      JSON.stringify(escapedPath),
+    );
+    if (!command) {
+      logMessage(`Error: Unable to load command ${PipCommandsEnum.DIR_LIST}.`);
+      return [];
+    }
 
     const result = await this.pipCommandService.cmd<{
       success: boolean;
@@ -232,46 +265,7 @@ export class PipFileService {
         modified: string;
       }>;
       message: string;
-    }>(`
-      (() => {
-        var fs = require("fs");
-  
-        function resolvePath(dir, file) {
-          if (dir === "/" || dir === "") return "/" + file;
-          return dir + "/" + file;
-        }
-  
-        var entries = [];
-        try {
-          var list = fs.readdir("${escapedPath}");
-          list.forEach(function(name) {
-            var full = resolvePath("${escapedPath}", name);
-            try {
-              var stat = fs.statSync(full);
-              entries.push({
-                name: name,
-                path: full,
-                type: stat.dir ? "dir" : "file",
-                size: stat.size,
-                modified: stat.mtime
-              });
-            } catch (_) {}
-          });
-  
-          return {
-            success: true,
-            entries: entries,
-            message: "Listed " + entries.length + " entries."
-          };
-        } catch (e) {
-          return {
-            success: false,
-            entries: [],
-            message: "Failed to read: " + e.message
-          };
-        }
-      })()
-    `);
+    }>(command);
 
     if (!result?.success) {
       logMessage(`Failed to list "${dir}": ${result?.message}`);
@@ -311,16 +305,18 @@ export class PipFileService {
         (fileMeta) => fileMeta.name,
       )) {
         const filePath = `APPINFO/${fileName}`;
-        const fileContent = await this.pipCommandService.cmd<string>(`
-            (() => {
-              var fs = require("fs");
-              try {
-                return fs.readFile("${filePath}");
-              } catch (error) {
-                return JSON.stringify({ error: error.message });
-              }
-            })()
-          `);
+        const command = this.commandScripts?.getApps.replace(
+          /FILEPATH/g,
+          JSON.stringify(filePath),
+        );
+        if (!command) {
+          logMessage(
+            `Error: Unable to load command ${PipCommandsEnum.GET_APPS}.`,
+          );
+          return [];
+        }
+
+        const fileContent = await this.pipCommandService.cmd<string>(command);
 
         if (typeof fileContent === 'string') {
           try {

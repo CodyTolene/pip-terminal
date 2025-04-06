@@ -1,3 +1,7 @@
+import { firstValueFrom } from 'rxjs';
+import { PipCommandsEnum } from 'src/app/enums';
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -11,6 +15,7 @@ import { PipConnectionService } from './pip-connection.service';
 export class PipCommandService {
   public constructor(
     private readonly connectionService: PipConnectionService,
+    private readonly http: HttpClient,
   ) {}
 
   private readonly EVAL_TIMEOUT = 2000;
@@ -49,5 +54,15 @@ export class PipCommandService {
       logMessage(`Command permanently failed.`);
       return null;
     }
+  }
+
+  public async getCommandScript(
+    command: PipCommandsEnum,
+  ): Promise<string | null> {
+    return (
+      (await firstValueFrom(
+        this.http.get(command, { responseType: 'text' }),
+      )) || null
+    );
   }
 }
