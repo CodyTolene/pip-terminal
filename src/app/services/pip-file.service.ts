@@ -1,5 +1,5 @@
 import JSZip, { JSZipObject } from 'jszip';
-import { PipCommandsEnum } from 'src/app/enums';
+import { Commands } from 'src/app/commands';
 import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
@@ -25,76 +25,7 @@ export class PipFileService {
     private readonly pipConnectionService: PipConnectionService,
   ) {}
 
-  private isInitialized = false;
   private isUploading = false;
-
-  private commandScripts: {
-    createDir: string;
-    deleteDir: string;
-    listDir: string;
-    deleteFile: string;
-    getApps: string;
-  } | null = null;
-
-  /**
-   * Initializes the command scripts for file operations.
-   */
-  public async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      logMessage('PipFileService is already initialized.');
-      return;
-    }
-
-    const createDir = await this.pipCommandService.getCommandScript(
-      PipCommandsEnum.DIR_CREATE,
-    );
-    if (!createDir) {
-      logMessage('Error: Unable to load command DIR_CREATE.');
-      return;
-    }
-
-    const deleteDir = await this.pipCommandService.getCommandScript(
-      PipCommandsEnum.DIR_DELETE,
-    );
-    if (!deleteDir) {
-      logMessage('Error: Unable to load command DIR_DELETE.');
-      return;
-    }
-
-    const deleteFile = await this.pipCommandService.getCommandScript(
-      PipCommandsEnum.FILE_DELETE,
-    );
-    if (!deleteFile) {
-      logMessage('Error: Unable to load command FILE_DELETE.');
-      return;
-    }
-
-    const listDir = await this.pipCommandService.getCommandScript(
-      PipCommandsEnum.DIR_LIST,
-    );
-    if (!listDir) {
-      logMessage('Error: Unable to load command DIR_LIST.');
-      return;
-    }
-
-    const getApps = await this.pipCommandService.getCommandScript(
-      PipCommandsEnum.GET_APPS,
-    );
-    if (!getApps) {
-      logMessage('Error: Unable to load command GET_APPS.');
-      return;
-    }
-
-    this.commandScripts = {
-      createDir,
-      deleteDir,
-      deleteFile,
-      getApps,
-      listDir,
-    };
-
-    this.isInitialized = true;
-  }
 
   /**
    * Create a directory on the device's SD card. If the directory already
@@ -112,18 +43,8 @@ export class PipFileService {
     }
 
     try {
-      const command = this.commandScripts?.createDir.replace(
-        /DIRECTORY/g,
-        JSON.stringify(directory),
-      );
-      if (!command) {
-        logMessage(
-          `Error: Unable to load command ${PipCommandsEnum.DIR_CREATE}.`,
-        );
-        return false;
-      }
-
-      const result = await this.pipCommandService.cmd<CreateDirResult>(command);
+      const command = Commands.dirCreate(directory);
+      const result = await this.pipCommandService.run<CreateDirResult>(command);
 
       if (!result?.success) {
         const error = result?.message || 'Unknown error';
@@ -155,18 +76,8 @@ export class PipFileService {
     }
 
     try {
-      const command = this.commandScripts?.deleteDir.replace(
-        /DIRECTORY/g,
-        JSON.stringify(directory),
-      );
-      if (!command) {
-        logMessage(
-          `Error: Unable to load command ${PipCommandsEnum.DIR_DELETE}.`,
-        );
-        return false;
-      }
-
-      const result = await this.pipCommandService.cmd<{
+      const command = Commands.dirDelete(directory);
+      const result = await this.pipCommandService.run<{
         success: boolean;
         message: string;
       }>(command);
@@ -200,18 +111,8 @@ export class PipFileService {
     }
 
     try {
-      const command = this.commandScripts?.deleteFile.replace(
-        /PATH/g,
-        JSON.stringify(path),
-      );
-      if (!command) {
-        logMessage(
-          `Error: Unable to load command ${PipCommandsEnum.FILE_DELETE}.`,
-        );
-        return false;
-      }
-
-      const result = await this.pipCommandService.cmd<{
+      const command = Commands.fileDelete(path);
+      const result = await this.pipCommandService.run<{
         success: boolean;
         message: string;
       }>(command);
@@ -246,16 +147,8 @@ export class PipFileService {
     }
 
     const escapedPath = dir.replace(/"/g, '\\"');
-    const command = this.commandScripts?.listDir.replace(
-      /DIRECTORY/g,
-      JSON.stringify(escapedPath),
-    );
-    if (!command) {
-      logMessage(`Error: Unable to load command ${PipCommandsEnum.DIR_LIST}.`);
-      return [];
-    }
-
-    const result = await this.pipCommandService.cmd<{
+    const command = Commands.dirList(escapedPath);
+    const result = await this.pipCommandService.run<{
       success: boolean;
       entries: Array<{
         name: string;
@@ -305,18 +198,8 @@ export class PipFileService {
         (fileMeta) => fileMeta.name,
       )) {
         const filePath = `APPINFO/${fileName}`;
-        const command = this.commandScripts?.getApps.replace(
-          /FILEPATH/g,
-          JSON.stringify(filePath),
-        );
-        if (!command) {
-          logMessage(
-            `Error: Unable to load command ${PipCommandsEnum.GET_APPS}.`,
-          );
-          return [];
-        }
-
-        const fileContent = await this.pipCommandService.cmd<string>(command);
+        const command = Commands.getApps(filePath);
+        const fileContent = await this.pipCommandService.run<string>(command);
 
         if (typeof fileContent === 'string') {
           try {
@@ -392,20 +275,8 @@ export class PipFileService {
     }
 
     try {
-      const result = await this.pipCommandService.cmd<LoadFileResult>(`
-        (() => {
-          var fs = require("fs");
-          try {
-            eval(fs.readFile("${path}"));
-            return { 
-              success: true,
-              message: 'File "${path}" loaded successfully on device!',
-            };
-          } catch (error) {
-            return { success: false, message: error.message };
-          }
-        })()
-      `);
+      const command = Commands.fileLoad(path);
+      const result = await this.pipCommandService.run<LoadFileResult>(command);
 
       if (!result?.success) {
         const error = result?.message || 'Unknown error';
@@ -434,19 +305,9 @@ export class PipFileService {
     }
 
     try {
-      const result = await this.pipCommandService.cmd<string>(`
-        (() => {
-          var fs = require("fs");
-          try {
-            var content = fs.readFile("${path}");
-            return content;
-          } catch (error) {
-            return JSON.stringify({ error: error.message });
-          }
-        })()
-      `);
+      const command = Commands.readRawFile(path);
+      const result = await this.pipCommandService.run<string>(command);
 
-      // Check if it returned an error message
       if (typeof result === 'string') {
         try {
           const parsed = JSON.parse(result);

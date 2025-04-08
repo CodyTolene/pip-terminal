@@ -1,4 +1,4 @@
-import { PipCommandsEnum } from 'src/app/enums';
+import { Commands } from 'src/app/commands';
 
 import { Injectable } from '@angular/core';
 
@@ -96,20 +96,8 @@ export class PipDeviceService {
     }
 
     try {
-      const command = PipCommandsEnum.CLEAR_SCREEN;
-      let script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return false;
-      }
-
-      script = script
-        .replace(/MESSAGE/g, JSON.stringify(message ?? ''))
-        .replace(/MESSAGE_TWO/g, JSON.stringify(messageTwo ?? ''))
-        .replace(/VIDEO/g, video ? JSON.stringify(video) : 'null');
-
-      const result = await this.pipCommandService.cmd<boolean>(script);
-
+      const command = Commands.clearScreen(message, messageTwo, video);
+      const result = await this.pipCommandService.run<boolean>(command);
       return result ?? false;
     } catch (error) {
       logMessage(`Error: ${(error as Error)?.message}`);
@@ -129,14 +117,8 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const command = PipCommandsEnum.ENTER_DEMO_MODE;
-      const script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return;
-      }
-
-      const result = await this.pipCommandService.cmd<string>(script);
+      const command = Commands.enterDemoMode();
+      const result = await this.pipCommandService.run<string>(command);
       logMessage(result ?? 'Error: No response from device.');
     } catch (error) {
       logMessage(`Error: ${(error as Error)?.message}`);
@@ -155,15 +137,8 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const command = PipCommandsEnum.ENTER_FACTORY_MODE;
-      const script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return;
-      }
-
-      const result = await this.pipCommandService.cmd<string>(script);
-
+      const command = Commands.enterFactoryMode();
+      const result = await this.pipCommandService.run<string>(command);
       logMessage(result ?? 'Error: No response from device.');
       return;
     } catch (error) {
@@ -185,17 +160,9 @@ export class PipDeviceService {
     logMessage('Rebooting now...');
 
     try {
-      const command = PipCommandsEnum.RESTART_DEVICE;
-      let script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return;
-      }
-
       const timeoutMs = 100;
-      script = script.replace(/TIMEOUT_MS/g, `${timeoutMs}`);
-
-      await this.pipCommandService.cmd(script);
+      const command = Commands.restartDevice(timeoutMs);
+      await this.pipCommandService.run(command);
     } catch (error) {
       logMessage(`Error: ${(error as Error)?.message}`);
     }
@@ -224,14 +191,8 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const command = PipCommandsEnum.ENTER_SLEEP_MODE;
-      const script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return;
-      }
-
-      await this.pipCommandService.cmd(script);
+      const command = Commands.enterSleepMode();
+      await this.pipCommandService.run(command);
 
       const maxRetries = 10;
       for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -285,14 +246,8 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const command = PipCommandsEnum.WAKE_DEVICE;
-      const script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return;
-      }
-
-      isAsleep = await this.pipCommandService.cmd<boolean | 'BUSY'>(script);
+      const command = Commands.wakeDevice();
+      isAsleep = await this.pipCommandService.run<boolean | 'BUSY'>(command);
 
       await wait(1000);
 
@@ -324,14 +279,8 @@ export class PipDeviceService {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const command = PipCommandsEnum.SHUTDOWN_DEVICE;
-      const script = await this.pipCommandService.getCommandScript(command);
-      if (!script) {
-        logMessage(`Error: Unable to load command ${command}.`);
-        return;
-      }
-
-      await this.pipCommandService.cmd(script);
+      const command = Commands.shutdownDevice();
+      await this.pipCommandService.run(command);
 
       const maxRetries = 10;
       for (let attempt = 0; attempt < maxRetries; attempt++) {

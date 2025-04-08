@@ -1,7 +1,3 @@
-import { firstValueFrom } from 'rxjs';
-import { PipCommandsEnum } from 'src/app/enums';
-
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
@@ -15,7 +11,6 @@ import { PipConnectionService } from './pip-connection.service';
 export class PipCommandService {
   public constructor(
     private readonly connectionService: PipConnectionService,
-    private readonly http: HttpClient,
   ) {}
 
   private readonly EVAL_TIMEOUT = 2000;
@@ -30,7 +25,7 @@ export class PipCommandService {
    * @returns The result of the command execution, or null if it fails
    * after the maximum number of retries.
    */
-  public async cmd<T>(
+  public async run<T>(
     command: string,
     options = {},
     retries = 0,
@@ -49,20 +44,10 @@ export class PipCommandService {
         logMessage(
           `Command failed, retrying (${retries + 1}/${this.MAX_RETRIES})...`,
         );
-        return this.cmd<T>(command, options, retries + 1);
+        return this.run<T>(command, options, retries + 1);
       }
       logMessage(`Command permanently failed.`);
       return null;
     }
-  }
-
-  public async getCommandScript(
-    command: PipCommandsEnum,
-  ): Promise<string | null> {
-    return (
-      (await firstValueFrom(
-        this.http.get(command, { responseType: 'text' }),
-      )) || null
-    );
   }
 }

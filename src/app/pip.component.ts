@@ -93,7 +93,6 @@ export class PipComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     this.pipTabsService.initialize();
-    await this.pipFileService.initialize();
   }
 
   protected async goToConnectTab(): Promise<void> {

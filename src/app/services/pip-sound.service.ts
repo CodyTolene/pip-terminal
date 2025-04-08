@@ -1,3 +1,4 @@
+import { Commands } from 'src/app/commands';
 import {
   DxRadioFileNameEnum,
   MxRadioFileNameEnum,
@@ -50,16 +51,8 @@ export class PipSoundService {
     try {
       await this.stopAllSoundsOnDevice();
 
-      const result = await this.pipCommandService.cmd<boolean>(`
-        (() => {
-          try {
-            Pip.audioStart("RADIO/${radioFileName}.wav");
-            return true;
-          } catch {
-            return false;
-          }
-        })();
-      `);
+      const command = Commands.playRadioFile(radioFileName);
+      const result = await this.pipCommandService.run<boolean>(command);
 
       return result ?? false;
     } catch {
@@ -123,26 +116,8 @@ export class PipSoundService {
     }
 
     try {
-      const result = await this.pipCommandService.cmd<boolean>(`
-        (() => {
-          try {
-            // Stop any existing audio
-            if (Pip.audioStop) {
-              Pip.audioStop();
-            }
-
-            // Stop the radio if it's playing
-            if (Pip.radioOn) {
-              rd.enable(false);
-              Pip.radioOn = false;
-            }
-
-            return true;
-          } catch {
-            return false;
-          }
-        })();
-      `);
+      const command = Commands.stopAllSounds();
+      const result = await this.pipCommandService.run<boolean>(command);
 
       return result ?? false;
     } catch {

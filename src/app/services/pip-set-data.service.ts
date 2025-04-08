@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import { firstValueFrom } from 'rxjs';
+import { Commands } from 'src/app/commands';
 
 import { Injectable } from '@angular/core';
 
@@ -30,28 +31,14 @@ export class PipSetDataService {
    */
   public async setDateTime(dateTime: DateTime<boolean>): Promise<void> {
     const timestampSeconds = dateTime.toSeconds();
-    const timezoneOffset = dateTime.offset / 60;
+    const timezoneOffsetMinutes = dateTime.offset;
 
-    const result: { success: boolean; message?: unknown } | null = await this
-      .commandService.cmd(`
-      (() => {
-        try {
-          setTime(${timestampSeconds});
-          E.setTimeZone(${timezoneOffset});
-          settings.timezone = ${timezoneOffset};
-          settings.century = 20;
-          saveSettings();
-          tm0 = null;
-          if (typeof drawFooter === 'function') drawFooter();
-          return { success: true };
-        } catch (e) {
-          return { 
-            message: e || 'Failed to set time.',
-            success: false,
-          };
-        }
-      })()
-    `);
+    const command = Commands.setDateTime(
+      timestampSeconds,
+      timezoneOffsetMinutes,
+    );
+    const result: { success: boolean; message?: unknown } | null =
+      await this.commandService.run(command);
 
     const timeFormatted = dateTime.toFormat('yyyy-MM-dd h:mm:ss a');
     if (result?.success) {
@@ -72,28 +59,14 @@ export class PipSetDataService {
       this.pipTimeService.timeChanges,
     );
     const timestampSeconds = currentDateTime.toSeconds();
-    const timezoneOffset = currentDateTime.offset / 60;
+    const timezoneOffsetMinutes = currentDateTime.offset;
 
-    const result: { success: boolean; message?: unknown } | null = await this
-      .commandService.cmd(`
-      (() => {
-        try {
-          setTime(${timestampSeconds});
-          E.setTimeZone(${timezoneOffset});
-          settings.timezone = ${timezoneOffset};
-          settings.century = 20;
-          saveSettings();
-          tm0 = null;
-          if (typeof drawFooter === 'function') drawFooter();
-          return { success: true };
-        } catch (e) {
-          return { 
-            message: e || 'Failed to set time.',
-            success: false,
-          };
-        }
-      })()
-    `);
+    const command = Commands.setDateTime(
+      timestampSeconds,
+      timezoneOffsetMinutes,
+    );
+    const result: { success: boolean; message?: unknown } | null =
+      await this.commandService.run(command);
 
     const timeFormatted = currentDateTime.toFormat('yyyy-MM-dd h:mm:ss a');
     if (result?.success) {
@@ -113,30 +86,14 @@ export class PipSetDataService {
    * @returns A promise that resolves when the owner name is set.
    */
   public async setOwnerName(name: string | null): Promise<void> {
-    name =
-      name
-        ?.normalize('NFKD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^\u0020-\u007E]/g, '') ?? null;
-
     if (!name) {
       logMessage('Invalid owner name.');
       return;
     }
 
-    const success = await this.commandService.cmd(`
-      (() => {
-        try {
-          settings.userName = '';
-          saveSettings();
-          settings.userName = '${name}';
-          saveSettings();
-          return true;
-        } catch (e) {
-          return false;
-        }
-      })()
-    `);
+    const command = Commands.setOwnerName(name);
+    const success = await this.commandService.run(command);
+
     if (success) {
       pipSignals.ownerName.set(name);
       logMessage(`Owner set to: ${name}`);
@@ -152,19 +109,9 @@ export class PipSetDataService {
    * @returns A promise that resolves when the owner name is reset.
    */
   public async resetOwnerName(): Promise<void> {
-    const success = await this.commandService.cmd(`
-      (() => {
-        try {
-          settings.userName = '';
-          saveSettings();
-          delete settings.userName;
-          saveSettings();
-          return true;
-        } catch (e) {
-          return false;
-        }
-      })()
-    `);
+    const command = Commands.resetOwnerName();
+    const success = await this.commandService.run(command);
+
     if (success) {
       pipSignals.ownerName.set('<NONE>');
       logMessage('Owner name reset!');
