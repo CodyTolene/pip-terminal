@@ -11,7 +11,6 @@ import { PipAppsService } from 'src/app/services/pip-apps.service';
 import { PipCommandService } from 'src/app/services/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-device.service';
-import { PipFileService } from 'src/app/services/pip-file.service';
 import { PipGetDataService } from 'src/app/services/pip-get-data.service';
 import { PipSetDataService } from 'src/app/services/pip-set-data.service';
 import { PipTimeService } from 'src/app/services/pip-time.service';
@@ -68,7 +67,6 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipCommandService,
     PipConnectionService,
     PipDeviceService,
-    PipFileService,
     PipGetDataService,
     PipSetDataService,
     PipSoundService,
@@ -78,7 +76,6 @@ import { PipTabsService } from './services/pip-tabs.service';
 })
 export class PipComponent implements OnInit {
   public constructor(
-    private readonly pipFileService: PipFileService,
     private readonly pipSoundService: PipSoundService,
     private readonly pipTabsService: PipTabsService,
   ) {
