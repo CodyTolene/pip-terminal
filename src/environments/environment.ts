@@ -1,7 +1,6 @@
 export const environment: EnvironmentCredentials = {
-  appsDir: 'USER',
-  // appsUrl: '', // Root of "public" folder. Place USER folder here for local testing.
-  appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/main',
+  appsUrl: 'apps', // `~/public/APPS`
+  // appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/main',
   production: false,
   google: {
     firebase: {

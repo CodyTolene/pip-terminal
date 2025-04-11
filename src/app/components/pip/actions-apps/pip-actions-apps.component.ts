@@ -212,9 +212,8 @@ export class PipActionsAppsComponent {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const createAppDirSuccess = await this.createDirectoryIfNonExistent(
-        environment.appsDir,
-      );
+      const createAppDirSuccess =
+        await this.createDirectoryIfNonExistent('USER');
       if (!createAppDirSuccess) return;
 
       const createAppMetaDirSucess = await this.createDirectoryIfNonExistent(
@@ -249,10 +248,7 @@ export class PipActionsAppsComponent {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const launchAppSuccess = await this.launchAppOnDevice(
-        app,
-        environment.appsDir,
-      );
+      const launchAppSuccess = await this.launchAppOnDevice(app, 'USER');
       if (!launchAppSuccess) return;
 
       logMessage(`Launched ${app.name} successfully!`);
@@ -298,7 +294,7 @@ export class PipActionsAppsComponent {
     const zip = new JSZip();
 
     // Zip the main file
-    zip.file(`${environment.appsDir}/${app.id}.js`, script);
+    zip.file(`USER/${app.id}.js`, script);
 
     if (app.dependencies.length > 0) {
       logMessage('App has dependencies, fetching...');
@@ -306,7 +302,7 @@ export class PipActionsAppsComponent {
 
       // Loop through any extra files to add to the zip
       for (const dependency of app.dependencies) {
-        const baseUrl = `${environment.appsUrl}/${environment.appsDir}`;
+        const baseUrl = `${environment.appsUrl}/USER`;
         const dependencyUrl = `${baseUrl}/${dependency}`;
 
         const asset = await this.fetchAppAsset(dependencyUrl);
@@ -320,7 +316,7 @@ export class PipActionsAppsComponent {
 
         logMessage(`Packing ${dependency}...`);
 
-        zip.file(`${environment.appsDir}/${dependency}`, asset);
+        zip.file(`USER/${dependency}`, asset);
       }
 
       // For each asset directy, make sure it exists before upload

@@ -71,7 +71,7 @@ export class PipApp extends PipAppBase {
     this.version = args.version;
 
     // Temporary values
-    const baseUrl = `${environment.appsUrl}/${environment.appsDir}`;
+    const baseUrl = `${environment.appsUrl}/USER`;
 
     // Computed values
     this.url = `${baseUrl}/${this.id}.js`;
