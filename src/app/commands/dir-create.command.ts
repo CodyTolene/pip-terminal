@@ -7,7 +7,7 @@ export function dirCreate(directory: string): string {
         fs.readdir(${JSON.stringify(directory)});
         return {
           success: true,
-          message: 'Directory "${directory}/" already exists.',
+          message: 'Directory "${directory}" already exists.',
         };
       } catch (error) {
         try {

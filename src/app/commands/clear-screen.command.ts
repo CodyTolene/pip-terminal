@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'src/app/utilities';
+
 export function clearScreen(
   message?: string,
   messageTwo?: string,
@@ -6,41 +8,48 @@ export function clearScreen(
   return `
     (() => {
       try {
-        Pip.remove();
+        // Remove any UI
+        Pip.remove();  
         Pip.removeSubmenu && Pip.removeSubmenu();
-        if (Pip.audioStop) Pip.audioStop();
-        if (Pip.radioOn) { rd.enable(false); Pip.radioOn = false; }
+
+        // Stop any existing audio
+        if (Pip.audioStop) {
+          Pip.audioStop();
+        }
+
+        // Stop the radio if it's playing
+        if (Pip.radioOn) {
+          rd.enable(false);
+          Pip.radioOn = false;
+        }
+
+        // Clear the screen
         g.clear(1);
+
+        // Set font and align text
         g.setFontMonofonto23();
         g.setFontAlign(0, 0);
 
-        if (${JSON.stringify(message ?? '')}.trim()) {
-          g.drawString(
-            ${JSON.stringify(message ?? '')},
-            g.getWidth() / 2,
-            g.getHeight() - (${video ? 'true' : 'false'} ? 75 : 10),
-          );
+        // Message(s)
+        ${
+          isNonEmptyString(message)
+            ? `g.drawString("${message}", g.getWidth() / 2, g.getHeight() ${video ? '- 75' : '/ 2 - 10'});`
+            : ''
         }
-
-        if (${JSON.stringify(messageTwo ?? '')}.trim()) {
-          g.drawString(
-            ${JSON.stringify(messageTwo ?? '')},
-            g.getWidth() / 2,
-            g.getHeight() - (${video ? 'true' : 'false'} ? 40 : -20),
-          );
+        ${
+          isNonEmptyString(messageTwo)
+            ? `g.drawString("${messageTwo}", g.getWidth() / 2, g.getHeight() ${video ? '- 40' : '/ 2 + 20'});`
+            : ''
         }
-
-        if (${video ? 'true' : 'false'}) {
-          Pip.videoStart(${JSON.stringify(video?.filename)}, {
-            x: ${video?.x ?? 0},
-            y: ${video?.y ?? 0}
-          });
-        }
-
+        
+        // Video
+        ${video ? `Pip.videoStart("${video.filename}", { x: ${video.x}, y: ${video.y} });` : ''}
+        
+        // Force a display refresh
         g.flip();
       } catch (error) {
         return 'Error: ' + error.message;
       }
-    })();
+    })()
   `;
 }

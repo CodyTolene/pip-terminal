@@ -4,7 +4,7 @@ export function shutdownDevice(): string {
       Pip.offOrSleep({ 
         immediate: false, 
         forceOff: true, 
-        playWebsiteSound: true 
+        playSound: true 
       });
     })();
   `;
