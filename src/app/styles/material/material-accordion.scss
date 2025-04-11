@@ -30,5 +30,11 @@ mat-accordion.mat-accordion {
       text-transform: uppercase;
       width: 100%;
     }
+
+    .mat-expansion-panel-content {
+      overflow: hidden;
+      text-wrap: wrap;
+      word-wrap: break-word;
+    }
   }
 }

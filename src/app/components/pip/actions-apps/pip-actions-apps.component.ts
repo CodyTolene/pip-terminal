@@ -47,6 +47,9 @@ export class PipActionsAppsComponent {
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {
+    this.appMainDirectory = this.pipFileService.appMainDirectory;
+    this.appMetaDirectory = this.pipFileService.appMetaDirectory;
+
     this.availablePipAppsChanges = this.pipAppsService
       .fetchRegistry()
       .pipe(filter(isNonEmptyObject), shareReplay(1));
@@ -57,6 +60,9 @@ export class PipActionsAppsComponent {
       map((apps) => apps.filter((app) => app.type === PipAppTypeEnum.GAME)),
     );
   }
+
+  private readonly appMainDirectory: string;
+  private readonly appMetaDirectory: string;
 
   private readonly dialog = inject(MatDialog);
 
@@ -92,61 +98,48 @@ export class PipActionsAppsComponent {
 
         pipSignals.disableAllControls.set(true);
 
-        const appBaseDir = 'USER';
-        const appMetaDirectory = 'APPINFO';
         const appDepFolderList: string[] = [];
-        let deleteSuccess = false;
+        let cmdResult: CmdDefaultResult = {
+          success: false,
+          message: 'Unknown Error',
+        };
 
         try {
-          // Delete app dependency files first
-          for (const dep of app.dependencies) {
-            const path = `${appBaseDir}/${dep}`;
-            deleteSuccess = await this.pipFileService.deleteFileOnDevice(path);
-            if (deleteSuccess) {
-              logMessage(`Deleted ${path}`);
+          // Delete app dependency files
+          for (const file of app.files) {
+            cmdResult = await this.pipFileService.deleteFileOnDevice(file);
+            if (cmdResult.success) {
+              logMessage(cmdResult.message);
             } else {
-              logMessage(`Failed to delete ${path}`);
+              logMessage(cmdResult.message);
               logMessage('Please try again later.');
               return;
             }
           }
 
           // Collect all dependency folders for later cleanup
-          for (const dep of app.dependencies) {
-            const depPath = dep.substring(0, dep.lastIndexOf('/'));
-            const path = `${appBaseDir}/${depPath}`;
+          for (const file of app.files) {
+            const path = file.substring(0, file.lastIndexOf('/'));
             if (!appDepFolderList.includes(path)) {
               appDepFolderList.push(path);
             }
           }
 
           // Delete the app's metadata file
-          const appMetaPath = `${appMetaDirectory}/${app.id}.json`;
-          deleteSuccess =
-            await this.pipFileService.deleteFileOnDevice(appMetaPath);
-          if (deleteSuccess) {
-            logMessage(`Deleted ${appMetaPath}`);
+          const appMetaPath = `${this.appMetaDirectory}/${app.id}.json`;
+          cmdResult = await this.pipFileService.deleteFileOnDevice(appMetaPath);
+          if (cmdResult.success) {
+            logMessage(cmdResult.message);
           } else {
-            logMessage(`Failed to delete ${appMetaPath}`);
-            logMessage('Please try again later.');
-            return;
-          }
-
-          // Delete the main app .js file
-          const appPath = `${appBaseDir}/${app.id}.js`;
-          deleteSuccess = await this.pipFileService.deleteFileOnDevice(appPath);
-          if (deleteSuccess) {
-            logMessage(`Deleted ${appPath}`);
-          } else {
-            logMessage(`Failed to delete ${appPath}`);
+            logMessage(cmdResult.message);
             logMessage('Please try again later.');
             return;
           }
 
           // Sort folders deepest-first before deletion
           const sortedDepList = [...appDepFolderList];
-          if (app.dependencies.length > 0) {
-            sortedDepList.push(`${appBaseDir}/${app.id}`);
+          if (app.files.length > 0) {
+            sortedDepList.push(`${app.id}`);
           }
           sortedDepList.sort(
             (a, b) => b.split('/').length - a.split('/').length,
@@ -154,12 +147,13 @@ export class PipActionsAppsComponent {
 
           // Delete empty directories
           for (const path of sortedDepList) {
-            deleteSuccess =
-              await this.pipFileService.deleteDirectoryOnDevice(path);
-            if (deleteSuccess) {
-              logMessage(`Deleted ${path} directory.`);
+            cmdResult = await this.pipFileService.deleteDirectoryOnDevice(path);
+            if (cmdResult.success) {
+              if (!cmdResult.message.toLowerCase().includes('skipping')) {
+                logMessage(cmdResult.message);
+              }
             } else {
-              logMessage(`Failed to delete ${path}`);
+              logMessage(cmdResult.message);
               logMessage('Please try again later.');
               return;
             }
@@ -182,10 +176,6 @@ export class PipActionsAppsComponent {
           pipSignals.disableAllControls.set(false);
         }
       });
-  }
-
-  protected goToAppsGithub(): void {
-    window.open('https://github.com/CodyTolene/pip-apps', '_blank');
   }
 
   protected isAppInstalled(app: PipApp): boolean {
@@ -213,20 +203,40 @@ export class PipActionsAppsComponent {
 
     try {
       const createAppDirSuccess = await this.createDirectoryIfNonExistent(
-        environment.appsDir,
+        this.appMainDirectory,
       );
-      if (!createAppDirSuccess) return;
+      if (!createAppDirSuccess) {
+        return;
+      }
 
       const createAppMetaDirSucess = await this.createDirectoryIfNonExistent(
         this.appMetaDir,
       );
-      if (!createAppMetaDirSucess) return;
+      if (!createAppMetaDirSucess) {
+        return;
+      }
+
+      // If the app contains a dependency requiring the bootloader, install
+      // the bootloader first.
+      if (app.isBootloaderRequired) {
+        const result = await this.pipFileService.installBootloader();
+        if (result?.success) {
+          logMessage(result.message);
+        } else {
+          logMessage(result?.message ?? 'Unknown Error');
+          return;
+        }
+      }
 
       const zipFile = await this.createAppZipFile(app);
-      if (!zipFile) return;
+      if (!zipFile) {
+        return;
+      }
 
       const uploadSuccess = await this.uploadZipFile(app, zipFile);
-      if (!uploadSuccess) return;
+      if (!uploadSuccess) {
+        return;
+      }
 
       await wait(2000);
 
@@ -249,11 +259,19 @@ export class PipActionsAppsComponent {
     pipSignals.disableAllControls.set(true);
 
     try {
-      const launchAppSuccess = await this.launchAppOnDevice(
-        app,
-        environment.appsDir,
+      const launchMessage = `Launching ${app.name}.`;
+
+      await this.pipDeviceService.clearScreen(launchMessage);
+      logMessage(launchMessage);
+      await wait(2000);
+
+      const launchAppSuccess = await this.pipFileService.launchFileOnDevice(
+        `${this.appMainDirectory}/${app.id}.js`,
       );
-      if (!launchAppSuccess) return;
+      if (!launchAppSuccess) {
+        logMessage(`Failed to launch ${app.name}.`);
+        return;
+      }
 
       logMessage(`Launched ${app.name} successfully!`);
     } finally {
@@ -289,27 +307,24 @@ export class PipActionsAppsComponent {
    * @returns The zip file containing the app.
    */
   private async createAppZipFile(app: PipApp): Promise<File | null> {
-    const script = await this.fetchAppScript(app);
-    if (!script) {
-      logMessage(`Failed to load ${app.id} script.`);
-      return null;
-    }
-
     const zip = new JSZip();
 
-    // Zip the main file
-    zip.file(`${environment.appsDir}/${app.id}.js`, script);
-
-    if (app.dependencies.length > 0) {
-      logMessage('App has dependencies, fetching...');
+    if (app.files.length > 0) {
+      logMessage('Fetching app dependencies...');
       await wait(1000);
 
       // Loop through any extra files to add to the zip
-      for (const dependency of app.dependencies) {
-        const baseUrl = `${environment.appsUrl}/${environment.appsDir}`;
-        const dependencyUrl = `${baseUrl}/${dependency}`;
+      for (const file of app.files) {
+        const baseUrl = `${environment.appsUrl}`;
+        const dependencyUrl = `${baseUrl}/${file}`;
 
-        const asset = await this.fetchAppAsset(dependencyUrl);
+        const asset = await firstValueFrom(
+          this.pipAppsService.fetchAsset(dependencyUrl),
+        );
+        if (!asset) {
+          logMessage(`Failed to load asset from ${dependencyUrl}.`);
+          return null;
+        }
 
         await wait(250);
 
@@ -318,9 +333,9 @@ export class PipActionsAppsComponent {
           return null;
         }
 
-        logMessage(`Packing ${dependency}...`);
+        logMessage(`Packing ${file}...`);
 
-        zip.file(`${environment.appsDir}/${dependency}`, asset);
+        zip.file(file, asset);
       }
 
       // For each asset directy, make sure it exists before upload
@@ -352,54 +367,6 @@ export class PipActionsAppsComponent {
     });
 
     return zipFile;
-  }
-
-  /**
-   * Fetch the script for an app.
-   *
-   * @param app The app to fetch the script for.
-   * @param dir The directory to fetch the script from.
-   * @returns The script for the app, or null if the script could not be fetched.
-   */
-  private async fetchAppScript(app: PipApp): Promise<string | null> {
-    logMessage(`Fetching "${app.id}.js"`);
-
-    const script = await firstValueFrom(
-      this.pipAppsService.fetchAsset(app.url),
-    );
-
-    if (!script) {
-      logMessage(`Failed to load ${app.id} script.`);
-      return null;
-    }
-
-    return script;
-  }
-
-  private async fetchAppAsset(url: string): Promise<string | null> {
-    const asset = await firstValueFrom(this.pipAppsService.fetchAsset(url));
-
-    if (!asset) {
-      logMessage(`Failed to load asset from ${url}.`);
-      return null;
-    }
-
-    return asset;
-  }
-
-  /**
-   * Launch an app on the device.
-   *
-   * @param app The app to launch on the device.
-   * @param dir The directory of the app on the device.
-   * @returns True if the app was launched successfully, false otherwise.
-   */
-  private async launchAppOnDevice(app: PipApp, dir: string): Promise<boolean> {
-    const launchMessage = `Launching ${app.name}.`;
-    await this.pipDeviceService.clearScreen(launchMessage);
-    logMessage(launchMessage);
-    await wait(2000);
-    return await this.pipFileService.launchFileOnDevice(`${dir}/${app.id}.js`);
   }
 
   /**

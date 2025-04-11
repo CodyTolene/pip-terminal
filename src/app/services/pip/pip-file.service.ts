@@ -25,6 +25,10 @@ export class PipFileService {
     private readonly pipConnectionService: PipConnectionService,
   ) {}
 
+  public readonly appBootDirecotory = 'USER_BOOT';
+  public readonly appMainDirectory = 'USER';
+  public readonly appMetaDirectory = 'APPINFO';
+
   private isUploading = false;
 
   /**
@@ -44,7 +48,8 @@ export class PipFileService {
 
     try {
       const command = Commands.dirCreate(directory);
-      const result = await this.pipCommandService.run<CreateDirResult>(command);
+      const result =
+        await this.pipCommandService.run<CmdDefaultResult>(command);
 
       if (!result?.success) {
         const error = result?.message || 'Unknown error';
@@ -69,31 +74,60 @@ export class PipFileService {
    * @param directory The directory to delete.
    * @returns True if the directory was deleted successfully, false otherwise.
    */
-  public async deleteDirectoryOnDevice(directory: string): Promise<boolean> {
+  public async deleteDirectoryOnDevice(
+    directory: string,
+  ): Promise<CmdDefaultResult> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
-      return false;
+      return {
+        success: false,
+        message: 'Not connected',
+      };
+    }
+
+    // Do not delete base directories.
+    if (
+      directory === this.appMainDirectory ||
+      directory === this.appBootDirecotory ||
+      directory === this.appMetaDirectory
+    ) {
+      return {
+        success: true,
+        message: `Skipping deletion of default "${directory}" directory.`,
+      };
     }
 
     try {
       const command = Commands.dirDelete(directory);
-      const result = await this.pipCommandService.run<{
-        success: boolean;
-        message: string;
-      }>(command);
+      let result = await this.pipCommandService.run<CmdDefaultResult>(command);
 
+      const resultMessage = result?.message || 'Unknown error';
+      if (
+        resultMessage.includes('NO_PATH') ||
+        resultMessage.includes('NO_FILE')
+      ) {
+        result = {
+          success: true,
+          message: `Ditrectory "${directory}" already deleted, skipping.`,
+        };
+      }
       if (!result?.success) {
-        logMessage(`Failed to delete "${directory}":`);
-        logMessage(result?.message || 'Unknown error');
-        return false;
+        console.warn(
+          `Failed to delete directory "${directory}". ${result?.message || 'Unknown error'}`,
+        );
+        return {
+          success: false,
+          message: result?.message || 'Unknown error',
+        };
       } else {
-        logMessage(result.message);
-        return true;
+        return result;
       }
     } catch (error) {
-      const errorMessage = `Error deleting directory: ${(error as Error)?.message}`;
-      logMessage(errorMessage);
-      return false;
+      const message = `Failed to delete "${directory}". ${(error as Error)?.message || 'Unknown error'}`;
+      return {
+        success: false,
+        message,
+      };
     }
   }
 
@@ -104,32 +138,43 @@ export class PipFileService {
    * @param dir The directory where the file is located (e.g., "USER").
    * @returns True if the file was deleted successfully, false otherwise.
    */
-  public async deleteFileOnDevice(path: string): Promise<boolean> {
+  public async deleteFileOnDevice(path: string): Promise<CmdDefaultResult> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
-      return false;
+      return { success: false, message: 'Not connected' };
     }
 
     try {
       const command = Commands.fileDelete(path);
-      const result = await this.pipCommandService.run<{
-        success: boolean;
-        message: string;
-      }>(command);
+      let result = await this.pipCommandService.run<CmdDefaultResult>(command);
 
+      const resultMessage = result?.message || 'Unknown error';
+      if (
+        resultMessage.includes('NO_PATH') ||
+        resultMessage.includes('NO_FILE')
+      ) {
+        result = {
+          success: true,
+          message: `File "${path}" already deleted, skipping.`,
+        };
+      }
       if (!result?.success) {
-        logMessage(
-          `Failed to delete "${path}": ${result?.message || 'Unknown error'}`,
+        console.warn(
+          `Failed to delete file "${path}". ${result?.message || 'Unknown error'}`,
         );
-        return false;
+        return {
+          success: false,
+          message: result?.message || 'Unknown error',
+        };
       } else {
-        // logMessage(result.message);
-        return true;
+        return result;
       }
     } catch (error) {
-      const errorMessage = `Error deleting file: ${(error as Error)?.message}`;
-      logMessage(errorMessage);
-      return false;
+      const message = `Failed to delete "${path}". ${(error as Error)?.message || 'Unknown error'}`;
+      return {
+        success: false,
+        message,
+      };
     }
   }
 
@@ -263,6 +308,36 @@ export class PipFileService {
     return walk(dir);
   }
 
+  public async installBootloader(): Promise<CmdDefaultResult> {
+    if (!this.pipConnectionService.connection?.isOpen) {
+      logMessage('Please connect to the device first.');
+    }
+
+    try {
+      const command = Commands.installBootloader();
+      const result =
+        await this.pipCommandService.run<CmdDefaultResult>(command);
+
+      if (!result?.success) {
+        const error = result?.message || 'Unknown error';
+        logMessage(`Failed to install bootloader: ${error}`);
+        return {
+          success: false,
+          message: error,
+        };
+      } else {
+        return result;
+      }
+    } catch (error) {
+      const errorMessage = `Error: ${(error as Error)?.message}`;
+      logMessage(errorMessage);
+      return {
+        success: false,
+        message: errorMessage,
+      };
+    }
+  }
+
   /**
    * Launches a file on the device.
    *
@@ -276,7 +351,8 @@ export class PipFileService {
 
     try {
       const command = Commands.fileLoad(path);
-      const result = await this.pipCommandService.run<LoadFileResult>(command);
+      const result =
+        await this.pipCommandService.run<CmdDefaultResult>(command);
 
       if (!result?.success) {
         const error = result?.message || 'Unknown error';

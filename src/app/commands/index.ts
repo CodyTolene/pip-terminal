@@ -15,6 +15,7 @@ import { getIsSleeping } from 'src/app/commands/get-is-sleeping.command';
 import { getJavascriptVersion } from 'src/app/commands/get-javascript-version.command';
 import { getOwnerName } from 'src/app/commands/get-owner-name.command';
 import { getSDCardStats } from 'src/app/commands/get-sd-card-stats.command';
+import { installBootloader } from 'src/app/commands/install-bootloader.command';
 import { playRadioFile } from 'src/app/commands/play-radio-file.command';
 import { readRawFile } from 'src/app/commands/read-raw-file.command';
 import { resetOwnerName } from 'src/app/commands/reset-owner-name.command';
@@ -43,6 +44,7 @@ export const Commands = {
   getJavascriptVersion,
   getOwnerName,
   getSDCardStats,
+  installBootloader,
   playRadioFile,
   readRawFile,
   resetOwnerName,
