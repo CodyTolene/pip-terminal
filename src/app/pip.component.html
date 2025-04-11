@@ -19,48 +19,48 @@
   class="sound-icon"
 ></mat-icon>
 <pip-tabs>
-  <pip-tab [label]="PipTabLabelEnum.STAT">
-    <pip-sub-tab [label]="PipSubTabLabelEnum.STATUS">
-      <pip-status />
+  <pip-tab [label]="TabLabelEnum.STAT">
+    <pip-sub-tab [label]="SubTabLabelEnum.STATUS">
+      <pip-status-page />
     </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.CONNECT">
-      <pip-connect />
+    <pip-sub-tab [label]="SubTabLabelEnum.CONNECT">
+      <pip-connect-page />
     </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.DIAGNOSTICS">
-      <pip-diagnostics />
-    </pip-sub-tab>
-  </pip-tab>
-  <pip-tab [label]="PipTabLabelEnum.INV">
-    <pip-sub-tab [label]="PipSubTabLabelEnum.ATTACHMENTS">
-      <pip-attachments />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.APPAREL">
-      <pip-apparel />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.APPS">
-      <pip-apps />
+    <pip-sub-tab [label]="SubTabLabelEnum.DIAGNOSTICS">
+      <pip-diagnostics-page />
     </pip-sub-tab>
   </pip-tab>
-  <pip-tab [label]="PipTabLabelEnum.DATA">
-    <pip-sub-tab [label]="PipSubTabLabelEnum.CLOCK">
-      <pip-clock />
+  <pip-tab [label]="TabLabelEnum.INV">
+    <pip-sub-tab [label]="SubTabLabelEnum.ATTACHMENTS">
+      <pip-attachments-page />
     </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.STATS">
-      <pip-stats />
+    <pip-sub-tab [label]="SubTabLabelEnum.APPAREL">
+      <pip-apparel-page />
     </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.MAINTENANCE">
+    <pip-sub-tab [label]="SubTabLabelEnum.APPS">
+      <pip-apps-page />
+    </pip-sub-tab>
+  </pip-tab>
+  <pip-tab [label]="TabLabelEnum.DATA">
+    <pip-sub-tab [label]="SubTabLabelEnum.CLOCK">
+      <pip-clock-page />
+    </pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.STATS">
+      <pip-stats-page />
+    </pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.MAINTENANCE">
       <pip-maintenance />
     </pip-sub-tab>
   </pip-tab>
-  <pip-tab [label]="PipTabLabelEnum.MAP">
-    <pip-map />
+  <pip-tab [label]="TabLabelEnum.MAP">
+    <pip-map-page />
   </pip-tab>
-  <pip-tab [label]="PipTabLabelEnum.RADIO">
-    <pip-sub-tab [label]="PipSubTabLabelEnum.PLAY">
-      <pip-radio />
+  <pip-tab [label]="TabLabelEnum.RADIO">
+    <pip-sub-tab [label]="SubTabLabelEnum.PLAY">
+      <pip-radio-page />
     </pip-sub-tab>
-    <pip-sub-tab [label]="PipSubTabLabelEnum.SET">
-      <pip-radio-set />
+    <pip-sub-tab [label]="SubTabLabelEnum.SET">
+      <pip-radio-set-page />
     </pip-sub-tab>
   </pip-tab>
 </pip-tabs>
