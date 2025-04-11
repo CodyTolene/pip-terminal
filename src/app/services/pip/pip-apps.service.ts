@@ -20,7 +20,7 @@ export class PipAppsService {
    * request fails.
    */
   public fetchRegistry(): Observable<readonly PipApp[] | undefined> {
-    const registryUrl = `${environment.appsUrl}/USER/_registry.json`;
+    const registryUrl = `${environment.appsUrl}/registry.json`;
     return this.http.get<readonly PipApp[] | undefined>(registryUrl).pipe(
       map((response) => {
         if (!response) {

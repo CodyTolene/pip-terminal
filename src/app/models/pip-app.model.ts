@@ -61,27 +61,30 @@ export class PipApp extends PipAppBase {
   public constructor(args: PipAppApi) {
     super(args);
 
-    this.author = args.author;
-    this.dependencies = args.dependencies ?? [];
+    this.authors = args.authors;
     this.description = args.description;
+    this.files = args.files ?? [];
     this.homepage = args.homepage;
     this.instructions = args.instructions;
     this.tip = args.tip;
     this.type = args.type;
     this.version = args.version;
 
-    // Temporary values
-    const baseUrl = `${environment.appsUrl}/USER`;
-
     // Computed values
-    this.url = `${baseUrl}/${this.id}.js`;
+    this.isBootloaderRequired = args.files?.some((file) =>
+      file.startsWith('USER_BOOT'),
+    );
+    this.fileUrls = args.files?.map((file) => {
+      const fileUrl = `${environment.appsUrl}/${file}`;
+      return fileUrl;
+    });
   }
 
   public static readonly Codec = io.type(
     {
-      author: io.string,
-      dependencies: io.union([io.undefined, io.readonlyArray(io.string)]),
+      authors: io.readonlyArray(io.string),
       description: io.string,
+      files: io.readonlyArray(io.string),
       homepage: io.union([io.undefined, io.string]),
       id: io.string,
       instructions: io.string,
@@ -96,9 +99,9 @@ export class PipApp extends PipAppBase {
     'PipAppApi',
   );
 
-  @api({ key: 'author' }) public readonly author: string;
-  @api({ key: 'dependencies' }) public readonly dependencies: readonly string[];
+  @api({ key: 'authors' }) public readonly authors: readonly string[];
   @api({ key: 'description' }) public readonly description: string;
+  @api({ key: 'files' }) public readonly files: readonly string[];
   @api({ key: 'homepage' }) public readonly homepage?: string;
   @api({ key: 'instructions' }) public readonly instructions: string;
   @api({ key: 'tip' }) public readonly tip?: string;
@@ -106,14 +109,15 @@ export class PipApp extends PipAppBase {
   @api({ key: 'version' }) public override readonly version: string;
 
   // Computed values
-  public readonly url: string;
+  public readonly isBootloaderRequired: boolean;
+  public readonly fileUrls: readonly string[];
 
   public static override deserialize(value: unknown): PipApp {
     const decoded = decode(PipApp.Codec, value);
     return new PipApp({
-      author: decoded.author,
-      dependencies: decoded.dependencies,
+      authors: decoded.authors,
       description: decoded.description,
+      files: decoded.files,
       homepage: decoded.homepage,
       id: decoded.id,
       instructions: decoded.instructions,
@@ -135,9 +139,9 @@ export class PipApp extends PipAppBase {
 
   public override serialize(): PipAppApi {
     return {
-      author: this.author,
-      dependencies: this.dependencies,
+      authors: this.authors,
       description: this.description,
+      files: this.files,
       homepage: this.homepage,
       id: this.id,
       instructions: this.instructions,

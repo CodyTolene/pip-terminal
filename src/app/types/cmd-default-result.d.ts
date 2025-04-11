@@ -1,4 +1,4 @@
-interface CreateDirResult {
+interface CmdDefaultResult {
   success: boolean;
   message: string;
 }
