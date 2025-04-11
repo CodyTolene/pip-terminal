@@ -1,5 +1,5 @@
-import { PipFooterComponent } from 'src/app/layout/pip-footer/pip-footer.component';
-import { PipRadioSetComponent } from 'src/app/pages/pip-radio-set/pip-radio-set.component';
+import { FooterComponent } from 'src/app/layout/footer/footer.component';
+import { RadioSetPageComponent } from 'src/app/pages/radio-set/radio-set-page.component';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, WritableSignal } from '@angular/core';
@@ -7,60 +7,61 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { PipAppsService } from 'src/app/services/pip-apps.service';
-import { PipCommandService } from 'src/app/services/pip-command.service';
-import { PipConnectionService } from 'src/app/services/pip-connection.service';
-import { PipDeviceService } from 'src/app/services/pip-device.service';
-import { PipGetDataService } from 'src/app/services/pip-get-data.service';
-import { PipSetDataService } from 'src/app/services/pip-set-data.service';
-import { PipTimeService } from 'src/app/services/pip-time.service';
+import { PipAppsService } from 'src/app/services/pip/pip-apps.service';
+import { PipCommandService } from 'src/app/services/pip/pip-command.service';
+import { PipConnectionService } from 'src/app/services/pip/pip-connection.service';
+import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
+import { PipFileService } from 'src/app/services/pip/pip-file.service';
+import { PipGetDataService } from 'src/app/services/pip/pip-get-data.service';
+import { PipSetDataService } from 'src/app/services/pip/pip-set-data.service';
+import { PipSoundService } from 'src/app/services/pip/pip-sound.service';
+import { PipTimeService } from 'src/app/services/pip/pip-time.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
-import { PipTabLabelEnum } from './enums';
-import { PipSubTabLabelEnum } from './enums/pip-sub-tab-label.enum';
-import { PipSubTabComponent } from './layout/pip-tabs/pip-sub-tab.component';
-import { PipTabComponent } from './layout/pip-tabs/pip-tab.component';
-import { PipTabsComponent } from './layout/pip-tabs/pip-tabs.component';
-import { PipApparelComponent } from './pages/pip-apparel/pip-apparel.component';
-import { PipAppsComponent } from './pages/pip-apps/pip-apps.component';
-import { PipAttachmentsComponent } from './pages/pip-attachments/pip-attachments.component';
-import { PipClockComponent } from './pages/pip-clock/pip-clock.component';
-import { PipConnectComponent } from './pages/pip-connect/pip-connect.component';
-import { PipDiagnosticsComponent } from './pages/pip-diagnostics/pip-diagnostics.component';
-import { PipMaintenanceComponent } from './pages/pip-maintenance/pip-maintenance.component';
-import { PipMapComponent } from './pages/pip-map/pip-map.component';
-import { PipRadioComponent } from './pages/pip-radio/pip-radio.component';
-import { PipStatsComponent } from './pages/pip-stats/pip-stats.component';
-import { PipStatusComponent } from './pages/pip-status/pip-status.component';
-import { PipFileService } from './services/pip-file.service';
-import { PipSoundService } from './services/pip-sound.service';
-import { PipTabsService } from './services/pip-tabs.service';
+import { TabLabelEnum } from './enums';
+import { SubTabLabelEnum } from './enums/sub-tab-label.enum';
+import { SubTabComponent } from './layout/tabs/sub-tab.component';
+import { TabComponent } from './layout/tabs/tab.component';
+import { TabsComponent } from './layout/tabs/tabs.component';
+import { ApparelPageComponent } from './pages/apparel/apparel-page.component';
+import { AppsPageComponent } from './pages/apps/apps-page.component';
+import { AttachmentsPageComponent } from './pages/attachments/attachments-page.component';
+import { ClockPageComponent } from './pages/clock/clock-page.component';
+import { ConnectPageComponent } from './pages/connect/connect-page.component';
+import { DiagnosticsPageComponent } from './pages/diagnostics/diagnostics-page.component';
+import { MaintenancePageComponent } from './pages/maintenance/maintenance-page.component';
+import { MapPageComponent } from './pages/map/map-page.component';
+import { RadioPageComponent } from './pages/radio/radio-page.component';
+import { StatsPageComponent } from './pages/stats/stats-page.component';
+import { StatusPageComponent } from './pages/status/status-page.component';
+import { SoundService } from './services/sound.service';
+import { TabsService } from './services/tabs.service';
 
 @Component({
   selector: 'pip-root',
   templateUrl: './pip.component.html',
   imports: [
+    ApparelPageComponent,
+    AppsPageComponent,
+    AttachmentsPageComponent,
+    ClockPageComponent,
     CommonModule,
+    ConnectPageComponent,
+    DiagnosticsPageComponent,
+    FooterComponent,
+    MaintenancePageComponent,
+    MapPageComponent,
     MatIconModule,
     MatLuxonDateModule,
     MatTooltipModule,
-    PipApparelComponent,
-    PipAppsComponent,
-    PipAttachmentsComponent,
-    PipClockComponent,
-    PipConnectComponent,
-    PipDiagnosticsComponent,
-    PipFooterComponent,
-    PipMaintenanceComponent,
-    PipMapComponent,
-    PipRadioComponent,
-    PipRadioSetComponent,
-    PipStatsComponent,
-    PipStatusComponent,
-    PipSubTabComponent,
-    PipTabComponent,
-    PipTabsComponent,
+    RadioPageComponent,
+    RadioSetPageComponent,
+    StatsPageComponent,
+    StatusPageComponent,
+    SubTabComponent,
+    TabComponent,
+    TabsComponent,
   ],
   styleUrl: './pip.component.scss',
   providers: [
@@ -72,32 +73,33 @@ import { PipTabsService } from './services/pip-tabs.service';
     PipGetDataService,
     PipSetDataService,
     PipSoundService,
-    PipTabsService,
     PipTimeService,
+    SoundService,
+    TabsService,
   ],
 })
 export class PipComponent implements OnInit {
   public constructor(
-    private readonly pipSoundService: PipSoundService,
-    private readonly pipTabsService: PipTabsService,
+    private readonly soundService: SoundService,
+    private readonly tabsService: TabsService,
   ) {
-    this.soundVolume = this.pipSoundService.globalVolumePercent;
+    this.soundVolume = this.soundService.globalVolumePercent;
     pipSignals.batteryLevel.set(100);
   }
 
-  protected readonly PipSubTabLabelEnum = PipSubTabLabelEnum;
-  protected readonly PipTabLabelEnum = PipTabLabelEnum;
+  protected readonly SubTabLabelEnum = SubTabLabelEnum;
+  protected readonly TabLabelEnum = TabLabelEnum;
   protected readonly signals = pipSignals;
   protected readonly soundVolume: WritableSignal<number>;
 
   public async ngOnInit(): Promise<void> {
-    this.pipTabsService.initialize();
+    this.tabsService.initialize();
   }
 
   protected async goToConnectTab(): Promise<void> {
-    await this.pipTabsService.switchToTab(
-      PipTabLabelEnum.STAT,
-      PipSubTabLabelEnum.CONNECT,
+    await this.tabsService.switchToTab(
+      TabLabelEnum.STAT,
+      SubTabLabelEnum.CONNECT,
       { playMainTabSound: true, playSubTabSound: true },
     );
   }

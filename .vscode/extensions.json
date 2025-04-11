@@ -2,9 +2,7 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
   "recommendations": [
     "angular.ng-template",
-    "Angular.ng-template",
     "natewallace.angular2-inline",
-    "johnpapa.Angular2",
     "steoates.autoimport",
     "formulahendry.auto-rename-tag",
     "grimmer.vscode-back-forward-button",
