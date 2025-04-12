@@ -95,6 +95,10 @@ export class PipFileExplorerComponent {
   }
 
   protected async refresh(): Promise<void> {
+    if (this.signals.disableAllControls() || this.signals.isUploadingFile()) {
+      return;
+    }
+
     this.isInitialized = false;
     this.signals.disableAllControls.set(true);
     logMessage('Loading file list...');

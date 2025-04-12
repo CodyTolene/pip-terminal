@@ -1,7 +1,11 @@
 <h3>File Explorer</h3>
 
 <pip-button
-  [disabled]="!signals.isConnected() || signals.disableAllControls()"
+  [disabled]="
+    !signals.isConnected() ||
+    signals.disableAllControls() ||
+    signals.isUploadingFile()
+  "
   (click)="refresh()"
 >
   {{ isInitialized ? 'Refresh Files' : 'Load Files' }}
