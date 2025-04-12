@@ -63,7 +63,13 @@ export class PipApp extends PipAppBase {
 
     this.authors = args.authors;
     this.description = args.description;
-    this.files = args.files ?? [];
+    this.files = args.files.map((file) => {
+      const fileUrl = `${environment.appsUrl}/${file}`;
+      return {
+        name: file,
+        url: fileUrl,
+      };
+    });
     this.homepage = args.homepage;
     this.instructions = args.instructions;
     this.tip = args.tip;
@@ -74,10 +80,6 @@ export class PipApp extends PipAppBase {
     this.isBootloaderRequired = args.files?.some((file) =>
       file.startsWith('USER_BOOT'),
     );
-    this.fileUrls = args.files?.map((file) => {
-      const fileUrl = `${environment.appsUrl}/${file}`;
-      return fileUrl;
-    });
   }
 
   public static readonly Codec = io.type(
@@ -101,7 +103,10 @@ export class PipApp extends PipAppBase {
 
   @api({ key: 'authors' }) public readonly authors: readonly string[];
   @api({ key: 'description' }) public readonly description: string;
-  @api({ key: 'files' }) public readonly files: readonly string[];
+  @api({ key: 'files' }) public readonly files: ReadonlyArray<{
+    name: string;
+    url: string;
+  }>;
   @api({ key: 'homepage' }) public readonly homepage?: string;
   @api({ key: 'instructions' }) public readonly instructions: string;
   @api({ key: 'tip' }) public readonly tip?: string;
@@ -110,7 +115,6 @@ export class PipApp extends PipAppBase {
 
   // Computed values
   public readonly isBootloaderRequired: boolean;
-  public readonly fileUrls: readonly string[];
 
   public static override deserialize(value: unknown): PipApp {
     const decoded = decode(PipApp.Codec, value);
@@ -141,7 +145,7 @@ export class PipApp extends PipAppBase {
     return {
       authors: this.authors,
       description: this.description,
-      files: this.files,
+      files: this.files.map((file) => file.name),
       homepage: this.homepage,
       id: this.id,
       instructions: this.instructions,

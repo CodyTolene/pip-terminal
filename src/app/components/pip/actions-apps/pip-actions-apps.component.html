@@ -45,9 +45,9 @@
         <p *ngIf="app.tip"><strong>Tip:</strong> {{ app.tip }}</p>
         <p>
           <strong>Files:</strong>&nbsp;
-          @for (fileUrl of app.fileUrls; track fileUrl) {
+          @for (file of app.files; track file.name) {
             <div>
-              - <a [href]="fileUrl" target="_blank">{{ fileUrl }}</a>
+              - <a [href]="file.url" target="_blank">{{ file.name }}</a>
             </div>
           }
         </p>
