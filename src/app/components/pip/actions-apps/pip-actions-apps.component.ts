@@ -107,7 +107,7 @@ export class PipActionsAppsComponent {
         try {
           // Delete app dependency files
           for (const file of app.files) {
-            cmdResult = await this.pipFileService.deleteFileOnDevice(file);
+            cmdResult = await this.pipFileService.deleteFileOnDevice(file.name);
             if (cmdResult.success) {
               logMessage(cmdResult.message);
             } else {
@@ -119,7 +119,7 @@ export class PipActionsAppsComponent {
 
           // Collect all dependency folders for later cleanup
           for (const file of app.files) {
-            const path = file.substring(0, file.lastIndexOf('/'));
+            const path = file.name.substring(0, file.name.lastIndexOf('/'));
             if (!appDepFolderList.includes(path)) {
               appDepFolderList.push(path);
             }
@@ -316,7 +316,7 @@ export class PipActionsAppsComponent {
       // Loop through any extra files to add to the zip
       for (const file of app.files) {
         const baseUrl = `${environment.appsUrl}`;
-        const dependencyUrl = `${baseUrl}/${file}`;
+        const dependencyUrl = `${baseUrl}/${file.name}`;
 
         const asset = await firstValueFrom(
           this.pipAppsService.fetchAsset(dependencyUrl),
@@ -333,9 +333,9 @@ export class PipActionsAppsComponent {
           return null;
         }
 
-        logMessage(`Packing ${file}...`);
+        logMessage(`Packing ${file.name}...`);
 
-        zip.file(file, asset);
+        zip.file(file.name, asset);
       }
 
       // For each asset directy, make sure it exists before upload

@@ -110,7 +110,7 @@ export class PipActionsMiscComponent {
         for (const app of apps) {
           // First delete all app dependencies
           for (const file of app.files) {
-            cmdResult = await this.pipFileService.deleteFileOnDevice(file);
+            cmdResult = await this.pipFileService.deleteFileOnDevice(file.name);
             if (cmdResult.success) {
               logMessage(cmdResult.message);
             } else {
@@ -123,7 +123,7 @@ export class PipActionsMiscComponent {
           // Clean up the app dependency empty folders
           for (const file of app.files) {
             // Get the directory minus the file name
-            const path = file.substring(0, file.lastIndexOf('/'));
+            const path = file.name.substring(0, file.name.lastIndexOf('/'));
             // Add the path to the list if it doesn't already exist
             if (!appDepFolderList.includes(path)) {
               appDepFolderList.push(path);
