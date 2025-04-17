@@ -13,36 +13,14 @@
     Fetch FW Links
   }
 </pip-button>
-<div class="file-upload">
-  <label
-    [class.disabled]="
-      !signals.isConnected() ||
-      signals.disableAllControls() ||
-      signals.isUploadingFile()
-    "
-    for="fileInput"
-    >Select Zip File</label
-  >
-  <input
-    (change)="onFileSelected($event)"
-    [disabled]="
-      !signals.isConnected() ||
-      signals.disableAllControls() ||
-      signals.isUploadingFile()
-    "
-    accept=".zip"
-    id="fileInput"
-    type="file"
-  />
-</div>
+<pip-file-upload
+  [formControl]="formControl"
+  [accept]="['.zip']"
+  label="Select Zip File"
+/>
 <pip-button
   (click)="uploadZipToDevice()"
-  [disabled]="
-    !selectedFile ||
-    !signals.isConnected() ||
-    signals.disableAllControls() ||
-    signals.isUploadingFile()
-  "
+  [disabled]="!formControl.value?.length || (disabledChanges | async)"
 >
   Start Upload
 </pip-button>

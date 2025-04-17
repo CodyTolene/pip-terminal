@@ -1,6 +1,8 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   BehaviorSubject,
   Observable,
+  combineLatest,
   firstValueFrom,
   map,
   shareReplay,
@@ -12,13 +14,15 @@ import {
 import { wait } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 
 import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
 import { PipFileService } from 'src/app/services/pip/pip-file.service';
@@ -27,6 +31,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-actions-update',
   templateUrl: './pip-actions-update.component.html',
@@ -37,18 +42,23 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
     MatProgressBarModule,
     MatTooltipModule,
     PipButtonComponent,
+    PipFileUploadComponent,
+    ReactiveFormsModule,
   ],
   styleUrl: './pip-actions-update.component.scss',
   providers: [],
   standalone: true,
 })
-export class PipActionsUpdateComponent {
+export class PipActionsUpdateComponent implements OnInit {
   public constructor(
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
   ) {}
 
   private readonly isFetchingSubject = new BehaviorSubject<boolean>(false);
+
+  protected readonly formControl = new FormControl<FileList | null>(null);
+  protected readonly signals = pipSignals;
 
   protected readonly isFetchingChanges: Observable<boolean> =
     this.isFetchingSubject.asObservable().pipe(shareReplay(1));
@@ -66,9 +76,28 @@ export class PipActionsUpdateComponent {
       ),
     );
 
-  protected selectedFile: File | null = null;
+  protected readonly disabledChanges = combineLatest([
+    toObservable(pipSignals.disableAllControls),
+    toObservable(pipSignals.isConnected),
+    toObservable(pipSignals.isUploadingFile),
+  ]).pipe(
+    map(
+      ([disableAllControls, isConnected, isUploadingFile]) =>
+        !isConnected || disableAllControls || isUploadingFile,
+    ),
+    shareReplay(1),
+    untilDestroyed(this),
+  );
 
-  protected readonly signals = pipSignals;
+  public ngOnInit(): void {
+    this.disabledChanges.pipe(untilDestroyed(this)).subscribe((disabled) => {
+      if (disabled) {
+        this.formControl.disable();
+      } else {
+        this.formControl.enable();
+      }
+    });
+  }
 
   protected async fetchLatestUpdateLinks(): Promise<void> {
     const isFetching = await firstValueFrom(this.isFetchingChanges);
@@ -105,25 +134,23 @@ export class PipActionsUpdateComponent {
     timer(60000).subscribe(() => this.isFetchingSubject.next(false));
   }
 
-  protected onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.selectedFile = input.files?.[0] || null;
-  }
-
   protected async uploadZipToDevice(): Promise<void> {
-    if (this.selectedFile) {
-      this.signals.isUploadingFile.set(true);
-
-      await this.pipDeviceService.clearScreen('Uploading Zip.');
-      await this.pipFileService.uploadZipToDevice(this.selectedFile);
-      await wait(1000);
-      logMessage('Update complete! Restarting...');
-      await wait(1000);
-      await this.pipDeviceService.restart();
-
-      this.signals.isUploadingFile.set(false);
-    } else {
+    const fileList = this.formControl.value;
+    if (!fileList || fileList.length === 0) {
       logMessage('No file selected.');
+      return;
     }
+    const file = fileList[0];
+
+    this.signals.isUploadingFile.set(true);
+
+    await this.pipDeviceService.clearScreen('Uploading Zip.');
+    await this.pipFileService.uploadZipToDevice(file);
+    await wait(1000);
+    logMessage('Update complete! Restarting...');
+    await wait(1000);
+    await this.pipDeviceService.restart();
+
+    this.signals.isUploadingFile.set(false);
   }
 }

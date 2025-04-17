@@ -28,73 +28,29 @@
     <pip-actions-primary />
     <pip-actions-misc hideDeleteAllAppsButton />
   </section>
+
   <section>
     <h3>Radio Host Files - Upload WAV Files (DX01 - DX03)</h3>
     <div
       *ngFor="let name of dxFileNames; let i = index"
       class="upload-container"
     >
-      <ng-content
-        *ngTemplateOutlet="
-          uploadTemplate;
-          context: { i, max: dxFileNames.length, name }
-        "
-      />
-    </div>
-  </section>
-  <section>
-    <h3>Radio Music Files - Upload WAV Files (MX01 - MX16)</h3>
-    <div
-      *ngFor="let name of mxFileNames; let i = index"
-      class="upload-container"
-    >
-      <ng-content
-        *ngTemplateOutlet="
-          uploadTemplate;
-          context: { i, max: mxFileNames.length, name }
-        "
-      />
-    </div>
-    <ng-template #uploadTemplate let-i="i" let-max="max" let-name="name">
       <pip-button
         (click)="playRadioFile(name)"
-        [disabled]="
-          !signals.isConnected() ||
-          signals.disableAllControls() ||
-          signals.isUploadingFile()
-        "
-        >Play current {{ name }}</pip-button
+        [disabled]="disabledChanges | async"
       >
-      <div class="file-upload">
-        <label
-          [class.disabled]="
-            !signals.isConnected() ||
-            signals.disableAllControls() ||
-            signals.isUploadingFile()
-          "
-          for="uploadInput-{{ name }}"
-        >
-          Select WAV File for {{ name }}
-        </label>
-        <input
-          (change)="onUploadFileSelected($event, name)"
-          [disabled]="
-            !signals.isConnected() ||
-            signals.disableAllControls() ||
-            signals.isUploadingFile()
-          "
-          accept=".wav"
-          id="uploadInput-{{ name }}"
-          type="file"
-        />
-      </div>
+        Play current {{ name }}
+      </pip-button>
+      <pip-file-upload
+        [formControl]="formGroup.controls.dxFiles.controls[i]"
+        [accept]="['.wav']"
+        [label]="'Select WAV File for ' + name"
+      />
       <pip-button
         (click)="uploadFile(name)"
         [disabled]="
-          !uploadFileInputs[name] ||
-          !signals.isConnected() ||
-          signals.disableAllControls() ||
-          signals.isUploadingFile()
+          !formGroup.controls.dxFiles.controls[i].value?.length ||
+          (disabledChanges | async)
         "
       >
         Upload {{ name }}
@@ -105,8 +61,44 @@
           [value]="uploadProgress[name]"
         ></mat-progress-bar>
       </div>
-    </ng-template>
+    </div>
   </section>
+
+  <section>
+    <h3>Radio Music Files - Upload WAV Files (MX01 - MX16)</h3>
+    <div
+      *ngFor="let name of mxFileNames; let i = index"
+      class="upload-container"
+    >
+      <pip-button
+        (click)="playRadioFile(name)"
+        [disabled]="disabledChanges | async"
+      >
+        Play current {{ name }}
+      </pip-button>
+      <pip-file-upload
+        [formControl]="formGroup.controls.mxFiles.controls[i]"
+        [accept]="['.wav']"
+        [label]="'Select WAV File for ' + name"
+      />
+      <pip-button
+        (click)="uploadFile(name)"
+        [disabled]="
+          !formGroup.controls.mxFiles.controls[i].value?.length ||
+          (disabledChanges | async)
+        "
+      >
+        Upload {{ name }}
+      </pip-button>
+      <div *ngIf="uploadProgress[name] > 0">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="uploadProgress[name]"
+        ></mat-progress-bar>
+      </div>
+    </div>
+  </section>
+
   <section>
     <pip-actions-quick-nav disableRadioSetTab />
   </section>
