@@ -464,6 +464,8 @@ export class PipFileService {
    * @returns Whether the upload was successful.
    */
   public async uploadZipToDevice(file: File): Promise<boolean> {
+    logMessage('Preparing Zip file...');
+
     const zipData = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(zipData);
     const files = Object.entries(zip.files).filter(([_, file]) => !file.dir);

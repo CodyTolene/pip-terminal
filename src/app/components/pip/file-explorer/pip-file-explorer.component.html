@@ -33,6 +33,13 @@
         {{ branch.type === 'dir' ? ' (empty)' : ''
         }}{{ getSizeDisplay(branch.size) }}
       </span>
+      <mat-icon
+        (click)="deleteFile(branch)"
+        class="delete"
+        fontSet="material-icons-outlined"
+      >
+        delete
+      </mat-icon>
     </mat-tree-node>
     <!-- TREE -->
     <mat-tree-node

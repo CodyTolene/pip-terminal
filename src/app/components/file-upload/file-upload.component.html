@@ -1,0 +1,11 @@
+<div class="file-upload">
+  <label [class.disabled]="formControl.disabled" [for]="id">{{ label }}</label>
+  <input
+    (change)="onFileChange($event)"
+    [accept]="accept.join(',')"
+    [disabled]="formControl.disabled"
+    [id]="id"
+    [multiple]="multiple"
+    type="file"
+  />
+</div>

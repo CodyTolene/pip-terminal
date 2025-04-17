@@ -1,17 +1,24 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTree, MatTreeModule } from '@angular/material/tree';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import {
+  PipDialogConfirmComponent,
+  PipDialogConfirmInput,
+} from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
 import { PipFileService } from 'src/app/services/pip/pip-file.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-file-explorer',
   templateUrl: './pip-file-explorer.component.html',
@@ -27,7 +34,10 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class PipFileExplorerComponent {
-  public constructor(private readonly pipFileService: PipFileService) {}
+  public constructor(
+    private readonly dialog: MatDialog,
+    private readonly pipFileService: PipFileService,
+  ) {}
 
   protected isInitialized = false;
 
@@ -37,6 +47,47 @@ export class PipFileExplorerComponent {
 
   protected childrenAccessor(branch: Branch): Branch[] {
     return branch.children ?? [];
+  }
+
+  protected async deleteFile(branch: Branch): Promise<void> {
+    if (this.signals.disableAllControls()) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open<
+      PipDialogConfirmComponent,
+      PipDialogConfirmInput,
+      boolean | null
+    >(PipDialogConfirmComponent, {
+      data: {
+        message: `Are you sure you want to delete "${branch.path}" from the device?`,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe(async (shouldDelete) => {
+        if (!shouldDelete) return;
+
+        this.signals.disableAllControls.set(true);
+
+        const success = await this.pipFileService.deleteFileOnDevice(
+          branch.path,
+        );
+
+        this.signals.disableAllControls.set(false);
+
+        if (success) {
+          logMessage(`File "${branch.path}" deleted successfully.`);
+          // Delete the file from the tree
+          const tree = [...this.fileTree()];
+          this.removeBranchByPath(tree, branch.path);
+          this.fileTree.set(tree);
+        } else {
+          logMessage(`Failed to delete file ${branch.path}.`);
+        }
+      });
   }
 
   protected getBranchIcon(branch: Branch): string {
@@ -110,6 +161,32 @@ export class PipFileExplorerComponent {
     logMessage('File list loaded successfully.');
     this.signals.disableAllControls.set(false);
     this.isInitialized = true;
+  }
+
+  private removeBranchByPath(tree: Branch[], targetPath: string): boolean {
+    for (let i = 0; i < tree.length; i++) {
+      const branch = tree[i];
+
+      // Match found at this level
+      if (branch.path === targetPath) {
+        tree.splice(i, 1);
+        return true;
+      }
+
+      // Check deeper if dir
+      if (branch.children?.length) {
+        const removed = this.removeBranchByPath(branch.children, targetPath);
+
+        // If child removed dir is now empty, remove
+        if (removed && branch.children.length === 0) {
+          delete branch.children;
+        }
+
+        if (removed) return true;
+      }
+    }
+
+    return false;
   }
 
   private sortTree(branches: Branch[]): Branch[] {

@@ -28,11 +28,26 @@ mat-tree {
   border-radius: 4px;
 
   mat-tree-node {
+    display: flex;
+    align-items: center;
+
+    mat-icon.delete {
+      display: none;
+      margin-left: auto;
+      margin-right: 1rem;
+      visibility: hidden;
+    }
+
     &:not(.disabled) {
       cursor: pointer;
 
       &:hover {
         background-color: col.$pip-green-light;
+
+        mat-icon.delete {
+          display: block;
+          visibility: visible;
+        }
       }
     }
 
