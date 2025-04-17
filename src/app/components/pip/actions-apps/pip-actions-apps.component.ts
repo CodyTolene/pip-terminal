@@ -203,6 +203,7 @@ export class PipActionsAppsComponent {
     try {
       const createAppDirSuccess = await this.createDirectoryIfNonExistent(
         this.appMainDirectory,
+        true,
       );
       if (!createAppDirSuccess) {
         return;
@@ -210,6 +211,7 @@ export class PipActionsAppsComponent {
 
       const createAppMetaDirSucess = await this.createDirectoryIfNonExistent(
         this.appMetaDir,
+        true,
       );
       if (!createAppMetaDirSucess) {
         return;
@@ -285,10 +287,16 @@ export class PipActionsAppsComponent {
    * @returns True if the directory was created successfully or already
    * exists, false otherwise.
    */
-  private async createDirectoryIfNonExistent(dir: string): Promise<boolean> {
+  private async createDirectoryIfNonExistent(
+    dir: string,
+    log: boolean,
+  ): Promise<boolean> {
     logMessage(`Ensuring "${dir}" directory exists.`);
 
-    const result = await this.pipFileService.createDirectoryIfNonExistent(dir);
+    const result = await this.pipFileService.createDirectoryIfNonExistent(
+      dir,
+      log,
+    );
 
     if (!result) {
       logMessage(`Failed to create directory "${dir}" on device.`);
@@ -340,8 +348,10 @@ export class PipActionsAppsComponent {
       // For each asset directy, make sure it exists before upload
       for (const [fileName, zipFile] of Object.entries(zip.files)) {
         if (zipFile.dir) {
-          const createDirSuccess =
-            await this.createDirectoryIfNonExistent(fileName);
+          const createDirSuccess = await this.createDirectoryIfNonExistent(
+            fileName,
+            true,
+          );
 
           if (!createDirSuccess) {
             logMessage(`Failed to create directory "${fileName}" on device.`);
