@@ -84,6 +84,7 @@ export class RadioSetPageComponent
         !isConnected || disableAllControls || isUploadingFile,
     ),
     shareReplay(1),
+    untilDestroyed(this),
   );
 
   public ngOnInit(): void {
@@ -137,8 +138,12 @@ export class RadioSetPageComponent
       type: 'audio/wav',
     });
 
+    // Display the raw file name from the user
     logMessage(`Uploading "${file.name}" as "${wrappedFile.name}"...`);
+
     pipSignals.isUploadingFile.set(true);
+
+    logMessage(`Uploading "${nameWithExtension}": 0%`);
     this.uploadProgress[nameWithExtension] = 0;
 
     await this.pipSoundService.uploadRadioWavFile(wrappedFile, (progress) => {

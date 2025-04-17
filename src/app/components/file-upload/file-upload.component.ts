@@ -1,5 +1,6 @@
 import { InputDirective } from '@proangular/pro-form';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +19,14 @@ export class PipFileUploadComponent extends InputDirective<FileList | null> {
 
   public override readonly id = `file-upload-${++uniqueFileUploadId}`;
 
+  @Input() public set multiple(value: BooleanInput) {
+    this.#multiple = coerceBooleanProperty(value);
+  }
+  public get multiple(): boolean {
+    return this.#multiple;
+  }
+  #multiple = false;
+
   protected onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
@@ -34,4 +43,4 @@ export class PipFileUploadComponent extends InputDirective<FileList | null> {
  */
 let uniqueFileUploadId = 0;
 
-type AcceptableFileType = '.wav';
+type AcceptableFileType = '.wav' | '.zip';
