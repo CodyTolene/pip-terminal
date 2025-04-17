@@ -7,7 +7,7 @@ import { isNonEmptyObject, logMessage, wait } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
@@ -43,6 +43,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 })
 export class PipActionsAppsComponent {
   public constructor(
+    private readonly dialog: MatDialog,
     private readonly pipAppsService: PipAppsService,
     private readonly pipDeviceService: PipDeviceService,
     private readonly pipFileService: PipFileService,
@@ -63,8 +64,6 @@ export class PipActionsAppsComponent {
 
   private readonly appMainDirectory: string;
   private readonly appMetaDirectory: string;
-
-  private readonly dialog = inject(MatDialog);
 
   protected readonly signals = pipSignals;
 
@@ -93,8 +92,8 @@ export class PipActionsAppsComponent {
     dialogRef
       .afterClosed()
       .pipe(untilDestroyed(this))
-      .subscribe(async (result) => {
-        if (!result) return;
+      .subscribe(async (shouldDelete) => {
+        if (!shouldDelete) return;
 
         pipSignals.disableAllControls.set(true);
 
