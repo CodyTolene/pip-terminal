@@ -41,6 +41,7 @@ export class PipFileService {
    */
   public async createDirectoryIfNonExistent(
     directory: string,
+    log = false,
   ): Promise<boolean> {
     if (!this.pipConnectionService.connection?.isOpen) {
       logMessage('Please connect to the device first.');
@@ -58,7 +59,9 @@ export class PipFileService {
         );
         return false;
       } else {
-        logMessage(result.message);
+        if (log) {
+          logMessage(result.message);
+        }
         return true;
       }
     } catch (error) {
@@ -232,7 +235,8 @@ export class PipFileService {
     }
 
     try {
-      const fileMetaList = await this.getBranch('APPINFO/');
+      await this.createDirectoryIfNonExistent(this.appMetaDirectory);
+      const fileMetaList = await this.getBranch(`${this.appMetaDirectory}/`);
       const fileMetaListJson =
         fileMetaList?.filter((fileMeta) => fileMeta.path.endsWith('.json')) ??
         [];
@@ -242,7 +246,7 @@ export class PipFileService {
       for (const fileName of fileMetaListJson.map(
         (fileMeta) => fileMeta.name,
       )) {
-        const filePath = `APPINFO/${fileName}`;
+        const filePath = `${this.appMetaDirectory}/${fileName}`;
         const command = Commands.getApps(filePath);
         const fileContent = await this.pipCommandService.run<string>(command);
 
