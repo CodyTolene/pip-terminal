@@ -1,4 +1,4 @@
-import { isNonEmptyValue } from './type.util';
+import { isNonEmptyValue } from './is-type.util';
 
 /**
  * Retrieves an enum member from the given value. Falls back to a default if
