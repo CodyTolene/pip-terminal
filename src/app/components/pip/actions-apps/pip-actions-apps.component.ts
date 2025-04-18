@@ -3,7 +3,12 @@ import JSZip from 'jszip';
 import { Observable, filter, firstValueFrom, map, shareReplay } from 'rxjs';
 import { PipAppTypeEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { PipApp } from 'src/app/models';
-import { isNonEmptyObject, logMessage, wait } from 'src/app/utilities';
+import {
+  isNonEmptyObject,
+  isNonEmptyString,
+  logMessage,
+  wait,
+} from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
@@ -314,6 +319,12 @@ export class PipActionsAppsComponent {
    * @returns The zip file containing the app.
    */
   private async createAppZipFile(app: PipApp): Promise<File | null> {
+    const jsV = pipSignals.javascriptVersion();
+    if (!isNonEmptyString(jsV)) {
+      logMessage('Failed to get JavaScript version.');
+      return null;
+    }
+
     const zip = new JSZip();
 
     if (app.files.length > 0) {
@@ -347,14 +358,21 @@ export class PipActionsAppsComponent {
 
       // For each asset directy, make sure it exists before upload
       for (const [fileName, zipFile] of Object.entries(zip.files)) {
+        // If filename ends with "/", remove it
+        const fileNameFormatted =
+          jsV === '1.29' && fileName.endsWith('/')
+            ? fileName.substring(0, fileName.length - 1)
+            : fileName;
         if (zipFile.dir) {
           const createDirSuccess = await this.createDirectoryIfNonExistent(
-            fileName,
+            fileNameFormatted,
             true,
           );
 
           if (!createDirSuccess) {
-            logMessage(`Failed to create directory "${fileName}" on device.`);
+            logMessage(
+              `Failed to create directory "${fileNameFormatted}" on device.`,
+            );
             return null;
           }
         }
