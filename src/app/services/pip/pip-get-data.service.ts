@@ -1,5 +1,5 @@
 import { Commands } from 'src/app/commands';
-import { isNonEmptyObject } from 'src/app/utilities';
+import { isNonEmptyObject, toNumber } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
@@ -39,7 +39,7 @@ export class PipGetDataService {
     return result.trim();
   }
 
-  public async getJavascriptVersion(): Promise<string> {
+  public async getJavascriptVersion(): Promise<number> {
     const command = Commands.getJavascriptVersion();
     const result = await this.pipCommandService.run<string>(command);
 
@@ -47,7 +47,13 @@ export class PipGetDataService {
       throw new Error('Invalid owner name');
     }
 
-    return result.trim();
+    // Convert string (ie "1.29") to number (ie 1.29)
+    const version = toNumber(result);
+    if (version === null) {
+      throw new Error('Invalid javascript version');
+    }
+
+    return version;
   }
 
   public async getOwnerName(): Promise<string> {
