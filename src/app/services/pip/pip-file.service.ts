@@ -1,3 +1,4 @@
+import { isNonEmptyString } from '@proangular/pro-form';
 import JSZip, { JSZipObject } from 'jszip';
 import { Commands } from 'src/app/commands';
 import { wait } from 'src/app/utilities';
@@ -236,7 +237,7 @@ export class PipFileService {
 
     try {
       await this.createDirectoryIfNonExistent(this.appMetaDirectory);
-      const fileMetaList = await this.getBranch(`${this.appMetaDirectory}/`);
+      const fileMetaList = await this.getBranch(`${this.appMetaDirectory}`);
       const fileMetaListJson =
         fileMetaList?.filter((fileMeta) => fileMeta.path.endsWith('.json')) ??
         [];
@@ -289,11 +290,28 @@ export class PipFileService {
    * @returns A full, recursive list of entries in the directory.
    */
   public async getTree(dir = '', log = false): Promise<readonly Branch[]> {
+    const jsV = pipSignals.javascriptVersion();
+    if (!isNonEmptyString(jsV)) {
+      logMessage('Failed to get JavaScript version.');
+      return [];
+    }
+
     const walk = async (path: string): Promise<Branch[]> => {
       const branches = await this.getBranch(path, log);
       const tree: Branch[] = [];
 
       for (const branch of branches) {
+        // Prevent infinite recursion caused by self referencing directories
+        // introduced in Pip-Boy JS Version 1.29
+        if (
+          (jsV === '1.29' && branch.name === '.') ||
+          branch.name === '..' ||
+          branch.path.includes('/./') ||
+          branch.path.includes('/../')
+        ) {
+          continue;
+        }
+
         if (log) logMessage(`${branch.type} - ${branch.path}`);
 
         if (branch.type === 'dir') {
