@@ -1,4 +1,3 @@
-import { isNonEmptyString } from '@proangular/pro-form';
 import JSZip, { JSZipObject } from 'jszip';
 import { Commands } from 'src/app/commands';
 import { wait } from 'src/app/utilities';
@@ -290,8 +289,8 @@ export class PipFileService {
    * @returns A full, recursive list of entries in the directory.
    */
   public async getTree(dir = '', log = false): Promise<readonly Branch[]> {
-    const jsV = pipSignals.javascriptVersion();
-    if (!isNonEmptyString(jsV)) {
+    const jsVersion = pipSignals.javascriptVersion();
+    if (jsVersion === null) {
       logMessage('Failed to get JavaScript version.');
       return [];
     }
@@ -304,7 +303,7 @@ export class PipFileService {
         // Prevent infinite recursion caused by self referencing directories
         // introduced in Pip-Boy JS Version 1.29
         if (
-          jsV === '1.29' &&
+          jsVersion >= 1.29 &&
           (branch.name === '.' ||
             branch.name === '..' ||
             branch.path.includes('/./') ||

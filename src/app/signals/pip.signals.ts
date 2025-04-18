@@ -11,7 +11,7 @@ export const pipSignals = {
   isConnected: signal<boolean>(false),
   isSleeping: signal<boolean | 'BUSY'>(false),
   isUploadingFile: signal<boolean>(false),
-  javascriptVersion: signal<string | null>(null),
+  javascriptVersion: signal<number | null>(null),
   logMessages: signal<LogEntry[]>([]),
   ownerName: signal<string>('<NONE>'),
   progress: signal<number>(0),

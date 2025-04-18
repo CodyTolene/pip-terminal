@@ -3,12 +3,7 @@ import JSZip from 'jszip';
 import { Observable, filter, firstValueFrom, map, shareReplay } from 'rxjs';
 import { PipAppTypeEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { PipApp } from 'src/app/models';
-import {
-  isNonEmptyObject,
-  isNonEmptyString,
-  logMessage,
-  wait,
-} from 'src/app/utilities';
+import { isNonEmptyObject, logMessage, wait } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
@@ -319,8 +314,8 @@ export class PipActionsAppsComponent {
    * @returns The zip file containing the app.
    */
   private async createAppZipFile(app: PipApp): Promise<File | null> {
-    const jsV = pipSignals.javascriptVersion();
-    if (!isNonEmptyString(jsV)) {
+    const jsVersion = pipSignals.javascriptVersion();
+    if (jsVersion === null) {
       logMessage('Failed to get JavaScript version.');
       return null;
     }
@@ -360,7 +355,7 @@ export class PipActionsAppsComponent {
       for (const [fileName, zipFile] of Object.entries(zip.files)) {
         // If filename ends with "/", remove it
         const fileNameFormatted =
-          jsV === '1.29' && fileName.endsWith('/')
+          jsVersion >= 1.29 && fileName.endsWith('/')
             ? fileName.substring(0, fileName.length - 1)
             : fileName;
         if (zipFile.dir) {
