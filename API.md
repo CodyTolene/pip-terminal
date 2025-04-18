@@ -31,6 +31,111 @@ KNOB2_B
 
 ## Pip-Boy API
 
-```js
-// TODO
+Global Functions
+
+```
+print(Object.keys(global).filter(k => typeof global[k] === 'function'));
+```
+
+```
+[
+  "Graphics",
+  "Function",
+  "Object",
+  "Pin",
+  "log",
+  "saveSettings",
+  "configureAlarm",
+  "wakeOnLongPress",
+  "playBootAnimation",
+  "checkBatteryAndSleep",
+  "wakeFromSleep",
+  "submenuBlank",
+  "showMainMenu",
+  "enterDemoMode",
+  "leaveDemoMode",
+  "factoryTestMode",
+  "fs",
+  "process",
+  "Date",
+  "console",
+  "File",
+  "Number",
+  "String",
+  "Pip",
+  "JSON",
+  "E",
+  "Array",
+  "dc",
+  "showTorch",
+  "torchButtonHandler",
+  "drawVaultTecLogo",
+  "drawVaultNumLogo",
+  "drawText",
+  "showVaultAssignment",
+  "submenuClock",
+  "getRandomExcluding",
+  "I2C",
+  "readRDSData",
+  "radioPlayClip",
+  "submenuRadio",
+  "submenuStatus",
+  "submenuConnect",
+  "submenuDiagnostics",
+  "submenuRad",
+  "submenuMap",
+  "showAlarm",
+  "submenuInvAttach",
+  "submenuExtTerminal",
+  "submenuApparel",
+  "submenuStats",
+  "submenuAbout",
+  "getUserVideos",
+  "submenuVideos",
+  "getUserAudio",
+  "submenuAudio",
+  "getUserApps",
+  "submenuApps",
+  "submenuSetAlarm",
+  "submenuMaintenance",
+  "drawHeader",
+  "drawFooter",
+  "checkMode",
+  "createDateTimeSubmenu",
+  "submenuSetDateTime",
+  "submenuSetAlarmTime",
+  "submenuPalette",
+  "Math",
+  "Promise",
+  "RegExp"
+ ]
+```
+
+Pip Functions
+
+```
+for (let k in Pip) { if (typeof Pip[k] === 'function') print('Pip.' + k); }
+```
+
+```
+Pip.isSDCardInserted
+Pip.setDateAndTime
+Pip.getDateAndTime
+Pip.measurePin
+Pip.getID
+Pip.knob1Click
+Pip.knob2Click
+Pip.typeText
+Pip.offAnimation
+Pip.offOrSleep
+Pip.offButtonHandler
+Pip.kickIdleTimer
+Pip.fadeOff
+Pip.fadeOn
+Pip.updateBrightness
+Pip.powerButtonHandler
+Pip.usbConnectHandler
+Pip.addWatches
+Pip.remove
+Pip.removeSubmenu
 ```
