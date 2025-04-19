@@ -1,9 +1,20 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter } from 'rxjs';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+} from 'rxjs';
 import { SoundEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
-import { getEnumMember, isNonEmptyString } from 'src/app/utilities';
+import {
+  getEnumMember,
+  isNonEmptyString,
+  isNonEmptyValue,
+} from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { SoundService } from 'src/app/services/sound.service';
@@ -20,10 +31,42 @@ export class TabsService {
   ) {}
 
   public activeTabLabel = signal<TabLabelEnum | null>(null);
+  public activeSubTabLabel = signal<SubTabLabelEnum | null>(null);
   private activeSubTabIndexes = signal<Record<string, number>>({});
 
   private subTabLabels = new Map<TabLabelEnum, SubTabLabelEnum[]>();
   private isInitialized = false;
+
+  private lastEmittedTabLabel: string | null = null;
+  private lastEmittedSubTabLabel: string | null = null;
+
+  public readonly activeTabsChanges = combineLatest([
+    toObservable(this.activeTabLabel).pipe(
+      filter(isNonEmptyValue),
+      distinctUntilChanged(),
+    ),
+    toObservable(this.activeSubTabLabel).pipe(distinctUntilChanged()),
+  ]).pipe(
+    filter(([activeTabLabel, activeSubTabLabel]) => {
+      const tabChanged = activeTabLabel !== this.lastEmittedTabLabel;
+      const subTabChanged = activeSubTabLabel !== this.lastEmittedSubTabLabel;
+
+      const shouldEmit =
+        (!tabChanged && subTabChanged) || (tabChanged && subTabChanged);
+      if (shouldEmit) {
+        this.lastEmittedTabLabel = activeTabLabel;
+        this.lastEmittedSubTabLabel = activeSubTabLabel;
+      }
+
+      return shouldEmit;
+    }),
+    map(([activeTabLabel, activeSubTabLabel]) => ({
+      activeTabLabel,
+      activeSubTabLabel,
+    })),
+    shareReplay({ bufferSize: 1, refCount: true }),
+    untilDestroyed(this),
+  );
 
   public initialize(): void {
     if (this.isInitialized) {
@@ -104,6 +147,8 @@ export class TabsService {
     await this.setActiveSubTabIndex(tabLabel, subTabIndex, playSubTabSound);
 
     const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
+    this.activeSubTabLabel.set(subTabLabel);
+
     if (subTabLabel) {
       this.router.navigate([tabLabel.toLowerCase(), subTabLabel.toLowerCase()]);
     } else {

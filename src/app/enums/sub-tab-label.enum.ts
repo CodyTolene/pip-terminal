@@ -4,9 +4,9 @@ export enum SubTabLabelEnum {
   CONNECT = 'CONNECT',
   DIAGNOSTICS = 'DIAGNOSTICS',
   // "INV" Tab:
-  ATTACHMENTS = 'ATTACHMENTS',
   APPAREL = 'APPAREL',
   APPS = 'APPS',
+  PRIVACY = 'PRIVACY',
   // "DATA" Tab:
   CLOCK = 'CLOCK',
   STATS = 'STATS',
