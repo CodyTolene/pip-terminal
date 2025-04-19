@@ -6,14 +6,12 @@ import {
   map,
   shareReplay,
 } from 'rxjs';
-import { SoundEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { isNonEmptyValue } from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-
-import { SoundService } from 'src/app/services/sound.service';
 
 /**
  * Service for managing tabs and sub-tabs in the application.
@@ -21,10 +19,7 @@ import { SoundService } from 'src/app/services/sound.service';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class TabsService {
-  public constructor(
-    private readonly router: Router,
-    private readonly soundService: SoundService,
-  ) {}
+  public constructor(private readonly router: Router) {}
 
   public activeTabLabel = signal<TabLabelEnum | null>(null);
   public activeSubTabLabel = signal<SubTabLabelEnum | null>(null);
@@ -70,12 +65,10 @@ export class TabsService {
    * @param subTabOrIndex The label of the sub-tab to switch to, or the index of the
    * sub-tab. If not provided, the first sub-tab will be used.
    * @param playMainTabSound Whether to play the sound for switching tabs.
-   * @param playSubTabSound Whether to play the sound for switching sub-tabs.
    */
   public async switchToTab(
     tabLabel: TabLabelEnum,
     subTabOrIndex?: SubTabLabelEnum | number | null,
-    { playMainTabSound, playSubTabSound }: SwitchTabOptions = {},
   ): Promise<void> {
     this.activeTabLabel.set(tabLabel);
 
@@ -92,11 +85,7 @@ export class TabsService {
       }
     }
 
-    if (playMainTabSound) {
-      await this.soundService.playSound(SoundEnum.TICK_TAB, 100);
-    }
-
-    await this.setActiveSubTabIndex(tabLabel, subTabIndex, playSubTabSound);
+    await this.setActiveSubTabIndex(tabLabel, subTabIndex);
 
     const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
     this.activeSubTabLabel.set(subTabLabel);
@@ -113,19 +102,14 @@ export class TabsService {
    *
    * @param tabLabel The label of the tab.
    * @param subTabIndex The index of the sub-tab to set as active.
-   * @param playSubTabSound Whether to play the sound for switching sub-tabs.
    */
   public async setActiveSubTabIndex(
     tabLabel: TabLabelEnum,
     subTabIndex: number,
-    playSubTabSound = false,
   ): Promise<void> {
     const map = { ...this.activeSubTabIndexes() };
     map[tabLabel] = subTabIndex;
     this.activeSubTabIndexes.set(map);
-    if (playSubTabSound) {
-      await this.soundService.playSound(SoundEnum.TICK_SUBTAB, 50);
-    }
   }
 
   /**
@@ -192,12 +176,4 @@ export class TabsService {
   ): SubTabLabelEnum | null {
     return this.subTabLabels.get(tabLabel)?.[index] ?? null;
   }
-}
-
-/**
- * Options for switching tabs.
- */
-interface SwitchTabOptions {
-  playMainTabSound?: boolean;
-  playSubTabSound?: boolean;
 }

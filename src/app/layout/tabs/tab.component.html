@@ -3,8 +3,9 @@
     <nav class="tab-header" role="tablist">
       @for (subTab of subTabs; let i = $index; track i) {
         <button
-          [routerLink]="[label.toLowerCase(), subTab.label.toLowerCase()]"
+          (click)="onSubTabClick(subTab)"
           [class.active]="getActiveSubTabIndex(label) === i"
+          [routerLink]="[label.toLowerCase(), subTab.label.toLowerCase()]"
           class="tab-button"
           type="button"
         >

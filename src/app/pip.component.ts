@@ -2,6 +2,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
 import { ContentComponent } from 'src/app/layout/content/content.component';
 import { FooterComponent } from 'src/app/layout/footer/footer.component';
+import { getEnumMember } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
@@ -99,21 +100,27 @@ export class PipComponent implements OnInit {
       });
 
     this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        untilDestroyed(this),
+      )
       .subscribe(() => {
         const segments = this.activatedRoute.snapshot.firstChild?.url ?? [];
-        const tab = segments[0]?.path?.toUpperCase();
-        const subTab = segments[1]?.path?.toUpperCase();
+        const tab = getEnumMember(
+          TabLabelEnum,
+          segments[0]?.path?.toUpperCase(),
+        );
+        const subTab = getEnumMember(
+          SubTabLabelEnum,
+          segments[1]?.path?.toUpperCase(),
+        );
 
         if (tab) {
-          this.tabsService.switchToTab(tab as TabLabelEnum);
+          this.tabsService.switchToTab(tab);
         }
 
         if (tab && subTab) {
-          this.tabsService.switchToTab(
-            tab as TabLabelEnum,
-            subTab as SubTabLabelEnum,
-          );
+          this.tabsService.switchToTab(tab, subTab);
         }
       });
   }
@@ -122,7 +129,6 @@ export class PipComponent implements OnInit {
     await this.tabsService.switchToTab(
       TabLabelEnum.STAT,
       SubTabLabelEnum.CONNECT,
-      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 

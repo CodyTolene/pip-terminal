@@ -2,6 +2,7 @@
   <div class="spacer"></div>
   @for (tab of tabs; let i = $index; track tab) {
     <button
+      (click)="onTabClick(tab)"
       [class.active]="getActiveTabLabel() === tab.label"
       [routerLink]="getTabRouterLink(tab)"
       class="tabs-button"

@@ -29,7 +29,6 @@ export class StatusPageComponent {
     await this.tabsService.switchToTab(
       TabLabelEnum.STAT,
       SubTabLabelEnum.CONNECT,
-      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 }
