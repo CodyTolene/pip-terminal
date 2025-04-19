@@ -35,13 +35,10 @@ export class TabsComponent {
     );
   }
 
-  protected async selectTab(index: number): Promise<void> {
-    const tab = this.tabs.get(index);
-    if (tab) {
-      await this.tabsService.switchToTab(tab.label, 0, {
-        playMainTabSound: true,
-        playSubTabSound: false,
-      });
-    }
+  protected getTabRouterLink(tab: TabComponent): string[] {
+    const tabPath = tab.label.toLowerCase();
+    const subTab = this.getActiveSubTabLabel(tab);
+
+    return subTab ? [tabPath, subTab.toLowerCase()] : [tabPath];
   }
 }

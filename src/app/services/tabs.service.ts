@@ -7,15 +7,11 @@ import {
   shareReplay,
 } from 'rxjs';
 import { SoundEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
-import {
-  getEnumMember,
-  isNonEmptyString,
-  isNonEmptyValue,
-} from 'src/app/utilities';
+import { isNonEmptyValue } from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { SoundService } from 'src/app/services/sound.service';
 
@@ -35,7 +31,6 @@ export class TabsService {
   private activeSubTabIndexes = signal<Record<string, number>>({});
 
   private subTabLabels = new Map<TabLabelEnum, SubTabLabelEnum[]>();
-  private isInitialized = false;
 
   private lastEmittedTabLabel: string | null = null;
   private lastEmittedSubTabLabel: string | null = null;
@@ -67,49 +62,6 @@ export class TabsService {
     shareReplay({ bufferSize: 1, refCount: true }),
     untilDestroyed(this),
   );
-
-  public initialize(): void {
-    if (this.isInitialized) {
-      console.warn('TabsService already initialized!');
-      return;
-    }
-
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        untilDestroyed(this),
-      )
-      .subscribe(async ({ url }: NavigationEnd) => {
-        const urlPieces = url.split('/').slice(1);
-
-        const goToDefaultTab = async (): Promise<void> => {
-          await this.switchToTab(TabLabelEnum.STAT, SubTabLabelEnum.STATUS);
-        };
-
-        if (!isNonEmptyString(urlPieces[0])) {
-          goToDefaultTab();
-          return;
-        }
-
-        const tabLabel = urlPieces[0].toUpperCase();
-        const subTabLabel =
-          isNonEmptyString(urlPieces[1]) && urlPieces[1] !== 'null'
-            ? urlPieces[1].toUpperCase()
-            : null;
-
-        const tab = getEnumMember(TabLabelEnum, tabLabel);
-        const subTab = subTabLabel
-          ? getEnumMember(SubTabLabelEnum, subTabLabel)
-          : null;
-
-        if (!tab) {
-          goToDefaultTab();
-          return;
-        }
-
-        await this.switchToTab(tab, subTab);
-      });
-  }
 
   /**
    * Switches to a specified tab and sub-tab in the application.

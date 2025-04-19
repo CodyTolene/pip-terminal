@@ -20,48 +20,25 @@
 ></mat-icon>
 <pip-tabs>
   <pip-tab [label]="TabLabelEnum.STAT">
-    <pip-sub-tab [label]="SubTabLabelEnum.STATUS">
-      <pip-status-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.CONNECT">
-      <pip-connect-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.DIAGNOSTICS">
-      <pip-diagnostics-page />
-    </pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.STATUS"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.CONNECT"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.DIAGNOSTICS"></pip-sub-tab>
   </pip-tab>
   <pip-tab [label]="TabLabelEnum.INV">
-    <pip-sub-tab [label]="SubTabLabelEnum.APPAREL">
-      <pip-apparel-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.APPS">
-      <pip-apps-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.PRIVACY">
-      <pip-privacy-policy-page />
-    </pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.ATTACHMENTS"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.APPAREL"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.APPS"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.PRIVACY"></pip-sub-tab>
   </pip-tab>
   <pip-tab [label]="TabLabelEnum.DATA">
-    <pip-sub-tab [label]="SubTabLabelEnum.CLOCK">
-      <pip-clock-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.STATS">
-      <pip-stats-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.MAINTENANCE">
-      <pip-maintenance />
-    </pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.CLOCK"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.STATS"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.MAINTENANCE"></pip-sub-tab>
   </pip-tab>
-  <pip-tab [label]="TabLabelEnum.MAP">
-    <pip-map-page />
-  </pip-tab>
+  <pip-tab [label]="TabLabelEnum.MAP"></pip-tab>
   <pip-tab [label]="TabLabelEnum.RADIO">
-    <pip-sub-tab [label]="SubTabLabelEnum.PLAY">
-      <pip-radio-page />
-    </pip-sub-tab>
-    <pip-sub-tab [label]="SubTabLabelEnum.SET">
-      <pip-radio-set-page />
-    </pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.PLAY"></pip-sub-tab>
+    <pip-sub-tab [label]="SubTabLabelEnum.SET"></pip-sub-tab>
   </pip-tab>
 </pip-tabs>
 <pip-footer />

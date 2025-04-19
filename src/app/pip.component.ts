@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { filter } from 'rxjs';
 import { FooterComponent } from 'src/app/layout/footer/footer.component';
-import { RadioSetPageComponent } from 'src/app/pages/radio-set/radio-set-page.component';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { Analytics } from '@angular/fire/analytics';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { PageMetaService } from 'src/app/services/page-meta.service';
 import { PipAppsService } from 'src/app/services/pip/pip-apps.service';
@@ -28,17 +29,6 @@ import { SubTabLabelEnum } from './enums/sub-tab-label.enum';
 import { SubTabComponent } from './layout/tabs/sub-tab.component';
 import { TabComponent } from './layout/tabs/tab.component';
 import { TabsComponent } from './layout/tabs/tabs.component';
-import { ApparelPageComponent } from './pages/apparel/apparel-page.component';
-import { AppsPageComponent } from './pages/apps/apps-page.component';
-import { ClockPageComponent } from './pages/clock/clock-page.component';
-import { ConnectPageComponent } from './pages/connect/connect-page.component';
-import { DiagnosticsPageComponent } from './pages/diagnostics/diagnostics-page.component';
-import { MaintenancePageComponent } from './pages/maintenance/maintenance-page.component';
-import { MapPageComponent } from './pages/map/map-page.component';
-import { PrivacyPolicyPageComponent } from './pages/privacy-policy/privacy-policy-page.component';
-import { RadioPageComponent } from './pages/radio/radio-page.component';
-import { StatsPageComponent } from './pages/stats/stats-page.component';
-import { StatusPageComponent } from './pages/status/status-page.component';
 import { SoundService } from './services/sound.service';
 import { TabsService } from './services/tabs.service';
 
@@ -47,23 +37,11 @@ import { TabsService } from './services/tabs.service';
   selector: 'pip-root',
   templateUrl: './pip.component.html',
   imports: [
-    ApparelPageComponent,
-    AppsPageComponent,
-    ClockPageComponent,
     CommonModule,
-    ConnectPageComponent,
-    DiagnosticsPageComponent,
     FooterComponent,
-    MaintenancePageComponent,
-    MapPageComponent,
     MatIconModule,
     MatLuxonDateModule,
     MatTooltipModule,
-    PrivacyPolicyPageComponent,
-    RadioPageComponent,
-    RadioSetPageComponent,
-    StatsPageComponent,
-    StatusPageComponent,
     SubTabComponent,
     TabComponent,
     TabsComponent,
@@ -86,7 +64,9 @@ import { TabsService } from './services/tabs.service';
 })
 export class PipComponent implements OnInit {
   public constructor(
+    private readonly activatedRoute: ActivatedRoute,
     private readonly pageMetaService: PageMetaService,
+    private readonly router: Router,
     private readonly soundService: SoundService,
     private readonly tabsService: TabsService,
   ) {
@@ -109,14 +89,30 @@ export class PipComponent implements OnInit {
     // Set the default tags for the page.
     this.pageMetaService.setTags();
 
-    // Initialize the tabs service.
-    this.tabsService.initialize();
-
     // Update the title when an active tab or sub-tab changes.
     this.tabsService.activeTabsChanges
       .pipe(untilDestroyed(this))
       .subscribe(({ activeTabLabel, activeSubTabLabel }) => {
         this.setPageTitle({ activeTabLabel, activeSubTabLabel });
+      });
+
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        const segments = this.activatedRoute.snapshot.firstChild?.url ?? [];
+        const tab = segments[0]?.path?.toUpperCase();
+        const subTab = segments[1]?.path?.toUpperCase();
+
+        if (tab) {
+          this.tabsService.switchToTab(tab as TabLabelEnum);
+        }
+
+        if (tab && subTab) {
+          this.tabsService.switchToTab(
+            tab as TabLabelEnum,
+            subTab as SubTabLabelEnum,
+          );
+        }
       });
   }
 

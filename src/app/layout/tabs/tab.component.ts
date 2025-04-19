@@ -49,8 +49,4 @@ export class TabComponent implements AfterContentInit {
   protected getActiveSubTabIndex(label: TabLabelEnum): number {
     return this.tabsService.getActiveSubTabIndex(label);
   }
-
-  protected async selectSubTab(index: number): Promise<void> {
-    await this.tabsService.setActiveSubTabIndex(this.label, index, true);
-  }
 }

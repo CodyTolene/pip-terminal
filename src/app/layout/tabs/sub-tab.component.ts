@@ -2,12 +2,13 @@ import { SubTabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-sub-tab',
   templateUrl: './sub-tab.component.html',
   styles: [''],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   providers: [],
 })
 export class SubTabComponent {
