@@ -3,9 +3,9 @@
     <nav class="tab-header" role="tablist">
       @for (subTab of subTabs; let i = $index; track i) {
         <button
-          (click)="selectSubTab(i)"
-          [routerLink]="[label.toLowerCase(), subTab.label.toLowerCase()]"
+          (click)="onSubTabClick(subTab)"
           [class.active]="getActiveSubTabIndex(label) === i"
+          [routerLink]="[label.toLowerCase(), subTab.label.toLowerCase()]"
           class="tab-button"
           type="button"
         >
@@ -13,14 +13,5 @@
         </button>
       }
     </nav>
-    <div class="subtab-content">
-      @for (subTab of subTabs; let i = $index; track i) {
-        @if (getActiveSubTabIndex(label) === i) {
-          <ng-container *ngTemplateOutlet="subTab.content"></ng-container>
-        }
-      }
-    </div>
-  } @else {
-    <ng-content></ng-content>
   }
 </ng-template>

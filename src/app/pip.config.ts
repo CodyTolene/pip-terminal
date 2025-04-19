@@ -8,7 +8,11 @@ import {
   getAnalytics,
   provideAnalytics,
 } from '@angular/fire/analytics';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import {
+  FirebaseApp,
+  initializeApp,
+  provideFirebaseApp,
+} from '@angular/fire/app';
 import {
   ReCaptchaEnterpriseProvider,
   initializeAppCheck,
@@ -24,15 +28,19 @@ export const appConfig: ApplicationConfig = {
       initializeApp(environment.google.firebase, 'pip-terminal'),
     ),
     provideHttpClient(withFetch()),
-    provideAnalytics(() => getAnalytics()),
+    provideAnalytics((injector) => {
+      const app = injector.get(FirebaseApp);
+      return getAnalytics(app);
+    }),
     ScreenTrackingService,
-    provideAppCheck(() => {
+    provideAppCheck((injector) => {
+      const app = injector.get(FirebaseApp);
       const provider = new ReCaptchaEnterpriseProvider(
-        '6LdjIucqAAAAAFnu6VgvMjAw3U3t8ATfwTDCwZdK',
+        environment.google.recaptcha.apiKey,
       );
-      return initializeAppCheck(undefined, {
-        provider,
+      return initializeAppCheck(app, {
         isTokenAutoRefreshEnabled: true,
+        provider,
       });
     }),
   ],

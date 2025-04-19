@@ -1,9 +1,10 @@
-import { TabLabelEnum } from 'src/app/enums';
+import { SoundEnum, TabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component, ContentChildren, QueryList } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { SoundService } from 'src/app/services/sound.service';
 import { TabsService } from 'src/app/services/tabs.service';
 
 import { TabComponent } from './tab.component';
@@ -16,7 +17,10 @@ import { TabComponent } from './tab.component';
   providers: [],
 })
 export class TabsComponent {
-  public constructor(private readonly tabsService: TabsService) {}
+  public constructor(
+    private readonly tabsService: TabsService,
+    private readonly soundService: SoundService,
+  ) {}
 
   @ContentChildren(TabComponent)
   protected tabs!: QueryList<TabComponent>;
@@ -35,13 +39,14 @@ export class TabsComponent {
     );
   }
 
-  protected async selectTab(index: number): Promise<void> {
-    const tab = this.tabs.get(index);
-    if (tab) {
-      await this.tabsService.switchToTab(tab.label, 0, {
-        playMainTabSound: true,
-        playSubTabSound: false,
-      });
-    }
+  protected onTabClick(_tab: TabComponent): void {
+    this.soundService.playSound(SoundEnum.TICK_TAB, 100);
+  }
+
+  protected getTabRouterLink(tab: TabComponent): string[] {
+    const tabPath = tab.label.toLowerCase();
+    const subTab = this.getActiveSubTabLabel(tab);
+
+    return subTab ? [tabPath, subTab.toLowerCase()] : [tabPath];
   }
 }

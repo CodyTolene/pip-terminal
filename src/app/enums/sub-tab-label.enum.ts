@@ -7,6 +7,7 @@ export enum SubTabLabelEnum {
   ATTACHMENTS = 'ATTACHMENTS',
   APPAREL = 'APPAREL',
   APPS = 'APPS',
+  PRIVACY = 'PRIVACY',
   // "DATA" Tab:
   CLOCK = 'CLOCK',
   STATS = 'STATS',

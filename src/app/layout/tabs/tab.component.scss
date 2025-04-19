@@ -49,14 +49,3 @@ button.tab-button {
     z-index: 2;
   }
 }
-
-.subtab-content {
-  @include sb.scrollbar;
-
-  background-color: col.$pip-black;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative;
-  width: 100%;
-}

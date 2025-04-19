@@ -41,7 +41,6 @@ export class FooterComponent {
     await this.tabsService.switchToTab(
       TabLabelEnum.DATA,
       SubTabLabelEnum.CLOCK,
-      { playMainTabSound: true, playSubTabSound: true },
     );
   }
 }
