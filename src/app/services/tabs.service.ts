@@ -85,15 +85,18 @@ export class TabsService {
       }
     }
 
-    await this.setActiveSubTabIndex(tabLabel, subTabIndex);
+    this.setActiveSubTabIndex(tabLabel, subTabIndex);
 
     const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
     this.activeSubTabLabel.set(subTabLabel);
 
     if (subTabLabel) {
-      this.router.navigate([tabLabel.toLowerCase(), subTabLabel.toLowerCase()]);
+      await this.router.navigate([
+        tabLabel.toLowerCase(),
+        subTabLabel.toLowerCase(),
+      ]);
     } else {
-      this.router.navigate([tabLabel.toLowerCase()]);
+      await this.router.navigate([tabLabel.toLowerCase()]);
     }
   }
 
@@ -103,10 +106,10 @@ export class TabsService {
    * @param tabLabel The label of the tab.
    * @param subTabIndex The index of the sub-tab to set as active.
    */
-  public async setActiveSubTabIndex(
+  public setActiveSubTabIndex(
     tabLabel: TabLabelEnum,
     subTabIndex: number,
-  ): Promise<void> {
+  ): void {
     const map = { ...this.activeSubTabIndexes() };
     map[tabLabel] = subTabIndex;
     this.activeSubTabIndexes.set(map);
