@@ -12,14 +12,5 @@
         </button>
       }
     </nav>
-    <div class="subtab-content">
-      @for (subTab of subTabs; let i = $index; track i) {
-        @if (getActiveSubTabIndex(label) === i) {
-          <ng-container *ngTemplateOutlet="subTab.content"></ng-container>
-        }
-      }
-    </div>
-  } @else {
-    <router-outlet />
   }
 </ng-template>

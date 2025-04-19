@@ -1,9 +1,12 @@
 @use 'font' as font;
+@use 'colors' as col;
 
 body,
 html {
   @include font.default-font();
 
-  height: 100vh;
+  background-color: col.$pip-black;
+  height: 100%;
   margin: 0;
+  overflow: hidden;
 }

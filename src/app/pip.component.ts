@@ -1,5 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
+import { ContentComponent } from 'src/app/layout/content/content.component';
 import { FooterComponent } from 'src/app/layout/footer/footer.component';
 import { environment } from 'src/environments/environment';
 
@@ -38,6 +39,7 @@ import { TabsService } from './services/tabs.service';
   templateUrl: './pip.component.html',
   imports: [
     CommonModule,
+    ContentComponent,
     FooterComponent,
     MatIconModule,
     MatLuxonDateModule,
