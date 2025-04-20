@@ -12,9 +12,9 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { SoundService } from 'src/app/services/sound.service';
 import { TabsService } from 'src/app/services/tabs.service';
 
-import { SoundService } from './../../services/sound.service';
 import { SubTabComponent } from './sub-tab.component';
 
 @Component({
