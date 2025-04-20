@@ -110,7 +110,7 @@ export class PipFileUploaderComponent
 
     pipSignals.isUploadingFile.set(true);
 
-    await this.pipDeviceService.clearScreen('Starting upload...');
+    await this.pipDeviceService.clearScreen('Uploading files...');
 
     const fileSizes = Array.from(fileList).map((file) => file.size);
     const totalSize = fileSizes.reduce((acc, size) => acc + size, 0);
