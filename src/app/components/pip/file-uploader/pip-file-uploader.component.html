@@ -1,0 +1,43 @@
+<h3>File Uploader</h3>
+<p>
+  Upload any file to the device. The file will be stored in the device's SD
+  card. You can use the file explorer to see the files you have uploaded.
+</p>
+<p>
+  <strong>Note:</strong> Try not to upload too much at once, it can time out
+  after a bit. And always be cautious of remaining memory on the device.
+</p>
+
+<form [formGroup]="formGroup">
+  <pip-file-upload
+    [accept]="['*/*']"
+    [formControl]="formGroup.controls.files"
+    label="Select File(s)"
+    multiple
+  />
+  <pro-input-dropdown
+    [formControl]="formGroup.controls.dropdown"
+    label="Upload to Folder"
+    placeholder="Select a folder"
+  >
+    @for (option of dropdownOptions; track option) {
+      <pro-input-dropdown-option [value]="option">{{
+        option
+      }}</pro-input-dropdown-option>
+    }
+    <pro-input-dropdown-option disabled [value]="1"
+      >Disabled Option</pro-input-dropdown-option
+    >
+  </pro-input-dropdown>
+</form>
+
+<pip-button
+  (click)="uploadFilesToDevice(formGroup.controls.dropdown.value)"
+  [disabled]="
+    !formGroup.controls.files.value?.length ||
+    !formGroup.controls.dropdown.value ||
+    (disabledChanges | async)
+  "
+>
+  Start Upload
+</pip-button>

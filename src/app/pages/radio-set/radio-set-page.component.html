@@ -42,8 +42,8 @@
         Play current {{ name }}
       </pip-button>
       <pip-file-upload
-        [formControl]="formGroup.controls.dxFiles.controls[i]"
         [accept]="['.wav']"
+        [formControl]="formGroup.controls.dxFiles.controls[i]"
         [label]="'Select WAV File for ' + name"
       />
       <pip-button
@@ -77,8 +77,8 @@
         Play current {{ name }}
       </pip-button>
       <pip-file-upload
-        [formControl]="formGroup.controls.mxFiles.controls[i]"
         [accept]="['.wav']"
+        [formControl]="formGroup.controls.mxFiles.controls[i]"
         [label]="'Select WAV File for ' + name"
       />
       <pip-button

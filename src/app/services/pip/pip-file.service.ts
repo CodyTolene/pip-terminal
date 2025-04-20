@@ -1,3 +1,4 @@
+import { isNonEmptyString } from '@proangular/pro-form';
 import JSZip, { JSZipObject } from 'jszip';
 import { Commands } from 'src/app/commands';
 import { wait } from 'src/app/utilities';
@@ -472,7 +473,11 @@ export class PipFileService {
 
       return fileData.length;
     } catch (error) {
-      logMessage(`Upload failed for ${path}: ${(error as Error)?.message}`);
+      logMessage(
+        `Upload failed for ${path}: ${
+          isNonEmptyString(error) ? error : (error as Error)?.message
+        }`,
+      );
       return 0;
     } finally {
       this.isUploading = false;

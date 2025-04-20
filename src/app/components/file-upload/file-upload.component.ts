@@ -43,4 +43,4 @@ export class PipFileUploadComponent extends InputDirective<FileList | null> {
  */
 let uniqueFileUploadId = 0;
 
-type AcceptableFileType = '.wav' | '.zip';
+type AcceptableFileType = '.wav' | '.zip' | '*/*';
