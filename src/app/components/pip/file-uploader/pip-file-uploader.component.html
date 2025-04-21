@@ -17,27 +17,31 @@
   />
   <pro-input-dropdown
     [formControl]="formGroup.controls.dropdown"
-    label="Upload to Folder"
+    label="Upload to a pre-existing directory"
     placeholder="Select a folder"
   >
-    @for (option of dropdownOptions; track option) {
-      <pro-input-dropdown-option [value]="option">{{
-        option
+    <pro-input-dropdown-option
+      [value]="null"
+      [disabled]="!formGroup.controls.dropdown.value"
+    >
+      ❌ CLEAR
+    </pro-input-dropdown-option>
+    @for (option of dropdownOptionsChanges | async; track option.path) {
+      <pro-input-dropdown-option [value]="option.path">{{
+        option.path
       }}</pro-input-dropdown-option>
     }
-    <pro-input-dropdown-option disabled [value]="1"
-      >Disabled Option</pro-input-dropdown-option
-    >
   </pro-input-dropdown>
+  <pro-input
+    [formControl]="formGroup.controls.customDirectory"
+    label="Upload to a custom directory"
+    placeholder="YOUR/CUSTOM/FOLDER"
+  />
 </form>
 
 <pip-button
-  (click)="uploadFilesToDevice(formGroup.controls.dropdown.value)"
-  [disabled]="
-    !formGroup.controls.files.value?.length ||
-    !formGroup.controls.dropdown.value ||
-    (disabledChanges | async)
-  "
+  (click)="uploadFilesToDevice()"
+  [disabled]="formGroup.invalid || (disabledChanges | async)"
 >
   Start Upload
 </pip-button>

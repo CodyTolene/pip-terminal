@@ -3,31 +3,6 @@
 
 // https://material.angular.io/components/form-field/styling
 :root {
-  @include mat.form-field-overrides(
-    (
-      //container-height: 2rem,
-      filled-caret-color: col.$pip-green,
-      filled-container-color: col.$pip-green,
-      filled-disabled-container-color: col.$pip-green-darkest,
-      filled-disabled-input-text-color: col.$pip-green-dark,
-      filled-disabled-label-text-color: col.$gray-darkest,
-      filled-focus-active-indicator-color: col.$pip-green,
-      filled-focus-label-text-color: col.$pip-green,
-      filled-hover-label-text-color: col.$pip-green,
-      filled-input-text-color: col.$pip-green,
-      filled-input-text-placeholder-color: col.$pip-green-dark,
-      filled-label-text-color: col.$pip-green,
-      filled-active-indicator-color: col.$pip-green,
-      trailing-icon-color: col.$pip-green,
-      leading-icon-color: col.$pip-green,
-      disabled-leading-icon-color: col.$pip-green-darkest,
-      disabled-trailing-icon-color: col.$pip-green-darkest,
-      enabled-select-arrow-color: col.$pip-green,
-      disabled-select-arrow-color: col.$pip-green-darkest,
-      filled-error-hover-active-indicator-color: col.$pip-green,
-      filled-hover-active-indicator-color: col.$pip-green-dark
-    )
-  );
   @include mat.select-overrides(
     (
       disabled-arrow-color: col.$pip-green-darkest,
@@ -39,26 +14,6 @@
       placeholder-text-color: col.$pip-green-dark,
     )
   );
-}
-
-mat-form-field {
-  width: 100%;
-
-  .mdc-text-field,
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-    background-color: transparent;
-  }
-
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input,
-  input {
-    color: col.$pip-green;
-  }
-
-  .mat-mdc-form-field-hint-wrapper,
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none;
-    visibility: hidden;
-  }
 }
 
 pro-input-dropdown {
@@ -88,7 +43,10 @@ pro-input-dropdown {
   .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
       .mdc-text-field--focused
     ):hover
-    .mat-mdc-notch-piece,
+    .mat-mdc-notch-piece {
+    border-color: col.$pip-green-dark;
+  }
+
   .mdc-text-field--outlined:not(.mdc-text-field--disabled)
     .mat-mdc-notch-piece {
     border-color: col.$pip-green;
@@ -98,10 +56,18 @@ pro-input-dropdown {
 .cdk-overlay-container {
   .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
       .mat-mdc-option-multiple
-    ),
+    ) {
+    background-color: col.$pip-green-dark;
+  }
+
+  .mat-mdc-option:hover:not(.mdc-list-item--disabled),
   .mat-mdc-option:focus.mdc-list-item,
   .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
-    background-color: col.$pip-green-dark;
+    background-color: col.$pip-green-darkest;
+
+    &:hover {
+      background-color: col.$pip-green-dark;
+    }
   }
 
   .mat-mdc-option,

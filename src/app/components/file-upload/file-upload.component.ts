@@ -34,6 +34,12 @@ export class PipFileUploadComponent extends InputDirective<FileList | null> {
     } else {
       this.formControl.setValue(null);
     }
+    this.formControl.updateValueAndValidity();
+  }
+
+  protected resetFileInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = '';
   }
 }
 
