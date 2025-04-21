@@ -1,0 +1,36 @@
+@use '../../../styles/animations/border-animation' as ani;
+@use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
+@use '../../../styles/scrollbar' as sb;
+@use '../../../styles/variables' as var;
+
+:host {
+  border: 2px dashed transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  &:hover {
+    @include ani.borderAnimation;
+  }
+}
+
+h3 {
+  margin-top: 0;
+}
+
+pip-file-upload {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+p {
+  margin: 0 0 1rem 0;
+}
+
+pro-input,
+pro-input-dropdown {
+  display: block;
+  margin: 1rem 0;
+  width: 100%;
+}

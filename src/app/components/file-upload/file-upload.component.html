@@ -2,6 +2,7 @@
   <label [class.disabled]="formControl.disabled" [for]="id">{{ label }}</label>
   <input
     (change)="onFileChange($event)"
+    (click)="resetFileInput($event)"
     [accept]="accept.join(',')"
     [disabled]="formControl.disabled"
     [id]="id"
