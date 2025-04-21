@@ -5,6 +5,7 @@ import { PipLogComponent } from 'src/app/components/log/pip-log.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/pip/actions-primary/pip-actions-primary.component';
 import { PipActionsQuickNavComponent } from 'src/app/components/pip/actions-quick-nav/pip-actions-quick-nav.component';
 import { PipFileExplorerComponent } from 'src/app/components/pip/file-explorer/pip-file-explorer.component';
+import { PipFileUploaderComponent } from 'src/app/components/pip/file-uploader/pip-file-uploader.component';
 
 @Component({
   selector: 'pip-stats-page',
@@ -14,6 +15,7 @@ import { PipFileExplorerComponent } from 'src/app/components/pip/file-explorer/p
     PipActionsPrimaryComponent,
     PipActionsQuickNavComponent,
     PipFileExplorerComponent,
+    PipFileUploaderComponent,
     PipLogComponent,
   ],
   styleUrl: './stats-page.component.scss',

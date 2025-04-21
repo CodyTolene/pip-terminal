@@ -1,9 +1,11 @@
 // Core Material styles
 @use './material/material-accordion.scss';
 @use './material/material-dialog.scss';
-@use './material/material-forms.scss';
+@use './material/material-form-fields.scss';
 @use './material/material-icons.scss';
+@use './material/material-input.scss';
 @use './material/material-menu.scss';
+@use './material/material-select.scss';
 @use './material/material-tree.scss';
 
 // Theme

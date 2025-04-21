@@ -2,7 +2,7 @@
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
-$icon-size: 500px;
+$icon-size: 400px;
 
 :host {
   box-sizing: border-box;
@@ -38,7 +38,7 @@ main {
     }
 
     img {
-      max-width: 100%;
+      max-width: 400px;
       height: auto;
       display: block;
       margin: 0 auto;

@@ -19,7 +19,7 @@ export class MapPageComponent implements OnInit {
 
   protected options: google.maps.MapOptions | null = null;
 
-  protected readonly isProduction = environment.production;
+  protected readonly isProduction = environment.isProduction;
 
   public async ngOnInit(): Promise<void> {
     if (!this.isProduction) {

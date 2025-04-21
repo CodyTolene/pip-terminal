@@ -1,12 +1,17 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter } from 'rxjs';
-import { SoundEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
-import { getEnumMember, isNonEmptyString } from 'src/app/utilities';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+} from 'rxjs';
+import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import { isNonEmptyValue } from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-
-import { SoundService } from 'src/app/services/sound.service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 /**
  * Service for managing tabs and sub-tabs in the application.
@@ -14,59 +19,44 @@ import { SoundService } from 'src/app/services/sound.service';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class TabsService {
-  public constructor(
-    private readonly router: Router,
-    private readonly soundService: SoundService,
-  ) {}
+  public constructor(private readonly router: Router) {}
 
   public activeTabLabel = signal<TabLabelEnum | null>(null);
+  public activeSubTabLabel = signal<SubTabLabelEnum | null>(null);
   private activeSubTabIndexes = signal<Record<string, number>>({});
 
   private subTabLabels = new Map<TabLabelEnum, SubTabLabelEnum[]>();
-  private isInitialized = false;
 
-  public initialize(): void {
-    if (this.isInitialized) {
-      console.warn('TabsService already initialized!');
-      return;
-    }
+  private lastEmittedTabLabel: string | null = null;
+  private lastEmittedSubTabLabel: string | null = null;
 
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        untilDestroyed(this),
-      )
-      .subscribe(async ({ url }: NavigationEnd) => {
-        const urlPieces = url.split('/').slice(1);
+  public readonly activeTabsChanges = combineLatest([
+    toObservable(this.activeTabLabel).pipe(
+      filter(isNonEmptyValue),
+      distinctUntilChanged(),
+    ),
+    toObservable(this.activeSubTabLabel).pipe(distinctUntilChanged()),
+  ]).pipe(
+    filter(([activeTabLabel, activeSubTabLabel]) => {
+      const tabChanged = activeTabLabel !== this.lastEmittedTabLabel;
+      const subTabChanged = activeSubTabLabel !== this.lastEmittedSubTabLabel;
 
-        const goToDefaultTab = async (): Promise<void> => {
-          await this.switchToTab(TabLabelEnum.STAT, SubTabLabelEnum.STATUS);
-        };
+      const shouldEmit =
+        (!tabChanged && subTabChanged) || (tabChanged && subTabChanged);
+      if (shouldEmit) {
+        this.lastEmittedTabLabel = activeTabLabel;
+        this.lastEmittedSubTabLabel = activeSubTabLabel;
+      }
 
-        if (!isNonEmptyString(urlPieces[0])) {
-          goToDefaultTab();
-          return;
-        }
-
-        const tabLabel = urlPieces[0].toUpperCase();
-        const subTabLabel =
-          isNonEmptyString(urlPieces[1]) && urlPieces[1] !== 'null'
-            ? urlPieces[1].toUpperCase()
-            : null;
-
-        const tab = getEnumMember(TabLabelEnum, tabLabel);
-        const subTab = subTabLabel
-          ? getEnumMember(SubTabLabelEnum, subTabLabel)
-          : null;
-
-        if (!tab) {
-          goToDefaultTab();
-          return;
-        }
-
-        await this.switchToTab(tab, subTab);
-      });
-  }
+      return shouldEmit;
+    }),
+    map(([activeTabLabel, activeSubTabLabel]) => ({
+      activeTabLabel,
+      activeSubTabLabel,
+    })),
+    shareReplay({ bufferSize: 1, refCount: true }),
+    untilDestroyed(this),
+  );
 
   /**
    * Switches to a specified tab and sub-tab in the application.
@@ -75,12 +65,10 @@ export class TabsService {
    * @param subTabOrIndex The label of the sub-tab to switch to, or the index of the
    * sub-tab. If not provided, the first sub-tab will be used.
    * @param playMainTabSound Whether to play the sound for switching tabs.
-   * @param playSubTabSound Whether to play the sound for switching sub-tabs.
    */
   public async switchToTab(
     tabLabel: TabLabelEnum,
     subTabOrIndex?: SubTabLabelEnum | number | null,
-    { playMainTabSound, playSubTabSound }: SwitchTabOptions = {},
   ): Promise<void> {
     this.activeTabLabel.set(tabLabel);
 
@@ -97,17 +85,18 @@ export class TabsService {
       }
     }
 
-    if (playMainTabSound) {
-      await this.soundService.playSound(SoundEnum.TICK_TAB, 100);
-    }
-
-    await this.setActiveSubTabIndex(tabLabel, subTabIndex, playSubTabSound);
+    this.setActiveSubTabIndex(tabLabel, subTabIndex);
 
     const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
+    this.activeSubTabLabel.set(subTabLabel);
+
     if (subTabLabel) {
-      this.router.navigate([tabLabel.toLowerCase(), subTabLabel.toLowerCase()]);
+      await this.router.navigate([
+        tabLabel.toLowerCase(),
+        subTabLabel.toLowerCase(),
+      ]);
     } else {
-      this.router.navigate([tabLabel.toLowerCase()]);
+      await this.router.navigate([tabLabel.toLowerCase()]);
     }
   }
 
@@ -116,19 +105,14 @@ export class TabsService {
    *
    * @param tabLabel The label of the tab.
    * @param subTabIndex The index of the sub-tab to set as active.
-   * @param playSubTabSound Whether to play the sound for switching sub-tabs.
    */
-  public async setActiveSubTabIndex(
+  public setActiveSubTabIndex(
     tabLabel: TabLabelEnum,
     subTabIndex: number,
-    playSubTabSound = false,
-  ): Promise<void> {
+  ): void {
     const map = { ...this.activeSubTabIndexes() };
     map[tabLabel] = subTabIndex;
     this.activeSubTabIndexes.set(map);
-    if (playSubTabSound) {
-      await this.soundService.playSound(SoundEnum.TICK_SUBTAB, 50);
-    }
   }
 
   /**
@@ -195,12 +179,4 @@ export class TabsService {
   ): SubTabLabelEnum | null {
     return this.subTabLabels.get(tabLabel)?.[index] ?? null;
   }
-}
-
-/**
- * Options for switching tabs.
- */
-interface SwitchTabOptions {
-  playMainTabSound?: boolean;
-  playSubTabSound?: boolean;
 }

@@ -74,9 +74,6 @@ export class PipActionsQuickNavComponent {
     tab: TabLabelEnum,
     subTab: SubTabLabelEnum,
   ): Promise<void> {
-    await this.tabsService.switchToTab(tab, subTab, {
-      playMainTabSound: true,
-      playSubTabSound: true,
-    });
+    await this.tabsService.switchToTab(tab, subTab);
   }
 }

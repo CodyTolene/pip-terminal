@@ -1,4 +1,4 @@
-import { TabLabelEnum } from 'src/app/enums';
+import { SoundEnum, TabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { SoundService } from 'src/app/services/sound.service';
 import { TabsService } from 'src/app/services/tabs.service';
 
 import { SubTabComponent } from './sub-tab.component';
@@ -24,7 +25,10 @@ import { SubTabComponent } from './sub-tab.component';
   providers: [],
 })
 export class TabComponent implements AfterContentInit {
-  public constructor(private readonly tabsService: TabsService) {}
+  public constructor(
+    private readonly tabsService: TabsService,
+    private readonly soundService: SoundService,
+  ) {}
 
   @Input({ required: true }) public label!: TabLabelEnum;
 
@@ -46,11 +50,11 @@ export class TabComponent implements AfterContentInit {
     }
   }
 
-  protected getActiveSubTabIndex(label: TabLabelEnum): number {
-    return this.tabsService.getActiveSubTabIndex(label);
+  protected onSubTabClick(_subTab: SubTabComponent): void {
+    this.soundService.playSound(SoundEnum.TICK_SUBTAB, 50);
   }
 
-  protected async selectSubTab(index: number): Promise<void> {
-    await this.tabsService.setActiveSubTabIndex(this.label, index, true);
+  protected getActiveSubTabIndex(label: TabLabelEnum): number {
+    return this.tabsService.getActiveSubTabIndex(label);
   }
 }

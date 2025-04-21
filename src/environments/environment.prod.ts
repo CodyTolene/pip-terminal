@@ -1,6 +1,5 @@
 export const environment: EnvironmentCredentials = {
   appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/main',
-  production: true,
   google: {
     firebase: {
       projectId: 'pip-terminal',
@@ -14,5 +13,9 @@ export const environment: EnvironmentCredentials = {
     maps: {
       apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
     },
+    recaptcha: {
+      apiKey: '6LdjIucqAAAAAFnu6VgvMjAw3U3t8ATfwTDCwZdK',
+    },
   },
+  isProduction: true,
 };
