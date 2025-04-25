@@ -9,6 +9,7 @@ export const pipSignals = {
   disableAllControls: signal<boolean>(false),
   firmwareVersion: signal<string | null>(null),
   isConnected: signal<boolean>(false),
+  isReadingFile: signal<boolean>(false),
   isSleeping: signal<boolean | 'BUSY'>(false),
   isUploadingFile: signal<boolean>(false),
   javascriptVersion: signal<number | null>(null),

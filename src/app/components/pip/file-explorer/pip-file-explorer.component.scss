@@ -31,7 +31,8 @@ mat-tree {
     display: flex;
     align-items: center;
 
-    mat-icon.delete {
+    mat-icon.delete-file,
+    mat-icon.delete-directory {
       display: none;
       margin-left: auto;
       margin-right: 1rem;
@@ -44,11 +45,17 @@ mat-tree {
       &:hover {
         background-color: col.$pip-green-light;
 
-        mat-icon.delete {
+        mat-icon.delete-file {
           display: block;
           visibility: visible;
         }
       }
+    }
+
+    &:hover mat-icon.delete-directory {
+      display: block;
+      cursor: pointer;
+      visibility: visible;
     }
 
     span {

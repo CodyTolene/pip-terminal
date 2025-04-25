@@ -3,10 +3,16 @@
   Upload any file to the device. The file will be stored in the device's SD
   card. You can use the file explorer to see the files you have uploaded.
 </p>
-<p>
-  <strong>Note:</strong> Try not to upload too much at once, it can time out
-  after a bit. And always be cautious of remaining memory on the device.
-</p>
+
+<h4>Notes:</h4>
+<ul>
+  <li>Try not to upload too much at once, it can time out after a bit.</li>
+  <li>Always be cautious of remaining memory on the device.</li>
+  <li>
+    Directories cannot be deleted once created, this is a device limitation so
+    be careful. You can only delete directories with a factory reset.
+  </li>
+</ul>
 
 <form [formGroup]="formGroup">
   <pip-file-upload
@@ -20,20 +26,26 @@
     label="Upload to a pre-existing directory"
     placeholder="Select a folder"
   >
-    <pro-input-dropdown-option
-      [value]="null"
-      [disabled]="!formGroup.controls.dropdown.value"
-    >
-      ❌ CLEAR
-    </pro-input-dropdown-option>
-    @for (option of dropdownOptionsChanges | async; track option.path) {
-      <pro-input-dropdown-option [value]="option.path">{{
-        option.path
-      }}</pro-input-dropdown-option>
+    @if (dropdownOptionsChanges | async; as dropdownOptions) {
+      <pro-input-dropdown-option
+        [value]="null"
+        [disabled]="!formGroup.controls.dropdown.value"
+        >❌ CLEAR</pro-input-dropdown-option
+      >
+      @for (option of dropdownOptions; track option.path; let isLast = $last) {
+        <pro-input-dropdown-option [value]="option.path">
+          {{ getIndentedName(option.path, isLast) }}
+        </pro-input-dropdown-option>
+      }
+    } @else {
+      <pro-input-dropdown-option [value]="null" disabled>
+        Loading...
+      </pro-input-dropdown-option>
     }
   </pro-input-dropdown>
   <pro-input
     [formControl]="formGroup.controls.customDirectory"
+    hint="Optional"
     label="Upload to a custom directory"
     placeholder="YOUR/CUSTOM/FOLDER"
   />
