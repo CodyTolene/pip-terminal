@@ -35,6 +35,21 @@ export function dirDelete(directory: string): string {
 
       try {
         var ok = deleteFilesRecursive(${JSON.stringify(directory)});
+        
+        try {
+          fs.unlink(${JSON.stringify(directory)});
+          try {
+            fs.readdir(${JSON.stringify(directory)});
+            logs.push("Directory still exists after deletion attempt: " + ${JSON.stringify(directory)});
+            ok = false;
+          } catch (readErr) {
+            logs.push("Deleted directory: " + ${JSON.stringify(directory)});
+          }
+        } catch (rmdirErr) {
+          logs.push("Failed to delete directory: " + ${JSON.stringify(directory)} + " — " + rmdirErr.message);
+          ok = false;
+        }
+
         return {
           success: ok,
           message: logs.join("\\n")

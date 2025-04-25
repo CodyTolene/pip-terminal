@@ -1,0 +1,18 @@
+@use '../colors' as col;
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.snack-bar-overrides(
+    (
+      button-color: col.$pip-green,
+      container-color: col.$pip-green-darkest,
+      supporting-text-color: col.$pip-green,
+    )
+  );
+}
+
+.mat-mdc-snack-bar-container,
+mat-snack-bar-container.pip-snackbar {
+  position: relative;
+  bottom: 40px;
+}

@@ -6,6 +6,7 @@ import { Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTree, MatTreeModule } from '@angular/material/tree';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -28,6 +29,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
     MatTreeModule,
   ],
   providers: [],
@@ -47,6 +49,20 @@ export class PipFileExplorerComponent {
 
   protected childrenAccessor(branch: Branch): Branch[] {
     return branch.children ?? [];
+  }
+
+  protected async deleteDirectory(branch: Branch): Promise<void> {
+    const result = await this.pipFileService.deleteDirectoryOnDevice(
+      branch.path,
+    );
+    if (result.success) {
+      logMessage(`Directory "${branch.path}" deleted successfully.`);
+      const tree = [...this.fileTree()];
+      this.removeBranchByPath(tree, branch.path);
+      this.fileTree.set(tree);
+    } else {
+      logMessage(`Failed to delete directory ${branch.path}.`);
+    }
   }
 
   protected async deleteFile(branch: Branch): Promise<void> {
