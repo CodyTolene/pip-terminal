@@ -7,6 +7,7 @@
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||
+    signals.isReadingFile() ||
     signals.isUploadingFile()
   "
   (click)="refresh()"
@@ -38,7 +39,15 @@
       </span>
       <mat-icon
         (click)="deleteFile(branch)"
-        class="delete"
+        class="delete-file"
+        fontSet="material-icons-outlined"
+      >
+        delete
+      </mat-icon>
+      <mat-icon
+        *ngIf="branch.type === 'dir'"
+        (click)="deleteDirectory(branch)"
+        class="delete-directory"
         fontSet="material-icons-outlined"
       >
         delete

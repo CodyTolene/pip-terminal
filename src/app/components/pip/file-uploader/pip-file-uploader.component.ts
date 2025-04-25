@@ -81,19 +81,39 @@ export class PipFileUploaderComponent
   protected readonly dropdownOptionsChanges = this.disabledChanges.pipe(
     switchMap(async (isDisabled) => {
       if (!isDisabled) {
+        pipSignals.isReadingFile.set(true);
+
         logMessage('Fetching directories for file uploader...');
         const rootDir = '';
         const tree = await this.pipFileService.getTree(rootDir);
-        const directories = collectAllDirectories(tree);
+        let directories = collectAllDirectories(tree);
         logMessage(
           `Populated file uploader with ${directories.length} directories.`,
         );
-        return directories.map((dir) => ({
+
+        directories = directories.map((dir) => ({
           ...dir,
           path: dir.path.replace(/^\//, ''), // Remove leading slash
         }));
+
+        // Add root directory
+        directories.unshift({
+          name: 'ROOT',
+          path: '~',
+          type: 'dir',
+        });
+
+        // Remove duplicate directories
+        directories = directories.filter(
+          (dir, index, self) =>
+            index === self.findIndex((d) => d.path === dir.path),
+        );
+
+        pipSignals.isReadingFile.set(false);
+
+        return directories;
       }
-      return [];
+      return null;
     }),
     untilDestroyed(this),
   );
@@ -153,6 +173,13 @@ export class PipFileUploaderComponent
       });
   }
 
+  protected getIndentedName(path: string, isLast: boolean): string {
+    if (path === '~') return '(ROOT)';
+    const depth = path.split('/').length - 1;
+    const prefix = isLast ? '└── ' : '├── ';
+    return ' '.repeat(depth * 2) + prefix + path;
+  }
+
   protected async uploadFilesToDevice(): Promise<void> {
     const disabled = await firstValueFrom(this.disabledChanges);
     if (disabled) {
@@ -160,7 +187,7 @@ export class PipFileUploaderComponent
       return;
     }
 
-    const directory =
+    let directory =
       this.formGroup.controls.dropdown.value ??
       this.formGroup.controls.customDirectory.value;
 
@@ -169,18 +196,24 @@ export class PipFileUploaderComponent
       return;
     }
 
+    // If root directory is selected, set to empty string
+    if (directory === '~') {
+      directory = '';
+    }
+
     const fileList = this.formGroup.controls.files.getRawValue();
     if (!fileList || fileList.length === 0) {
       logMessage('No file(s) selected.');
       return;
-    } else if (!directory) {
-      logMessage('No path provided.');
-      return;
     }
 
-    await this.pipFileService.createDirectoryIfNonExistent(directory);
+    if (directory !== '') {
+      await this.pipFileService.createDirectoryIfNonExistent(directory);
+    }
 
-    logMessage(`Uploading ${fileList.length} file(s) to ${directory}.`);
+    logMessage(
+      `Uploading ${fileList.length} file(s) to ${directory ? directory : '(ROOT)'}.`,
+    );
 
     pipSignals.isUploadingFile.set(true);
 
@@ -206,7 +239,7 @@ export class PipFileUploaderComponent
         return;
       }
 
-      const filePath = `${directory}/${file.name}`;
+      const filePath = directory ? `${directory}/${file.name}` : file.name;
 
       logMessage(`Uploading ${file.name}: 0%`);
 
