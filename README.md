@@ -21,16 +21,14 @@
 
 - [Web App](#web-app)
 - [Community](#community)
-- [Device](#device)
-  - [Connecting Directly](#connecting-directly)
-  - [Commands](#commands)
-  - [Music](#music)
-  - [Videos](#videos)
 - [Contribution](#contribution)
   - [Prerequisites](#prerequisites)
   - [Development](#development)
   - [Versioning](#versioning)
   - [Content Guidelines](#content-guidelines)
+- [Espruino](#espruino)
+  - [Web Tools](#web-tools)
+  - [App Loader](#app-loader)
 - [License(s)](#licenses)
 - [Terms of Use](#terms)
 - [Wrapping Up](#wrapping-up)
@@ -49,9 +47,7 @@ responsive across devices. The app is also a PWA, so you can install it and use
 it offline, perfect for adventures away from the Vault.
 
 This is a community-driven project, and your ideas, tools, and experiments are
-welcome here. Whether you're crafting new apps, tweaking UI, or just exploring
-what's possible with the Pip-Boy, you're part of something bigger, a growing
-network of Vault-Tec engineers bringing old tech back to life.
+welcome here.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -65,89 +61,6 @@ Join the Community
 - 🕸️ Visit the [RobCo Industries Website][link-robco-industries].
 - 🐛 Report issues [here][link-new-issue].
 - 💡 Suggest features in [Discussions][link-github-discussions].
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-## 🖥️ Device <a name="device"></a>
-
-### Connecting Directly <a name="connecting-directly"></a>
-
-Connecting directly to the Pip-Boy 3000 Mk V is possible using the Espruino CLI
-and a USB cable. The following steps will guide you through the process:
-
-```bash
-# Install the Espruino CLI
-npm install -g espruino
-# List out all possible serial ports
-espruino --list
-# Connect to the serial port (update the COM port)
-espruino -p COM12
-```
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Commands <a name="commands"></a>
-
-See API file for more information [here](API.md).
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Music <a href="music"></a>
-
-Music must be converted to a specific format before it can be played on the
-device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert music
-to the correct format. The following command will convert an MP3 file to a WAV
-file with the correct settings:
-
-```bash
-`ffmpeg -i "input.mp3" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
-```
-
-If you would like to shorten it to X seconds only you can add the `-t 10` (10
-seconds example):
-
-```bash
-`ffmpeg -i "input.mp3" -t 10 -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
-```
-
-Convert a whole folder of music (ie `/music`) to an output folder
-(`/music/output`), you can use the following command:
-
-```bash
-mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
-```
-
-Increase volume with `volume=`:
-
-```bash
-mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -af "volume=10dB" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
-```
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Videos <a name="videos"></a>
-
-Videos must be converted to a specific format before they can be played on the
-device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert
-videos to the correct format.
-
-TODO
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -171,7 +84,7 @@ Node.js: https://nodejs.org/en/download/
 
 To get started with development follow these steps:
 
-1. Fork and clone the repository (`dev` branch).
+1. Fork and clone the repository (`dev` branch): `git clone --recursive`
 
 2. Create a new branch `git checkout -b <your-branch-name>`.
 
@@ -237,6 +150,24 @@ restrictions, such as:
 
 If you're ever unsure whether something is appropriate to include, feel free to
 ask in a discussion or open an issue.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+## 📻 Espruino <a name="espruino"></a>
+
+Below are links to the Espruino tools that are used in this project.
+
+### Web Tools <a name="web-tools"></a>
+
+https://github.com/espruino/EspruinoWebTools
+
+### App Loader <a name="app-loader"></a>
+
+https://github.com/espruino/EspruinoAppLoaderCore
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
