@@ -434,7 +434,7 @@ export class PipFileService {
    * Sends a single file to the device.
    *
    * @param path The path to save the file to on the device.
-   * @param fileData The file data to send.
+   * @param fileData The file data to send as a Uint8Array.
    * @param onProgress A callback with the progress percentage.
    * @returns The size of the file sent.
    */
@@ -449,19 +449,18 @@ export class PipFileService {
 
     this.isUploading = true;
 
-    const fileString = new TextDecoder('latin1').decode(fileData);
+    const binaryString = this.uint8ArrayToBinaryString(fileData);
 
     try {
       await this.pipConnectionService.connection?.espruinoSendFile(
         path,
-        fileString,
+        binaryString,
         {
           fs: true,
           chunkSize: 1024,
           noACK: true,
           progress: (chunkNo: number, chunkCount: number) => {
             const percent = Math.round((chunkNo / chunkCount) * 100);
-
             if (onProgress) {
               onProgress(percent);
             }
@@ -470,7 +469,6 @@ export class PipFileService {
       );
 
       await wait(200);
-
       return fileData.length;
     } catch (error) {
       logMessage(
@@ -523,5 +521,19 @@ export class PipFileService {
     }
 
     return true;
+  }
+
+  private uint8ArrayToBinaryString(bytes: Uint8Array): string {
+    const chunkSize = 8192;
+    const chunks = [];
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      chunks.push(
+        String.fromCharCode.apply(
+          null,
+          bytes.subarray(i, i + chunkSize) as unknown as number[],
+        ),
+      );
+    }
+    return chunks.join('');
   }
 }
