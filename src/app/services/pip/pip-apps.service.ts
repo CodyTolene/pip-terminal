@@ -36,17 +36,39 @@ export class PipAppsService {
   }
 
   /**
-   * Fetches a Pip App asset (i.e. JS file) from the server as a string.
+   * Fetches a Pip App asset from the server as a string.
    *
    * @param url The URL of the asset to fetch.
    * @returns An observable that emits the asset as a string or null if the
    * request fails.
    */
-  public fetchAsset(url: string): Observable<string | null> {
+  public fetchJsFile(url: string): Observable<string | null> {
     return this.http.get(url, { responseType: 'text' }).pipe(
       map((scriptText) => (scriptText?.trim() ? scriptText : null)),
       catchError((error: unknown) => {
-        console.error('Failed to load app script:', error);
+        console.error('Failed to fetch app script:', error);
+        return of(null);
+      }),
+    );
+  }
+
+  /**
+   * Fetches a Pip App asset from the server as a Uint8Array.
+   *
+   * @param url The URL of the asset to fetch.
+   * @returns An observable that emits the asset as a Uint8Array or null if the
+   * request fails.
+   */
+  public fetchBinaryFile(url: string): Observable<Uint8Array | null> {
+    return this.http.get(url, { responseType: 'arraybuffer' }).pipe(
+      map((response) => {
+        if (response instanceof ArrayBuffer) {
+          return new Uint8Array(response);
+        }
+        throw new Error('Response is not an ArrayBuffer');
+      }),
+      catchError((error: unknown) => {
+        console.error('Failed to fetch app asset:', error);
         return of(null);
       }),
     );

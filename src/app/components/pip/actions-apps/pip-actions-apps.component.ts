@@ -331,9 +331,19 @@ export class PipActionsAppsComponent {
         const baseUrl = `${environment.appsUrl}`;
         const dependencyUrl = `${baseUrl}/${file.name}`;
 
-        const asset = await firstValueFrom(
-          this.pipAppsService.fetchAsset(dependencyUrl),
-        );
+        const isBinary = /\.(wav|avi|mp4|bin|ogg|raw)$/i.test(file.name);
+
+        let asset = null;
+        if (isBinary) {
+          asset = await firstValueFrom(
+            this.pipAppsService.fetchBinaryFile(dependencyUrl),
+          );
+        } else {
+          asset = await firstValueFrom(
+            this.pipAppsService.fetchJsFile(dependencyUrl),
+          );
+        }
+
         if (!asset) {
           logMessage(`Failed to load asset from ${dependencyUrl}.`);
           return null;
@@ -341,14 +351,11 @@ export class PipActionsAppsComponent {
 
         await wait(250);
 
-        if (!asset) {
-          logMessage(`Failed to load asset from ${dependencyUrl}.`);
-          return null;
-        }
-
         logMessage(`Packing ${file.name}...`);
 
-        zip.file(file.name, asset);
+        zip.file(file.name, asset, {
+          compression: isBinary ? 'STORE' : 'DEFLATE',
+        });
       }
 
       // For each asset directy, make sure it exists before upload
