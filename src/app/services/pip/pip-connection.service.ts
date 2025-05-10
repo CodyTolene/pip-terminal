@@ -1,5 +1,3 @@
-import { EspruinoConnection, UartStatic } from 'src/global';
-
 import { Injectable } from '@angular/core';
 
 import { pipSignals } from 'src/app/signals/pip.signals';

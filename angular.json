@@ -34,7 +34,13 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "src/external/web-tools/uart.js",
+                "inject": true,
+                "bundleName": "uart"
+              }
+            ]
           },
           "configurations": {
             "production": {

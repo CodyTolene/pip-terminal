@@ -13,6 +13,7 @@ public/
 !README.md
 !e2e/src
 !src/
+src/external
 
 # Re-ignore sub-directories from the above exempt directories:
 .github/CODEOWNERS

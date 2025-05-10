@@ -19,7 +19,6 @@
         "files": [
           "/fonts/**",
           "/images/**",
-          "/scripts/**",
           "/sounds/**"
         ]
       }

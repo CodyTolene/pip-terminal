@@ -1,0 +1,6 @@
+[submodule "src/external/app-loader"]
+	path = src/external/app-loader
+	url = https://github.com/CodyTolene/pip-boy-app-loader.git
+[submodule "src/external/web-tools"]
+	path = src/external/web-tools
+	url = https://github.com/CodyTolene/pip-boy-web-tools.git
