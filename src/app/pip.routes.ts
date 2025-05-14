@@ -25,10 +25,10 @@ export const routes: Routes = [
   },
   // "INV" Tab:
   {
-    path: 'inv/attachments',
+    path: 'inv/sponsors',
     loadComponent: () =>
-      import('src/app/pages/attachments/attachments-page.component').then(
-        (m) => m.AttachmentsPageComponent,
+      import('src/app/pages/sponsors/sponsors-page.component').then(
+        (m) => m.SponsorsPageComponent,
       ),
   },
   {

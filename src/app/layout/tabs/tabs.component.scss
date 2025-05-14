@@ -7,16 +7,30 @@ $border-width: 2px;
 :host {
   display: flex;
   flex-direction: column;
-  background-color: col.$pip-black;
   color: col.$pip-green;
   position: relative;
   box-sizing: border-box;
+  padding-top: var.$footer-height;
+}
+
+$tab-fill-height: 20px;
+
+.filler {
+  background-color: col.$pip-black;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(var.$footer-height + $tab-fill-height);
+  width: 100%;
 }
 
 nav.tabs-header {
+  background-color: col.$pip-black;
   display: flex;
   position: relative;
   width: 100%;
+  height: $tab-fill-height;
 
   > .spacer {
     flex-grow: 1;
@@ -42,7 +56,7 @@ button.tabs-button {
   .label {
     display: block;
     position: relative;
-    bottom: 1.5rem;
+    bottom: 1.75rem;
     background-color: col.$pip-black;
     padding: 0 0.25rem;
 
@@ -89,7 +103,7 @@ button.tabs-button {
 .tab-content {
   display: flex;
   flex-direction: column;
-  background-color: col.$pip-black;
+  background-color: transparent;
   overflow-y: auto;
   position: relative;
   width: 100%;
