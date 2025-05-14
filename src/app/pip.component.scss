@@ -3,7 +3,6 @@
 @use 'styles/variables' as var;
 
 pip-tabs {
-  padding-top: var.$footer-height;
   width: 100%;
 
   > pip-tab {
