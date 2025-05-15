@@ -56,7 +56,7 @@ button.tabs-button {
   .label {
     display: block;
     position: relative;
-    bottom: 1.75rem;
+    bottom: 2rem;
     padding: 0 0.25rem;
 
     @include bps.media('max', 'md') {
@@ -99,7 +99,7 @@ button.tabs-button {
   &.active {
     background-color: transparent;
     border-color: col.$pip-green;
-    border-bottom-color: col.$pip-black;
+    border-bottom-color: transparent;
     z-index: 2;
 
     &:hover {
