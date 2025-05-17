@@ -354,7 +354,7 @@ export class PipActionsAppsComponent {
         logMessage(`Packing ${file.name}...`);
 
         const fileNameOnDevice = file.name.startsWith('min/')
-          ? file.name.slice('min/'.length) // Suport for minified files
+          ? file.name.slice('min/'.length) // Support for minified files
           : file.name;
 
         zip.file(fileNameOnDevice, asset, {
