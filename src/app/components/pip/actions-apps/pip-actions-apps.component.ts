@@ -353,7 +353,11 @@ export class PipActionsAppsComponent {
 
         logMessage(`Packing ${file.name}...`);
 
-        zip.file(file.name, asset, {
+        const fileNameOnDevice = file.name.startsWith('min/')
+          ? file.name.slice('min/'.length) // Suport for minified files
+          : file.name;
+
+        zip.file(fileNameOnDevice, asset, {
           compression: isBinary ? 'STORE' : 'DEFLATE',
         });
       }
