@@ -80,38 +80,51 @@ export class PipAppsService {
 
       if (error instanceof HttpErrorResponse) {
         switch (error.status) {
-          case 404:
+          case 404: {
             this.snackBar.open('File not found.', 'OK', { duration: 3000 });
             break;
-          case 403:
+          }
+          case 403: {
             this.snackBar.open(
               'Access denied or GitHub rate limit exceeded.',
               'OK',
               { duration: 4000 },
             );
             break;
+          }
           case 500:
-          case 503:
+          case 503: {
             this.snackBar.open(
               'GitHub is experiencing issues. Try again later.',
               'OK',
               { duration: 4000 },
             );
             break;
-          case 0:
+          }
+          case 0: {
             this.snackBar.open(
               'Network error. Check your internet connection.',
               'OK',
               { duration: 4000 },
             );
             break;
-          case 429:
+          }
+          case 429: {
             this.snackBar.open(
               'Too many requests. Wait a minute and try again.',
               'OK',
               { duration: 4000 },
             );
             break;
+          }
+          default: {
+            this.snackBar.open(
+              'An unknown error occurred. Please try again later.',
+              'OK',
+              { duration: 4000 },
+            );
+            break;
+          }
         }
       }
 

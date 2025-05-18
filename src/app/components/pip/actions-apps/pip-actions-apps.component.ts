@@ -254,11 +254,11 @@ export class PipActionsAppsComponent {
       pipSignals.currentDeviceAppList.set(deviceAppInfo ?? []);
     } catch {
       logMessage(`Failed to install ${app.name}.`);
-      pipSignals.disableAllControls.set(false);
       return;
+    } finally {
+      pipSignals.disableAllControls.set(false);
     }
 
-    pipSignals.disableAllControls.set(false);
     logMessage(`Installed ${app.name} successfully!`);
   }
 
