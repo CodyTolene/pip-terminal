@@ -339,7 +339,7 @@ export class PipActionsAppsComponent {
           return null;
         }
 
-        await wait(250);
+        await wait(500);
 
         // If .min file, upload as .js so our JSON "id" in APINFO matches
         // the file name on the device.
