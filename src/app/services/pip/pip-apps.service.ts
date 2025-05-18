@@ -2,8 +2,9 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { PipApp } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 /**
  * Service for managing Pip Apps, including fetching the registry and
@@ -11,7 +12,10 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class PipAppsService {
-  public constructor(private readonly http: HttpClient) {}
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly snackBar: MatSnackBar,
+  ) {}
 
   /**
    * Fetches the registry of Pip Apps from the server.
@@ -28,10 +32,12 @@ export class PipAppsService {
         }
         return PipApp.deserializeList(response);
       }),
-      catchError((error: unknown) => {
-        console.error(error);
-        return of(undefined);
-      }),
+      catchError(
+        this.handleError<readonly PipApp[] | undefined>(
+          'fetchRegistry',
+          undefined,
+        ),
+      ),
     );
   }
 
@@ -45,10 +51,7 @@ export class PipAppsService {
   public fetchJsFile(url: string): Observable<string | null> {
     return this.http.get(url, { responseType: 'text' }).pipe(
       map((scriptText) => (scriptText?.trim() ? scriptText : null)),
-      catchError((error: unknown) => {
-        console.error('Failed to fetch app script:', error);
-        return of(null);
-      }),
+      catchError(this.handleError<string | null>('fetchJsFile', null)),
     );
   }
 
@@ -67,10 +70,52 @@ export class PipAppsService {
         }
         throw new Error('Response is not an ArrayBuffer');
       }),
-      catchError((error: unknown) => {
-        console.error('Failed to fetch app asset:', error);
-        return of(null);
-      }),
+      catchError(this.handleError<Uint8Array | null>('fetchBinaryFile', null)),
     );
+  }
+
+  private handleError<T>(context: string, fallbackValue: T) {
+    return (error: unknown): Observable<T> => {
+      console.error(`${context} failed:`, error);
+
+      if (error instanceof HttpErrorResponse) {
+        switch (error.status) {
+          case 404:
+            this.snackBar.open('File not found.', 'OK', { duration: 3000 });
+            break;
+          case 403:
+            this.snackBar.open(
+              'Access denied or GitHub rate limit exceeded.',
+              'OK',
+              { duration: 4000 },
+            );
+            break;
+          case 500:
+          case 503:
+            this.snackBar.open(
+              'GitHub is experiencing issues. Try again later.',
+              'OK',
+              { duration: 4000 },
+            );
+            break;
+          case 0:
+            this.snackBar.open(
+              'Network error. Check your internet connection.',
+              'OK',
+              { duration: 4000 },
+            );
+            break;
+          case 429:
+            this.snackBar.open(
+              'Too many requests. Wait a minute and try again.',
+              'OK',
+              { duration: 4000 },
+            );
+            break;
+        }
+      }
+
+      return of(fallbackValue);
+    };
   }
 }
