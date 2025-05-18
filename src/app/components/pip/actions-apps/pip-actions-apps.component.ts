@@ -106,15 +106,13 @@ export class PipActionsAppsComponent {
         try {
           // Delete app dependency files
           for (const file of app.files) {
-            cmdResult = await this.pipFileService.deleteFileOnDevice(file.name);
-            if (cmdResult.success) {
-              logMessage(cmdResult.message);
-            } else {
-              logMessage(cmdResult.message);
-              logMessage('Please try again later.');
-              return;
-            }
+            const ok = await this.deleteJsVariants(file.name, true);
+            if (!ok) return;
           }
+
+          // Clean up any items in nested app/game directories before install
+          const dirOk = await this.deleteAppRootDirectories(app);
+          if (!dirOk) return;
 
           // Collect all dependency folders for later cleanup
           for (const file of app.files) {
@@ -203,7 +201,7 @@ export class PipActionsAppsComponent {
     try {
       const createAppDirSuccess = await this.createDirectoryIfNonExistent(
         this.appMainDirectory,
-        true,
+        false,
       );
       if (!createAppDirSuccess) {
         return;
@@ -211,7 +209,7 @@ export class PipActionsAppsComponent {
 
       const createAppMetaDirSucess = await this.createDirectoryIfNonExistent(
         this.appMetaDir,
-        true,
+        false,
       );
       if (!createAppMetaDirSucess) {
         return;
@@ -228,6 +226,16 @@ export class PipActionsAppsComponent {
           return;
         }
       }
+
+      // Clean up any previous .js/.min.js variants before install
+      for (const file of app.files) {
+        const ok = await this.deleteJsVariants(file.name);
+        if (!ok) return;
+      }
+
+      // Clean up any items in nested app/game directories before install
+      const dirOk = await this.deleteAppRootDirectories(app);
+      if (!dirOk) return;
 
       const zipFile = await this.createAppZipFile(app);
       if (!zipFile) {
@@ -262,30 +270,6 @@ export class PipActionsAppsComponent {
     logMessage(`Installed ${app.name} successfully!`);
   }
 
-  protected async launch(app: PipApp): Promise<void> {
-    pipSignals.disableAllControls.set(true);
-
-    try {
-      const launchMessage = `Launching ${app.name}.`;
-
-      await this.pipDeviceService.clearScreen(launchMessage);
-      logMessage(launchMessage);
-      await wait(2000);
-
-      const launchAppSuccess = await this.pipFileService.launchFileOnDevice(
-        `${this.appMainDirectory}/${app.id}.js`,
-      );
-      if (!launchAppSuccess) {
-        logMessage(`Failed to launch ${app.name}.`);
-        return;
-      }
-
-      logMessage(`Launched ${app.name} successfully!`);
-    } finally {
-      pipSignals.disableAllControls.set(false);
-    }
-  }
-
   /**
    * Create a directory on the device's SD card.
    *
@@ -297,7 +281,7 @@ export class PipActionsAppsComponent {
     dir: string,
     log: boolean,
   ): Promise<boolean> {
-    logMessage(`Ensuring "${dir}" directory exists.`);
+    // logMessage(`Ensuring "${dir}" directory exists.`);
 
     const result = await this.pipFileService.createDirectoryIfNonExistent(
       dir,
@@ -357,13 +341,18 @@ export class PipActionsAppsComponent {
 
         await wait(250);
 
-        logMessage(`Packing ${file.name}...`);
-
-        const fileNameOnDevice = file.name.startsWith('min/')
-          ? file.name.slice('min/'.length) // Support for minified files
+        // If .min file, upload as .js so our JSON "id" in APINFO matches
+        // the file name on the device.
+        const isMinJs = file.name.endsWith('.min.js');
+        const zipFileName = isMinJs
+          ? file.name.replace(/\.min\.js$/, '.js')
           : file.name;
 
-        zip.file(fileNameOnDevice, asset, {
+        logMessage(
+          `Packing ${isMinJs ? 'minified version of ' : ''} ${zipFileName}...`,
+        );
+
+        zip.file(zipFileName, asset, {
           compression: isBinary ? 'STORE' : 'DEFLATE',
         });
       }
@@ -378,7 +367,7 @@ export class PipActionsAppsComponent {
         if (zipFile.dir) {
           const createDirSuccess = await this.createDirectoryIfNonExistent(
             fileNameFormatted,
-            true,
+            false,
           );
 
           if (!createDirSuccess) {
@@ -426,6 +415,113 @@ export class PipActionsAppsComponent {
 
     await this.pipDeviceService.clearScreen('Upload complete.');
     return true;
+  }
+
+  private async deleteAppRootDirectories(app: PipApp): Promise<boolean> {
+    const roots = new Set<string>();
+
+    // Determine root-level folders to scan (e.g., USER/StatsDisplay)
+    for (const file of app.files) {
+      if (file.name.endsWith('.js') || file.name.endsWith('.min.js')) {
+        continue; // Skip known top-level file entries
+      }
+
+      const parts = file.name.split('/');
+      if (parts.length >= 2) {
+        roots.add(parts.slice(0, 2).join('/'));
+      }
+    }
+
+    // For each root, walk tree and collect directories
+    for (const root of roots) {
+      const tree = await this.pipFileService.getTree(root);
+      const allDirs: string[] = [];
+
+      const collectDirs = (branches: readonly Branch[]): void => {
+        for (const branch of branches) {
+          if (branch.type === 'dir') {
+            allDirs.push(branch.path);
+            if (branch.children) {
+              collectDirs(branch.children);
+            }
+          }
+        }
+      };
+
+      collectDirs(tree);
+
+      // Sort directories deepest-first
+      allDirs.sort((a, b) => b.split('/').length - a.split('/').length);
+
+      // Delete each subdirectory
+      for (const dir of allDirs) {
+        const result = await this.pipFileService.deleteDirectoryOnDevice(dir);
+        if (result.success) {
+          logMessage(`Deleted directory: ${dir}`);
+        } else if (!result.message.toLowerCase().includes('not found')) {
+          logMessage(`Failed to delete directory ${dir}: ${result.message}`);
+          return false;
+        }
+      }
+
+      // Delete the root directory itself
+      const rootResult =
+        await this.pipFileService.deleteDirectoryOnDevice(root);
+      if (rootResult.success) {
+        // logMessage(`Deleted root directory: ${root}`);
+      } else if (!rootResult.message.toLowerCase().includes('not found')) {
+        logMessage(`Failed to delete root ${root}: ${rootResult.message}`);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private async deleteJsVariants(
+    fileName: string,
+    report = false,
+  ): Promise<boolean> {
+    const pathsToTry = new Set<string>([fileName]);
+
+    if (fileName.endsWith('.min.js')) {
+      pathsToTry.add(fileName.replace(/\.min\.js$/, '.js'));
+    } else if (fileName.endsWith('.js')) {
+      pathsToTry.add(fileName.replace(/\.js$/, '.min.js'));
+    }
+
+    for (const path of pathsToTry) {
+      const result = await this.pipFileService.deleteFileOnDevice(path);
+
+      const msg = result.message.toLowerCase();
+      const wasSkipped =
+        msg.includes('already deleted') || msg.includes('not found');
+
+      if (result.success && !wasSkipped) {
+        if (report) logMessage(`Deleted: ${path}`);
+      } else if (!result.success && !wasSkipped) {
+        logMessage(`Failed to delete ${path}: ${result.message}`);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private flattenDirectories(branches: readonly Branch[]): string[] {
+    const dirs: string[] = [];
+
+    for (const node of branches) {
+      if (node.type === 'dir') {
+        dirs.push(node.path);
+
+        if (node.children?.length) {
+          dirs.push(...this.flattenDirectories(node.children));
+        }
+      }
+    }
+
+    return dirs;
   }
 }
 

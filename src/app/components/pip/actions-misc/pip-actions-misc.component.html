@@ -43,16 +43,3 @@
 >
   Stop All Sounds
 </pip-button>
-<pip-button
-  *ngIf="!hideDeleteAllAppsButton"
-  (click)="deleteAllApps()"
-  [disabled]="
-    signals.currentDeviceAppList().length === 0 ||
-    !signals.isConnected() ||
-    signals.disableAllControls() ||
-    signals.isUploadingFile()
-  "
-  class="delete-apps-button"
->
-  Delete All Apps & Games
-</pip-button>
