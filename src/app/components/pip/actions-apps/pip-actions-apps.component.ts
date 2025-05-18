@@ -231,6 +231,8 @@ export class PipActionsAppsComponent {
 
       const zipFile = await this.createAppZipFile(app);
       if (!zipFile) {
+        logMessage(`Failed to install ${app.name}. Please try again.`);
+        pipSignals.disableAllControls.set(false);
         return;
       }
 
@@ -250,10 +252,14 @@ export class PipActionsAppsComponent {
       // Refresh the app list after deleting an app.
       const deviceAppInfo = await this.pipFileService.getDeviceAppInfo();
       pipSignals.currentDeviceAppList.set(deviceAppInfo ?? []);
+    } catch {
+      logMessage(`Failed to install ${app.name}.`);
+      return;
     } finally {
       pipSignals.disableAllControls.set(false);
-      logMessage(`Installed ${app.name} successfully!`);
     }
+
+    logMessage(`Installed ${app.name} successfully!`);
   }
 
   protected async launch(app: PipApp): Promise<void> {
