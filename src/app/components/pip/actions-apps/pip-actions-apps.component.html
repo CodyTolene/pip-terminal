@@ -47,7 +47,10 @@
           <strong>Files:</strong>&nbsp;
           @for (file of app.files; track file.name) {
             <div>
-              - <a [href]="file.url" target="_blank">{{ file.name }}</a>
+              -
+              <a [href]="file.url.replace('.min.', '.')" target="_blank">
+                {{ file.name.replace('.min.', '.') }}
+              </a>
             </div>
           }
         </p>
@@ -90,16 +93,6 @@
       class="delete-button"
       (click)="delete(app)"
       >Delete</pip-button
-    >
-    <pip-button
-      [disabled]="
-        !signals.isConnected() ||
-        signals.disableAllControls() ||
-        signals.isUploadingFile() ||
-        !isAppInstalled(app)
-      "
-      (click)="launch(app)"
-      >Launch</pip-button
     >
   </section>
 </ng-template>
