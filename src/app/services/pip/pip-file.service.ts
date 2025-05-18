@@ -209,8 +209,11 @@ export class PipFileService {
       message: string;
     }>(command);
 
+    const errorMsg = result?.message?.toUpperCase?.() ?? '';
     if (!result?.success) {
-      logMessage(`Failed to list "${dir}": ${result?.message}`);
+      if (!errorMsg.includes('NO_PATH') && !errorMsg.includes('NO_FILE')) {
+        logMessage(`Failed to list "${dir}": ${result?.message}`);
+      }
       return [];
     }
 

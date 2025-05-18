@@ -9,5 +9,5 @@ interface Branch {
   type: 'file' | 'dir';
   size?: number;
   modified?: string;
-  children?: FileNode[];
+  children?: Branch[];
 }
