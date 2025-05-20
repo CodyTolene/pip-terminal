@@ -507,6 +507,10 @@ export class PipFileService {
     let uploaded = 0;
 
     for (const [path, file] of files) {
+      if (path.toLowerCase().endsWith('.wav')) {
+        logMessage(`Detected WAV file upload, this may take a while...`);
+      }
+
       const fileData = await file.async('uint8array');
       const uploadedSize = await this.sendFileToDevice(path, fileData);
       if (uploadedSize === 0) {
