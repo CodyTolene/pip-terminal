@@ -18,8 +18,6 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
-import { PipAppBase } from 'src/app/models/pip-app.model';
-
 import { PipAppsService } from 'src/app/services/pip/pip-apps.service';
 import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
 import { PipFileService } from 'src/app/services/pip/pip-file.service';
@@ -104,19 +102,35 @@ export class PipActionsAppsComponent {
         };
 
         try {
+          const blob = await firstValueFrom(
+            this.pipAppsService.fetchZipFile(app.zip),
+          );
+          if (!blob) {
+            logMessage(`Failed to download zip for ${app.name}.`);
+            return;
+          }
+
+          const zip = await JSZip.loadAsync(blob);
+          const filePaths = this.getZipFilePaths(zip);
+
+          if (filePaths.length === 0) {
+            logMessage(`No files found in ${app.name} zip.`);
+            return;
+          }
+
           // Delete app dependency files
-          for (const file of app.files) {
-            const ok = await this.deleteJsVariants(file.name, true);
+          for (const filePath of filePaths) {
+            const ok = await this.deleteJsVariants(filePath, true);
             if (!ok) return;
           }
 
           // Clean up any items in nested app/game directories before install
-          const dirOk = await this.deleteAppRootDirectories(app);
+          const dirOk = await this.deleteAppRootDirectories(filePaths);
           if (!dirOk) return;
 
           // Collect all dependency folders for later cleanup
-          for (const file of app.files) {
-            const path = file.name.substring(0, file.name.lastIndexOf('/'));
+          for (const filePath of filePaths) {
+            const path = filePath.substring(0, filePath.lastIndexOf('/'));
             if (!appDepFolderList.includes(path)) {
               appDepFolderList.push(path);
             }
@@ -135,7 +149,7 @@ export class PipActionsAppsComponent {
 
           // Sort folders deepest-first before deletion
           const sortedDepList = [...appDepFolderList];
-          if (app.files.length > 0) {
+          if (filePaths.length > 0) {
             sortedDepList.push(`${app.id}`);
           }
           sortedDepList.sort(
@@ -173,6 +187,10 @@ export class PipActionsAppsComponent {
           pipSignals.disableAllControls.set(false);
         }
       });
+  }
+
+  protected getAppZipUrl(app: PipApp): string {
+    return `${environment.appsUrl}/${app.zip}`;
   }
 
   protected isAppInstalled(app: PipApp): boolean {
@@ -227,24 +245,28 @@ export class PipActionsAppsComponent {
         }
       }
 
+      const blob = await firstValueFrom(
+        this.pipAppsService.fetchZipFile(app.zip),
+      );
+      if (!blob) {
+        logMessage(`Failed to download zip for ${app.name}.`);
+        return;
+      }
+
+      const zip = await JSZip.loadAsync(blob);
+      const filePaths = this.getZipFilePaths(zip);
+
       // Clean up any previous .js/.min.js variants before install
-      for (const file of app.files) {
-        const ok = await this.deleteJsVariants(file.name);
+      for (const filePath of filePaths) {
+        const ok = await this.deleteJsVariants(filePath);
         if (!ok) return;
       }
 
       // Clean up any items in nested app/game directories before install
-      const dirOk = await this.deleteAppRootDirectories(app);
+      const dirOk = await this.deleteAppRootDirectories(filePaths);
       if (!dirOk) return;
 
-      const zipFile = await this.createAppZipFile(app);
-      if (!zipFile) {
-        logMessage(`Failed to install ${app.name}. Please try again.`);
-        pipSignals.disableAllControls.set(false);
-        return;
-      }
-
-      const uploadSuccess = await this.uploadZipFile(app, zipFile);
+      const uploadSuccess = await this.uploadZipBlobFile(app, blob);
       if (!uploadSuccess) {
         return;
       }
@@ -296,137 +318,18 @@ export class PipActionsAppsComponent {
     return true;
   }
 
-  /**
-   * Create a zip file containing the app.
-   *
-   * @param app The app meta used to craft the zip file.
-   * @param script The script to zip in the file.
-   * @returns The zip file containing the app.
-   */
-  private async createAppZipFile(app: PipApp): Promise<File | null> {
-    const jsVersion = pipSignals.javascriptVersion();
-    if (jsVersion === null) {
-      logMessage('Failed to get JavaScript version.');
-      return null;
-    }
-
-    const zip = new JSZip();
-
-    if (app.files.length > 0) {
-      logMessage('Fetching app dependencies...');
-      await wait(1000);
-
-      // Loop through any extra files to add to the zip
-      for (const file of app.files) {
-        const baseUrl = `${environment.appsUrl}`;
-        const dependencyUrl = `${baseUrl}/${file.name}`;
-
-        const isBinary = /\.(wav|avi|mp4|bin|ogg|raw)$/i.test(file.name);
-
-        let asset = null;
-        if (isBinary) {
-          asset = await firstValueFrom(
-            this.pipAppsService.fetchBinaryFile(dependencyUrl),
-          );
-        } else {
-          asset = await firstValueFrom(
-            this.pipAppsService.fetchJsFile(dependencyUrl),
-          );
-        }
-
-        if (!asset) {
-          logMessage(`Failed to load asset from ${dependencyUrl}.`);
-          return null;
-        }
-
-        await wait(500);
-
-        // If .min file, upload as .js so our JSON "id" in APINFO matches
-        // the file name on the device.
-        const isMinJs = file.name.endsWith('.min.js');
-        const zipFileName = isMinJs
-          ? file.name.replace(/\.min\.js$/, '.js')
-          : file.name;
-
-        logMessage(
-          `Packing ${isMinJs ? 'minified version of ' : ''} ${zipFileName}...`,
-        );
-
-        zip.file(zipFileName, asset, {
-          compression: isBinary ? 'STORE' : 'DEFLATE',
-        });
-      }
-
-      // For each asset directy, make sure it exists before upload
-      for (const [fileName, zipFile] of Object.entries(zip.files)) {
-        // If filename ends with "/", remove it
-        const fileNameFormatted =
-          jsVersion >= 1.29 && fileName.endsWith('/')
-            ? fileName.substring(0, fileName.length - 1)
-            : fileName;
-        if (zipFile.dir) {
-          const createDirSuccess = await this.createDirectoryIfNonExistent(
-            fileNameFormatted,
-            false,
-          );
-
-          if (!createDirSuccess) {
-            logMessage(
-              `Failed to create directory "${fileNameFormatted}" on device.`,
-            );
-            return null;
-          }
-        }
-      }
-    }
-
-    const pipAppBase = new PipAppBase({
-      ...app,
-      name: `[${app.type}] ${app.name}`,
-    });
-    zip.file(
-      `${this.appMetaDir}/${app.id}.json`,
-      JSON.stringify(pipAppBase.serialize()),
-    );
-
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
-    const zipFile = new File([zipBlob], `${app.id}.zip`, {
-      type: 'application/zip',
-    });
-
-    return zipFile;
-  }
-
-  /**
-   * Upload a zip file to the device.
-   *
-   * @param app The app to upload to the device.
-   * @param zipFile The zip file containing the app to upload.
-   * @returns True if the zip file was uploaded successfully, false otherwise.
-   */
-  public async uploadZipFile(app: PipApp, zipFile: File): Promise<boolean> {
-    await this.pipDeviceService.clearScreen('Uploading Zip...');
-    const uploadSuccess = await this.pipFileService.uploadZipToDevice(zipFile);
-
-    if (!uploadSuccess) {
-      logMessage(`Failed to upload ${app.id}.js to device.`);
-      return false;
-    }
-
-    await this.pipDeviceService.clearScreen('Upload complete.');
-    return true;
-  }
-
-  private async deleteAppRootDirectories(app: PipApp): Promise<boolean> {
+  private async deleteAppRootDirectories(
+    filePaths: readonly string[],
+  ): Promise<boolean> {
     const roots = new Set<string>();
 
     // Determine root-level folders to scan (e.g., USER/StatsDisplay)
-    for (const file of app.files) {
-      if (file.name.endsWith('.js') || file.name.endsWith('.min.js')) {
+    for (const filePath of filePaths) {
+      if (filePath.endsWith('.js') || filePath.endsWith('.min.js')) {
         continue; // Skip known top-level file entries
       }
 
-      const parts = file.name.split('/');
+      const parts = filePath.split('/');
       if (parts.length >= 2) {
         roots.add(parts.slice(0, 2).join('/'));
       }
@@ -508,20 +411,47 @@ export class PipActionsAppsComponent {
     return true;
   }
 
-  private flattenDirectories(branches: readonly Branch[]): string[] {
-    const dirs: string[] = [];
+  /**
+   * Return all file paths in the zip file, sorted by most nested (deepest)
+   * first.
+   *
+   * @param zip The JSZip object containing the files.
+   * @returns An array of file paths in the zip file.
+   */
+  private getZipFilePaths(zip: JSZip): readonly string[] {
+    const filePaths: string[] = Object.entries(zip.files)
+      .filter(([_, file]) => !file.dir)
+      .map(([name]) => name)
+      .sort((a, b) => b.split('/').length - a.split('/').length);
+    return filePaths;
+  }
 
-    for (const node of branches) {
-      if (node.type === 'dir') {
-        dirs.push(node.path);
+  /**
+   * Upload a zip file to the device.
+   *
+   * @param app The app to upload to the device.
+   * @param zipFile The zip file containing the app to upload.
+   * @returns True if the zip file was uploaded successfully, false otherwise.
+   */
+  private async uploadZipBlobFile(
+    app: PipApp,
+    zipBlob: Blob,
+  ): Promise<boolean> {
+    await this.pipDeviceService.clearScreen('Uploading Zip...');
 
-        if (node.children?.length) {
-          dirs.push(...this.flattenDirectories(node.children));
-        }
-      }
+    const zipFile = new File([zipBlob], `${app.id}.zip`, {
+      type: 'application/zip',
+    });
+
+    const uploadSuccess = await this.pipFileService.uploadZipToDevice(zipFile);
+
+    if (!uploadSuccess) {
+      logMessage(`Failed to upload ${app.id}.zip to device.`);
+      return false;
     }
 
-    return dirs;
+    await this.pipDeviceService.clearScreen('Upload complete.');
+    return true;
   }
 }
 

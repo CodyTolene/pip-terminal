@@ -479,6 +479,9 @@ export class PipFileService {
           isNonEmptyString(error) ? error : (error as Error)?.message
         }`,
       );
+
+      // Extra debug info
+      console.error('Upload error detail:', error);
       return 0;
     } finally {
       this.isUploading = false;
@@ -502,27 +505,60 @@ export class PipFileService {
     );
     const totalSize = fileSizes.reduce((acc, size) => acc + size, 0);
 
+    const ensureDirectoryExists = async (
+      fullPath: string,
+    ): Promise<boolean> => {
+      const parts = fullPath.split('/');
+      let currentPath = '';
+      for (const part of parts) {
+        currentPath = currentPath ? `${currentPath}/${part}` : part;
+        const created = await this.createDirectoryIfNonExistent(currentPath);
+        if (!created) {
+          logMessage(`Failed to create directory "${currentPath}"`);
+          return false;
+        }
+      }
+      return true;
+    };
+
     let run = 0;
     let currentFile: JSZipObject | null = null;
     let uploaded = 0;
 
-    for (const [path, file] of files) {
-      if (path.toLowerCase().endsWith('.wav')) {
+    for (const [originalPath, file] of files) {
+      if (originalPath.toLowerCase().endsWith('.wav')) {
         logMessage(`Detected WAV file upload, this may take a while...`);
       }
 
+      // Adjust path if it ends with .min.js
+      const adjustedPath = originalPath.endsWith('.min.js')
+        ? originalPath.replace(/\.min\.js$/, '.js')
+        : originalPath;
+
+      const directory = adjustedPath.substring(
+        0,
+        adjustedPath.lastIndexOf('/'),
+      );
+      if (directory) {
+        const created = await ensureDirectoryExists(directory);
+        if (!created) {
+          return false;
+        }
+      }
+
       const fileData = await file.async('uint8array');
-      const uploadedSize = await this.sendFileToDevice(path, fileData);
+      const uploadedSize = await this.sendFileToDevice(adjustedPath, fileData);
       if (uploadedSize === 0) {
-        logMessage(`Failed to upload ${path}. Aborting.`);
+        logMessage(`Failed to upload ${adjustedPath}. Aborting.`);
         return false;
       }
+
       uploaded += uploadedSize;
       const percent = Math.round((uploaded / totalSize) * 100);
       pipSignals.updateProgress.set(percent);
 
       const percentDisplay = percent >= 99 ? 100 : percent;
-      logMessage(`Uploading ${file.name}: ${percentDisplay}%`, run !== 0);
+      logMessage(`Uploading ${adjustedPath}: ${percentDisplay}%`);
       run = currentFile === file ? run + 1 : 0;
       currentFile = file;
     }
