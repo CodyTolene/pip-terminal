@@ -2,7 +2,6 @@ import * as io from 'io-ts';
 import { apiDecorator } from 'src/app/decorators';
 import { PipAppTypeEnum } from 'src/app/enums';
 import { decode } from 'src/app/utilities';
-import { environment } from 'src/environments/environment';
 
 type PipAppBaseApi = io.TypeOf<typeof PipAppBase.BaseCodec>;
 const baseApi = apiDecorator<PipAppBaseApi>();
@@ -21,14 +20,14 @@ export class PipAppBase {
     {
       id: io.string,
       name: io.string,
-      version: io.union([io.undefined, io.string]),
+      version: io.string,
     },
     'PipAppBaseApi',
   );
 
   @baseApi({ key: 'id' }) public readonly id: string;
   @baseApi({ key: 'name' }) public readonly name: string;
-  @baseApi({ key: 'version' }) public readonly version?: string;
+  @baseApi({ key: 'version' }) public readonly version: string;
 
   public static deserialize(value: unknown): PipAppBase {
     const decoded = decode(PipAppBase.BaseCodec, value);
@@ -62,34 +61,26 @@ export class PipApp extends PipAppBase {
     super(args);
 
     this.authors = args.authors;
+    this.controls = args.controls;
     this.description = args.description;
-    this.files = args.files.map((file) => {
-      const fileUrl = `${environment.appsUrl}/${file}`;
-      return {
-        name: file,
-        url: fileUrl,
-      };
-    });
-    this.homepage = args.homepage;
+    // this.id = args.id; // In PipAppBase
     this.instructions = args.instructions;
+    this.isBootloaderRequired = args.isBootloaderRequired;
+    // this.name = args.name; // In PipAppBase
     this.tip = args.tip;
     this.type = args.type;
-    this.version = args.version;
-
-    // Computed values
-    this.isBootloaderRequired = args.files?.some((file) =>
-      file.startsWith('USER_BOOT'),
-    );
+    // this.version = args.version; // In PipAppBase
+    this.zip = args.zip;
   }
 
   public static readonly Codec = io.type(
     {
       authors: io.readonlyArray(io.string),
+      controls: io.string,
       description: io.string,
-      files: io.readonlyArray(io.string),
-      homepage: io.union([io.undefined, io.string]),
       id: io.string,
       instructions: io.string,
+      isBootloaderRequired: io.boolean,
       name: io.string,
       tip: io.union([io.undefined, io.string]),
       type: io.union([
@@ -97,38 +88,35 @@ export class PipApp extends PipAppBase {
         io.literal(PipAppTypeEnum.GAME),
       ]),
       version: io.string,
+      zip: io.string,
     },
     'PipAppApi',
   );
 
   @api({ key: 'authors' }) public readonly authors: readonly string[];
+  @api({ key: 'controls' }) public readonly controls: string;
   @api({ key: 'description' }) public readonly description: string;
-  @api({ key: 'files' }) public readonly files: ReadonlyArray<{
-    name: string;
-    url: string;
-  }>;
-  @api({ key: 'homepage' }) public readonly homepage?: string;
   @api({ key: 'instructions' }) public readonly instructions: string;
+  @api({ key: 'isBootloaderRequired' })
+  public readonly isBootloaderRequired: boolean;
   @api({ key: 'tip' }) public readonly tip?: string;
   @api({ key: 'type' }) public readonly type: PipAppTypeEnum;
-  @api({ key: 'version' }) public override readonly version: string;
-
-  // Computed values
-  public readonly isBootloaderRequired: boolean;
+  @api({ key: 'zip' }) public readonly zip: string;
 
   public static override deserialize(value: unknown): PipApp {
     const decoded = decode(PipApp.Codec, value);
     return new PipApp({
       authors: decoded.authors,
+      controls: decoded.controls,
       description: decoded.description,
-      files: decoded.files,
-      homepage: decoded.homepage,
       id: decoded.id,
       instructions: decoded.instructions,
+      isBootloaderRequired: decoded.isBootloaderRequired,
       name: decoded.name,
       tip: decoded.tip,
       type: decoded.type,
       version: decoded.version,
+      zip: decoded.zip,
     });
   }
 
@@ -144,15 +132,16 @@ export class PipApp extends PipAppBase {
   public override serialize(): PipAppApi {
     return {
       authors: this.authors,
+      controls: this.controls,
       description: this.description,
-      files: this.files.map((file) => file.name),
-      homepage: this.homepage,
       id: this.id,
       instructions: this.instructions,
+      isBootloaderRequired: this.isBootloaderRequired,
       name: this.name,
       tip: this.tip,
       type: this.type,
       version: this.version,
+      zip: this.zip,
     };
   }
 }

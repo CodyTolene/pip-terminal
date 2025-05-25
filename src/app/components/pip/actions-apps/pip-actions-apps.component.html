@@ -42,17 +42,13 @@
         </p>
         <p><strong>Description:</strong> {{ app.description }}</p>
         <p><strong>Instructions:</strong> {{ app.instructions }}</p>
+        <p><strong>Controls:</strong> {{ app.controls }}</p>
         <p *ngIf="app.tip"><strong>Tip:</strong> {{ app.tip }}</p>
         <p>
           <strong>Files:</strong>&nbsp;
-          @for (file of app.files; track file.name) {
-            <div>
-              -
-              <a [href]="file.url.replace('.min.', '.')" target="_blank">
-                {{ file.name.replace('.min.', '.') }}
-              </a>
-            </div>
-          }
+          <a [href]="getAppZipUrl(app)" target="_blank">
+            {{ app.zip }}
+          </a>
         </p>
       </mat-expansion-panel>
     </mat-accordion>

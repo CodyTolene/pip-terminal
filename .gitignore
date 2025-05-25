@@ -23,8 +23,9 @@ yarn-error.log
 # Husky Local Environment Files
 /.husky/_
 
-# Visual Studio Code
+# Visual Studio Codef
 .vscode/*
+.vs
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
