@@ -42,35 +42,21 @@ export class PipAppsService {
   }
 
   /**
-   * Fetches a Pip App asset from the server as a string.
+   * Fetches a ZIP file from the server as a Blob.
    *
-   * @param url The URL of the asset to fetch.
-   * @returns An observable that emits the asset as a string or null if the
-   * request fails.
+   * @param url The URL of the ZIP file to fetch.
+   * @returns An observable that emits the ZIP file as a Blob or null if the request fails.
    */
-  public fetchJsFile(url: string): Observable<string | null> {
-    return this.http.get(url, { responseType: 'text' }).pipe(
-      map((scriptText) => (scriptText?.trim() ? scriptText : null)),
-      catchError(this.handleError<string | null>('fetchJsFile', null)),
-    );
-  }
-
-  /**
-   * Fetches a Pip App asset from the server as a Uint8Array.
-   *
-   * @param url The URL of the asset to fetch.
-   * @returns An observable that emits the asset as a Uint8Array or null if the
-   * request fails.
-   */
-  public fetchBinaryFile(url: string): Observable<Uint8Array | null> {
-    return this.http.get(url, { responseType: 'arraybuffer' }).pipe(
+  public fetchZipFile(zipName: string): Observable<Blob | null> {
+    const zipUrl = `${environment.appsUrl}/${zipName}`;
+    return this.http.get(zipUrl, { responseType: 'blob' }).pipe(
       map((response) => {
-        if (response instanceof ArrayBuffer) {
-          return new Uint8Array(response);
+        if (response instanceof Blob) {
+          return response;
         }
-        throw new Error('Response is not an ArrayBuffer');
+        throw new Error('Response is not a Blob');
       }),
-      catchError(this.handleError<Uint8Array | null>('fetchBinaryFile', null)),
+      catchError(this.handleError<Blob | null>('fetchZipFile', null)),
     );
   }
 

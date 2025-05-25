@@ -1,5 +1,5 @@
 export const environment: EnvironmentCredentials = {
-  appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/main',
+  appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/releases',
   google: {
     firebase: {
       projectId: 'pip-terminal',
