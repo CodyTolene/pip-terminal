@@ -1,4 +1,4 @@
-import { SoundEnum, TabLabelEnum } from 'src/app/enums';
+import { SoundEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -38,7 +38,7 @@ export class TabComponent implements AfterContentInit {
   @ContentChildren(SubTabComponent)
   protected subTabs!: QueryList<SubTabComponent>;
 
-  public async ngAfterContentInit(): Promise<void> {
+  public ngAfterContentInit(): void {
     const subTabLabels = this.subTabs.map((subTab) => subTab.label);
     this.tabsService.setSubTabs(this.label, subTabLabels);
 
@@ -46,7 +46,7 @@ export class TabComponent implements AfterContentInit {
       subTabLabels.length > 0 &&
       this.tabsService.getActiveSubTabIndex(this.label) === 0
     ) {
-      await this.tabsService.setActiveSubTabIndex(this.label, 0);
+      this.tabsService.setActiveSubTabIndex(this.label, 0);
     }
   }
 
@@ -56,5 +56,14 @@ export class TabComponent implements AfterContentInit {
 
   protected getActiveSubTabIndex(label: TabLabelEnum): number {
     return this.tabsService.getActiveSubTabIndex(label);
+  }
+
+  protected getTabRouterLink(
+    tabLabel: TabLabelEnum,
+    subTabLabel: SubTabLabelEnum,
+  ): string {
+    const tabPath = `3000/${tabLabel.toLowerCase()}`;
+    const subTabPath = subTabLabel.toLowerCase();
+    return `${tabPath}/${subTabPath}`;
   }
 }

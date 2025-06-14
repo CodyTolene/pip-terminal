@@ -6,7 +6,7 @@ import {
   map,
   shareReplay,
 } from 'rxjs';
-import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import { PipUrlsEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { isNonEmptyValue } from 'src/app/utilities';
 
 import { Injectable, signal } from '@angular/core';
@@ -67,6 +67,7 @@ export class TabsService {
    * @param playMainTabSound Whether to play the sound for switching tabs.
    */
   public async switchToTab(
+    pipUrl: PipUrlsEnum,
     tabLabel: TabLabelEnum,
     subTabOrIndex?: SubTabLabelEnum | number | null,
   ): Promise<void> {
@@ -90,13 +91,15 @@ export class TabsService {
     const subTabLabel = this.getSubTabLabel(tabLabel, subTabIndex);
     this.activeSubTabLabel.set(subTabLabel);
 
+    const tabUrl =
+      pipUrl === PipUrlsEnum.NONE
+        ? tabLabel.toLowerCase()
+        : `${pipUrl}/${tabLabel.toLowerCase()}`;
+
     if (subTabLabel) {
-      await this.router.navigate([
-        tabLabel.toLowerCase(),
-        subTabLabel.toLowerCase(),
-      ]);
+      await this.router.navigate([tabUrl, subTabLabel.toLowerCase()]);
     } else {
-      await this.router.navigate([tabLabel.toLowerCase()]);
+      await this.router.navigate([tabUrl]);
     }
   }
 

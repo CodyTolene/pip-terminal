@@ -26,7 +26,7 @@ import { PipTimeService } from 'src/app/services/pip/pip-time.service';
 
 import { pipSignals } from 'src/app/signals/pip.signals';
 
-import { TabLabelEnum } from './enums';
+import { PipUrlsEnum, TabLabelEnum } from './enums';
 import { SubTabLabelEnum } from './enums/sub-tab-label.enum';
 import { SubTabComponent } from './layout/tabs/sub-tab.component';
 import { TabComponent } from './layout/tabs/tab.component';
@@ -85,6 +85,8 @@ export class PipComponent implements OnInit {
 
   protected readonly SubTabLabelEnum = SubTabLabelEnum;
   protected readonly TabLabelEnum = TabLabelEnum;
+
+  protected readonly currentView: PipUrlsEnum = PipUrlsEnum.NONE;
   protected readonly signals = pipSignals;
   protected readonly soundVolume: WritableSignal<number>;
 
@@ -105,22 +107,35 @@ export class PipComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        const segments = this.activatedRoute.snapshot.firstChild?.url ?? [];
-        const tab = getEnumMember(
-          TabLabelEnum,
-          segments[0]?.path?.toUpperCase(),
-        );
-        const subTab = getEnumMember(
-          SubTabLabelEnum,
-          segments[1]?.path?.toUpperCase(),
-        );
+        let route = this.activatedRoute;
+        const fullPathSegments: string[] = [];
 
-        if (tab) {
-          this.tabsService.switchToTab(tab);
+        // Traverse the whole route tree and collect path segments
+        while (route.firstChild) {
+          route = route.firstChild;
+          fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
         }
 
-        if (tab && subTab) {
-          this.tabsService.switchToTab(tab, subTab);
+        if (
+          !fullPathSegments.includes(PipUrlsEnum.PIP_3000) ||
+          !fullPathSegments.includes(PipUrlsEnum.PIP_3000)
+        ) {
+          // Is "Welcome" page
+          return;
+        }
+
+        // Is a Pip-Boy page, set and render.
+        const tabSegment = fullPathSegments[1]?.toUpperCase() || null;
+        const subTabSegment = fullPathSegments[2]?.toUpperCase() || null;
+
+        if (tabSegment) {
+          const tab = getEnumMember(TabLabelEnum, tabSegment);
+          if (tab && subTabSegment === null) {
+            this.tabsService.switchToTab(PipUrlsEnum.PIP_3000, tab);
+          } else if (tab && subTabSegment) {
+            const subTab = getEnumMember(SubTabLabelEnum, subTabSegment);
+            this.tabsService.switchToTab(PipUrlsEnum.PIP_3000, tab, subTab);
+          }
         }
       });
   }

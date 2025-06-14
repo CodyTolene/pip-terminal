@@ -44,7 +44,7 @@ export class TabsComponent {
   }
 
   protected getTabRouterLink(tab: TabComponent): string[] {
-    const tabPath = tab.label.toLowerCase();
+    const tabPath = `3000/${tab.label.toLowerCase()}`;
     const subTab = this.getActiveSubTabLabel(tab);
 
     return subTab ? [tabPath, subTab.toLowerCase()] : [tabPath];
