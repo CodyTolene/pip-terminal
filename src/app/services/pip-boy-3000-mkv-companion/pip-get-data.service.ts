@@ -3,9 +3,9 @@ import { isNonEmptyObject, toNumber } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
-import { logMessage } from 'src/app/utilities/pip-log.util';
+import { PipCommandService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-command.service';
 
-import { PipCommandService } from './pip-command.service';
+import { logMessage } from 'src/app/utilities/pip-log.util';
 
 /**
  * Service for interacting with the Pip device to retrieve various data.

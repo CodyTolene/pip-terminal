@@ -1,4 +1,5 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -15,9 +16,7 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
 
 @UntilDestroy()
 @Component({

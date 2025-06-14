@@ -4,10 +4,10 @@ import { logMessage, wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
-import { PipCommandService } from 'src/app/services/pip/pip-command.service';
-import { PipConnectionService } from 'src/app/services/pip/pip-connection.service';
-import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
+import { PipCommandService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-command.service';
+import { PipConnectionService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-connection.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
 
 /** Service for managing sounds on the Pip device. */
 @Injectable({ providedIn: 'root' })

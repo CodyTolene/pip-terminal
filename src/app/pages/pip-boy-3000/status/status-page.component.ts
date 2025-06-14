@@ -1,12 +1,11 @@
 import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import { pipSignals } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { TabsService } from 'src/app/services/tabs.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
 
 @Component({
   selector: 'pip-status-page',
@@ -16,7 +15,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
   standalone: true,
 })
 export class StatusPageComponent {
-  public constructor(protected readonly tabsService: TabsService) {}
+  public constructor(protected readonly tabsService: PipBoy3000TabsService) {}
 
   protected readonly TabLabelEnum = TabLabelEnum;
   protected readonly SubTabLabelEnum = SubTabLabelEnum;

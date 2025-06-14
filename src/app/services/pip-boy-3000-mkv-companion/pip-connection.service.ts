@@ -1,8 +1,7 @@
+import { pipSignals } from 'src/app/signals';
 import { EspruinoConnection, UartStatic } from 'src/global';
 
 import { Injectable } from '@angular/core';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 

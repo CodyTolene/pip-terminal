@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
  */
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
-export class TabsService {
+export class PipBoy3000TabsService {
   public constructor(private readonly router: Router) {}
 
   public activeTabLabel = signal<TabLabelEnum | null>(null);

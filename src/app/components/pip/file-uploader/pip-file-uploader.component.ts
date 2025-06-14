@@ -14,6 +14,7 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
+import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -29,10 +30,8 @@ import {
   fileUploadFormGroup,
 } from 'src/app/components/pip/file-uploader/pip-file-upload-form-group';
 
-import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
 
 @UntilDestroy()
 @Component({

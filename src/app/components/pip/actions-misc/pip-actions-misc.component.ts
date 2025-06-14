@@ -1,3 +1,4 @@
+import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -7,11 +8,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
-import { PipGetDataService } from 'src/app/services/pip/pip-get-data.service';
-import { PipSoundService } from 'src/app/services/pip/pip-sound.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
+import { PipGetDataService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-get-data.service';
+import { PipSoundService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-sound.service';
 
 @Component({
   selector: 'pip-actions-misc',

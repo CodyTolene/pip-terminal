@@ -1,6 +1,6 @@
-@use '../../styles/colors' as col;
-@use '../../styles/scrollbar' as sb;
-@use '../../styles/variables' as var;
+@use '../../../styles/colors' as col;
+@use '../../../styles/scrollbar' as sb;
+@use '../../../styles/variables' as var;
 
 :host {
   @include sb.scrollbar;

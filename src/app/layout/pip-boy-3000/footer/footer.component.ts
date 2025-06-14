@@ -2,16 +2,15 @@ import { DateTime } from 'luxon';
 import { Observable } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
 import { DateTimePipe } from 'src/app/pipes';
+import { pipSignals } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { PipTimeService } from 'src/app/services/pip/pip-time.service';
-import { TabsService } from 'src/app/services/tabs.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipTimeService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-time.service';
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
 
 @Component({
   selector: 'pip-footer',
@@ -24,7 +23,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 export class FooterComponent {
   public constructor(
     private readonly pipTimeService: PipTimeService,
-    private readonly tabsService: TabsService,
+    private readonly tabsService: PipBoy3000TabsService,
   ) {
     this.isTimeBlinkingChanges = this.pipTimeService.isTimeBlinkingChanges;
     this.timeChanges = this.pipTimeService.timeChanges;

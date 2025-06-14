@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import { Observable, filter, firstValueFrom, map, shareReplay } from 'rxjs';
 import { PipAppTypeEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { PipApp } from 'src/app/models';
+import { pipSignals } from 'src/app/signals';
 import { isNonEmptyObject, logMessage, wait } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
@@ -18,11 +19,9 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
-import { PipAppsService } from 'src/app/services/pip/pip-apps.service';
-import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipAppsService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-apps.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
 
 @UntilDestroy()
 @Component({

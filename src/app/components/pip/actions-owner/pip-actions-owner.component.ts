@@ -1,4 +1,5 @@
 import { FormDirective, InputComponent } from '@proangular/pro-form';
+import { pipSignals } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
 import { Component, effect } from '@angular/core';
@@ -11,9 +12,7 @@ import {
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
-import { PipSetDataService } from 'src/app/services/pip/pip-set-data.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipSetDataService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-set-data.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 

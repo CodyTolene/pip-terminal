@@ -1,14 +1,13 @@
 import { DateTime } from 'luxon';
 import { firstValueFrom } from 'rxjs';
 import { Commands } from 'src/app/commands';
+import { pipSignals } from 'src/app/signals';
 
 import { Injectable } from '@angular/core';
 
-import { PipCommandService } from 'src/app/services/pip/pip-command.service';
-import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
-import { PipTimeService } from 'src/app/services/pip/pip-time.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipCommandService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-command.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
+import { PipTimeService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-time.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 

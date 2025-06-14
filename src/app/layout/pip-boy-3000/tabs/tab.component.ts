@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
 import { SoundService } from 'src/app/services/sound.service';
-import { TabsService } from 'src/app/services/tabs.service';
 
 import { SubTabComponent } from './sub-tab.component';
 
@@ -26,7 +26,7 @@ import { SubTabComponent } from './sub-tab.component';
 })
 export class TabComponent implements AfterContentInit {
   public constructor(
-    private readonly tabsService: TabsService,
+    private readonly tabsService: PipBoy3000TabsService,
     private readonly soundService: SoundService,
   ) {}
 

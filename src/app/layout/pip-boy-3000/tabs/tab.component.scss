@@ -1,7 +1,7 @@
-@use '../../styles/breakpoints' as bps;
-@use '../../styles/colors' as col;
-@use '../../styles/scrollbar' as sb;
-@use '../../styles/variables' as var;
+@use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
+@use '../../../styles/scrollbar' as sb;
+@use '../../../styles/variables' as var;
 
 nav.tab-header {
   display: flex;

@@ -1,18 +1,16 @@
 import { isNonEmptyString } from '@proangular/pro-form';
 import JSZip, { JSZipObject } from 'jszip';
 import { Commands } from 'src/app/commands';
+import { pipSignals } from 'src/app/signals';
 import { wait } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
 import { PipAppBase } from 'src/app/models/pip-app.model';
 
-import { PipCommandService } from 'src/app/services/pip/pip-command.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
-
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
+import { PipCommandService } from './pip-command.service';
 import { PipConnectionService } from './pip-connection.service';
 
 /**

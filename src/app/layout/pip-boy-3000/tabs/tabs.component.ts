@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Component, ContentChildren, QueryList } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
 import { SoundService } from 'src/app/services/sound.service';
-import { TabsService } from 'src/app/services/tabs.service';
 
 import { TabComponent } from './tab.component';
 
@@ -18,7 +18,7 @@ import { TabComponent } from './tab.component';
 })
 export class TabsComponent {
   public constructor(
-    private readonly tabsService: TabsService,
+    private readonly tabsService: PipBoy3000TabsService,
     private readonly soundService: SoundService,
   ) {}
 

@@ -1,16 +1,14 @@
 import { Commands } from 'src/app/commands';
+import { pipSignals } from 'src/app/signals';
 
 import { Injectable } from '@angular/core';
-
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 import { wait } from 'src/app/utilities/wait.util';
 
 import { PipCommandService } from './pip-command.service';
 import { PipConnectionService } from './pip-connection.service';
+import { PipFileService } from './pip-file.service';
 import { PipGetDataService } from './pip-get-data.service';
 
 /**

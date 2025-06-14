@@ -1,40 +1,18 @@
-<mat-icon
-  [class.active]="signals.isConnected()"
-  [matTooltip]="
-    signals.isConnected() ? 'Device Connected' : 'Device Disconnected'
-  "
-  aria-hidden="false"
-  aria-label="Connected Icon"
-  class="status-icon"
-  fontIcon="cell_tower"
-></mat-icon>
-<mat-icon
-  (click)="soundVolume() > 0 ? soundVolume.set(0) : soundVolume.set(100)"
-  [class.active]="soundVolume() > 0"
-  [fontIcon]="soundVolume() > 0 ? 'volume_up' : 'volume_mute'"
-  [matTooltip]="soundVolume() > 0 ? 'Sound On' : 'Sound Off'"
-  aria-hidden="false"
-  aria-label="Connected Icon"
-  class="sound-icon"
-></mat-icon>
-<pip-tabs>
-  <pip-tab [label]="TabLabelEnum.STAT">
-    <pip-sub-tab [label]="SubTabLabelEnum.STATUS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.SPECIAL" />
-    <pip-sub-tab [label]="SubTabLabelEnum.PERKS" />
-  </pip-tab>
-  <pip-tab [label]="TabLabelEnum.INV">
-    <pip-sub-tab [label]="SubTabLabelEnum.WEAPONS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.APPAREL" />
-    <pip-sub-tab [label]="SubTabLabelEnum.AID" />
-  </pip-tab>
-  <pip-tab [label]="TabLabelEnum.DATA">
-    <pip-sub-tab [label]="SubTabLabelEnum.QUESTS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.WORKSHOPS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.STATS" />
-  </pip-tab>
-  <pip-tab [label]="TabLabelEnum.MAP" />
-  <pip-tab [label]="TabLabelEnum.RADIO" />
-</pip-tabs>
-<pip-content />
-<pip-footer />
+@switch (pipUrlSignal()) {
+  @case (PipUrlsEnum.NONE) {
+    <ng-container [ngTemplateOutlet]="welcomeTemplate" />
+  }
+  @case (PipUrlsEnum.PIP_2000) {
+    <!-- <pip-boy-2000 /> -->
+  }
+  @case (PipUrlsEnum.PIP_3000) {
+    <pip-boy-3000 />
+  }
+  @default {
+    <ng-container [ngTemplateOutlet]="welcomeTemplate" />
+  }
+}
+
+<ng-template #welcomeTemplate>
+  <pip-welcome-page />
+</ng-template>

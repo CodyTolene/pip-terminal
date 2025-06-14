@@ -11,6 +11,7 @@ import {
   takeWhile,
   timer,
 } from 'rxjs';
+import { pipSignals } from 'src/app/signals';
 import { wait } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -24,10 +25,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 
-import { PipDeviceService } from 'src/app/services/pip/pip-device.service';
-import { PipFileService } from 'src/app/services/pip/pip-file.service';
-
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
 
 import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 
