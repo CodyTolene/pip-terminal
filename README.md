@@ -173,6 +173,11 @@ To get started with development follow these steps:
 
 1. Fork and clone the repository (`dev` branch).
 
+   ```bash
+   git clone -b dev https://github.com/yourname/pip-terminal.git
+   cd pip-terminal
+   ```
+
 2. Run `git submodule update --init --recursive` to pull all submodules
    recursively.
 
@@ -257,10 +262,12 @@ This project uses the following third party libraries:
 
 - jszip: A library for creating, reading, and editing .zip files. Licensed under
   the [MIT License][link-license-mit].
-- jquery: A fast, small, and feature-rich JavaScript library. Licensed under the
-  [MIT License][link-license-mit].
-- espruino uart.js: A library for interfacing with the Espruino UART. Licensed
-  under the [Mozilla Public License 2.0][link-license-mpl].
+
+- https://github.com/CodyTolene/pip-boy-apps
+
+- https://github.com/espruino/EspruinoAppLoaderCore
+
+- https://github.com/espruino/EspruinoWebTools
 
 This project uses the **Monofonto** font by Typodermic Fonts Inc. for the
 project PNG logo.

@@ -11,6 +11,7 @@ public/
 # Except these files and directories:
 !.github/
 !README.md
+!angular.json
 !e2e/src
 !src/
 
