@@ -9,8 +9,7 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { PipTimeService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-time.service';
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
+import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 
 @Component({
   selector: 'pip-footer',
@@ -21,10 +20,7 @@ import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-300
   standalone: true,
 })
 export class FooterComponent {
-  public constructor(
-    private readonly pipTimeService: PipTimeService,
-    private readonly tabsService: PipBoy3000TabsService,
-  ) {
+  public constructor(private readonly pipTimeService: PipTimeService) {
     this.isTimeBlinkingChanges = this.pipTimeService.isTimeBlinkingChanges;
     this.timeChanges = this.pipTimeService.timeChanges;
   }

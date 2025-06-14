@@ -5,9 +5,9 @@ import { pipSignals } from 'src/app/signals';
 
 import { Injectable } from '@angular/core';
 
-import { PipCommandService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-command.service';
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
-import { PipTimeService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-time.service';
+import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
+import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 

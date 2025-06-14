@@ -1,18 +1,17 @@
 @switch (pipUrlSignal()) {
   @case (PipUrlsEnum.NONE) {
-    <ng-container [ngTemplateOutlet]="welcomeTemplate" />
+    <pip-welcome-page />
   }
   @case (PipUrlsEnum.PIP_2000) {
-    <!-- <pip-boy-2000 /> -->
+    <pip-boy-2000-layout />
   }
-  @case (PipUrlsEnum.PIP_3000) {
-    <pip-boy-3000 />
+  @case (PipUrlsEnum.PIP_3000_MK_IV) {
+    <pip-boy-3000-mk-iv-layout />
+  }
+  @case (PipUrlsEnum.PIP_3000_MK_V) {
+    <pip-boy-3000-mk-v-companion-layout />
   }
   @default {
-    <ng-container [ngTemplateOutlet]="welcomeTemplate" />
+    Loading...
   }
 }
-
-<ng-template #welcomeTemplate>
-  <pip-welcome-page />
-</ng-template>

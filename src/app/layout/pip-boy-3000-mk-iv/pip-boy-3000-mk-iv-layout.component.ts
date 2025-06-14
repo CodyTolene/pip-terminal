@@ -1,11 +1,11 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
 import { PipUrlsEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
-import { ContentComponent } from 'src/app/layout/pip-boy-3000/content/content.component';
-import { FooterComponent } from 'src/app/layout/pip-boy-3000/footer/footer.component';
-import { SubTabComponent } from 'src/app/layout/pip-boy-3000/tabs/sub-tab.component';
-import { TabComponent } from 'src/app/layout/pip-boy-3000/tabs/tab.component';
-import { TabsComponent } from 'src/app/layout/pip-boy-3000/tabs/tabs.component';
+import { ContentComponent } from 'src/app/layout/content/content.component';
+import { FooterComponent } from 'src/app/layout/pip-boy-3000-mk-iv/footer/footer.component';
+import { SubTabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/sub-tab.component';
+import { TabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/tab.component';
+import { TabsComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/tabs.component';
 import { pipSignals } from 'src/app/signals';
 import { getEnumMember } from 'src/app/utilities';
 
@@ -17,22 +17,22 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { PageMetaService } from 'src/app/services/page-meta.service';
-import { PipAppsService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-apps.service';
-import { PipCommandService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-command.service';
-import { PipConnectionService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-connection.service';
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
-import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
-import { PipGetDataService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-get-data.service';
-import { PipSetDataService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-set-data.service';
-import { PipSoundService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-sound.service';
-import { PipTimeService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-time.service';
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
+import { PipAppsService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-apps.service';
+import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
+import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-connection.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
+import { PipGetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-get-data.service';
+import { PipSetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-set-data.service';
+import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
+import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 import { SoundService } from 'src/app/services/sound.service';
 
 @UntilDestroy()
 @Component({
-  selector: 'pip-boy-3000',
-  templateUrl: './pip-boy-3000.component.html',
+  selector: 'pip-boy-3000-mk-iv-layout',
+  templateUrl: './pip-boy-3000-mk-iv-layout.component.html',
   imports: [
     CommonModule,
     ContentComponent,
@@ -44,7 +44,7 @@ import { SoundService } from 'src/app/services/sound.service';
     TabComponent,
     TabsComponent,
   ],
-  styleUrl: './pip-boy-3000.component.scss',
+  styleUrl: './pip-boy-3000-mk-iv-layout.component.scss',
   providers: [
     PageMetaService,
     PipAppsService,
@@ -60,7 +60,7 @@ import { SoundService } from 'src/app/services/sound.service';
     PipBoy3000TabsService,
   ],
 })
-export class PipBoy3000Component implements OnInit {
+export class PipBoy3000MkIVLayoutComponent implements OnInit {
   public constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly pageMetaService: PageMetaService,
@@ -105,7 +105,7 @@ export class PipBoy3000Component implements OnInit {
           fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
         }
 
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000)) {
+        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
           // Is a Pip-Boy page, set and render.
           const tabSegment = fullPathSegments[1]?.toUpperCase() || null;
           const subTabSegment = fullPathSegments[2]?.toUpperCase() || null;
@@ -113,10 +113,14 @@ export class PipBoy3000Component implements OnInit {
           if (tabSegment) {
             const tab = getEnumMember(TabLabelEnum, tabSegment);
             if (tab && subTabSegment === null) {
-              this.tabsService.switchToTab(PipUrlsEnum.PIP_3000, tab);
+              this.tabsService.switchToTab(PipUrlsEnum.PIP_3000_MK_IV, tab);
             } else if (tab && subTabSegment) {
               const subTab = getEnumMember(SubTabLabelEnum, subTabSegment);
-              this.tabsService.switchToTab(PipUrlsEnum.PIP_3000, tab, subTab);
+              this.tabsService.switchToTab(
+                PipUrlsEnum.PIP_3000_MK_IV,
+                tab,
+                subTab,
+              );
             }
           }
         }

@@ -3,7 +3,7 @@ import { isNonEmptyObject, toNumber } from 'src/app/utilities';
 
 import { Injectable } from '@angular/core';
 
-import { PipCommandService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-command.service';
+import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 

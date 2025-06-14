@@ -1,4 +1,9 @@
-import { SoundEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import {
+  PipUrlsEnum,
+  SoundEnum,
+  SubTabLabelEnum,
+  TabLabelEnum,
+} from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -12,7 +17,7 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
 import { SoundService } from 'src/app/services/sound.service';
 
 import { SubTabComponent } from './sub-tab.component';
@@ -62,7 +67,7 @@ export class TabComponent implements AfterContentInit {
     tabLabel: TabLabelEnum,
     subTabLabel: SubTabLabelEnum,
   ): string {
-    const tabPath = `3000/${tabLabel.toLowerCase()}`;
+    const tabPath = `${PipUrlsEnum.PIP_3000_MK_IV}/${tabLabel.toLowerCase()}`;
     const subTabPath = subTabLabel.toLowerCase();
     return `${tabPath}/${subTabPath}`;
   }

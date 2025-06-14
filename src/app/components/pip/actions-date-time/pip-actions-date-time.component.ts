@@ -19,8 +19,8 @@ import {
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
-import { PipSetDataService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-set-data.service';
-import { PipTimeService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-time.service';
+import { PipSetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-set-data.service';
+import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 

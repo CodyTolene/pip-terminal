@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
 
 @Component({
   selector: 'pip-actions-testing',

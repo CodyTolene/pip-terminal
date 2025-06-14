@@ -16,7 +16,7 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
-import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
 
 @UntilDestroy()
 @Component({

@@ -1,24 +1,19 @@
-import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
-import { pipSignals } from 'src/app/signals';
+import { PipUrlsEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
+import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
 @Component({
   selector: 'pip-welcome-page',
   templateUrl: './welcome-page.component.html',
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, PipButtonComponent, RouterModule],
   styleUrl: './welcome-page.component.scss',
   standalone: true,
 })
 export class WelcomePageComponent {
-  public constructor(protected readonly tabsService: PipBoy3000TabsService) {}
-
-  protected readonly TabLabelEnum = TabLabelEnum;
-  protected readonly SubTabLabelEnum = SubTabLabelEnum;
-
-  protected readonly signals = pipSignals;
+  protected readonly PipUrlsEnum = PipUrlsEnum;
 }

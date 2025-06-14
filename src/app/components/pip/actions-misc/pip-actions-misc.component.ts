@@ -8,9 +8,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
-import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
-import { PipGetDataService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-get-data.service';
-import { PipSoundService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-sound.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
+import { PipGetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-get-data.service';
+import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
 
 @Component({
   selector: 'pip-actions-misc',

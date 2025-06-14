@@ -25,8 +25,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
-import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
 
 import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 

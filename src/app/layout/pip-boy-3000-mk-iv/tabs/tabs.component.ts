@@ -1,10 +1,10 @@
-import { SoundEnum, TabLabelEnum } from 'src/app/enums';
+import { PipUrlsEnum, SoundEnum, TabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component, ContentChildren, QueryList } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000/pip-boy-3000-tabs.service';
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
 import { SoundService } from 'src/app/services/sound.service';
 
 import { TabComponent } from './tab.component';
@@ -44,7 +44,7 @@ export class TabsComponent {
   }
 
   protected getTabRouterLink(tab: TabComponent): string[] {
-    const tabPath = `3000/${tab.label.toLowerCase()}`;
+    const tabPath = `${PipUrlsEnum.PIP_3000_MK_IV}/${tab.label.toLowerCase()}`;
     const subTab = this.getActiveSubTabLabel(tab);
 
     return subTab ? [tabPath, subTab.toLowerCase()] : [tabPath];

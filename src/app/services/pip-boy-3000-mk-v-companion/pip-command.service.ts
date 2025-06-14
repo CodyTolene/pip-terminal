@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
-import { PipConnectionService } from '../pip-boy-3000-mkv-companion/pip-connection.service';
+import { PipConnectionService } from './pip-connection.service';
 
 /**
  * Service to execute commands on the Espruino (Pip-Boy) device.

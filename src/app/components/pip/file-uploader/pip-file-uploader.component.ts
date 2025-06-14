@@ -30,8 +30,8 @@ import {
   fileUploadFormGroup,
 } from 'src/app/components/pip/file-uploader/pip-file-upload-form-group';
 
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-device.service';
-import { PipFileService } from 'src/app/services/pip-boy-3000-mkv-companion/pip-file.service';
+import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
+import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
 
 @UntilDestroy()
 @Component({
