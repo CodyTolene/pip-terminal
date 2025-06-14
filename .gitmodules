@@ -1,10 +1,18 @@
-[submodule "EspruinoAppLoaderCore"]
-	path = core
+[submodule "core"]
+	path = public/scripts/core
 	url = https://github.com/espruino/EspruinoAppLoaderCore.git
-[submodule "EspruinoWebTools"]
-	path = webtools
+[submodule "webtools"]
+	path = public/scripts/webtools
 	url = https://github.com/espruino/EspruinoWebTools.git
-[submodule "pip-boy-apps"]
-  path = apps
+[submodule "apps"]
+	path = public/apps
 	url = https://github.com/CodyTolene/pip-boy-apps.git
-	
+[submodule "public/scripts/core"]
+	path = public/scripts/core
+	url = https://github.com/espruino/EspruinoAppLoaderCore.git
+[submodule "public/scripts/webtools"]
+	path = public/scripts/webtools
+	url = https://github.com/espruino/EspruinoWebTools.git
+[submodule "public/apps"]
+	path = public/apps
+	url = https://github.com/CodyTolene/pip-boy-apps.git
