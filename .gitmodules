@@ -1,0 +1,10 @@
+[submodule "EspruinoAppLoaderCore"]
+	path = core
+	url = https://github.com/espruino/EspruinoAppLoaderCore.git
+[submodule "EspruinoWebTools"]
+	path = webtools
+	url = https://github.com/espruino/EspruinoWebTools.git
+[submodule "pip-boy-apps"]
+  path = apps
+	url = https://github.com/CodyTolene/pip-boy-apps.git
+	

@@ -1,8 +1,0 @@
-<div class="clock">
-  {{ timeChanges | async | dateTime: 'h' }}
-  <span [class.blinking]="isTimeBlinkingChanges | async" class="colon">:</span>
-  {{ timeChanges | async | dateTime: 'mm' }}
-</div>
-<div class="meridiem">
-  {{ timeChanges | async | dateTime: 'a' }}
-</div>

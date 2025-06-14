@@ -125,13 +125,6 @@ export class PipComponent implements OnInit {
       });
   }
 
-  protected async goToConnectTab(): Promise<void> {
-    await this.tabsService.switchToTab(
-      TabLabelEnum.STAT,
-      SubTabLabelEnum.CONNECT,
-    );
-  }
-
   protected setPageTitle(activeTabs: ActiveTabs): void {
     const { activeTabLabel, activeSubTabLabel } = activeTabs;
     const subtab = activeSubTabLabel ? ' > ' + activeSubTabLabel : '';

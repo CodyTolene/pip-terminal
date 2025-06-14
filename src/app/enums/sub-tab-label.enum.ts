@@ -1,18 +1,16 @@
 export enum SubTabLabelEnum {
   // "STAT" Tab:
   STATUS = 'STATUS',
-  CONNECT = 'CONNECT',
-  DIAGNOSTICS = 'DIAGNOSTICS',
+  SPECIAL = 'SPECIAL',
+  PERKS = 'PERKS',
   // "INV" Tab:
-  SPONSORS = 'SPONSORS',
+  WEAPONS = 'WEAPONS',
   APPAREL = 'APPAREL',
-  APPS = 'APPS',
-  PRIVACY = 'PRIVACY',
+  AID = 'AID',
   // "DATA" Tab:
-  CLOCK = 'CLOCK',
+  QUESTS = 'QUESTS',
+  WORKSHOPS = 'WORKSHOPS',
   STATS = 'STATS',
-  MAINTENANCE = 'MAINTENANCE',
-  // "RADIO" Tab:
-  PLAY = 'PLAY',
-  SET = 'SET',
+  // "MAP" Tab: No sub-tabs
+  // "RADIO" Tab: No sub-tabs
 }

@@ -1,10 +1,10 @@
-<button (click)="goToClockTab()" aria-label="Clock" class="clock-container">
+<div class="clock-container">
   {{ timeChanges | async | dateTime: 'yyyy-MM-dd' }}
   <span class="spacer"></span>
   {{ timeChanges | async | dateTime: 'hh' }}
   <span class="colon">{{ (isTimeBlinkingChanges | async) ? ':' : '' }}</span>
   {{ timeChanges | async | dateTime: 'mm' }}
-</button>
+</div>
 <div class="battery-container">
   <div class="battery">
     <div

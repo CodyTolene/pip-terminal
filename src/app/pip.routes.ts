@@ -1,34 +1,36 @@
 import { Routes } from '@angular/router';
 
+const homePath = 'stat/status';
+
 export const routes: Routes = [
   // "STAT" Tab:
   {
-    path: 'stat/status',
+    path: homePath,
     loadComponent: () =>
       import('src/app/pages/status/status-page.component').then(
         (m) => m.StatusPageComponent,
       ),
   },
   {
-    path: 'stat/connect',
+    path: 'stat/special',
     loadComponent: () =>
-      import('src/app/pages/connect/connect-page.component').then(
-        (m) => m.ConnectPageComponent,
+      import('src/app/pages/special/special-page.component').then(
+        (m) => m.SpecialPageComponent,
       ),
   },
   {
-    path: 'stat/diagnostics',
+    path: 'stat/perks',
     loadComponent: () =>
-      import('src/app/pages/diagnostics/diagnostics-page.component').then(
-        (m) => m.DiagnosticsPageComponent,
+      import('src/app/pages/perks/perks-page.component').then(
+        (m) => m.PerksPageComponent,
       ),
   },
   // "INV" Tab:
   {
-    path: 'inv/sponsors',
+    path: 'inv/weapons',
     loadComponent: () =>
-      import('src/app/pages/sponsors/sponsors-page.component').then(
-        (m) => m.SponsorsPageComponent,
+      import('src/app/pages/weapons/weapons-page.component').then(
+        (m) => m.WeaponsPageComponent,
       ),
   },
   {
@@ -39,25 +41,25 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'inv/apps',
+    path: 'inv/aid',
     loadComponent: () =>
-      import('src/app/pages/apps/apps-page.component').then(
-        (m) => m.AppsPageComponent,
-      ),
-  },
-  {
-    path: 'inv/privacy',
-    loadComponent: () =>
-      import('src/app/pages/privacy-policy/privacy-policy-page.component').then(
-        (m) => m.PrivacyPolicyPageComponent,
+      import('src/app/pages/aid/aid-page.component').then(
+        (m) => m.AidPageComponent,
       ),
   },
   // "DATA" Tab:
   {
-    path: 'data/clock',
+    path: 'data/quests',
     loadComponent: () =>
-      import('src/app/pages/clock/clock-page.component').then(
-        (m) => m.ClockPageComponent,
+      import('src/app/pages/quests/quests-page.component').then(
+        (m) => m.QuestsPageComponent,
+      ),
+  },
+  {
+    path: 'data/workshops',
+    loadComponent: () =>
+      import('src/app/pages/workshops/workshops-page.component').then(
+        (m) => m.WorkshopsPageComponent,
       ),
   },
   {
@@ -65,13 +67,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('src/app/pages/stats/stats-page.component').then(
         (m) => m.StatsPageComponent,
-      ),
-  },
-  {
-    path: 'data/maintenance',
-    loadComponent: () =>
-      import('src/app/pages/maintenance/maintenance-page.component').then(
-        (m) => m.MaintenancePageComponent,
       ),
   },
   // "MAP" Tab:
@@ -84,19 +79,12 @@ export const routes: Routes = [
   },
   // "RADIO" Tab:
   {
-    path: 'radio/play',
+    path: 'radio',
     loadComponent: () =>
       import('src/app/pages/radio/radio-page.component').then(
         (m) => m.RadioPageComponent,
       ),
   },
-  {
-    path: 'radio/set',
-    loadComponent: () =>
-      import('src/app/pages/radio-set/radio-set-page.component').then(
-        (m) => m.RadioSetPageComponent,
-      ),
-  },
-  { path: '', redirectTo: 'stat/status', pathMatch: 'full' },
-  { path: '**', redirectTo: 'stat/status' },
+  { path: '', redirectTo: homePath, pathMatch: 'full' },
+  { path: '**', redirectTo: homePath },
 ];

@@ -1,5 +1,4 @@
 <mat-icon
-  (click)="goToConnectTab()"
   [class.active]="signals.isConnected()"
   [matTooltip]="
     signals.isConnected() ? 'Device Connected' : 'Device Disconnected'
@@ -21,25 +20,21 @@
 <pip-tabs>
   <pip-tab [label]="TabLabelEnum.STAT">
     <pip-sub-tab [label]="SubTabLabelEnum.STATUS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.CONNECT" />
-    <pip-sub-tab [label]="SubTabLabelEnum.DIAGNOSTICS" />
+    <pip-sub-tab [label]="SubTabLabelEnum.SPECIAL" />
+    <pip-sub-tab [label]="SubTabLabelEnum.PERKS" />
   </pip-tab>
   <pip-tab [label]="TabLabelEnum.INV">
-    <pip-sub-tab [label]="SubTabLabelEnum.SPONSORS" />
+    <pip-sub-tab [label]="SubTabLabelEnum.WEAPONS" />
     <pip-sub-tab [label]="SubTabLabelEnum.APPAREL" />
-    <pip-sub-tab [label]="SubTabLabelEnum.APPS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.PRIVACY" />
+    <pip-sub-tab [label]="SubTabLabelEnum.AID" />
   </pip-tab>
   <pip-tab [label]="TabLabelEnum.DATA">
-    <pip-sub-tab [label]="SubTabLabelEnum.CLOCK" />
+    <pip-sub-tab [label]="SubTabLabelEnum.QUESTS" />
+    <pip-sub-tab [label]="SubTabLabelEnum.WORKSHOPS" />
     <pip-sub-tab [label]="SubTabLabelEnum.STATS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.MAINTENANCE" />
   </pip-tab>
-  <pip-tab [label]="TabLabelEnum.MAP"></pip-tab>
-  <pip-tab [label]="TabLabelEnum.RADIO">
-    <pip-sub-tab [label]="SubTabLabelEnum.PLAY" />
-    <pip-sub-tab [label]="SubTabLabelEnum.SET" />
-  </pip-tab>
+  <pip-tab [label]="TabLabelEnum.MAP" />
+  <pip-tab [label]="TabLabelEnum.RADIO" />
 </pip-tabs>
 <pip-content />
 <pip-footer />

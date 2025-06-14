@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 import { Observable } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
-import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { DateTimePipe } from 'src/app/pipes';
 
 import { CommonModule } from '@angular/common';
@@ -36,11 +35,4 @@ export class FooterComponent {
 
   protected readonly isTimeBlinkingChanges: Observable<boolean>;
   protected readonly timeChanges: Observable<DateTime>;
-
-  protected async goToClockTab(): Promise<void> {
-    await this.tabsService.switchToTab(
-      TabLabelEnum.DATA,
-      SubTabLabelEnum.CLOCK,
-    );
-  }
 }

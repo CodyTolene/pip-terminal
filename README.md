@@ -173,23 +173,26 @@ To get started with development follow these steps:
 
 1. Fork and clone the repository (`dev` branch).
 
-2. Create a new branch `git checkout -b <your-branch-name>`.
+2. Run `git submodule update --init --recursive` to pull all submodules
+   recursively.
 
-3. Run `npm install` in the root folder to install the project dependencies.
+3. Create a new branch `git checkout -b <your-branch-name>`.
 
-4. Run `npm run start` to start the development app.
+4. Run `npm install` in the root folder to install the project dependencies.
 
-5. Open a browser and navigate to `http://localhost:4200`.
+5. Run `npm run start` to start the development app.
 
-6. Make your changes to the code (browser will automatically reload).
+6. Open a browser and navigate to `http://localhost:4200`.
 
-7. Push your changes up to GitHub.
+7. Make your changes to the code (browser will automatically reload).
 
-8. Open a pull request to the `dev` branch here.
+8. Push your changes up to GitHub.
 
-9. Wait for the pull request to be reviewed and merged.
+9. Open a pull request to the `dev` branch here.
 
-10. Once in the `dev` branch, your code will go out to production in the next
+10. Wait for the pull request to be reviewed and merged.
+
+11. Once in the `dev` branch, your code will go out to production in the next
     release.
 
 Thank you for any and all contributions!
