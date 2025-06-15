@@ -25,6 +25,20 @@ export const routes: Routes = [
       },
     ],
   },
+  // Pip-Boy 3000
+  {
+    path: PipUrlsEnum.PIP_3000,
+    pathMatch: 'prefix',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            'src/app/pages/pip-boy-3000/status/pip-boy-3000-status-page.component'
+          ).then((c) => c.PipBoy3000StatusPageComponent),
+      },
+    ],
+  },
   // Pip-Boy 3000 Mk IV
   {
     path: PipUrlsEnum.PIP_3000_MK_IV,

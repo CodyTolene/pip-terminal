@@ -3,6 +3,7 @@ import { filter } from 'rxjs';
 import { PipBoy2000LayoutComponent } from 'src/app/layout/pip-boy-2000/pip-boy-2000-layout.component';
 import { PipBoy3000MkIVLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv-layout.component';
 import { PipBoy3000MkVCompanionLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-layout.component';
+import { PipBoy3000LayoutComponent } from 'src/app/layout/pip-boy-3000/pip-boy-3000-layout.component';
 import { WelcomePageComponent } from 'src/app/pages/welcome/welcome-page.component';
 import { pipUrlSignal } from 'src/app/signals';
 import { environment } from 'src/environments/environment';
@@ -26,6 +27,7 @@ import { SoundService } from './services/sound.service';
     CommonModule,
     MatLuxonDateModule,
     PipBoy2000LayoutComponent,
+    PipBoy3000LayoutComponent,
     PipBoy3000MkIVLayoutComponent,
     PipBoy3000MkVCompanionLayoutComponent,
     WelcomePageComponent,
@@ -69,6 +71,8 @@ export class PipComponent implements OnInit {
 
         if (fullPathSegments.includes(PipUrlsEnum.PIP_2000)) {
           this.pipUrlSignal.set(PipUrlsEnum.PIP_2000);
+        } else if (fullPathSegments.includes(PipUrlsEnum.PIP_3000)) {
+          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000);
         } else if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
           this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_IV);
         } else if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_V)) {
