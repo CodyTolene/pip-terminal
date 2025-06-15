@@ -1,16 +1,4 @@
-<header>
-  <div class="logo-container">
-    <div class="branding">
-      <img
-        src="images/favicon/android-chrome-192x192.png"
-        alt="Logo"
-        class="logo"
-      />
-      <span class="site-title">Pip-Boy Terminal</span>
-    </div>
-    <span class="version">v{{ versionNumber }}</span>
-  </div>
-</header>
+<pip-header />
 
 <main>
   <section class="intro">
@@ -94,7 +82,7 @@
           alt="Reserved Sponsor"
         />
         <h4>Sponsor</h4>
-        <span>Claim this seat & advertise your page!</span>
+        <span>Claim seat, show support!</span>
       </a>
       <a
         class="pip-grid-item"
@@ -120,7 +108,7 @@
           alt="Reserved Sponsor"
         />
         <h4>Sponsor</h4>
-        <span>Claim this seat & advertise your page!</span>
+        <span>Sponsor & share a page!</span>
       </a>
     </div>
 
@@ -202,7 +190,7 @@
     </pip-button>
   </section>
 
-  <section class="developers">
+  <section class="support">
     <h2>Vault-Tec Support</h2>
     <p>
       A huge thanks to the support crew and everyone active in the Discord
@@ -211,7 +199,7 @@
       and keep the community thriving.
     </p>
 
-    <div class="pip-grid" aria-label="Developers">
+    <div class="pip-grid" aria-label="Support Team">
       <a
         class="pip-grid-item"
         href="https://linktr.ee/Forgone.Z"
@@ -226,23 +214,5 @@
     </pip-button>
   </section>
 
-  <footer>
-    <div class="logo-container">
-      <div class="branding">
-        <img
-          src="images/favicon/android-chrome-192x192.png"
-          alt="Logo"
-          class="logo"
-        />
-        <span class="site-title">Pip-Boy Terminal</span>
-      </div>
-    </div>
-    <p>
-      <strong>Disclaimer:</strong> This project is an unofficial, community
-      driven fan tool. It is not affiliated with, endorsed by, or approved by
-      Bethesda Softworks, ZeniMax, or The Wand Company. All related trademarks,
-      including "Pip-Boy", "Vault-Tec", "Vault Boy", "Fallout", and other
-      references remain the property of Bethesda Softworks.
-    </p>
-  </footer>
+  <pip-footer />
 </main>

@@ -12,14 +12,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 
 @Component({
-  selector: 'pip-footer',
-  templateUrl: './footer.component.html',
+  selector: 'pip-boy-3000-mk-iv-footer',
+  templateUrl: './pip-boy-3000-mk-iv-footer.component.html',
   imports: [CommonModule, DateTimePipe, MatIconModule, MatTooltipModule],
-  styleUrl: './footer.component.scss',
+  styleUrl: './pip-boy-3000-mk-iv-footer.component.scss',
   providers: [],
   standalone: true,
 })
-export class FooterComponent {
+export class PipBoy3000MkIVFooterComponent {
   public constructor(private readonly pipTimeService: PipTimeService) {
     this.isTimeBlinkingChanges = this.pipTimeService.isTimeBlinkingChanges;
     this.timeChanges = this.pipTimeService.timeChanges;

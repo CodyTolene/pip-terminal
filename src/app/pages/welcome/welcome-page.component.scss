@@ -3,9 +3,6 @@
 @use '../../styles/scrollbar' as sb;
 @use '../../styles/variables' as var;
 
-$header-height: 64px;
-$section-max-width: 800px;
-
 :host {
   background-color: transparent;
   box-sizing: border-box;
@@ -13,52 +10,8 @@ $section-max-width: 800px;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-top: $header-height;
+  padding-top: var.$header-height;
   width: 100%;
-}
-
-header {
-  background-color: rgba(0, 0, 0, 0.5);
-  height: $header-height;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.branding {
-  display: flex;
-  align-items: center;
-
-  img.logo {
-    height: 40px;
-    margin-right: 1rem;
-  }
-
-  .site-title {
-    color: col.$pip-green;
-    font-family: monospace;
-    font-size: var.$font-xl;
-    letter-spacing: 1px;
-  }
-}
-
-.version {
-  color: col.$pip-green;
-  font-family: monospace;
-  font-size: 1rem;
-  opacity: 0.7;
 }
 
 main {
@@ -80,18 +33,19 @@ main {
     word-wrap: break-word;
 
     > p {
-      max-width: $section-max-width;
+      max-width: var.$section-max-width;
       margin-bottom: 2rem;
     }
 
     &.intro {
       margin: 0 auto;
-      max-width: $section-max-width;
+      max-width: var.$section-max-width;
     }
 
     &.app-selection,
     &.sponsors,
     &.developers,
+    &.support,
     &.disclaimer {
       display: flex;
       justify-content: center;
@@ -99,6 +53,7 @@ main {
       flex-direction: column;
     }
 
+    &.support,
     &.developers {
       margin-top: 2rem;
 
@@ -128,6 +83,7 @@ main {
     overflow: hidden;
     padding: 1rem;
     position: relative;
+    text-align: center;
     text-decoration: none;
     width: 250px;
 
@@ -168,7 +124,6 @@ main {
 
     h4 {
       color: col.$pip-green;
-      font-size: 1.1rem;
       font-weight: normal;
       margin: 1rem 0 0 0;
       position: relative;
@@ -180,7 +135,6 @@ main {
 
     span {
       color: col.$pip-green;
-      font-size: 0.8rem;
       padding: 0.5rem 0;
       position: relative;
       z-index: 0;
@@ -234,7 +188,7 @@ p {
 
 pip-button {
   margin: 1rem auto;
-  max-width: $section-max-width;
+  max-width: var.$section-max-width;
 }
 
 hr.pip-divider {
@@ -245,21 +199,4 @@ hr.pip-divider {
   //   0 0 12px col.$pip-green;
   width: 80%;
   margin: 3rem auto;
-}
-
-footer {
-  align-items: center;
-  background-color: col.$black;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 2rem;
-  padding: 1rem;
-  position: relative;
-  width: 100%;
-
-  > p {
-    max-width: $section-max-width;
-  }
 }

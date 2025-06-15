@@ -1,5 +1,7 @@
 import { APP_VERSION } from 'src/app/constants';
 import { PipUrlsEnum } from 'src/app/enums';
+import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
+import { PipHeaderComponent } from 'src/app/layout/header/header.component';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -11,7 +13,14 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 @Component({
   selector: 'pip-welcome-page',
   templateUrl: './welcome-page.component.html',
-  imports: [CommonModule, MatIconModule, PipButtonComponent, RouterModule],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    PipButtonComponent,
+    PipHeaderComponent,
+    PipFooterComponent,
+    RouterModule,
+  ],
   styleUrl: './welcome-page.component.scss',
   standalone: true,
 })

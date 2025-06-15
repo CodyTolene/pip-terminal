@@ -2,7 +2,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
 import { PipUrlsEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { ContentComponent } from 'src/app/layout/content/content.component';
-import { FooterComponent } from 'src/app/layout/pip-boy-3000-mk-iv/footer/footer.component';
+import { PipBoy3000MkIVFooterComponent } from 'src/app/layout/pip-boy-3000-mk-iv/footer/pip-boy-3000-mk-iv-footer.component';
 import { SubTabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/sub-tab.component';
 import { TabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/tab.component';
 import { TabsComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/tabs.component';
@@ -36,7 +36,7 @@ import { SoundService } from 'src/app/services/sound.service';
   imports: [
     CommonModule,
     ContentComponent,
-    FooterComponent,
+    PipBoy3000MkIVFooterComponent,
     MatIconModule,
     MatLuxonDateModule,
     MatTooltipModule,

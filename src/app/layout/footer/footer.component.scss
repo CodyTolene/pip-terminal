@@ -1,0 +1,49 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+.logo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  .branding {
+    display: flex;
+    align-items: center;
+
+    img.logo {
+      height: 40px;
+      margin-right: 1rem;
+    }
+
+    .site-title {
+      color: col.$pip-green;
+      font-family: monospace;
+      font-size: var.$font-xl;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+footer {
+  align-items: center;
+  background-color: col.$black;
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  position: relative;
+  width: 100%;
+
+  > p {
+    max-width: var.$section-max-width;
+    text-align: center;
+  }
+}
