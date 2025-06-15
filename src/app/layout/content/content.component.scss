@@ -9,10 +9,6 @@
   color: col.$pip-green;
   width: 100%;
 
-  position: absolute;
-  top: 100px;
-  bottom: var.$footer-height;
-
   overflow-y: auto;
   overflow-x: hidden;
 }

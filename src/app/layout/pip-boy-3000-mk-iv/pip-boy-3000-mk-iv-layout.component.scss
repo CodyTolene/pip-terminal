@@ -2,6 +2,12 @@
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
+pip-content {
+  position: absolute;
+  top: 100px;
+  bottom: var.$footer-height;
+}
+
 pip-tabs {
   width: 100%;
 
