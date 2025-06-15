@@ -1,3 +1,4 @@
+import { APP_VERSION } from 'src/app/constants';
 import { PipUrlsEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
@@ -16,6 +17,8 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 })
 export class WelcomePageComponent {
   protected readonly PipUrlsEnum = PipUrlsEnum;
+
+  protected readonly versionNumber = APP_VERSION;
 
   protected openAppsRepo(): void {
     window.open('https://github.com/CodyTolene/pip-boy-apps', '_blank');

@@ -18,7 +18,7 @@ $section-max-width: 800px;
 }
 
 header {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.5);
   height: $header-height;
   left: 0;
   position: fixed;
@@ -28,23 +28,37 @@ header {
 }
 
 .logo-container {
-  align-items: center;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 100%;
-  margin: 0 auto;
   max-width: 1200px;
+  margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+.branding {
+  display: flex;
+  align-items: center;
 
   img.logo {
     height: 40px;
     margin-right: 1rem;
   }
-  span {
-    color: #00ff00;
+
+  .site-title {
+    color: col.$pip-green;
     font-family: monospace;
     font-size: var.$font-xl;
     letter-spacing: 1px;
   }
+}
+
+.version {
+  color: col.$pip-green;
+  font-family: monospace;
+  font-size: 1rem;
+  opacity: 0.7;
 }
 
 main {

@@ -1,11 +1,14 @@
 <header>
   <div class="logo-container">
-    <img
-      src="images/favicon/android-chrome-192x192.png"
-      alt="Logo"
-      class="logo"
-    />
-    <span>Pip-Boy Terminal</span>
+    <div class="branding">
+      <img
+        src="images/favicon/android-chrome-192x192.png"
+        alt="Logo"
+        class="logo"
+      />
+      <span class="site-title">Pip-Boy Terminal</span>
+    </div>
+    <span class="version">v{{ versionNumber }}</span>
   </div>
 </header>
 
@@ -75,11 +78,24 @@
     <p>
       Thanks to our sponsors below, the Pip-Boy Terminal remains open to the
       entire wasteland, free to use, easy to access, and built for everyone who
-      dreams of strapping on a Pip-Boy. We're grateful for the support that
+      dreams of gearing up with a Pip-Boy. We're grateful for the support that
       keeps this project alive:
     </p>
 
     <div class="pip-grid" aria-label="Sponsors">
+      <a
+        class="pip-grid-item"
+        href="https://github.com/sponsors/CodyTolene"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/fan-art/music_sm.png"
+          alt="Reserved Sponsor"
+        />
+        <h4>Sponsor</h4>
+        <span>Claim this seat & advertise your page!</span>
+      </a>
       <a
         class="pip-grid-item"
         href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
@@ -92,6 +108,19 @@
         />
         <h4>Theeohn</h4>
         <span>$20 / month</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/sponsors/CodyTolene"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/fan-art/thumbs-up-green_sm.png"
+          alt="Reserved Sponsor"
+        />
+        <h4>Sponsor</h4>
+        <span>Claim this seat & advertise your page!</span>
       </a>
     </div>
 
@@ -199,12 +228,14 @@
 
   <footer>
     <div class="logo-container">
-      <img
-        src="images/favicon/android-chrome-192x192.png"
-        alt="Logo"
-        class="logo"
-      />
-      <span>Pip-Boy Terminal</span>
+      <div class="branding">
+        <img
+          src="images/favicon/android-chrome-192x192.png"
+          alt="Logo"
+          class="logo"
+        />
+        <span class="site-title">Pip-Boy Terminal</span>
+      </div>
     </div>
     <p>
       <strong>Disclaimer:</strong> This project is an unofficial, community
