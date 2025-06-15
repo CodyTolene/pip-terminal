@@ -4,7 +4,10 @@
   <section class="intro">
     <p>Todo</p>
 
-    <pip-button aria-label="Pip-Boy 2000" [routerLink]="[PipUrlsEnum.PIP_2000]">
+    <pip-button
+      aria-label="Pip-Boy 2000"
+      [routerLink]="[PipUrlsEnum.PIP_2000_MK_VI]"
+    >
       Pip-Boy 2000
     </pip-button>
 
@@ -23,44 +26,64 @@
     </pip-button>
   </section>
 
-  <section class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
-    <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_V]" class="pip-grid-item">
-      <img
-        src="images/pip-boy/pip-boy-3000-mk-v_250x200.png"
-        alt="Pip-Boy 3000 Mk V"
-      />
-      <h4>Pip-Boy 3000 Mk V</h4>
-      <span>Companion Application</span>
-    </a>
-    <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_IV]" class="pip-grid-item">
-      <img
-        src="images/pip-boy/pip-boy-3000-mk-iv_250x200.png"
-        alt="Pip-Boy 3000 Mk IV"
-      />
-      <h4>Pip-Boy 3000 Mk IV</h4>
-      <span>Device Simulator</span>
-    </a>
-    <a [routerLink]="[PipUrlsEnum.PIP_3000]" class="pip-grid-item">
-      <img src="images/pip-boy/pip-boy-3000_250x200.png" alt="Pip-Boy 3000" />
-      <h4>Pip-Boy 3000</h4>
-      <span>Device Simulator</span>
-    </a>
+  <section class="app-selection">
+    <div class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
+      <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_V]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-3000-mk-v_250x200.png"
+          alt="Pip-Boy 3000 Mk V"
+        />
+        <h4>Pip-Boy 3000 Mk V</h4>
+        <span>Companion Application</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_2000_MK_VI]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-2000-mk-vi_250x200.png"
+          alt="Pip-Boy 2000 Mk VI"
+        />
+        <h4>Pip-Boy 2000 Mk VI</h4>
+        <span>Device Simulator</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_IV]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-3000-mk-iv_250x200.png"
+          alt="Pip-Boy 3000 Mk IV"
+        />
+        <h4>Pip-Boy 3000 Mk IV</h4>
+        <span>Device Simulator</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_3000A]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-3000A_250x200.png"
+          alt="Pip-Boy 3000A"
+        />
+        <h4>Pip-Boy 3000A</h4>
+        <span>Device Simulator</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_3000]" class="pip-grid-item">
+        <img src="images/pip-boy/pip-boy-3000_250x200.png" alt="Pip-Boy 3000" />
+        <h4>Pip-Boy 3000</h4>
+        <span>Device Simulator</span>
+      </a>
+    </div>
   </section>
 
-  <section class="pip-grid">
-    <a
-      class="pip-grid-item"
-      href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
-      target="_blank"
-    >
-      <img
-        class="sponsor"
-        src="images/sponsors/theeohn_megistus_250x250.png"
-        alt="Theeohn"
-      />
-      <h4>Theeohn</h4>
-      <span>$20 / month</span>
-    </a>
+  <section class="sponsors">
+    <div class="pip-grid" aria-label="Sponsors">
+      <a
+        class="pip-grid-item"
+        href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/sponsors/theeohn_megistus_250x250.png"
+          alt="Theeohn"
+        />
+        <h4>Theeohn</h4>
+        <span>$20 / month</span>
+      </a>
+    </div>
   </section>
 
   <section class="fan-art">

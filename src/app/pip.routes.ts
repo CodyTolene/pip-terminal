@@ -11,17 +11,17 @@ export const routes: Routes = [
         (c) => c.WelcomePageComponent,
       ),
   },
-  // Pip-Boy 2000
+  // Pip-Boy 2000 Mk VI
   {
-    path: PipUrlsEnum.PIP_2000,
+    path: PipUrlsEnum.PIP_2000_MK_VI,
     pathMatch: 'prefix',
     children: [
       {
         path: '',
         loadComponent: () =>
           import(
-            'src/app/pages/pip-boy-2000/status/pip-boy-2000-status-page.component'
-          ).then((c) => c.PipBoy2000StatusPageComponent),
+            'src/app/pages/pip-boy-2000-mk-vi/stat/status/pip-boy-2000-mk-vi-status-page.component'
+          ).then((c) => c.PipBoy2000MkVIStatusPageComponent),
       },
     ],
   },
@@ -34,8 +34,22 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import(
-            'src/app/pages/pip-boy-3000/status/pip-boy-3000-status-page.component'
+            'src/app/pages/pip-boy-3000/stats/status/pip-boy-3000-status-page.component'
           ).then((c) => c.PipBoy3000StatusPageComponent),
+      },
+    ],
+  },
+  // Pip-Boy 3000A
+  {
+    path: PipUrlsEnum.PIP_3000A,
+    pathMatch: 'prefix',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            'src/app/pages/pip-boy-3000a/stats/status/pip-boy-3000a-status-page.component'
+          ).then((c) => c.PipBoy3000AStatusPageComponent),
       },
     ],
   },

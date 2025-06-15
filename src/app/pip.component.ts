@@ -1,9 +1,10 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
-import { PipBoy2000LayoutComponent } from 'src/app/layout/pip-boy-2000/pip-boy-2000-layout.component';
+import { PipBoy2000MkVILayoutComponent } from 'src/app/layout/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-layout.component';
 import { PipBoy3000MkIVLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv-layout.component';
 import { PipBoy3000MkVCompanionLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-layout.component';
 import { PipBoy3000LayoutComponent } from 'src/app/layout/pip-boy-3000/pip-boy-3000-layout.component';
+import { PipBoy3000ALayoutComponent } from 'src/app/layout/pip-boy-3000a/pip-boy-3000a-layout.component';
 import { WelcomePageComponent } from 'src/app/pages/welcome/welcome-page.component';
 import { pipUrlSignal } from 'src/app/signals';
 import { environment } from 'src/environments/environment';
@@ -26,7 +27,8 @@ import { SoundService } from './services/sound.service';
   imports: [
     CommonModule,
     MatLuxonDateModule,
-    PipBoy2000LayoutComponent,
+    PipBoy2000MkVILayoutComponent,
+    PipBoy3000ALayoutComponent,
     PipBoy3000LayoutComponent,
     PipBoy3000MkIVLayoutComponent,
     PipBoy3000MkVCompanionLayoutComponent,
@@ -69,18 +71,33 @@ export class PipComponent implements OnInit {
           fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
         }
 
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_2000)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_2000);
-        } else if (fullPathSegments.includes(PipUrlsEnum.PIP_3000)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000);
-        } else if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_IV);
-        } else if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_V)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_V);
-        } else {
-          this.pipUrlSignal.set(PipUrlsEnum.NONE);
-          this.pageMetaService.setTitle('Welcome!');
+        if (fullPathSegments.includes(PipUrlsEnum.PIP_2000_MK_VI)) {
+          this.pipUrlSignal.set(PipUrlsEnum.PIP_2000_MK_VI);
+          return;
         }
+
+        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
+          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_IV);
+          return;
+        }
+
+        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_V)) {
+          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_V);
+          return;
+        }
+
+        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000A)) {
+          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000A);
+          return;
+        }
+
+        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000)) {
+          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000);
+          return;
+        }
+
+        this.pipUrlSignal.set(PipUrlsEnum.NONE);
+        this.pageMetaService.setTitle('Welcome!');
       });
   }
 }

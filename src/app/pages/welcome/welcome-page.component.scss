@@ -37,6 +37,12 @@ main {
       margin: 0 auto;
     }
 
+    &.app-selection,
+    &.sponsors {
+      display: flex;
+      justify-content: center;
+    }
+
     &.fan-art {
       border-bottom: 2px dashed col.$pip-green;
       max-width: 800px;
@@ -55,9 +61,11 @@ main {
 .pip-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 2rem;
+  justify-content: center;
   margin-bottom: 2rem;
+  max-width: 1000px;
+  width: 100%;
 
   &-item {
     display: flex;
