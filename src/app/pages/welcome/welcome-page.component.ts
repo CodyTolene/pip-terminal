@@ -16,4 +16,16 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 })
 export class WelcomePageComponent {
   protected readonly PipUrlsEnum = PipUrlsEnum;
+
+  protected openAppsRepo(): void {
+    window.open('https://github.com/CodyTolene/pip-boy-apps', '_blank');
+  }
+
+  protected openDiscordPage(): void {
+    window.open('https://discord.gg/zQmAkEg8XG', '_blank');
+  }
+
+  protected openSponsorPage(): void {
+    window.open('https://github.com/sponsors/CodyTolene', '_blank');
+  }
 }

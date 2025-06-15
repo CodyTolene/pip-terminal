@@ -1,32 +1,30 @@
+<header>
+  <div class="logo-container">
+    <img
+      src="images/favicon/android-chrome-192x192.png"
+      alt="Logo"
+      class="logo"
+    />
+    <span>Pip-Boy Terminal</span>
+  </div>
+</header>
+
 <main>
-  <h1>Welcome to the Pip-Boy Terminal!</h1>
-
   <section class="intro">
-    <p>Todo</p>
-
-    <pip-button
-      aria-label="Pip-Boy 2000"
-      [routerLink]="[PipUrlsEnum.PIP_2000_MK_VI]"
-    >
-      Pip-Boy 2000
-    </pip-button>
-
-    <pip-button
-      aria-label="Pip-Boy 3000 Mk IV"
-      [routerLink]="[PipUrlsEnum.PIP_3000_MK_IV]"
-    >
-      Pip-Boy 3000 Mk IV
-    </pip-button>
-
-    <pip-button
-      aria-label="Pip-Boy 3000 Mk V Companion"
-      [routerLink]="[PipUrlsEnum.PIP_3000_MK_V]"
-    >
-      Pip-Boy 3000 Mk V Companion
-    </pip-button>
+    <h1>Welcome to Pip-Boy.com!</h1>
+    <p>
+      This fan-made site brings Pip-Boy interfaces to life whether you're
+      simulating one in your browser or interacting with real hardware like the
+      <a href="https://www.thewandcompany.com/fallout-pip-boy/" target="_blank"
+        >Pip-Boy 3000 Mk V by The Wand Company</a
+      >. Built for fans, collectors, and cosplayers, it's your gateway to a
+      fully interactive Fallout experience.
+    </p>
   </section>
 
   <section class="app-selection">
+    <h2>Choose your Pip-Boy</h2>
+    <p>Select a model below to begin.</p>
     <div class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
       <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_V]" class="pip-grid-item">
         <img
@@ -68,7 +66,19 @@
     </div>
   </section>
 
+  <hr class="pip-divider" />
+
+  <h1 class="community-header">Community</h1>
+
   <section class="sponsors">
+    <h2>Sponsors</h2>
+    <p>
+      Thanks to our sponsors below, the Pip-Boy Terminal remains open to the
+      entire wasteland, free to use, easy to access, and built for everyone who
+      dreams of strapping on a Pip-Boy. We're grateful for the support that
+      keeps this project alive:
+    </p>
+
     <div class="pip-grid" aria-label="Sponsors">
       <a
         class="pip-grid-item"
@@ -84,31 +94,124 @@
         <span>$20 / month</span>
       </a>
     </div>
+
+    <pip-button aria-label="Sponsor Button" (click)="openSponsorPage()">
+      Become a sponsor!
+    </pip-button>
   </section>
 
-  <section class="fan-art">
-    <img
-      src="images/fan-art/thumbs-up-green.png"
-      alt="Fan Art"
-      title="Fan Art"
-    />
-  </section>
-
-  <section>
-    <h3>Disclaimer</h3>
-
+  <section class="developers">
+    <h2>Vault-Tec Engineers</h2>
     <p>
-      <em>Note:</em> This project is an unofficial, community-driven fan tool.
-      It is
-      <strong
-        >not affiliated with, endorsed by, or approved by Bethesda
-        Softworks</strong
-      >.
+      This project wouldn't be as fun as it is without the incredible developers
+      who've built apps, shared ideas, and contributed code to the Pip-Boy
+      ecosystem. From core tools to custom modules, every line of code helps
+      bring the experience to life, thank you.
     </p>
 
-    <p>
-      All related trademarks, including <strong>"Pip-Boy"</strong>, remain the
-      property of Bethesda Softworks.
-    </p>
+    <div class="pip-grid" aria-label="Developers">
+      <a
+        class="pip-grid-item"
+        href="https://github.com/rikkuness"
+        target="_blank"
+      >
+        <h4>rikkuness</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/gfwilliams"
+        target="_blank"
+      >
+        <h4>gfwilliams</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/rblakesley"
+        target="_blank"
+      >
+        <h4>rblakesley</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/gnargle"
+        target="_blank"
+      >
+        <h4>gnargle</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/MercurialPony"
+        target="_blank"
+      >
+        <h4>MercurialPony</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/pip-4111"
+        target="_blank"
+      >
+        <h4>pip-4111</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/killes007"
+        target="_blank"
+      >
+        <h4>killes007</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/TetrisKid48"
+        target="_blank"
+      >
+        <h4>TetrisKid48</h4>
+      </a>
+    </div>
+
+    <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">
+      Become A Contributor!
+    </pip-button>
   </section>
+
+  <section class="developers">
+    <h2>Vault-Tec Support</h2>
+    <p>
+      A huge thanks to the support crew and everyone active in the Discord
+      channel. From testing features to sharing feedback, reporting bugs, and
+      helping others, your contributions help shape the direction of the project
+      and keep the community thriving.
+    </p>
+
+    <div class="pip-grid" aria-label="Developers">
+      <a
+        class="pip-grid-item"
+        href="https://linktr.ee/Forgone.Z"
+        target="_blank"
+      >
+        <h4>Forgone.Z</h4>
+      </a>
+    </div>
+
+    <pip-button aria-label="Contributor Button" (click)="openDiscordPage()">
+      Join the Community Discord!
+    </pip-button>
+  </section>
+
+  <footer>
+    <div class="logo-container">
+      <img
+        src="images/favicon/android-chrome-192x192.png"
+        alt="Logo"
+        class="logo"
+      />
+      <span>Pip-Boy Terminal</span>
+    </div>
+    <p>
+      <strong>Disclaimer:</strong> This project is an unofficial, community
+      driven fan tool. It is not affiliated with, endorsed by, or approved by
+      Bethesda Softworks, ZeniMax, or The Wand Company. All related trademarks,
+      including "Pip-Boy", "Vault-Tec", "Vault Boy", "Fallout", and other
+      references remain the property of Bethesda Softworks.
+    </p>
+  </footer>
 </main>

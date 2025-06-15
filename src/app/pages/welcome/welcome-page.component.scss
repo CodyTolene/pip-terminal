@@ -3,15 +3,48 @@
 @use '../../styles/scrollbar' as sb;
 @use '../../styles/variables' as var;
 
-$icon-size: 400px;
+$header-height: 64px;
+$section-max-width: 800px;
 
 :host {
   background-color: transparent;
   box-sizing: border-box;
   color: col.$pip-green;
   display: flex;
+  flex-direction: column;
   height: 100%;
+  padding-top: $header-height;
   width: 100%;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.9);
+  height: $header-height;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo-container {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 1.5rem;
+
+  img.logo {
+    height: 40px;
+    margin-right: 1rem;
+  }
+  span {
+    color: #00ff00;
+    font-family: monospace;
+    font-size: var.$font-xl;
+    letter-spacing: 1px;
+  }
 }
 
 main {
@@ -23,36 +56,40 @@ main {
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 1rem 1rem 0 1rem;
   width: 100%;
 
   section {
-    width: 100%;
-    max-width: 100%;
     box-sizing: border-box;
+    padding: 1rem;
+    max-width: 100%;
+    width: 100%;
     word-wrap: break-word;
 
+    > p {
+      max-width: $section-max-width;
+      margin-bottom: 2rem;
+    }
+
     &.intro {
-      max-width: 800px;
       margin: 0 auto;
+      max-width: $section-max-width;
     }
 
     &.app-selection,
-    &.sponsors {
+    &.sponsors,
+    &.developers,
+    &.disclaimer {
       display: flex;
       justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
-    &.fan-art {
-      border-bottom: 2px dashed col.$pip-green;
-      max-width: 800px;
-      margin: 0 auto;
+    &.developers {
+      margin-top: 2rem;
 
-      img {
-        max-width: 400px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
+      a > h4 {
+        margin: 0;
       }
     }
   }
@@ -68,27 +105,27 @@ main {
   width: 100%;
 
   &-item {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     background-color: rgba(0, 255, 0, 0.05);
-    padding: 1rem;
-    border: 1px solid col.$pip-green;
     border-radius: 4px;
-    width: 250px;
+    border: 1px solid col.$pip-green;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    text-decoration: none;
+    padding: 1rem;
     position: relative;
+    text-decoration: none;
+    width: 250px;
 
     img {
-      width: 100%;
-      height: auto;
       display: block;
+      height: auto;
+      width: 100%;
       z-index: 0;
 
       &.sponsor {
-        mix-blend-mode: screen;
         filter: grayscale(1) brightness(0.8) contrast(1.2);
+        mix-blend-mode: screen;
       }
     }
 
@@ -116,28 +153,28 @@ main {
     }
 
     h4 {
-      margin: 1rem 0 0 0;
       color: col.$pip-green;
       font-size: 1.1rem;
       font-weight: normal;
+      margin: 1rem 0 0 0;
+      position: relative;
       text-shadow:
         0 0 2px col.$pip-green,
         0 0 2px col.$pip-green;
-      position: relative;
       z-index: 0;
     }
 
     span {
-      padding: 0.5rem 0;
-      font-size: 0.8rem;
       color: col.$pip-green;
+      font-size: 0.8rem;
+      padding: 0.5rem 0;
       position: relative;
       z-index: 0;
     }
 
     &:hover {
-      transform: scale(1.03);
       box-shadow: 0 0 10px col.$pip-green;
+      transform: scale(1.03);
     }
   }
 }
@@ -152,14 +189,24 @@ main {
 }
 
 h1 {
-  margin-bottom: 1rem;
   color: col.$pip-green-dark;
+  font-size: var.$font-xl;
+  margin-bottom: 2rem;
   text-align: center;
   width: 100%;
 
   &.active {
     color: col.$pip-green;
   }
+
+  &.community-header {
+    margin-top: 0;
+  }
+}
+
+h2,
+h3 {
+  margin: 0;
 }
 
 h1,
@@ -173,5 +220,32 @@ p {
 
 pip-button {
   margin: 1rem auto;
-  max-width: 800px;
+  max-width: $section-max-width;
+}
+
+hr.pip-divider {
+  border: 0;
+  border-top: 4px solid col.$pip-green-darkest;
+  // box-shadow:
+  //   0 0 6px col.$pip-green,
+  //   0 0 12px col.$pip-green;
+  width: 80%;
+  margin: 3rem auto;
+}
+
+footer {
+  align-items: center;
+  background-color: col.$black;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  position: relative;
+  width: 100%;
+
+  > p {
+    max-width: $section-max-width;
+  }
 }
