@@ -86,7 +86,8 @@ export class PipComponent implements OnInit {
           fullPathSegments.includes(PipCompanionUrlsEnum.PIP_3000_MK_V_APPS) ||
           fullPathSegments.includes(
             PipCompanionUrlsEnum.PIP_3000_MK_V_MAINTENANCE,
-          )
+          ) ||
+          fullPathSegments.includes(PipCompanionUrlsEnum.PIP_3000_MK_V_RADIO)
         ) {
           this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_V);
           return;

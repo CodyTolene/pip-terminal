@@ -182,5 +182,18 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: PipCompanionUrlsEnum.PIP_3000_MK_V_RADIO,
+    pathMatch: 'full',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            'src/app/pages/pip-boy-3000-mk-v-radio/pip-boy-3000-mk-v-radio-page.component'
+          ).then((c) => c.PipBoy3000MkVRadioPageComponent),
+      },
+    ],
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -2,7 +2,19 @@
   <section class="intro">
     <h1>Pip-Boy 3000 Mk V</h1>
     <h3>Companion Application</h3>
-    <p>todo</p>
+    <p>
+      Use this companion application to connect, add apps, games, browse files,
+      update files, unlock hidden features of your device, and more! Need the
+      official unit? You can purchase the Pip-Boy 3000 Mk V directly from the
+      <a
+        href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
+        target="_blank"
+        >Bethesda Gear Store</a
+      >. For official firmware updates, visit
+      <a href="https://www.thewandcompany.com/pip-boy/upgrade/" target="_blank">
+        The Wand Company.</a
+      >
+    </p>
   </section>
 
   <section class="companion-selection">
@@ -15,7 +27,7 @@
           src="images/misc/apps_250x250.png"
           alt="Pip-Boy 3000 Mk V Apps & Games"
         />
-        <h4>Pip-Boy 3000 Mk V</h4>
+        <h4>Installer</h4>
         <span>Official Apps & Games</span>
       </a>
       <a
@@ -26,17 +38,42 @@
           src="images/misc/gear_250x250.png"
           alt="Pip-Boy 3000 Mk V Maintenance"
         />
-        <h4>Pip-Boy 3000 Mk V</h4>
-        <span>Device Maintenance</span>
+        <h4>Maintenance</h4>
+        <span>Device Management</span>
+      </a>
+      <a
+        [routerLink]="['/', PipCompanionUrlsEnum.PIP_3000_MK_V_RADIO]"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/radio_250x250.png"
+          alt="Pip-Boy 3000 Mk V Radio"
+        />
+        <h4>Radio</h4>
+        <span>Custom Music</span>
       </a>
     </div>
+  </section>
+
+  <section class="notice">
+    <h3>Notice</h3>
+    <p>
+      Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, and
+      brand names are the property of their respective owners. This project is
+      for personal use only and is not intended for commercial purposes. Use of
+      any materials is at your own risk.
+    </p>
   </section>
 
   <hr class="pip-divider" />
 
   <section class="quick-support">
     <h2>Quick Support</h2>
-    <p>todo</p>
+    <p>
+      Have questions about your Pip-Boy 3000 Mk V? Browse the topics below for
+      quick answers to common issues like resets, music conversion, unresponsive
+      behavior, and where to get additional support.
+    </p>
     <mat-accordion displayMode="flat">
       <mat-expansion-panel>
         <mat-expansion-panel-header>

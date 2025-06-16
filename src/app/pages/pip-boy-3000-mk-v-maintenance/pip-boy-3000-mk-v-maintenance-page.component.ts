@@ -1,15 +1,17 @@
-import { PIP_SCRIPTS } from 'src/app/constants';
+import { PIP_SCRIPTS, ScriptKey } from 'src/app/constants';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
+import { PipActionsDateTimeComponent } from 'src/app/components/pip/actions-date-time/pip-actions-date-time.component';
 import { PipActionsMiscComponent } from 'src/app/components/pip/actions-misc/pip-actions-misc.component';
+import { PipActionsOwnerComponent } from 'src/app/components/pip/actions-owner/pip-actions-owner.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/pip/actions-primary/pip-actions-primary.component';
+import { PipActionsTestingComponent } from 'src/app/components/pip/actions-testing/pip-actions-testing.component';
+import { PipActionsUpdateComponent } from 'src/app/components/pip/actions-update/pip-actions-update.component';
 import { PipFileExplorerComponent } from 'src/app/components/pip/file-explorer/pip-file-explorer.component';
 import { PipFileUploaderComponent } from 'src/app/components/pip/file-uploader/pip-file-uploader.component';
-
-import { ScriptKey } from 'src/app/constants/pip-scripts';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 
@@ -18,8 +20,12 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   templateUrl: './pip-boy-3000-mk-v-maintenance-page.component.html',
   imports: [
     CommonModule,
+    PipActionsDateTimeComponent,
     PipActionsMiscComponent,
+    PipActionsOwnerComponent,
     PipActionsPrimaryComponent,
+    PipActionsTestingComponent,
+    PipActionsUpdateComponent,
     PipFileExplorerComponent,
     PipFileUploaderComponent,
     PipLogComponent,

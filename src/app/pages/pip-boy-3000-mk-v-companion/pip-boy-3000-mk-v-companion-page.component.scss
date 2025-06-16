@@ -41,11 +41,16 @@ main {
 
     &.intro,
     &.companion-selection,
+    &.notice,
     &.quick-support {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+    }
+
+    &:last-child {
+      margin-bottom: 5rem;
     }
   }
 }
