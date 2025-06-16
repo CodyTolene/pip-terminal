@@ -38,6 +38,24 @@ header {
   }
 }
 
+@include bps.media('max', 'md') {
+  .logo-container > .branding > .site-title {
+    font-size: var.$font-lg;
+  }
+}
+
+@include bps.media('max', 'sm') {
+  .logo-container > .branding > .site-title {
+    font-size: var.$font-md;
+  }
+}
+
+@include bps.media('max', 'xs') {
+  .logo-container > .branding > .site-title {
+    font-size: var.$font-sm;
+  }
+}
+
 .version {
   color: col.$pip-green;
   font-family: monospace;
