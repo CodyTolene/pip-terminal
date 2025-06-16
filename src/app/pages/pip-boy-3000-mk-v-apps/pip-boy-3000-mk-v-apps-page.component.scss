@@ -18,3 +18,8 @@
 div.panel-body.columns {
   background-color: col.$white;
 }
+
+.panel-body,
+.panel {
+  padding: 0;
+}
