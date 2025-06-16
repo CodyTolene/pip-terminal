@@ -1,5 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
+import { PipCompanionUrlsEnum, PipUrlsEnum } from 'src/app/enums';
 import { PipBoy2000MkVILayoutComponent } from 'src/app/layout/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-layout.component';
 import { PipBoy3000MkIVLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv-layout.component';
 import { PipBoy3000MkVCompanionLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-layout.component';
@@ -16,9 +17,8 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { PageMetaService } from 'src/app/services/page-meta.service';
-
-import { PipCompanionUrlsEnum, PipUrlsEnum } from './enums';
-import { SoundService } from './services/sound.service';
+import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
+import { SoundService } from 'src/app/services/sound.service';
 
 @UntilDestroy()
 @Component({
@@ -42,6 +42,7 @@ export class PipComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly pageMetaService: PageMetaService,
     private readonly router: Router,
+    private readonly tabsService: PipBoy3000TabsService,
   ) {}
 
   // Bind the services to the component.

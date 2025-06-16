@@ -10,7 +10,12 @@ import { pipSignals } from 'src/app/signals';
 import { getEnumMember } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, WritableSignal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  WritableSignal,
+} from '@angular/core';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -58,7 +63,7 @@ import { SoundService } from 'src/app/services/sound.service';
     PipBoy3000TabsService,
   ],
 })
-export class PipBoy3000MkIVLayoutComponent implements OnInit {
+export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
   public constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly pageMetaService: PageMetaService,
@@ -78,15 +83,16 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit {
   protected readonly soundVolume: WritableSignal<number>;
 
   public ngOnInit(): void {
-    // Set the default tags for the page.
-    this.pageMetaService.setTags();
-
     // Update the title when an active tab or sub-tab changes.
     this.tabsService.activeTabsChanges
       .pipe(untilDestroyed(this))
       .subscribe(({ activeTabLabel, activeSubTabLabel }) => {
         this.setPageTitle({ activeTabLabel, activeSubTabLabel });
       });
+  }
+
+  public ngAfterViewInit(): void {
+    this.processRoute();
 
     this.router.events
       .pipe(
@@ -94,34 +100,7 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        let route = this.activatedRoute;
-        const fullPathSegments: string[] = [];
-
-        // Traverse the whole route tree and collect path segments
-        while (route.firstChild) {
-          route = route.firstChild;
-          fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
-        }
-
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
-          // Is a Pip-Boy page, set and render.
-          const tabSegment = fullPathSegments[1]?.toUpperCase() || null;
-          const subTabSegment = fullPathSegments[2]?.toUpperCase() || null;
-
-          if (tabSegment) {
-            const tab = getEnumMember(TabLabelEnum, tabSegment);
-            if (tab && subTabSegment === null) {
-              this.tabsService.switchToTab(PipUrlsEnum.PIP_3000_MK_IV, tab);
-            } else if (tab && subTabSegment) {
-              const subTab = getEnumMember(SubTabLabelEnum, subTabSegment);
-              this.tabsService.switchToTab(
-                PipUrlsEnum.PIP_3000_MK_IV,
-                tab,
-                subTab,
-              );
-            }
-          }
-        }
+        this.processRoute();
       });
   }
 
@@ -129,5 +108,39 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit {
     const { activeTabLabel, activeSubTabLabel } = activeTabs;
     const subtab = activeSubTabLabel ? ' > ' + activeSubTabLabel : '';
     this.pageMetaService.setTitle(`${activeTabLabel}${subtab}`);
+  }
+
+  private processRoute(): void {
+    let route = this.activatedRoute;
+    const fullPathSegments: string[] = [];
+
+    while (route.firstChild) {
+      route = route.firstChild;
+      fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
+    }
+
+    if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
+      // Matched PIP_3000_MK_IV route
+      const tabSegment = fullPathSegments[1]?.toUpperCase() || null;
+      const subTabSegment = fullPathSegments[2]?.toUpperCase() || null;
+
+      const tab = getEnumMember(TabLabelEnum, tabSegment);
+      const subTab = getEnumMember(SubTabLabelEnum, subTabSegment);
+
+      if (tab && subTab) {
+        // Switching to tab and subtab
+        this.tabsService.switchToTab(PipUrlsEnum.PIP_3000_MK_IV, tab, subTab);
+      } else if (tab) {
+        // Switching to tab only
+        this.tabsService.switchToTab(PipUrlsEnum.PIP_3000_MK_IV, tab);
+      } else {
+        // Fallback to default tab/subtab
+        this.tabsService.switchToTab(
+          PipUrlsEnum.PIP_3000_MK_IV,
+          TabLabelEnum.STAT,
+          SubTabLabelEnum.STATUS,
+        );
+      }
+    }
   }
 }
