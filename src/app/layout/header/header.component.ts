@@ -2,11 +2,12 @@ import { APP_VERSION } from 'src/app/constants';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-header',
   templateUrl: './header.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   styleUrl: './header.component.scss',
   providers: [],
   standalone: true,

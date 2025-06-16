@@ -7,31 +7,9 @@
 </div>
 <div class="battery-container">
   <div class="battery">
-    <div
-      [matTooltip]="
-        pipSignals.isConnected()
-          ? pipSignals.batteryLevel().toString() + '%'
-          : undefined
-      "
-      [style.width]="pipSignals.batteryLevel() + '%'"
-      class="battery-level"
-    ></div>
+    <div [style.width]="'100%'" class="battery-level"></div>
   </div>
   <div class="battery-cap"></div>
-  @if (pipSignals.isConnected()) {
-    <mat-icon
-      aria-hidden="false"
-      aria-label="Power Icon"
-      fontIcon="flash_on"
-    ></mat-icon>
-  } @else {
-    <mat-icon
-      aria-hidden="false"
-      aria-label="Disconnected Icon"
-      fontIcon="power_off"
-      matTooltip="Device Disconnected"
-    ></mat-icon>
-  }
 </div>
 <div class="version-container">
   <span aria-label="Version History">v{{ versionNumber }}</span>

@@ -1,12 +1,10 @@
 <mat-icon
-  [class.active]="signals.isConnected()"
-  [matTooltip]="
-    signals.isConnected() ? 'Device Connected' : 'Device Disconnected'
-  "
+  [routerLink]="['/']"
   aria-hidden="false"
   aria-label="Connected Icon"
-  class="status-icon"
-  fontIcon="cell_tower"
+  class="active status-icon"
+  fontIcon="home"
+  matTooltip="Go to home page"
 ></mat-icon>
 <mat-icon
   (click)="soundVolume() > 0 ? soundVolume.set(0) : soundVolume.set(100)"

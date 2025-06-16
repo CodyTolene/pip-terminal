@@ -19,7 +19,12 @@ import {
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from '@angular/router';
 
 import { PageMetaService } from 'src/app/services/page-meta.service';
 import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
@@ -44,6 +49,7 @@ import { SoundService } from 'src/app/services/sound.service';
     MatIconModule,
     MatLuxonDateModule,
     MatTooltipModule,
+    RouterModule,
     SubTabComponent,
     TabComponent,
     TabsComponent,
@@ -79,7 +85,6 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
   protected readonly TabLabelEnum = TabLabelEnum;
 
   protected readonly currentView: PipUrlsEnum = PipUrlsEnum.NONE;
-  protected readonly signals = pipSignals;
   protected readonly soundVolume: WritableSignal<number>;
 
   public ngOnInit(): void {
