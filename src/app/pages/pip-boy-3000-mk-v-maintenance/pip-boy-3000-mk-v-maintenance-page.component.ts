@@ -1,4 +1,5 @@
 import { PIP_SCRIPTS, ScriptKey } from 'src/app/constants';
+import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -37,6 +38,13 @@ export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
   public constructor(private scriptsService: ScriptsService) {
     const scriptKey: ScriptKey = 'uart';
     this.scriptsService.loadScript(PIP_SCRIPTS[scriptKey]);
+
+    logMessage(
+      'Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, ' +
+        'and brand names are the property of their respective owners. This ' +
+        'project is for personal use only and is not intended for ' +
+        'commercial purposes. Use of any materials is at your own risk.',
+    );
   }
 
   public ngOnDestroy(): void {

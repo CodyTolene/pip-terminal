@@ -2,10 +2,6 @@
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
-:host {
-  margin-top: 2rem;
-}
-
 .logo-container {
   display: flex;
   justify-content: space-between;
