@@ -1,5 +1,6 @@
 import { PIP_SCRIPTS } from 'src/app/constants';
 import { PipCompanionUrlsEnum } from 'src/app/enums';
+import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -15,7 +16,13 @@ import { ScriptsService } from 'src/app/services/scripts.service';
 @Component({
   selector: 'pip-boy-3000-mk-v-companion-page',
   templateUrl: './pip-boy-3000-mk-v-companion-page.component.html',
-  imports: [CommonModule, MatExpansionModule, PipButtonComponent, RouterModule],
+  imports: [
+    CommonModule,
+    MatExpansionModule,
+    PipButtonComponent,
+    PipFooterComponent,
+    RouterModule,
+  ],
   styleUrl: './pip-boy-3000-mk-v-companion-page.component.scss',
   standalone: true,
 })
