@@ -33,6 +33,12 @@ for (const dir of appDirs) {
   }
 }
 
-writeFileSync(outputFile, JSON.stringify(apps, null, 2), 'utf8');
+const jsonOutput = JSON.stringify(apps, null, 2);
+writeFileSync(outputFile, jsonOutput, 'utf8');
+
 // eslint-disable-next-line no-console
-console.log(`Generated apps.json with ${apps.length} entries → ${outputFile}`);
+console.log(`Generated apps.json with ${apps.length} entries: ${outputFile}`);
+// eslint-disable-next-line no-console
+console.log('\nFull apps.json content:\n');
+// eslint-disable-next-line no-console
+console.log(jsonOutput);
