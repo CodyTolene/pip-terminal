@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.apparel {
+.centered {
   align-items: center;
   box-sizing: border-box;
   color: col.$pip-green;
@@ -17,11 +17,4 @@
   padding: 1rem;
   text-align: center;
   width: 100%;
-}
-
-img.fan-art {
-  max-width: 300px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
 }
