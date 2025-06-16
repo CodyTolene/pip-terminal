@@ -43,6 +43,7 @@ main {
     }
 
     &.pip-selection,
+    &.notice,
     &.sponsors,
     &.developers,
     &.support,
@@ -51,6 +52,17 @@ main {
       justify-content: center;
       align-items: center;
       flex-direction: column;
+    }
+
+    &.pip-selection {
+      .pip-grid {
+        margin-bottom: 4rem;
+      }
+
+      p.note {
+        font-size: var.$font-xxs;
+        margin: 0 0 0.5rem 0;
+      }
     }
 
     &.support,
