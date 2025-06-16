@@ -32,17 +32,37 @@
               {
                 "glob": "**/*",
                 "input": "public/pip/apps",
-                "output": "pip/apps"
+                "output": "apps"
               },
               {
-                "glob": "**/*.js",
+                "glob": "**/*",
                 "input": "public/pip/core",
-                "output": "pip/core"
+                "output": "core"
               },
               {
-                "glob": "**/*.js",
+                "glob": "**/*",
+                "input": "public/pip/css",
+                "output": "css"
+              },
+              {
+                "glob": "**/*",
+                "input": "public/pip/img",
+                "output": "img"
+              },
+              {
+                "glob": "**/*",
                 "input": "public/pip/webtools",
-                "output": "pip/webtools"
+                "output": "webtools"
+              },
+              {
+                "glob": "apps.json",
+                "input": "public/pip",
+                "output": "."
+              },
+              {
+                "glob": "loader.js",
+                "input": "public/pip",
+                "output": "."
               }
             ],
             "styles": ["src/styles.scss"],

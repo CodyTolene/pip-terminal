@@ -54,3 +54,14 @@ Thumbs.db
 ./scripts/output/*
 ./scripts/output/
 ./scripts/output
+
+# Submodules
+public/pip/**/*
+public/pip/*
+public/pip/
+public/pip
+
+# Generated
+ssl/
+ssl/localhost.crt
+ssl/localhost.key

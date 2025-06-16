@@ -185,19 +185,45 @@ To get started with development follow these steps:
 
 4. Run `npm install` in the root folder to install the project dependencies.
 
-5. Run `npm run start` to start the development app.
+5. Generate a ssl cert:
 
-6. Open a browser and navigate to `http://localhost:4200`.
+   ```bash
+   mkdir ssl
+   cd ssl
 
-7. Make your changes to the code (browser will automatically reload).
+   openssl req -x509 -newkey rsa:2048 -nodes -keyout pip-boy.local.key -out pip-boy.local.crt -days 365 -subj "/CN=pip-boy.local"
 
-8. Push your changes up to GitHub.
+   cd ..
+   ```
 
-9. Open a pull request to the `dev` branch here.
+6. Update your `hosts` file here: `C:\Windows\System32\drivers\etc\`:
 
-10. Wait for the pull request to be reviewed and merged.
+   ```bash
+   127.0.0.1 pip-boy.local
+   ```
 
-11. Once in the `dev` branch, your code will go out to production in the next
+7. Be sure to generate the apps for the Pip-Boy mod tool/app loader:
+
+   ```bash
+   npm run generate:apps
+   ```
+
+8. Run `npm run start:https` to start the development app.
+
+9. You can skip the HTTPS setup if you don't want to test The Wand Company's
+   official mod tool/app loader, and run `npm run start` to run on HTTP.
+
+10. Open a browser and navigate to `http://localhost:4200`.
+
+11. Make your changes to the code (browser will automatically reload).
+
+12. Push your changes up to GitHub.
+
+13. Open a pull request to the `dev` branch here.
+
+14. Wait for the pull request to be reviewed and merged.
+
+15. Once in the `dev` branch, your code will go out to production in the next
     release.
 
 Thank you for any and all contributions!
@@ -348,6 +374,6 @@ Cody Tolene
 [link-license-mpl]: /LICENSE_MPL.md
 [link-license]: /LICENSE.md
 [link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
-[link-pip-apps]: https://github.com/CodyTolene/pip-apps
+[link-pip-apps]: https://github.com/CodyTolene/pip-boy-apps
 [link-robco-industries]: https://log.robco-industries.org/
 [link-terms]: /TERMS.md

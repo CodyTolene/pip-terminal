@@ -19,9 +19,12 @@ jobs:
     steps:
       # Build and verify front-end code
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:check
+      - run: npm run generate:apps
       - run: npm run build:prod
       # Deploy preview
       - uses: FirebaseExtended/action-hosting-deploy@v0

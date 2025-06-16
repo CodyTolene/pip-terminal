@@ -10,6 +10,7 @@ public/
 
 # Except these files and directories:
 !.github/
+!.scripts/
 !README.md
 !angular.json
 !e2e/src
