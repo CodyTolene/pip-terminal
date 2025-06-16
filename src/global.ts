@@ -1,11 +1,18 @@
 /** To be used with `public/scripts/uart.js`. */
 
+type EspruinoEvent =
+  | 'open'
+  | 'close'
+  | 'data'
+  | 'error'
+  | 'ack'
+  | 'nak'
+  | 'packet'
+  | 'line';
+
 export interface EspruinoConnection {
   close(): Promise<void>;
-  emit(
-    event: 'open' | 'close' | 'data' | 'error' | 'ack' | 'nak' | 'packet',
-    ...args: unknown[]
-  ): void;
+  emit(event: EspruinoEvent, ...args: unknown[]): void;
   espruinoEval<R>(expr: string, options?: EspruinoEvalOptions): Promise<R>;
   espruinoReceiveFile(
     filename: string,
@@ -24,14 +31,11 @@ export interface EspruinoConnection {
   hadData: boolean;
   isOpen: boolean;
   isOpening: boolean;
-  on(
-    event: 'open' | 'close' | 'data' | 'error' | 'ack' | 'nak' | 'packet',
-    callback: (...args: unknown[]) => void,
-  ): void;
+  on(event: EspruinoEvent, callback: (...args: unknown[]) => void): void;
   parsePackets: boolean;
   received: string;
   removeListener(
-    event: 'open' | 'close' | 'data' | 'error' | 'ack' | 'nak' | 'packet',
+    event: EspruinoEvent,
     callback: (...args: unknown[]) => void,
   ): void;
   rxDataHandler(data: string): void;

@@ -173,23 +173,57 @@ To get started with development follow these steps:
 
 1. Fork and clone the repository (`dev` branch).
 
-2. Create a new branch `git checkout -b <your-branch-name>`.
+   ```bash
+   git clone -b dev https://github.com/yourname/pip-terminal.git
+   cd pip-terminal
+   ```
 
-3. Run `npm install` in the root folder to install the project dependencies.
+2. Run `git submodule update --init --recursive` to pull all submodules
+   recursively.
 
-4. Run `npm run start` to start the development app.
+3. Create a new branch `git checkout -b <your-branch-name>`.
 
-5. Open a browser and navigate to `http://localhost:4200`.
+4. Run `npm install` in the root folder to install the project dependencies.
 
-6. Make your changes to the code (browser will automatically reload).
+5. Generate a ssl cert:
 
-7. Push your changes up to GitHub.
+   ```bash
+   mkdir ssl
+   cd ssl
 
-8. Open a pull request to the `dev` branch here.
+   openssl req -x509 -newkey rsa:2048 -nodes -keyout pip-boy.local.key -out pip-boy.local.crt -days 365 -subj "/CN=pip-boy.local"
 
-9. Wait for the pull request to be reviewed and merged.
+   cd ..
+   ```
 
-10. Once in the `dev` branch, your code will go out to production in the next
+6. Update your `hosts` file here: `C:\Windows\System32\drivers\etc\`:
+
+   ```bash
+   127.0.0.1 pip-boy.local
+   ```
+
+7. Be sure to generate the apps for the Pip-Boy mod tool/app loader:
+
+   ```bash
+   npm run generate:apps
+   ```
+
+8. Run `npm run start:https` to start the development app.
+
+9. You can skip the HTTPS setup if you don't want to test The Wand Company's
+   official mod tool/app loader, and run `npm run start` to run on HTTP.
+
+10. Open a browser and navigate to `http://localhost:4200`.
+
+11. Make your changes to the code (browser will automatically reload).
+
+12. Push your changes up to GitHub.
+
+13. Open a pull request to the `dev` branch here.
+
+14. Wait for the pull request to be reviewed and merged.
+
+15. Once in the `dev` branch, your code will go out to production in the next
     release.
 
 Thank you for any and all contributions!
@@ -254,10 +288,12 @@ This project uses the following third party libraries:
 
 - jszip: A library for creating, reading, and editing .zip files. Licensed under
   the [MIT License][link-license-mit].
-- jquery: A fast, small, and feature-rich JavaScript library. Licensed under the
-  [MIT License][link-license-mit].
-- espruino uart.js: A library for interfacing with the Espruino UART. Licensed
-  under the [Mozilla Public License 2.0][link-license-mpl].
+
+- https://github.com/CodyTolene/pip-boy-apps
+
+- https://github.com/espruino/EspruinoAppLoaderCore
+
+- https://github.com/espruino/EspruinoWebTools
 
 This project uses the **Monofonto** font by Typodermic Fonts Inc. for the
 project PNG logo.
@@ -338,6 +374,6 @@ Cody Tolene
 [link-license-mpl]: /LICENSE_MPL.md
 [link-license]: /LICENSE.md
 [link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
-[link-pip-apps]: https://github.com/CodyTolene/pip-apps
+[link-pip-apps]: https://github.com/CodyTolene/pip-boy-apps
 [link-robco-industries]: https://log.robco-industries.org/
 [link-terms]: /TERMS.md

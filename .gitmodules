@@ -1,0 +1,3 @@
+[submodule "public/pip"]
+	path = public/pip
+	url = https://github.com/CodyTolene/pip-boy-apps.git

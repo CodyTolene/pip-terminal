@@ -1,38 +1,19 @@
-<button (click)="goToClockTab()" aria-label="Clock" class="clock-container">
-  {{ timeChanges | async | dateTime: 'yyyy-MM-dd' }}
-  <span class="spacer"></span>
-  {{ timeChanges | async | dateTime: 'hh' }}
-  <span class="colon">{{ (isTimeBlinkingChanges | async) ? ':' : '' }}</span>
-  {{ timeChanges | async | dateTime: 'mm' }}
-</button>
-<div class="battery-container">
-  <div class="battery">
-    <div
-      [matTooltip]="
-        pipSignals.isConnected()
-          ? pipSignals.batteryLevel().toString() + '%'
-          : undefined
-      "
-      [style.width]="pipSignals.batteryLevel() + '%'"
-      class="battery-level"
-    ></div>
+<footer>
+  <div class="logo-container">
+    <div class="branding">
+      <img
+        src="images/favicon/android-chrome-192x192.png"
+        alt="Logo"
+        class="logo"
+      />
+      <a [routerLink]="['/']" class="site-title">Pip-Boy Terminal</a>
+    </div>
   </div>
-  <div class="battery-cap"></div>
-  @if (pipSignals.isConnected()) {
-    <mat-icon
-      aria-hidden="false"
-      aria-label="Power Icon"
-      fontIcon="flash_on"
-    ></mat-icon>
-  } @else {
-    <mat-icon
-      aria-hidden="false"
-      aria-label="Disconnected Icon"
-      fontIcon="power_off"
-      matTooltip="Device Disconnected"
-    ></mat-icon>
-  }
-</div>
-<div class="version-container">
-  <span aria-label="Version History">v{{ versionNumber }}</span>
-</div>
+  <p>
+    <strong>Disclaimer:</strong> This project is an unofficial, community driven
+    fan tool. It is not affiliated with, endorsed by, or approved by Bethesda
+    Softworks, ZeniMax, or The Wand Company. All related trademarks, including
+    "Pip-Boy", "Vault-Tec", "Vault Boy", "Fallout", and other references remain
+    the property of Bethesda Softworks.
+  </p>
+</footer>

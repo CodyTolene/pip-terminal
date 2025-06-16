@@ -1,0 +1,16 @@
+<div class="clock-container">
+  {{ timeChanges | async | dateTime: 'yyyy-MM-dd' }}
+  <span class="spacer"></span>
+  {{ timeChanges | async | dateTime: 'hh' }}
+  <span class="colon">{{ (isTimeBlinkingChanges | async) ? ':' : '' }}</span>
+  {{ timeChanges | async | dateTime: 'mm' }}
+</div>
+<div class="battery-container">
+  <div class="battery">
+    <div [style.width]="'100%'" class="battery-level"></div>
+  </div>
+  <div class="battery-cap"></div>
+</div>
+<div class="version-container">
+  <span aria-label="Version History">v{{ versionNumber }}</span>
+</div>
