@@ -6,11 +6,16 @@
 $icon-size: 400px;
 
 :host {
+  @include sb.scrollbar;
+  overflow-x: hidden;
+  overflow-y: auto;
+
   align-items: center;
   box-sizing: border-box;
   color: col.$pip-green;
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 1rem 1rem 0 1rem;
   width: 100%;
 }
@@ -21,17 +26,85 @@ main {
   gap: 1rem;
   max-width: 100%;
   width: 100%;
+
+  section {
+    box-sizing: border-box;
+    padding: 1rem;
+    max-width: 100%;
+    width: 100%;
+    word-wrap: break-word;
+
+    > p {
+      max-width: var.$section-max-width;
+      margin-bottom: 2rem;
+    }
+
+    &.intro,
+    &.companion-selection,
+    &.quick-support {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+}
+
+h1 {
+  color: col.$pip-green-dark;
+  font-size: var.$font-xl;
+  text-align: center;
+  width: 100%;
+
+  &.active {
+    color: col.$pip-green;
+  }
+
+  &.community-header {
+    margin-top: 0;
+  }
+}
+
+h2,
+h3 {
+  margin: 0;
 }
 
 h1,
-h2 {
+h2,
+h3,
+p {
   color: col.$pip-green;
-  margin: 0;
   text-align: center;
   width: 100%;
 }
 
-h1 {
-  font-size: var.$font-xl;
-  margin-top: 1rem;
+hr.pip-divider {
+  border: 0;
+  border-top: 4px solid col.$pip-green-darkest;
+  // box-shadow:
+  //   0 0 6px col.$pip-green,
+  //   0 0 12px col.$pip-green;
+  width: 80%;
+  margin: 3rem auto;
+}
+
+mat-accordion {
+  color: col.$black;
+  display: flex;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: var.$section-max-width;
+
+  mat-expansion-panel {
+    width: 100%;
+
+    p {
+      color: col.$black;
+    }
+
+    a:hover {
+      color: col.$black;
+    }
+  }
 }

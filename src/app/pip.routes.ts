@@ -1,4 +1,4 @@
-import { PipUrlsEnum } from 'src/app/enums';
+import { PipCompanionUrlsEnum, PipUrlsEnum } from 'src/app/enums';
 
 import { Routes } from '@angular/router';
 
@@ -142,10 +142,10 @@ export const routes: Routes = [
       },
     ],
   },
-  // Pip-Boy 3000 Mk V Companion
+  // Pip-Boy 3000 Mk V - Device Companion Apps
   {
     path: PipUrlsEnum.PIP_3000_MK_V,
-    pathMatch: 'prefix',
+    pathMatch: 'full',
     children: [
       {
         path: '',
@@ -153,6 +153,32 @@ export const routes: Routes = [
           import(
             'src/app/pages/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.component'
           ).then((c) => c.PipBoy3000MkVCompanionPageComponent),
+      },
+    ],
+  },
+  {
+    path: PipCompanionUrlsEnum.PIP_3000_MK_V_APPS,
+    pathMatch: 'full',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            'src/app/pages/pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.component'
+          ).then((c) => c.PipBoy3000MkVAppsPageComponent),
+      },
+    ],
+  },
+  {
+    path: PipCompanionUrlsEnum.PIP_3000_MK_V_MAINTENANCE,
+    pathMatch: 'full',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            'src/app/pages/pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.component'
+          ).then((c) => c.PipBoy3000MkVMaintenancePageComponent),
       },
     ],
   },

@@ -17,7 +17,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { PageMetaService } from 'src/app/services/page-meta.service';
 
-import { PipUrlsEnum } from './enums';
+import { PipCompanionUrlsEnum, PipUrlsEnum } from './enums';
 import { SoundService } from './services/sound.service';
 
 @UntilDestroy()
@@ -81,7 +81,13 @@ export class PipComponent implements OnInit {
           return;
         }
 
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_V)) {
+        if (
+          fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_V) ||
+          fullPathSegments.includes(PipCompanionUrlsEnum.PIP_3000_MK_V_APPS) ||
+          fullPathSegments.includes(
+            PipCompanionUrlsEnum.PIP_3000_MK_V_MAINTENANCE,
+          )
+        ) {
           this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_V);
           return;
         }

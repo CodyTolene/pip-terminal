@@ -13,10 +13,6 @@ declare const UART: UartStatic;
  */
 @Injectable({ providedIn: 'root' })
 export class PipConnectionService {
-  public constructor() {
-    UART.ports = ['Web Serial']; // Restrict to Web Serial only
-  }
-
   public connection: EspruinoConnection | null = null;
 
   /**
@@ -29,6 +25,12 @@ export class PipConnectionService {
    */
   public async connect(retryCount = 0, maxRetries = 10): Promise<void> {
     try {
+      if (typeof UART === 'undefined') {
+        throw new Error('UART not loaded yet.');
+      }
+
+      UART.ports = ['Web Serial']; // Restrict to Web Serial only
+
       this.connection = await UART.connectAsync();
 
       if (!this.connection?.isOpen) {
