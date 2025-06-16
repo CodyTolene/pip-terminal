@@ -202,28 +202,34 @@ To get started with development follow these steps:
    127.0.0.1 pip-boy.local
    ```
 
-7. Be sure to generate the apps for the Pip-Boy mod tool/app loader:
+7. Get the latest changes in submodules, run the following:
+
+   ```bash
+   git submodule foreach git pull origin main
+   ```
+
+8. Be sure to generate the apps for the Pip-Boy mod tool/app loader:
 
    ```bash
    npm run generate:apps
    ```
 
-8. Run `npm run start:https` to start the development app.
+9. Run `npm run start:https` to start the development app.
 
-9. You can skip the HTTPS setup if you don't want to test The Wand Company's
-   official mod tool/app loader, and run `npm run start` to run on HTTP.
+10. You can skip the HTTPS setup if you don't want to test The Wand Company's
+    official mod tool/app loader, and run `npm run start` to run on HTTP.
 
-10. Open a browser and navigate to `http://localhost:4200`.
+11. Open a browser and navigate to `http://localhost:4200`.
 
-11. Make your changes to the code (browser will automatically reload).
+12. Make your changes to the code (browser will automatically reload).
 
-12. Push your changes up to GitHub.
+13. Push your changes up to GitHub.
 
-13. Open a pull request to the `dev` branch here.
+14. Open a pull request to the `dev` branch here.
 
-14. Wait for the pull request to be reviewed and merged.
+15. Wait for the pull request to be reviewed and merged.
 
-15. Once in the `dev` branch, your code will go out to production in the next
+16. Once in the `dev` branch, your code will go out to production in the next
     release.
 
 Thank you for any and all contributions!

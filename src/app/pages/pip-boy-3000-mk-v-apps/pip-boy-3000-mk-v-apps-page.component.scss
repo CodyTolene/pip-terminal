@@ -5,5 +5,21 @@
 
 :host {
   background-color: col.$white;
+  color: col.$black;
   display: block;
+  height: 100%;
+}
+
+#librarycontainer {
+  height: 100%;
+  background-color: col.$white;
+}
+
+div.panel-body.columns {
+  background-color: col.$white;
+}
+
+.panel-body,
+.panel {
+  padding: 0;
 }
