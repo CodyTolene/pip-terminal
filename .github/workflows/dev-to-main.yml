@@ -21,6 +21,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+      - name: Pull latest changes in submodules
+        run: |
+          git submodule foreach '
+            branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo main)
+            git fetch origin $branch && git checkout $branch && git pull origin $branch
+          '
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:check
