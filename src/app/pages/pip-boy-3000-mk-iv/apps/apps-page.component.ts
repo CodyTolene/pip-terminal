@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
+import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
+import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
-import { PipActionsAppsComponent } from 'src/app/components/pip/actions-apps/pip-actions-apps.component';
-import { PipActionsMiscComponent } from 'src/app/components/pip/actions-misc/pip-actions-misc.component';
-import { PipActionsPrimaryComponent } from 'src/app/components/pip/actions-primary/pip-actions-primary.component';
 
 @Component({
   selector: 'pip-apps-page',
@@ -13,7 +12,6 @@ import { PipActionsPrimaryComponent } from 'src/app/components/pip/actions-prima
     CommonModule,
     PipActionsMiscComponent,
     PipActionsPrimaryComponent,
-    PipActionsAppsComponent,
     PipLogComponent,
   ],
   styleUrl: './apps-page.component.scss',

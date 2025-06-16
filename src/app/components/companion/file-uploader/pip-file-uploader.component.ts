@@ -24,11 +24,11 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 import {
   FileUploadFormGroup,
   fileUploadFormGroup,
-} from 'src/app/components/pip/file-uploader/pip-file-upload-form-group';
+} from 'src/app/components/companion/file-uploader/pip-file-upload-form-group';
+import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 
 import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
 import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';

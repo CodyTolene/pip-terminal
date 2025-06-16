@@ -18,7 +18,6 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { PageMetaService } from 'src/app/services/page-meta.service';
 import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
-import { PipAppsService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-apps.service';
 import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-connection.service';
 import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
@@ -47,7 +46,6 @@ import { SoundService } from 'src/app/services/sound.service';
   styleUrl: './pip-boy-3000-mk-iv-layout.component.scss',
   providers: [
     PageMetaService,
-    PipAppsService,
     PipCommandService,
     PipConnectionService,
     PipDeviceService,

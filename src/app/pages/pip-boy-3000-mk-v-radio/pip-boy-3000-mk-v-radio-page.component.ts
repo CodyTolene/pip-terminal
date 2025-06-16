@@ -23,10 +23,10 @@ import {
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
+import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
-import { PipActionsMiscComponent } from 'src/app/components/pip/actions-misc/pip-actions-misc.component';
-import { PipActionsPrimaryComponent } from 'src/app/components/pip/actions-primary/pip-actions-primary.component';
 
 import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
 import { ScriptsService } from 'src/app/services/scripts.service';
