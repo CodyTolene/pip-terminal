@@ -17,8 +17,6 @@ export function getEnumMember<T extends Record<string, string | number>>(
     return defaultValue;
   }
 
-  console.warn(`Invalid values "${value}".`);
-
   return null;
 }
 

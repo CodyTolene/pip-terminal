@@ -1,4 +1,4 @@
-import { pipSignals } from 'src/app/signals/pip.signals';
+import { pipSignals } from 'src/app/signals';
 
 export function clearLog(): void {
   pipSignals.logMessages.set([]);

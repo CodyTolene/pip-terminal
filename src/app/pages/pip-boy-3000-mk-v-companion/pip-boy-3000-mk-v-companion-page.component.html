@@ -1,0 +1,176 @@
+<main>
+  <section class="intro">
+    <h1>Pip-Boy 3000 Mk V</h1>
+    <h3>Companion Application</h3>
+    <p>
+      Use this companion application to connect, add apps, games, browse files,
+      update files, unlock hidden features of your device, and more! Need the
+      official unit? You can purchase the Pip-Boy 3000 Mk V directly from the
+      <a
+        href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica"
+        target="_blank"
+        >Bethesda Gear Store</a
+      >. For official firmware updates, visit
+      <a href="https://www.thewandcompany.com/pip-boy/upgrade/" target="_blank">
+        The Wand Company.</a
+      >
+    </p>
+  </section>
+
+  <section class="companion-selection">
+    <div class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
+      <a
+        [routerLink]="['/', PipCompanionUrlsEnum.PIP_3000_MK_V_APPS]"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/apps_250x250.png"
+          alt="Pip-Boy 3000 Mk V Apps & Games"
+        />
+        <h4>Installer</h4>
+        <span>Official Apps & Games</span>
+      </a>
+      <a
+        [routerLink]="['/', PipCompanionUrlsEnum.PIP_3000_MK_V_MAINTENANCE]"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/gear_250x250.png"
+          alt="Pip-Boy 3000 Mk V Maintenance"
+        />
+        <h4>Maintenance</h4>
+        <span>Device Management</span>
+      </a>
+      <a
+        [routerLink]="['/', PipCompanionUrlsEnum.PIP_3000_MK_V_RADIO]"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/radio_250x250.png"
+          alt="Pip-Boy 3000 Mk V Radio"
+        />
+        <h4>Radio</h4>
+        <span>Custom Music</span>
+      </a>
+    </div>
+    <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">
+      Become an App Contributor!
+    </pip-button>
+  </section>
+
+  <section class="notice">
+    <h3>Notice</h3>
+    <p>
+      Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, and
+      brand names are the property of their respective owners. This project is
+      for personal use only and is not intended for commercial purposes. Use of
+      any materials is at your own risk.
+    </p>
+  </section>
+
+  <hr class="pip-divider" />
+
+  <section class="quick-support">
+    <h2>Quick Support</h2>
+    <p>
+      Have questions about your Pip-Boy 3000 Mk V? Browse the topics below for
+      quick answers to common issues like resets, music conversion, unresponsive
+      behavior, and where to get additional support.
+    </p>
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>How do I reset my device?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Use The Wand Company's websites official Pip-Boy tool. Visit the URL
+          below, connect your device, and select "Upgrade":<br />
+          <a
+            href="https://thewandcompany.com/pip-boy/upgrade/?erase"
+            target="_blank"
+          >
+            https://thewandcompany.com/pip-boy/upgrade/?erase
+          </a>
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            >How do I convert music for my Pip-Boy?</mat-panel-title
+          >
+        </mat-expansion-panel-header>
+        <p>
+          Install FFmpeg:<br />
+          <a href="https://ffmpeg.org/download.html" target="_blank">
+            https://ffmpeg.org/download.html
+          </a>
+        </p>
+        <p>
+          Covnert the file to wav format:<br />
+          <code
+            >ffmpeg -i "input.mp3" -ac 1 -ar 16000 -sample_fmt s16 -c:a
+            pcm_s16le -f wav output.wav</code
+          >
+        </p>
+        <p>
+          You can modify the volume using the
+          <code>-af "volume=10dB"</code> param. For example to increase the
+          volume:<br />
+          <code
+            >ffmpeg -i "input.mp3" -ac 1 -ar 16000 -af "volume=10dB" -sample_fmt
+            s16 -c:a pcm_s16le -f wav output.wav</code
+          >
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            >My Pip-Boy is unresponsive, what do I do?</mat-panel-title
+          >
+        </mat-expansion-panel-header>
+        <p>Things to try</p>
+        <ul>
+          <li>
+            Hold the power button down for 30-60 seconds, until it restarts.
+          </li>
+          <li>
+            If button restart fails, unplug the battery and plug it back in. The
+            battery can be easily accessed by removing one screw on the back of
+            the device.
+          </li>
+          <li>
+            Try connecting via USB and manually reinstalling the Pip OS:
+            <a href="https://archive.org/details/pip-os-v-1.0" target="_blank"
+              >https://archive.org/details/pip-os-v-1.0</a
+            >.
+          </li>
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Where can I get extra support?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Official support page:
+          <a href="https://www.thewandcompany.com/contact-us/" target="_blank"
+            >https://www.thewandcompany.com/contact-us/</a
+          >
+        </p>
+        <p>
+          You can also reach out the the amazing Pip-Boy.com Discord community
+          and ask help from other users of the Pip-Boy 3000 Mk V here:
+          <a href="https://discord.gg/zQmAkEg8XG" target="_blank"
+            >https://discord.gg/zQmAkEg8XG</a
+          >
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </section>
+</main>

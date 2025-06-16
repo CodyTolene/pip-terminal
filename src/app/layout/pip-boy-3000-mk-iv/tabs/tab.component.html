@@ -1,0 +1,17 @@
+<ng-template #content>
+  @if (subTabs.length > 0) {
+    <nav class="tab-header" role="tablist">
+      @for (subTab of subTabs; let i = $index; track i) {
+        <button
+          (click)="onSubTabClick(subTab)"
+          [class.active]="getActiveSubTabIndex(label) === i"
+          [routerLink]="getTabRouterLink(label, subTab.label)"
+          class="tab-button"
+          type="button"
+        >
+          <span class="label">{{ subTab.label }}</span>
+        </button>
+      }
+    </nav>
+  }
+</ng-template>

@@ -55,6 +55,13 @@ Thumbs.db
 ./scripts/output/
 ./scripts/output
 
-# Apps folder
-public/apps
-public/apps/
+# Submodules
+public/pip/**/*
+public/pip/*
+public/pip/
+public/pip
+
+# Generated
+ssl/
+ssl/localhost.crt
+ssl/localhost.key

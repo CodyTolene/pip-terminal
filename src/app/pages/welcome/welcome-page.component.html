@@ -1,0 +1,230 @@
+<pip-header />
+
+<main>
+  <section class="intro">
+    <h1>Welcome to Pip-Boy.com!</h1>
+    <p>
+      This fan-made site brings Pip-Boy interfaces to life whether you're
+      simulating one in your browser or interacting with real hardware like the
+      <a href="https://www.thewandcompany.com/fallout-pip-boy/" target="_blank"
+        >Pip-Boy 3000 Mk V by The Wand Company</a
+      >. Built for fans, collectors, and cosplayers, it's your gateway to a
+      fully interactive Fallout experience.
+    </p>
+  </section>
+
+  <section class="pip-selection">
+    <h2>Choose your Pip-Boy</h2>
+    <p>Select a model below to begin.</p>
+    <div class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
+      <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_V]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-3000-mk-v_250x200.png"
+          alt="Pip-Boy 3000 Mk V"
+        />
+        <h4>Pip-Boy 3000 Mk V</h4>
+        <span>Companion Application</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_2000_MK_VI]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-2000-mk-vi_250x200.png"
+          alt="Pip-Boy 2000 Mk VI"
+        />
+        <h4>Pip-Boy 2000 Mk VI*</h4>
+        <span>Device Simulator</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_3000_MK_IV]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-3000-mk-iv_250x200.png"
+          alt="Pip-Boy 3000 Mk IV"
+        />
+        <h4>Pip-Boy 3000 Mk IV**</h4>
+        <span>Device Simulator</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_3000A]" class="pip-grid-item">
+        <img
+          src="images/pip-boy/pip-boy-3000A_250x200.png"
+          alt="Pip-Boy 3000A"
+        />
+        <h4>Pip-Boy 3000A*</h4>
+        <span>Device Simulator</span>
+      </a>
+      <a [routerLink]="[PipUrlsEnum.PIP_3000]" class="pip-grid-item">
+        <img src="images/pip-boy/pip-boy-3000_250x200.png" alt="Pip-Boy 3000" />
+        <h4>Pip-Boy 3000*</h4>
+        <span>Device Simulator</span>
+      </a>
+    </div>
+    <p class="note"><strong>*Coming soon</strong></p>
+    <p class="note"><strong>**Partially Completed</strong></p>
+  </section>
+
+  <section class="notice">
+    <h3>Notice</h3>
+    <p>
+      Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, and
+      brand names are the property of their respective owners. This project is
+      for personal use only and is not intended for commercial purposes. Use of
+      any materials is at your own risk.
+    </p>
+  </section>
+
+  <hr class="pip-divider" />
+
+  <h1 class="community-header">Community</h1>
+
+  <section class="sponsors">
+    <h2>Sponsors</h2>
+    <p>
+      Thanks to our sponsors below, the Pip-Boy Terminal remains open to the
+      entire wasteland, free to use, easy to access, and built for everyone who
+      dreams of gearing up with a Pip-Boy. We're grateful for the support that
+      keeps this project alive:
+    </p>
+
+    <div class="pip-grid" aria-label="Sponsors">
+      <a
+        class="pip-grid-item"
+        href="https://github.com/sponsors/CodyTolene"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/fan-art/music_sm.png"
+          alt="Reserved Sponsor"
+        />
+        <h4>Sponsor</h4>
+        <span>Support the website!</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/sponsors/theeohn_megistus_250x250.png"
+          alt="Theeohn"
+        />
+        <h4>Theeohn</h4>
+        <span>$20 / month</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/sponsors/CodyTolene"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/fan-art/thumbs-up-green_sm.png"
+          alt="Reserved Sponsor"
+        />
+        <h4>Sponsor</h4>
+        <span>Share your own link!</span>
+      </a>
+    </div>
+
+    <pip-button aria-label="Sponsor Button" (click)="openSponsorPage()">
+      Become a sponsor!
+    </pip-button>
+  </section>
+
+  <section class="developers">
+    <h2>Vault-Tec Engineers</h2>
+    <p>
+      This project wouldn't be as fun as it is without the incredible developers
+      who've built apps, shared ideas, and contributed code to the Pip-Boy
+      ecosystem. From core tools to custom modules, every line of code helps
+      bring the experience to life, thank you.
+    </p>
+
+    <div class="pip-grid" aria-label="Developers">
+      <a
+        class="pip-grid-item"
+        href="https://github.com/rikkuness"
+        target="_blank"
+      >
+        <h4>rikkuness</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/gfwilliams"
+        target="_blank"
+      >
+        <h4>gfwilliams</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/rblakesley"
+        target="_blank"
+      >
+        <h4>rblakesley</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/gnargle"
+        target="_blank"
+      >
+        <h4>gnargle</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/MercurialPony"
+        target="_blank"
+      >
+        <h4>MercurialPony</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/pip-4111"
+        target="_blank"
+      >
+        <h4>pip-4111</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/killes007"
+        target="_blank"
+      >
+        <h4>killes007</h4>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/TetrisKid48"
+        target="_blank"
+      >
+        <h4>TetrisKid48</h4>
+      </a>
+    </div>
+
+    <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">
+      Become A Contributor!
+    </pip-button>
+  </section>
+
+  <section class="support">
+    <h2>Vault-Tec Support</h2>
+    <p>
+      A huge thanks to the support crew and everyone active in the Discord
+      channel. From testing features to sharing feedback, reporting bugs, and
+      helping others, your contributions help shape the direction of the project
+      and keep the community thriving.
+    </p>
+
+    <div class="pip-grid" aria-label="Support Team">
+      <a
+        class="pip-grid-item"
+        href="https://linktr.ee/Forgone.Z"
+        target="_blank"
+      >
+        <h4>Forgone.Z</h4>
+      </a>
+    </div>
+
+    <pip-button aria-label="Contributor Button" (click)="openDiscordPage()">
+      Join the Community Discord!
+    </pip-button>
+  </section>
+
+  <pip-footer />
+</main>

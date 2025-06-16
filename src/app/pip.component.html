@@ -1,45 +1,23 @@
-<mat-icon
-  (click)="goToConnectTab()"
-  [class.active]="signals.isConnected()"
-  [matTooltip]="
-    signals.isConnected() ? 'Device Connected' : 'Device Disconnected'
-  "
-  aria-hidden="false"
-  aria-label="Connected Icon"
-  class="status-icon"
-  fontIcon="cell_tower"
-></mat-icon>
-<mat-icon
-  (click)="soundVolume() > 0 ? soundVolume.set(0) : soundVolume.set(100)"
-  [class.active]="soundVolume() > 0"
-  [fontIcon]="soundVolume() > 0 ? 'volume_up' : 'volume_mute'"
-  [matTooltip]="soundVolume() > 0 ? 'Sound On' : 'Sound Off'"
-  aria-hidden="false"
-  aria-label="Connected Icon"
-  class="sound-icon"
-></mat-icon>
-<pip-tabs>
-  <pip-tab [label]="TabLabelEnum.STAT">
-    <pip-sub-tab [label]="SubTabLabelEnum.STATUS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.CONNECT" />
-    <pip-sub-tab [label]="SubTabLabelEnum.DIAGNOSTICS" />
-  </pip-tab>
-  <pip-tab [label]="TabLabelEnum.INV">
-    <pip-sub-tab [label]="SubTabLabelEnum.SPONSORS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.APPAREL" />
-    <pip-sub-tab [label]="SubTabLabelEnum.APPS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.PRIVACY" />
-  </pip-tab>
-  <pip-tab [label]="TabLabelEnum.DATA">
-    <pip-sub-tab [label]="SubTabLabelEnum.CLOCK" />
-    <pip-sub-tab [label]="SubTabLabelEnum.STATS" />
-    <pip-sub-tab [label]="SubTabLabelEnum.MAINTENANCE" />
-  </pip-tab>
-  <pip-tab [label]="TabLabelEnum.MAP"></pip-tab>
-  <pip-tab [label]="TabLabelEnum.RADIO">
-    <pip-sub-tab [label]="SubTabLabelEnum.PLAY" />
-    <pip-sub-tab [label]="SubTabLabelEnum.SET" />
-  </pip-tab>
-</pip-tabs>
-<pip-content />
-<pip-footer />
+@switch (pipUrlSignal()) {
+  @case (PipUrlsEnum.NONE) {
+    <pip-welcome-page />
+  }
+  @case (PipUrlsEnum.PIP_2000_MK_VI) {
+    <pip-boy-2000-mk-vi-layout />
+  }
+  @case (PipUrlsEnum.PIP_3000) {
+    <pip-boy-3000-layout />
+  }
+  @case (PipUrlsEnum.PIP_3000A) {
+    <pip-boy-3000a-layout />
+  }
+  @case (PipUrlsEnum.PIP_3000_MK_IV) {
+    <pip-boy-3000-mk-iv-layout />
+  }
+  @case (PipUrlsEnum.PIP_3000_MK_V) {
+    <pip-boy-3000-mk-v-companion-layout />
+  }
+  @default {
+    Loading...
+  }
+}

@@ -1,6 +1,5 @@
 @use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
-@use '../../styles/scrollbar' as sb;
 
 @mixin background {
   background-color: col.$pip-green;
