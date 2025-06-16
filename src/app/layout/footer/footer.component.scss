@@ -33,6 +33,18 @@
   }
 }
 
+@include bps.media('max', 'md') {
+  .logo-container > .branding > .site-title {
+    font-size: var.$font-md;
+  }
+}
+
+@include bps.media('max', 'sm') {
+  .logo-container > .branding > .site-title {
+    font-size: var.$font-sm;
+  }
+}
+
 footer {
   align-items: center;
   background-color: col.$black;
