@@ -1,12 +1,7 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormDirective } from '@proangular/pro-form';
 import { combineLatest, map, shareReplay } from 'rxjs';
-import {
-  DX_RADIO_FILE_NAMES,
-  MX_RADIO_FILE_NAMES,
-  PIP_SCRIPTS,
-  ScriptKey,
-} from 'src/app/constants';
+import { DX_RADIO_FILE_NAMES, MX_RADIO_FILE_NAMES } from 'src/app/constants';
 import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
 import { logMessage } from 'src/app/utilities';
 
@@ -61,8 +56,7 @@ export class PipBoy3000MkVRadioPageComponent
   ) {
     super();
 
-    const scriptKey: ScriptKey = 'uart';
-    this.scriptsService.loadScript(PIP_SCRIPTS[scriptKey]);
+    this.scriptsService.loadScript('pip/webtools/uart.js');
 
     this.formGroup = new FormGroup<RadioSetFormGroup>({
       dxFiles: this.formBuilder.array(

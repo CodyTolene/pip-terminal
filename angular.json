@@ -31,38 +31,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "public/pip/apps",
-                "output": "apps"
-              },
-              {
-                "glob": "**/*",
-                "input": "public/pip/core",
-                "output": "core"
-              },
-              {
-                "glob": "**/*",
-                "input": "public/pip/css",
-                "output": "css"
-              },
-              {
-                "glob": "**/*",
-                "input": "public/pip/img",
-                "output": "img"
-              },
-              {
-                "glob": "**/*",
-                "input": "public/pip/webtools",
-                "output": "webtools"
-              },
-              {
-                "glob": "apps.json",
                 "input": "public/pip",
-                "output": "."
-              },
-              {
-                "glob": "loader.js",
-                "input": "public/pip",
-                "output": "."
+                "output": "pip"
               }
             ],
             "styles": ["src/styles.scss"],

@@ -111,6 +111,13 @@ mat-accordion {
     a:hover {
       color: col.$black;
     }
+
+    @include bps.media('max', 'md') {
+      mat-expansion-panel-header,
+      mat-panel-title {
+        font-size: var.$font-xxs;
+      }
+    }
   }
 }
 
