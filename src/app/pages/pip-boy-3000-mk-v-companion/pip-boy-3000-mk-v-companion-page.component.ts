@@ -1,4 +1,3 @@
-import { PIP_SCRIPTS } from 'src/app/constants';
 import { PipCompanionUrlsEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
 
@@ -8,8 +7,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-
-import { ScriptKey } from 'src/app/constants/pip-scripts';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 
@@ -28,8 +25,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
 })
 export class PipBoy3000MkVCompanionPageComponent implements OnDestroy {
   public constructor(private scriptsService: ScriptsService) {
-    const scriptKey: ScriptKey = 'uart';
-    this.scriptsService.loadScript(PIP_SCRIPTS[scriptKey]);
+    this.scriptsService.loadScript('pip/webtools/uart.js');
   }
 
   protected readonly PipCompanionUrlsEnum = PipCompanionUrlsEnum;

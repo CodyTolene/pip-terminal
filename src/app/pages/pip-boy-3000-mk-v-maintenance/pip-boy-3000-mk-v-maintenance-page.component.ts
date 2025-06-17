@@ -1,4 +1,3 @@
-import { PIP_SCRIPTS, ScriptKey } from 'src/app/constants';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -36,8 +35,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
 })
 export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
   public constructor(private scriptsService: ScriptsService) {
-    const scriptKey: ScriptKey = 'uart';
-    this.scriptsService.loadScript(PIP_SCRIPTS[scriptKey]);
+    this.scriptsService.loadScript('pip/webtools/uart.js');
 
     logMessage(
       'Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, ' +
