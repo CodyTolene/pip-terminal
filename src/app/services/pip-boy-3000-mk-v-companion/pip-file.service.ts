@@ -194,32 +194,42 @@ export class PipFileService {
     }
 
     const escapedPath = dir.replace(/"/g, '\\"');
-    const command = Commands.dirList(escapedPath);
-    const result = await this.pipCommandService.run<{
-      success: boolean;
-      entries: Array<{
-        name: string;
-        path: string;
-        type: 'file' | 'dir';
-        size: number;
-        modified: string;
-      }>;
-      message: string;
-    }>(command);
-
-    const errorMsg = result?.message?.toUpperCase?.() ?? '';
-    if (!result?.success) {
-      if (!errorMsg.includes('NO_PATH') && !errorMsg.includes('NO_FILE')) {
-        logMessage(`Failed to list "${dir}": ${result?.message}`);
-      }
-      return [];
-    }
-
     const nodes: Branch[] = [];
+    let offset = 0;
+    const pageSize = 20;
 
-    for (const entry of result.entries) {
-      if (log) logMessage(`${entry.type} - ${entry.path}`);
-      nodes.push(entry);
+    while (true) {
+      const command = Commands.dirList(escapedPath, offset, pageSize);
+      const result = await this.pipCommandService.run<{
+        s: boolean; // success
+        e: Array<[string, 'f' | 'd']>; // entries
+        m: string; // message
+      }>(command);
+
+      const errorMsg = result?.m?.toUpperCase?.() ?? '';
+      if (!result?.s) {
+        if (!errorMsg.includes('NO_PATH') && !errorMsg.includes('NO_FILE')) {
+          logMessage(`Failed to list "${dir}": ${result?.m}`);
+        }
+        break;
+      }
+
+      // Add received entries to list
+      for (const [name, type] of result.e) {
+        if (log) logMessage(`${type} - ${name}`);
+        nodes.push({
+          name,
+          path: `${dir}/${name}`,
+          type: type === 'd' ? 'dir' : 'file',
+        });
+      }
+
+      if (result.e.length < pageSize) {
+        // Last page (fewer entries than page size)
+        break;
+      }
+
+      offset += pageSize;
     }
 
     return nodes;

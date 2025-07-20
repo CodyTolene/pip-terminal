@@ -1,4 +1,4 @@
-export function dirList(directory: string): string {
+export function dirList(directory: string, offset = 0, limit = 20): string {
   return `
     (() => {
       var fs = require("fs");
@@ -11,30 +11,24 @@ export function dirList(directory: string): string {
       var entries = [];
       try {
         var list = fs.readdir(${JSON.stringify(directory)});
-        list.forEach(function(name) {
+        list.slice(${offset}, ${offset} + ${limit}).forEach(function(name) {
           var full = resolvePath(${JSON.stringify(directory)}, name);
           try {
             var stat = fs.statSync(full);
-            entries.push({
-              name: name,
-              path: full,
-              type: stat.dir ? "dir" : "file",
-              size: stat.size,
-              modified: stat.mtime
-            });
+            entries.push([name, stat.dir ? "d" : "f"]); // tuple: [name, type]
           } catch (_) {}
         });
 
         return {
-          success: true,
-          entries: entries,
-          message: "Listed " + entries.length + " entries."
+          s: true,
+          e: entries,
+          m: "Listed " + entries.length + " entries."
         };
       } catch (e) {
         return {
-          success: false,
-          entries: [],
-          message: "Failed to read: " + e.message
+          s: false,
+          e: [],
+          m: "Failed to read: " + e.message
         };
       }
     })();
