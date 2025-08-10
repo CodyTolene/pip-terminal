@@ -22,7 +22,6 @@ export class ScreenService {
         for (const [breakpoint, screenSize] of mapEntries) {
           if (state.breakpoints[breakpoint]) {
             return screenSize;
-            break;
           }
         }
         return ScreenSizeEnum.DESKTOP;
