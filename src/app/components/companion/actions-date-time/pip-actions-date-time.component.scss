@@ -23,18 +23,58 @@ pip-button {
   width: 100%;
 }
 
+$gap: 1rem;
+
 form {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  justify-content: flex-start;
+  gap: $gap;
+  margin: 0;
 
+  pro-input,
   pro-input-datepicker,
   pro-input-timepicker {
-    flex: 0 1 calc(50% - (0.5rem));
+    margin-bottom: 1rem;
+    flex: 0 1 calc((100% - 2 * #{$gap}) / 3);
+    min-width: 0;
+  }
+
+  @include bps.media('max', 'lg') {
+    gap: 0;
+    flex-direction: column;
+    pro-input,
+    pro-input-datepicker,
+    pro-input-timepicker {
+      flex: 0 1 100%;
+    }
+  }
+}
+
+.button-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $gap;
+  margin-bottom: 1rem;
+
+  pip-button {
+    flex: 0 1 calc(50% - ($gap / 2));
 
     @include bps.media('max', 'lg') {
       flex: 0 1 100%;
     }
   }
+
+  @include bps.media('max', 'lg') {
+    gap: 0;
+  }
+}
+
+.time {
+  margin-bottom: 1rem;
+  // text-align: center;
+  width: 100%;
 }

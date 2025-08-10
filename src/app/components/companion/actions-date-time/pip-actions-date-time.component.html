@@ -1,14 +1,4 @@
-<h3>Date and Time</h3>
-<pip-button
-  [disabled]="
-    !signals.isConnected() ||
-    signals.disableAllControls() ||
-    signals.isUploadingFile()
-  "
-  (click)="setDateTimeCurrent()"
->
-  Set to {{ timeChanges | async | dateTime: 'yyyy-MM-dd h:mm:ss a' }}
-</pip-button>
+<h3>Set to Custom Date and Time</h3>
 <form [formGroup]="formGroup">
   <pro-input-datepicker
     [formControl]="formGroup.controls.date"
@@ -23,26 +13,50 @@
     label="Time"
     placeholder="Enter or select a time"
   ></pro-input-timepicker>
+  <pro-input
+    [formControl]="formGroup.controls.second"
+    appearance="fill"
+    label="Second"
+    placeholder="Enter second"
+    type="number"
+  ></pro-input>
 </form>
+
+<div class="button-container">
+  <pip-button
+    [disabled]="
+      !signals.isConnected() ||
+      signals.disableAllControls() ||
+      signals.isUploadingFile() ||
+      (formGroup.controls.date.value === null &&
+        formGroup.controls.time.value === null)
+    "
+    (click)="clearForm()"
+  >
+    Clear
+  </pip-button>
+  <pip-button
+    [disabled]="
+      !signals.isConnected() ||
+      signals.disableAllControls() ||
+      signals.isUploadingFile()
+    "
+    (click)="setDateTime()"
+  >
+    Set
+  </pip-button>
+</div>
+
+<h3>Set to Current Date and Time</h3>
+<span class="time">{{
+  timeChanges | async | dateTime: 'yyyy-MM-dd h:mm:ss a'
+}}</span>
 <pip-button
   [disabled]="
     !signals.isConnected() ||
     signals.disableAllControls() ||
     signals.isUploadingFile()
   "
-  (click)="setDateTime()"
+  (click)="setDateTimeCurrent()"
+  >Set</pip-button
 >
-  Set Custom Date and Time
-</pip-button>
-<pip-button
-  [disabled]="
-    !signals.isConnected() ||
-    signals.disableAllControls() ||
-    signals.isUploadingFile() ||
-    (formGroup.controls.date.value === null &&
-      formGroup.controls.time.value === null)
-  "
-  (click)="clearForm()"
->
-  Clear Inputs
-</pip-button>

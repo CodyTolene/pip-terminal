@@ -1,5 +1,6 @@
 import {
   FormDirective,
+  InputComponent,
   InputDatepickerComponent,
   InputTimepickerComponent,
 } from '@proangular/pro-form';
@@ -9,7 +10,7 @@ import { DateTimePipe } from 'src/app/pipes';
 import { pipSignals } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
-import { Component, effect } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -30,6 +31,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
   imports: [
     CommonModule,
     DateTimePipe,
+    InputComponent,
     InputDatepickerComponent,
     InputTimepickerComponent,
     PipButtonComponent,
@@ -39,7 +41,10 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
   providers: [],
   standalone: true,
 })
-export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup> {
+export class PipActionsDateTimeComponent
+  extends FormDirective<DateTimeFormGroup>
+  implements OnInit
+{
   public constructor(
     private readonly pipTimeService: PipTimeService,
     private readonly setDataService: PipSetDataService,
@@ -57,12 +62,19 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
   protected readonly signals = pipSignals;
   protected readonly timeChanges: Observable<DateTime>;
 
+  public ngOnInit(): void {
+    this.formGroup.controls.date.setValue(DateTime.now());
+    this.formGroup.controls.second.setValue(DateTime.now().second);
+    this.formGroup.controls.time.setValue(DateTime.now());
+  }
+
   protected clearForm(): void {
     if (
       !this.signals.isConnected() ||
       this.signals.disableAllControls() ||
       this.signals.isUploadingFile() ||
       (this.formGroup.controls.date.value === null &&
+        this.formGroup.controls.second.value === null &&
         this.formGroup.controls.time.value === null)
     ) {
       return;
@@ -78,34 +90,40 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
   protected async setDateTime(): Promise<void> {
     if (this.formGroup.invalid) {
       this.highlightInvalidControls();
-      // this.scrollToFirstInvalidControl();
 
       const dateInvalid = this.formGroup.controls.date.invalid;
+      const secondsInvalid = this.formGroup.controls.second.invalid;
       const timeInvalid = this.formGroup.controls.time.invalid;
 
-      const message =
-        dateInvalid && timeInvalid
-          ? 'Date and time invalid!'
-          : dateInvalid
-            ? 'Date invalid!'
-            : 'Time invalid!';
+      if (dateInvalid) {
+        logMessage('Date is invalid!');
+      }
+      if (secondsInvalid) {
+        logMessage('Second is invalid!');
+      }
+      if (timeInvalid) {
+        logMessage('Time is invalid!');
+      }
 
-      logMessage(message);
       return;
     }
 
     const date: DateTime | null = this.formGroup.get('date')?.value ?? null;
+    const second = this.formGroup.get('second')?.value ?? 0;
     const time: DateTime | null = this.formGroup.get('time')?.value ?? null;
 
-    if (!date || !time) {
-      throw new Error('Date and time are required');
+    if (!date) {
+      throw new Error('Date is required');
+    }
+    if (!time) {
+      throw new Error('Time is required');
     }
 
     const dateTime = date.set({
       hour: time.hour,
       minute: time.minute,
-      second: time.second,
-      millisecond: time.millisecond,
+      second,
+      millisecond: 0,
     });
 
     await this.setDataService.setDateTime(dateTime);
@@ -119,9 +137,11 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
 
     if (shouldDisable) {
       this.formGroup.controls.date.disable({ emitEvent: false });
+      this.formGroup.controls.second.disable({ emitEvent: false });
       this.formGroup.controls.time.disable({ emitEvent: false });
     } else {
       this.formGroup.controls.date.enable({ emitEvent: false });
+      this.formGroup.controls.second.enable({ emitEvent: false });
       this.formGroup.controls.time.enable({ emitEvent: false });
     }
   }
@@ -129,10 +149,16 @@ export class PipActionsDateTimeComponent extends FormDirective<DateTimeFormGroup
 
 interface DateTimeFormGroup {
   date: FormControl<DateTime | null>;
+  second: FormControl<number | null>;
   time: FormControl<DateTime | null>;
 }
 
 const formGroup = new FormGroup<DateTimeFormGroup>({
   date: new FormControl<DateTime | null>(null, [Validators.required]),
+  second: new FormControl<number | null>(null, [
+    Validators.required,
+    Validators.min(0),
+    Validators.max(59),
+  ]),
   time: new FormControl<DateTime | null>(null, [Validators.required]),
 });
