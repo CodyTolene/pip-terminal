@@ -33,7 +33,7 @@ export class PipConnectionService {
       UART.ports = ['Web Serial'];
 
       // 3 = Full debug
-      UART.debug = 3;
+      UART.debug = 1;
 
       // "usbProductId: 0xA4F1 for Pip-Boy with recent firmware"
       UART.optionsSerial = { filters: [{ usbVendorId: 0x0483 }] };
