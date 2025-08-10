@@ -8,7 +8,8 @@ import { PipActionsMiscComponent } from 'src/app/components/companion/actions-mi
 import { PipActionsOwnerComponent } from 'src/app/components/companion/actions-owner/pip-actions-owner.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
 import { PipActionsTestingComponent } from 'src/app/components/companion/actions-testing/pip-actions-testing.component';
-import { PipActionsUpdateComponent } from 'src/app/components/companion/actions-update/pip-actions-update.component';
+// import { PipActionsUpdateComponent } from 'src/app/components/companion/actions-update/pip-actions-update.component';
+import { PipActionsZipUploadComponent } from 'src/app/components/companion/actions-zip-upload/pip-actions-zip-upload.component';
 import { PipFileExplorerComponent } from 'src/app/components/companion/file-explorer/pip-file-explorer.component';
 import { PipFileUploaderComponent } from 'src/app/components/companion/file-uploader/pip-file-uploader.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
@@ -25,7 +26,8 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipActionsOwnerComponent,
     PipActionsPrimaryComponent,
     PipActionsTestingComponent,
-    PipActionsUpdateComponent,
+    // PipActionsUpdateComponent,
+    PipActionsZipUploadComponent,
     PipFileExplorerComponent,
     PipFileUploaderComponent,
     PipLogComponent,
@@ -43,6 +45,7 @@ export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
         'project is for personal use only and is not intended for ' +
         'commercial purposes. Use of any materials is at your own risk.',
     );
+    logMessage('Terminal online and ready to connect.');
   }
 
   public ngOnDestroy(): void {

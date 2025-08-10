@@ -73,6 +73,7 @@ export class PipBoy3000MkVRadioPageComponent
         'project is for personal use only and is not intended for ' +
         'commercial purposes. Use of any materials is at your own risk.',
     );
+    logMessage('Terminal online and ready to connect.');
   }
 
   protected override readonly formGroup: FormGroup<RadioSetFormGroup>;

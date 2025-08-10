@@ -1,21 +1,8 @@
-<h3>Firmware Update</h3>
+<h3>Zip Upload</h3>
 
-<p>Select a firmware to update the Pip-Boy.</p>
-
-<pip-button
-  (click)="fetchLatestUpdateLinks()"
-  [disabled]="
-    signals.disableAllControls() ||
-    signals.isUploadingFile() ||
-    (isFetchingChanges | async)
-  "
->
-  @if (isFetchingChanges | async) {
-    Fetch FW Links ({{ countdownChanges | async }})
-  } @else {
-    Fetch FW Links
-  }
-</pip-button>
+<p>
+  Upload a Zip file to be extracted to the root of the SD card on the Pip-Boy.
+</p>
 
 <pip-file-upload
   [accept]="['.zip']"
