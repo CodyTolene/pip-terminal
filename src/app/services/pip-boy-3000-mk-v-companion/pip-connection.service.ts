@@ -29,7 +29,14 @@ export class PipConnectionService {
         throw new Error('UART not loaded yet.');
       }
 
-      UART.ports = ['Web Serial']; // Restrict to Web Serial only
+      // Restrict to Web Serial only
+      UART.ports = ['Web Serial'];
+
+      // 3 = Full debug
+      UART.debug = 1;
+
+      // "usbProductId: 0xA4F1 for Pip-Boy with recent firmware"
+      UART.optionsSerial = { filters: [{ usbVendorId: 0x0483 }] };
 
       this.connection = await UART.connectAsync();
 

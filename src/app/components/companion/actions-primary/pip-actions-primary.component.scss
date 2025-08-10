@@ -11,6 +11,7 @@
   gap: 1rem;
   justify-content: space-between;
   padding: 1rem;
+  width: 100%;
 
   &:hover {
     @include ani.borderAnimation;

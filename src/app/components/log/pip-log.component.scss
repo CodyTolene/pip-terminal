@@ -1,25 +1,89 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
 @use '../../styles/scrollbar' as sb;
 
 :host {
+  flex: 1 1 100%;
+  background-color: black;
+
+  &.collapsed {
+    max-height: 4rem;
+    height: 4rem;
+    overflow: hidden;
+
+    > aside {
+      overflow: hidden;
+    }
+  }
+
+  @include bps.media('max', 'lg') {
+    border-top: 5px ridge col.$pip-green-dark;
+    border-top-style: ridge;
+    flex: 1 1 30%;
+    max-height: 30%;
+  }
+}
+
+aside {
   overflow-x: hidden;
   overflow-y: auto;
   @include sb.scrollbar;
+
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  padding: 1rem;
+
+  /* integrated scanline layers */
+  background-image:
+    linear-gradient(rgba(0, 255, 0, 0.05), rgba(0, 255, 0, 0.05)),
+    linear-gradient(rgba(0, 255, 0, 0.15) 49%, rgba(0, 255, 0, 0.05) 51%);
+  background-size:
+    auto,
+    100% 4px;
+  background-repeat: repeat, repeat;
+  background-attachment: local, local;
+  background-position:
+    0 0,
+    0 0;
+  animation: scanlines 1s linear infinite;
 }
 
 h3 {
-  border-bottom: 2px dashed col.$pip-green;
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  border-bottom: 2px dashed col.$pip-green-dark;
   display: flex;
   flex-direction: row;
   line-height: 2rem;
-  margin-top: 0;
+  margin: 0 0 1rem 0;
   padding-bottom: 1rem;
   justify-content: space-between;
   width: 100%;
+
+  .button-container {
+    display: flex;
+    gap: 0.5rem;
+  }
 }
 
 pip-button {
   display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+@keyframes scanlines {
+  0% {
+    background-position-y: 0, 0;
+  }
+  100% {
+    background-position-y: 0, 4px;
+  }
 }

@@ -1,12 +1,18 @@
 @use 'sass:map';
 
 $breakpoints: (
+  // 0-360 = MOBILE
   xs: 360px,
+  // 360-600 = MOBILE
   sm: 600px,
+  // 600-960 = TABLET
   md: 960px,
+  // 960-1280 = DESKTOP
   lg: 1280px,
+  // 1280-1920 = DESKTOP
   xl: 1920px,
-  xxl: 2560px,
+  // 1920-2560 = DESKTOP
+  xxl: 2560px
 );
 
 @function getBreakpoint($breakpoint-name) {
@@ -18,8 +24,8 @@ $breakpoints: (
 }
 
 // Usage Example:
-// @include media('min', 'sm') { ... }
-// @include media('max', 'md') { ... }
+// @include media('min', 'sm') { ... } // Applies to any screen > 'sm' (600px)
+// @include media('max', 'md') { ... } // Applies to any screen < 'md' (960px)
 @mixin media($type, $breakpoint-name) {
   $breakpoint-value: getBreakpoint($breakpoint-name);
 
@@ -28,7 +34,7 @@ $breakpoints: (
       @content;
     }
   } @else if $type == 'max' {
-    @media only screen and (max-width: $breakpoint-value) {
+    @media only screen and (max-width: #{$breakpoint-value - 1}) {
       @content;
     }
   } @else {
