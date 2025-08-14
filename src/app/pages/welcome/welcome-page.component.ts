@@ -1,5 +1,5 @@
 import { APP_VERSION } from 'src/app/constants';
-import { PipUrlsEnum } from 'src/app/enums';
+import { PageLayoutsEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
 import { PipHeaderComponent } from 'src/app/layout/header/header.component';
 
@@ -25,7 +25,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   standalone: true,
 })
 export class WelcomePageComponent {
-  protected readonly PipUrlsEnum = PipUrlsEnum;
+  protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
   protected readonly versionNumber = APP_VERSION;
 

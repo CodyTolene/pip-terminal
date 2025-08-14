@@ -8,13 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
 
 @Component({
-  selector: 'pip-status-page',
+  selector: 'pip-boy-3000-mk-iv-status-page',
   templateUrl: './status-page.component.html',
   imports: [CommonModule, MatIconModule],
   styleUrl: './status-page.component.scss',
   standalone: true,
 })
-export class StatusPageComponent {
+export class PipBoy3000MkIVStatusPageComponent {
   public constructor(protected readonly tabsService: PipBoy3000TabsService) {}
 
   protected readonly TabLabelEnum = TabLabelEnum;

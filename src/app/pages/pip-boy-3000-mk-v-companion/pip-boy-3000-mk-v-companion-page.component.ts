@@ -1,5 +1,5 @@
-import { PipCompanionUrlsEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
+import { PAGES } from 'src/app/routing';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -28,7 +28,7 @@ export class PipBoy3000MkVCompanionPageComponent implements OnDestroy {
     this.scriptsService.loadScript('pip/webtools/uart.js');
   }
 
-  protected readonly PipCompanionUrlsEnum = PipCompanionUrlsEnum;
+  protected readonly PAGES = PAGES;
 
   public ngOnDestroy(): void {
     this.scriptsService.unloadAll();

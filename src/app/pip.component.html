@@ -1,20 +1,20 @@
-@switch (pipUrlSignal()) {
-  @case (PipUrlsEnum.NONE) {
-    <pip-welcome-page />
+@switch (pageLayoutChanges | async) {
+  @case (PageLayoutsEnum.NONE) {
+    <pip-default-layout />
   }
-  @case (PipUrlsEnum.PIP_2000_MK_VI) {
+  @case (PageLayoutsEnum.PIP_2000_MK_VI) {
     <pip-boy-2000-mk-vi-layout />
   }
-  @case (PipUrlsEnum.PIP_3000) {
+  @case (PageLayoutsEnum.PIP_3000) {
     <pip-boy-3000-layout />
   }
-  @case (PipUrlsEnum.PIP_3000A) {
+  @case (PageLayoutsEnum.PIP_3000A) {
     <pip-boy-3000a-layout />
   }
-  @case (PipUrlsEnum.PIP_3000_MK_IV) {
+  @case (PageLayoutsEnum.PIP_3000_MK_IV) {
     <pip-boy-3000-mk-iv-layout />
   }
-  @case (PipUrlsEnum.PIP_3000_MK_V) {
+  @case (PageLayoutsEnum.PIP_3000_MK_V) {
     <pip-boy-3000-mk-v-companion-layout />
   }
   @default {

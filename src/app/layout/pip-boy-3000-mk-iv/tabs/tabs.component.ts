@@ -1,4 +1,4 @@
-import { PipUrlsEnum, SoundEnum, TabLabelEnum } from 'src/app/enums';
+import { PageLayoutsEnum, SoundEnum, TabLabelEnum } from 'src/app/enums';
 
 import { CommonModule } from '@angular/common';
 import { Component, ContentChildren, QueryList } from '@angular/core';
@@ -44,7 +44,7 @@ export class TabsComponent {
   }
 
   protected getTabRouterLink(tab: TabComponent): string[] {
-    const tabPath = `${PipUrlsEnum.PIP_3000_MK_IV}/${tab.label.toLowerCase()}`;
+    const tabPath = `${PageLayoutsEnum.PIP_3000_MK_IV}/${tab.label.toLowerCase()}`;
     const subTab = this.getActiveSubTabLabel(tab);
 
     return subTab ? [tabPath, subTab.toLowerCase()] : [tabPath];

@@ -1,7 +1,7 @@
 {
   "name": "pip-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
@@ -10,12 +10,13 @@
   },
   "scripts": {
     "angular-version": "ng --version",
+    "api:start": "npm run serve --prefix api",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "generate:apps": "ts-node --project .scripts/tsconfig.scripts.json .scripts/generate-apps.ts",
     "lint": "ng lint",
     "ng": "ng",
-    "postinstall": "is-ci || husky install && patch-package",
+    "postinstall": "is-ci || husky install && patch-package && cd api && npm install && cd ..",
     "prebuild": "npm run update:version",
     "prepare": "husky install",
     "prestart": "npm run update:version",

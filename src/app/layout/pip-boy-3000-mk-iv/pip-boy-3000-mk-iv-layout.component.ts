@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
-import { PipUrlsEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import { PageLayoutsEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { ContentComponent } from 'src/app/layout/content/content.component';
 import { PipBoy3000MkIVFooterComponent } from 'src/app/layout/pip-boy-3000-mk-iv/footer/pip-boy-3000-mk-iv-footer.component';
 import { SubTabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/sub-tab.component';
@@ -84,7 +84,7 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
   protected readonly SubTabLabelEnum = SubTabLabelEnum;
   protected readonly TabLabelEnum = TabLabelEnum;
 
-  protected readonly currentView: PipUrlsEnum = PipUrlsEnum.NONE;
+  protected readonly currentView: PageLayoutsEnum = PageLayoutsEnum.NONE;
   protected readonly soundVolume: WritableSignal<number>;
 
   public ngOnInit(): void {
@@ -124,7 +124,7 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
       fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
     }
 
-    if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
+    if (fullPathSegments.includes(PageLayoutsEnum.PIP_3000_MK_IV)) {
       // Matched PIP_3000_MK_IV route
       const tabSegment = fullPathSegments[1]?.toUpperCase() || null;
       const subTabSegment = fullPathSegments[2]?.toUpperCase() || null;
@@ -134,14 +134,18 @@ export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
 
       if (tab && subTab) {
         // Switching to tab and subtab
-        this.tabsService.switchToTab(PipUrlsEnum.PIP_3000_MK_IV, tab, subTab);
+        this.tabsService.switchToTab(
+          PageLayoutsEnum.PIP_3000_MK_IV,
+          tab,
+          subTab,
+        );
       } else if (tab) {
         // Switching to tab only
-        this.tabsService.switchToTab(PipUrlsEnum.PIP_3000_MK_IV, tab);
+        this.tabsService.switchToTab(PageLayoutsEnum.PIP_3000_MK_IV, tab);
       } else {
         // Fallback to default tab/subtab
         this.tabsService.switchToTab(
-          PipUrlsEnum.PIP_3000_MK_IV,
+          PageLayoutsEnum.PIP_3000_MK_IV,
           TabLabelEnum.STAT,
           SubTabLabelEnum.STATUS,
         );

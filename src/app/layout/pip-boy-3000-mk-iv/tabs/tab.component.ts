@@ -1,5 +1,5 @@
 import {
-  PipUrlsEnum,
+  PageLayoutsEnum,
   SoundEnum,
   SubTabLabelEnum,
   TabLabelEnum,
@@ -67,7 +67,7 @@ export class TabComponent implements AfterContentInit {
     tabLabel: TabLabelEnum,
     subTabLabel: SubTabLabelEnum,
   ): string {
-    const tabPath = `${PipUrlsEnum.PIP_3000_MK_IV}/${tabLabel.toLowerCase()}`;
+    const tabPath = `${PageLayoutsEnum.PIP_3000_MK_IV}/${tabLabel.toLowerCase()}`;
     const subTabPath = subTabLabel.toLowerCase();
     return `${tabPath}/${subTabPath}`;
   }
