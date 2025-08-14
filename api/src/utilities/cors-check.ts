@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import * as logger from 'firebase-functions/logger';
+import { logger } from "firebase-functions";
 import { isNonEmptyString } from './type-checks';
 
 /** Middleware for validating CORS and handling preflight. */

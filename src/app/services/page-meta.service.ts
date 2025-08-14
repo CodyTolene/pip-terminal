@@ -18,7 +18,7 @@ export class PageMetaService {
   }
 
   public setKeywords(keywords: readonly string[]): void {
-    this.meta.updateTag({ name: 'keywords', content: keywords.toString() });
+    this.meta.updateTag({ name: 'keywords', content: keywords.join(', ') });
   }
 
   public setTitle(title: string): void {

@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { logger } from "firebase-functions";
 
 export async function usersSeed(): Promise<boolean> {
   const auth = admin.auth();
@@ -16,8 +17,7 @@ export async function usersSeed(): Promise<boolean> {
     try {
       const user = await auth.createUser(userSeed);
 
-      // eslint-disable-next-line no-console
-      console.log(`Created user: ${user.email}`);
+      logger.info(`Created user: ${user.email}`);
 
     } catch (err: unknown) {
       if (
@@ -26,8 +26,7 @@ export async function usersSeed(): Promise<boolean> {
         'code' in err &&
         (err as Record<string, unknown>).code === 'auth/email-already-exists'
       ) {
-        // eslint-disable-next-line no-console
-        console.log(`User already exists: ${userSeed.email}`);
+        logger.info(`User already exists: ${userSeed.email}`);
       } else {
         console.error(`Failed to create user ${userSeed.email}:`, err);
       }

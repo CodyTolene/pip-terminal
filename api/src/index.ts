@@ -11,7 +11,7 @@ import * as admin from 'firebase-admin';
 import express from 'express';
 import { usersSeed } from './seeds';
 import { onRequest } from 'firebase-functions/v2/https';
-import { setGlobalOptions } from "firebase-functions";
+import { logger, setGlobalOptions } from "firebase-functions";
 import { corsCheck } from './utilities';
 import { HealthCheckController } from './controllers';
 
@@ -22,7 +22,7 @@ const err = (message: string, ...args: unknown[]): void => {
 };
 const log = (message: string): void => {
   // eslint-disable-next-line no-console
-  console.log(`[${new Date().toISOString()}] ${message}`);
+  logger.info(`[${new Date().toISOString()}] ${message}`);
 };
 
 admin.initializeApp({
