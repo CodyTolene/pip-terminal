@@ -1,14 +1,13 @@
 import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { pipSignals } from 'src/app/signals';
 
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'pip-boy-3000-mk-iv-status-page',
   templateUrl: './status-page.component.html',
-  imports: [CommonModule, MatIconModule],
+  imports: [MatIconModule],
   styleUrl: './status-page.component.scss',
   standalone: true,
 })

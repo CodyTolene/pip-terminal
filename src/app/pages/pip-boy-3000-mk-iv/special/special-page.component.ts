@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'pip-special-page',
   templateUrl: './special-page.component.html',
-  imports: [CommonModule],
+  imports: [],
   styleUrl: './special-page.component.scss',
   providers: [],
   standalone: true,

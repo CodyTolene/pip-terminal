@@ -1,6 +1,5 @@
 import { PipHeaderComponent } from 'src/app/layout/header/header.component';
 
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { ContentComponent } from '../content/content.component';
@@ -13,12 +12,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
     <pip-navbar />
     <pip-content />
   `,
-  imports: [
-    CommonModule,
-    PipHeaderComponent,
-    ContentComponent,
-    NavbarComponent,
-  ],
+  imports: [PipHeaderComponent, ContentComponent, NavbarComponent],
   styleUrl: './pip-boy-3000-mk-v-companion-layout.component.scss',
   providers: [],
   standalone: true,

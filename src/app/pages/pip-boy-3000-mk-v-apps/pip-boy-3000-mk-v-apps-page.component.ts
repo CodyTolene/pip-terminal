@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -7,7 +6,7 @@ import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-compani
 @Component({
   selector: 'pip-boy-3000-mk-v-apps-page',
   templateUrl: './pip-boy-3000-mk-v-apps-page.component.html',
-  imports: [CommonModule],
+  imports: [],
   styleUrl: './pip-boy-3000-mk-v-apps-page.component.scss',
   standalone: true,
 })

@@ -5,7 +5,6 @@ import {
   TabLabelEnum,
 } from 'src/app/enums';
 
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   Component,
@@ -27,7 +26,7 @@ import { SubTabComponent } from './sub-tab.component';
   selector: 'pip-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   providers: [],
   standalone: true,
 })

@@ -1,7 +1,6 @@
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
 import { PAGES } from 'src/app/routing';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
@@ -14,7 +13,6 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   selector: 'pip-boy-3000-mk-v-companion-page',
   templateUrl: './pip-boy-3000-mk-v-companion-page.component.html',
   imports: [
-    CommonModule,
     MatExpansionModule,
     PipButtonComponent,
     PipFooterComponent,

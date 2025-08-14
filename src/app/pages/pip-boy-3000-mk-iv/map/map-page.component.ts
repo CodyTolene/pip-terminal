@@ -1,14 +1,13 @@
 import { MapService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
   selector: 'pip-map-page',
   templateUrl: './map-page.component.html',
-  imports: [CommonModule, GoogleMapsModule],
+  imports: [GoogleMapsModule],
   styleUrl: './map-page.component.scss',
   providers: [],
   standalone: true,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -6,7 +5,7 @@ import { RouterModule } from '@angular/router';
   selector: 'pip-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   standalone: true,
 })
 export class NavbarComponent {

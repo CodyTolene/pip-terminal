@@ -1,7 +1,6 @@
 import { InputDirective } from '@proangular/pro-form';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'pip-file-upload',
   templateUrl: './file-upload.component.html',
-  imports: [CommonModule, MatInputModule, ReactiveFormsModule],
+  imports: [MatInputModule, ReactiveFormsModule],
   styleUrl: './file-upload.component.scss',
   standalone: true,
 })

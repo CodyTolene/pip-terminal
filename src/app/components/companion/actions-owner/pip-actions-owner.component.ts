@@ -2,7 +2,6 @@ import { FormDirective, InputComponent } from '@proangular/pro-form';
 import { PipSetDataService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
 import {
   FormControl,
@@ -18,12 +17,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
 @Component({
   selector: 'pip-actions-owner',
   templateUrl: './pip-actions-owner.component.html',
-  imports: [
-    CommonModule,
-    InputComponent,
-    PipButtonComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [InputComponent, PipButtonComponent, ReactiveFormsModule],
   styleUrl: './pip-actions-owner.component.scss',
   providers: [],
   standalone: true,

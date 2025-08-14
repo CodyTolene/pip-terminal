@@ -22,7 +22,6 @@ import {
 import { pipSignals } from 'src/app/signals';
 import { getEnumMember } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -45,7 +44,6 @@ import {
   selector: 'pip-boy-3000-mk-iv-layout',
   templateUrl: './pip-boy-3000-mk-iv-layout.component.html',
   imports: [
-    CommonModule,
     ContentComponent,
     PipBoy3000MkIVFooterComponent,
     MatIconModule,
