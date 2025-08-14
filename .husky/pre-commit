@@ -1,3 +1,5 @@
+# Undo any changes to submodules.
+git submodule update --init --recursive --force public/pip
 npm run prettier
 git add --update
 npm run lint

@@ -14,7 +14,12 @@ public/
 !README.md
 !angular.json
 !e2e/src
+!public/site.webmanifest.json
 !src/
+!api/src/**
+!api/package.json
+!api/tsconfig.json
+!api/tsconfig.dev.json
 
 # Re-ignore sub-directories from the above exempt directories:
 .github/CODEOWNERS
