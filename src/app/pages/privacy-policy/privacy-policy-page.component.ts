@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'pip-privacy-policy-page',
   templateUrl: './privacy-policy-page.component.html',
   imports: [CommonModule],
-  styleUrls: ['./privacy-policy-page.component.css'],
+  styleUrls: ['./privacy-policy-page.component.scss'],
   standalone: true,
 })
 export class PrivacyPolicyPageComponent {}

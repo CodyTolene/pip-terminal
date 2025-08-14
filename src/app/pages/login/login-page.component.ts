@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'pip-login-page',
   templateUrl: './login-page.component.html',
   imports: [CommonModule],
-  styleUrls: ['./login-page.component.css'],
+  styleUrls: ['./login-page.component.scss'],
   standalone: true,
 })
 export class LoginPageComponent {}

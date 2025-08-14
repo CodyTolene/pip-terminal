@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'pip-register-page',
   templateUrl: './register-page.component.html',
   imports: [CommonModule],
-  styleUrls: ['./register-page.component.css'],
+  styleUrls: ['./register-page.component.scss'],
   standalone: true,
 })
 export class RegisterPageComponent {}

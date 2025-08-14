@@ -6,7 +6,7 @@ import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   FormArray,
@@ -51,6 +51,7 @@ export class PipBoy3000MkVRadioPageComponent
 {
   public constructor(
     private readonly formBuilder: FormBuilder,
+    private readonly pipSoundService: PipSoundService,
     private readonly scriptsService: ScriptsService,
   ) {
     super();
@@ -74,8 +75,6 @@ export class PipBoy3000MkVRadioPageComponent
     );
     logMessage('Terminal online and ready to connect.');
   }
-
-  private readonly pipSoundService = inject(PipSoundService);
 
   protected override readonly formGroup: FormGroup<RadioSetFormGroup>;
 
