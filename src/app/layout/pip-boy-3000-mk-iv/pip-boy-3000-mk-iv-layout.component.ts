@@ -6,6 +6,19 @@ import { PipBoy3000MkIVFooterComponent } from 'src/app/layout/pip-boy-3000-mk-iv
 import { SubTabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/sub-tab.component';
 import { TabComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/tab.component';
 import { TabsComponent } from 'src/app/layout/pip-boy-3000-mk-iv/tabs/tabs.component';
+import {
+  PageMetaService,
+  PipBoy3000TabsService,
+  PipCommandService,
+  PipConnectionService,
+  PipDeviceService,
+  PipFileService,
+  PipGetDataService,
+  PipSetDataService,
+  PipSoundService,
+  PipTimeService,
+  SoundService,
+} from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 import { getEnumMember } from 'src/app/utilities';
 
@@ -15,6 +28,7 @@ import {
   Component,
   OnInit,
   WritableSignal,
+  inject,
 } from '@angular/core';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,18 +39,6 @@ import {
   Router,
   RouterModule,
 } from '@angular/router';
-
-import { PageMetaService } from 'src/app/services/page-meta.service';
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
-import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
-import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-connection.service';
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
-import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
-import { PipGetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-get-data.service';
-import { PipSetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-set-data.service';
-import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
-import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
-import { SoundService } from 'src/app/services/sound.service';
 
 @UntilDestroy()
 @Component({
@@ -70,21 +72,18 @@ import { SoundService } from 'src/app/services/sound.service';
   ],
 })
 export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
-  public constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly pageMetaService: PageMetaService,
-    private readonly router: Router,
-    private readonly soundService: SoundService,
-    private readonly tabsService: PipBoy3000TabsService,
-  ) {
+  public constructor(private readonly soundService: SoundService) {
     this.soundVolume = this.soundService.globalVolumePercent;
     pipSignals.batteryLevel.set(100);
   }
 
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly pageMetaService = inject(PageMetaService);
+  private readonly router = inject(Router);
+  private readonly tabsService = inject(PipBoy3000TabsService);
+
   protected readonly SubTabLabelEnum = SubTabLabelEnum;
   protected readonly TabLabelEnum = TabLabelEnum;
-
-  protected readonly currentView: PageLayoutsEnum = PageLayoutsEnum.NONE;
   protected readonly soundVolume: WritableSignal<number>;
 
   public ngOnInit(): void {

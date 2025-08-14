@@ -4,7 +4,7 @@ import { Commands } from 'src/app/commands';
 import { pipSignals } from 'src/app/signals';
 import { wait } from 'src/app/utilities';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { PipAppBase } from 'src/app/models/pip-app.model';
 
@@ -19,10 +19,8 @@ import { PipConnectionService } from './pip-connection.service';
  */
 @Injectable({ providedIn: 'root' })
 export class PipFileService {
-  public constructor(
-    private readonly pipCommandService: PipCommandService,
-    private readonly pipConnectionService: PipConnectionService,
-  ) {}
+  private readonly pipCommandService = inject(PipCommandService);
+  private readonly pipConnectionService = inject(PipConnectionService);
 
   public readonly appBootDirecotory = 'USER_BOOT';
   public readonly appMainDirectory = 'USER';

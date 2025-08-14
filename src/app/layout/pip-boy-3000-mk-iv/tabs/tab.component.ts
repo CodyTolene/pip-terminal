@@ -14,6 +14,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -30,10 +31,8 @@ import { SubTabComponent } from './sub-tab.component';
   providers: [],
 })
 export class TabComponent implements AfterContentInit {
-  public constructor(
-    private readonly tabsService: PipBoy3000TabsService,
-    private readonly soundService: SoundService,
-  ) {}
+  private readonly soundService = inject(SoundService);
+  private readonly tabsService = inject(PipBoy3000TabsService);
 
   @Input({ required: true }) public label!: TabLabelEnum;
 

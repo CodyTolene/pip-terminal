@@ -1,10 +1,9 @@
+import { MapService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
-
-import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'pip-map-page',
@@ -15,7 +14,7 @@ import { MapService } from 'src/app/services/map.service';
   standalone: true,
 })
 export class MapPageComponent implements OnInit {
-  public constructor(private readonly mapService: MapService) {}
+  private readonly mapService = inject(MapService);
 
   protected options: google.maps.MapOptions | null = null;
 

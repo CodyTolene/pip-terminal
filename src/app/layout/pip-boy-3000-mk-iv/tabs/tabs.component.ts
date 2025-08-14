@@ -1,11 +1,9 @@
 import { PageLayoutsEnum, SoundEnum, TabLabelEnum } from 'src/app/enums';
+import { PipBoy3000TabsService, SoundService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
-import { Component, ContentChildren, QueryList } from '@angular/core';
+import { Component, ContentChildren, QueryList, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
-import { SoundService } from 'src/app/services/sound.service';
 
 import { TabComponent } from './tab.component';
 
@@ -17,10 +15,8 @@ import { TabComponent } from './tab.component';
   providers: [],
 })
 export class TabsComponent {
-  public constructor(
-    private readonly tabsService: PipBoy3000TabsService,
-    private readonly soundService: SoundService,
-  ) {}
+  private readonly soundService = inject(SoundService);
+  private readonly tabsService = inject(PipBoy3000TabsService);
 
   @ContentChildren(TabComponent)
   protected tabs!: QueryList<TabComponent>;

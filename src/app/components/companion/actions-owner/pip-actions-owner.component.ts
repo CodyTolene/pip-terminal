@@ -1,8 +1,9 @@
 import { FormDirective, InputComponent } from '@proangular/pro-form';
+import { PipSetDataService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
-import { Component, effect } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,8 +12,6 @@ import {
 } from '@angular/forms';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-
-import { PipSetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-set-data.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
@@ -30,13 +29,15 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
   standalone: true,
 })
 export class PipActionsOwnerComponent extends FormDirective<OwnerFormGroup> {
-  public constructor(private readonly setDataService: PipSetDataService) {
+  public constructor() {
     super();
 
     effect(() => {
       this.updateFormControlState();
     });
   }
+
+  private readonly setDataService = inject(PipSetDataService);
 
   protected override readonly formGroup = formGroup;
   protected readonly signals = pipSignals;

@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 
 /** Service for managing application page meta. */
 @Injectable({ providedIn: 'root' })
 export class PageMetaService {
-  public constructor(
-    private readonly meta: Meta,
-    private readonly title: Title,
-  ) {}
+  private readonly meta = inject(Meta);
+  private readonly title = inject(Title);
 
   public setAuthor(author: string): void {
     this.meta.updateTag({ name: 'author', content: author });

@@ -7,10 +7,11 @@ import {
 import { DateTime } from 'luxon';
 import { Observable } from 'rxjs';
 import { DateTimePipe } from 'src/app/pipes';
+import { PipSetDataService, PipTimeService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,9 +20,6 @@ import {
 } from '@angular/forms';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-
-import { PipSetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-set-data.service';
-import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
@@ -45,10 +43,7 @@ export class PipActionsDateTimeComponent
   extends FormDirective<DateTimeFormGroup>
   implements OnInit
 {
-  public constructor(
-    private readonly pipTimeService: PipTimeService,
-    private readonly setDataService: PipSetDataService,
-  ) {
+  public constructor(private readonly pipTimeService: PipTimeService) {
     super();
 
     this.timeChanges = this.pipTimeService.timeChanges;
@@ -57,6 +52,8 @@ export class PipActionsDateTimeComponent
       this.updateFormControlState();
     });
   }
+
+  private readonly setDataService = inject(PipSetDataService);
 
   protected override readonly formGroup = formGroup;
   protected readonly signals = pipSignals;

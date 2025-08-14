@@ -9,7 +9,7 @@ import {
 import { PageLayoutsEnum, SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { isNonEmptyValue } from 'src/app/utilities';
 
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 @UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class PipBoy3000TabsService {
-  public constructor(private readonly router: Router) {}
+  private readonly router = inject(Router);
 
   public activeTabLabel = signal<TabLabelEnum | null>(null);
   public activeSubTabLabel = signal<SubTabLabelEnum | null>(null);

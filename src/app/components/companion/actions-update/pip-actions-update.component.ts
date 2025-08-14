@@ -11,11 +11,12 @@ import {
   takeWhile,
   timer,
 } from 'rxjs';
+import { PipDeviceService, PipFileService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 import { wait } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,9 +25,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
-
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
-import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
 
 import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
 
@@ -49,10 +47,8 @@ import { logLink, logMessage } from 'src/app/utilities/pip-log.util';
   standalone: true,
 })
 export class PipActionsUpdateComponent implements OnInit {
-  public constructor(
-    private readonly pipDeviceService: PipDeviceService,
-    private readonly pipFileService: PipFileService,
-  ) {}
+  private readonly pipDeviceService = inject(PipDeviceService);
+  private readonly pipFileService = inject(PipFileService);
 
   private readonly isFetchingSubject = new BehaviorSubject<boolean>(false);
 

@@ -5,8 +5,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
-
 @Component({
   selector: 'pip-boy-3000-mk-iv-status-page',
   templateUrl: './status-page.component.html',
@@ -15,8 +13,6 @@ import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-b
   standalone: true,
 })
 export class PipBoy3000MkIVStatusPageComponent {
-  public constructor(protected readonly tabsService: PipBoy3000TabsService) {}
-
   protected readonly TabLabelEnum = TabLabelEnum;
   protected readonly SubTabLabelEnum = SubTabLabelEnum;
 
