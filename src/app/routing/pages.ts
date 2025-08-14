@@ -15,4 +15,16 @@ export const PAGES: Record<PageName, PageUrl> = {
   Register: 'register',
   Status: 'status',
   Wastelander: `wastelander/:id`,
+  /** Pip-Boy 3000 Mk IV Routes */
+  'DATA > QUESTS - Pip-Boy 3000 Mk IV': 'data/quests',
+  'DATA > STATS - Pip-Boy 3000 Mk IV': 'data/stats',
+  'DATA > WORKSHOPS - Pip-Boy 3000 Mk IV': 'data/workshops',
+  'INV > AID - Pip-Boy 3000 Mk IV': 'inv/aid',
+  'INV > APPAREL - Pip-Boy 3000 Mk IV': 'inv/apparel',
+  'INV > WEAPONS - Pip-Boy 3000 Mk IV': 'inv/weapons',
+  'MAP - Pip-Boy 3000 Mk IV': 'map',
+  'RADIO - Pip-Boy 3000 Mk IV': 'radio',
+  'STAT > PERKS - Pip-Boy 3000 Mk IV': 'stat/perks',
+  'STAT > SPECIAL - Pip-Boy 3000 Mk IV': 'stat/special',
+  'STAT > STATUS - Pip-Boy 3000 Mk IV': 'stat/status',
 };
