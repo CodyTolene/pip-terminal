@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-content',
-  templateUrl: './content.component.html',
+  template: '<router-outlet />',
   imports: [CommonModule, RouterModule],
   styleUrl: './content.component.scss',
   providers: [],

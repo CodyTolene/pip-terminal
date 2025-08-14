@@ -13,6 +13,7 @@ import { TabComponent } from './tab.component';
   styleUrls: ['./tabs.component.scss'],
   imports: [CommonModule, RouterModule],
   providers: [],
+  standalone: true,
 })
 export class TabsComponent {
   private readonly soundService = inject(SoundService);

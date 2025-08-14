@@ -5,9 +5,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'pip-boy-3000-layout',
-  templateUrl: './pip-boy-3000-layout.component.html',
+  template: '<pip-content />',
   imports: [CommonModule, ContentComponent],
-  styleUrl: './pip-boy-3000-layout.component.scss',
   providers: [],
+  standalone: true,
 })
 export class PipBoy3000LayoutComponent {}

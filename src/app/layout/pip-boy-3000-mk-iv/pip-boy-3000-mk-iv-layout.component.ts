@@ -70,6 +70,7 @@ import {
     SoundService,
     PipBoy3000TabsService,
   ],
+  standalone: true,
 })
 export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
   public constructor(private readonly soundService: SoundService) {

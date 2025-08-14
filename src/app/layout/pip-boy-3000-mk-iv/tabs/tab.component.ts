@@ -29,6 +29,7 @@ import { SubTabComponent } from './sub-tab.component';
   styleUrls: ['./tab.component.scss'],
   imports: [CommonModule, RouterModule],
   providers: [],
+  standalone: true,
 })
 export class TabComponent implements AfterContentInit {
   private readonly soundService = inject(SoundService);

@@ -1,0 +1,14 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  color: col.$pip-green;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}

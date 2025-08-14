@@ -1,11 +1,24 @@
+import { ContentComponent } from 'src/app/layout/content/content.component';
+import { PipHeaderComponent } from 'src/app/layout/header/header.component';
+import { NavbarComponent } from 'src/app/layout/navbar/navbar.component';
+
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-default-layout',
-  template: `<router-outlet />`,
-  styleUrls: ['./default-layout.component.scss'],
-  imports: [RouterModule],
+  template: `
+    <pip-header />
+    <pip-navbar />
+    <pip-content />
+  `,
+  styleUrl: './default-layout.component.scss',
+  imports: [
+    CommonModule,
+    ContentComponent,
+    NavbarComponent,
+    PipHeaderComponent,
+  ],
   standalone: true,
 })
 export class DefaultLayoutComponent {}

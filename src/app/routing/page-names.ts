@@ -13,6 +13,7 @@ const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
 ] as const;
 
 export const PAGE_NAMES = [
+  'Home',
   'Login',
   'Page Not Found',
   'Pip-Boy 2000 Mk VI Simulator',
@@ -28,5 +29,4 @@ export const PAGE_NAMES = [
   'Register',
   'Status',
   'Wastelander',
-  'Welcome!', // Home
 ] as const;

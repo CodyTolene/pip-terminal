@@ -3,7 +3,6 @@
   "recommendations": [
     "PKief.material-icon-theme",
     "Tyriar.sort-lines",
-    "alexiv.vscode-angular2-files",
     "angular.ng-template",
     "christian-kohler.npm-intellisense",
     "christian-kohler.path-intellisense",

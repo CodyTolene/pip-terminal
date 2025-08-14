@@ -2,13 +2,25 @@ import { PipHeaderComponent } from 'src/app/layout/header/header.component';
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+
+import { ContentComponent } from '../content/content.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'pip-boy-3000-mk-v-companion-layout',
-  templateUrl: './pip-boy-3000-mk-v-companion-layout.component.html',
-  imports: [CommonModule, PipHeaderComponent, RouterModule],
+  template: `
+    <pip-header />
+    <pip-navbar />
+    <pip-content />
+  `,
+  imports: [
+    CommonModule,
+    PipHeaderComponent,
+    ContentComponent,
+    NavbarComponent,
+  ],
   styleUrl: './pip-boy-3000-mk-v-companion-layout.component.scss',
   providers: [],
+  standalone: true,
 })
 export class PipBoy3000MkVCompanionLayoutComponent {}

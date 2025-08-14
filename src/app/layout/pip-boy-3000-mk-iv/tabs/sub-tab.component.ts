@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
   styles: [''],
   imports: [CommonModule],
   providers: [],
+  standalone: true,
 })
 export class SubTabComponent {
   @Input({ required: true }) public label!: SubTabLabelEnum;
