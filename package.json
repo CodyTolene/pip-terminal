@@ -25,7 +25,7 @@
     "start": "ng serve --open --host pip-boy.local --port 4200 --hmr=false",
     "start:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true",
     "start:https": "ng serve --open --host pip-boy.local --port 4200 --hmr=false --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key",
-    "start:https:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key --disable-host-check",
+    "start:https:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key",
     "start:prod": "ng serve --configuration production --open",
     "test": "ng test",
     "test:silent": "ng test --watch=false",

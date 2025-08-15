@@ -1,9 +1,8 @@
+import { ContentComponent } from 'src/app/layout/content/content.component';
 import { PipHeaderComponent } from 'src/app/layout/header/header.component';
+import { NavbarComponent } from 'src/app/layout/navbar/navbar.component';
 
 import { Component } from '@angular/core';
-
-import { ContentComponent } from '../content/content.component';
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'pip-boy-3000-mk-v-companion-layout',
