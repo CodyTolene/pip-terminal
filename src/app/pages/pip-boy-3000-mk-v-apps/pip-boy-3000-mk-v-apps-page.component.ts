@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-connection.service';
@@ -11,14 +11,14 @@ import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-compani
   standalone: true,
 })
 export class PipBoy3000MkVAppsPageComponent implements OnInit {
-  public constructor(
-    private readonly pipConnectionService: PipConnectionService,
-    private readonly sanitizer: DomSanitizer,
-  ) {
+  public constructor() {
     // Allow the official Pip-Boy Mod Tool to be loaded in an iframe.
     this.safeUrl =
       this.sanitizer.bypassSecurityTrustResourceUrl('pip/index.html');
   }
+
+  private readonly pipConnectionService = inject(PipConnectionService);
+  private readonly sanitizer = inject(DomSanitizer);
 
   protected readonly safeUrl: SafeResourceUrl;
 

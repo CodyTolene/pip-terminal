@@ -71,10 +71,12 @@ import {
   standalone: true,
 })
 export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
-  public constructor(private readonly soundService: SoundService) {
+  public constructor() {
     this.soundVolume = this.soundService.globalVolumePercent;
     pipSignals.batteryLevel.set(100);
   }
+
+  private readonly soundService = inject(SoundService);
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly pageMetaService = inject(PageMetaService);
