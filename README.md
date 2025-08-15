@@ -23,6 +23,7 @@
 - [Contribution](#contribution)
   - [Prerequisites](#prerequisites)
   - [Development](#development)
+  - [Local User Testing](#local-user-testing)
   - [Versioning](#versioning)
   - [Content Guidelines](#content-guidelines)
   - [File Structure](#file-structure)
@@ -46,7 +47,7 @@ Join the Community
 - 🤖 Join the [RobCo Industries Discord][link-discord-robco-industries].
 - 🕸️ Visit the [RobCo Industries Website][link-robco-industries].
 - 🐛 Report issues [here][link-new-issue].
-- 💡 Suggest features in [Discussions][link-github-discussions].
+- 💡 Suggest features in [Discussions][link-github-disc].
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -132,6 +133,20 @@ To get started with development follow these steps:
     release.
 
 Thank you for any and all contributions!
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Local User Testing <a name="local-user-testing"></a>
+
+When you run the API locally `npm run start:api`, users are automatically seeded
+to the database. You can use the following users for testing locally:
+
+- [Admin Users][link-admin-users]
+- [Regular Users][link-regular-users]
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -392,16 +407,17 @@ Cody Tolene
 
 <!-- LINK REFERENCES -->
 
+[link-admin-users]: /api//src//seeds/admins.seed.ts
 [link-discord-robco-industries]: https://discord.gg/WNEuWsck6n
 [link-discord]: https://discord.gg/zQmAkEg8XG
 [link-ffmpeg]: https://ffmpeg.org/
 [link-font-monofonto]: https://typodermicfonts.com/monofonto/
-[link-github-discussions]:
-  https://github.com/CodyTolene/pip-terminal/discussions
+[link-github-disc]: https://github.com/CodyTolene/pip-terminal/discussions
 [link-license-mit]: /LICENSE_MIT.md
 [link-license-mpl]: /LICENSE_MPL.md
 [link-license]: /LICENSE.md
 [link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
 [link-pip-apps]: https://github.com/CodyTolene/pip-boy-apps
+[link-regular-users]: /api//src//seeds/users.seed.ts
 [link-robco-industries]: https://log.robco-industries.org/
 [link-terms]: /TERMS.md
