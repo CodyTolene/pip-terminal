@@ -1,28 +1,23 @@
 @use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
-@use '../../styles/scrollbar' as sb;
 @use '../../styles/variables' as var;
 
 :host {
-  background-color: transparent;
+  align-items: center;
   box-sizing: border-box;
   color: col.$pip-green;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-top: var.$header-height;
   width: 100%;
 }
 
 main {
-  @include sb.scrollbar;
-
   display: flex;
   flex-direction: column;
   gap: 1rem;
   max-width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
   width: 100%;
 
   section {

@@ -10,7 +10,7 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Pip-Boy 3000 Simulator': '3000',
   'Pip-Boy 3000A Simulator': '3000a',
   'Privacy Policy': 'privacy-policy',
-  'Welcome!': '',
+  Home: '',
   Login: 'login',
   Register: 'register',
   Status: 'status',

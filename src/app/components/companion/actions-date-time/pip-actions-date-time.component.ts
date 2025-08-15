@@ -43,7 +43,7 @@ export class PipActionsDateTimeComponent
   extends FormDirective<DateTimeFormGroup>
   implements OnInit
 {
-  public constructor(private readonly pipTimeService: PipTimeService) {
+  public constructor() {
     super();
 
     this.timeChanges = this.pipTimeService.timeChanges;
@@ -53,6 +53,7 @@ export class PipActionsDateTimeComponent
     });
   }
 
+  private readonly pipTimeService = inject(PipTimeService);
   private readonly setDataService = inject(PipSetDataService);
 
   protected override readonly formGroup = formGroup;

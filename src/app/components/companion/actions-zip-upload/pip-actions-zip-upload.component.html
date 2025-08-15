@@ -17,9 +17,11 @@
   Start Upload
 </pip-button>
 
-<div *ngIf="signals.updateProgress() > 0">
-  <mat-progress-bar
-    mode="determinate"
-    [value]="signals.updateProgress()"
-  ></mat-progress-bar>
-</div>
+@if (signals.updateProgress() > 0) {
+  <div>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="signals.updateProgress()"
+    ></mat-progress-bar>
+  </div>
+}

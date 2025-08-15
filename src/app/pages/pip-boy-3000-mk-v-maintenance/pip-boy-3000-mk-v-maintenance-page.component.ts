@@ -1,7 +1,6 @@
 import { logMessage } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 
 import { PipActionsDateTimeComponent } from 'src/app/components/companion/actions-date-time/pip-actions-date-time.component';
 import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
@@ -20,13 +19,11 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   selector: 'pip-boy-3000-mk-v-maintenance-page',
   templateUrl: './pip-boy-3000-mk-v-maintenance-page.component.html',
   imports: [
-    CommonModule,
     PipActionsDateTimeComponent,
     PipActionsMiscComponent,
     PipActionsOwnerComponent,
     PipActionsPrimaryComponent,
     PipActionsTestingComponent,
-    // PipActionsUpdateComponent,
     PipActionsZipUploadComponent,
     PipFileExplorerComponent,
     PipFileUploaderComponent,
@@ -36,7 +33,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   standalone: true,
 })
 export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
-  public constructor(private scriptsService: ScriptsService) {
+  public constructor() {
     this.scriptsService.loadScript('pip/webtools/uart.js');
 
     logMessage(
@@ -47,6 +44,8 @@ export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
     );
     logMessage('Terminal online and ready to connect.');
   }
+
+  private scriptsService = inject(ScriptsService);
 
   public ngOnDestroy(): void {
     this.scriptsService.unloadAll();

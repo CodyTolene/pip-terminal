@@ -22,7 +22,6 @@ import {
 import { pipSignals } from 'src/app/signals';
 import { getEnumMember } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -45,7 +44,6 @@ import {
   selector: 'pip-boy-3000-mk-iv-layout',
   templateUrl: './pip-boy-3000-mk-iv-layout.component.html',
   imports: [
-    CommonModule,
     ContentComponent,
     PipBoy3000MkIVFooterComponent,
     MatIconModule,
@@ -70,12 +68,15 @@ import {
     SoundService,
     PipBoy3000TabsService,
   ],
+  standalone: true,
 })
 export class PipBoy3000MkIVLayoutComponent implements OnInit, AfterViewInit {
-  public constructor(private readonly soundService: SoundService) {
+  public constructor() {
     this.soundVolume = this.soundService.globalVolumePercent;
     pipSignals.batteryLevel.set(100);
   }
+
+  private readonly soundService = inject(SoundService);
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly pageMetaService = inject(PageMetaService);

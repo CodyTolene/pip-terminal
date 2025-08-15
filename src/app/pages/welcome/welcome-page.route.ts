@@ -10,7 +10,7 @@ export const WELCOME_PAGE_ROUTE: PipRoute = {
       'Welcome to Pip-Boy.com, a comprehensive resource for all things Pip-Boy!',
     keywords: ['Home', ...META_DEFAULT_KEYWORDS],
     layout: PageLayoutsEnum.NONE,
-    title: 'Welcome!',
+    title: 'Home',
   },
   loadComponent: () =>
     import('src/app/pages').then((c) => c.WelcomePageComponent),

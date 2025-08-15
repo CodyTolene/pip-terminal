@@ -2,7 +2,6 @@ import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
 import { PipConnectionService, PipDeviceService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -10,7 +9,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 @Component({
   selector: 'pip-actions-primary',
   templateUrl: './pip-actions-primary.component.html',
-  imports: [CommonModule, PipButtonComponent],
+  imports: [PipButtonComponent],
   styleUrl: './pip-actions-primary.component.scss',
   providers: [],
   standalone: true,

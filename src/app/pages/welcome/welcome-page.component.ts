@@ -1,9 +1,7 @@
 import { APP_VERSION } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
-import { PipHeaderComponent } from 'src/app/layout/header/header.component';
 
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
@@ -14,10 +12,8 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   selector: 'pip-welcome-page',
   templateUrl: './welcome-page.component.html',
   imports: [
-    CommonModule,
     MatIconModule,
     PipButtonComponent,
-    PipHeaderComponent,
     PipFooterComponent,
     RouterModule,
   ],

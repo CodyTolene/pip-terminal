@@ -7,7 +7,6 @@ import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
@@ -16,7 +15,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 @Component({
   selector: 'pip-actions-misc',
   templateUrl: './pip-actions-misc.component.html',
-  imports: [CommonModule, MatDialogModule, PipButtonComponent],
+  imports: [MatDialogModule, PipButtonComponent],
   styleUrl: './pip-actions-misc.component.scss',
   providers: [],
   standalone: true,

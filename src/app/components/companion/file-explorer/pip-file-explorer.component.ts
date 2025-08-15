@@ -3,7 +3,6 @@ import { PipFileService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +23,6 @@ import {
   styleUrls: ['./pip-file-explorer.component.scss'],
   imports: [
     PipButtonComponent,
-    CommonModule,
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,

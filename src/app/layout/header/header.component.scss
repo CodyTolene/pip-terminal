@@ -2,14 +2,19 @@
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
-header {
+:host {
   background-color: col.$black;
+  display: block;
   height: var.$header-height;
-  left: 0;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 1000;
+}
+
+header {
+  height: var.$header-height;
+  width: 100%;
 }
 
 .logo-container {
@@ -20,6 +25,7 @@ header {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
+
   .branding {
     display: flex;
     align-items: center;
