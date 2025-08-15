@@ -46,7 +46,6 @@ testem.log
 Thumbs.db
 
 # Firebase
-.firebase
 *-debug.log
 .firebase/*.cache
 .firebase/**/*.cache

@@ -7,7 +7,7 @@
     "lint": "eslint --config eslint.config.js src",
     "logs": "firebase functions:log",
     "seed": "ts-node --project tsconfig.dev.json src/seeds/user.seed.ts",
-    "serve": "npm run build && firebase emulators:start --only auth,firestore,functions",
+    "serve": "npm run build && firebase emulators:start --only auth,firestore,functions,storage",
     "serve:auth": "npm run build && firebase emulators:start --only functions",
     "serve:functions": "npm run build && firebase emulators:start --only auth",
     "serve:hosting": "npm run build && firebase emulators:start --only hosting",

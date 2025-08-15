@@ -10,7 +10,6 @@
   },
   "scripts": {
     "angular-version": "ng --version",
-    "api:start": "npm run serve --prefix api",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "generate:apps": "ts-node --project .scripts/tsconfig.scripts.json .scripts/generate-apps.ts",
@@ -23,6 +22,7 @@
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "start": "ng serve --open --host pip-boy.local --port 4200 --hmr=false",
+    "start:api": "npm run serve --prefix api",
     "start:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true",
     "start:https": "ng serve --open --host pip-boy.local --port 4200 --hmr=false --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key",
     "start:https:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key",
