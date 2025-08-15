@@ -1,8 +1,11 @@
 import * as admin from 'firebase-admin';
 import { logger } from 'firebase-functions';
-import { getUserByEmailOrNull } from '.';
 import { ADMINS_SEED } from '../seeds/admins.seed';
 import { USERS_SEED } from '../seeds/users.seed';
+import { setUserPhoto } from './set-user-photo';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { getUserByEmailOrNull } from './get-user-by-email-or-null';
 
 export async function setUsersSeed(): Promise<boolean> {
   const isEmulator = process.env.FUNCTIONS_EMULATOR === 'true';
@@ -22,14 +25,19 @@ export async function setUsersSeed(): Promise<boolean> {
       continue;
     }
 
-    const newUser: UserCreate = {
-      displayName: admin.displayName,
-      email,
-      password: admin.password,
-    };
-    const created = await auth.createUser(newUser);
+    // Create admin user
+    const created = await auth.createUser(admin);
     await auth.setCustomUserClaims(created.uid, { role: 'admin' });
     logger.info(`Created admin user: ${created.email}`);
+
+    // Assign storage bucket image
+    const localPath = path.resolve(
+      __dirname,
+      '../../../public/images/user/user.png',
+    );
+    const fileBuffer = fs.readFileSync(localPath);
+    await setUserPhoto(created.uid, fileBuffer, 'image/png', 'profile.png');
+    logger.info(`Uploaded profile photo for admin user: ${created.email}`);
   }
 
   // Users
@@ -41,12 +49,8 @@ export async function setUsersSeed(): Promise<boolean> {
       continue;
     }
 
-    const newUser: UserCreate = {
-      displayName: user.displayName,
-      email,
-      password: user.password,
-    };
-    const created = await auth.createUser(newUser);
+    // Create user
+    const created = await auth.createUser(user);
     await auth.setCustomUserClaims(created.uid, { role: 'user' });
     logger.info(`Created user: ${created.email}`);
   }

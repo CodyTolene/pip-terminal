@@ -13,12 +13,17 @@ import * as admin from 'firebase-admin';
 import express from 'express';
 import { onRequest } from 'firebase-functions/v2/https';
 import { logger, setGlobalOptions } from 'firebase-functions';
-import { corsCheck, setUsersSeed } from './utilities';
+import { corsCheck } from './utilities';
 import { HealthCheckController } from './controllers';
+import { setUsersSeed } from './data';
 
 const isEmulator = process.env.FUNCTIONS_EMULATOR === 'true';
 
-admin.initializeApp({ projectId: 'pip-terminal' });
+admin.initializeApp({
+  projectId: 'pip-terminal',
+  storageBucket: 'pip-terminal.firebasestorage.app',
+});
+
 setGlobalOptions({ maxInstances: 5 });
 
 const app = express();

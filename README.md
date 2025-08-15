@@ -197,8 +197,10 @@ ask in a discussion or open an issue.
     │  ├─ node_modules/            # API-side Node.js dependencies (gitignored).
     │  ├─ src/                     # API TypeScript source files.
     │  │  ├─ controllers/          # Request handlers for specific API endpoints.
+    │  │  ├─ data/                 # Data access (getters and setters) and manipulation functions.
     │  │  ├─ events/               # Firebase event handlers (auth triggers, Firestore hooks, etc.).
     │  │  ├─ models/               # Data models, interfaces, and schema definitions for the API.
+    │  │  ├─ secrets/              # Secret management and environment variable handling.
     │  │  ├─ seeds/                # Scripts and data for populating Firestore during development.
     │  │  ├─ types/                # TypeScript type definitions shared within the API layer.
     │  │  └─ utilities/            # Reusable helper functions for API logic.
