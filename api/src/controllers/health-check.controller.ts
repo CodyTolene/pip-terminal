@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { logger } from "firebase-functions";
+import { logger } from 'firebase-functions';
 import { HealthCheckApi } from '../models';
 
 export class HealthCheckController {

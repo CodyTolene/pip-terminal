@@ -1,38 +1,23 @@
-import * as admin from 'firebase-admin';
-import { logger } from "firebase-functions";
-
-export async function usersSeed(): Promise<boolean> {
-  const auth = admin.auth();
-
-  // Seed Auth Users
-  const userSeeds = [
-    {
-      email: 'support@pip-boy.com',
-      password: 'SupportPassword000',
-      displayName: 'Support Team',
-    }
-  ];
-
-  for (const userSeed of userSeeds) {
-    try {
-      const user = await auth.createUser(userSeed);
-
-      logger.info(`Created user: ${user.email}`);
-
-    } catch (err: unknown) {
-      if (
-        typeof err === 'object' &&
-        err !== null &&
-        'code' in err &&
-        (err as Record<string, unknown>).code === 'auth/email-already-exists'
-      ) {
-        logger.info(`User already exists: ${userSeed.email}`);
-      } else {
-        console.error(`Failed to create user ${userSeed.email}:`, err);
-      }
-      return false;
-    }
-  }
-
-  return true;
-}
+export const USERS_SEED: readonly UserCreate[] = [
+  {
+    displayName: 'User - Default',
+    email: 'test.1@pip-boy.local',
+    emailVerified: true,
+    password: 'DevUserPass000',
+    phoneNumber: '1-555-555-5555',
+    photoURL: 'images/user/user.png',
+  },
+  {
+    displayName: 'User - Unverified',
+    email: 'test.2@pip-boy.local',
+    emailVerified: false,
+    password: 'DevUserPass000',
+  },
+  {
+    disabled: true,
+    displayName: 'User - Disabled',
+    email: 'test.3@pip-boy.local',
+    emailVerified: true,
+    password: 'DevUserPass000',
+  },
+];

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { logger } from "firebase-functions";
+import { logger } from 'firebase-functions';
 import { isNonEmptyString } from './type-checks';
 
 /** Middleware for validating CORS and handling preflight. */
@@ -11,7 +11,9 @@ export function corsCheck() {
     const devWhitelist = ['http://localhost:4200', 'localhost:4200'];
     const corsWhitelist = isEmulator ? devWhitelist : prodWhitelist;
 
-    const siteAllowed = corsWhitelist.includes(requestOrigin) ? requestOrigin : '';
+    const siteAllowed = corsWhitelist.includes(requestOrigin)
+      ? requestOrigin
+      : '';
 
     // logger.info('CORS Check', {
     //   siteAllowed: !!siteAllowed,
@@ -28,15 +30,23 @@ export function corsCheck() {
       if (req.method.toUpperCase() === 'OPTIONS') {
         res.set('Access-Control-Max-Age', '86400');
 
-        const accessControlRequestHeaders = req.headers['access-control-request-headers'];
-        const accessControlRequestMethod = req.headers['access-control-request-method'];
+        const accessControlRequestHeaders =
+          req.headers['access-control-request-headers'];
+        const accessControlRequestMethod =
+          req.headers['access-control-request-method'];
 
         if (isNonEmptyString(accessControlRequestHeaders)) {
-          res.set('Access-Control-Allow-Headers', accessControlRequestHeaders as string);
+          res.set(
+            'Access-Control-Allow-Headers',
+            accessControlRequestHeaders as string,
+          );
         }
 
         if (isNonEmptyString(accessControlRequestMethod)) {
-          res.set('Access-Control-Allow-Methods', `OPTIONS, ${accessControlRequestMethod}`);
+          res.set(
+            'Access-Control-Allow-Methods',
+            `OPTIONS, ${accessControlRequestMethod}`,
+          );
         }
 
         res.status(204).send();

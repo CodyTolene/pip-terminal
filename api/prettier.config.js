@@ -1,21 +1,21 @@
 /** Prettier configuration and options. */
 var prettierConfig = {
-  $schema: "https://json.schemastore.org/prettierrc",
+  $schema: 'https://json.schemastore.org/prettierrc',
   plugins: [],
-  arrowParens: "always",
+  arrowParens: 'always',
   bracketSameLine: false,
   bracketSpacing: true,
-  embeddedLanguageFormatting: "auto",
-  endOfLine: "lf",
+  embeddedLanguageFormatting: 'auto',
+  endOfLine: 'lf',
   experimentalTernaries: false,
   printWidth: 80,
-  proseWrap: "always",
-  quoteProps: "as-needed",
+  proseWrap: 'always',
+  quoteProps: 'as-needed',
   semi: true,
   singleAttributePerLine: false,
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: "all",
+  trailingComma: 'all',
   useTabs: false,
 };
 

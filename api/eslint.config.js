@@ -1,5 +1,6 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
+const path = require('path');
 
 module.exports = tseslint.config({
   files: ["**/*.ts"],
@@ -8,6 +9,12 @@ module.exports = tseslint.config({
     ...tseslint.configs.recommended,
     ...tseslint.configs.stylistic,
   ],
+  languageOptions: {
+    parserOptions: {
+      project: ['./tsconfig.json'],
+      tsconfigRootDir: path.resolve(__dirname),
+    },
+  },
   rules: {
     "@typescript-eslint/array-type": ["error", { default: "array-simple" }],
     "@typescript-eslint/consistent-type-assertions": [

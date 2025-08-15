@@ -2,4 +2,7 @@
 /*
 
 # Except these files and directories:
-src/**
+!src/
+!api/src
+!api/src/
+!api/src/**

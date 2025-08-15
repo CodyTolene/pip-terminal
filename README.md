@@ -19,18 +19,16 @@
 
 ## Index <a name="index"></a>
 
-- [Web App](#web-app)
 - [Community](#community)
-- [Device](#device)
-  - [Connecting Directly](#connecting-directly)
-  - [Commands](#commands)
-  - [Music](#music)
-  - [Videos](#videos)
 - [Contribution](#contribution)
   - [Prerequisites](#prerequisites)
   - [Development](#development)
   - [Versioning](#versioning)
   - [Content Guidelines](#content-guidelines)
+  - [File Structure](#file-structure)
+- [Secrets](#secrets)
+  - [Production Secrets](#production-secrets)
+  - [Development Secrets](#development-secrets)
 - [License(s)](#licenses)
 - [Terms of Use](#terms)
 - [Wrapping Up](#wrapping-up)
@@ -38,22 +36,6 @@
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
-
-## 🕸️ Web App <a name="web-app"></a>
-
-👉 https://www.Pip-Boy.com
-
-The web app simplifies the process of sending commands to the Pip-Boy 3000 Mk V.
-It's built using Angular and hosted on Google Firebase, designed to be
-responsive across devices. The app is also a PWA, so you can install it and use
-it offline, perfect for adventures away from the Vault.
-
-This is a community-driven project, and your ideas, tools, and experiments are
-welcome here. Whether you're crafting new apps, tweaking UI, or just exploring
-what's possible with the Pip-Boy, you're part of something bigger, a growing
-network of Vault-Tec engineers bringing old tech back to life.
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
 
 ## 💬 Community <a name="community"></a>
 
@@ -65,89 +47,6 @@ Join the Community
 - 🕸️ Visit the [RobCo Industries Website][link-robco-industries].
 - 🐛 Report issues [here][link-new-issue].
 - 💡 Suggest features in [Discussions][link-github-discussions].
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-## 🖥️ Device <a name="device"></a>
-
-### Connecting Directly <a name="connecting-directly"></a>
-
-Connecting directly to the Pip-Boy 3000 Mk V is possible using the Espruino CLI
-and a USB cable. The following steps will guide you through the process:
-
-```bash
-# Install the Espruino CLI
-npm install -g espruino
-# List out all possible serial ports
-espruino --list
-# Connect to the serial port (update the COM port)
-espruino -p COM12
-```
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Commands <a name="commands"></a>
-
-See API file for more information [here](API.md).
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Music <a href="music"></a>
-
-Music must be converted to a specific format before it can be played on the
-device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert music
-to the correct format. The following command will convert an MP3 file to a WAV
-file with the correct settings:
-
-```bash
-`ffmpeg -i "input.mp3" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
-```
-
-If you would like to shorten it to X seconds only you can add the `-t 10` (10
-seconds example):
-
-```bash
-`ffmpeg -i "input.mp3" -t 10 -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav output.wav`
-```
-
-Convert a whole folder of music (ie `/music`) to an output folder
-(`/music/output`), you can use the following command:
-
-```bash
-mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
-```
-
-Increase volume with `volume=`:
-
-```bash
-mkdir output && for %F in (*.mp3) do ffmpeg -i "%F" -af "volume=10dB" -ac 1 -ar 16000 -sample_fmt s16 -c:a pcm_s16le -f wav "output\%~nF.wav"
-```
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-### Videos <a name="videos"></a>
-
-Videos must be converted to a specific format before they can be played on the
-device. Using the [ffmpeg][link-ffmpeg] command-line tool, you can convert
-videos to the correct format.
-
-TODO
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -277,6 +176,127 @@ restrictions, such as:
 
 If you're ever unsure whether something is appropriate to include, feel free to
 ask in a discussion or open an issue.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### File Structure <a name="file-structure"></a>
+
+    .
+    ├─ .angular/                   # Angular CLI build cache and temp files (gitignored).
+    ├─ .firebase/                  # Firebase data files such as rules.
+    ├─ .github/                    # GitHub workflows, actions, and related automation files.
+    ├─ .husky/                     # Husky Git hook scripts for enforcing pre-commit rules.
+    ├─ .scripts/                   # Project utility and automation scripts.
+    ├─ .vscode/                    # VS Code workspace settings, extensions, and tasks.
+    ├─ api/                        # Firebase Functions + Express API backend.
+    │  ├─ lib/                     # Compiled JavaScript output from the TypeScript API source.
+    │  ├─ node_modules/            # API-side Node.js dependencies (gitignored).
+    │  ├─ src/                     # API TypeScript source files.
+    │  │  ├─ controllers/          # Request handlers for specific API endpoints.
+    │  │  ├─ events/               # Firebase event handlers (auth triggers, Firestore hooks, etc.).
+    │  │  ├─ models/               # Data models, interfaces, and schema definitions for the API.
+    │  │  ├─ seeds/                # Scripts and data for populating Firestore during development.
+    │  │  ├─ types/                # TypeScript type definitions shared within the API layer.
+    │  │  └─ utilities/            # Reusable helper functions for API logic.
+    │  ├─ .prettierignore          # Files/folders to skip during Prettier formatting for API.
+    │  ├─ .secret.local            # Local-only secret environment variables for the API (gitignored).
+    │  ├─ eslint.config.js         # ESLint configuration for API code style and linting.
+    │  ├─ package-lock.json        # Locked dependency versions for the API.
+    │  ├─ package.json             # API project metadata and dependency list.
+    │  ├─ prettier.config.js       # Prettier configuration for API formatting rules.
+    │  ├─ tsconfig.dev.json        # TypeScript config for local development builds of the API.
+    │  └─ tsconfig.json            # Base TypeScript configuration for the API.
+    ├─ dist/                       # Production build output for the Angular app (auto-generated, gitignored).
+    ├─ node_modules/               # Frontend Node.js dependencies (gitignored).
+    ├─ public/                     # Static assets served by Firebase Hosting (favicon, icons, etc.).
+    ├─ src/                        # Angular UI source code.
+    │  ├─ app/                     # Root Angular app folder containing core code.
+    │  │  ├─ commands/             # Commands used for the Pip-Boy device I/O.
+    │  │  ├─ components/           # Standalone, reusable Angular UI components.
+    │  │  ├─ constants/            # Constant values used across the Angular app.
+    │  │  ├─ decorators/           # Custom TypeScript/Angular decorators.
+    │  │  ├─ directives/           # Attribute and structural directives for DOM behavior.
+    │  │  ├─ enums/                # Enum definitions for shared values and states.
+    │  │  ├─ guards/               # Route guards for access control and navigation logic.
+    │  │  ├─ layout/               # Layout components and templates (header, footer, nav, etc.).
+    │  │  ├─ models/               # Frontend data models and interfaces.
+    │  │  ├─ pages/                # Routed page components for the application.
+    │  │  ├─ pipes/                # Custom Angular pipes for data transformation.
+    │  │  ├─ services/             # Injectable services for HTTP, state, storage, etc.
+    │  │  ├─ signals/              # Angular signal stores for reactive state.
+    │  │  ├─ styles/               # Component-level or global SCSS partials.
+    │  │  ├─ types/                # Shared TypeScript type definitions for the UI.
+    │  │  ├─ utilities/            # Helper and utility functions for the Angular app.
+    │  │  ├─ pip.component.html    # Root UI template for the app.
+    │  │  ├─ pip.component.scss    # Styles scoped to the root component.
+    │  │  ├─ pip.component.ts      # Root component logic bootstrapped by Angular.
+    │  │  └─ pip.config.ts         # Application-wide configuration settings.
+    │  ├─ environments/            # Environment-specific Angular config files (dev/prod).
+    │  ├─ global.ts                # Global variables, helpers, and type augmentations.
+    │  ├─ index.html               # Main HTML shell for the Angular app.
+    │  ├─ main.ts                  # Angular bootstrap entry point.
+    │  └─ styles.scss              # Global styles for the Angular app.
+    ├─ ssl/                        # Local SSL/TLS certificates for HTTPS development (gitignored).
+    ├─ .editorconfig               # Shared editor formatting rules.
+    ├─ .firebaserc                 # Firebase project alias configuration.
+    ├─ .gitignore                  # Git ignore rules.
+    ├─ .gitmodules                 # Git submodule definitions.
+    ├─ .prettierignore             # Files/folders to skip during Prettier formatting.
+    ├─ angular.json                # Angular CLI project configuration.
+    ├─ API.md                      # Documentation for API usage and structure.
+    ├─ apphosting.yaml             # Firebase App Hosting configuration.
+    ├─ eslint.config.js            # ESLint configuration for the root project.
+    ├─ firebase.json               # Firebase Hosting and Functions deployment config.
+    ├─ LICENSE_MIT.md              # MIT license file for applicable parts of the project.
+    ├─ LICENSE_MPL.md              # Mozilla Public License file for applicable parts.
+    ├─ LICENSE.md                  # General license details.
+    ├─ package-lock.json           # Locked dependency versions for the full project.
+    ├─ package.json                # Root project metadata and dependency list.
+    ├─ prettier.config.js          # Prettier configuration for the whole project.
+    ├─ README.md                   # Main project readme and overview.
+    ├─ TERMS.md                    # Project terms of use and conditions.
+    ├─ tsconfig.app.json           # Angular app-specific TypeScript configuration.
+    ├─ tsconfig.json               # Root TypeScript configuration.
+    └─ tsconfig.spec.json          # TypeScript config for Angular test files.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+## 🤫 Secrets <a name="secrets"></a>
+
+### Production Secrets <a name="production-secrets"></a>
+
+```bash
+# Set a secret (value). Enter value when prompted.
+firebase functions:secrets:set EXAMPLE_SECRET
+
+# Get secret metadata (version, state, etc.).
+firebase functions:secrets:get EXAMPLE_SECRET
+
+# Get the actual secret value.
+firebase functions:secrets:access EXAMPLE_SECRET
+```
+
+| Secret       | Description                    | Example Value               |
+| ------------ | ------------------------------ | --------------------------- |
+| ADMIN_EMAILS | List of admin email addresses. | `["support@pip-boy.local"]` |
+
+### Development Secrets <a name="development-secrets"></a>
+
+API secrets for local development are stored as JSON files in:
+
+`api/src/secrets/*.json`
+
+Environment variables are stored in the App Hosting configuration file:
+
+`~apphosting.yaml`
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 

@@ -7,41 +7,20 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
+export { beforeUserCreatedEvent } from './events/before-user-created.event';
+
 import * as admin from 'firebase-admin';
 import express from 'express';
-import { usersSeed } from './seeds';
 import { onRequest } from 'firebase-functions/v2/https';
-import { logger, setGlobalOptions } from "firebase-functions";
-import { corsCheck } from './utilities';
+import { logger, setGlobalOptions } from 'firebase-functions';
+import { corsCheck, setUsersSeed } from './utilities';
 import { HealthCheckController } from './controllers';
 
 const isEmulator = process.env.FUNCTIONS_EMULATOR === 'true';
 
-const err = (message: string, ...args: unknown[]): void => {
-  console.error(`[${new Date().toISOString()}] ${message}`, ...args);
-};
-const log = (message: string): void => {
-  // eslint-disable-next-line no-console
-  logger.info(`[${new Date().toISOString()}] ${message}`);
-};
-
-admin.initializeApp({
-  projectId: 'pip-terminal',
-});
-
-(async () => {
-  if (isEmulator) {
-    log('Seeding development data...');
-    try {
-      await usersSeed();
-      log('Seeding development data complete.');
-    } catch (e) {
-      err('Seeding development data failed:', e);
-    }
-  }
-})();
-
+admin.initializeApp({ projectId: 'pip-terminal' });
 setGlobalOptions({ maxInstances: 5 });
+
 const app = express();
 
 // Middleware
@@ -52,3 +31,14 @@ app.get('/health-check', HealthCheckController.get);
 
 // Export the Express app as a Firebase function
 export const api = onRequest(app);
+
+// Seed development data
+(async () => {
+  if (isEmulator) {
+    try {
+      await setUsersSeed();
+    } catch (e) {
+      logger.error('Seeding development data failed:', e);
+    }
+  }
+})();

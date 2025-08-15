@@ -19,7 +19,7 @@
     "prebuild": "npm run update:version",
     "prepare": "husky install",
     "prestart": "npm run update:version",
-    "prettier": "prettier --write .",
+    "prettier": "prettier --write . && npm run prettier --write --prefix api",
     "prettier:check": "prettier --check .",
     "start": "ng serve --open --host pip-boy.local --port 4200 --hmr=false",
     "start:api": "npm run serve --prefix api",

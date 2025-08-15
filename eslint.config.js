@@ -2,6 +2,7 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
+const path = require('path');
 
 module.exports = tseslint.config(
   {
@@ -12,6 +13,12 @@ module.exports = tseslint.config(
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
     ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: path.resolve(__dirname),
+      },
+    },
     processor: angular.processInlineTemplates,
     rules: {
       // Component selectors should follow given naming rules.
