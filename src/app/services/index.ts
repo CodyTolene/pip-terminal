@@ -7,4 +7,5 @@ export * from './pip-boy-3000-mk-v-companion/index';
 export * from './screen.service';
 export * from './scripts.service';
 export * from './sound.service';
+export * from './status.service';
 export * from './stylesheets.service';

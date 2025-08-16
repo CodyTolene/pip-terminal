@@ -9,19 +9,13 @@ export const beforeUserCreatedEvent = beforeUserCreated(async (event) => {
     return {};
   }
 
-  const adminEmailList = new Set(
-    getAdminEmails().map((e) => e.toLowerCase().trim()),
-  );
+  const admins = new Set(getAdminEmails());
+  const isAdmin = admins.has(email);
 
-  // Todo: Remove
-  logger.info(`Admin list: ${[...adminEmailList].join(', ')}`);
+  logger.info(`beforeUserCreatedEvent: ${email} isAdmin=${isAdmin}`);
 
-  logger.info(`Checking admin list for: ${email}`);
-  const isAdmin = adminEmailList.has(email);
   const customClaims: BeforeUserCreateResponse = {
-    customClaims: {
-      role: isAdmin ? 'admin' : 'user',
-    },
+    customClaims: { role: isAdmin ? 'admin' : 'user' },
   };
   return customClaims;
 });

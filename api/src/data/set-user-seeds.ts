@@ -6,10 +6,10 @@ import { setUserPhoto } from './set-user-photo';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { getUserByEmailOrNull } from './get-user-by-email-or-null';
+import { isEmulator } from '../utilities';
 
 export async function setUsersSeed(): Promise<boolean> {
-  const isEmulator = process.env.FUNCTIONS_EMULATOR === 'true';
-  if (isEmulator === false) {
+  if (!isEmulator()) {
     logger.error('Seeding users is only supported in the emulator.');
     return false;
   }

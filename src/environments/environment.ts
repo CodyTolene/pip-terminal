@@ -1,4 +1,5 @@
 export const environment: EnvironmentCredentials = {
+  apiUrl: 'http://127.0.0.1:5001/pip-terminal/us-central1/api',
   // appsUrl: 'apps', // `~/public/apps`
   appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/releases',
   google: {

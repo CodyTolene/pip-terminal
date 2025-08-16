@@ -24,6 +24,8 @@
   - [Prerequisites](#prerequisites)
   - [Development](#development)
   - [Local User Testing](#local-user-testing)
+  - [Deploying Frontend](#deploy-frontend)
+  - [Deploying API](#deploy-api)
   - [Versioning](#versioning)
   - [Content Guidelines](#content-guidelines)
   - [File Structure](#file-structure)
@@ -114,22 +116,21 @@ To get started with development follow these steps:
    npm run generate:apps
    ```
 
-9. Run `npm run start:https` to start the development app.
+9. Run `npm run start:https` to start the development app. HTTPS is required for
+   most features, so it's recommended to use it. You can run `npm run start` to
+   run on HTTP.
 
-10. You can skip the HTTPS setup if you don't want to test The Wand Company's
-    official mod tool/app loader, and run `npm run start` to run on HTTP.
+10. Open a browser and navigate to `http://localhost:4200`.
 
-11. Open a browser and navigate to `http://localhost:4200`.
+11. Make your changes to the code (browser will automatically reload).
 
-12. Make your changes to the code (browser will automatically reload).
+12. Push your changes up to GitHub.
 
-13. Push your changes up to GitHub.
+13. Open a pull request to the `dev` branch here.
 
-14. Open a pull request to the `dev` branch here.
+14. Wait for the pull request to be reviewed and merged.
 
-15. Wait for the pull request to be reviewed and merged.
-
-16. Once in the `dev` branch, your code will go out to production in the next
+15. Once in the `dev` branch, your code will go out to production in the next
     release.
 
 Thank you for any and all contributions!
@@ -147,6 +148,32 @@ to the database. You can use the following users for testing locally:
 
 - [Admin Users][link-admin-users]
 - [Regular Users][link-regular-users]
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Deploying Frontend <a name="deploy-frontend"></a>
+
+The frontend Angular application is deployed via GitHub Actions when you merge
+changes from a pull request into the main branch. For more information see the
+documentation in the [development](#development) section above.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Deploying API <a name="deploy-api"></a>
+
+You can build and deploy the API by running the following command:
+
+```bash
+npm run deploy:api
+```
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -288,32 +315,30 @@ ask in a discussion or open an issue.
 
 ## 🤫 Secrets <a name="secrets"></a>
 
-### Production Secrets <a name="production-secrets"></a>
+Firebase Functions allows you to store sensitive information as secrets. These
+secrets are accessed securely within functions.
 
 ```bash
+# Be sure to use the right project
+firebase use
+
 # Set a secret (value). Enter value when prompted.
-firebase functions:secrets:set EXAMPLE_SECRET
+firebase functions:secrets:set ADMIN_EMAILS
 
 # Get secret metadata (version, state, etc.).
-firebase functions:secrets:get EXAMPLE_SECRET
+firebase functions:secrets:get ADMIN_EMAILS
 
 # Get the actual secret value.
-firebase functions:secrets:access EXAMPLE_SECRET
+firebase functions:secrets:access ADMIN_EMAILS
 ```
 
-| Secret       | Description                    | Example Value               |
-| ------------ | ------------------------------ | --------------------------- |
-| ADMIN_EMAILS | List of admin email addresses. | `["support@pip-boy.local"]` |
+| Secret       | Description                    | Example Value                               |
+| ------------ | ------------------------------ | ------------------------------------------- |
+| ADMIN_EMAILS | List of admin email addresses. | `admin@pip-boy.local,support@pip-boy.local` |
 
-### Development Secrets <a name="development-secrets"></a>
-
-API secrets for local development are stored as JSON files in:
-
-`api/src/secrets/*.json`
-
-Environment variables are stored in the App Hosting configuration file:
-
-`~apphosting.yaml`
+> ![Warn][img-warn] Updating a secret creates a new secret version. Cloud
+> Functions typically bind to a version at deploy. In practice that means you
+> usually need to redeploy the function to pick up changes to the secret usage.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 

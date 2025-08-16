@@ -1,15 +1,20 @@
 import type { Request, Response, NextFunction } from 'express';
 import { logger } from 'firebase-functions';
 import { isNonEmptyString } from './type-checks';
+import { isEmulator } from './is-emulator';
 
 /** Middleware for validating CORS and handling preflight. */
 export function corsCheck() {
   return (req: Request, res: Response, next: NextFunction): void => {
-    const isEmulator = process.env.FUNCTIONS_EMULATOR === 'true';
     const requestOrigin = req.headers.origin || '';
     const prodWhitelist = ['https://pip-boy.com', 'https://www.pip-boy.com'];
-    const devWhitelist = ['http://localhost:4200', 'localhost:4200'];
-    const corsWhitelist = isEmulator ? devWhitelist : prodWhitelist;
+    const devWhitelist = [
+      'https://pip-boy.local:4200',
+      'https://localhost:4200',
+      'http://localhost:4200',
+      'localhost:4200',
+    ];
+    const corsWhitelist = isEmulator() ? devWhitelist : prodWhitelist;
 
     const siteAllowed = corsWhitelist.includes(requestOrigin)
       ? requestOrigin

@@ -30,8 +30,12 @@ h1 {
   margin: 0 1rem 2rem 1rem;
 }
 
-.register-form > p {
-  margin: 2rem 1rem 1rem;
+.register-form {
+  margin-bottom: 2rem;
+
+  > p {
+    margin: 2rem 1rem 1rem;
+  }
 }
 
 pip-footer {
