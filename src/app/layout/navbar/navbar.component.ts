@@ -1,4 +1,4 @@
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AuthService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
@@ -51,28 +51,55 @@ export class NavbarComponent {
       commands: ['terms-and-conditions'],
       label: 'Terms',
     },
+    {
+      commands: ['vault/:id'],
+      label: 'Vault',
+    },
   ];
 
-  protected readonly linksChanges = this.auth.userChanges.pipe(
-    map((user) => {
-      return this.links.filter((link) => {
-        switch (link.label) {
-          case 'Login': {
-            return user ? false : true;
-          }
-          case 'Register': {
-            return user ? false : true;
-          }
-          case 'Logout': {
-            return user ? true : false;
-          }
-          default: {
-            return true;
-          }
+  protected readonly linksChanges: Observable<PageLink[]> =
+    this.auth.userChanges.pipe(
+      map((user) => {
+        return {
+          // Filter links by user logged in state.
+          links: this.links.filter((link) => {
+            switch (link.label) {
+              case 'Login': {
+                return user ? false : true;
+              }
+              case 'Register': {
+                return user ? false : true;
+              }
+              case 'Logout': {
+                return user ? true : false;
+              }
+              case 'Vault': {
+                return user ? true : false;
+              }
+              default: {
+                return true;
+              }
+            }
+          }),
+          user,
+        };
+      }),
+      map(({ links, user }): PageLink[] => {
+        // If user is logged in, update the Vault link to include user ID
+        if (user) {
+          return links.map((link) => {
+            if (link.label === 'Vault') {
+              return {
+                ...link,
+                commands: [`vault/${user.uid}` as 'vault/:id'],
+              };
+            }
+            return link;
+          });
         }
-      });
-    }),
-  );
+        return links;
+      }),
+    );
 
   private async logout(): Promise<void> {
     await this.auth.signOut();

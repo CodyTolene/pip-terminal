@@ -11,6 +11,7 @@ import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-
 import { REGISTER_PAGE_ROUTE } from 'src/app/pages/register/register-page.route';
 import { STATUS_PAGE_ROUTE } from 'src/app/pages/status/status-page.route';
 import { TERMS_AND_CONDITIONS_PAGE_ROUTE } from 'src/app/pages/terms-and-conditions/terms-and-conditions-page.route';
+import { VAULT_PAGE_ROUTE } from 'src/app/pages/vault/vault-page.route';
 import { WELCOME_PAGE_ROUTE } from 'src/app/pages/welcome/welcome-page.route';
 
 export const routes: PipRoute[] = [
@@ -27,6 +28,7 @@ export const routes: PipRoute[] = [
   REGISTER_PAGE_ROUTE,
   STATUS_PAGE_ROUTE,
   TERMS_AND_CONDITIONS_PAGE_ROUTE,
+  VAULT_PAGE_ROUTE,
   WELCOME_PAGE_ROUTE,
   { path: '**', redirectTo: '' }, // 404
 ];

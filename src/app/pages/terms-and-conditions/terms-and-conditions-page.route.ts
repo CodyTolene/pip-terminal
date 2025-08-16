@@ -6,7 +6,7 @@ export const TERMS_AND_CONDITIONS_PAGE_ROUTE: PipRoute = {
   pathMatch: 'full',
   data: {
     author: META_AUTHOR,
-    description: "View the status of Pip-Boy.com's servers.",
+    description: 'View the terms and conditions of Pip-Boy.com.',
     keywords: ['Terms', 'Conditions', ...META_DEFAULT_KEYWORDS],
     layout: PageLayoutsEnum.NONE,
     title: 'Terms and Conditions',
