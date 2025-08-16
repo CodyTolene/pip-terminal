@@ -16,9 +16,20 @@ import {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public constructor() {
-    this.auth.onAuthStateChanged((user) => {
-      this.userSubject.next(user);
-    });
+    try {
+      this.auth.onAuthStateChanged(
+        (user) => {
+          this.userSubject.next(user);
+        },
+        (error) => {
+          console.error('[AuthService] onAuthStateChanged error:', error);
+          this.userSubject.next(null);
+        },
+      );
+    } catch (err) {
+      console.error('[AuthService] Failed to init auth listener:', err);
+      this.userSubject.next(null);
+    }
   }
 
   private readonly auth = inject(Auth);
