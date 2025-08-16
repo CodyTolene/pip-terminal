@@ -1,4 +1,4 @@
-import { routes } from 'src/app/routing';
+import { ROUTES } from 'src/app/routing';
 import { environment } from 'src/environments/environment';
 
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -28,7 +28,7 @@ import { provideRouter } from '@angular/router';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter([...ROUTES]),
     provideFirebaseApp(() =>
       initializeApp(environment.google.firebase, 'pip-terminal'),
     ),

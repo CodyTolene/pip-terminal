@@ -1,35 +1,30 @@
-<form [formGroup]="formGroup">
+<form [formGroup]="formGroup" (ngSubmit)="login()">
   <pro-input
     [formControl]="formGroup.controls.email"
     appearance="fill"
-    hint="Enter your email address."
     label="Email"
-    placeholder="Email"
+    placeholder="Enter your email address"
     type="email"
   ></pro-input>
   <pro-input
     [formControl]="formGroup.controls.password"
     appearance="fill"
-    hint="Enter your password."
     label="Password"
-    placeholder="Password"
+    placeholder="Enter your password"
     type="password"
   ></pro-input>
   <pip-button
-    (click)="login()"
     [disabled]="formGroup.invalid || formGroup.disabled || isLoggingIn()"
     type="submit"
     styling="filled"
     >Sign In</pip-button
   >
+  @if (loginErrorMessage()) {
+    <div class="form-error" role="alert">
+      <p>{{ loginErrorMessage() }}</p>
+    </div>
+  }
 </form>
-
-@if (hasLoginError()) {
-  <div class="error-message">
-    <p>Login failed. Please check your credentials and try again.</p>
-  </div>
-}
-
 <div class="or-container">
   <p>- OR -</p>
   <pip-button (click)="googleLogin()" styling="filled"

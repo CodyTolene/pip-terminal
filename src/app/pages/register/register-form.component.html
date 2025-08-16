@@ -1,22 +1,19 @@
-<form [formGroup]="formGroup">
+<form [formGroup]="formGroup" (ngSubmit)="register()">
   <pro-input
     [formControl]="formGroup.controls.email"
     appearance="fill"
-    hint="Enter your email address."
     label="Email"
-    placeholder="Email"
+    placeholder="Enter your email address"
     type="email"
   ></pro-input>
   <pro-input
     [formControl]="formGroup.controls.password"
     appearance="fill"
-    hint="Enter your password."
     label="Password"
-    placeholder="Password"
+    placeholder="Enter a password"
     type="password"
   ></pro-input>
   <pip-button
-    (click)="register()"
     [disabled]="formGroup.invalid || formGroup.disabled || isRegistering()"
     type="submit"
     styling="filled"
@@ -24,8 +21,8 @@
   >
 </form>
 
-@if (hasRegisterError()) {
-  <div class="error-message">
-    <p>Register failed. Please try again.</p>
+@if (registerErrorMessage()) {
+  <div class="form-error" role="alert">
+    <p>{{ registerErrorMessage() }}</p>
   </div>
 }

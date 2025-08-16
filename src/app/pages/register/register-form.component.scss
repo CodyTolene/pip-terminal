@@ -27,9 +27,9 @@ form {
   }
 }
 
-.error-message {
+.form-error {
   color: red;
-  font-size: 0.875rem;
+  font-size: var.$font-xs;
   margin: 0;
 
   > p {

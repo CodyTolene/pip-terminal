@@ -27,10 +27,10 @@ form {
   }
 }
 
-.error-message {
+.form-error {
   color: red;
-  font-size: 0.875rem;
-  margin: 0;
+  font-size: var.$font-xs;
+  margin: 1rem 0 0 0;
 
   > p {
     padding: 0 1rem 1rem 1rem;

@@ -16,24 +16,16 @@ import {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public constructor() {
-    try {
-      this.auth.onAuthStateChanged(
-        (user) => {
-          this.userSubject.next(user);
-        },
-        (error) => {
-          console.error('[AuthService] onAuthStateChanged error:', error);
-          this.userSubject.next(null);
-        },
-      );
-    } catch (err) {
-      console.error('[AuthService] Failed to init auth listener:', err);
-      this.userSubject.next(null);
-    }
+    this.auth.onAuthStateChanged(
+      (user) => this.userSubject.next(user),
+      (error) => {
+        console.error('[AuthService] onAuthStateChanged error:', error);
+        this.userSubject.next(null);
+      },
+    );
   }
 
   private readonly auth = inject(Auth);
-
   private readonly userSubject = new ReplaySubject<User | null>(1);
 
   public readonly userChanges: Observable<User | null> = this.userSubject
@@ -45,6 +37,15 @@ export class AuthService {
       map((user) => user !== null),
       shareSingleReplay<boolean>(),
     );
+
+  public authReady(): Promise<void> {
+    const anyAuth = this.auth as unknown as {
+      authStateReady?: () => Promise<void>;
+    };
+    return anyAuth.authStateReady
+      ? anyAuth.authStateReady()
+      : Promise.resolve();
+  }
 
   public signInWithGoogle(): Promise<UserCredential> {
     const provider = new GoogleAuthProvider();

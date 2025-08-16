@@ -1,3 +1,4 @@
+import { FirebaseError } from '@firebase/app';
 import { FormDirective, InputComponent } from '@proangular/pro-form';
 import {
   LoginFormGroup,
@@ -36,40 +37,66 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
   private readonly snackBar = inject(MatSnackBar);
 
   protected override readonly formGroup = loginFormGroup;
+  protected readonly isLoggingIn = signal(false);
+  protected readonly loginErrorMessage = signal<string | null>(null);
   protected readonly userChanges = this.auth.userChanges;
 
-  protected readonly hasLoginError = signal(false);
-  protected readonly isLoggingIn = signal(false);
+  private mapFirebaseError(err: unknown): string {
+    const fallback = 'Sign in failed. Please try again in a moment.';
+    const code = (err as FirebaseError)?.code;
+
+    // Avoid account enumeration: collapse credential errors to one message
+    if (
+      code === 'auth/invalid-credential' ||
+      code === 'auth/wrong-password' ||
+      code === 'auth/user-not-found'
+    ) {
+      return 'Email or password is incorrect.';
+    }
+
+    switch (code) {
+      case 'auth/invalid-email':
+        return 'The email address is invalid. Check for typos.';
+      case 'auth/user-disabled':
+        return 'This account is disabled. Contact support if this is unexpected.';
+      case 'auth/too-many-requests':
+        return 'Too many attempts. Please wait a bit and try again.';
+      case 'auth/network-request-failed':
+        return 'Network problem. Check your connection and try again.';
+      case 'auth/popup-closed-by-user':
+        return 'Google sign in was closed before completing.';
+      default:
+        return fallback;
+    }
+  }
 
   protected async login(): Promise<void> {
     if (this.formGroup.invalid) {
+      // Touch all fields so inline messages render
       this.formGroup.markAllAsTouched();
       return;
     }
 
-    this.isLoggingIn.set(true);
-
     const { email, password } = this.formGroup.value;
     if (!email || !password) {
-      this.snackBar.open('Email and password are required.', 'Close', {
-        duration: 3000,
-      });
+      this.loginErrorMessage.set('Email and password are required.');
       return;
     }
 
+    this.isLoggingIn.set(true);
+    this.loginErrorMessage.set(null);
+
     try {
       const { user } = await this.auth.signInWithEmail(email, password);
-      // eslint-disable-next-line no-console
-      console.log('User logged in:', user);
       this.snackBar.open(
         `Welcome, ${user.displayName || user.email}!`,
         'Close',
         { duration: 3000 },
       );
-      this.hasLoginError.set(false);
+      this.loginErrorMessage.set(null);
     } catch (err) {
-      this.hasLoginError.set(true);
       console.error('Auth error:', err);
+      this.loginErrorMessage.set(this.mapFirebaseError(err));
     } finally {
       this.isLoggingIn.set(false);
     }
@@ -77,11 +104,13 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
 
   protected async googleLogin(): Promise<void> {
     this.isLoggingIn.set(true);
+    this.loginErrorMessage.set(null);
 
     try {
       await this.auth.signInWithGoogle();
     } catch (err) {
       console.error('Google login error:', err);
+      this.loginErrorMessage.set(this.mapFirebaseError(err));
     } finally {
       this.isLoggingIn.set(false);
     }

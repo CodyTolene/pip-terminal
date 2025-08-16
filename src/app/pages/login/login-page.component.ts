@@ -19,12 +19,13 @@ export class LoginPageComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  private readonly homePage: PageUrl = '';
+  private readonly vaultPage: PageUrl = 'vault/:id';
 
   public ngOnInit(): void {
     this.auth.userChanges.pipe(untilDestroyed(this)).subscribe((user) => {
       if (user) {
-        this.router.navigate([this.homePage]);
+        const userVault = this.vaultPage.replace(':id', user.uid);
+        this.router.navigate([userVault]);
       }
     });
   }

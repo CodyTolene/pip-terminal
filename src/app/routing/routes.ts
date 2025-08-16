@@ -13,8 +13,9 @@ import { STATUS_PAGE_ROUTE } from 'src/app/pages/status/status-page.route';
 import { TERMS_AND_CONDITIONS_PAGE_ROUTE } from 'src/app/pages/terms-and-conditions/terms-and-conditions-page.route';
 import { VAULT_PAGE_ROUTE } from 'src/app/pages/vault/vault-page.route';
 import { WELCOME_PAGE_ROUTE } from 'src/app/pages/welcome/welcome-page.route';
+import { PAGE_REDIRECTS } from 'src/app/routing/page-redirects';
 
-export const routes: PipRoute[] = [
+export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   LOGIN_PAGE_ROUTE,
   PIP_BOY_2000_MK_VI_ROUTES,
   PIP_BOY_3000A_ROUTES,
@@ -30,5 +31,6 @@ export const routes: PipRoute[] = [
   TERMS_AND_CONDITIONS_PAGE_ROUTE,
   VAULT_PAGE_ROUTE,
   WELCOME_PAGE_ROUTE,
-  { path: '**', redirectTo: '' }, // 404
+  // PAGE_REDIRECTS['vault'],
+  PAGE_REDIRECTS['404'],
 ];

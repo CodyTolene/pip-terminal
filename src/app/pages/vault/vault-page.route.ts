@@ -1,9 +1,12 @@
 import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
+import { vaultAuthGuard } from 'src/app/guards';
 
 export const VAULT_PAGE_ROUTE: PipRoute = {
   path: 'vault/:id',
   pathMatch: 'full',
+  canActivate: [vaultAuthGuard],
+  runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   data: {
     author: META_AUTHOR,
     description: "View the status of Pip-Boy.com's servers.",
