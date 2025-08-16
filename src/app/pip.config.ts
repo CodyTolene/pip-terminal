@@ -19,7 +19,7 @@ import {
   initializeAppCheck,
   provideAppCheck,
 } from '@angular/fire/app-check';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
@@ -35,7 +35,15 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAuth((injector) => {
       const app = injector.get(FirebaseApp);
-      return getAuth(app);
+      const auth = getAuth(app);
+
+      if (!environment.isProduction) {
+        connectAuthEmulator(auth, 'http://127.0.0.1:9099', {
+          disableWarnings: true,
+        });
+      }
+
+      return auth;
     }),
     provideFirestore((injector) => {
       const app = injector.get(FirebaseApp);

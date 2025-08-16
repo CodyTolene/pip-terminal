@@ -1,9 +1,10 @@
 <nav aria-label="Main">
   <ul role="list">
-    @for (link of links; track link) {
+    @for (link of linksChanges | async; track link) {
       <li>
         <a
           #rla="routerLinkActive"
+          (click)="link.onClick?.()"
           [attr.aria-current]="rla.isActive ? 'page' : null"
           [routerLinkActiveOptions]="
             link.exact ? { exact: true } : { exact: false }
@@ -14,5 +15,6 @@
         >
       </li>
     }
+    <li></li>
   </ul>
 </nav>

@@ -1,0 +1,41 @@
+<form [formGroup]="formGroup">
+  <pro-input
+    [formControl]="formGroup.controls.email"
+    appearance="fill"
+    hint="Enter your email address."
+    label="Email"
+    placeholder="Email"
+    type="email"
+  ></pro-input>
+  <pro-input
+    [formControl]="formGroup.controls.password"
+    appearance="fill"
+    hint="Enter your password."
+    label="Password"
+    placeholder="Password"
+    type="password"
+  ></pro-input>
+  <pip-button
+    (click)="login()"
+    [disabled]="formGroup.invalid || formGroup.disabled"
+    type="submit"
+    styling="filled"
+    >Sign In</pip-button
+  >
+</form>
+
+@if (hasLoginError()) {
+  <div class="error-message">
+    <p>Login failed. Please check your credentials and try again.</p>
+  </div>
+}
+
+<div class="or-container">
+  <p>- OR -</p>
+  <pip-button (click)="googleLogin()" styling="filled"
+    >Sign In with Google</pip-button
+  >
+  <p>
+    Don't have an account? Register <a [routerLink]="['/register']">here</a>
+  </p>
+</div>

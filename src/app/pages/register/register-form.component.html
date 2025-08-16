@@ -1,0 +1,29 @@
+<form [formGroup]="formGroup">
+  <pro-input
+    [formControl]="formGroup.controls.email"
+    appearance="fill"
+    hint="Enter your email address."
+    label="Email"
+    placeholder="Email"
+    type="email"
+  ></pro-input>
+  <pro-input
+    [formControl]="formGroup.controls.password"
+    appearance="fill"
+    hint="Enter your password."
+    label="Password"
+    placeholder="Password"
+    type="password"
+  ></pro-input>
+  <pip-button
+    (click)="register()"
+    [disabled]="formGroup.invalid || formGroup.disabled"
+    type="submit"
+    styling="filled"
+    >Register</pip-button
+  >
+</form>
+
+<div class="error-message" *ngIf="hasRegisterError()">
+  <p>Register failed. Please try again.</p>
+</div>
