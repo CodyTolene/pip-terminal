@@ -25,6 +25,10 @@ section {
   max-width: 1200px;
   padding: 1rem;
   width: 100%;
+
+  &:last-of-type {
+    margin-bottom: 4rem;
+  }
 }
 
 p {
