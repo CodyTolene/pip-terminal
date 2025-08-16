@@ -17,13 +17,15 @@
   ></pro-input>
   <pip-button
     (click)="register()"
-    [disabled]="formGroup.invalid || formGroup.disabled"
+    [disabled]="formGroup.invalid || formGroup.disabled || isRegistering()"
     type="submit"
     styling="filled"
     >Register</pip-button
   >
 </form>
 
-<div class="error-message" *ngIf="hasRegisterError()">
-  <p>Register failed. Please try again.</p>
-</div>
+@if (hasRegisterError()) {
+  <div class="error-message">
+    <p>Register failed. Please try again.</p>
+  </div>
+}

@@ -17,7 +17,7 @@
   ></pro-input>
   <pip-button
     (click)="login()"
-    [disabled]="formGroup.invalid || formGroup.disabled"
+    [disabled]="formGroup.invalid || formGroup.disabled || isLoggingIn()"
     type="submit"
     styling="filled"
     >Sign In</pip-button

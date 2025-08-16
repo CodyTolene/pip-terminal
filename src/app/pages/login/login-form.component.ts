@@ -37,13 +37,17 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
 
   protected override readonly formGroup = loginFormGroup;
   protected readonly userChanges = this.auth.userChanges;
+
   protected readonly hasLoginError = signal(false);
+  protected readonly isLoggingIn = signal(false);
 
   protected async login(): Promise<void> {
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
       return;
     }
+
+    this.isLoggingIn.set(true);
 
     const { email, password } = this.formGroup.value;
     if (!email || !password) {
@@ -66,14 +70,20 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
     } catch (err) {
       this.hasLoginError.set(true);
       console.error('Auth error:', err);
+    } finally {
+      this.isLoggingIn.set(false);
     }
   }
 
   protected async googleLogin(): Promise<void> {
+    this.isLoggingIn.set(true);
+
     try {
       await this.auth.signInWithGoogle();
     } catch (err) {
       console.error('Google login error:', err);
+    } finally {
+      this.isLoggingIn.set(false);
     }
   }
 }

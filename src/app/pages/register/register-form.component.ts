@@ -36,13 +36,17 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
   private readonly snackBar = inject(MatSnackBar);
 
   protected override readonly formGroup = registerFormGroup;
+
   protected readonly hasRegisterError = signal(false);
+  protected readonly isRegistering = signal(false);
 
   protected async register(): Promise<void> {
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
       return;
     }
+
+    this.isRegistering.set(true);
 
     const { email, password } = this.formGroup.value;
     if (!email || !password) {
@@ -61,6 +65,8 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
         duration: 3000,
       });
       console.error('Register error:', err);
+    } finally {
+      this.isRegistering.set(false);
     }
   }
 }

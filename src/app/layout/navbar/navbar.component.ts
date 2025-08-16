@@ -39,6 +39,14 @@ export class NavbarComponent {
       commands: ['logout'],
       label: 'Logout',
     },
+    {
+      commands: ['status'],
+      label: 'Status',
+    },
+    {
+      commands: ['privacy-policy'],
+      label: 'Privacy Policy',
+    },
   ];
 
   protected readonly linksChanges = this.auth.userChanges.pipe(

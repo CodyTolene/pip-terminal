@@ -30,7 +30,13 @@ form {
 .error-message {
   color: red;
   font-size: 0.875rem;
-  margin-top: 0.5rem;
+  margin: 0;
+
+  > p {
+    padding: 0 1rem 1rem 1rem;
+    margin: 0;
+    text-align: center;
+  }
 }
 
 pip-button {
