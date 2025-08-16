@@ -28,5 +28,6 @@ export const PAGE_NAMES = [
   'Privacy Policy',
   'Register',
   'Status',
-  'Wastelander',
+  'Terms and Conditions',
+  'Vault',
 ] as const;

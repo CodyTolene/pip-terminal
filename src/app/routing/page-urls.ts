@@ -33,7 +33,8 @@ export const PAGE_URLS = (
     'privacy-policy',
     'register',
     'status',
-    `wastelander/${id}`,
+    'terms-and-conditions',
+    `vault/${id}`,
   ] as const
 )
   // Validate URLs.

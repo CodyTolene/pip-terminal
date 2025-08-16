@@ -47,6 +47,10 @@ export class NavbarComponent {
       commands: ['privacy-policy'],
       label: 'Privacy Policy',
     },
+    {
+      commands: ['terms-and-conditions'],
+      label: 'Terms',
+    },
   ];
 
   protected readonly linksChanges = this.auth.userChanges.pipe(
@@ -78,7 +82,7 @@ export class NavbarComponent {
 
 interface PageLink {
   commands: ReadonlyArray<PageUrl | 'logout'>;
-  label: PageName | 'Logout' | 'Pip-Boy 3000 Mk V';
+  label: PageName | 'Logout' | 'Pip-Boy 3000 Mk V' | 'Terms';
   exact?: boolean;
   isNewTab?: boolean;
   onClick?: () => void;

@@ -10,6 +10,7 @@ import { PIP_BOY_3000A_ROUTES } from 'src/app/pages/pip-boy-3000a/pip-boy-3000a.
 import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-policy-page.route';
 import { REGISTER_PAGE_ROUTE } from 'src/app/pages/register/register-page.route';
 import { STATUS_PAGE_ROUTE } from 'src/app/pages/status/status-page.route';
+import { TERMS_AND_CONDITIONS_PAGE_ROUTE } from 'src/app/pages/terms-and-conditions/terms-and-conditions-page.route';
 import { WELCOME_PAGE_ROUTE } from 'src/app/pages/welcome/welcome-page.route';
 
 export const routes: PipRoute[] = [
@@ -25,6 +26,7 @@ export const routes: PipRoute[] = [
   PRIVACY_POLICY_PAGE_ROUTE,
   REGISTER_PAGE_ROUTE,
   STATUS_PAGE_ROUTE,
+  TERMS_AND_CONDITIONS_PAGE_ROUTE,
   WELCOME_PAGE_ROUTE,
   { path: '**', redirectTo: '' }, // 404
 ];

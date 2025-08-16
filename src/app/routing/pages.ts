@@ -14,7 +14,8 @@ export const PAGES: Record<PageName, PageUrl> = {
   Login: 'login',
   Register: 'register',
   Status: 'status',
-  Wastelander: `wastelander/:id`,
+  'Terms and Conditions': 'terms-and-conditions',
+  Vault: `vault/:id`,
   /** Pip-Boy 3000 Mk IV Routes */
   'DATA > QUESTS - Pip-Boy 3000 Mk IV': 'data/quests',
   'DATA > STATS - Pip-Boy 3000 Mk IV': 'data/stats',

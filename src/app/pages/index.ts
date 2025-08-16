@@ -10,4 +10,6 @@ export * from './pip-boy-3000a/index';
 export * from './privacy-policy/privacy-policy-page.component';
 export * from './register/register-page.component';
 export * from './status/status-page.component';
+export * from './terms-and-conditions/terms-and-conditions-page.component';
+// export * from './vault/vault-page.component';
 export * from './welcome/welcome-page.component';
