@@ -63,6 +63,42 @@ button {
   }
 }
 
+.label-with-cursor {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  color: col.$pip-green;
+
+  &.cursor-left {
+    flex-direction: row-reverse;
+  }
+
+  .label-text {
+    white-space: nowrap;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 1.25ch;
+    height: 1em;
+    background-color: col.$pip-green-dark;
+    animation: blink 1s steps(1) infinite;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label-with-cursor .cursor {
+    animation: none;
+  }
+}
+
 @include bps.media('max', 'md') {
   .logo-container > .branding > .site-title {
     font-size: var.$font-lg;

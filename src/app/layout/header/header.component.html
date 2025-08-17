@@ -16,11 +16,19 @@
         id="menu-toggle"
         type="button"
       >
-        <span>
-          @if (isNavbarOpenSignal()) {
-            Close
-          } @else {
-            Menu
+        <span class="label-with-cursor">
+          @if (cursorSide === 'left') {
+            <span class="cursor" aria-hidden="true"></span>
+          }
+          <span class="label-text">
+            @if (isNavbarOpenSignal()) {
+              Close
+            } @else {
+              Menu
+            }
+          </span>
+          @if (cursorSide === 'right') {
+            <span class="cursor" aria-hidden="true"></span>
           }
         </span>
         <mat-icon
