@@ -40,7 +40,6 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
   protected readonly isProduction = environment.isProduction;
   protected readonly isRegistering = signal(false);
   protected readonly registerErrorMessage = signal<string | null>(null);
-  protected readonly siteKey = environment.google.recaptcha.apiKey;
 
   protected async register(): Promise<void> {
     if (this.formGroup.invalid) {
