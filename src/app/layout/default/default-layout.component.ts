@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
   template: `
     <pip-header />
     <!-- TODO -->
-    @if (isProduction) {
+    @if (!isProduction) {
       <pip-navbar />
     }
     <pip-content />
