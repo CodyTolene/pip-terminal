@@ -35,6 +35,7 @@ export const PAGE_URLS = (
     'status',
     'terms-and-conditions',
     `vault/${id}`,
+    'verify-email',
   ] as const
 )
   // Validate URLs.

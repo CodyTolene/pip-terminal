@@ -16,6 +16,7 @@ export const PAGES: Record<PageName, PageUrl> = {
   Status: 'status',
   'Terms and Conditions': 'terms-and-conditions',
   Vault: `vault/:id`,
+  'Verify Email': 'verify-email',
   /** Pip-Boy 3000 Mk IV Routes */
   'DATA > QUESTS - Pip-Boy 3000 Mk IV': 'data/quests',
   'DATA > STATS - Pip-Boy 3000 Mk IV': 'data/stats',

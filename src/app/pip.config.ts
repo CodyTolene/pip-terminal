@@ -14,16 +14,16 @@ import {
   initializeApp,
   provideFirebaseApp,
 } from '@angular/fire/app';
-import {
-  ReCaptchaEnterpriseProvider,
-  initializeAppCheck,
-  provideAppCheck,
-} from '@angular/fire/app-check';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { provideRouter } from '@angular/router';
+
+import { StorageLocalService } from 'src/app/services/storage-local.service';
+import { StorageSessionService } from 'src/app/services/storage-session.service';
+
+import { appCheckProvider } from 'src/app/utilities/get-app-check-provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -61,17 +61,12 @@ export const appConfig: ApplicationConfig = {
       const app = injector.get(FirebaseApp);
       return getAnalytics(app);
     }),
-    provideAppCheck((injector) => {
-      const app = injector.get(FirebaseApp);
-      const provider = new ReCaptchaEnterpriseProvider(
-        environment.google.recaptcha.apiKey,
-      );
-      return initializeAppCheck(app, {
-        isTokenAutoRefreshEnabled: true,
-        provider,
-      });
-    }),
+    // Only include App Check in prod, we use emulation locally
+    // so there's no need for App Check
+    ...(environment.isProduction ? [appCheckProvider()] : []),
     ScreenTrackingService,
+    StorageLocalService,
+    StorageSessionService,
     UserTrackingService,
   ],
 };

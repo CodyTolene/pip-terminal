@@ -13,7 +13,7 @@ export const isLoggedOutGuard: CanActivateFn = (_route) => {
     map((user) => {
       if (user) {
         // User is logged in, redirect home
-        return router.createUrlTree(['/']);
+        return router.createUrlTree(['' satisfies PageUrl]);
       }
 
       return true;

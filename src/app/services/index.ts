@@ -8,4 +8,6 @@ export * from './screen.service';
 export * from './scripts.service';
 export * from './sound.service';
 export * from './status.service';
+export * from './storage-local.service';
+export * from './storage-session.service';
 export * from './stylesheets.service';

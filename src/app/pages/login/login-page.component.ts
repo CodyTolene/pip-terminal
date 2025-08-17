@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { EmailVerificationService } from 'src/app/services/email-verification.service';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-login-page',
@@ -17,16 +19,33 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
   private readonly auth = inject(AuthService);
+  private readonly emailVerification = inject(EmailVerificationService);
   private readonly router = inject(Router);
 
+  private readonly coolDownSeconds = 300; // 5 minutes
   private readonly vaultPage: PageUrl = 'vault/:id';
 
   public ngOnInit(): void {
-    this.auth.userChanges.pipe(untilDestroyed(this)).subscribe((user) => {
-      if (user) {
-        const userVault = this.vaultPage.replace(':id', user.uid);
-        this.router.navigate([userVault]);
+    this.auth.userChanges.pipe(untilDestroyed(this)).subscribe(async (user) => {
+      if (!user) {
+        return;
       }
+
+      if (!user.emailVerified) {
+        try {
+          await this.emailVerification.sendIfEligible(
+            user,
+            this.coolDownSeconds,
+          );
+        } catch (err) {
+          console.error('[LoginPage] sendEmailVerification failed:', err);
+        }
+        await this.router.navigate(['verify-email' as PageUrl]);
+        return;
+      }
+
+      const userVault = this.vaultPage.replace(':id', user.uid);
+      this.router.navigate([userVault]);
     });
   }
 }

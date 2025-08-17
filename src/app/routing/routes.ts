@@ -12,6 +12,7 @@ import { REGISTER_PAGE_ROUTE } from 'src/app/pages/register/register-page.route'
 import { STATUS_PAGE_ROUTE } from 'src/app/pages/status/status-page.route';
 import { TERMS_AND_CONDITIONS_PAGE_ROUTE } from 'src/app/pages/terms-and-conditions/terms-and-conditions-page.route';
 import { VAULT_PAGE_ROUTE } from 'src/app/pages/vault/vault-page.route';
+import { VERIFY_EMAIL_PAGE_ROUTE } from 'src/app/pages/verify-email/verify-email-page.route';
 import { WELCOME_PAGE_ROUTE } from 'src/app/pages/welcome/welcome-page.route';
 import { PAGE_REDIRECTS } from 'src/app/routing/page-redirects';
 
@@ -30,7 +31,8 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   STATUS_PAGE_ROUTE,
   TERMS_AND_CONDITIONS_PAGE_ROUTE,
   VAULT_PAGE_ROUTE,
+  VERIFY_EMAIL_PAGE_ROUTE,
   WELCOME_PAGE_ROUTE,
-  // PAGE_REDIRECTS['vault'],
+  PAGE_REDIRECTS['vault'],
   PAGE_REDIRECTS['404'],
 ];

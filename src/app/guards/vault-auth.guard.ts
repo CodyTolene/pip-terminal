@@ -28,17 +28,20 @@ export const vaultAuthGuard: CanActivateFn = (route) => {
     map((user) => {
       if (!user) {
         // Not logged in, route home right away
-        return router.createUrlTree(['/']);
+        return router.createUrlTree(['' satisfies PageUrl]);
       }
 
       if (!idParam) {
         // User is logged in, visiting `/vault`
         // Redirect `/vault` (no id) to `/vault/:uid`
-        return router.createUrlTree(['/vault', user.uid]);
+        const userVaultUrl: PageUrl = 'vault/:id';
+        return router.createUrlTree([userVaultUrl.replace(':id', user.uid)]);
       }
 
       // Make sure id matches the users id, if not route to home
-      return idParam === user.uid ? true : router.createUrlTree(['/']);
+      return idParam === user.uid
+        ? true
+        : router.createUrlTree(['' satisfies PageUrl]);
     }),
   );
 };

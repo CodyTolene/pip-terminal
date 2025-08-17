@@ -30,4 +30,5 @@ export const PAGE_NAMES = [
   'Status',
   'Terms and Conditions',
   'Vault',
+  'Verify Email',
 ] as const;
