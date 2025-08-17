@@ -13,16 +13,6 @@
     placeholder="Enter a password"
     type="password"
   ></pro-input>
-  @if (isProduction) {
-    <ngx-recaptcha2
-      #captchaElem
-      (expire)="handleExpire()"
-      (success)="handleSuccess($event)"
-      [siteKey]="siteKey"
-      [useGlobalDomain]="false"
-      formControlName="recaptcha"
-    ></ngx-recaptcha2>
-  }
   <pip-button
     [disabled]="formGroup.invalid || formGroup.disabled || isRegistering()"
     type="submit"

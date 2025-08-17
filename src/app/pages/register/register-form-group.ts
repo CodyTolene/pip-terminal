@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export interface RegisterFormGroup {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
-  recaptcha: FormControl<string | null>;
 }
 
 const registerFormGroupValidation = {
@@ -25,5 +24,4 @@ export const registerFormGroup = new FormGroup<RegisterFormGroup>({
     Validators.minLength(validation.password.minLength),
     Validators.maxLength(validation.password.maxLength),
   ]),
-  recaptcha: new FormControl<string | null>('', [Validators.required]),
 });

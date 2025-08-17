@@ -8,7 +8,11 @@ import {
   provideAppCheck,
 } from '@angular/fire/app-check';
 
-export function appCheckProvider(): EnvironmentProviders {
+export function appCheckProvider(): EnvironmentProviders | [] {
+  if (!environment.isProduction) {
+    // (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    return []; // Disable in development.
+  }
   return provideAppCheck(() => {
     const app = inject(FirebaseApp);
     const provider = new ReCaptchaEnterpriseProvider(
