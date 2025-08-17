@@ -1,24 +1,40 @@
 import { ContentComponent } from 'src/app/layout/content/content.component';
 import { PipHeaderComponent } from 'src/app/layout/header/header.component';
 import { NavbarComponent } from 'src/app/layout/navbar/navbar.component';
-import { environment } from 'src/environments/environment';
+import { isNavbarOpenSignal } from 'src/app/signals';
 
-import { Component } from '@angular/core';
+import { Component, ViewChild, effect } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-default-layout',
-  template: `
-    <pip-header />
-    <!-- TODO -->
-    @if (!isProduction) {
-      <pip-navbar />
-    }
-    <pip-content />
-  `,
+  templateUrl: './default-layout.component.html',
   styleUrl: './default-layout.component.scss',
-  imports: [ContentComponent, NavbarComponent, PipHeaderComponent],
+  imports: [
+    ContentComponent,
+    MatListModule,
+    MatSidenavModule,
+    NavbarComponent,
+    PipHeaderComponent,
+    RouterModule,
+  ],
   standalone: true,
 })
 export class DefaultLayoutComponent {
-  protected readonly isProduction = environment.isProduction;
+  public constructor() {
+    effect(() => {
+      const isNavbarOpen = isNavbarOpenSignal();
+      if (isNavbarOpen) {
+        this.navbar?.open();
+      } else {
+        this.navbar?.close();
+      }
+    });
+  }
+
+  @ViewChild('navbar') private readonly navbar: MatSidenav | null = null;
+
+  protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
 }

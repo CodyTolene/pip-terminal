@@ -8,7 +8,7 @@ export const PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE: PipRoute = {
     author: META_AUTHOR,
     description: 'Customize and update your Pip-Boy 3000 Mk V!',
     keywords: ['Pip-Boy 3000 Mk V', ...META_DEFAULT_KEYWORDS],
-    layout: PageLayoutsEnum.PIP_3000_MK_V,
+    layout: PageLayoutsEnum.NONE,
     title: 'Pip-Boy 3000 Mk V Companion App',
   },
   loadComponent: () =>

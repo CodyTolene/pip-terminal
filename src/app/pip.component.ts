@@ -6,7 +6,6 @@ import {
   PipBoy3000ALayoutComponent,
   PipBoy3000LayoutComponent,
   PipBoy3000MkIVLayoutComponent,
-  PipBoy3000MkVCompanionLayoutComponent,
 } from 'src/app/layout';
 import { DefaultLayoutComponent } from 'src/app/layout/default/default-layout.component';
 import {
@@ -34,7 +33,6 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
     PipBoy3000ALayoutComponent,
     PipBoy3000LayoutComponent,
     PipBoy3000MkIVLayoutComponent,
-    PipBoy3000MkVCompanionLayoutComponent,
   ],
   styleUrl: './pip.component.scss',
   providers: [PageDataService, PageMetaService, SoundService],

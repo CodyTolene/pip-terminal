@@ -18,17 +18,17 @@ header {
 }
 
 .logo-container {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  display: flex;
   height: 100%;
-  max-width: 1200px;
+  justify-content: space-between;
   margin: 0 auto;
+  max-width: 1200px;
   padding: 0 1.5rem;
 
   .branding {
-    display: flex;
     align-items: center;
+    display: flex;
 
     img.logo {
       height: 40px;
@@ -42,6 +42,10 @@ header {
       letter-spacing: 1px;
     }
   }
+}
+
+mat-icon:hover {
+  cursor: pointer;
 }
 
 @include bps.media('max', 'md') {
@@ -60,11 +64,4 @@ header {
   .logo-container > .branding > .site-title {
     font-size: var.$font-sm;
   }
-}
-
-.version {
-  color: col.$pip-green;
-  font-family: monospace;
-  font-size: 1rem;
-  opacity: 0.7;
 }
