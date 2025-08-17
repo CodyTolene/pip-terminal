@@ -1,7 +1,7 @@
 import { Commands } from 'src/app/commands';
 import { pipSignals } from 'src/app/signals';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 import { wait } from 'src/app/utilities/wait.util';
@@ -18,12 +18,10 @@ import { PipGetDataService } from './pip-get-data.service';
  */
 @Injectable({ providedIn: 'root' })
 export class PipDeviceService {
-  public constructor(
-    private readonly pipCommandService: PipCommandService,
-    private readonly pipConnectionService: PipConnectionService,
-    private readonly pipFileService: PipFileService,
-    private readonly pipGetDataService: PipGetDataService,
-  ) {}
+  private readonly pipCommandService = inject(PipCommandService);
+  private readonly pipConnectionService = inject(PipConnectionService);
+  private readonly pipFileService = inject(PipFileService);
+  private readonly pipGetDataService = inject(PipGetDataService);
 
   /**
    * Initializes the device by retrieving and setting various device information,

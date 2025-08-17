@@ -46,9 +46,17 @@ testem.log
 Thumbs.db
 
 # Firebase
-.firebase
 *-debug.log
+.firebase/*.cache
+.firebase/**/*.cache
 .runtimeconfig.json
+
+# API
+api/lib/**/*.js
+api/lib/**/*.js.map
+api/typings/
+api/node_modules/
+api/*.local
 
 # Script outputs
 ./scripts/output/*

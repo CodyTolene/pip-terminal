@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { Commands } from 'src/app/commands';
 import { pipSignals } from 'src/app/signals';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
 import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
@@ -17,11 +17,9 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
  */
 @Injectable({ providedIn: 'root' })
 export class PipSetDataService {
-  public constructor(
-    private readonly pipCommandService: PipCommandService,
-    private readonly pipDeviceService: PipDeviceService,
-    private readonly pipTimeService: PipTimeService,
-  ) {}
+  private readonly pipCommandService = inject(PipCommandService);
+  private readonly pipDeviceService = inject(PipDeviceService);
+  private readonly pipTimeService = inject(PipTimeService);
 
   /**
    * Sets the date and time on the device.

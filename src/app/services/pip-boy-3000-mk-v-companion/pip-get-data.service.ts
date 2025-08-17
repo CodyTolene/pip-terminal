@@ -1,7 +1,7 @@
 import { Commands } from 'src/app/commands';
 import { isNonEmptyObject, toNumber } from 'src/app/utilities';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
 
@@ -12,7 +12,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
  */
 @Injectable({ providedIn: 'root' })
 export class PipGetDataService {
-  public constructor(private readonly pipCommandService: PipCommandService) {}
+  private readonly pipCommandService = inject(PipCommandService);
 
   public async getBatteryLevel(): Promise<number> {
     const command = Commands.getBatteryLevel();

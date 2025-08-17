@@ -4,7 +4,7 @@ import { APP_VERSION } from 'src/app/constants';
 import { DateTimePipe } from 'src/app/pipes';
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-time.service';
 
@@ -17,10 +17,12 @@ import { PipTimeService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip
   standalone: true,
 })
 export class PipBoy3000MkIVFooterComponent {
-  public constructor(private readonly pipTimeService: PipTimeService) {
+  public constructor() {
     this.isTimeBlinkingChanges = this.pipTimeService.isTimeBlinkingChanges;
     this.timeChanges = this.pipTimeService.timeChanges;
   }
+
+  private readonly pipTimeService = inject(PipTimeService);
 
   protected readonly versionNumber = APP_VERSION;
 

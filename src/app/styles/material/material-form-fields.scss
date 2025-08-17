@@ -43,9 +43,20 @@ mat-form-field {
     color: col.$pip-green;
   }
 
-  .mat-mdc-form-field-hint-wrapper,
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none;
-    visibility: hidden;
+  // .mat-mdc-form-field-hint-wrapper,
+  // .mat-mdc-form-field-subscript-wrapper {
+  //   display: none;
+  //   visibility: hidden;
+  // }
+}
+
+pro-input,
+pro-input-dropdown {
+  .mat-form-field-disabled {
+    .mat-mdc-form-field-hint-wrapper,
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+      visibility: hidden;
+    }
   }
 }

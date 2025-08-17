@@ -1,0 +1,25 @@
+<h1>Email Verification Required</h1>
+
+<p>
+  We sent a verification link to "{{
+    (userChanges | async)?.email ?? 'Loading...'
+  }}".
+</p>
+
+<p>Please verify your email address before continuing.</p>
+
+<pip-button
+  (click)="resendVerificationEmail()"
+  [disabled]="busyResend() || (isResendCoolingDownChanges | async)"
+>
+  Resend Verification Email {{ resendLabelChanges | async }}
+</pip-button>
+
+<pip-button
+  (click)="checkVerification()"
+  [disabled]="busyVerify() || (isVerifyCoolingDownChanges | async)"
+>
+  I Verified, Continue {{ verifyLabelChanges | async }}
+</pip-button>
+
+<pip-footer />

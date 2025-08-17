@@ -2,7 +2,7 @@ import { Commands } from 'src/app/commands';
 import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
 import { logMessage, wait } from 'src/app/utilities';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
 import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-connection.service';
@@ -12,12 +12,10 @@ import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip
 /** Service for managing sounds on the Pip device. */
 @Injectable({ providedIn: 'root' })
 export class PipSoundService {
-  public constructor(
-    private readonly pipCommandService: PipCommandService,
-    private readonly pipConnectionService: PipConnectionService,
-    private readonly pipDeviceService: PipDeviceService,
-    private readonly pipFileService: PipFileService,
-  ) {}
+  private readonly pipCommandService = inject(PipCommandService);
+  private readonly pipConnectionService = inject(PipConnectionService);
+  private readonly pipDeviceService = inject(PipDeviceService);
+  private readonly pipFileService = inject(PipFileService);
 
   /**
    * Plays a radio file on the device.

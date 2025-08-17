@@ -1,0 +1,20 @@
+<nav aria-label="Main">
+  <ul role="list">
+    @for (link of linksChanges | async; track link) {
+      <li>
+        <a
+          #rla="routerLinkActive"
+          (click)="link.onClick?.()"
+          [attr.aria-current]="rla.isActive ? 'page' : null"
+          [routerLinkActiveOptions]="
+            link.exact ? { exact: true } : { exact: false }
+          "
+          [routerLink]="link.commands"
+          routerLinkActive="active"
+          >{{ link.label }}</a
+        >
+      </li>
+    }
+    <li></li>
+  </ul>
+</nav>

@@ -1,6 +1,7 @@
 export * from './custom-validators.util';
 export * from './decode.util';
 export * from './enums.util';
+export * from './get-app-check-provider';
 export * from './is-type.util';
 export * from './observables.util';
 export * from './pip-log.util';

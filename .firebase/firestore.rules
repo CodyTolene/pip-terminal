@@ -1,0 +1,26 @@
+// https://firebase.google.com/docs/firestore/security/rules-fields
+// https://firebase.google.com/docs/firestore/security/rules-structure#granular_operations
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /accounts/{uid} {
+      allow get: if (
+        request.auth != null &&
+        uid == request.auth.uid
+      );
+      allow delete: if false;
+      allow update: if (
+        request.auth != null &&
+        uid == request.auth.uid && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'modifiedDate',
+          'profileImagePath',
+        ]) &&
+        request.resource.data.modifiedDate is timestamp &&
+        request.resource.data.profileImagePath is string
+      );
+    }
+  }
+}
