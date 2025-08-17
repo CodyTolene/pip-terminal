@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
@@ -9,9 +9,7 @@ import { PipConnectionService } from './pip-connection.service';
  */
 @Injectable({ providedIn: 'root' })
 export class PipCommandService {
-  public constructor(
-    private readonly connectionService: PipConnectionService,
-  ) {}
+  private readonly connectionService = inject(PipConnectionService);
 
   private readonly EVAL_TIMEOUT = 2000;
   private readonly MAX_RETRIES = 10;

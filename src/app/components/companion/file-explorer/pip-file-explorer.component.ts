@@ -1,9 +1,9 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { PipFileService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,8 +16,6 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
-import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
-
 @UntilDestroy()
 @Component({
   selector: 'pip-file-explorer',
@@ -25,7 +23,6 @@ import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip
   styleUrls: ['./pip-file-explorer.component.scss'],
   imports: [
     PipButtonComponent,
-    CommonModule,
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
@@ -35,10 +32,8 @@ import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip
   standalone: true,
 })
 export class PipFileExplorerComponent {
-  public constructor(
-    private readonly dialog: MatDialog,
-    private readonly pipFileService: PipFileService,
-  ) {}
+  private readonly dialog = inject(MatDialog);
+  private readonly pipFileService = inject(PipFileService);
 
   protected isInitialized = false;
 

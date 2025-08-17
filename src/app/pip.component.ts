@@ -1,24 +1,26 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter } from 'rxjs';
-import { PipCompanionUrlsEnum, PipUrlsEnum } from 'src/app/enums';
-import { PipBoy2000MkVILayoutComponent } from 'src/app/layout/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-layout.component';
-import { PipBoy3000MkIVLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv-layout.component';
-import { PipBoy3000MkVCompanionLayoutComponent } from 'src/app/layout/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-layout.component';
-import { PipBoy3000LayoutComponent } from 'src/app/layout/pip-boy-3000/pip-boy-3000-layout.component';
-import { PipBoy3000ALayoutComponent } from 'src/app/layout/pip-boy-3000a/pip-boy-3000a-layout.component';
-import { WelcomePageComponent } from 'src/app/pages/welcome/welcome-page.component';
-import { pipUrlSignal } from 'src/app/signals';
+import { distinctUntilChanged, filter, map } from 'rxjs';
+import { PageLayoutsEnum } from 'src/app/enums';
+import {
+  PipBoy2000MkVILayoutComponent,
+  PipBoy3000ALayoutComponent,
+  PipBoy3000LayoutComponent,
+  PipBoy3000MkIVLayoutComponent,
+  PipBoy3000MkVCompanionLayoutComponent,
+} from 'src/app/layout';
+import { DefaultLayoutComponent } from 'src/app/layout/default/default-layout.component';
+import {
+  PageDataService,
+  PageMetaService,
+  SoundService,
+} from 'src/app/services';
+import { isNonEmptyValue, shareSingleReplay } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Analytics } from '@angular/fire/analytics';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-
-import { PageMetaService } from 'src/app/services/page-meta.service';
-import { PipBoy3000TabsService } from 'src/app/services/pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
-import { SoundService } from 'src/app/services/sound.service';
 
 @UntilDestroy()
 @Component({
@@ -26,86 +28,48 @@ import { SoundService } from 'src/app/services/sound.service';
   templateUrl: './pip.component.html',
   imports: [
     CommonModule,
+    DefaultLayoutComponent,
     MatLuxonDateModule,
     PipBoy2000MkVILayoutComponent,
     PipBoy3000ALayoutComponent,
     PipBoy3000LayoutComponent,
     PipBoy3000MkIVLayoutComponent,
     PipBoy3000MkVCompanionLayoutComponent,
-    WelcomePageComponent,
   ],
   styleUrl: './pip.component.scss',
-  providers: [PageMetaService, SoundService],
+  providers: [PageDataService, PageMetaService, SoundService],
 })
 export class PipComponent implements OnInit {
-  public constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly pageMetaService: PageMetaService,
-    private readonly router: Router,
-    private readonly tabsService: PipBoy3000TabsService,
-  ) {}
+  private readonly pageDataService = inject(PageDataService);
+  private readonly pageMetaService = inject(PageMetaService);
 
-  // Bind the services to the component.
+  private readonly pageDataChanges = this.pageDataService.pageDataChanges.pipe(
+    filter(isNonEmptyValue),
+    distinctUntilChanged(),
+    shareSingleReplay(),
+  );
+
+  protected readonly pageLayoutChanges = this.pageDataChanges.pipe(
+    map((pageData) => pageData.layout),
+  );
+
+  // Bind the analytics service to the component.
   // https://github.com/angular/angularfire/blob/main/docs/analytics.md
   protected readonly analytics = environment.isProduction
     ? inject(Analytics)
     : null;
 
-  protected readonly PipUrlsEnum = PipUrlsEnum;
-  protected readonly pipUrlSignal = pipUrlSignal;
+  protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
   public ngOnInit(): void {
-    // Set the default tags for the page.
-    this.pageMetaService.setTags();
+    // Set the default tags for all pages.
+    this.pageMetaService.setDefaultTags();
 
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        untilDestroyed(this),
-      )
-      .subscribe(() => {
-        let route = this.activatedRoute;
-        const fullPathSegments: string[] = [];
-
-        while (route.firstChild) {
-          route = route.firstChild;
-          fullPathSegments.push(...route.snapshot.url.map((seg) => seg.path));
-        }
-
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_2000_MK_VI)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_2000_MK_VI);
-          return;
-        }
-
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_IV)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_IV);
-          return;
-        }
-
-        if (
-          fullPathSegments.includes(PipUrlsEnum.PIP_3000_MK_V) ||
-          fullPathSegments.includes(PipCompanionUrlsEnum.PIP_3000_MK_V_APPS) ||
-          fullPathSegments.includes(
-            PipCompanionUrlsEnum.PIP_3000_MK_V_MAINTENANCE,
-          ) ||
-          fullPathSegments.includes(PipCompanionUrlsEnum.PIP_3000_MK_V_RADIO)
-        ) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000_MK_V);
-          return;
-        }
-
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000A)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000A);
-          return;
-        }
-
-        if (fullPathSegments.includes(PipUrlsEnum.PIP_3000)) {
-          this.pipUrlSignal.set(PipUrlsEnum.PIP_3000);
-          return;
-        }
-
-        this.pipUrlSignal.set(PipUrlsEnum.NONE);
-        this.pageMetaService.setTitle('Welcome!');
-      });
+    this.pageDataChanges.pipe(untilDestroyed(this)).subscribe((pageData) => {
+      this.pageMetaService.setAuthor(pageData.author);
+      this.pageMetaService.setDescription(pageData.description);
+      this.pageMetaService.setKeywords(pageData.keywords);
+      this.pageMetaService.setTitle(pageData.title);
+    });
   }
 }

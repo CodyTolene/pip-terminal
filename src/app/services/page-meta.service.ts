@@ -1,20 +1,30 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 
 /** Service for managing application page meta. */
 @Injectable({ providedIn: 'root' })
 export class PageMetaService {
-  public constructor(
-    private readonly meta: Meta,
-    private readonly title: Title,
-  ) {}
+  private readonly meta = inject(Meta);
+  private readonly title = inject(Title);
+
+  public setAuthor(author: string): void {
+    this.meta.updateTag({ name: 'author', content: author });
+  }
+
+  public setDescription(description: string): void {
+    this.meta.updateTag({ name: 'description', content: description });
+  }
+
+  public setKeywords(keywords: readonly string[]): void {
+    this.meta.updateTag({ name: 'keywords', content: keywords.join(', ') });
+  }
 
   public setTitle(title: string): void {
     this.title.setTitle(`${title} - Pip-Boy Terminal`);
   }
 
-  public setTags(): void {
-    const tags = this.getTags();
+  public setDefaultTags(): void {
+    const tags = this.getDefaultTags();
     const existingTags = tags.filter((tag) => {
       const findBy = tag.name
         ? `name="${tag.name}"`
@@ -32,18 +42,12 @@ export class PageMetaService {
     this.meta.addTags(tags);
   }
 
-  private getTags(): MetaDefinition[] {
+  private getDefaultTags(): MetaDefinition[] {
     return [
       { name: 'robots', content: 'index, follow' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'date', content: new Date().toISOString().split('T')[0] },
       { charset: 'UTF-8' },
-      { name: 'author', content: 'Pip Terminal' },
-      { name: 'description', content: 'Pip Terminal' },
-      {
-        name: 'keywords',
-        content: 'Pip-Boy, Pip-Boy Terminal, Pip Terminal, Pip, Pip-Terminal',
-      },
       { name: 'theme-color', content: '#00ff00' },
       { property: 'og:title', content: this.title.getTitle() },
       { property: 'og:type', content: 'website' },

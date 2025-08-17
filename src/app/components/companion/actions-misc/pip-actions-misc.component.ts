@@ -1,31 +1,29 @@
+import {
+  PipFileService,
+  PipGetDataService,
+  PipSoundService,
+} from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
-import { PipFileService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-file.service';
-import { PipGetDataService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-get-data.service';
-import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
-
 @Component({
   selector: 'pip-actions-misc',
   templateUrl: './pip-actions-misc.component.html',
-  imports: [CommonModule, MatDialogModule, PipButtonComponent],
+  imports: [MatDialogModule, PipButtonComponent],
   styleUrl: './pip-actions-misc.component.scss',
   providers: [],
   standalone: true,
 })
 export class PipActionsMiscComponent {
-  public constructor(
-    private readonly pipFileService: PipFileService,
-    private readonly pipGetDataService: PipGetDataService,
-    private readonly pipSoundService: PipSoundService,
-  ) {}
+  private readonly pipFileService = inject(PipFileService);
+  private readonly pipGetDataService = inject(PipGetDataService);
+  private readonly pipSoundService = inject(PipSoundService);
 
   @Input() public set hideDeleteAllAppsButton(value: BooleanInput) {
     this.#hideDeleteAllAppsButton = coerceBooleanProperty(value);

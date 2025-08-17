@@ -1,8 +1,7 @@
 export { DxRadioFileNameEnum } from './dx-radio-files.enum';
 export { MxRadioFileNameEnum } from './mx-radio-files.enum';
+export { PageLayoutsEnum } from './page-layouts.enum';
 export { PipAppTypeEnum } from './pip-app-type.enum';
-export { PipCompanionUrlsEnum } from './pip-companion-urls.enum';
-export { PipUrlsEnum } from './pip-urls.enum';
 export { ScreenSizeEnum } from './screen-size.enum';
 export { SoundEnum } from './sound.enum';
 export { SubTabLabelEnum } from './sub-tab-label.enum';

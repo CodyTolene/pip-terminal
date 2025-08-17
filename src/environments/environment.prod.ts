@@ -1,20 +1,22 @@
 export const environment: EnvironmentCredentials = {
+  apiUrl: 'https://us-central1-pip-terminal.cloudfunctions.net/api',
   appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/releases',
   google: {
     firebase: {
-      projectId: 'pip-terminal',
-      appId: '1:438882577130:web:dc1124a2ab2ad5d21c0593',
-      storageBucket: 'pip-terminal.firebasestorage.app',
       apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
-      authDomain: 'pip-terminal.firebaseapp.com',
-      messagingSenderId: '438882577130',
+      appId: '1:438882577130:web:dc1124a2ab2ad5d21c0593',
+      authDomain: 'pip-boy.com', // 'pip-terminal.firebaseapp.com'
       measurementId: 'G-1Z6DNZH2C2',
+      messagingSenderId: '438882577130',
+      projectId: 'pip-terminal',
+      storageBucket: 'pip-terminal.firebasestorage.app',
     },
     maps: {
       apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
     },
     recaptcha: {
-      apiKey: '6LdjIucqAAAAAFnu6VgvMjAw3U3t8ATfwTDCwZdK',
+      // Production key, locked down to `pip-boy.com`
+      apiKey: '6LfWlacrAAAAAPJGalCzAuQLo4LIqbrZzFY9u6qZ',
     },
   },
   isProduction: true,

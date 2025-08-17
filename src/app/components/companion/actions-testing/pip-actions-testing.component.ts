@@ -1,10 +1,9 @@
+import { PipDeviceService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
 
 @Component({
   selector: 'pip-actions-testing',
@@ -13,7 +12,7 @@ import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/p
   imports: [PipButtonComponent],
 })
 export class PipActionsTestingComponent {
-  public constructor(private readonly pipDeviceService: PipDeviceService) {}
+  private readonly pipDeviceService = inject(PipDeviceService);
 
   protected readonly signals = pipSignals;
 

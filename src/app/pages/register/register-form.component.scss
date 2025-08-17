@@ -1,0 +1,46 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  border-radius: 8px;
+  border: 2px solid col.$pip-green-darkest;
+  display: block;
+  margin: 0 auto;
+  width: 356px;
+  padding: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1rem;
+
+  pro-input {
+    flex: 0 0 100%;
+    margin-bottom: 1rem;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.form-error {
+  color: red;
+  font-size: var.$font-xs;
+  margin: 0;
+
+  > p {
+    padding: 0 1rem 1rem 1rem;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+pip-button {
+  display: block;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}

@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-boy-3000a-status-page',
   templateUrl: './pip-boy-3000a-status-page.component.html',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   styleUrl: './pip-boy-3000a-status-page.component.scss',
   standalone: true,
 })

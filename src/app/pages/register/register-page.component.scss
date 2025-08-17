@@ -1,0 +1,45 @@
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  align-items: center;
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  color: col.$pip-green;
+  display: flex;
+  font-size: var.$font-xl;
+  justify-content: center;
+  margin: 2.5rem 0 2rem 0;
+  width: 100%;
+}
+
+.register-intro > p,
+.register-form > p {
+  max-width: 356px;
+  text-align: center;
+}
+
+.register-intro > p {
+  margin: 0 1rem 2rem 1rem;
+}
+
+.register-form {
+  margin-bottom: 2rem;
+
+  > p {
+    margin: 2rem 1rem 1rem;
+  }
+}
+
+pip-footer {
+  align-self: stretch;
+  margin-top: auto;
+  display: block;
+}

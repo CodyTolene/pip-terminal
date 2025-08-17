@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { ThemePalette } from '@angular/material/core';
@@ -10,7 +9,7 @@ import { ThemePalette } from '@angular/material/core';
       <ng-content />
     </button>
   `,
-  imports: [CommonModule, MatButtonModule],
+  imports: [MatButtonModule],
   styleUrl: './pip-button.component.scss',
   providers: [],
   standalone: true,

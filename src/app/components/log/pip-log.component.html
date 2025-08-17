@@ -2,14 +2,15 @@
   <div class="header">
     <h3>Log</h3>
     <div class="button-container">
-      <pip-button
-        *ngIf="(screenSizeChanges | async) !== 'desktop'"
-        type="button"
-        (click)="toggleCollapsed()"
-        [attr.aria-pressed]="isCollapsed().toString()"
-      >
-        {{ isCollapsed() ? 'Expand' : 'Collapse' }}
-      </pip-button>
+      @if ((screenSizeChanges | async) !== 'desktop') {
+        <pip-button
+          type="button"
+          (click)="toggleCollapsed()"
+          [attr.aria-pressed]="isCollapsed().toString()"
+        >
+          {{ isCollapsed() ? 'Expand' : 'Collapse' }}
+        </pip-button>
+      }
       <pip-button
         type="button"
         (click)="clearLog()"

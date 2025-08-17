@@ -1,27 +1,22 @@
 import { SubTabLabelEnum, TabLabelEnum } from 'src/app/enums';
+import { PipConnectionService, PipDeviceService } from 'src/app/services';
 import { pipSignals } from 'src/app/signals';
 
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-
-import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-connection.service';
-import { PipDeviceService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-device.service';
 
 @Component({
   selector: 'pip-actions-primary',
   templateUrl: './pip-actions-primary.component.html',
-  imports: [CommonModule, PipButtonComponent],
+  imports: [PipButtonComponent],
   styleUrl: './pip-actions-primary.component.scss',
   providers: [],
   standalone: true,
 })
 export class PipActionsPrimaryComponent {
-  public constructor(
-    private readonly pipConnectionService: PipConnectionService,
-    private readonly pipDeviceService: PipDeviceService,
-  ) {}
+  private readonly pipConnectionService = inject(PipConnectionService);
+  private readonly pipDeviceService = inject(PipDeviceService);
 
   protected readonly SubTabLabelEnum = SubTabLabelEnum;
   protected readonly TabLabelEnum = TabLabelEnum;

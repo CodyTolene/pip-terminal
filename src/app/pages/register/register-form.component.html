@@ -1,0 +1,38 @@
+<form [formGroup]="formGroup" (ngSubmit)="register()">
+  <pro-input
+    [formControl]="formGroup.controls.email"
+    appearance="fill"
+    label="Email"
+    placeholder="Enter your email address"
+    type="email"
+  ></pro-input>
+  <pro-input
+    [formControl]="formGroup.controls.password"
+    appearance="fill"
+    label="Password"
+    placeholder="Enter a password"
+    type="password"
+  ></pro-input>
+  @if (isProduction) {
+    <ngx-recaptcha2
+      #captchaElem
+      (expire)="handleExpire()"
+      (success)="handleSuccess($event)"
+      [siteKey]="siteKey"
+      [useGlobalDomain]="false"
+      formControlName="recaptcha"
+    ></ngx-recaptcha2>
+  }
+  <pip-button
+    [disabled]="formGroup.invalid || formGroup.disabled || isRegistering()"
+    type="submit"
+    styling="filled"
+    >Register</pip-button
+  >
+</form>
+
+@if (registerErrorMessage()) {
+  <div class="form-error" role="alert">
+    <p>{{ registerErrorMessage() }}</p>
+  </div>
+}

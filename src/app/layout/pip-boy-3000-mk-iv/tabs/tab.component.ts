@@ -1,11 +1,10 @@
 import {
-  PipUrlsEnum,
+  PageLayoutsEnum,
   SoundEnum,
   SubTabLabelEnum,
   TabLabelEnum,
 } from 'src/app/enums';
 
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   Component,
@@ -14,6 +13,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -26,14 +26,13 @@ import { SubTabComponent } from './sub-tab.component';
   selector: 'pip-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   providers: [],
+  standalone: true,
 })
 export class TabComponent implements AfterContentInit {
-  public constructor(
-    private readonly tabsService: PipBoy3000TabsService,
-    private readonly soundService: SoundService,
-  ) {}
+  private readonly soundService = inject(SoundService);
+  private readonly tabsService = inject(PipBoy3000TabsService);
 
   @Input({ required: true }) public label!: TabLabelEnum;
 
@@ -67,7 +66,7 @@ export class TabComponent implements AfterContentInit {
     tabLabel: TabLabelEnum,
     subTabLabel: SubTabLabelEnum,
   ): string {
-    const tabPath = `${PipUrlsEnum.PIP_3000_MK_IV}/${tabLabel.toLowerCase()}`;
+    const tabPath = `${PageLayoutsEnum.PIP_3000_MK_IV}/${tabLabel.toLowerCase()}`;
     const subTabPath = subTabLabel.toLowerCase();
     return `${tabPath}/${subTabPath}`;
   }

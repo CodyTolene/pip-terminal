@@ -1,10 +1,57 @@
 {
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true
+    },
+    "auth": {
+      "port": 9099
+    },
+    "hosting": {
+      "port": 4200
+    },
+    "singleProjectMode": true,
+    "storage": {
+      "port": 9199
+    }
+  },
+  "firestore": {
+    "rules": ".firebase/firestore.rules"
+  },
+  "functions": [
+    {
+      "source": "api",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
   "hosting": {
     "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "api",
+      "api/**",
+      "api/src",
+      "api/lib",
+      "api/package.json",
+      "api/package-lock.json"
     ],
     "rewrites": [
       {
@@ -12,5 +59,8 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "storage": {
+    "rules": ".firebase/storage.rules"
   }
 }

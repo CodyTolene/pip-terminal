@@ -39,73 +39,75 @@
   <section>
     <h3>Radio Host/Voice Files</h3>
     <p>Upload WAV Files (DX01 - DX03)</p>
-    <div
-      *ngFor="let name of dxFileNames; let i = index"
-      class="upload-container"
-    >
-      <pip-button
-        (click)="playRadioFile(name)"
-        [disabled]="disabledChanges | async"
-      >
-        Play current {{ name }}
-      </pip-button>
-      <pip-file-upload
-        [accept]="['.wav']"
-        [formControl]="formGroup.controls.dxFiles.controls[i]"
-        [label]="'Select WAV File for ' + name"
-      />
-      <pip-button
-        (click)="uploadFile(name)"
-        [disabled]="
-          !formGroup.controls.dxFiles.controls[i].value?.length ||
-          (disabledChanges | async)
-        "
-      >
-        Upload {{ name }}
-      </pip-button>
-      <div *ngIf="uploadProgress[name] > 0">
-        <mat-progress-bar
-          mode="determinate"
-          [value]="uploadProgress[name]"
-        ></mat-progress-bar>
+    @for (name of dxFileNames; track name; let i = $index) {
+      <div class="upload-container">
+        <pip-button
+          (click)="playRadioFile(name)"
+          [disabled]="disabledChanges | async"
+        >
+          Play current {{ name }}
+        </pip-button>
+        <pip-file-upload
+          [accept]="['.wav']"
+          [formControl]="formGroup.controls.dxFiles.controls[i]"
+          [label]="'Select WAV File for ' + name"
+        />
+        <pip-button
+          (click)="uploadFile(name)"
+          [disabled]="
+            !formGroup.controls.dxFiles.controls[i].value?.length ||
+            (disabledChanges | async)
+          "
+        >
+          Upload {{ name }}
+        </pip-button>
+        @if (uploadProgress[name] > 0) {
+          <div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="uploadProgress[name]"
+            ></mat-progress-bar>
+          </div>
+        }
       </div>
-    </div>
+    }
   </section>
 
   <section>
     <h3>Radio Music Files</h3>
     <p>Upload WAV Files (MX01 - MX16)</p>
-    <div
-      *ngFor="let name of mxFileNames; let i = index"
-      class="upload-container"
-    >
-      <pip-button
-        (click)="playRadioFile(name)"
-        [disabled]="disabledChanges | async"
-      >
-        Play current {{ name }}
-      </pip-button>
-      <pip-file-upload
-        [accept]="['.wav']"
-        [formControl]="formGroup.controls.mxFiles.controls[i]"
-        [label]="'Select WAV File for ' + name"
-      />
-      <pip-button
-        (click)="uploadFile(name)"
-        [disabled]="
-          !formGroup.controls.mxFiles.controls[i].value?.length ||
-          (disabledChanges | async)
-        "
-      >
-        Upload {{ name }}
-      </pip-button>
-      <div *ngIf="uploadProgress[name] > 0">
-        <mat-progress-bar
-          mode="determinate"
-          [value]="uploadProgress[name]"
-        ></mat-progress-bar>
+    @for (name of mxFileNames; track name; let i = $index) {
+      <div class="upload-container">
+        <pip-button
+          (click)="playRadioFile(name)"
+          [disabled]="disabledChanges | async"
+        >
+          Play current {{ name }}
+        </pip-button>
+        <pip-file-upload
+          [accept]="['.wav']"
+          [formControl]="formGroup.controls.mxFiles.controls[i]"
+          [label]="'Select WAV File for ' + name"
+        />
+        <pip-button
+          (click)="uploadFile(name)"
+          [disabled]="
+            !formGroup.controls.mxFiles.controls[i].value?.length ||
+            (disabledChanges | async)
+          "
+        >
+          Upload {{ name }}
+        </pip-button>
+        @if (uploadProgress[name] > 0) {
+          <div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="uploadProgress[name]"
+            ></mat-progress-bar>
+          </div>
+        }
       </div>
-    </div>
+    }
   </section>
 </main>
 
