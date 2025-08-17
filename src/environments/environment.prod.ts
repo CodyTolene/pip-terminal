@@ -15,7 +15,8 @@ export const environment: EnvironmentCredentials = {
       apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
     },
     recaptcha: {
-      apiKey: '6LdjIucqAAAAAFnu6VgvMjAw3U3t8ATfwTDCwZdK',
+      // Production key, locked down to `pip-boy.com`
+      apiKey: '6LfWlacrAAAAAPJGalCzAuQLo4LIqbrZzFY9u6qZ',
     },
   },
   isProduction: true,

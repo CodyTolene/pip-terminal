@@ -1,4 +1,5 @@
 import { ROUTES } from 'src/app/routing';
+import { appCheckProvider } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -22,8 +23,6 @@ import { provideRouter } from '@angular/router';
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
 import { StorageSessionService } from 'src/app/services/storage-session.service';
-
-import { appCheckProvider } from 'src/app/utilities/get-app-check-provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -64,6 +63,16 @@ export const appConfig: ApplicationConfig = {
     // Only include App Check in prod, we use emulation locally
     // so there's no need for App Check
     ...(environment.isProduction ? [appCheckProvider()] : []),
+    // provideAppCheck((injector) => {
+    //   const app = injector.get(FirebaseApp);
+    //   const provider = new ReCaptchaEnterpriseProvider(
+    //     environment.google.recaptcha.apiKey,
+    //   );
+    //   return initializeAppCheck(app, {
+    //     provider,
+    //     isTokenAutoRefreshEnabled: true,
+    //   });
+    // }),
     ScreenTrackingService,
     StorageLocalService,
     StorageSessionService,

@@ -94,6 +94,7 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
         { duration: 3000 },
       );
       this.loginErrorMessage.set(null);
+      // Routing will be handled from here in the parent page component.
     } catch (err) {
       console.error('Auth error:', err);
       this.loginErrorMessage.set(this.mapFirebaseError(err));
