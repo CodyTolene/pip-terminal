@@ -5,10 +5,12 @@
 
 :host {
   background-color: transparent;
+  border-top: 1px solid col.$pip-green-darkest;
   box-sizing: border-box;
   display: flex;
   color: col.$pip-green;
   flex-direction: column;
+  font-family: monospace;
   height: calc(100% - var.$header-height);
   width: 100%;
 }
@@ -16,14 +18,37 @@
 mat-sidenav-container {
   box-sizing: border-box;
   height: 100%;
-}
 
-mat-sidenav-content {
-  @include sb.scrollbar;
+  mat-sidenav {
+    .nav-message {
+      padding: 1rem;
+      box-sizing: border-box;
+      // color: col.$white;
+      width: 100%;
 
-  height: 100%;
-  width: 100%;
+      .nav-message-title {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        font-size: var.$font-xxs;
+        justify-content: center;
+        align-items: center;
+      }
 
-  overflow-y: auto;
-  overflow-x: hidden;
+      P {
+        font-size: var.$font-xxs;
+        padding: 0.5rem 0.75rem 0 0.75rem;
+      }
+    }
+  }
+
+  mat-sidenav-content {
+    @include sb.scrollbar;
+
+    height: 100%;
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }

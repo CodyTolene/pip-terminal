@@ -16,8 +16,9 @@
         id="menu-toggle"
         type="button"
       >
+        <span class="orn">&#10095;</span>
         <span class="label-with-cursor" [ngClass]="caretClass()">
-          <span class="label-text" aria-live="polite">
+          <span class="label-text" aria-live="polite" [style.width.ch]="maxCh">
             {{ animatedLabelSignal() }}
           </span>
           <span class="cursor" aria-hidden="true"></span>

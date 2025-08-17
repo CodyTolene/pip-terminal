@@ -1,3 +1,4 @@
+import { APP_VERSION } from 'src/app/constants';
 import { NavListComponent } from 'src/app/layout/navigation/nav-list.component';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
@@ -35,6 +36,8 @@ export class SidenavComponent {
   @ViewChild('navbar') private readonly navbar: MatSidenav | null = null;
 
   protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
+
+  protected readonly versionNumber = APP_VERSION;
 
   protected closeNavbar(): void {
     isNavbarOpenSignal.set(false);

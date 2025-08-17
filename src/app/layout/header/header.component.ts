@@ -27,10 +27,8 @@ export class HeaderComponent {
   protected caretIndex = signal<number>(
     this.isNavbarOpenSignal() ? this.closeLabel.length : this.menuLabel.length,
   );
-  private readonly maxCh = Math.max(
-    this.menuLabel.length,
-    this.closeLabel.length,
-  );
+  protected readonly maxCh =
+    Math.max(this.menuLabel.length, this.closeLabel.length) + 1; // + 1 for caret
 
   protected readonly animatedLabelSignal = signal<string>(
     isNavbarOpenSignal() ? this.closeLabel : this.menuLabel,

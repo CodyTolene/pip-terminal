@@ -1,5 +1,5 @@
 <nav aria-label="Main">
-  <ul role="list">
+  <ol role="list">
     @for (link of linksChanges | async; track link) {
       <li>
         <a
@@ -10,10 +10,11 @@
             link.exact ? { exact: true } : { exact: false }
           "
           [routerLink]="link.commands"
+          mat-list-item
           routerLinkActive="active"
           >{{ link.label }}</a
         >
       </li>
     }
-  </ul>
+  </ol>
 </nav>

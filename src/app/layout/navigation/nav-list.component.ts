@@ -3,13 +3,14 @@ import { AuthService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-nav-list',
   templateUrl: './nav-list.component.html',
   styleUrls: ['./nav-list.component.scss'],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, MatListModule, RouterModule],
   standalone: true,
 })
 export class NavListComponent {
