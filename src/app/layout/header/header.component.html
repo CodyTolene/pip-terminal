@@ -16,25 +16,18 @@
         id="menu-toggle"
         type="button"
       >
-        <span class="label-with-cursor">
-          @if (cursorSide === 'left') {
-            <span class="cursor" aria-hidden="true"></span>
-          }
-          <span class="label-text">
-            @if (isNavbarOpenSignal()) {
-              Close
-            } @else {
-              Menu
-            }
+        <span class="label-with-cursor" [ngClass]="caretClass()">
+          <span class="label-text" aria-live="polite">
+            {{ animatedLabelSignal() }}
           </span>
-          @if (cursorSide === 'right') {
-            <span class="cursor" aria-hidden="true"></span>
-          }
+          <span class="cursor" aria-hidden="true"></span>
         </span>
+        <!-- 
         <mat-icon
           [fontIcon]="isNavbarOpenSignal() ? 'close' : 'menu'"
           aria-hidden="false"
-        ></mat-icon>
+        ></mat-icon> 
+        -->
       </button>
     </div>
   </div>
