@@ -8,11 +8,26 @@
       />
       <a [routerLink]="homeUrl" class="site-title">Pip-Boy Terminal</a>
     </div>
-    <mat-icon
-      (click)="toggleNavbar()"
-      [matTooltip]="isNavbarOpenSignal() ? 'Close Navbar' : 'Open Navbar'"
-      aria-hidden="false"
-      fontIcon="menu"
-    ></mat-icon>
+    <div class="menu-container">
+      <button
+        (click)="toggleNavbar()"
+        [attr.aria-expanded]="isNavbarOpenSignal()"
+        aria-controls="primary-nav"
+        id="menu-toggle"
+        type="button"
+      >
+        <span>
+          @if (isNavbarOpenSignal()) {
+            Close
+          } @else {
+            Menu
+          }
+        </span>
+        <mat-icon
+          [fontIcon]="isNavbarOpenSignal() ? 'close' : 'menu'"
+          aria-hidden="false"
+        ></mat-icon>
+      </button>
+    </div>
   </div>
 </header>

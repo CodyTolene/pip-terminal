@@ -1,13 +1,4 @@
 <pip-header />
-<mat-sidenav-container [hasBackdrop]="true">
-  <mat-sidenav #navbar mode="over">
-    <mat-nav-list>
-      <pip-navbar />
-    </mat-nav-list>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <pip-content />
-    <!-- <router-outlet /> -->
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<pip-sidenav>
+  <pip-content />
+</pip-sidenav>

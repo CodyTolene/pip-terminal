@@ -1,0 +1,29 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  color: col.$pip-green;
+  flex-direction: column;
+  height: calc(100% - var.$header-height);
+  width: 100%;
+}
+
+mat-sidenav-container {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+mat-sidenav-content {
+  @include sb.scrollbar;
+
+  height: 100%;
+  width: 100%;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}

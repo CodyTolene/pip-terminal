@@ -44,8 +44,23 @@ header {
   }
 }
 
+button,
 mat-icon:hover {
   cursor: pointer;
+}
+
+button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  > span {
+    margin-right: 0.5rem;
+  }
 }
 
 @include bps.media('max', 'md') {

@@ -6,13 +6,13 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'pip-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  selector: 'pip-nav-list',
+  templateUrl: './nav-list.component.html',
+  styleUrls: ['./nav-list.component.scss'],
   imports: [CommonModule, RouterModule],
   standalone: true,
 })
-export class NavbarComponent {
+export class NavListComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 

@@ -1,0 +1,21 @@
+<mat-sidenav-container
+  (backdropClick)="closeNavbar()"
+  [autosize]="false"
+  [hasBackdrop]="true"
+>
+  <mat-sidenav
+    #navbar
+    [autoFocus]="false"
+    [disableClose]="false"
+    mode="over"
+    position="end"
+  >
+    <mat-nav-list>
+      <pip-nav-list />
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-content />
+  </mat-sidenav-content>
+</mat-sidenav-container>
