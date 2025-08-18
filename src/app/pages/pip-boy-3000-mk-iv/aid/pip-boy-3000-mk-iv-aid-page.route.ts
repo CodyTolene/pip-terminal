@@ -2,7 +2,7 @@ import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
 
 export const PIP_BOY_3000_MK_IV_AID_PAGE_ROUTE: PipRoute = {
-  path: 'inv/aid',
+  path: '3000-mk-iv/inv/aid',
   pathMatch: 'full',
   data: {
     author: META_AUTHOR,

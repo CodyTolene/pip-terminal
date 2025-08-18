@@ -6,5 +6,5 @@
     "rootDir": "./",
     "strict": true
   },
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts", "../src/app/types/**/*.d.ts"]
 }
