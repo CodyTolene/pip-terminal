@@ -21,6 +21,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Analytics } from '@angular/fire/analytics';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 
+import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.component';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-root',
@@ -28,6 +30,7 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
   imports: [
     CommonModule,
     DefaultLayoutComponent,
+    GdprBannerComponent,
     MatLuxonDateModule,
     PipBoy2000MkVILayoutComponent,
     PipBoy3000ALayoutComponent,
