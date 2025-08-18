@@ -23,7 +23,7 @@ import {
       @for (link of linksChanges | async; track link) {
         <a
           #rla="routerLinkActive"
-          (click)="link.onClick?.(); closeNavBar()"
+          (click)="link.onClick?.($event); closeNavBar()"
           [attr.aria-current]="rla.isActive ? 'page' : null"
           [routerLinkActiveOptions]="
             link.exact ? { exact: true } : { exact: false }
@@ -81,8 +81,12 @@ export class NavListComponent {
       label: 'Register',
     },
     {
-      onClick: async () => await this.logout(),
-      commands: ['logout'],
+      onClick: async ($event: MouseEvent) => {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.logout();
+      },
+      commands: [],
       label: 'Logout',
     },
     {
@@ -187,6 +191,6 @@ interface PageLink {
     | PageName;
   exact?: boolean;
   isNewTab?: boolean;
-  onClick?: () => void;
+  onClick?: (mouseEvent: MouseEvent) => void;
   queryParams?: Record<string, string | number>;
 }
