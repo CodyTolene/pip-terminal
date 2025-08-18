@@ -1,10 +1,8 @@
-// https://developers.google.com/fonts/docs/material_icons
-
 .material-icons,
 .material-icons-outlined {
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; /* Preferred icon size */
+  font-size: 24px;
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -13,16 +11,10 @@
   white-space: nowrap;
   direction: ltr;
 
-  /* Support for all WebKit browsers. */
+  /** Extra Browser Support */
   -webkit-font-smoothing: antialiased;
-
-  /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
-
-  /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
   font-feature-settings: 'liga';
 }
 

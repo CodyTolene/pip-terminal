@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @use '../colors' as col;
+@use '../scrollbar' as sb;
 
-// Customize the entire app. Change :root to your selector if you want to scope the styles.
 :root {
   @include mat.sidenav-overrides(
     (
@@ -18,4 +18,8 @@ mat-sidenav-container > .mat-drawer.mat-drawer-end {
   border-bottom-right-radius: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+mat-sidenav-container > mat-sidenav > div.mat-drawer-inner-container {
+  @include sb.scrollbar;
 }

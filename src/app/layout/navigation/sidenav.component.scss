@@ -23,25 +23,29 @@ mat-sidenav-container {
     font-family: monospace;
 
     .nav-message {
-      padding: 1rem;
       border-bottom: 1px dashed col.$pip-green-darkest;
       box-sizing: border-box;
-      // color: col.$white;
+      padding: 1rem;
       width: 100%;
 
       .nav-message-title {
+        align-items: flex-start;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: nowrap;
         font-size: var.$font-xxs;
-        justify-content: center;
-        align-items: center;
-      }
 
-      P {
-        font-size: var.$font-xxs;
-        padding: 0;
-        margin: 1rem 1rem 0 1rem;
+        > div {
+          overflow: hidden;
+          text-wrap: nowrap;
+        }
+
+        P {
+          font-size: var.$font-xxs;
+          padding: 0;
+          margin: 0;
+          margin-top: 1rem;
+        }
       }
     }
 
