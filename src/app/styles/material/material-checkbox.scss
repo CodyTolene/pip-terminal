@@ -5,7 +5,7 @@
   @include mat.checkbox-overrides(
     (
       disabled-label-color: col.$pip-green-darkest,
-      disabled-selected-checkmark-color: red,
+      disabled-selected-checkmark-color: col.$warn,
       label-text-color: col.$pip-green,
     )
   );
