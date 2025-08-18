@@ -31,6 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() =>
       initializeApp(environment.google.firebase, 'pip-terminal'),
     ),
+    appCheckProvider(),
     provideHttpClient(withFetch()),
     provideAuth((injector) => {
       const app = injector.get(FirebaseApp);
@@ -60,7 +61,6 @@ export const appConfig: ApplicationConfig = {
       const app = injector.get(FirebaseApp);
       return getAnalytics(app);
     }),
-    appCheckProvider(),
     ScreenTrackingService,
     StorageLocalService,
     StorageSessionService,
