@@ -8,13 +8,14 @@
       />
       <a [routerLink]="homeUrl" class="site-title">Pip-Boy Terminal</a>
     </div>
-    <div class="menu-container">
-      @if (userChanges | async; as user) {
-        <span [title]="user.displayName || user.email || 'User'">{{
-          user.displayName || user.email || 'User'
-        }}</span>
-      }
-      <!-- 
+    @if (menuFeatureEnabled()) {
+      <div class="menu-container">
+        @if (userChanges | async; as user) {
+          <span [title]="user.displayName || user.email || 'User'">{{
+            user.displayName || user.email || 'User'
+          }}</span>
+        }
+        <!-- 
       <mat-icon
         (click)="loginLogout()"
         [fontIcon]="(userChanges | async) ? 'logout' : 'login'"
@@ -22,22 +23,23 @@
         inline="true"
       ></mat-icon> 
       -->
-      <button
-        (click)="toggleNavbar()"
-        [attr.aria-expanded]="isNavbarOpenSignal()"
-        [class.user-logged-in]="userChanges | async"
-        aria-controls="primary-nav"
-        id="menu-toggle"
-        type="button"
-      >
-        <span class="orn">&#10095;</span>
-        <span class="label-with-cursor" [ngClass]="caretClass()">
-          <span class="label-text" aria-live="polite">
-            {{ animatedLabelSignal() }}
+        <button
+          (click)="toggleNavbar()"
+          [attr.aria-expanded]="isNavbarOpenSignal()"
+          [class.user-logged-in]="userChanges | async"
+          aria-controls="primary-nav"
+          id="menu-toggle"
+          type="button"
+        >
+          <span class="orn">&#10095;</span>
+          <span class="label-with-cursor" [ngClass]="caretClass()">
+            <span class="label-text" aria-live="polite">
+              {{ animatedLabelSignal() }}
+            </span>
+            <span class="cursor" aria-hidden="true"></span>
           </span>
-          <span class="cursor" aria-hidden="true"></span>
-        </span>
-      </button>
-    </div>
+        </button>
+      </div>
+    }
   </div>
 </header>

@@ -1,5 +1,5 @@
 import { PAGES } from 'src/app/routing';
-import { AuthService } from 'src/app/services';
+import { AuthService, StorageLocalService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 import { shareSingleReplay } from 'src/app/utilities';
 
@@ -23,7 +23,36 @@ import { RouterModule } from '@angular/router';
   standalone: true,
 })
 export class HeaderComponent implements OnDestroy {
+  public constructor() {
+    const enabled = this.storage.get<boolean>(this.menuFeatureKey) ?? false;
+    this.menuFeatureEnabled.set(enabled);
+
+    effect(() => {
+      // Track external changes
+      const open = this.isNavbarOpenSignal();
+      const target = open ? this.closeLabel : this.menuLabel;
+
+      // Read current without tracking to avoid loops
+      const current = untracked(() => this.animatedLabelSignal()).trimEnd();
+
+      if (current !== target) {
+        this.animateSwap(current, target);
+      }
+    });
+  }
+
   private readonly auth = inject(AuthService);
+  private readonly storage = inject(StorageLocalService);
+
+  // Dark deployment
+  // Enable:
+  // localStorage.setItem('pip:darkDeploy:menu', JSON.stringify({ value: true, expiration: null }));
+  // location.reload();
+  // Disable:
+  // localStorage.removeItem('pip:darkDeploy:menu');
+  // location.reload();
+  private readonly menuFeatureKey = 'pip:darkDeploy:menu';
+  protected readonly menuFeatureEnabled = signal<boolean>(false);
 
   protected readonly userChanges =
     this.auth.userChanges.pipe(shareSingleReplay());
@@ -53,20 +82,6 @@ export class HeaderComponent implements OnDestroy {
       this.maxCh,
     ),
   );
-
-  /** React to external navbar open/close changes so label stays in sync. */
-  private readonly syncToNavbar = effect(() => {
-    // Track external changes
-    const open = this.isNavbarOpenSignal();
-    const target = open ? this.closeLabel : this.menuLabel;
-
-    // Read current without tracking to avoid loops
-    const current = untracked(() => this.animatedLabelSignal()).trimEnd();
-
-    if (current !== target) {
-      this.animateSwap(current, target);
-    }
-  });
 
   protected caretClass(): string {
     const n = Math.max(0, Math.min(this.maxCh, this.caretIndex()));
