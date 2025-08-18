@@ -2,7 +2,7 @@ import { PAGES } from 'src/app/routing';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, OnDestroy, effect, signal, untracked } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
   providers: [],
   standalone: true,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   protected readonly homeUrl = PAGES['Home'];
   protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
 
@@ -24,15 +24,36 @@ export class HeaderComponent {
   private readonly menuLabel = 'MENU';
   private readonly eraseMs = 45;
   private readonly typeMs = 70;
+
   protected caretIndex = signal<number>(
     this.isNavbarOpenSignal() ? this.closeLabel.length : this.menuLabel.length,
   );
-  protected readonly maxCh =
-    Math.max(this.menuLabel.length, this.closeLabel.length) + 1; // + 1 for caret
+
+  private readonly maxCh = Math.max(
+    this.menuLabel.length,
+    this.closeLabel.length,
+  );
 
   protected readonly animatedLabelSignal = signal<string>(
-    isNavbarOpenSignal() ? this.closeLabel : this.menuLabel,
+    this.fixedWidth(
+      isNavbarOpenSignal() ? this.closeLabel : this.menuLabel,
+      this.maxCh,
+    ),
   );
+
+  /** React to external navbar open/close changes so label stays in sync. */
+  private readonly syncToNavbar = effect(() => {
+    // Track external changes
+    const open = this.isNavbarOpenSignal();
+    const target = open ? this.closeLabel : this.menuLabel;
+
+    // Read current without tracking to avoid loops
+    const current = untracked(() => this.animatedLabelSignal()).trimEnd();
+
+    if (current !== target) {
+      this.animateSwap(current, target);
+    }
+  });
 
   protected caretClass(): string {
     const n = Math.max(0, Math.min(this.maxCh, this.caretIndex()));
@@ -40,12 +61,9 @@ export class HeaderComponent {
   }
 
   protected toggleNavbar(): void {
-    const from = this.isNavbarOpenSignal() ? this.closeLabel : this.menuLabel;
-    const to = this.isNavbarOpenSignal() ? this.menuLabel : this.closeLabel;
-
-    this.isNavbarOpenSignal.set(!this.isNavbarOpenSignal());
-
-    this.animateSwap(from, to);
+    const isOpen = this.isNavbarOpenSignal();
+    this.isNavbarOpenSignal.set(!isOpen);
+    // Do not call animateSwap here. The effect below reacts to the change.
   }
 
   /** Animate text backspace, and then typed forward. */
@@ -115,5 +133,9 @@ export class HeaderComponent {
     const clipped = text.slice(0, total);
     const right = ' '.repeat(Math.max(0, total - clipped.length));
     return clipped + right;
+  }
+
+  public ngOnDestroy(): void {
+    this.clearTimers();
   }
 }

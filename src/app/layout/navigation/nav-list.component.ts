@@ -1,5 +1,6 @@
 import { Observable, map } from 'rxjs';
 import { AuthService } from 'src/app/services';
+import { isNavbarOpenSignal } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
@@ -17,11 +18,29 @@ export class NavListComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
+  protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
+
   private readonly links: readonly PageLink[] = [
     {
       commands: [''],
       label: 'Home',
       exact: true,
+    },
+    {
+      commands: ['2000-mk-vi'],
+      label: 'Pip-Boy 2000 Mk VI',
+    },
+    {
+      commands: ['3000'],
+      label: 'Pip-Boy 3000',
+    },
+    {
+      commands: ['3000a'],
+      label: 'Pip-Boy 3000A',
+    },
+    {
+      commands: ['3000-mk-iv'],
+      label: 'Pip-Boy 3000 Mk IV',
     },
     {
       commands: ['3000-mk-v'],
@@ -50,7 +69,7 @@ export class NavListComponent {
     },
     {
       commands: ['terms-and-conditions'],
-      label: 'Terms',
+      label: 'Terms and Conditions',
     },
     {
       commands: ['vault/:id'],
@@ -102,6 +121,12 @@ export class NavListComponent {
       }),
     );
 
+  protected closeNavBar(): void {
+    if (this.isNavbarOpenSignal()) {
+      this.isNavbarOpenSignal.set(false);
+    }
+  }
+
   private async logout(): Promise<void> {
     await this.auth.signOut();
     await this.router.navigate(['']);
@@ -110,7 +135,14 @@ export class NavListComponent {
 
 interface PageLink {
   commands: ReadonlyArray<PageUrl | 'logout'>;
-  label: PageName | 'Logout' | 'Pip-Boy 3000 Mk V' | 'Terms';
+  label:
+    | 'Logout'
+    | 'Pip-Boy 2000 Mk VI'
+    | 'Pip-Boy 3000 Mk IV'
+    | 'Pip-Boy 3000 Mk V'
+    | 'Pip-Boy 3000'
+    | 'Pip-Boy 3000A'
+    | PageName;
   exact?: boolean;
   isNewTab?: boolean;
   onClick?: () => void;
