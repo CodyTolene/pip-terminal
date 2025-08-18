@@ -1,21 +1,47 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
 import { AuthService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 
+import {
+  PipDialogConfirmComponent,
+  PipDialogConfirmInput,
+} from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+
+@UntilDestroy()
 @Component({
   selector: 'pip-nav-list',
-  templateUrl: './nav-list.component.html',
-  styleUrls: ['./nav-list.component.scss'],
-  imports: [CommonModule, MatListModule, RouterModule],
+  template: `
+    <nav aria-label="Main">
+      @for (link of linksChanges | async; track link) {
+        <a
+          #rla="routerLinkActive"
+          (click)="link.onClick?.(); closeNavBar()"
+          [attr.aria-current]="rla.isActive ? 'page' : null"
+          [routerLinkActiveOptions]="
+            link.exact ? { exact: true } : { exact: false }
+          "
+          [routerLink]="link.commands"
+          mat-list-item
+          routerLinkActive="active"
+          >{{ link.label }}</a
+        >
+      }
+    </nav>
+  `,
+  imports: [CommonModule, MatIconModule, MatListModule, RouterModule],
   standalone: true,
 })
 export class NavListComponent {
   private readonly auth = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
 
   protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
@@ -127,9 +153,25 @@ export class NavListComponent {
     }
   }
 
-  private async logout(): Promise<void> {
-    await this.auth.signOut();
-    await this.router.navigate(['']);
+  private logout(): void {
+    const dialogRef = this.dialog.open<
+      PipDialogConfirmComponent,
+      PipDialogConfirmInput,
+      boolean | null
+    >(PipDialogConfirmComponent, {
+      data: {
+        message: `Are you sure you want to logout?`,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe(async (shouldLogout) => {
+        if (!shouldLogout) return;
+        await this.auth.signOut();
+        await this.router.navigate(['']);
+      });
   }
 }
 

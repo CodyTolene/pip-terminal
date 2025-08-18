@@ -1,20 +1,33 @@
 import { PAGES } from 'src/app/routing';
+import { AuthService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
+import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, effect, signal, untracked } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import {
+  Component,
+  OnDestroy,
+  effect,
+  inject,
+  signal,
+  untracked,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-header',
   templateUrl: './header.component.html',
-  imports: [CommonModule, MatIconModule, RouterModule],
+  imports: [CommonModule, RouterModule],
   styleUrl: './header.component.scss',
   providers: [],
   standalone: true,
 })
 export class HeaderComponent implements OnDestroy {
+  private readonly auth = inject(AuthService);
+
+  protected readonly userChanges =
+    this.auth.userChanges.pipe(shareSingleReplay());
+
   protected readonly homeUrl = PAGES['Home'];
   protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
 
@@ -59,6 +72,15 @@ export class HeaderComponent implements OnDestroy {
     const n = Math.max(0, Math.min(this.maxCh, this.caretIndex()));
     return `caret-${n}`;
   }
+
+  // protected async loginLogout(): Promise<void> {
+  //   const user = await firstValueFrom(this.userChanges);
+  //   if (user) {
+  //     await this.auth.signOut();
+  //   } else {
+  //     this.router.navigate([PAGES['Login']]);
+  //   }
+  // }
 
   protected toggleNavbar(): void {
     const isOpen = this.isNavbarOpenSignal();
