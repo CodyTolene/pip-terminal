@@ -28,7 +28,7 @@ import {
           [routerLinkActiveOptions]="
             link.exact ? { exact: true } : { exact: false }
           "
-          [routerLink]="link.commands"
+          [routerLink]="link.onClick ? null : link.commands"
           mat-list-item
           routerLinkActive="active"
           >{{ link.label }}</a
@@ -86,7 +86,7 @@ export class NavListComponent {
         $event.stopPropagation();
         this.logout();
       },
-      commands: [],
+      commands: ['logout'],
       label: 'Logout',
     },
     {
