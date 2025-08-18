@@ -18,12 +18,26 @@ form {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 1rem;
+  align-items: center;
 
   pro-input {
     flex: 0 0 100%;
     margin-bottom: 1rem;
     max-width: 100%;
     width: 100%;
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+
+  a.terms-link {
+    margin: 0;
+    padding: 0;
+  }
+
+  pro-input-checkbox {
+    margin-bottom: 1rem;
   }
 }
 

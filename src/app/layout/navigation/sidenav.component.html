@@ -1,0 +1,31 @@
+<mat-sidenav-container
+  (backdropClick)="closeNavbar()"
+  [autosize]="false"
+  [hasBackdrop]="true"
+>
+  <mat-sidenav
+    #navbar
+    [autoFocus]="false"
+    [disableClose]="false"
+    mode="over"
+    position="end"
+  >
+    <div class="nav-message">
+      <div class="nav-message-title">
+        <div>
+          &#10033;&#10033;&#10033;&#10033;&#10033;&#10033;&#10033;&#10033;
+          PIP-OS(R) v{{ versionNumber }}
+          &#10033;&#10033;&#10033;&#10033;&#10033;&#10033;&#10033;&#10033;
+        </div>
+        <p>Select one of the following options:</p>
+      </div>
+    </div>
+    <mat-nav-list>
+      <pip-nav-list />
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-content />
+  </mat-sidenav-content>
+</mat-sidenav-container>

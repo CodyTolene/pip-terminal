@@ -1,24 +1,14 @@
 import { ContentComponent } from 'src/app/layout/content/content.component';
-import { PipHeaderComponent } from 'src/app/layout/header/header.component';
-import { NavbarComponent } from 'src/app/layout/navbar/navbar.component';
-import { environment } from 'src/environments/environment';
+import { HeaderComponent } from 'src/app/layout/header/header.component';
+import { SidenavComponent } from 'src/app/layout/navigation/sidenav.component';
 
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'pip-default-layout',
-  template: `
-    <pip-header />
-    <!-- TODO -->
-    @if (!isProduction) {
-      <pip-navbar />
-    }
-    <pip-content />
-  `,
+  templateUrl: './default-layout.component.html',
   styleUrl: './default-layout.component.scss',
-  imports: [ContentComponent, NavbarComponent, PipHeaderComponent],
+  imports: [ContentComponent, HeaderComponent, SidenavComponent],
   standalone: true,
 })
-export class DefaultLayoutComponent {
-  protected readonly isProduction = environment.isProduction;
-}
+export class DefaultLayoutComponent {}

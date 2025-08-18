@@ -16,8 +16,8 @@ export const environment: EnvironmentCredentials = {
       apiKey: undefined,
     },
     recaptcha: {
-      // Development testing key
-      apiKey: '6LeI9KcrAAAAALsvkMIdgNcuQgFOGCax6C4nUCVC',
+      // Unused in development, use emulators instead.
+      apiKey: '',
     },
   },
   isProduction: false,

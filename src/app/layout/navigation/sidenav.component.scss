@@ -1,0 +1,65 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  color: col.$pip-green;
+  flex-direction: column;
+  height: calc(100% - var.$header-height);
+  width: 100%;
+}
+
+mat-sidenav-container {
+  box-sizing: border-box;
+  height: 100%;
+
+  mat-sidenav {
+    border-left: 1px solid col.$pip-green-darkest;
+    font-family: monospace;
+
+    .nav-message {
+      border-bottom: 1px dashed col.$pip-green-darkest;
+      box-sizing: border-box;
+      padding: 1rem;
+      width: 100%;
+
+      .nav-message-title {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        font-size: var.$font-xxs;
+
+        > div {
+          overflow: hidden;
+          text-wrap: nowrap;
+        }
+
+        P {
+          font-size: var.$font-xxs;
+          padding: 0;
+          margin: 0;
+          margin-top: 1rem;
+        }
+      }
+    }
+
+    mat-nav-list {
+      padding: 0;
+    }
+  }
+
+  mat-sidenav-content {
+    @include sb.scrollbar;
+
+    height: 100%;
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}

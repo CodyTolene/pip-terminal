@@ -1,0 +1,48 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+$nav-list-background-color: col.$black;
+$nav-item-background-color: col.$black;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.list-overrides(
+    (
+      list-item-container-color: $nav-item-background-color,
+      list-item-hover-state-layer-color: col.$pip-green-dark,
+    )
+  );
+}
+
+mat-sidenav.mat-drawer,
+mat-sidenav.mat-sidenav {
+  background-color: $nav-list-background-color;
+
+  a.mdc-list-item {
+    padding: 0 2rem;
+    border-radius: 0;
+
+    span,
+    .mdc-list-item__primary-text {
+      color: col.$pip-green-dark;
+      font-family: monospace;
+    }
+
+    &.active {
+      span,
+      .mdc-list-item__primary-text {
+        color: col.$pip-green;
+      }
+    }
+
+    &:hover {
+      color: col.$pip-green;
+      background-color: col.$pip-green-darkest;
+
+      .mdc-list-item__primary-text {
+        color: col.$pip-green;
+        font-family: monospace;
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@ export const PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE: PipRoute = {
     author: META_AUTHOR,
     description: 'Customize your Pip-Boy 3000 Mk V Radio!',
     keywords: ['Pip-Boy 3000 Mk V', 'Radio', ...META_DEFAULT_KEYWORDS],
-    layout: PageLayoutsEnum.PIP_3000_MK_V,
+    layout: PageLayoutsEnum.NONE,
     title: 'Pip-Boy 3000 Mk V Radio',
   },
   children: [

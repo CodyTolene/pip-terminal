@@ -1,6 +1,6 @@
 import { environment } from 'src/environments/environment';
 
-import { EnvironmentProviders, inject } from '@angular/core';
+import { EnvironmentProviders, Provider, inject } from '@angular/core';
 import { FirebaseApp } from '@angular/fire/app';
 import {
   ReCaptchaEnterpriseProvider,
@@ -8,7 +8,11 @@ import {
   provideAppCheck,
 } from '@angular/fire/app-check';
 
-export function appCheckProvider(): EnvironmentProviders {
+export function appCheckProvider(): EnvironmentProviders | Provider[] {
+  if (!environment.isProduction) {
+    // (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    return []; // Disable in development.
+  }
   return provideAppCheck(() => {
     const app = inject(FirebaseApp);
     const provider = new ReCaptchaEnterpriseProvider(

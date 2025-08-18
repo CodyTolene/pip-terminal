@@ -23,7 +23,6 @@ export class PageData implements Data {
         io.literal(PageLayoutsEnum.PIP_3000),
         io.literal(PageLayoutsEnum.PIP_3000A),
         io.literal(PageLayoutsEnum.PIP_3000_MK_IV),
-        io.literal(PageLayoutsEnum.PIP_3000_MK_V),
       ]),
       title: io.string,
     },

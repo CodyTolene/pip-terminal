@@ -23,6 +23,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 export class WelcomePageComponent {
   protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
+  protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
   protected readonly versionNumber = APP_VERSION;
 
   protected openAppsRepo(): void {

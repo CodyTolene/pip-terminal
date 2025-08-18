@@ -1,3 +1,155 @@
-<h1>Vault</h1>
-<p>{{ userChanges | async | json }}</p>
+<!-- Pip-Boy Vault Screen -->
+<section class="vault-screen">
+  <header class="header">
+    <div class="mark">
+      <span class="pip">PIP-OS(R)</span>
+      <span class="version">v{{ versionNumber }}</span>
+    </div>
+    <h1 class="title">VAULT USER PROFILE</h1>
+    <div class="scanline" aria-hidden="true" role="presentation"></div>
+  </header>
+
+  @let user = userChanges | async;
+
+  @if (user) {
+    <div class="grid">
+      <!-- Identity card -->
+      <aside class="card id-card">
+        <div class="photo-wrap">
+          <img
+            [src]="user.photoURL || 'assets/img/pip-avatar.png'"
+            alt="User photo"
+            class="photo"
+            referrerpolicy="no-referrer"
+          />
+          <div class="crt-overlay" aria-hidden="true"></div>
+        </div>
+
+        <div class="id-fields">
+          <div class="row">
+            <label for="user-name">NAME</label>
+            <span id="user-name" class="val">{{
+              user.displayName || '(unknown)'
+            }}</span>
+          </div>
+          <div class="row">
+            <label for="user-uid">UID</label>
+            <div id="user-uid" class="val mono">{{ user.uid }}</div>
+          </div>
+          <div class="row">
+            <label for="user-verified">VERIFIED</label>
+            <div id="user-verified" class="val">
+              {{ user.emailVerified ? 'YES' : 'NO' }}
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Status and contact -->
+      <section class="card status-card">
+        <h2 class="card-title">STATUS</h2>
+
+        <div class="gauges">
+          <div class="gauge">
+            <div class="gauge-head">
+              <span>HP</span><span class="val">100</span>
+            </div>
+            <div class="bar">
+              <div class="fill hp" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <div class="gauge">
+            <div class="gauge-head">
+              <span>AP</span><span class="val">80</span>
+            </div>
+            <div class="bar">
+              <div class="fill ap" style="width: 80%"></div>
+            </div>
+          </div>
+
+          <div class="gauge">
+            <div class="gauge-head">
+              <span>RAD</span><span class="val">0</span>
+            </div>
+            <div class="bar">
+              <div class="fill rad" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="field">
+            <label for="user-email">EMAIL</label>
+            <div id="user-email" class="val">{{ user.email }}</div>
+          </div>
+          <div class="field">
+            <label for="user-phone">PHONE</label>
+            <div id="user-phone" class="val">
+              {{ user.phoneNumber || '(none)' }}
+            </div>
+          </div>
+          <div class="field">
+            <label for="user-anonymous">ANONYMOUS</label>
+            <div id="user-anonymous" class="val">
+              {{ user.isAnonymous ? 'YES' : 'NO' }}
+            </div>
+          </div>
+          <div class="field">
+            <label for="user-providers">PROVIDERS</label>
+            <div id="user-providers" class="val mono">
+              @for (p of user.providerData; track p.providerId) {
+                <span class="chip">{{ p.providerId }}</span>
+              } @empty {
+                <span>(none)</span>
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card meta-card">
+        <h2 class="card-title">SESSION</h2>
+        <div class="field">
+          <label for="app-name">APP</label>
+          <div id="app-name" class="val">pip-terminal</div>
+        </div>
+        <div class="field">
+          <label for="user-email-verified">EMAIL VERIFIED</label>
+          <div id="user-email-verified" class="val">
+            {{ user.emailVerified ? 'YES' : 'NO' }}
+          </div>
+        </div>
+        <div class="field warn">
+          <label for="note-field">NOTE</label>
+          <div id="note-field" class="val">
+            Tokens are hidden on this screen to keep secrets safe.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <div class="soft-keys">
+        <button
+          matTooltip="Coming soon..."
+          disabled
+          type="button"
+          class="soft-btn"
+        >
+          EDIT
+        </button>
+        <button (click)="signOut()" type="button" class="soft-btn">
+          LOG OUT
+        </button>
+      </div>
+    </footer>
+  } @else {
+    <div class="empty">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Loading user profile</p>
+    </div>
+  }
+</section>
+
 <pip-footer />

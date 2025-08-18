@@ -1,6 +1,8 @@
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
+$pip-grid: rgba(158, 252, 106, 0.08);
+
 :host {
   align-items: center;
   box-sizing: border-box;
@@ -9,23 +11,182 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+
+  h1 {
+    color: col.$pip-green;
+    display: flex;
+    font-size: var.$font-xl;
+    justify-content: center;
+    margin: 0rem 0 1rem 0;
+    width: 100%;
+  }
+
+  p {
+    margin: 0 1rem 2rem 1rem;
+  }
+
+  pip-footer {
+    align-self: stretch;
+    margin-top: auto;
+    display: block;
+  }
+
+  .screen {
+    height: 100%;
+    width: 100%;
+    color: col.$pip-green;
+    background: radial-gradient(
+      ellipse at center,
+      col.$pip-black 0%,
+      #000 100%
+    );
+    position: relative;
+    isolation: isolate;
+    padding-bottom: 2rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.02) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 0;
+      animation: flicker 6s infinite;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(transparent 95%, $pip-grid 95%),
+        linear-gradient(90deg, transparent 95%, $pip-grid 95%);
+      background-size:
+        24px 24px,
+        24px 24px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .pip-status {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1rem 4rem;
+
+      .title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        letter-spacing: 0.08em;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        opacity: 0.9;
+        border-bottom: 1px solid rgba(158, 252, 106, 0.25);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.6rem;
+
+        .pipdot {
+          width: 10px;
+          height: 10px;
+          border: 2px solid col.$pip-green;
+          border-radius: 50%;
+          box-shadow: 0 0 8px col.$pip-green;
+        }
+      }
+
+      .panel {
+        border: 2px solid col.$pip-green;
+        border-radius: 12px;
+        padding: 1rem;
+        background: color-mix(in oklab, col.$pip-black 78%, col.$pip-green 4%);
+        box-shadow:
+          0 0 20px rgba(158, 252, 106, 0.12),
+          inset 0 0 40px rgba(158, 252, 106, 0.08);
+        text-align: center;
+
+        .glyph {
+          font-size: 3rem;
+          line-height: 1;
+          margin-bottom: 1rem;
+          text-shadow: 0 0 12px col.$pip-green;
+          filter: drop-shadow(0 0 6px col.$pip-green);
+        }
+
+        .headline {
+          font-size: clamp(1.25rem, 1.15rem + 0.6vw, 1.8rem);
+          letter-spacing: 0.12em;
+          margin-bottom: 0.5rem;
+        }
+
+        .sub {
+          font-size: 0.95rem;
+          opacity: 0.9;
+        }
+
+        &.ok {
+          border-color: col.$pip-green;
+        }
+
+        &.loading {
+          .glyph {
+            animation: blink 1s steps(2, start) infinite;
+          }
+        }
+
+        &.partial,
+        &.degraded {
+          border-color: col.$caution;
+          color: col.$caution;
+          box-shadow:
+            0 0 20px color-mix(in oklab, col.$caution 18%, transparent),
+            inset 0 0 40px color-mix(in oklab, col.$caution 8%, transparent);
+        }
+
+        &.down {
+          border-color: col.$warn;
+          color: col.$warn;
+          box-shadow:
+            0 0 20px color-mix(in oklab, col.$warn 18%, transparent),
+            inset 0 0 40px color-mix(in oklab, col.$warn 8%, transparent);
+        }
+
+        &.unknown {
+          border-color: col.$info;
+          color: col.$info;
+        }
+      }
+    }
+  }
 }
 
-h1 {
-  color: col.$pip-green;
-  display: flex;
-  font-size: var.$font-xl;
-  justify-content: center;
-  margin: 2.5rem 0 2rem 0;
-  width: 100%;
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  45% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.12;
+  }
+  55% {
+    opacity: 0.24;
+  }
 }
 
-p {
-  margin: 0 1rem 2rem 1rem;
-}
-
-pip-footer {
-  align-self: stretch;
-  margin-top: auto;
-  display: block;
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
 }

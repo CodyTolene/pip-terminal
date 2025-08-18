@@ -1,3 +1,5 @@
+import { APP_VERSION } from 'src/app/constants';
+
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,4 +10,6 @@ import { Component } from '@angular/core';
   providers: [],
   standalone: true,
 })
-export class PipFooterComponent {}
+export class PipFooterComponent {
+  protected readonly versionNumber = APP_VERSION;
+}
