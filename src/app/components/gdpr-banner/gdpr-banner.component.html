@@ -1,0 +1,12 @@
+@if (visible()) {
+  <div class="gdpr-banner">
+    <p>
+      Pip-Boy.com uses cookies and local storage to enhance your experience,
+      analyze traffic, and improve services. By continuing, you agree to our
+      <a [routerLink]="privacyPolicyPage">Privacy Policy</a>
+    </p>
+    <div class="actions">
+      <button type="button" (click)="accept()">Accept</button>
+    </div>
+  </div>
+}

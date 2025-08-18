@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+@use '../scrollbar' as sb;
+
+:root {
+  @include mat.sidenav-overrides(
+    (
+      container-background-color: col.$black,
+      container-text-color: col.$pip-green,
+      content-background-color: transparent,
+    )
+  );
+}
+
+mat-sidenav-container > .mat-drawer, // Start
+mat-sidenav-container > .mat-drawer.mat-drawer-end {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+mat-sidenav-container > mat-sidenav > div.mat-drawer-inner-container {
+  @include sb.scrollbar;
+}

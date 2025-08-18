@@ -1,3 +1,57 @@
-<h1>Status</h1>
-<p>Status: {{ (statusChanges | async)?.status || 'Loading...' }}</p>
+<div class="screen">
+  <section class="pip-status" role="status" aria-live="polite">
+    <header class="title">
+      <span class="pipdot" aria-hidden="true"></span>
+      PIP-BOY TERMINAL STATUS
+    </header>
+
+    @if (statusChanges | async; as s) {
+      @switch (s.status) {
+        @case ('ok') {
+          <div class="panel ok">
+            <h1>Status</h1>
+            <div class="glyph" aria-hidden="true">◎</div>
+            <div class="headline">ALL SYSTEMS OPERATIONAL</div>
+            <div class="sub">API status: "{{ s.status }}"</div>
+          </div>
+        }
+        @case ('partial') {
+          <div class="panel partial">
+            <div class="glyph" aria-hidden="true">◔</div>
+            <div class="headline">PARTIAL OUTAGE</div>
+            <div class="sub">API status: "{{ s.status }}"</div>
+          </div>
+        }
+        @case ('degraded') {
+          <div class="panel degraded">
+            <div class="glyph" aria-hidden="true">◑</div>
+            <div class="headline">PERFORMANCE DEGRADED</div>
+            <div class="sub">API status: "{{ s.status }}"</div>
+          </div>
+        }
+        @case ('down') {
+          <div class="panel down">
+            <div class="glyph" aria-hidden="true">✖</div>
+            <div class="headline">SERVICE UNAVAILABLE</div>
+            <div class="sub">API status: "{{ s.status }}"</div>
+          </div>
+        }
+        @default {
+          <div class="panel unknown">
+            <div class="glyph" aria-hidden="true">?</div>
+            <div class="headline">UNKNOWN STATE</div>
+            <div class="sub">API status: "{{ s.status }}"</div>
+          </div>
+        }
+      }
+    } @else {
+      <div class="panel loading">
+        <div class="glyph" aria-hidden="true">▮</div>
+        <div class="headline">CHECKING SYSTEMS...</div>
+        <div class="sub">Contacting Vault-Tec servers</div>
+      </div>
+    }
+  </section>
+</div>
+
 <pip-footer />

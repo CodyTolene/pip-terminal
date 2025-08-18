@@ -5,6 +5,8 @@
 :host {
   @include sb.scrollbar;
 
+  display: block;
+
   background-color: transparent;
   color: col.$pip-green;
   height: 100%;

@@ -14,11 +14,16 @@ export class HealthCheck {
   }
 
   public static readonly Codec = io.type({
-    status: io.literal('ok'),
+    status: io.union([
+      io.literal('degraded'),
+      io.literal('down'),
+      io.literal('ok'),
+      io.literal('partial'),
+    ]),
     timestamp: io.number, // Date.now()
   });
 
-  @api({ key: 'status' }) public readonly status: 'ok';
+  @api({ key: 'status' }) public readonly status: ApiStatus;
   @api({ key: 'timestamp' }) public readonly timestamp: DateTime;
 
   public static deserialize(value: unknown): HealthCheck {
@@ -29,3 +34,5 @@ export class HealthCheck {
     });
   }
 }
+
+type ApiStatus = 'ok' | 'degraded' | 'down' | 'partial';

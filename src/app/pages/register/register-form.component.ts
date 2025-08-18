@@ -1,14 +1,18 @@
-import { FormDirective, InputComponent } from '@proangular/pro-form';
-import { NgxCaptchaModule, ReCaptcha2Component } from 'ngx-captcha';
+import {
+  FormDirective,
+  InputCheckboxComponent,
+  InputComponent,
+} from '@proangular/pro-form';
 import {
   RegisterFormGroup,
   registerFormGroup,
 } from 'src/app/pages/register/register-form-group';
+import { PAGES } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,8 +24,8 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   standalone: true,
   imports: [
     CommonModule,
+    InputCheckboxComponent,
     InputComponent,
-    NgxCaptchaModule,
     PipButtonComponent,
     ReactiveFormsModule,
     RouterModule,
@@ -33,29 +37,18 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
   public constructor() {
     super();
     this.formGroup.reset();
-    if (!this.isProduction) {
-      this.formGroup.controls.recaptcha.setValidators(null);
-    }
   }
 
   private readonly auth = inject(AuthService);
-  @ViewChild('captchaElem') private captchaElem?: ReCaptcha2Component;
 
   protected override readonly formGroup = registerFormGroup;
 
   protected readonly isProduction = environment.isProduction;
   protected readonly isRegistering = signal(false);
   protected readonly registerErrorMessage = signal<string | null>(null);
-  protected readonly siteKey = environment.google.recaptcha.apiKey;
 
-  protected handleExpire(): void {
-    this.formGroup.controls.recaptcha.reset();
-  }
-
-  protected handleSuccess(captchaResponse: string): void {
-    // eslint-disable-next-line no-console
-    console.log(captchaResponse);
-  }
+  protected readonly termsAndConditionsUrl: PageUrl =
+    PAGES['Terms and Conditions'];
 
   protected async register(): Promise<void> {
     if (this.formGroup.invalid) {
@@ -64,11 +57,9 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
       return;
     }
 
-    const { email, password, recaptcha } = this.formGroup.value;
-    if (!email || !password || (!recaptcha && this.isProduction)) {
-      this.registerErrorMessage.set(
-        'Please complete all fields and the reCAPTCHA.',
-      );
+    const { email, password, terms } = this.formGroup.value;
+    if (!email || !password || !terms) {
+      this.registerErrorMessage.set('Please complete all fields.');
       return;
     }
 
@@ -80,10 +71,6 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
     } catch (err) {
       console.error('Register error:', err);
       this.registerErrorMessage.set(this.mapFirebaseError(err));
-
-      // Force a fresh solve after any error
-      this.formGroup.controls.recaptcha.reset();
-      this.captchaElem?.resetCaptcha();
     } finally {
       this.isRegistering.set(false);
     }

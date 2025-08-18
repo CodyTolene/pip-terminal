@@ -2,30 +2,57 @@
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
-.logo-container {
-  display: flex;
-  justify-content: space-between;
+footer {
   align-items: center;
-  height: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  background-color: col.$black;
+  border-top: 1px solid col.$pip-green-darkest;
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  width: 100%;
 
-  .branding {
-    display: flex;
+  .disclaimer {
+    font-size: var.$font-xs;
+    max-width: var.$section-max-width;
+    text-align: center;
+  }
+
+  .logo-container {
     align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 1.5rem;
 
-    img.logo {
-      height: 40px;
-      margin-right: 1rem;
-    }
+    .branding {
+      align-items: center;
+      display: flex;
 
-    .site-title {
-      color: col.$pip-green;
-      font-family: monospace;
-      font-size: var.$font-xl;
-      letter-spacing: 1px;
+      img.logo {
+        height: 40px;
+        margin-right: 1rem;
+      }
+
+      .site-title {
+        color: col.$pip-green;
+        font-family: monospace;
+        font-size: var.$font-xl;
+        letter-spacing: 1px;
+      }
     }
+  }
+
+  .version {
+    color: col.$pip-green;
+    font-family: monospace;
+    font-size: 1rem;
+    opacity: 0.7;
   }
 }
 
@@ -38,23 +65,5 @@
 @include bps.media('max', 'sm') {
   .logo-container > .branding > .site-title {
     font-size: var.$font-sm;
-  }
-}
-
-footer {
-  align-items: center;
-  background-color: col.$black;
-  box-sizing: border-box;
-  color: col.$pip-green;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1rem;
-  position: relative;
-  width: 100%;
-
-  > p {
-    max-width: var.$section-max-width;
-    text-align: center;
   }
 }

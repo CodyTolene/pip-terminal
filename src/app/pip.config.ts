@@ -60,19 +60,7 @@ export const appConfig: ApplicationConfig = {
       const app = injector.get(FirebaseApp);
       return getAnalytics(app);
     }),
-    // Only include App Check in prod, we use emulation locally
-    // so there's no need for App Check
-    ...(environment.isProduction ? [appCheckProvider()] : []),
-    // provideAppCheck((injector) => {
-    //   const app = injector.get(FirebaseApp);
-    //   const provider = new ReCaptchaEnterpriseProvider(
-    //     environment.google.recaptcha.apiKey,
-    //   );
-    //   return initializeAppCheck(app, {
-    //     provider,
-    //     isTokenAutoRefreshEnabled: true,
-    //   });
-    // }),
+    appCheckProvider(),
     ScreenTrackingService,
     StorageLocalService,
     StorageSessionService,
