@@ -1,8 +1,13 @@
-import { FormDirective, InputComponent } from '@proangular/pro-form';
+import {
+  FormDirective,
+  InputCheckboxComponent,
+  InputComponent,
+} from '@proangular/pro-form';
 import {
   RegisterFormGroup,
   registerFormGroup,
 } from 'src/app/pages/register/register-form-group';
+import { PAGES } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
@@ -19,6 +24,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   standalone: true,
   imports: [
     CommonModule,
+    InputCheckboxComponent,
     InputComponent,
     PipButtonComponent,
     ReactiveFormsModule,
@@ -41,6 +47,9 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
   protected readonly isRegistering = signal(false);
   protected readonly registerErrorMessage = signal<string | null>(null);
 
+  protected readonly termsAndConditionsUrl: PageUrl =
+    PAGES['Terms and Conditions'];
+
   protected async register(): Promise<void> {
     if (this.formGroup.invalid) {
       // Touch all fields so inline messages render
@@ -48,8 +57,8 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
       return;
     }
 
-    const { email, password } = this.formGroup.value;
-    if (!email || !password) {
+    const { email, password, terms } = this.formGroup.value;
+    if (!email || !password || !terms) {
       this.registerErrorMessage.set('Please complete all fields.');
       return;
     }

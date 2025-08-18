@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+:root {
+  @include mat.checkbox-overrides(
+    (
+      disabled-label-color: col.$pip-green-darkest,
+      disabled-selected-checkmark-color: red,
+      label-text-color: col.$pip-green,
+    )
+  );
+}

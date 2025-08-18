@@ -4,6 +4,7 @@
 
 :host {
   background-color: col.$black;
+  border-bottom: 1px solid col.$pip-green-darkest;
   display: block;
   height: var.$header-height;
   position: sticky;
