@@ -71,20 +71,14 @@ function main() {
   const outFile = path.join(DIST_DIR, 'sitemap.xml');
   fs.writeFileSync(outFile, xml, 'utf8');
 
-  // Optional: also drop robots.txt if you want
   const robotsPath = path.join(DIST_DIR, 'robots.txt');
-  if (!fs.existsSync(robotsPath)) {
-    fs.writeFileSync(
-      robotsPath,
-      [
-        'User-agent: *',
-        'Allow: /',
-        `Sitemap: ${SITE_URL}/sitemap.xml`,
-        '',
-      ].join('\n'),
-      'utf8',
-    );
-  }
+  fs.writeFileSync(
+    robotsPath,
+    ['User-agent: *', 'Allow: /', `Sitemap: ${SITE_URL}/sitemap.xml`, ''].join(
+      '\n',
+    ),
+    'utf8',
+  );
 
   // eslint-disable-next-line no-console
   console.log(`Generated ${outFile} with ${urls.length} URLs`);
