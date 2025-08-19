@@ -1,14 +1,14 @@
 // Use Firebase Web SDK functions (no Angular injection context required):
 import {
   FirestoreDataConverter as FsConverter,
-  deleteField as fsDeleteField,
+  deleteField,
   doc as fsDoc,
   getDoc as fsGetDoc,
   setDoc as fsSetDoc,
 } from 'firebase/firestore';
 import {
-  deleteObject as stDeleteObject,
-  getDownloadURL as stGetDownloadURL,
+  deleteObject,
+  getDownloadURL,
   ref as stRef,
   uploadBytes as stUploadBytes,
 } from 'firebase/storage';
@@ -73,7 +73,7 @@ export class UserProfileService {
       cacheControl: 'public, max-age=31536000, immutable',
     });
 
-    const url = await stGetDownloadURL(storageRef);
+    const url = await getDownloadURL(storageRef);
 
     const user: User | null = this.auth.currentUser;
     if (user && user.uid === uid) {
@@ -85,7 +85,7 @@ export class UserProfileService {
     if (previousUrl && previousUrl !== url && this.isStorageUrl(previousUrl)) {
       try {
         const oldRef = stRef(this.storage, previousUrl);
-        await stDeleteObject(oldRef);
+        await deleteObject(oldRef);
       } catch (err) {
         const code =
           typeof err === 'object' && err !== null && 'code' in err
@@ -112,7 +112,7 @@ export class UserProfileService {
     if (currentUrl && this.isStorageUrl(currentUrl)) {
       try {
         const refToDelete = stRef(this.storage, currentUrl);
-        await stDeleteObject(refToDelete);
+        await deleteObject(refToDelete);
       } catch (err) {
         const code =
           typeof err === 'object' && err !== null && 'code' in err
@@ -131,6 +131,6 @@ export class UserProfileService {
     }
 
     const rawDocRef = fsDoc(this.firestore, 'users', uid);
-    await fsSetDoc(rawDocRef, { photoURL: fsDeleteField() }, { merge: true });
+    await fsSetDoc(rawDocRef, { photoURL: deleteField() }, { merge: true });
   }
 }

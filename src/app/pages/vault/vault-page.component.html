@@ -80,9 +80,11 @@
       />
       <label for="user-image-upload">UPLOAD IMAGE</label>
       <span class="hint">PNG/JPG</span>
-      <button (click)="deleteImage()" [disabled]="saving" type="button">
-        Delete
-      </button>
+      @if (user.photoURL) {
+        <button (click)="deleteImage()" [disabled]="saving" type="button">
+          DELETE IMAGE
+        </button>
+      }
     }
   } @else {
     <image-cropper
