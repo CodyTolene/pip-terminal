@@ -5,7 +5,7 @@ export async function getUserPhotoURL(
   filename = 'images/user/user.png',
 ): Promise<string | null> {
   const bucket = admin.storage().bucket();
-  const filePath = `accounts/${uid}/images/${filename}`;
+  const filePath = `users/${uid}/images/${filename}`;
   const file = bucket.file(filePath);
 
   const [exists] = await file.exists();

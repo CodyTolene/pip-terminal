@@ -11,3 +11,4 @@ export * from './status.service';
 export * from './storage-local.service';
 export * from './storage-session.service';
 export * from './stylesheets.service';
+export * from './user-profile.service';

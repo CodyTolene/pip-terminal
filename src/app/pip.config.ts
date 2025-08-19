@@ -16,9 +16,22 @@ import {
   provideFirebaseApp,
 } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import {
+  connectFirestoreEmulator,
+  getFirestore,
+  provideFirestore,
+} from '@angular/fire/firestore';
+import {
+  connectFunctionsEmulator,
+  getFunctions,
+  provideFunctions,
+} from '@angular/fire/functions';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
+import {
+  connectStorageEmulator,
+  getStorage,
+  provideStorage,
+} from '@angular/fire/storage';
 import { provideRouter } from '@angular/router';
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
@@ -47,11 +60,33 @@ export const appConfig: ApplicationConfig = {
     }),
     provideFirestore((injector) => {
       const app = injector.get(FirebaseApp);
-      return getFirestore(app);
+      const db = getFirestore(app);
+
+      if (!environment.isProduction) {
+        connectFirestoreEmulator(db, '127.0.0.1', 8080);
+      }
+
+      return db;
     }),
     provideFunctions((injector) => {
       const app = injector.get(FirebaseApp);
-      return getFunctions(app);
+      const fn = getFunctions(app, 'us-central1');
+
+      if (!environment.isProduction) {
+        connectFunctionsEmulator(fn, '127.0.0.1', 5001);
+      }
+
+      return fn;
+    }),
+    provideStorage((injector) => {
+      const app = injector.get(FirebaseApp);
+      const storage = getStorage(app);
+
+      if (!environment.isProduction) {
+        connectStorageEmulator(storage, '127.0.0.1', 9199);
+      }
+
+      return storage;
     }),
     providePerformance((injector) => {
       const app = injector.get(FirebaseApp);

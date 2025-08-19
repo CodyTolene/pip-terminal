@@ -1,154 +1,134 @@
-<section class="vault-screen">
-  <header class="header">
-    <div class="mark">
-      <span class="pip">PIP-OS(R)</span>
-      <span class="version">v{{ versionNumber }}</span>
-    </div>
-    <h1 class="title">VAULT USER PROFILE</h1>
-    <div class="scanline" aria-hidden="true" role="presentation"></div>
-  </header>
+@if (userChanges | async; as user) {
+  <main>
+    <section id="id">
+      <ng-container
+        [ngTemplateOutlet]="idSection"
+        [ngTemplateOutletContext]="{ user }"
+      ></ng-container>
+      <ng-container [ngTemplateOutlet]="actionsTemplate"></ng-container>
+    </section>
+    <section id="img">
+      <ng-container
+        [ngTemplateOutlet]="imageSection"
+        [ngTemplateOutletContext]="{ user }"
+      ></ng-container>
+    </section>
+  </main>
+} @else {
+  <pip-loading center> LOADING USER PROFILE </pip-loading>
+}
 
-  @let user = userChanges | async;
+<!-- ID SECTION -->
+<ng-template #idSection let-user="user">
+  <h1>VAULT DWELLLER ID</h1>
+  <div><strong>APP: </strong>Pip-Boy Terminal</div>
+  <div>
+    @if (editMode) {
+      <label for="display-name">NAME</label>
+      <input
+        id="display-name"
+        [(ngModel)]="displayName"
+        type="text"
+        class="edit-input"
+      />
+    } @else {
+      <strong>NAME: </strong>{{ user.displayName || '(unknown)' }}
+    }
+  </div>
+  <div><strong>UID: </strong>{{ user.uid }}</div>
+  <div><strong>EMAIL: </strong>{{ user.email || '(unknown)' }}</div>
+  <div><strong>EMAIL VERIFIED: </strong>{{ user.emailVerified | bool }}</div>
+  <div><strong>ROOM: </strong>TODO</div>
+  <div><strong>DOB: </strong>TODO</div>
+  <div><strong>SKILL: </strong>TODO</div>
+  <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div>
+  <div>
+    <b>VAULT {{ extraData?.vaultNumber || '33' }}</b>
+  </div>
+</ng-template>
 
-  @if (user) {
-    <div class="grid">
-      <!-- Identity card -->
-      <aside class="card id-card">
-        <div class="photo-wrap">
-          <img
-            [src]="user.photoURL || 'images/user/user.png'"
-            alt="User photo"
-            class="photo"
-            referrerpolicy="no-referrer"
-          />
-          <div class="crt-overlay" aria-hidden="true"></div>
-        </div>
-
-        <div class="id-fields">
-          <div class="row">
-            <label for="user-name">NAME</label>
-            <span id="user-name" class="val">{{
-              user.displayName || '(unknown)'
-            }}</span>
-          </div>
-          <div class="row">
-            <label for="user-uid">UID</label>
-            <div id="user-uid" class="val mono">{{ user.uid }}</div>
-          </div>
-          <div class="row">
-            <label for="user-verified">VERIFIED</label>
-            <div id="user-verified" class="val">
-              {{ user.emailVerified ? 'YES' : 'NO' }}
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <!-- Status and contact -->
-      <section class="card status-card">
-        <h2 class="card-title">STATUS</h2>
-
-        <div class="gauges">
-          <div class="gauge">
-            <div class="gauge-head">
-              <span>HP</span><span class="val">100</span>
-            </div>
-            <div class="bar">
-              <div class="fill hp" style="width: 100%"></div>
-            </div>
-          </div>
-
-          <div class="gauge">
-            <div class="gauge-head">
-              <span>AP</span><span class="val">80</span>
-            </div>
-            <div class="bar">
-              <div class="fill ap" style="width: 80%"></div>
-            </div>
-          </div>
-
-          <div class="gauge">
-            <div class="gauge-head">
-              <span>RAD</span><span class="val">0</span>
-            </div>
-            <div class="bar">
-              <div class="fill rad" style="width: 0%"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-grid">
-          <div class="field">
-            <label for="user-email">EMAIL</label>
-            <div id="user-email" class="val">{{ user.email }}</div>
-          </div>
-          <div class="field">
-            <label for="user-phone">PHONE</label>
-            <div id="user-phone" class="val">
-              {{ user.phoneNumber || '(none)' }}
-            </div>
-          </div>
-          <div class="field">
-            <label for="user-anonymous">ANONYMOUS</label>
-            <div id="user-anonymous" class="val">
-              {{ user.isAnonymous ? 'YES' : 'NO' }}
-            </div>
-          </div>
-          <div class="field">
-            <label for="user-providers">PROVIDERS</label>
-            <div id="user-providers" class="val mono">
-              @for (p of user.providerData; track p.providerId) {
-                <span class="chip">{{ p.providerId }}</span>
-              } @empty {
-                <span>(none)</span>
-              }
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card meta-card">
-        <h2 class="card-title">SESSION</h2>
-        <div class="field">
-          <label for="app-name">APP</label>
-          <div id="app-name" class="val">pip-terminal</div>
-        </div>
-        <div class="field">
-          <label for="user-email-verified">EMAIL VERIFIED</label>
-          <div id="user-email-verified" class="val">
-            {{ user.emailVerified ? 'YES' : 'NO' }}
-          </div>
-        </div>
-        <div class="field warn">
-          <label for="note-field">NOTE</label>
-          <div id="note-field" class="val">
-            Tokens are hidden on this screen to keep secrets safe.
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <footer class="footer">
-      <div class="soft-keys">
-        <button
-          matTooltip="Coming soon..."
-          disabled
-          type="button"
-          class="soft-btn"
-        >
-          EDIT
-        </button>
-        <button (click)="signOut()" type="button" class="soft-btn">
-          LOG OUT
-        </button>
-      </div>
-    </footer>
+<!-- ACTIONS TEMPLATE -->
+<ng-template #actionsTemplate>
+  @if (editMode) {
+    <button (click)="saveProfile()" [disabled]="saving" type="button">
+      SAVE
+    </button>
+    <button (click)="cancelEdit()" [disabled]="saving" type="button">
+      CANCEL
+    </button>
   } @else {
-    <div class="empty">
-      <div class="spinner" aria-hidden="true"></div>
-      <p>Loading user profile</p>
-    </div>
+    <button (click)="startEdit()" type="button">EDIT</button>
+    <button (click)="signOut()" type="button">LOG OUT</button>
   }
+</ng-template>
+
+<!-- IMAGE SECTION -->
+<ng-template #imageSection let-user="user">
+  @if (!selectedImageEvent) {
+    <img
+      [src]="croppedImage || user.photoURL || 'images/user/user.png'"
+      alt="User Image"
+      class="user-image"
+      referrerpolicy="no-referrer"
+    />
+    @if (editMode) {
+      <input
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        id="user-image-upload"
+        type="file"
+      />
+      <label for="user-image-upload">UPLOAD IMAGE</label>
+      <span class="hint">PNG/JPG</span>
+      <button (click)="deleteImage()" [disabled]="saving" type="button">
+        Delete
+      </button>
+    }
+  } @else {
+    <image-cropper
+      (imageCropped)="onImageCropped($event)"
+      (loadImageFailed)="onLoadImageFailed($event)"
+      [aspectRatio]="1"
+      [imageChangedEvent]="selectedImageEvent"
+      [maintainAspectRatio]="true"
+      [resizeToWidth]="250"
+      class="cropper"
+      format="png"
+      output="base64"
+    ></image-cropper>
+  }
+</ng-template>
+
+<!--
+<section class="card status-card">
+  <h2 class="card-title">STATUS</h2>
+  <div class="gauges">
+    <div class="gauge">
+      <div class="gauge-head">
+        <span>HP</span><span class="val">100</span>
+      </div>
+      <div class="bar">
+        <div class="fill hp" style="width: 100%"></div>
+      </div>
+    </div>
+    <div class="gauge">
+      <div class="gauge-head">
+        <span>AP</span><span class="val">80</span>
+      </div>
+      <div class="bar">
+        <div class="fill ap" style="width: 80%"></div>
+      </div>
+    </div>
+    <div class="gauge">
+      <div class="gauge-head">
+        <span>RAD</span><span class="val">0</span>
+      </div>
+      <div class="bar">
+        <div class="fill rad" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
 </section>
+-->
 
 <pip-footer />
