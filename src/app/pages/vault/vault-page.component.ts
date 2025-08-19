@@ -85,10 +85,25 @@ export class VaultPageComponent {
     this.croppedImage = null;
   }
 
-  protected deleteImage(): void {
-    // TODO: Delete previous photo and set `photoURL` undefined.
-    // eslint-disable-next-line no-console
-    console.info('[VaultPage] deleteImage called');
+  protected async deleteImage(): Promise<void> {
+    if (this.saving) return;
+    this.saving = true;
+
+    try {
+      const user = this.currentUser;
+      if (!user) throw new Error('No user');
+
+      await this.userProfileService.deleteProfileImage(user.uid);
+
+      await this.loadExtraData(user.uid);
+      this.selectedImageEvent = null;
+      this.selectedFile = null;
+      this.croppedImage = null;
+    } catch (err) {
+      console.error('[VaultPage] deleteImage failed', err);
+    } finally {
+      this.saving = false;
+    }
   }
 
   protected onFileSelected(event: Event): void {
@@ -100,7 +115,7 @@ export class VaultPageComponent {
       console.warn('[VaultPage] file selected: no file present on input');
     }
 
-    this.selectedImageEvent = event; // drives the cropper UI
+    this.selectedImageEvent = event;
     this.croppedImage = null;
   }
 
@@ -113,17 +128,13 @@ export class VaultPageComponent {
   }
 
   protected async saveProfile(): Promise<void> {
-    if (this.saving) {
-      return;
-    }
+    if (this.saving) return;
     this.saving = true;
 
     const user = this.currentUser;
 
     try {
-      if (!user) {
-        throw new Error('No user');
-      }
+      if (!user) throw new Error('No user');
 
       const uid = user.uid;
 
@@ -142,7 +153,13 @@ export class VaultPageComponent {
 
         if (dataUrlToUpload) {
           const blob = this.dataURItoBlob(dataUrlToUpload);
-          await this.userProfileService.uploadProfileImage(uid, blob);
+          const previousUrl = user.photoURL ?? this.extraData?.photoURL ?? null;
+
+          await this.userProfileService.uploadProfileImage(
+            uid,
+            blob,
+            previousUrl,
+          );
         }
       }
 
@@ -188,9 +205,7 @@ export class VaultPageComponent {
       .afterClosed()
       .pipe(untilDestroyed(this))
       .subscribe(async (shouldLogout) => {
-        if (!shouldLogout) {
-          return;
-        }
+        if (!shouldLogout) return;
         await this.auth.signOut();
         await this.router.navigate(['']);
       });
