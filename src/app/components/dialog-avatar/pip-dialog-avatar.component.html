@@ -47,7 +47,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()" [disabled]="isSaving()">Cancel</button>
+  <pip-button (click)="cancel()" [disabled]="isSaving()">Cancel</pip-button>
   @if (selectedFile) {
     <pip-button type="button" (click)="save()" [disabled]="isSaving()"
       >Save</pip-button

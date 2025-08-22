@@ -23,7 +23,9 @@
         @if (isEditModeSignal()) {
           <pip-button
             (click)="saveProfile()"
-            [disabled]="isSavingSignal() || formGroup.invalid"
+            [disabled]="
+              isSavingSignal() || formGroup.invalid || formGroup.pristine
+            "
             type="button"
           >
             SAVE
@@ -57,44 +59,16 @@
 
 <ng-template #userImageTemplate>
   <section class="user-image-container">
-    @if (!selectedImageEvent) {
-      <img
-        [src]="croppedImage || user.photoURL || 'images/user/user.png'"
-        alt="User Image"
-        class="user-image"
-        referrerpolicy="no-referrer"
-      />
-      @if (isEditModeSignal()) {
-        <input
-          (change)="onFileSelected($event)"
-          accept="image/*"
-          id="user-image-upload"
-          type="file"
-        />
-        <label for="user-image-upload">UPLOAD IMAGE</label>
-        <span class="hint">PNG/JPG</span>
-        @if (user.photoURL) {
-          <pip-button
-            (click)="deleteImage()"
-            [disabled]="isSavingSignal()"
-            type="button"
-          >
-            DELETE IMAGE
-          </pip-button>
-        }
-      }
-    } @else {
-      <image-cropper
-        (imageCropped)="onImageCropped($event)"
-        (loadImageFailed)="onLoadImageFailed($event)"
-        [aspectRatio]="1"
-        [imageChangedEvent]="selectedImageEvent"
-        [maintainAspectRatio]="true"
-        [resizeToWidth]="250"
-        class="cropper"
-        format="png"
-        output="base64"
-      ></image-cropper>
+    <img
+      [src]="localPhotoUrl || user.photoURL || 'images/user/user.png'"
+      alt="User Image"
+      class="user-image"
+      referrerpolicy="no-referrer"
+    />
+    @if (isEditModeSignal()) {
+      <pip-button type="button" (click)="openAvatarDialog()">
+        CHANGE IMAGE
+      </pip-button>
     }
   </section>
 </ng-template>

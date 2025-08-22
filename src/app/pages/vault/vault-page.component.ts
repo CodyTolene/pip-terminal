@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -39,6 +39,8 @@ export class VaultPageComponent {
 
   protected readonly isEditModeSignal = isEditModeSignal;
 
+  protected isLoggingOutSignal = signal<boolean>(false);
+
   protected readonly userChanges =
     this.auth.userChanges.pipe(shareSingleReplay());
 
@@ -47,6 +49,8 @@ export class VaultPageComponent {
   }
 
   protected signOut(): void {
+    this.isLoggingOutSignal.set(true);
+
     const dialogRef = this.dialog.open<
       PipDialogConfirmComponent,
       PipDialogConfirmInput,
@@ -59,9 +63,16 @@ export class VaultPageComponent {
       .afterClosed()
       .pipe(untilDestroyed(this))
       .subscribe(async (shouldLogout) => {
-        if (!shouldLogout) return;
-        await this.auth.signOut();
-        await this.router.navigate(['']);
+        try {
+          if (!shouldLogout) {
+            return;
+          }
+
+          await this.auth.signOut();
+          await this.router.navigate(['']);
+        } finally {
+          this.isLoggingOutSignal.set(false);
+        }
       });
   }
 }

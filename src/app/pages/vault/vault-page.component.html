@@ -3,8 +3,18 @@
     <pip-user-identification [user]="user" />
     @if (isEditModeSignal() === false) {
       <div class="user-actions">
-        <pip-button (click)="startEdit()" type="button">EDIT</pip-button>
-        <pip-button (click)="signOut()" type="button">LOG OUT</pip-button>
+        <pip-button
+          (click)="startEdit()"
+          [disabled]="isLoggingOutSignal()"
+          type="button"
+          >EDIT</pip-button
+        >
+        <pip-button
+          (click)="signOut()"
+          [disabled]="isLoggingOutSignal()"
+          type="button"
+          >LOG OUT</pip-button
+        >
       </div>
     }
   </main>

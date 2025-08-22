@@ -67,8 +67,8 @@ export class PipUser {
     return this.native.uid;
   }
 
-  public get vaultNumber(): number {
-    return this.profile.vaultNumber || 0;
+  public get vaultNumber(): number | null {
+    return this.profile.vaultNumber || null;
   }
 
   public static deserialize(args: {

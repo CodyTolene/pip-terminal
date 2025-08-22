@@ -1,5 +1,5 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { InputComponent } from '@proangular/pro-form';
-import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { map } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
 import { ScreenSizeEnum } from 'src/app/enums';
@@ -16,9 +16,15 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import {
+  PipDialogAvatarComponent,
+  PipDialogAvatarResult,
+} from 'src/app/components/dialog-avatar/pip-dialog-avatar.component';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-user-identification[user]',
   templateUrl: './user-identification.component.html',
@@ -26,7 +32,6 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   imports: [
     CommonModule,
     FormsModule,
-    ImageCropperComponent,
     InputComponent,
     ReactiveFormsModule,
     PipButtonComponent,
@@ -34,13 +39,18 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   standalone: true,
 })
 export class UserIdentificationComponent implements OnInit {
+  public constructor() {
+    this.formGroup.reset();
+  }
+
   @Input({ required: true }) public user!: PipUser;
 
-  // @ViewChild(ImageCropperComponent)
-  // private readonly cropper?: ImageCropperComponent;
+  protected croppedImage: string | null = null;
+  protected localPhotoUrl: string | null = null;
 
   protected readonly formGroup = userIdentificationFormGroup;
 
+  private readonly dialog = inject(MatDialog);
   private readonly screenService = inject(ScreenService);
   private readonly userProfile = inject(UserProfileService);
 
@@ -53,109 +63,45 @@ export class UserIdentificationComponent implements OnInit {
   protected readonly isSavingSignal = isSavingSignal;
   protected readonly versionNumber = APP_VERSION;
 
-  protected selectedImageEvent: Event | null = null;
-  protected selectedFile: File | null = null;
-  protected croppedImage: string | null = null;
-
   public ngOnInit(): void {
     if (!this.user) {
       throw new Error('UserIdentificationComponent requires a user input');
     }
 
-    this.formGroup.patchValue({
-      displayName: this.user.displayName,
-      vaultNumber: this.user.vaultNumber,
-    });
+    this.setDefaultValues();
   }
 
   protected cancelEdit(): void {
+    this.setDefaultValues();
     this.isEditModeSignal.set(false);
   }
 
-  protected async deleteImage(): Promise<void> {
-    if (this.isSavingSignal()) {
-      return;
-    }
+  protected openAvatarDialog(): void {
+    const ref = this.dialog.open<
+      PipDialogAvatarComponent,
+      { user: PipUser },
+      PipDialogAvatarResult
+    >(PipDialogAvatarComponent, { data: { user: this.user } });
 
-    this.isSavingSignal.set(true);
-
-    try {
-      await this.userProfile.deleteProfileImage(this.user.uid);
-
-      this.selectedImageEvent = null;
-      this.selectedFile = null;
-      this.croppedImage = null;
-    } catch (err) {
-      console.error('[User ID Component] deleteImage failed', err);
-    } finally {
-      this.isSavingSignal.set(false);
-    }
-  }
-
-  protected onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement | null;
-    if (input && input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-    } else {
-      this.selectedFile = null;
-      console.warn(
-        '[User ID Component] file selected: no file present on input',
-      );
-    }
-
-    this.selectedImageEvent = event;
-    this.croppedImage = null;
-  }
-
-  protected onImageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64 ?? null;
-  }
-
-  protected onLoadImageFailed(evt: unknown): void {
-    console.error('[User ID Component] cropper failed to load image', evt);
+    ref
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((res) => {
+        if (!res) return;
+        this.localPhotoUrl = res.photoURL ?? null;
+      });
   }
 
   protected async saveProfile(): Promise<void> {
-    if (this.isSavingSignal()) {
-      return;
-    }
-
+    if (this.isSavingSignal()) return;
     if (this.formGroup.invalid) {
-      // Touch all fields so inline messages render
       this.formGroup.markAllAsTouched();
       return;
     }
 
     this.isSavingSignal.set(true);
-
     try {
-      if (this.selectedFile) {
-        let dataUrlToUpload: string | null = null;
-
-        if (this.croppedImage) {
-          dataUrlToUpload = this.croppedImage;
-        } else if (!this.selectedImageEvent) {
-          dataUrlToUpload = await this.fallbackCenterCrop();
-        } else {
-          console.warn(
-            '[User ID Component] Cropper active but no cropped image yet. Aborting.',
-          );
-        }
-
-        if (dataUrlToUpload) {
-          const blob = this.dataURItoBlob(dataUrlToUpload);
-          const previousUrl = this.user.photoURL ?? null;
-
-          await this.userProfile.uploadProfileImage(
-            this.user.uid,
-            blob,
-            previousUrl,
-          );
-        }
-      }
-
       const { displayName, vaultNumber } = this.formGroup.getRawValue();
-
       const vaultNumberParsed = isNumber(vaultNumber)
         ? vaultNumber
         : toNumber(vaultNumber);
@@ -171,10 +117,8 @@ export class UserIdentificationComponent implements OnInit {
       }
 
       this.isEditModeSignal.set(false);
-
-      this.selectedImageEvent = null;
-      this.selectedFile = null;
       this.croppedImage = null;
+      this.localPhotoUrl = null;
     } catch (err) {
       console.error('[User ID Component] Failed to save profile', err);
     } finally {
@@ -182,56 +126,10 @@ export class UserIdentificationComponent implements OnInit {
     }
   }
 
-  private dataURItoBlob(dataURI: string): Blob {
-    const headerAndData = dataURI.split(',');
-    const header = headerAndData[0] ?? '';
-    const data = headerAndData[1] ?? '';
-
-    const mimeString = header.split(':')[1]?.split(';')[0] ?? 'image/png';
-    const byteString = atob(data);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
-
-  private async fallbackCenterCrop(): Promise<string | null> {
-    if (!this.selectedFile) {
-      console.warn('[User ID Component] fallbackCenterCrop: no selected file');
-      return null;
-    }
-    try {
-      const bitmap = await createImageBitmap(this.selectedFile);
-      const size = 250;
-      const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        console.error('[User ID Component] fallbackCenterCrop: no 2D context');
-        return null;
-      }
-
-      const minSide = Math.min(bitmap.width, bitmap.height);
-      const sx = Math.floor((bitmap.width - minSide) / 2);
-      const sy = Math.floor((bitmap.height - minSide) / 2);
-
-      ctx.imageSmoothingEnabled = true;
-      ctx.drawImage(bitmap, sx, sy, minSide, minSide, 0, 0, size, size);
-
-      const dataUrl = canvas.toDataURL('image/png');
-      // eslint-disable-next-line no-console
-      console.info('[User ID Component] fallbackCenterCrop produced dataURL');
-      return dataUrl;
-    } catch (e) {
-      console.error('[User ID Component] fallbackCenterCrop failed', {
-        message: (e as Error).message,
-      });
-      return null;
-    }
+  private setDefaultValues(): void {
+    this.formGroup.patchValue({
+      displayName: this.user.displayName,
+      vaultNumber: this.user.vaultNumber,
+    });
   }
 }

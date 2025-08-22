@@ -25,12 +25,15 @@ main {
   flex-wrap: nowrap;
   justify-content: normal;
   margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   max-width: 800px;
   width: 100%;
 
   .user-actions {
     display: flex;
     justify-content: space-between;
+    margin-top: 1rem;
     width: 100%;
   }
 }

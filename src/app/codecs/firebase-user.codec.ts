@@ -12,7 +12,7 @@ export const FirebaseUserCodec = io.type(
       lastLoginAt: io.string,
       lastSignInTime: io.string,
     }),
-    phoneNumber: io.union([io.string, io.undefined]),
+    phoneNumber: io.union([io.string, io.null]),
     photoURL: io.union([io.string, io.null]),
     providerData: io.union([
       io.array(
