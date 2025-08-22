@@ -1,0 +1,73 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  align-items: stretch;
+  background: radial-gradient(
+    ellipse at center,
+    #051a0d 0%,
+    #031208 60%,
+    #020e06 100%
+  );
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+section {
+  border: 1px solid col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+
+  h1 {
+    border-bottom: 2px solid col.$pip-green;
+    margin: 0;
+    width: 100%;
+  }
+
+  &.user-id {
+    flex-grow: 1;
+
+    .user-info {
+      color: col.$pip-green;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+
+      pip-button {
+        margin-bottom: 1rem;
+      }
+
+      strong {
+        color: col.$pip-green-dark;
+      }
+    }
+  }
+
+  &.user-image-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0.1;
+    height: 250px;
+    width: 250px;
+
+    > img.user-image {
+      display: block;
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+}
+
+pip-footer {
+  align-self: stretch;
+  display: block;
+  margin-top: auto;
+}

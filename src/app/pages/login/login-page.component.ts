@@ -34,7 +34,7 @@ export class LoginPageComponent implements OnInit {
       if (!user.emailVerified) {
         try {
           await this.emailVerification.sendIfEligible(
-            user,
+            user.native,
             this.coolDownSeconds,
           );
         } catch (err) {

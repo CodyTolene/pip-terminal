@@ -15,6 +15,7 @@ const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
 export const PAGE_NAMES = [
   'Home',
   'Login',
+  'My Vault',
   'Page Not Found',
   'Pip-Boy 2000 Mk VI Simulator',
   'Pip-Boy 3000 Mk IV Simulator',
@@ -29,6 +30,5 @@ export const PAGE_NAMES = [
   'Register',
   'Status',
   'Terms and Conditions',
-  'Vault',
   'Verify Email',
 ] as const;

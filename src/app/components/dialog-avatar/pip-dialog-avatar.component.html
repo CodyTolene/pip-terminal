@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Update Photo</h2>
+
+<mat-dialog-content class="mat-typography avatar-content">
+  @if (!selectedImageEvent) {
+    <div class="image-preview">
+      <img
+        [src]="croppedImage || user.photoURL || 'images/user/user.png'"
+        alt="User Image"
+        class="preview-img"
+        referrerpolicy="no-referrer"
+      />
+    </div>
+    <div class="controls">
+      <input
+        id="avatar-file"
+        type="file"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+      />
+      <label for="avatar-file" class="upload-label">Choose Image</label>
+      @if (user.photoURL) {
+        <pip-button
+          type="button"
+          (click)="deleteImage()"
+          [disabled]="isSaving()"
+          >Delete Current</pip-button
+        >
+      }
+    </div>
+  } @else {
+    <div class="cropper-box">
+      <image-cropper
+        class="cropper"
+        [style.width.px]="300"
+        [style.height.px]="300"
+        [imageChangedEvent]="selectedImageEvent"
+        [aspectRatio]="1"
+        [maintainAspectRatio]="true"
+        [resizeToWidth]="300"
+        format="png"
+        output="base64"
+        (imageCropped)="onImageCropped($event)"
+        (loadImageFailed)="onLoadImageFailed($event)"
+      ></image-cropper>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()" [disabled]="isSaving()">Cancel</button>
+  @if (selectedFile) {
+    <pip-button type="button" (click)="save()" [disabled]="isSaving()"
+      >Save</pip-button
+    >
+  }
+</mat-dialog-actions>

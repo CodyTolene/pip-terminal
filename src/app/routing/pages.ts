@@ -1,5 +1,6 @@
 /** The page name and the corresponding route URL records. */
 export const PAGES: Record<PageName, PageUrl> = {
+  'My Vault': `vault/:id`,
   'Page Not Found': '**',
   'Pip-Boy 2000 Mk VI Simulator': '2000-mk-vi',
   'Pip-Boy 3000 Mk IV Simulator': '3000-mk-iv',
@@ -15,7 +16,6 @@ export const PAGES: Record<PageName, PageUrl> = {
   Register: 'register',
   Status: 'status',
   'Terms and Conditions': 'terms-and-conditions',
-  Vault: `vault/:id`,
   'Verify Email': 'verify-email',
   /** Pip-Boy 3000 Mk IV Routes */
   'DATA > QUESTS - Pip-Boy 3000 Mk IV': '3000-mk-iv/data/quests',

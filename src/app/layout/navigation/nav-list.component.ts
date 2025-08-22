@@ -103,7 +103,7 @@ export class NavListComponent {
     },
     {
       commands: ['vault/:id'],
-      label: 'Vault',
+      label: 'My Vault',
     },
   ];
 
@@ -123,7 +123,7 @@ export class NavListComponent {
               case 'Logout': {
                 return user ? true : false;
               }
-              case 'Vault': {
+              case 'My Vault': {
                 return user ? true : false;
               }
               default: {
@@ -138,7 +138,7 @@ export class NavListComponent {
         // If user is logged in, update the Vault link to include user ID
         if (user) {
           return links.map((link) => {
-            if (link.label === 'Vault') {
+            if (link.label === 'My Vault') {
               return {
                 ...link,
                 commands: [`vault/${user.uid}` as 'vault/:id'],

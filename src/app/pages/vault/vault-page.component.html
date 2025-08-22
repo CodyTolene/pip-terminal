@@ -1,105 +1,16 @@
 @if (userChanges | async; as user) {
   <main>
-    <section id="id">
-      <ng-container
-        [ngTemplateOutlet]="idSection"
-        [ngTemplateOutletContext]="{ user }"
-      ></ng-container>
-      <ng-container [ngTemplateOutlet]="actionsTemplate"></ng-container>
-    </section>
-    <section id="img">
-      <ng-container
-        [ngTemplateOutlet]="imageSection"
-        [ngTemplateOutletContext]="{ user }"
-      ></ng-container>
-    </section>
+    <pip-user-identification [user]="user" />
+    @if (isEditModeSignal() === false) {
+      <div class="user-actions">
+        <pip-button (click)="startEdit()" type="button">EDIT</pip-button>
+        <pip-button (click)="signOut()" type="button">LOG OUT</pip-button>
+      </div>
+    }
   </main>
 } @else {
-  <pip-loading center> LOADING USER PROFILE </pip-loading>
+  <pip-loading center>LOADING USER PROFILE</pip-loading>
 }
-
-<!-- ID SECTION -->
-<ng-template #idSection let-user="user">
-  <h1>VAULT DWELLLER ID</h1>
-  <div><strong>APP: </strong>Pip-Boy Terminal</div>
-  <div>
-    @if (editMode) {
-      <label for="display-name">NAME</label>
-      <input
-        id="display-name"
-        [(ngModel)]="displayName"
-        type="text"
-        class="edit-input"
-      />
-    } @else {
-      <strong>NAME: </strong>{{ user.displayName || '(unknown)' }}
-    }
-  </div>
-  <div><strong>UID: </strong>{{ user.uid }}</div>
-  <div><strong>EMAIL: </strong>{{ user.email || '(unknown)' }}</div>
-  <div><strong>EMAIL VERIFIED: </strong>{{ user.emailVerified | bool }}</div>
-  <div><strong>ROOM: </strong>TODO</div>
-  <div><strong>DOB: </strong>TODO</div>
-  <div><strong>SKILL: </strong>TODO</div>
-  <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div>
-  <div>
-    <b>VAULT {{ extraData?.vaultNumber || '33' }}</b>
-  </div>
-</ng-template>
-
-<!-- ACTIONS TEMPLATE -->
-<ng-template #actionsTemplate>
-  @if (editMode) {
-    <button (click)="saveProfile()" [disabled]="saving" type="button">
-      SAVE
-    </button>
-    <button (click)="cancelEdit()" [disabled]="saving" type="button">
-      CANCEL
-    </button>
-  } @else {
-    <button (click)="startEdit()" type="button">EDIT</button>
-    <button (click)="signOut()" type="button">LOG OUT</button>
-  }
-</ng-template>
-
-<!-- IMAGE SECTION -->
-<ng-template #imageSection let-user="user">
-  @if (!selectedImageEvent) {
-    <img
-      [src]="croppedImage || user.photoURL || 'images/user/user.png'"
-      alt="User Image"
-      class="user-image"
-      referrerpolicy="no-referrer"
-    />
-    @if (editMode) {
-      <input
-        (change)="onFileSelected($event)"
-        accept="image/*"
-        id="user-image-upload"
-        type="file"
-      />
-      <label for="user-image-upload">UPLOAD IMAGE</label>
-      <span class="hint">PNG/JPG</span>
-      @if (user.photoURL) {
-        <button (click)="deleteImage()" [disabled]="saving" type="button">
-          DELETE IMAGE
-        </button>
-      }
-    }
-  } @else {
-    <image-cropper
-      (imageCropped)="onImageCropped($event)"
-      (loadImageFailed)="onLoadImageFailed($event)"
-      [aspectRatio]="1"
-      [imageChangedEvent]="selectedImageEvent"
-      [maintainAspectRatio]="true"
-      [resizeToWidth]="250"
-      class="cropper"
-      format="png"
-      output="base64"
-    ></image-cropper>
-  }
-</ng-template>
 
 <!--
 <section class="card status-card">

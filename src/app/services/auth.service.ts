@@ -1,23 +1,78 @@
+import {
+  doc as fsDoc,
+  getDoc as fsGetDoc,
+  onSnapshot,
+} from 'firebase/firestore';
 import { Observable, ReplaySubject, map } from 'rxjs';
+import { PipUser } from 'src/app/models';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
-  User,
   UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from '@angular/fire/auth';
+import { Firestore } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public constructor() {
+    // Watch auth state and wire Firestore extras in
     this.auth.onAuthStateChanged(
-      (user) => this.userSubject.next(user),
+      async (user) => {
+        // Tear down any previous Firestore listener
+        if (this.extrasUnsub) {
+          this.extrasUnsub();
+          this.extrasUnsub = undefined;
+        }
+
+        if (!user) {
+          this.userSubject.next(null);
+          return;
+        }
+
+        // Emit immediately using current extras (one-time fetch)
+        try {
+          const profile = await this.getUserProfile(user.uid);
+          const hydratedUser = PipUser.deserialize({
+            user,
+            profile: profile
+              ? { vaultNumber: profile.vaultNumber ?? undefined }
+              : { vaultNumber: undefined },
+          });
+          // eslint-disable-next-line no-console
+          console.log(hydratedUser);
+          this.userSubject.next(hydratedUser);
+        } catch (err) {
+          console.warn('[AuthService] getUserProfile failed (non-fatal):', err);
+          this.userSubject.next(PipUser.deserialize({ user }));
+        }
+
+        // Live update when users/{uid} changes
+        const ref = fsDoc(this.firestore, 'users', user.uid);
+        this.extrasUnsub = onSnapshot(
+          ref,
+          (snap) => {
+            const data = snap.exists()
+              ? (snap.data() as { vaultNumber?: number })
+              : undefined;
+            const profile =
+              data !== undefined
+                ? { vaultNumber: data.vaultNumber ?? undefined }
+                : { vaultNumber: undefined };
+            this.userSubject.next(PipUser.deserialize({ user, profile }));
+          },
+          (error) => {
+            console.error('[AuthService] onSnapshot error:', error);
+            // Keep last good value; do not push null here
+          },
+        );
+      },
       (error) => {
         console.error('[AuthService] onAuthStateChanged error:', error);
         this.userSubject.next(null);
@@ -26,17 +81,31 @@ export class AuthService {
   }
 
   private readonly auth = inject(Auth);
-  private readonly userSubject = new ReplaySubject<User | null>(1);
+  private readonly firestore = inject(Firestore);
 
-  public readonly userChanges: Observable<User | null> = this.userSubject
+  private extrasUnsub?: () => void;
+
+  private readonly userSubject = new ReplaySubject<PipUser | null>(1);
+
+  public readonly userChanges: Observable<PipUser | null> = this.userSubject
     .asObservable()
-    .pipe(shareSingleReplay<User | null>());
+    .pipe(shareSingleReplay<PipUser | null>());
 
   public readonly isLoggedInChanges: Observable<boolean> =
     this.userChanges.pipe(
       map((user) => user !== null),
       shareSingleReplay<boolean>(),
     );
+
+  private async getUserProfile(
+    uid: string,
+  ): Promise<{ vaultNumber?: number } | undefined> {
+    const ref = fsDoc(this.firestore, 'users', uid);
+    const snap = await fsGetDoc(ref);
+    return snap.exists()
+      ? (snap.data() as { vaultNumber?: number })
+      : undefined;
+  }
 
   public authReady(): Promise<void> {
     const anyAuth = this.auth as unknown as {
@@ -67,6 +136,11 @@ export class AuthService {
   }
 
   public signOut(): Promise<void> {
+    // Clean up Firestore listener on sign out
+    if (this.extrasUnsub) {
+      this.extrasUnsub();
+      this.extrasUnsub = undefined;
+    }
     return signOut(this.auth);
   }
 

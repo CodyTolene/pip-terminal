@@ -9,12 +9,13 @@ import {
 } from 'rxjs';
 import { VERIFY_EMAIL_STORAGE_KEY } from 'src/app/constants';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
+import { PipUser } from 'src/app/models';
 import { AuthService, StorageLocalService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { User, reload, sendEmailVerification } from '@angular/fire/auth';
+import { reload, sendEmailVerification } from '@angular/fire/auth';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
@@ -120,7 +121,7 @@ export class VerifyEmailPageComponent {
         return;
       }
 
-      await sendEmailVerification(user);
+      await sendEmailVerification(user.native);
       this.saveLastAttempt(this.RESEND_KEY, DateTime.now());
       this.snackBar.open('Verification email sent!', 'Close', {
         duration: 3000,
@@ -150,7 +151,7 @@ export class VerifyEmailPageComponent {
         return;
       }
 
-      await reload(user);
+      await reload(user.native);
 
       if (user.emailVerified) {
         const userVaultUrl = ('vault/:id' satisfies PageUrl).replace(
@@ -180,7 +181,7 @@ export class VerifyEmailPageComponent {
     }
   }
 
-  private async getCurrentUserOnce(): Promise<User | null> {
+  private async getCurrentUserOnce(): Promise<PipUser | null> {
     return await firstValueFrom(this.userChanges.pipe(take(1)));
   }
 

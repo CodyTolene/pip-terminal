@@ -1,9 +1,7 @@
-// Use Firebase Web SDK functions (no Angular injection context required):
 import {
   FirestoreDataConverter as FsConverter,
   deleteField,
   doc as fsDoc,
-  getDoc as fsGetDoc,
   setDoc as fsSetDoc,
 } from 'firebase/firestore';
 import {
@@ -12,9 +10,12 @@ import {
   ref as stRef,
   uploadBytes as stUploadBytes,
 } from 'firebase/storage';
+import { firstValueFrom } from 'rxjs';
+import { PipUser } from 'src/app/models';
+import { AuthService } from 'src/app/services';
 
 import { Injectable, inject } from '@angular/core';
-import { Auth, User, updateProfile } from '@angular/fire/auth';
+import { updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { Storage } from '@angular/fire/storage';
 
@@ -30,17 +31,9 @@ const userExtrasConverter: FsConverter<UserExtras> = {
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
-  private readonly auth = inject(Auth);
+  private readonly auth = inject(AuthService);
   private readonly firestore = inject(Firestore);
   private readonly storage = inject(Storage);
-
-  public async getUserProfile(uid: string): Promise<UserExtras | null> {
-    const docRef = fsDoc(this.firestore, 'users', uid).withConverter(
-      userExtrasConverter,
-    );
-    const snap = await fsGetDoc(docRef);
-    return snap.exists() ? snap.data() : null;
-  }
 
   public async updateUserProfile(
     uid: string,
@@ -75,9 +68,9 @@ export class UserProfileService {
 
     const url = await getDownloadURL(storageRef);
 
-    const user: User | null = this.auth.currentUser;
+    const user: PipUser | null = await firstValueFrom(this.auth.userChanges);
     if (user && user.uid === uid) {
-      await updateProfile(user, { photoURL: url });
+      await updateProfile(user.native, { photoURL: url });
     }
 
     await this.updateUserProfile(uid, { photoURL: url });
@@ -105,9 +98,8 @@ export class UserProfileService {
   }
 
   public async deleteProfileImage(uid: string): Promise<void> {
-    const current = await this.getUserProfile(uid);
-    const currentUrl =
-      current?.photoURL ?? this.auth.currentUser?.photoURL ?? null;
+    const user = await firstValueFrom(this.auth.userChanges);
+    const currentUrl = user?.photoURL ?? user?.photoURL ?? null;
 
     if (currentUrl && this.isStorageUrl(currentUrl)) {
       try {
@@ -124,10 +116,9 @@ export class UserProfileService {
       }
     }
 
-    const user: User | null = this.auth.currentUser;
     if (user && user.uid === uid) {
       // Clear with empty string to avoid "photoURL must be string" error
-      await updateProfile(user, { photoURL: '' });
+      await updateProfile(user.native, { photoURL: '' });
     }
 
     const rawDocRef = fsDoc(this.firestore, 'users', uid);

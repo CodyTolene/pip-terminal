@@ -1,0 +1,74 @@
+@use '../../styles/colors' as col;
+
+:host {
+  display: block;
+  color: col.$pip-green;
+}
+
+.avatar-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+.image-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  max-width: 80vw;
+  height: 300px;
+  margin: 0 auto;
+  border: 1px solid col.$pip-green;
+  overflow: hidden;
+
+  .preview-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+
+  input[type='file'] {
+    display: none;
+  }
+  .upload-label {
+    border: 1px solid col.$pip-green;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+}
+
+.cropper-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  max-width: 80vw;
+  height: 300px;
+  margin: 0 auto;
+  border: 1px solid col.$pip-green;
+  overflow: hidden;
+
+  .cropper {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  :host ::ng-deep image-cropper canvas,
+  :host ::ng-deep image-cropper .ngx-ic-source,
+  :host ::ng-deep image-cropper .ngx-ic-wrapper {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
