@@ -1,53 +1,88 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { APP_VERSION } from 'src/app/constants';
 import { PipFooterComponent } from 'src/app/layout';
-import { AuthService } from 'src/app/services';
+import { isEditModeSignal } from 'src/app/pages/vault/vault.signals';
+import { AuthService, ToastService } from 'src/app/services';
+import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 
+import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
+
+import { UserIdentificationComponent } from './user-identification.component';
 
 @UntilDestroy()
 @Component({
   selector: 'pip-vault-page',
   templateUrl: './vault-page.component.html',
   styleUrls: ['./vault-page.component.scss'],
-  imports: [CommonModule, MatTooltipModule, PipFooterComponent],
+  imports: [
+    CommonModule,
+    LoadingComponent,
+    PipFooterComponent,
+    UserIdentificationComponent,
+    PipButtonComponent,
+  ],
   standalone: true,
 })
-export class VaultPageComponent {
+export class VaultPageComponent implements OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
-  protected readonly userChanges = this.auth.userChanges;
-  protected readonly versionNumber = APP_VERSION;
+  protected readonly isEditModeSignal = isEditModeSignal;
+
+  protected isLoggingOutSignal = signal<boolean>(false);
+
+  protected readonly userChanges =
+    this.auth.userChanges.pipe(shareSingleReplay());
+
+  protected startEdit(): void {
+    this.isEditModeSignal.set(true);
+  }
 
   protected signOut(): void {
+    this.isLoggingOutSignal.set(true);
+
     const dialogRef = this.dialog.open<
       PipDialogConfirmComponent,
       PipDialogConfirmInput,
       boolean | null
     >(PipDialogConfirmComponent, {
-      data: {
-        message: `Are you sure you want to logout?`,
-      },
+      data: { message: `Are you sure you want to logout?` },
     });
 
     dialogRef
       .afterClosed()
       .pipe(untilDestroyed(this))
       .subscribe(async (shouldLogout) => {
-        if (!shouldLogout) return;
-        await this.auth.signOut();
-        await this.router.navigate(['']);
+        try {
+          if (!shouldLogout) {
+            return;
+          }
+
+          await this.auth.signOut();
+
+          this.toast.success({
+            message: 'Logged out successfully.',
+            durationSecs: 3,
+          });
+          await this.router.navigate(['']);
+        } finally {
+          this.isLoggingOutSignal.set(false);
+        }
       });
+  }
+
+  public ngOnDestroy(): void {
+    this.isEditModeSignal.set(false);
   }
 }

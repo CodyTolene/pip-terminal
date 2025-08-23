@@ -3,7 +3,7 @@ import { logger } from 'firebase-functions';
 import { HealthCheckApi } from '../models';
 
 export class HealthCheckController {
-  public static async get(req: Request, res: Response): Promise<void> {
+  public static async get(_req: Request, res: Response): Promise<void> {
     try {
       logger.info('Health check OK!');
       const result: HealthCheckApi = {

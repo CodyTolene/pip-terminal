@@ -6,8 +6,8 @@ export const environment: EnvironmentCredentials = {
     firebase: {
       apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
       appId: '1:438882577130:web:dc1124a2ab2ad5d21c0593',
-      authDomain: 'pip-boy.local',
-      measurementId: '',
+      authDomain: 'pip-boy.local', // 'pip-terminal.firebaseapp.com',
+      measurementId: 'G-1Z6DNZH2C2',
       messagingSenderId: '438882577130',
       projectId: 'pip-terminal',
       storageBucket: 'pip-terminal.firebasestorage.app',
@@ -16,8 +16,7 @@ export const environment: EnvironmentCredentials = {
       apiKey: undefined,
     },
     recaptcha: {
-      // Unused in development, use emulators instead.
-      apiKey: '',
+      apiKey: '6LfWlacrAAAAAPJGalCzAuQLo4LIqbrZzFY9u6qZ',
     },
   },
   isProduction: false,

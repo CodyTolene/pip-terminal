@@ -9,14 +9,18 @@ import {
 } from 'rxjs';
 import { VERIFY_EMAIL_STORAGE_KEY } from 'src/app/constants';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
-import { AuthService, StorageLocalService } from 'src/app/services';
+import { PipUser } from 'src/app/models';
+import {
+  AuthService,
+  StorageLocalService,
+  ToastService,
+} from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { User, reload, sendEmailVerification } from '@angular/fire/auth';
+import { reload, sendEmailVerification } from '@angular/fire/auth';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -37,22 +41,17 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 export class VerifyEmailPageComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
   private readonly storageLocal = inject(StorageLocalService);
+  private readonly toast = inject(ToastService);
 
   protected readonly userChanges = this.auth.userChanges;
 
-  // Cooldowns
   private readonly RESEND_COOLDOWN_SECONDS = 300; // 5 minutes
   private readonly VERIFY_COOLDOWN_SECONDS = 10; // 10 seconds
 
-  // Storage keys
-  // Existing key continues to track "resend" attempts so your previous data still works.
   private readonly RESEND_KEY = VERIFY_EMAIL_STORAGE_KEY;
-  // New key for "verify check" attempts
   private readonly VERIFY_KEY = 'verifyEmail:lastCheckAt';
 
-  // ----- RESEND STREAMS -----
   private readonly remainingResendSecondsChanges = timer(0, 1000).pipe(
     startWith(
       this.secondsRemaining(this.RESEND_KEY, this.RESEND_COOLDOWN_SECONDS),
@@ -103,30 +102,37 @@ export class VerifyEmailPageComponent {
   protected readonly busyVerify = signal(false);
 
   protected async resendVerificationEmail(): Promise<void> {
-    if (this.busyResend()) return;
-
-    const user = await this.getCurrentUserOnce();
-    if (!user) {
-      await this.router.navigate(['' as PageUrl]);
+    if (this.busyResend()) {
       return;
     }
 
     this.busyResend.set(true);
+
+    const user = await this.getCurrentUserOnce();
+    if (!user) {
+      await this.router.navigate(['' as PageUrl]);
+      this.busyResend.set(false);
+      return;
+    }
+
     try {
-      // Return if cooldown
       if (
         this.secondsRemaining(this.RESEND_KEY, this.RESEND_COOLDOWN_SECONDS) > 0
       ) {
         return;
       }
 
-      await sendEmailVerification(user);
+      await sendEmailVerification(user.native);
       this.saveLastAttempt(this.RESEND_KEY, DateTime.now());
-      this.snackBar.open('Verification email sent!', 'Close', {
-        duration: 3000,
+      this.toast.success({
+        message: 'Verification email sent!',
+        durationSecs: 3,
       });
     } catch (err) {
       console.error('[VerifyEmailPage] resendVerificationEmail failed:', err);
+      this.toast.error({
+        message: 'Failed to send verification email. Please try again later.',
+      });
     } finally {
       this.busyResend.set(false);
     }
@@ -143,22 +149,22 @@ export class VerifyEmailPageComponent {
 
     this.busyVerify.set(true);
     try {
-      // Return if cooldown
       if (
         this.secondsRemaining(this.VERIFY_KEY, this.VERIFY_COOLDOWN_SECONDS) > 0
       ) {
         return;
       }
 
-      await reload(user);
+      await reload(user.native);
 
       if (user.emailVerified) {
         const userVaultUrl = ('vault/:id' satisfies PageUrl).replace(
           ':id',
           user.uid,
         );
-        this.snackBar.open('Email verified successfully!', 'Close', {
-          duration: 3000,
+        this.toast.success({
+          message: 'Email verified successfully!',
+          durationSecs: 3,
         });
         await this.router.navigate([userVaultUrl as PageUrl]);
         return;
@@ -166,13 +172,11 @@ export class VerifyEmailPageComponent {
 
       // Not verified yet. Start the 10s lockout
       this.saveLastAttempt(this.VERIFY_KEY, DateTime.now());
-      this.snackBar.open(
-        'Verification failed. Please check your inbox, then try again.',
-        'Close',
-        {
-          duration: 3000,
-        },
-      );
+
+      this.toast.error({
+        message:
+          'Verification failed. Please check your inbox, then try again.',
+      });
     } catch (err) {
       console.error('[VerifyEmailPage] checkVerification failed:', err);
     } finally {
@@ -180,7 +184,7 @@ export class VerifyEmailPageComponent {
     }
   }
 
-  private async getCurrentUserOnce(): Promise<User | null> {
+  private async getCurrentUserOnce(): Promise<PipUser | null> {
     return await firstValueFrom(this.userChanges.pipe(take(1)));
   }
 

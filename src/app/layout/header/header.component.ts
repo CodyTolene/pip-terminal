@@ -1,5 +1,5 @@
 import { PAGES } from 'src/app/routing';
-import { AuthService, StorageLocalService } from 'src/app/services';
+import { AuthService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 import { shareSingleReplay } from 'src/app/utilities';
 
@@ -24,9 +24,6 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnDestroy {
   public constructor() {
-    const enabled = this.storage.get<boolean>(this.menuFeatureKey) ?? false;
-    this.menuFeatureEnabled.set(enabled);
-
     effect(() => {
       // Track external changes
       const open = this.isNavbarOpenSignal();
@@ -42,17 +39,6 @@ export class HeaderComponent implements OnDestroy {
   }
 
   private readonly auth = inject(AuthService);
-  private readonly storage = inject(StorageLocalService);
-
-  // Dark deployment
-  // Enable:
-  // localStorage.setItem('pip:darkDeploy:menu', JSON.stringify({ value: true, expiration: null }));
-  // location.reload();
-  // Disable:
-  // localStorage.removeItem('pip:darkDeploy:menu');
-  // location.reload();
-  private readonly menuFeatureKey = 'pip:darkDeploy:menu';
-  protected readonly menuFeatureEnabled = signal<boolean>(false);
 
   protected readonly userChanges =
     this.auth.userChanges.pipe(shareSingleReplay());
@@ -88,19 +74,9 @@ export class HeaderComponent implements OnDestroy {
     return `caret-${n}`;
   }
 
-  // protected async loginLogout(): Promise<void> {
-  //   const user = await firstValueFrom(this.userChanges);
-  //   if (user) {
-  //     await this.auth.signOut();
-  //   } else {
-  //     this.router.navigate([PAGES['Login']]);
-  //   }
-  // }
-
   protected toggleNavbar(): void {
     const isOpen = this.isNavbarOpenSignal();
     this.isNavbarOpenSignal.set(!isOpen);
-    // Do not call animateSwap here. The effect below reacts to the change.
   }
 
   /** Animate text backspace, and then typed forward. */

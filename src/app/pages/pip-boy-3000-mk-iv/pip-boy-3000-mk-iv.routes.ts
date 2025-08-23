@@ -12,32 +12,33 @@ import { PIP_BOY_3000_MK_IV_STATUS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000
 import { PIP_BOY_3000_MK_IV_WEAPONS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-iv/weapons/pip-boy-3000-mk-iv-weapons-page.route';
 import { PIP_BOY_3000_MK_IV_WORKSHOPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-iv/workshops/pip-boy-3000-mk-iv-workshops-page.route';
 
-export const PIP_BOY_3000_MK_IV_ROUTES: PipRoute = {
-  path: '3000-mk-iv',
-  pathMatch: 'prefix',
-  data: {
-    author: META_AUTHOR,
-    description: 'Pip-Boy 3000 Mk IV device simulator!',
-    keywords: ['Pip-Boy 3000 Mk IV', ...META_DEFAULT_KEYWORDS],
-    layout: PageLayoutsEnum.PIP_3000_MK_IV,
-    title: 'Pip-Boy 3000 Mk IV Simulator',
+export const PIP_BOY_3000_MK_IV_ROUTES: readonly PipRoute[] = [
+  {
+    path: '3000-mk-iv',
+    pathMatch: 'full',
+    data: {
+      author: META_AUTHOR,
+      description: 'Pip-Boy 3000 Mk IV device simulator!',
+      keywords: ['Pip-Boy 3000 Mk IV', ...META_DEFAULT_KEYWORDS],
+      layout: PageLayoutsEnum.PIP_3000_MK_IV,
+      title: 'Pip-Boy 3000 Mk IV Simulator',
+    },
+    redirectTo: '3000-mk-iv/stat/status',
   },
-  children: [
-    // "STAT" Tab:
-    PIP_BOY_3000_MK_IV_STATUS_PAGE_ROUTE,
-    PIP_BOY_3000_MK_IV_SPECIAL_PAGE_ROUTE,
-    PIP_BOY_3000_MK_IV_PERKS_PAGE_ROUTE,
-    // "INV" Tab:
-    PIP_BOY_3000_MK_IV_WEAPONS_PAGE_ROUTE,
-    PIP_BOY_3000_MK_IV_APPAREL_PAGE_ROUTE,
-    PIP_BOY_3000_MK_IV_AID_PAGE_ROUTE,
-    // "DATA" Tab:
-    PIP_BOY_3000_MK_IV_QUESTS_PAGE_ROUTE,
-    PIP_BOY_3000_MK_IV_WORKSHOPS_PAGE_ROUTE,
-    PIP_BOY_3000_MK_IV_STATS_PAGE_ROUTE,
-    // "MAP" Tab:
-    PIP_BOY_3000_MK_IV_MAP_PAGE_ROUTE,
-    // "RADIO" Tab:
-    PIP_BOY_3000_MK_IV_RADIO_PAGE_ROUTE,
-  ],
-};
+  // "STAT" Tab:
+  PIP_BOY_3000_MK_IV_STATUS_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_SPECIAL_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_PERKS_PAGE_ROUTE,
+  // "INV" Tab:
+  PIP_BOY_3000_MK_IV_WEAPONS_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_APPAREL_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_AID_PAGE_ROUTE,
+  // "DATA" Tab:
+  PIP_BOY_3000_MK_IV_QUESTS_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_WORKSHOPS_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_STATS_PAGE_ROUTE,
+  // "MAP" Tab:
+  PIP_BOY_3000_MK_IV_MAP_PAGE_ROUTE,
+  // "RADIO" Tab:
+  PIP_BOY_3000_MK_IV_RADIO_PAGE_ROUTE,
+];

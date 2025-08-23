@@ -24,7 +24,7 @@ export async function setUserPhoto(
   filename = 'profile.png',
 ): Promise<string> {
   const bucket = admin.storage().bucket();
-  const path = `accounts/${uid}/images/${filename}`;
+  const path = `users/${uid}/images/${filename}`;
   const token = uuidv4();
 
   await bucket.file(path).save(fileBuffer, {

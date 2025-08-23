@@ -1,0 +1,76 @@
+<section class="user-id">
+  <h1>VAULT DWELLLER ID</h1>
+  @if (isMobileChanges | async) {
+    <ng-container *ngTemplateOutlet="userImageTemplate"></ng-container>
+  }
+  <div class="user-info">
+    @if (isEditModeSignal()) {
+      <form [formGroup]="formGroup">
+        <pro-input
+          [formControl]="formGroup.controls.displayName"
+          label="Name"
+          placeholder="Vault Dweller Name"
+          type="text"
+        ></pro-input>
+        <pro-input
+          [formControl]="formGroup.controls.vaultNumber"
+          label="Vault Number"
+          placeholder="Enter your Vault Number"
+          type="number"
+        ></pro-input>
+      </form>
+      <div class="user-actions">
+        @if (isEditModeSignal()) {
+          <pip-button
+            (click)="cancelEdit()"
+            [disabled]="isSavingSignal()"
+            type="button"
+          >
+            CANCEL
+          </pip-button>
+          <pip-button
+            (click)="saveProfile()"
+            [disabled]="
+              isSavingSignal() || formGroup.invalid || formGroup.pristine
+            "
+            type="button"
+          >
+            SAVE
+          </pip-button>
+        }
+      </div>
+    } @else {
+      <div><strong>APP: </strong>Pip-Boy Terminal</div>
+      <div><strong>NAME: </strong>{{ user.displayName || 'Wastelander' }}</div>
+      <div><strong>UID: </strong>{{ user.uid }}</div>
+      <div><strong>EMAIL: </strong>{{ user.email || '(unknown)' }}</div>
+      <!-- 
+      <div><strong>ROOM: </strong>TODO</div>
+      <div><strong>DOB: </strong>TODO</div>
+      <div><strong>SKILL: </strong>TODO</div>
+      -->
+      <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div>
+      <div><strong>VAULT: </strong> {{ user.vaultNumber || '' }}</div>
+    }
+  </div>
+</section>
+
+@if ((isMobileChanges | async) === false) {
+  <ng-container *ngTemplateOutlet="userImageTemplate"></ng-container>
+}
+
+<ng-template #userImageTemplate>
+  <section class="user-image-container">
+    <img
+      [src]="localPhotoUrl || user.photoURL || 'images/user/user.png'"
+      alt="User Image"
+      class="user-image"
+      referrerpolicy="no-referrer"
+    />
+    @if (isEditModeSignal()) {
+      <pip-button type="button" (click)="openAvatarDialog()">
+        CHANGE IMAGE
+      </pip-button>
+    }
+  </section>
+</ng-template>

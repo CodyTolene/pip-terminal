@@ -19,6 +19,7 @@ public/
 !api/src
 !api/src/
 !api/src/**
+!api/src/**/*
 !api/package.json
 !api/tsconfig.json
 !api/tsconfig.dev.json
