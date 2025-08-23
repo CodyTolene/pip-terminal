@@ -22,6 +22,13 @@
       <div class="user-actions">
         @if (isEditModeSignal()) {
           <pip-button
+            (click)="cancelEdit()"
+            [disabled]="isSavingSignal()"
+            type="button"
+          >
+            CANCEL
+          </pip-button>
+          <pip-button
             (click)="saveProfile()"
             [disabled]="
               isSavingSignal() || formGroup.invalid || formGroup.pristine
@@ -30,13 +37,6 @@
           >
             SAVE
           </pip-button>
-          <pip-button
-            (click)="cancelEdit()"
-            [disabled]="isSavingSignal()"
-            type="button"
-          >
-            CANCEL
-          </pip-button>
         }
       </div>
     } @else {
@@ -44,9 +44,11 @@
       <div><strong>NAME: </strong>{{ user.displayName || 'Wastelander' }}</div>
       <div><strong>UID: </strong>{{ user.uid }}</div>
       <div><strong>EMAIL: </strong>{{ user.email || '(unknown)' }}</div>
+      <!-- 
       <div><strong>ROOM: </strong>TODO</div>
       <div><strong>DOB: </strong>TODO</div>
       <div><strong>SKILL: </strong>TODO</div>
+      -->
       <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div>
       <div><strong>VAULT: </strong> {{ user.vaultNumber || '' }}</div>
     }
