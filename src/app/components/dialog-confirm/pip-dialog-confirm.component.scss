@@ -1,16 +1,82 @@
 @use '../../styles/colors' as col;
 
-.mat-mdc-button:not(:disabled) {
-  border-radius: 4px;
-  height: 2rem;
-}
+:host {
+  display: block;
+  background: #000;
+  color: col.$pip-green;
+  font-family: monospace;
+  border: 1px solid col.$pip-green-dark;
+  padding: 16px;
+  position: relative;
 
-.mat-mdc-button:not(:disabled) {
-  color: col.$gray-darkest;
-  background-color: col.$pip-green-light;
-}
+  h2[mat-dialog-title],
+  h2,
+  h3,
+  p {
+    color: inherit;
+    padding: 0;
+    margin: 0;
+  }
 
-.mat-mdc-button:disabled {
-  color: col.$gray-light;
-  background-color: col.$pip-green-light;
+  h2[mat-dialog-title].mat-mdc-dialog-title::before {
+    height: auto;
+  }
+
+  mat-dialog-content {
+    color: col.$pip-green;
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  mat-dialog-actions {
+    justify-content: flex-start;
+    margin: 0;
+    margin-top: 1rem;
+    padding: 0;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  button[mat-button] {
+    color: col.$pip-green;
+    background: transparent;
+    border: 1px solid col.$pip-green-dark;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    box-shadow: 0 0 8px col.$pip-green-darkest;
+    transition:
+      transform 0.05s ease,
+      background-color 0.12s ease,
+      box-shadow 0.12s ease;
+
+    .mdc-button__label {
+      color: inherit;
+    }
+
+    &:hover {
+      background: rgba(0, 255, 99, 0.08);
+      box-shadow: 0 0 12px rgba(0, 255, 99, 0.35);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 2px rgba(0, 255, 99, 0.6),
+        0 0 10px rgba(0, 255, 99, 0.6);
+    }
+  }
+
+  button[mat-button][cdkfocusinitial] {
+    background: rgba(0, 255, 99, 0.1);
+  }
+
+  // Ensure Material dialog surface itself is dark
+  ::ng-deep .mat-mdc-dialog-surface {
+    background-color: #000;
+    color: #00ff63;
+  }
 }
