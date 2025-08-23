@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Analytics } from '@angular/fire/analytics';
+// import { setLogLevel } from '@angular/fire/firestore';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 
 import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.component';
@@ -41,6 +42,12 @@ import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.
   providers: [PageDataService, PageMetaService, SoundService],
 })
 export class PipComponent implements OnInit {
+  public constructor() {
+    // if (!environment.isProduction) {
+    //   setLogLevel('debug');
+    // }
+  }
+
   private readonly pageDataService = inject(PageDataService);
   private readonly pageMetaService = inject(PageMetaService);
 

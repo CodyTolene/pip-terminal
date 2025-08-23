@@ -12,7 +12,7 @@ export const VAULT_PAGE_ROUTE: PipRoute = {
     description: "View the status of Pip-Boy.com's servers.",
     keywords: ['Vault', 'User', 'Account', ...META_DEFAULT_KEYWORDS],
     layout: PageLayoutsEnum.NONE,
-    title: 'Vault',
+    title: 'My Vault',
   },
   loadComponent: () =>
     import('src/app/pages').then((c) => c.VaultPageComponent),

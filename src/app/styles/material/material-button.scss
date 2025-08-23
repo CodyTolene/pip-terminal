@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+:root {
+  @include mat.fab-overrides(
+    (
+      container-color: col.$pip-green,
+      disabled-state-container-color: col.$pip-green-darkest,
+    )
+  );
+}
+
+.mdc-button,
+pip-button.mdc-button {
+  background: col.$pip-green;
+  background-color: col.$pip-green;
+  padding: 0;
+  width: auto;
+}

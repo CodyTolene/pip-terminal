@@ -2,7 +2,7 @@ import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
 
 export const PIP_BOY_3000_MK_IV_QUESTS_PAGE_ROUTE: PipRoute = {
-  path: 'data/quests',
+  path: '3000-mk-iv/data/quests',
   data: {
     author: META_AUTHOR,
     description: 'Quests page for the Pip-Boy 3000 Mk IV',

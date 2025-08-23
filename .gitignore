@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Ignore sitemap, this is generated on deploy
+public/sitemap.xml 
+
 # Node
 /node_modules
 npm-debug.log

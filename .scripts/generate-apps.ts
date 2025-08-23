@@ -38,7 +38,9 @@ writeFileSync(outputFile, jsonOutput, 'utf8');
 
 // eslint-disable-next-line no-console
 console.log(`Generated apps.json with ${apps.length} entries: ${outputFile}`);
+
 // eslint-disable-next-line no-console
 console.log('\nFull apps.json content:\n');
+
 // eslint-disable-next-line no-console
 console.log(jsonOutput);

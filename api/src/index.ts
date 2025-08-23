@@ -33,7 +33,10 @@ app.use(corsCheck());
 app.get('/health-check', HealthCheckController.get);
 
 // Export the Express app as a Firebase function
-export const api = onRequest(app);
+export const api = onRequest(
+  { region: 'us-central1', secrets: ['ADMIN_EMAILS'] },
+  app,
+);
 
 // Seed development data
 (async () => {

@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
-import { AuthService } from 'src/app/services';
+import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
@@ -43,6 +43,7 @@ export class NavListComponent {
   private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
 
@@ -103,7 +104,7 @@ export class NavListComponent {
     },
     {
       commands: ['vault/:id'],
-      label: 'Vault',
+      label: 'My Vault',
     },
   ];
 
@@ -123,7 +124,7 @@ export class NavListComponent {
               case 'Logout': {
                 return user ? true : false;
               }
-              case 'Vault': {
+              case 'My Vault': {
                 return user ? true : false;
               }
               default: {
@@ -138,7 +139,7 @@ export class NavListComponent {
         // If user is logged in, update the Vault link to include user ID
         if (user) {
           return links.map((link) => {
-            if (link.label === 'Vault') {
+            if (link.label === 'My Vault') {
               return {
                 ...link,
                 commands: [`vault/${user.uid}` as 'vault/:id'],
@@ -172,8 +173,15 @@ export class NavListComponent {
       .afterClosed()
       .pipe(untilDestroyed(this))
       .subscribe(async (shouldLogout) => {
-        if (!shouldLogout) return;
+        if (!shouldLogout) {
+          return;
+        }
+
         await this.auth.signOut();
+        this.toast.success({
+          message: 'Logged out successfully.',
+          durationSecs: 3,
+        });
         await this.router.navigate(['']);
       });
   }

@@ -22,4 +22,5 @@ jobs:
       - run: npm run lint
       - run: npm run prettier:check
       - run: npm run generate:apps
+      - run: npm run generate:sitemap
       - run: npm run build:prod

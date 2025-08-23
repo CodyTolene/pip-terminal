@@ -10,6 +10,10 @@ export function isNonEmptyValue<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
 }
 
+export function isNumber(value: unknown): value is number {
+  return typeof value === 'number' && !isNaN(value);
+}
+
 export function isStringArray(values: unknown[]): values is string[] {
   return (
     Array.isArray(values) && values.every((value) => typeof value === 'string')
