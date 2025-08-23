@@ -8,7 +8,8 @@ import {
   registerFormGroup,
 } from 'src/app/pages/register/register-form-group';
 import { PAGES } from 'src/app/routing';
-import { AuthService } from 'src/app/services';
+import { AuthService, UserProfileService } from 'src/app/services';
+import { isNonEmptyString } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
@@ -45,15 +46,18 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
         this.formGroup.controls.email.disable({ emitEvent: false });
         this.formGroup.controls.password.disable({ emitEvent: false });
         this.formGroup.controls.terms.disable({ emitEvent: false });
+        this.formGroup.controls.username.disable({ emitEvent: false });
       } else {
         this.formGroup.controls.email.enable({ emitEvent: false });
         this.formGroup.controls.password.enable({ emitEvent: false });
         this.formGroup.controls.terms.enable({ emitEvent: false });
+        this.formGroup.controls.username.enable({ emitEvent: false });
       }
     });
   }
 
   private readonly auth = inject(AuthService);
+  private readonly userProfile = inject(UserProfileService);
 
   protected override readonly formGroup = registerFormGroup;
 
@@ -71,8 +75,13 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
       return;
     }
 
-    const { email, password, terms } = this.formGroup.value;
-    if (!email || !password || !terms) {
+    const { email, password, terms, username } = this.formGroup.value;
+    if (
+      !isNonEmptyString(email) ||
+      !isNonEmptyString(password) ||
+      !terms ||
+      !isNonEmptyString(username)
+    ) {
       this.registerErrorMessage.set('Please complete all fields.');
       return;
     }
@@ -81,7 +90,12 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
     this.registerErrorMessage.set(null);
 
     try {
-      await this.auth.signUpWithEmail(email, password);
+      const cred = await this.auth.signUpWithEmail(email, password);
+      // await this.auth.sendEmailVerification(); // Re-enable if they don't auto-send.
+      // Once sign up is successful, immediately update their selected username
+      await this.userProfile.saveProfile(cred.user.uid, {
+        displayName: username.trim(),
+      });
     } catch (err) {
       console.error('Register error:', err);
       this.registerErrorMessage.set(this.mapFirebaseError(err));

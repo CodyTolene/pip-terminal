@@ -43,17 +43,12 @@ export class VerifyEmailPageComponent {
 
   protected readonly userChanges = this.auth.userChanges;
 
-  // Cooldowns
   private readonly RESEND_COOLDOWN_SECONDS = 300; // 5 minutes
   private readonly VERIFY_COOLDOWN_SECONDS = 10; // 10 seconds
 
-  // Storage keys
-  // Existing key continues to track "resend" attempts so your previous data still works.
   private readonly RESEND_KEY = VERIFY_EMAIL_STORAGE_KEY;
-  // New key for "verify check" attempts
   private readonly VERIFY_KEY = 'verifyEmail:lastCheckAt';
 
-  // ----- RESEND STREAMS -----
   private readonly remainingResendSecondsChanges = timer(0, 1000).pipe(
     startWith(
       this.secondsRemaining(this.RESEND_KEY, this.RESEND_COOLDOWN_SECONDS),
@@ -118,7 +113,6 @@ export class VerifyEmailPageComponent {
     }
 
     try {
-      // Return if cooldown
       if (
         this.secondsRemaining(this.RESEND_KEY, this.RESEND_COOLDOWN_SECONDS) > 0
       ) {
@@ -148,7 +142,6 @@ export class VerifyEmailPageComponent {
 
     this.busyVerify.set(true);
     try {
-      // Return if cooldown
       if (
         this.secondsRemaining(this.VERIFY_KEY, this.VERIFY_COOLDOWN_SECONDS) > 0
       ) {

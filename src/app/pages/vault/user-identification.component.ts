@@ -14,7 +14,6 @@ import { isNumber, toNumber } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { updateProfile } from '@angular/fire/auth';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -102,21 +101,18 @@ export class UserIdentificationComponent implements OnInit {
     this.isSavingSignal.set(true);
     try {
       const { displayName, vaultNumber } = this.formGroup.getRawValue();
+
       const vaultNumberParsed = isNumber(vaultNumber)
         ? vaultNumber
         : toNumber(vaultNumber);
 
-      if (displayName !== '' && displayName !== (this.user.displayName ?? '')) {
-        await updateProfile(this.user.native, { displayName });
-      }
-
-      if (vaultNumberParsed !== null) {
-        await this.userProfile.updateUserProfile(this.user.uid, {
-          vaultNumber: vaultNumberParsed,
-        });
-      }
+      await this.userProfile.saveProfile(this.user.uid, {
+        displayName: (displayName ?? '').trim(),
+        vaultNumber: vaultNumberParsed,
+      });
 
       this.isEditModeSignal.set(false);
+
       this.croppedImage = null;
       this.localPhotoUrl = null;
     } catch (err) {

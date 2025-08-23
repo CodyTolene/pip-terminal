@@ -13,6 +13,7 @@ import {
   GoogleAuthProvider,
   UserCredential,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -45,8 +46,7 @@ export class AuthService {
               ? { vaultNumber: profile.vaultNumber ?? undefined }
               : { vaultNumber: undefined },
           });
-          // eslint-disable-next-line no-console
-          console.log(hydratedUser);
+          // console.log(hydratedUser);
           this.userSubject.next(hydratedUser);
         } catch (err) {
           console.error(
@@ -118,6 +118,14 @@ export class AuthService {
     return anyAuth.authStateReady
       ? anyAuth.authStateReady()
       : Promise.resolve();
+  }
+
+  public sendEmailVerification(): Promise<void> {
+    const user = this.auth.currentUser;
+    if (!user) {
+      return Promise.resolve();
+    }
+    return sendEmailVerification(user);
   }
 
   public signInWithGoogle(): Promise<UserCredential> {
