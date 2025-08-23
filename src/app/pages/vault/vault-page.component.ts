@@ -5,7 +5,7 @@ import { AuthService, ToastService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -32,7 +32,7 @@ import { UserIdentificationComponent } from './user-identification.component';
   ],
   standalone: true,
 })
-export class VaultPageComponent {
+export class VaultPageComponent implements OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
@@ -80,5 +80,9 @@ export class VaultPageComponent {
           this.isLoggingOutSignal.set(false);
         }
       });
+  }
+
+  public ngOnDestroy(): void {
+    this.isEditModeSignal.set(false);
   }
 }
