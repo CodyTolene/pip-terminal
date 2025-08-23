@@ -142,7 +142,7 @@ export class UserIdentificationComponent implements OnInit {
 
   private setDefaultValues(): void {
     this.formGroup.patchValue({
-      displayName: this.user.displayName,
+      displayName: this.user.displayName || '',
       vaultNumber: this.user.vaultNumber,
     });
   }

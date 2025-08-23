@@ -46,12 +46,10 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
         this.formGroup.controls.email.disable({ emitEvent: false });
         this.formGroup.controls.password.disable({ emitEvent: false });
         this.formGroup.controls.terms.disable({ emitEvent: false });
-        this.formGroup.controls.username.disable({ emitEvent: false });
       } else {
         this.formGroup.controls.email.enable({ emitEvent: false });
         this.formGroup.controls.password.enable({ emitEvent: false });
         this.formGroup.controls.terms.enable({ emitEvent: false });
-        this.formGroup.controls.username.enable({ emitEvent: false });
       }
     });
   }
@@ -75,13 +73,8 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
       return;
     }
 
-    const { email, password, terms, username } = this.formGroup.value;
-    if (
-      !isNonEmptyString(email) ||
-      !isNonEmptyString(password) ||
-      !terms ||
-      !isNonEmptyString(username)
-    ) {
+    const { email, password, terms } = this.formGroup.value;
+    if (!isNonEmptyString(email) || !isNonEmptyString(password) || !terms) {
       this.registerErrorMessage.set('Please complete all fields.');
       return;
     }
@@ -90,12 +83,7 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
     this.registerErrorMessage.set(null);
 
     try {
-      const cred = await this.auth.signUpWithEmail(email, password);
-      // await this.auth.sendEmailVerification(); // Re-enable if they don't auto-send.
-      // Once sign up is successful, immediately update their selected username
-      await this.userProfile.saveProfile(cred.user.uid, {
-        displayName: username.trim(),
-      });
+      await this.auth.signUpWithEmail(email, password);
     } catch (err) {
       console.error('Register error:', err);
       this.registerErrorMessage.set(this.mapFirebaseError(err));

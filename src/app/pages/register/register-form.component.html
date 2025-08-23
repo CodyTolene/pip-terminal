@@ -1,12 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="register()">
   <pro-input
-    [formControl]="formGroup.controls.username"
-    appearance="fill"
-    label="Username"
-    placeholder="Enter your username"
-    type="text"
-  ></pro-input>
-  <pro-input
     [formControl]="formGroup.controls.email"
     appearance="fill"
     label="Email"
