@@ -6,5 +6,5 @@
  */
 export function toNumber(input: string | null): number | null {
   const parsed = input ? parseFloat(input) : null;
-  return parsed && isNaN(parsed) ? null : parsed;
+  return parsed !== null && isNaN(parsed) ? null : parsed;
 }
