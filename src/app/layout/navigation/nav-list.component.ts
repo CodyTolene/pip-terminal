@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
-import { AuthService } from 'src/app/services';
+import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
@@ -43,6 +43,7 @@ export class NavListComponent {
   private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   protected readonly isNavbarOpenSignal = isNavbarOpenSignal;
 
@@ -172,8 +173,15 @@ export class NavListComponent {
       .afterClosed()
       .pipe(untilDestroyed(this))
       .subscribe(async (shouldLogout) => {
-        if (!shouldLogout) return;
+        if (!shouldLogout) {
+          return;
+        }
+
         await this.auth.signOut();
+        this.toast.success({
+          message: 'Logged out successfully.',
+          durationSecs: 3,
+        });
         await this.router.navigate(['']);
       });
   }

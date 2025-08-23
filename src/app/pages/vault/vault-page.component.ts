@@ -1,7 +1,7 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PipFooterComponent } from 'src/app/layout';
 import { isEditModeSignal } from 'src/app/pages/vault/vault.signals';
-import { AuthService } from 'src/app/services';
+import { AuthService, ToastService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -36,6 +36,7 @@ export class VaultPageComponent {
   private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   protected readonly isEditModeSignal = isEditModeSignal;
 
@@ -69,6 +70,11 @@ export class VaultPageComponent {
           }
 
           await this.auth.signOut();
+
+          this.toast.success({
+            message: 'Logged out successfully.',
+            durationSecs: 3,
+          });
           await this.router.navigate(['']);
         } finally {
           this.isLoggingOutSignal.set(false);

@@ -9,7 +9,11 @@ import {
   isEditModeSignal,
   isSavingSignal,
 } from 'src/app/pages/vault/vault.signals';
-import { ScreenService, UserProfileService } from 'src/app/services';
+import {
+  ScreenService,
+  ToastService,
+  UserProfileService,
+} from 'src/app/services';
 import { isNumber, toNumber } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -51,6 +55,7 @@ export class UserIdentificationComponent implements OnInit {
 
   private readonly dialog = inject(MatDialog);
   private readonly screenService = inject(ScreenService);
+  private readonly toast = inject(ToastService);
   private readonly userProfile = inject(UserProfileService);
 
   protected readonly isMobileChanges =
@@ -95,6 +100,10 @@ export class UserIdentificationComponent implements OnInit {
     if (this.isSavingSignal()) return;
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
+      this.toast.error({
+        message: 'Please fill in all required fields.',
+        durationSecs: 3,
+      });
       return;
     }
 
@@ -111,12 +120,21 @@ export class UserIdentificationComponent implements OnInit {
         vaultNumber: vaultNumberParsed,
       });
 
+      this.toast.success({
+        message: 'Vault profile updated successfully.',
+        durationSecs: 3,
+      });
+
       this.isEditModeSignal.set(false);
 
       this.croppedImage = null;
       this.localPhotoUrl = null;
     } catch (err) {
       console.error('[User ID Component] Failed to save profile', err);
+      this.toast.error({
+        message: 'Failed to save vault profile. Please try again later.',
+        durationSecs: 3,
+      });
     } finally {
       this.isSavingSignal.set(false);
     }

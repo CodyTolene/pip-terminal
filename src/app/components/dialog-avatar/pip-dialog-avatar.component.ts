@@ -1,6 +1,6 @@
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { PipUser } from 'src/app/models';
-import { UserProfileService } from 'src/app/services';
+import { ToastService, UserProfileService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -37,6 +37,7 @@ export class PipDialogAvatarComponent {
     MatDialogRef<PipDialogAvatarComponent, PipDialogAvatarResult>,
   );
   private readonly data = inject<PipDialogAvatarInput>(MAT_DIALOG_DATA);
+  private readonly toast = inject(ToastService);
   private readonly userProfile = inject(UserProfileService);
 
   protected readonly user = this.data.user;
@@ -51,6 +52,10 @@ export class PipDialogAvatarComponent {
     this.isSaving.set(true);
     try {
       await this.userProfile.deleteProfileImage(this.user.uid);
+      this.toast.success({
+        message: 'Profile image deleted successfully.',
+        durationSecs: 3,
+      });
       this.dialogRef.close({ photoURL: null });
     } catch (e) {
       console.error('[AvatarDialog] delete failed', e);
@@ -96,9 +101,17 @@ export class PipDialogAvatarComponent {
         blob,
         previousUrl,
       );
+      this.toast.success({
+        message: 'Profile image updated successfully.',
+        durationSecs: 3,
+      });
       this.dialogRef.close({ photoURL: newUrl });
     } catch (e) {
       console.error('[AvatarDialog] save failed', e);
+      this.toast.error({
+        message: 'Failed to update profile image. Please try again later.',
+        durationSecs: 3,
+      });
     } finally {
       this.isSaving.set(false);
     }

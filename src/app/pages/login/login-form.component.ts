@@ -4,12 +4,11 @@ import {
   LoginFormGroup,
   loginFormGroup,
 } from 'src/app/pages/login/login-form-group';
-import { AuthService } from 'src/app/services';
+import { AuthService, ToastService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -46,7 +45,7 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
   }
 
   private readonly auth = inject(AuthService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly toast = inject(ToastService);
 
   protected override readonly formGroup = loginFormGroup;
   protected readonly isLoggingIn = signal(false);
@@ -100,11 +99,10 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
 
     try {
       const { user } = await this.auth.signInWithEmail(email, password);
-      this.snackBar.open(
-        `Welcome, ${user.displayName || user.email}!`,
-        'Close',
-        { duration: 3000 },
-      );
+      this.toast.success({
+        message: `Welcome, ${user.displayName || user.email}!`,
+        durationSecs: 3,
+      });
       this.loginErrorMessage.set(null);
       // Routing will be handled from here in the parent page component.
     } catch (err) {

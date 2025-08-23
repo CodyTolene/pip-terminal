@@ -12,17 +12,18 @@
     </div>
     <div class="controls">
       <input
+        (change)="onFileSelected($event)"
+        [disabled]="isSaving()"
+        accept="image/*"
         id="avatar-file"
         type="file"
-        accept="image/*"
-        (change)="onFileSelected($event)"
       />
       <label for="avatar-file" class="upload-label">Choose Image</label>
       @if (user.photoURL) {
         <pip-button
-          type="button"
           (click)="deleteImage()"
           [disabled]="isSaving()"
+          type="button"
           >Delete Current</pip-button
         >
       }
@@ -30,17 +31,17 @@
   } @else {
     <div class="cropper-box">
       <image-cropper
-        class="cropper"
-        [style.width.px]="300"
-        [style.height.px]="300"
-        [imageChangedEvent]="selectedImageEvent"
-        [aspectRatio]="1"
-        [maintainAspectRatio]="true"
-        [resizeToWidth]="300"
-        format="png"
-        output="base64"
         (imageCropped)="onImageCropped($event)"
         (loadImageFailed)="onLoadImageFailed($event)"
+        [aspectRatio]="1"
+        [imageChangedEvent]="selectedImageEvent"
+        [maintainAspectRatio]="true"
+        [resizeToWidth]="300"
+        [style.height.px]="300"
+        [style.width.px]="300"
+        class="cropper"
+        format="png"
+        output="base64"
       ></image-cropper>
     </div>
   }
@@ -49,7 +50,7 @@
 <mat-dialog-actions align="end">
   <pip-button (click)="cancel()" [disabled]="isSaving()">Cancel</pip-button>
   @if (selectedFile) {
-    <pip-button type="button" (click)="save()" [disabled]="isSaving()"
+    <pip-button (click)="save()" [disabled]="isSaving()" type="button"
       >Save</pip-button
     >
   }

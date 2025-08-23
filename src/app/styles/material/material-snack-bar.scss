@@ -1,7 +1,8 @@
-@use '../colors' as col;
 @use '@angular/material' as mat;
+@use '../colors' as col;
 
 :root {
+  // Default colors
   @include mat.snack-bar-overrides(
     (
       button-color: col.$pip-green,
@@ -15,4 +16,45 @@
 mat-snack-bar-container.pip-snackbar {
   position: relative;
   bottom: 40px;
+}
+
+.mat-mdc-snack-bar-container {
+  &.toast-error,
+  &.toast-success {
+    margin-top: 44px;
+  }
+
+  // Custom snackbar colors based on status = error
+  &.toast-error > .mat-mdc-snackbar-surface {
+    background-color: col.$warn;
+    color: col.$black;
+    font-weight: bold;
+
+    button {
+      .mdc-button__label {
+        color: col.$black;
+      }
+
+      &:hover {
+        background-color: red;
+      }
+    }
+  }
+
+  // Custom snackbar colors based on status = success
+  &.toast-success > .mat-mdc-snackbar-surface {
+    background-color: col.$pip-green-light;
+    color: col.$black;
+    font-weight: bold;
+
+    button {
+      .mdc-button__label {
+        color: col.$black;
+      }
+
+      &:hover {
+        background-color: col.$pip-green-dark;
+      }
+    }
+  }
 }
