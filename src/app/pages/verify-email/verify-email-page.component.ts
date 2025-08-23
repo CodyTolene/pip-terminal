@@ -104,15 +104,19 @@ export class VerifyEmailPageComponent {
   protected readonly busyVerify = signal(false);
 
   protected async resendVerificationEmail(): Promise<void> {
-    if (this.busyResend()) return;
-
-    const user = await this.getCurrentUserOnce();
-    if (!user) {
-      await this.router.navigate(['' as PageUrl]);
+    if (this.busyResend()) {
       return;
     }
 
     this.busyResend.set(true);
+
+    const user = await this.getCurrentUserOnce();
+    if (!user) {
+      await this.router.navigate(['' as PageUrl]);
+      this.busyResend.set(false);
+      return;
+    }
+
     try {
       // Return if cooldown
       if (

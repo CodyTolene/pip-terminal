@@ -7,7 +7,7 @@ import {
 import { AuthService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
@@ -30,7 +30,19 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 export class LoginFormComponent extends FormDirective<LoginFormGroup> {
   public constructor() {
     super();
+
     this.formGroup.reset();
+
+    effect(() => {
+      const isLoggingIn = this.isLoggingIn();
+      if (isLoggingIn) {
+        this.formGroup.controls.email.disable({ emitEvent: false });
+        this.formGroup.controls.password.disable({ emitEvent: false });
+      } else {
+        this.formGroup.controls.email.enable({ emitEvent: false });
+        this.formGroup.controls.password.enable({ emitEvent: false });
+      }
+    });
   }
 
   private readonly auth = inject(AuthService);

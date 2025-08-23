@@ -49,8 +49,12 @@ export class AuthService {
           console.log(hydratedUser);
           this.userSubject.next(hydratedUser);
         } catch (err) {
-          console.warn('[AuthService] getUserProfile failed (non-fatal):', err);
-          this.userSubject.next(PipUser.deserialize({ user }));
+          console.error(
+            '[AuthService] getUserProfile failed (non-fatal), reset.',
+            err,
+          );
+          this.userSubject.next(null);
+          return;
         }
 
         // Live update when users/{uid} changes

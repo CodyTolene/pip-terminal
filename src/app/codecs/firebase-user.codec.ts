@@ -2,7 +2,7 @@ import * as io from 'io-ts';
 
 export const FirebaseUserCodec = io.type(
   {
-    displayName: io.union([io.string, io.undefined]),
+    displayName: io.union([io.string, io.null]),
     email: io.union([io.string, io.undefined]),
     emailVerified: io.union([io.boolean, io.undefined]),
     isAnonymous: io.union([io.boolean, io.undefined]),

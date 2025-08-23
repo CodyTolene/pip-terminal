@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -36,7 +36,21 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
   public constructor() {
     super();
+
     this.formGroup.reset();
+
+    effect(() => {
+      const isRegistering = this.isRegistering();
+      if (isRegistering) {
+        this.formGroup.controls.email.disable({ emitEvent: false });
+        this.formGroup.controls.password.disable({ emitEvent: false });
+        this.formGroup.controls.terms.disable({ emitEvent: false });
+      } else {
+        this.formGroup.controls.email.enable({ emitEvent: false });
+        this.formGroup.controls.password.enable({ emitEvent: false });
+        this.formGroup.controls.terms.enable({ emitEvent: false });
+      }
+    });
   }
 
   private readonly auth = inject(AuthService);
