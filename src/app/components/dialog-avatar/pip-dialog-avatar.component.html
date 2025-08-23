@@ -20,12 +20,14 @@
       />
       <label for="avatar-file" class="upload-label">Choose Image</label>
       @if (user.photoURL) {
-        <pip-button
+        <button
+          mat-button
           (click)="deleteImage()"
           [disabled]="isSaving()"
           type="button"
-          >Delete Current</pip-button
         >
+          Delete Current
+        </button>
       }
     </div>
   } @else {
@@ -48,10 +50,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <pip-button (click)="cancel()" [disabled]="isSaving()">Cancel</pip-button>
+  <button mat-button (click)="cancel()" [disabled]="isSaving()">Cancel</button>
   @if (selectedFile) {
-    <pip-button (click)="save()" [disabled]="isSaving()" type="button"
-      >Save</pip-button
-    >
+    <button mat-button (click)="save()" [disabled]="isSaving()" type="button">
+      Save
+    </button>
   }
 </mat-dialog-actions>

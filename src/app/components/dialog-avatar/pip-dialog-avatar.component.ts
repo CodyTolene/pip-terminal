@@ -16,8 +16,6 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-
 @Component({
   selector: 'pip-dialog-avatar',
   standalone: true,
@@ -26,7 +24,6 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
     MatDialogModule,
     MatButtonModule,
     ImageCropperComponent,
-    PipButtonComponent,
   ],
   templateUrl: './pip-dialog-avatar.component.html',
   styleUrls: ['./pip-dialog-avatar.component.scss'],
