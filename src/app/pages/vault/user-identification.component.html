@@ -13,6 +13,25 @@
           type="text"
         ></pro-input>
         <pro-input
+          [formControl]="formGroup.controls.roomNumber"
+          label="Room Number"
+          placeholder="Enter your Room Number"
+          type="number"
+        ></pro-input>
+        <pro-input-datepicker
+          [formControl]="formGroup.controls.dateOfBirth"
+          [min]="dobMinDateTime"
+          [max]="dobMaxDateTime"
+          label="Birthday"
+          placeholder="Enter your Birthday"
+        ></pro-input-datepicker>
+        <pro-input
+          [formControl]="formGroup.controls.skill"
+          label="Skill"
+          placeholder="Enter your Occupation"
+          type="text"
+        ></pro-input>
+        <pro-input
           [formControl]="formGroup.controls.vaultNumber"
           label="Vault Number"
           placeholder="Enter your Vault Number"
@@ -29,7 +48,7 @@
             CANCEL
           </pip-button>
           <pip-button
-            (click)="saveProfile()"
+            (click)="updateProfile()"
             [disabled]="
               isSavingSignal() || formGroup.invalid || formGroup.pristine
             "
@@ -43,14 +62,12 @@
       <div><strong>APP: </strong>Pip-Boy Terminal</div>
       <div><strong>NAME: </strong>{{ user.displayName || 'Wastelander' }}</div>
       <div><strong>UID: </strong>{{ user.uid }}</div>
-      <div><strong>EMAIL: </strong>{{ user.email || '(unknown)' }}</div>
-      <!-- 
-      <div><strong>ROOM: </strong>TODO</div>
-      <div><strong>DOB: </strong>TODO</div>
-      <div><strong>SKILL: </strong>TODO</div>
-      -->
-      <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div>
-      <div><strong>VAULT: </strong> {{ user.vaultNumber || '' }}</div>
+      <div><strong>EMAIL: </strong>{{ user.email }}</div>
+      <div><strong>ROOM: </strong>{{ user.roomNumber || '(unknown)' }}</div>
+      <div><strong>DOB: </strong>{{ user.dateOfBirth || '(unknown)' }}</div>
+      <div><strong>SKILL: </strong>{{ user.skill || 'Vault Dweller' }}</div>
+      <!-- <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div> -->
+      <div><strong>VAULT: </strong> {{ user.vaultNumber || '(unknown)' }}</div>
     }
   </div>
 </section>

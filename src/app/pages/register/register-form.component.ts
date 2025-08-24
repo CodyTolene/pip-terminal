@@ -1,8 +1,10 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   FormDirective,
   InputCheckboxComponent,
   InputComponent,
 } from '@proangular/pro-form';
+import { distinctUntilChanged } from 'rxjs';
 import {
   RegisterFormGroup,
   registerFormGroup,
@@ -13,13 +15,14 @@ import { isNonEmptyString } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-register-form',
   standalone: true,
@@ -34,7 +37,10 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.scss'],
 })
-export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
+export class RegisterFormComponent
+  extends FormDirective<RegisterFormGroup>
+  implements OnInit
+{
   public constructor() {
     super();
 
@@ -43,15 +49,15 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
     effect(() => {
       const isRegistering = this.isRegistering();
       if (isRegistering) {
+        this.formGroup.controls.displayName.disable({ emitEvent: false });
         this.formGroup.controls.email.disable({ emitEvent: false });
         this.formGroup.controls.password.disable({ emitEvent: false });
         this.formGroup.controls.terms.disable({ emitEvent: false });
-        this.formGroup.controls.username.disable({ emitEvent: false });
       } else {
+        this.formGroup.controls.displayName.enable({ emitEvent: false });
         this.formGroup.controls.email.enable({ emitEvent: false });
         this.formGroup.controls.password.enable({ emitEvent: false });
         this.formGroup.controls.terms.enable({ emitEvent: false });
-        this.formGroup.controls.username.enable({ emitEvent: false });
       }
     });
   }
@@ -68,6 +74,29 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
   protected readonly termsAndConditionsUrl: PageUrl =
     PAGES['Terms and Conditions'];
 
+  public ngOnInit(): void {
+    const displayNameCtrl = this.formGroup.controls.displayName;
+    const emailCtrl = registerFormGroup.controls.email;
+
+    emailCtrl.valueChanges
+      .pipe(distinctUntilChanged(), untilDestroyed(this))
+      .subscribe((val) => {
+        const trimmed = val.trim();
+        if (val !== trimmed) {
+          emailCtrl.setValue(trimmed, { emitEvent: false });
+        }
+      });
+
+    displayNameCtrl.valueChanges
+      .pipe(distinctUntilChanged(), untilDestroyed(this))
+      .subscribe((val) => {
+        const trimmed = val.trim();
+        if (val !== trimmed) {
+          displayNameCtrl.setValue(trimmed, { emitEvent: false });
+        }
+      });
+  }
+
   protected async register(): Promise<void> {
     if (this.formGroup.invalid) {
       // Touch all fields so inline messages render
@@ -75,12 +104,12 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
       return;
     }
 
-    const { email, password, terms, username } = this.formGroup.value;
+    const { displayName, email, password, terms } = this.formGroup.value;
     if (
       !isNonEmptyString(email) ||
       !isNonEmptyString(password) ||
       !terms ||
-      !isNonEmptyString(username)
+      !isNonEmptyString(displayName)
     ) {
       this.registerErrorMessage.set('Please complete all fields.');
       return;
@@ -92,10 +121,11 @@ export class RegisterFormComponent extends FormDirective<RegisterFormGroup> {
     try {
       const cred = await this.auth.signUpWithEmail(email, password);
       // await this.auth.sendEmailVerification(); // Re-enable if they don't auto-send.
-      // Once sign up is successful, immediately update their selected username
-      await this.userProfile.saveProfile(cred.user.uid, {
-        displayName: username.trim(),
-      });
+      // Once sign up is successful, immediately update their selected displayName
+      await this.userProfile.updateDisplayName(
+        cred.user.uid,
+        displayName.trim(),
+      );
     } catch (err) {
       console.error('Register error:', err);
       this.registerErrorMessage.set(this.mapFirebaseError(err));

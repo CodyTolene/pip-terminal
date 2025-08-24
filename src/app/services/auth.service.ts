@@ -42,9 +42,12 @@ export class AuthService {
           const profile = await this.getUserProfile(user.uid);
           const hydratedUser = PipUser.deserialize({
             user,
-            profile: profile
-              ? { vaultNumber: profile.vaultNumber ?? undefined }
-              : { vaultNumber: undefined },
+            profile: {
+              dateOfBirth: profile?.dateOfBirth ?? undefined,
+              roomNumber: profile?.roomNumber ?? undefined,
+              skill: profile?.skill ?? undefined,
+              vaultNumber: profile?.vaultNumber ?? undefined,
+            },
           });
           // console.log(hydratedUser);
           this.userSubject.next(hydratedUser);
@@ -63,12 +66,14 @@ export class AuthService {
           ref,
           (snap) => {
             const data = snap.exists()
-              ? (snap.data() as { vaultNumber?: number })
+              ? (snap.data() as PipUser['profile'])
               : undefined;
-            const profile =
-              data !== undefined
-                ? { vaultNumber: data.vaultNumber ?? undefined }
-                : { vaultNumber: undefined };
+            const profile = {
+              dateOfBirth: data?.dateOfBirth ?? undefined,
+              roomNumber: data?.roomNumber ?? undefined,
+              skill: data?.skill ?? undefined,
+              vaultNumber: data?.vaultNumber ?? undefined,
+            };
             this.userSubject.next(PipUser.deserialize({ user, profile }));
           },
           (error) => {
@@ -103,12 +108,10 @@ export class AuthService {
 
   private async getUserProfile(
     uid: string,
-  ): Promise<{ vaultNumber?: number } | undefined> {
+  ): Promise<PipUser['profile'] | undefined> {
     const ref = fsDoc(this.firestore, 'users', uid);
     const snap = await fsGetDoc(ref);
-    return snap.exists()
-      ? (snap.data() as { vaultNumber?: number })
-      : undefined;
+    return snap.exists() ? (snap.data() as PipUser['profile']) : undefined;
   }
 
   public authReady(): Promise<void> {

@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+// https://material.angular.dev/components/datepicker/styling
+:root {
+  @include mat.datepicker-overrides(
+    (
+      calendar-body-label-text-color: col.$pip-green,
+      calendar-container-background-color: col.$pip-black,
+    )
+  );
+}
