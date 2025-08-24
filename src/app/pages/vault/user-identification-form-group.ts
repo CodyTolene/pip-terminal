@@ -1,5 +1,3 @@
-import { distinctUntilChanged } from 'rxjs';
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface UserIdentificationFormGroup {
@@ -28,9 +26,3 @@ export const userIdentificationFormGroup =
     }),
     vaultNumber: new FormControl<number | null>(null, Validators.required),
   });
-
-const usernameCtrl = userIdentificationFormGroup.controls.displayName;
-usernameCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe((val) => {
-  const trimmed = val.trim();
-  if (val !== trimmed) usernameCtrl.setValue(trimmed, { emitEvent: false });
-});

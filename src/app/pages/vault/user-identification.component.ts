@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { InputComponent } from '@proangular/pro-form';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
 import { ScreenSizeEnum } from 'src/app/enums';
 import { PipUser } from 'src/app/models';
@@ -73,6 +73,17 @@ export class UserIdentificationComponent implements OnInit {
     }
 
     this.setDefaultValues();
+
+    this.formGroup.controls.displayName.valueChanges
+      .pipe(untilDestroyed(this), distinctUntilChanged())
+      .subscribe((val) => {
+        const trimmed = val.trim();
+        if (val !== trimmed) {
+          this.formGroup.controls.displayName.setValue(trimmed, {
+            emitEvent: false,
+          });
+        }
+      });
   }
 
   protected cancelEdit(): void {
