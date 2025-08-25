@@ -88,10 +88,16 @@
       <div class="info-row">
         <strong>SKILL: </strong>{{ user.skill || '(unknown)' }}
       </div>
-      <!-- <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div> -->
+      <!-- 
       <div class="info-row">
         <strong>VAULT: </strong> {{ user.vaultNumber || '(unknown)' }}
       </div>
+      -->
+      <pip-loading center>
+        <div vaultNumber>
+          {{ user.vaultNumber }}
+        </div>
+      </pip-loading>
     }
   </div>
 </section>

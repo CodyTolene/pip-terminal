@@ -2,6 +2,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { InputComponent, InputDatepickerComponent } from '@proangular/pro-form';
 import { map } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
+import { VaultNumberDirective } from 'src/app/directives';
 import { ScreenSizeEnum } from 'src/app/enums';
 import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { userIdentificationFormGroup } from 'src/app/pages/vault/user-identification-form-group';
@@ -32,6 +33,7 @@ import {
   PipDialogAvatarComponent,
   PipDialogAvatarResult,
 } from 'src/app/components/dialog-avatar/pip-dialog-avatar.component';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @UntilDestroy()
 @Component({
@@ -44,8 +46,10 @@ import {
     FormsModule,
     InputComponent,
     InputDatepickerComponent,
+    LoadingComponent,
     PipButtonComponent,
     ReactiveFormsModule,
+    VaultNumberDirective,
   ],
   standalone: true,
 })
