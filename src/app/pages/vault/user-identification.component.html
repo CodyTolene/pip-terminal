@@ -77,7 +77,8 @@
         <strong>ROOM#: </strong>{{ user.roomNumber || '(unknown)' }}
       </div>
       <div class="info-row">
-        <strong>DOB: </strong>{{ user.dateOfBirth || '(unknown)' }}
+        <strong>DOB: </strong
+        >{{ (user.dateOfBirth | dateTime: 'MM.dd.yyyy') || '(unknown)' }}
       </div>
       <div class="info-row">
         <strong>SKILL: </strong>{{ user.skill || '(unknown)' }}

@@ -13,4 +13,6 @@ type DateTimeFormat =
   | 'mm' // 00
   | 'yyyy-MM-dd h:mm a' // 2025-01-01 1:00 AM
   | 'yyyy-MM-dd h:mm:ss a' // 2025-01-01 1:00:00 AM
-  | 'yyyy-MM-dd'; // 2025-01-01
+  | 'yyyy-MM-dd' // 2025-01-01
+  | 'MM.dd.yyyy' // 01.01.2025
+  | 'yyyy'; // Year only
