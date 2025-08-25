@@ -75,6 +75,14 @@ export class UserProfileService {
   ): Promise<void> {
     const user = await getFirstNonEmptyValueFrom(this.auth.userChanges);
     if (user && user.uid === uid) {
+      // If any properties are missing from `FirestoreProfileApi`, set them as null
+      data = {
+        dateOfBirth: null,
+        roomNumber: null,
+        skill: null,
+        vaultNumber: null,
+        ...data,
+      };
       const docRef = fsDoc(this.firestore, 'users', uid).withConverter(
         userExtrasConverter,
       );

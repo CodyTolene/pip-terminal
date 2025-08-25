@@ -145,12 +145,12 @@ export class UserIdentificationComponent implements OnInit {
         ? vaultNumber
         : toNumber(vaultNumber);
 
-      const profile: Partial<FirestoreProfileApi> = {};
-      if (dateOfBirth) profile.dateOfBirth = dateOfBirth.toISO() ?? undefined;
-      if (roomNumberParsed) profile.roomNumber = roomNumberParsed;
-      if (skill) profile.skill = skill;
-      if (vaultNumberParsed) profile.vaultNumber = vaultNumberParsed;
-
+      const profile: Partial<FirestoreProfileApi> = {
+        dateOfBirth: dateOfBirth?.toISO() ?? null,
+        roomNumber: roomNumberParsed,
+        skill,
+        vaultNumber: vaultNumberParsed,
+      };
       await this.userProfile.updateProfile(this.user.uid, profile);
 
       this.toast.success({

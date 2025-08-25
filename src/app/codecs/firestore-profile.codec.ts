@@ -2,10 +2,10 @@ import * as io from 'io-ts';
 
 export const FirestoreProfileCodec = io.type(
   {
-    dateOfBirth: io.union([io.string, io.undefined]),
-    roomNumber: io.union([io.number, io.undefined]),
-    skill: io.union([io.string, io.undefined]),
-    vaultNumber: io.union([io.number, io.undefined]),
+    dateOfBirth: io.union([io.string, io.null, io.undefined]),
+    roomNumber: io.union([io.number, io.null, io.undefined]),
+    skill: io.union([io.string, io.null, io.undefined]),
+    vaultNumber: io.union([io.number, io.null, io.undefined]),
   },
   'FirestoreProfileApi',
 );

@@ -31,7 +31,7 @@
           [formControl]="formGroup.controls.dateOfBirth"
           [min]="dobMinDateTime"
           [max]="dobMaxDateTime"
-          label="Birthday"
+          label="Date of Birth"
           placeholder="Enter your Birthday"
         ></pro-input-datepicker>
         <pro-input
@@ -81,15 +81,24 @@
         }
       </div>
     } @else {
-      <div><strong>APP: </strong>Pip-Boy Terminal</div>
-      <div><strong>NAME: </strong>{{ user.displayName || 'Wastelander' }}</div>
-      <div><strong>UID: </strong>{{ user.uid }}</div>
-      <div><strong>EMAIL: </strong>{{ user.email }}</div>
-      <div><strong>ROOM: </strong>{{ user.roomNumber || '(unknown)' }}</div>
-      <div><strong>DOB: </strong>{{ user.dateOfBirth || '(unknown)' }}</div>
-      <div><strong>SKILL: </strong>{{ user.skill || 'Vault Dweller' }}</div>
+      <div class="info-row">
+        <strong>NAME: </strong>{{ user.displayName || '(unknown)' }}
+      </div>
+      <div class="info-row"><strong>UID: </strong>{{ user.uid }}</div>
+      <div class="info-row"><strong>EMAIL: </strong>{{ user.email }}</div>
+      <div class="info-row">
+        <strong>ROOM#: </strong>{{ user.roomNumber || '(unknown)' }}
+      </div>
+      <div class="info-row">
+        <strong>DOB: </strong>{{ user.dateOfBirth || '(unknown)' }}
+      </div>
+      <div class="info-row">
+        <strong>SKILL: </strong>{{ user.skill || '(unknown)' }}
+      </div>
       <!-- <div><strong>PHONE: </strong>{{ user.phoneNumber || '(unknown)' }}</div> -->
-      <div><strong>VAULT: </strong> {{ user.vaultNumber || '(unknown)' }}</div>
+      <div class="info-row">
+        <strong>VAULT: </strong> {{ user.vaultNumber || '(unknown)' }}
+      </div>
     }
   </div>
 </section>
@@ -100,12 +109,16 @@
 
 <ng-template #userImageTemplate>
   <section class="user-image-container">
-    <img
-      [src]="localPhotoUrl || user.photoURL || 'images/user/user.png'"
-      alt="User Image"
-      class="user-image"
-      referrerpolicy="no-referrer"
-    />
+    <div class="pip-grid">
+      <div class="pip-grid-item">
+        <img
+          [src]="localPhotoUrl || user.photoURL || 'images/user/user.png'"
+          alt="User Image"
+          class="user-image"
+          referrerpolicy="no-referrer"
+        />
+      </div>
+    </div>
     @if (isEditModeSignal()) {
       <pip-button type="button" (click)="openAvatarDialog()">
         CHANGE IMAGE
