@@ -7,6 +7,64 @@
     (
       calendar-body-label-text-color: col.$pip-green,
       calendar-container-background-color: col.$pip-black,
+      calendar-container-text-color: col.$pip-green,
     )
   );
+}
+
+pro-input-datepicker {
+  mat-form-field.mat-mdc-form-field {
+    outline: none;
+    border-radius: 4px;
+
+    &.mat-form-field-disabled {
+      outline: 1px solid col.$pip-green-darkest;
+    }
+  }
+
+  .mdc-text-field--outlined {
+    .mdc-floating-label {
+      color: col.$pip-green;
+    }
+    &.mdc-text-field--disabled .mdc-floating-label {
+      color: col.$pip-green-darkest;
+    }
+    &:not(.mdc-text-field--disabled) .mdc-floating-label,
+    &:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+      .mdc-floating-label {
+      color: col.$pip-green;
+    }
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
+      .mdc-text-field--focused
+    ):hover
+    .mat-mdc-notch-piece,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mat-mdc-notch-piece,
+  .mat-mdc-input-element.mdc-text-field__input {
+    border-color: col.$pip-green;
+  }
+
+  .mdc-text-field__input,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-text-field__input,
+  .mat-mdc-form-field-infix
+    > .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+    .mdc-text-field__input {
+    color: col.$pip-green;
+  }
+
+  input.mat-mdc-input-element::placeholder,
+  .mdc-text-field--outlined.mdc-text-field--disabled input {
+    color: col.$pip-green-dark !important;
+  }
+
+  .mdc-text-field--disabled + div.mat-mdc-form-field-subscript-wrapper {
+    display: none;
+    visibility: hidden;
+  }
+
+  .mat-form-field-disabled {
+    margin-bottom: 20px;
+  }
 }

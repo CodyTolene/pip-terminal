@@ -42,7 +42,12 @@ pro-input {
     color: col.$pip-green;
   }
 
-  input.mat-mdc-input-element::placeholder {
+  input.mat-mdc-input-element::placeholder,
+  .mdc-text-field--outlined.mdc-text-field--disabled input {
     color: col.$pip-green-dark !important;
+  }
+
+  .mat-form-field-disabled {
+    margin-bottom: 20px;
   }
 }
