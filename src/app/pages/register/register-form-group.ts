@@ -1,54 +1,41 @@
-import { distinctUntilChanged } from 'rxjs';
+import { Validation } from 'src/app/utilities';
 
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface RegisterFormGroup {
+  displayName: FormControl<string>;
   email: FormControl<string>;
   password: FormControl<string>;
   passwordConfirm: FormControl<string>;
   terms: FormControl<boolean>;
-  username: FormControl<string>;
-}
-
-const v = {
-  email: { minLength: 6, maxLength: 320 },
-  password: { minLength: 6, maxLength: 128 },
-  username: { minLength: 2, maxLength: 128 },
-};
-
-const USERNAME_REGEX = /^[A-Za-z0-9._-]+$/;
-
-function passwordMatchValidator(
-  control: AbstractControl,
-): ValidationErrors | null {
-  const password = control.get('password')?.value;
-  const passwordConfirm = control.get('passwordConfirm')?.value;
-  return password === passwordConfirm ? null : { passwordMismatch: true };
 }
 
 export const registerFormGroup = new FormGroup<RegisterFormGroup>(
   {
+    displayName: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.pattern(Validation.user.displayName.regExp),
+        Validators.minLength(Validation.user.displayName.minLength),
+        Validators.maxLength(Validation.user.displayName.maxLength),
+      ],
+    }),
     email: new FormControl('', {
       nonNullable: true,
       validators: [
         Validators.required,
         Validators.email,
-        Validators.minLength(v.email.minLength),
-        Validators.maxLength(v.email.maxLength),
+        Validators.minLength(Validation.user.email.minLength),
+        Validators.maxLength(Validation.user.email.maxLength),
       ],
     }),
     password: new FormControl('', {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.minLength(v.password.minLength),
-        Validators.maxLength(v.password.maxLength),
+        Validators.minLength(Validation.user.password.minLength),
+        Validators.maxLength(Validation.user.password.maxLength),
       ],
     }),
     passwordConfirm: new FormControl('', {
@@ -59,28 +46,6 @@ export const registerFormGroup = new FormGroup<RegisterFormGroup>(
       nonNullable: true,
       validators: [Validators.requiredTrue],
     }),
-    username: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.pattern(USERNAME_REGEX),
-        Validators.minLength(v.username.minLength),
-        Validators.maxLength(v.username.maxLength),
-      ],
-    }),
   },
-  { validators: passwordMatchValidator },
+  { validators: Validation.passwordMatchValidator },
 );
-
-// Auto-trim email and username so validators run on trimmed values
-const emailCtrl = registerFormGroup.controls.email;
-emailCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe((val) => {
-  const trimmed = val.trim();
-  if (val !== trimmed) emailCtrl.setValue(trimmed, { emitEvent: false });
-});
-
-const usernameCtrl = registerFormGroup.controls.username;
-usernameCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe((val) => {
-  const trimmed = val.trim();
-  if (val !== trimmed) usernameCtrl.setValue(trimmed, { emitEvent: false });
-});

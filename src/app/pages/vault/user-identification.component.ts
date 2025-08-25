@@ -1,9 +1,9 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { InputComponent } from '@proangular/pro-form';
+import { InputComponent, InputDatepickerComponent } from '@proangular/pro-form';
 import { map } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
 import { ScreenSizeEnum } from 'src/app/enums';
-import { PipUser } from 'src/app/models';
+import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { userIdentificationFormGroup } from 'src/app/pages/vault/user-identification-form-group';
 import {
   isEditModeSignal,
@@ -14,10 +14,10 @@ import {
   ToastService,
   UserProfileService,
 } from 'src/app/services';
-import { isNumber, toNumber } from 'src/app/utilities';
+import { Validation, isNumber, toNumber } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, effect, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -36,6 +36,7 @@ import {
     CommonModule,
     FormsModule,
     InputComponent,
+    InputDatepickerComponent,
     ReactiveFormsModule,
     PipButtonComponent,
   ],
@@ -44,6 +45,15 @@ import {
 export class UserIdentificationComponent implements OnInit {
   public constructor() {
     this.formGroup.reset();
+
+    effect(() => {
+      const isSaving = isSavingSignal();
+      if (isSaving) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.enable();
+      }
+    });
   }
 
   @Input({ required: true }) public user!: PipUser;
@@ -51,6 +61,10 @@ export class UserIdentificationComponent implements OnInit {
   protected croppedImage: string | null = null;
   protected localPhotoUrl: string | null = null;
 
+  protected readonly dobMaxDateTime =
+    Validation.profile.dateOfBirth.maxDateTime;
+  protected readonly dobMinDateTime =
+    Validation.profile.dateOfBirth.minDateTime;
   protected readonly formGroup = userIdentificationFormGroup;
 
   private readonly dialog = inject(MatDialog);
@@ -96,8 +110,11 @@ export class UserIdentificationComponent implements OnInit {
       });
   }
 
-  protected async saveProfile(): Promise<void> {
-    if (this.isSavingSignal()) return;
+  protected async updateProfile(): Promise<void> {
+    if (this.isSavingSignal()) {
+      return;
+    }
+
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
       this.toast.error({
@@ -108,17 +125,33 @@ export class UserIdentificationComponent implements OnInit {
     }
 
     this.isSavingSignal.set(true);
+
     try {
-      const { displayName, vaultNumber } = this.formGroup.getRawValue();
+      const { dateOfBirth, displayName, roomNumber, skill, vaultNumber } =
+        this.formGroup.getRawValue();
+
+      if (displayName) {
+        await this.userProfile.updateDisplayName(
+          this.user.uid,
+          displayName.trim(),
+        );
+      }
+
+      const roomNumberParsed = isNumber(roomNumber)
+        ? roomNumber
+        : toNumber(roomNumber);
 
       const vaultNumberParsed = isNumber(vaultNumber)
         ? vaultNumber
         : toNumber(vaultNumber);
 
-      await this.userProfile.saveProfile(this.user.uid, {
-        displayName: (displayName ?? '').trim(),
+      const profile: Partial<FirestoreProfileApi> = {
+        dateOfBirth: dateOfBirth?.toISO() ?? null,
+        roomNumber: roomNumberParsed,
+        skill,
         vaultNumber: vaultNumberParsed,
-      });
+      };
+      await this.userProfile.updateProfile(this.user.uid, profile);
 
       this.toast.success({
         message: 'Vault profile updated successfully.',
@@ -142,7 +175,10 @@ export class UserIdentificationComponent implements OnInit {
 
   private setDefaultValues(): void {
     this.formGroup.patchValue({
-      displayName: this.user.displayName,
+      dateOfBirth: this.user.dateOfBirth,
+      displayName: this.user.displayName || '',
+      roomNumber: this.user.roomNumber,
+      skill: this.user.skill,
       vaultNumber: this.user.vaultNumber,
     });
   }

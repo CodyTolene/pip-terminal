@@ -15,7 +15,7 @@ export const environment: EnvironmentCredentials = {
       apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
     },
     recaptcha: {
-      apiKey: '6LfWlacrAAAAAPJGalCzAuQLo4LIqbrZzFY9u6qZ',
+      apiKey: '6Ld_gbArAAAAAMTLly-cMtUkVmYMq0DlzEh4jPIi',
     },
   },
   isProduction: true,

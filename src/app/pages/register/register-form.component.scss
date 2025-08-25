@@ -45,6 +45,24 @@ form {
     }
   }
 
+  .custom-input-form-error {
+    $height: 30px;
+    height: $height;
+    top: -#{$height};
+    position: relative;
+    color: var(--mat-sys-error);
+    margin-bottom: -#{$height};
+    text-align: start;
+    width: 100%;
+
+    p {
+      color: var(--mat-sys-error);
+      font-size: 12px;
+      margin: 0;
+      padding: 0 16px;
+    }
+  }
+
   p {
     margin: 0;
     margin-top: 2rem;

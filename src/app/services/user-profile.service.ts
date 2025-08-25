@@ -10,27 +10,18 @@ import {
   uploadBytes as stUploadBytes,
 } from 'firebase/storage';
 import { firstValueFrom } from 'rxjs';
-import { PipUser } from 'src/app/models';
+import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { AuthService } from 'src/app/services';
-import {
-  getFirstNonEmptyValueFrom,
-  isNonEmptyString,
-  isNumber,
-} from 'src/app/utilities';
+import { getFirstNonEmptyValueFrom, isNonEmptyString } from 'src/app/utilities';
 
 import { Injectable, inject } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { Storage } from '@angular/fire/storage';
 
-export interface UserExtras {
-  vaultNumber?: number;
-  photoURL?: string;
-}
-
-const userExtrasConverter: FsConverter<UserExtras> = {
-  toFirestore: (data: UserExtras) => data,
-  fromFirestore: (snap) => snap.data() as UserExtras,
+const userExtrasConverter: FsConverter<FirestoreProfileApi> = {
+  toFirestore: (data: FirestoreProfileApi) => data,
+  fromFirestore: (snap) => snap.data() as FirestoreProfileApi,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -64,35 +55,38 @@ export class UserProfileService {
     }
   }
 
-  private isStorageUrl(url: string): boolean {
-    return (
-      url.startsWith('gs://') ||
-      url.startsWith('https://firebasestorage.googleapis.com')
-    );
-  }
-
-  public async saveProfile(
+  public async updateDisplayName(
     uid: string,
-    data: { displayName?: string | null; vaultNumber?: number | null },
+    displayName: string | null,
   ): Promise<void> {
-    const user = await getFirstNonEmptyValueFrom(this.auth.userChanges);
-
-    // Update Firebase Auth display name if provided and we are the same user
-    const requestedName = (data.displayName ?? '').trim();
-
-    // User is attempting to update their own profile
-    if (
-      isNonEmptyString(requestedName) &&
-      user &&
-      user.uid === uid &&
-      requestedName !== (user.displayName ?? '')
-    ) {
-      await updateProfile(user.native, { displayName: requestedName });
+    if (!isNonEmptyString(displayName)) {
+      throw new Error('Invalid display name');
     }
 
-    // Update Firestore profile extras if a vault number was provided
-    if (isNumber(data.vaultNumber)) {
-      await this.updateUserProfile(uid, { vaultNumber: data.vaultNumber });
+    const user = await getFirstNonEmptyValueFrom(this.auth.userChanges);
+    if (user && user.uid === uid) {
+      await updateProfile(user.native, { displayName });
+    }
+  }
+
+  public async updateProfile(
+    uid: string,
+    data: Partial<FirestoreProfileApi>,
+  ): Promise<void> {
+    const user = await getFirstNonEmptyValueFrom(this.auth.userChanges);
+    if (user && user.uid === uid) {
+      // If any properties are missing from `FirestoreProfileApi`, set them as null
+      data = {
+        dateOfBirth: null,
+        roomNumber: null,
+        skill: null,
+        vaultNumber: null,
+        ...data,
+      };
+      const docRef = fsDoc(this.firestore, 'users', uid).withConverter(
+        userExtrasConverter,
+      );
+      await fsSetDoc(docRef, data, { merge: true });
     }
   }
 
@@ -139,13 +133,10 @@ export class UserProfileService {
     return url;
   }
 
-  private async updateUserProfile(
-    uid: string,
-    data: Partial<UserExtras>,
-  ): Promise<void> {
-    const docRef = fsDoc(this.firestore, 'users', uid).withConverter(
-      userExtrasConverter,
+  private isStorageUrl(url: string): boolean {
+    return (
+      url.startsWith('gs://') ||
+      url.startsWith('https://firebasestorage.googleapis.com')
     );
-    await fsSetDoc(docRef, data, { merge: true });
   }
 }

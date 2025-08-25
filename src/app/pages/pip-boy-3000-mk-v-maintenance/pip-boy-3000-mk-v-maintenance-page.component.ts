@@ -1,3 +1,4 @@
+import { PipConnectionService } from 'src/app/services';
 import { logMessage } from 'src/app/utilities';
 
 import { Component, OnDestroy, inject } from '@angular/core';
@@ -45,9 +46,14 @@ export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
     logMessage('Terminal online and ready to connect.');
   }
 
+  private readonly pipConnectionService = inject(PipConnectionService);
   private scriptsService = inject(ScriptsService);
 
-  public ngOnDestroy(): void {
+  public async ngOnDestroy(): Promise<void> {
     this.scriptsService.unloadAll();
+    // Disconnect from the Pip-Boy if there's an active connection
+    if (this.pipConnectionService.connection?.isOpen) {
+      await this.pipConnectionService.disconnect();
+    }
   }
 }
