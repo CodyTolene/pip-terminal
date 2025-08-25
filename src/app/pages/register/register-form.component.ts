@@ -52,11 +52,13 @@ export class RegisterFormComponent
         this.formGroup.controls.displayName.disable({ emitEvent: false });
         this.formGroup.controls.email.disable({ emitEvent: false });
         this.formGroup.controls.password.disable({ emitEvent: false });
+        this.formGroup.controls.passwordConfirm.disable({ emitEvent: false });
         this.formGroup.controls.terms.disable({ emitEvent: false });
       } else {
         this.formGroup.controls.displayName.enable({ emitEvent: false });
         this.formGroup.controls.email.enable({ emitEvent: false });
         this.formGroup.controls.password.enable({ emitEvent: false });
+        this.formGroup.controls.passwordConfirm.enable({ emitEvent: false });
         this.formGroup.controls.terms.enable({ emitEvent: false });
       }
     });
