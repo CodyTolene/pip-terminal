@@ -156,7 +156,6 @@
   }
 
   .user-actions {
-    margin-top: 1rem;
     display: flex;
     gap: 0.75rem;
     justify-content: space-between;
@@ -175,14 +174,18 @@
   align-items: center;
   gap: 0.75rem;
 
-  .pip-grid-item {
-    padding: 0;
-    border: none;
-    border-radius: 0;
+  .pip-grid {
+    margin-bottom: 1rem;
 
-    &:hover {
-      box-shadow: 0 0 10px col.$pip-green;
-      transform: scale(1);
+    .pip-grid-item {
+      padding: 0;
+      border: none;
+      border-radius: 0;
+
+      &:hover {
+        box-shadow: 0 0 10px col.$pip-green;
+        transform: scale(1);
+      }
     }
   }
 
