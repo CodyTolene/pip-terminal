@@ -7,4 +7,5 @@ export * from './observables.util';
 export * from './pip-log.util';
 export * from './to-type.util';
 export * from './to-value.util';
+export * from './validation.util';
 export * from './wait.util';

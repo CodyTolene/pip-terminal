@@ -1,3 +1,5 @@
+import { Validation } from 'src/app/utilities';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface LoginFormGroup {
@@ -5,23 +7,16 @@ export interface LoginFormGroup {
   password: FormControl<string | null>;
 }
 
-const loginFormGroupValidation = {
-  password: {
-    maxLength: 20,
-    minLength: 8,
-  },
-};
-
-const validation = loginFormGroupValidation;
-
 export const loginFormGroup = new FormGroup<LoginFormGroup>({
   email: new FormControl<string | null>(null, [
     Validators.email,
     Validators.required,
+    Validators.minLength(Validation.user.email.minLength),
+    Validators.maxLength(Validation.user.email.maxLength),
   ]),
   password: new FormControl<string | null>(null, [
     Validators.required,
-    Validators.minLength(validation.password.minLength),
-    Validators.maxLength(validation.password.maxLength),
+    Validators.minLength(Validation.user.password.minLength),
+    Validators.maxLength(Validation.user.password.maxLength),
   ]),
 });
