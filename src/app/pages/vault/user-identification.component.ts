@@ -9,6 +9,7 @@ import {
   isEditModeSignal,
   isSavingSignal,
 } from 'src/app/pages/vault/vault.signals';
+import { DateTimePipe } from 'src/app/pipes';
 import {
   ScreenService,
   ToastService,
@@ -34,11 +35,12 @@ import {
   styleUrls: ['./user-identification.component.scss'],
   imports: [
     CommonModule,
+    DateTimePipe,
     FormsModule,
     InputComponent,
     InputDatepickerComponent,
-    ReactiveFormsModule,
     PipButtonComponent,
+    ReactiveFormsModule,
   ],
   standalone: true,
 })
