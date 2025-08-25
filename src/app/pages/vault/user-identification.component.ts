@@ -17,7 +17,7 @@ import {
 import { Validation, isNumber, toNumber } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, effect, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -45,6 +45,15 @@ import {
 export class UserIdentificationComponent implements OnInit {
   public constructor() {
     this.formGroup.reset();
+
+    effect(() => {
+      const isSaving = isSavingSignal();
+      if (isSaving) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.enable();
+      }
+    });
   }
 
   @Input({ required: true }) public user!: PipUser;

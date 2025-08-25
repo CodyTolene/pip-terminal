@@ -8,6 +8,14 @@
       calendar-body-label-text-color: col.$pip-green,
       calendar-container-background-color: col.$pip-black,
       calendar-container-text-color: col.$pip-green,
+      calendar-date-selected-state-text-color: col.$pip-green,
+      calendar-date-text-color: col.$pip-green,
+      calendar-header-text-color: col.$pip-green-dark,
+      calendar-period-button-text-color: col.$pip-green-dark,
+      range-input-disabled-state-text-color: col.$pip-green-darkest,
+      calendar-date-hover-state-background-color: col.$pip-green-dark,
+      calendar-navigation-button-icon-color: col.$pip-green,
+      calendar-period-button-icon-color: col.$pip-green,
     )
   );
 }

@@ -12,6 +12,15 @@
           placeholder="Vault Dweller Name"
           type="text"
         ></pro-input>
+        @if (
+          !formGroup.controls.displayName.hasError('required') &&
+          formGroup.controls.displayName.hasError('pattern') &&
+          formGroup.touched
+        ) {
+          <div class="custom-form-error">
+            <p>Only A-Z, 1-9, ".", "_", or "-" allowed.</p>
+          </div>
+        }
         <pro-input
           [formControl]="formGroup.controls.roomNumber"
           label="Room Number"
