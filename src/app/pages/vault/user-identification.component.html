@@ -8,6 +8,7 @@
       <form [formGroup]="formGroup">
         <pro-input
           [formControl]="formGroup.controls.displayName"
+          autocomplete="name"
           label="Name"
           placeholder="Vault Dweller Name"
           type="text"
@@ -23,6 +24,7 @@
         }
         <pro-input
           [formControl]="formGroup.controls.roomNumber"
+          autocomplete="off"
           label="Room Number"
           placeholder="Enter your Room Number"
           type="number"
@@ -32,16 +34,19 @@
           [min]="dobMinDateTime"
           [max]="dobMaxDateTime"
           label="Date of Birth"
+          autocomplete="bday"
           placeholder="Enter your Birthday"
         ></pro-input-datepicker>
         <pro-input
           [formControl]="formGroup.controls.skill"
+          autocomplete="organization-title"
           label="Skill"
           placeholder="Enter your Occupation"
           type="text"
         ></pro-input>
         <pro-input
           [formControl]="formGroup.controls.vaultNumber"
+          autocomplete="off"
           label="Vault Number"
           placeholder="Enter your Vault Number"
           type="number"

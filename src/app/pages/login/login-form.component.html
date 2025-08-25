@@ -1,6 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()">
   <pro-input
     [formControl]="formGroup.controls.email"
+    autocomplete="email"
     appearance="fill"
     label="Email"
     placeholder="Enter your Email Address"
@@ -8,6 +9,7 @@
   ></pro-input>
   <pro-input
     [formControl]="formGroup.controls.password"
+    autocomplete="current-password"
     appearance="fill"
     label="Password"
     placeholder="Enter your Password"

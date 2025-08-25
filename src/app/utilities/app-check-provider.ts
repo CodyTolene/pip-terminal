@@ -12,7 +12,7 @@ export function appCheckProvider(): EnvironmentProviders | Provider[] {
   if (!environment.isProduction) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    // return []; // Disable in development.
+    return []; // Disable in development.
   }
   return provideAppCheck((injector) => {
     const app = injector.get(FirebaseApp);

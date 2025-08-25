@@ -15,7 +15,12 @@ import {
   ToastService,
   UserProfileService,
 } from 'src/app/services';
-import { Validation, isNumber, toNumber } from 'src/app/utilities';
+import {
+  Validation,
+  isNonEmptyString,
+  isNumber,
+  toNumber,
+} from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, effect, inject } from '@angular/core';
@@ -150,7 +155,7 @@ export class UserIdentificationComponent implements OnInit {
       const profile: Partial<FirestoreProfileApi> = {
         dateOfBirth: dateOfBirth?.toISO() ?? null,
         roomNumber: roomNumberParsed,
-        skill,
+        skill: isNonEmptyString(skill) ? skill : null,
         vaultNumber: vaultNumberParsed,
       };
       await this.userProfile.updateProfile(this.user.uid, profile);
