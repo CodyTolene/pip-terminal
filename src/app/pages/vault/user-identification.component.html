@@ -46,19 +46,6 @@
           placeholder="Enter your Vault Number"
           type="number"
         ></pro-input>
-        @if (false) {
-          <div>
-            <label for="disable-toggle">Disable Form</label>
-            <input
-              [checked]="formGroup.disabled"
-              (click)="
-                formGroup.disabled ? formGroup.enable() : formGroup.disable()
-              "
-              id="disable-toggle"
-              type="checkbox"
-            />
-          </div>
-        }
       </form>
       <div class="user-actions">
         @if (isEditModeSignal()) {

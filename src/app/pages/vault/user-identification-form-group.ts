@@ -15,7 +15,6 @@ export interface UserIdentificationFormGroup {
 export const userIdentificationFormGroup =
   new FormGroup<UserIdentificationFormGroup>({
     dateOfBirth: new FormControl<DateTime | null>(null, [
-      // Validators.required,
       // Today
       CustomValidators.minDateTime(Validation.profile.dateOfBirth.minDateTime),
       // 1900-01-01
@@ -31,17 +30,14 @@ export const userIdentificationFormGroup =
       ],
     }),
     roomNumber: new FormControl<number | null>(null, [
-      // Validators.required,
       Validators.min(Validation.profile.roomNumber.min),
       Validators.max(Validation.profile.roomNumber.max),
     ]),
     skill: new FormControl<string | null>(null, [
-      // Validators.required,
       Validators.minLength(Validation.profile.skill.minLength),
       Validators.maxLength(Validation.profile.skill.maxLength),
     ]),
     vaultNumber: new FormControl<number | null>(null, [
-      //  Validators.required,
       Validators.min(Validation.profile.vaultNumber.min),
       Validators.max(Validation.profile.vaultNumber.max),
     ]),
