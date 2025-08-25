@@ -3,6 +3,7 @@ import { FormDirective } from '@proangular/pro-form';
 import { combineLatest, map, shareReplay } from 'rxjs';
 import { DX_RADIO_FILE_NAMES, MX_RADIO_FILE_NAMES } from 'src/app/constants';
 import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
+import { PipConnectionService } from 'src/app/services';
 import { logMessage } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -73,6 +74,7 @@ export class PipBoy3000MkVRadioPageComponent
   }
 
   private readonly formBuilder = inject(FormBuilder);
+  private readonly pipConnectionService = inject(PipConnectionService);
   private readonly pipSoundService = inject(PipSoundService);
   private readonly scriptsService = inject(ScriptsService);
 
@@ -116,8 +118,12 @@ export class PipBoy3000MkVRadioPageComponent
     });
   }
 
-  public ngOnDestroy(): void {
+  public async ngOnDestroy(): Promise<void> {
     this.scriptsService.unloadAll();
+    // Disconnect from the Pip-Boy if there's an active connection
+    if (this.pipConnectionService.connection?.isOpen) {
+      await this.pipConnectionService.disconnect();
+    }
   }
 
   protected async playRadioFile(

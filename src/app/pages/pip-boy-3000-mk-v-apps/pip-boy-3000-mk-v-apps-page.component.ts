@@ -23,6 +23,7 @@ export class PipBoy3000MkVAppsPageComponent implements OnInit {
   protected readonly safeUrl: SafeResourceUrl;
 
   public async ngOnInit(): Promise<void> {
+    // Disconnect from the Pip-Boy if there's an active connection
     if (this.pipConnectionService.connection?.isOpen) {
       await this.pipConnectionService.disconnect();
     }
