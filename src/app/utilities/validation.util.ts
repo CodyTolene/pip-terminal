@@ -34,7 +34,7 @@ export class Validation {
     },
     vaultNumber: {
       min: 1,
-      max: 122,
+      max: 999,
     },
   };
 

@@ -4,7 +4,7 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { Observable, ReplaySubject, map } from 'rxjs';
-import { PipUser } from 'src/app/models';
+import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { Injectable, inject } from '@angular/core';
@@ -106,14 +106,6 @@ export class AuthService {
       shareSingleReplay<boolean>(),
     );
 
-  private async getUserProfile(
-    uid: string,
-  ): Promise<PipUser['profile'] | undefined> {
-    const ref = fsDoc(this.firestore, 'users', uid);
-    const snap = await fsGetDoc(ref);
-    return snap.exists() ? (snap.data() as PipUser['profile']) : undefined;
-  }
-
   public authReady(): Promise<void> {
     const anyAuth = this.auth as unknown as {
       authStateReady?: () => Promise<void>;
@@ -121,6 +113,11 @@ export class AuthService {
     return anyAuth.authStateReady
       ? anyAuth.authStateReady()
       : Promise.resolve();
+  }
+
+  public patchUserProfile(user: PipUser, profile: FirestoreProfileApi): void {
+    const updatedUser = new PipUser({ ...user, profile });
+    this.userSubject.next(updatedUser);
   }
 
   public sendEmailVerification(): Promise<void> {
@@ -131,23 +128,16 @@ export class AuthService {
     return sendEmailVerification(user);
   }
 
-  public signInWithGoogle(): Promise<UserCredential> {
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(this.auth, provider);
-  }
-
-  public signUpWithEmail(
-    email: string,
-    password: string,
-  ): Promise<UserCredential> {
-    return createUserWithEmailAndPassword(this.auth, email, password);
-  }
-
   public signInWithEmail(
     email: string,
     password: string,
   ): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  public signInWithGoogle(): Promise<UserCredential> {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(this.auth, provider);
   }
 
   public signOut(): Promise<void> {
@@ -159,8 +149,18 @@ export class AuthService {
     return signOut(this.auth);
   }
 
-  public getIdToken(): Promise<string | null> {
-    const currentUser = this.auth.currentUser;
-    return currentUser ? currentUser.getIdToken() : Promise.resolve(null);
+  public signUpWithEmail(
+    email: string,
+    password: string,
+  ): Promise<UserCredential> {
+    return createUserWithEmailAndPassword(this.auth, email, password);
+  }
+
+  private async getUserProfile(
+    uid: string,
+  ): Promise<PipUser['profile'] | undefined> {
+    const ref = fsDoc(this.firestore, 'users', uid);
+    const snap = await fsGetDoc(ref);
+    return snap.exists() ? (snap.data() as PipUser['profile']) : undefined;
   }
 }
