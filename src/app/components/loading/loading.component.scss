@@ -88,6 +88,28 @@
         border-bottom-right-radius: calc($h / 2);
       }
     }
+
+    &.has-vault-number {
+      // Disable ring animation
+      .ring {
+        align-items: center;
+        animation: none;
+        display: flex;
+        flex-direction: column;
+        font-weight: bolder;
+        font-size: var.$font-lg;
+        height: 100%;
+        justify-content: center;
+      }
+      // Slow down the wing animation
+      .wing {
+        animation-duration: 2s;
+      }
+      // Fill the ring border
+      .ring {
+        border-color: rgba(col.$pip-green, 0.8);
+      }
+    }
   }
 
   p {

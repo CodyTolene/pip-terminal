@@ -1,8 +1,10 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { delayWhen, timer } from 'rxjs';
 import { PipFooterComponent } from 'src/app/layout';
 import { isEditModeSignal } from 'src/app/pages/vault/vault.signals';
 import { AuthService, ToastService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
+import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject, signal } from '@angular/core';
@@ -42,8 +44,11 @@ export class VaultPageComponent implements OnDestroy {
 
   protected isLoggingOutSignal = signal<boolean>(false);
 
-  protected readonly userChanges =
-    this.auth.userChanges.pipe(shareSingleReplay());
+  protected readonly userChanges = this.auth.userChanges.pipe(
+    // Delay user changes by 2 seconds to display loader
+    delayWhen(() => (environment.isProduction ? timer(2000) : timer(0))),
+    shareSingleReplay(),
+  );
 
   protected startEdit(): void {
     this.isEditModeSignal.set(true);

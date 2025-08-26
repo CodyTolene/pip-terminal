@@ -1,6 +1,14 @@
-<div class="loader">
+<div class="loader" [class.has-vault-number]="hasVaultNumber">
   <span class="wing wing-left" aria-hidden="true"></span>
   <span class="wing wing-right" aria-hidden="true"></span>
-  <span class="ring" aria-hidden="true"></span>
+  <span class="ring" aria-hidden="true">
+    @if (hasVaultNumber) {
+      <ng-content select="[vaultNumber]"></ng-content>
+    }
+  </span>
 </div>
-<p><ng-content /></p>
+<p>
+  @if (!hasVaultNumber) {
+    <ng-content></ng-content>
+  }
+</p>

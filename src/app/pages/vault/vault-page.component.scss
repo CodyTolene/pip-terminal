@@ -1,3 +1,4 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
@@ -30,10 +31,15 @@ main {
   width: 100%;
 
   .user-actions {
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
     width: 100%;
+
+    @include bps.media('max', 'md') {
+      padding: 0 1rem;
+    }
   }
 }
 

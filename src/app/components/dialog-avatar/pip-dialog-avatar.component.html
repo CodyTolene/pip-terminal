@@ -13,17 +13,22 @@
     <div class="controls">
       <input
         (change)="onFileSelected($event)"
-        [disabled]="isSaving()"
+        [disabled]="isSavingSignal()"
         accept="image/*"
         id="avatar-file"
         type="file"
       />
-      <label for="avatar-file" class="upload-label">Choose Image</label>
+      <label
+        for="avatar-file"
+        class="upload-label"
+        [class.disabled]="isSavingSignal()"
+        >Choose Image</label
+      >
       @if (user.photoURL) {
         <button
           mat-button
           (click)="deleteImage()"
-          [disabled]="isSaving()"
+          [disabled]="isSavingSignal()"
           type="button"
         >
           Delete Current
@@ -50,9 +55,16 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()" [disabled]="isSaving()">Cancel</button>
+  <button mat-button (click)="cancel()" [disabled]="isSavingSignal()">
+    Cancel
+  </button>
   @if (selectedFile) {
-    <button mat-button (click)="save()" [disabled]="isSaving()" type="button">
+    <button
+      mat-button
+      (click)="save()"
+      [disabled]="isSavingSignal()"
+      type="button"
+    >
       Save
     </button>
   }

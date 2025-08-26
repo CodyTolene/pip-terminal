@@ -1,6 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="register()">
   <pro-input
     [formControl]="formGroup.controls.displayName"
+    autocomplete="name"
     appearance="fill"
     label="Display Name"
     placeholder="Enter your Display Name"
@@ -18,12 +19,14 @@
   <pro-input
     [formControl]="formGroup.controls.email"
     appearance="fill"
+    autocomplete="email"
     label="Email"
     placeholder="Enter your Email Address"
     type="email"
   ></pro-input>
   <pro-input
     [formControl]="formGroup.controls.password"
+    autocomplete="new-password"
     appearance="fill"
     label="Password"
     placeholder="Enter a Password"
@@ -31,6 +34,7 @@
   ></pro-input>
   <pro-input
     [formControl]="formGroup.controls.passwordConfirm"
+    autocomplete="new-password"
     appearance="fill"
     label="Confirm Password"
     placeholder="Re-enter your Password"
