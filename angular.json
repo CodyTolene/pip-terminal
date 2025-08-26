@@ -63,7 +63,35 @@
                 "browser": "",
                 "server": ""
               },
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
+            },
+            "test": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "2.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ],
+              "outputPath": {
+                "base": "dist",
+                "browser": "",
+                "server": ""
+              },
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -79,6 +107,9 @@
           "configurations": {
             "production": {
               "buildTarget": "pip-terminal:build:production"
+            },
+            "test": {
+              "buildTarget": "pip-terminal:build:test"
             },
             "development": {
               "buildTarget": "pip-terminal:build:development"

@@ -9,6 +9,7 @@ import {
 } from 'src/app/layout';
 import { DefaultLayoutComponent } from 'src/app/layout/default/default-layout.component';
 import {
+  AppUpdateService,
   PageDataService,
   PageMetaService,
   SoundService,
@@ -48,6 +49,7 @@ export class PipComponent implements OnInit {
     // }
   }
 
+  private readonly appUpdateService = inject(AppUpdateService);
   private readonly pageDataService = inject(PageDataService);
   private readonly pageMetaService = inject(PageMetaService);
 
@@ -70,6 +72,8 @@ export class PipComponent implements OnInit {
   protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
   public ngOnInit(): void {
+    this.appUpdateService.init();
+
     // Set the default tags for all pages.
     this.pageMetaService.setDefaultTags();
 

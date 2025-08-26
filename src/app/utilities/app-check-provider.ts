@@ -9,16 +9,18 @@ import {
 } from '@angular/fire/app-check';
 
 export function appCheckProvider(): EnvironmentProviders | Provider[] {
-  if (!environment.isProduction) {
+  const { apiKey } = environment.google.recaptcha;
+  const { isProduction } = environment;
+
+  if (!apiKey || !isProduction) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    return []; // Disable in development.
+    return []; // Disable
   }
+
   return provideAppCheck((injector) => {
     const app = injector.get(FirebaseApp);
-    const provider = new ReCaptchaEnterpriseProvider(
-      environment.google.recaptcha.apiKey,
-    );
+    const provider = new ReCaptchaEnterpriseProvider(apiKey);
     return initializeAppCheck(app, {
       provider,
       isTokenAutoRefreshEnabled: true,

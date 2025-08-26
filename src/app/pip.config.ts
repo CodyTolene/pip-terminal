@@ -33,6 +33,7 @@ import {
   provideStorage,
 } from '@angular/fire/storage';
 import { provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
 import { StorageSessionService } from 'src/app/services/storage-session.service';
@@ -95,6 +96,10 @@ export const appConfig: ApplicationConfig = {
     provideAnalytics((injector) => {
       const app = injector.get(FirebaseApp);
       return getAnalytics(app);
+    }),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: environment.isProduction,
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     ScreenTrackingService,
     StorageLocalService,
