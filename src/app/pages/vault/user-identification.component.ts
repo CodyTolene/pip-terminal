@@ -10,7 +10,7 @@ import {
   isEditModeSignal,
   isSavingSignal,
 } from 'src/app/pages/vault/vault.signals';
-import { DateTimePipe } from 'src/app/pipes';
+import { DateTimePipe, VaultNumberPipe } from 'src/app/pipes';
 import {
   ScreenService,
   ToastService,
@@ -50,6 +50,7 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
     PipButtonComponent,
     ReactiveFormsModule,
     VaultNumberDirective,
+    VaultNumberPipe,
   ],
   standalone: true,
 })
@@ -98,6 +99,10 @@ export class UserIdentificationComponent implements OnInit {
     }
 
     this.setDefaultValues();
+
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+    }
   }
 
   protected cancelEdit(): void {
