@@ -11,7 +11,7 @@ interface EnvironmentCredentials {
       apiKey: string | undefined;
     };
     recaptcha: {
-      apiKey: string;
+      apiKey: string | undefined;
     };
   };
   isProduction: boolean;

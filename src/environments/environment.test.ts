@@ -19,5 +19,5 @@ export const environment: EnvironmentCredentials = {
       apiKey: undefined,
     },
   },
-  isProduction: false,
+  isProduction: true,
 };

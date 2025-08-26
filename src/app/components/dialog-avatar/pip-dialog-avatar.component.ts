@@ -38,15 +38,18 @@ export class PipDialogAvatarComponent {
   private readonly userProfile = inject(UserProfileService);
 
   protected readonly user = this.data.user;
-  protected readonly isSaving = signal(false);
+  protected readonly isSavingSignal = signal(false);
 
   protected selectedImageEvent: Event | null = null;
   protected selectedFile: File | null = null;
   protected croppedImage: string | null = null;
 
   protected async deleteImage(): Promise<void> {
-    if (this.isSaving()) return;
-    this.isSaving.set(true);
+    if (this.isSavingSignal()) {
+      return;
+    }
+
+    this.isSavingSignal.set(true);
     try {
       await this.userProfile.deleteProfileImage(this.user.uid);
       this.toast.success({
@@ -57,7 +60,7 @@ export class PipDialogAvatarComponent {
     } catch (e) {
       console.error('[AvatarDialog] delete failed', e);
     } finally {
-      this.isSaving.set(false);
+      this.isSavingSignal.set(false);
     }
   }
 
@@ -82,10 +85,12 @@ export class PipDialogAvatarComponent {
   }
 
   protected async save(): Promise<void> {
-    if (this.isSaving()) return;
-    if (!this.selectedFile) return;
+    if (this.isSavingSignal() || !this.selectedFile) {
+      return;
+    }
 
-    this.isSaving.set(true);
+    this.isSavingSignal.set(true);
+
     try {
       const toUpload = this.croppedImage ?? (await this.fallbackCenterCrop());
       if (!toUpload) return;
@@ -110,7 +115,7 @@ export class PipDialogAvatarComponent {
         durationSecs: 3,
       });
     } finally {
-      this.isSaving.set(false);
+      this.isSavingSignal.set(false);
     }
   }
 

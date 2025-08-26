@@ -2,6 +2,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { InputComponent, InputDatepickerComponent } from '@proangular/pro-form';
 import { map } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
+import { VaultNumberDirective } from 'src/app/directives';
 import { ScreenSizeEnum } from 'src/app/enums';
 import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { userIdentificationFormGroup } from 'src/app/pages/vault/user-identification-form-group';
@@ -9,13 +10,18 @@ import {
   isEditModeSignal,
   isSavingSignal,
 } from 'src/app/pages/vault/vault.signals';
-import { DateTimePipe } from 'src/app/pipes';
+import { DateTimePipe, VaultNumberPipe } from 'src/app/pipes';
 import {
   ScreenService,
   ToastService,
   UserProfileService,
 } from 'src/app/services';
-import { Validation, isNumber, toNumber } from 'src/app/utilities';
+import {
+  Validation,
+  isNonEmptyString,
+  isNumber,
+  toNumber,
+} from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, effect, inject } from '@angular/core';
@@ -27,6 +33,7 @@ import {
   PipDialogAvatarComponent,
   PipDialogAvatarResult,
 } from 'src/app/components/dialog-avatar/pip-dialog-avatar.component';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @UntilDestroy()
 @Component({
@@ -39,8 +46,11 @@ import {
     FormsModule,
     InputComponent,
     InputDatepickerComponent,
+    LoadingComponent,
     PipButtonComponent,
     ReactiveFormsModule,
+    VaultNumberDirective,
+    VaultNumberPipe,
   ],
   standalone: true,
 })
@@ -89,6 +99,10 @@ export class UserIdentificationComponent implements OnInit {
     }
 
     this.setDefaultValues();
+
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+    }
   }
 
   protected cancelEdit(): void {
@@ -150,7 +164,7 @@ export class UserIdentificationComponent implements OnInit {
       const profile: Partial<FirestoreProfileApi> = {
         dateOfBirth: dateOfBirth?.toISO() ?? null,
         roomNumber: roomNumberParsed,
-        skill,
+        skill: isNonEmptyString(skill) ? skill : null,
         vaultNumber: vaultNumberParsed,
       };
       await this.userProfile.updateProfile(this.user.uid, profile);

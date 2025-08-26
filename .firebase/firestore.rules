@@ -5,8 +5,64 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if isOwner(uid);
+      allow create, update: if isOwner(uid) && isValidProfile(request.resource.data);
+      allow delete: if isOwner(uid);
+    }
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function isValidProfile(d) {
+      return validDob(d) &&
+             validRoomNumber(d) &&
+             validSkill(d) &&
+             validVaultNumber(d);
+    }
+
+    // dateOfBirth (string):
+    //  - missing or null allowed
+    //  - if present: YYYY-MM-DD OR full ISO with Z or ±HH:MM
+    //  - must be >= 1900-01-01
+    function validDob(d) {
+      return !('dateOfBirth' in d) ||
+             d.dateOfBirth == null ||
+             (
+               d.dateOfBirth is string &&
+               (
+                 d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}$') ||
+                 d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{2}:\\d{2})$')
+               ) &&
+               d.dateOfBirth >= '1900-01-01'
+             );
+    }
+
+    // roomNumber: optional/null OR int in [1, 999]
+    function validRoomNumber(d) {
+      return !('roomNumber' in d) ||
+             d.roomNumber == null ||
+             (d.roomNumber is int && d.roomNumber >= 1 && d.roomNumber <= 999);
+    }
+
+    // skill: optional/null OR string length in [2, 128]
+    function validSkill(d) {
+      return !('skill' in d) ||
+            d.skill == null ||
+            (
+              d.skill is string &&
+              d.skill.size() >= 2 &&
+              d.skill.size() <= 128
+            );
+    }
+
+    // vaultNumber: optional/null OR int in [1, 122]
+    function validVaultNumber(d) {
+      return !('vaultNumber' in d) ||
+             d.vaultNumber == null ||
+             (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 122);
     }
   }
 }
