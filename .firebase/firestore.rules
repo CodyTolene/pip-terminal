@@ -58,11 +58,11 @@ service cloud.firestore {
             );
     }
 
-    // vaultNumber: optional/null OR int in [1, 122]
+    // vaultNumber: optional/null OR int in [1, 999]
     function validVaultNumber(d) {
       return !('vaultNumber' in d) ||
              d.vaultNumber == null ||
-             (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 122);
+             (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
     }
   }
 }
