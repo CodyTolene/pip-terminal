@@ -72,11 +72,11 @@ export class UserProfileService {
   public async updateProfile(
     uid: string,
     data: Partial<FirestoreProfileApi>,
-  ): Promise<void> {
+  ): Promise<FirestoreProfileApi | null> {
     const user = await getFirstNonEmptyValueFrom(this.auth.userChanges);
     if (user && user.uid === uid) {
-      // If any properties are missing from `FirestoreProfileApi`, set them as null
-      data = {
+      // If any properties are missing, set them as null
+      const toUpdate: FirestoreProfileApi = {
         dateOfBirth: null,
         roomNumber: null,
         skill: null,
@@ -86,8 +86,10 @@ export class UserProfileService {
       const docRef = fsDoc(this.firestore, 'users', uid).withConverter(
         userExtrasConverter,
       );
-      await fsSetDoc(docRef, data, { merge: true });
+      await fsSetDoc(docRef, toUpdate, { merge: true });
+      return toUpdate;
     }
+    return null;
   }
 
   public async uploadProfileImage(

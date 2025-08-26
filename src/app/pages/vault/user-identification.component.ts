@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { InputComponent, InputDatepickerComponent } from '@proangular/pro-form';
-import { map } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
 import { VaultNumberDirective } from 'src/app/directives';
 import { ScreenSizeEnum } from 'src/app/enums';
@@ -12,12 +12,14 @@ import {
 } from 'src/app/pages/vault/vault.signals';
 import { DateTimePipe, VaultNumberPipe } from 'src/app/pipes';
 import {
+  AuthService,
   ScreenService,
   ToastService,
   UserProfileService,
 } from 'src/app/services';
 import {
   Validation,
+  getFirstNonEmptyValueFrom,
   isNonEmptyString,
   isNumber,
   toNumber,
@@ -79,6 +81,7 @@ export class UserIdentificationComponent implements OnInit {
     Validation.profile.dateOfBirth.minDateTime;
   protected readonly formGroup = userIdentificationFormGroup;
 
+  private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly screenService = inject(ScreenService);
   private readonly toast = inject(ToastService);
@@ -167,7 +170,30 @@ export class UserIdentificationComponent implements OnInit {
         skill: isNonEmptyString(skill) ? skill : null,
         vaultNumber: vaultNumberParsed,
       };
-      await this.userProfile.updateProfile(this.user.uid, profile);
+
+      const profileResult = await this.userProfile.updateProfile(
+        this.user.uid,
+        profile,
+      );
+
+      if (!profileResult) {
+        this.toast.error({
+          message: 'Failed to save vault profile. Please try again later.',
+        });
+        console.error('[User ID Component] Failed to update profile', profile);
+        return;
+      }
+
+      const currentUser = await getFirstNonEmptyValueFrom(
+        this.auth.userChanges,
+      );
+
+      // Make sure our local user object is in sync before
+      // switching back to the main view (non edit mode)
+      this.auth.patchUserProfile(currentUser, profileResult);
+
+      // Await the next emission
+      await firstValueFrom(this.auth.userChanges);
 
       this.toast.success({
         message: 'Vault profile updated successfully.',
