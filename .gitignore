@@ -76,3 +76,8 @@ public/pip
 ssl/
 ssl/localhost.crt
 ssl/localhost.key
+
+# Cypress (e2e testing)
+cypress/downloads
+cypress/screenshots
+cypress/videos

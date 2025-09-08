@@ -26,6 +26,7 @@
   - [Local User Testing](#local-user-testing)
   - [Deploying Frontend](#deploy-frontend)
   - [Deploying API](#deploy-api)
+  - [Automated Testing](#automated-testing)
   - [Versioning](#versioning)
   - [Content Guidelines](#content-guidelines)
   - [File Structure](#file-structure)
@@ -173,6 +174,41 @@ You can build and deploy the API by running the following command:
 
 ```bash
 npm run deploy:api
+```
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Automated Testing <a name="automated-testing"></a>
+
+#### Cloud Testing
+
+Cypress Cloud: https://cloud.cypress.io/organizations
+
+#### Local Testing
+
+You can open the Cypress GUI by running the following command:
+
+```bash
+npm run cypress:open
+```
+
+You can run the automated tests locally (and in CI) by running the following
+commands:
+
+End to End Tests:
+
+```bash
+npm run cypress:e2e
+```
+
+Component Tests:
+
+```bash
+npm run cypress:component
 ```
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
