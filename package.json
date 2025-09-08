@@ -1,7 +1,7 @@
 {
   "name": "pip-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "3.10.1",
+  "version": "3.11.0",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
@@ -56,6 +56,7 @@
     "@ngneat/until-destroy": "^10.0.0",
     "@proangular/pro-form": "^20.1.7",
     "crc": "^4.3.2",
+    "cypress": "^15.1.0",
     "io-ts": "^2.2.22",
     "jszip": "^3.10.1",
     "luxon": "^3.7.1",
