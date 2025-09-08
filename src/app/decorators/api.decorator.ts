@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import { KeysOf } from 'src/app/types/keys';
+
 /**
  * A decorator for properties that are mapped to an API model.
  *

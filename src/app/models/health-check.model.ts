@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 import { apiDecorator } from 'src/app/decorators';
 import { decode } from 'src/app/utilities';
 
+import { ClassProperties } from 'src/app/types/class-properties';
+
 // type HealthCheckApi = io.TypeOf<typeof HealthCheck.Codec>;
 const api = apiDecorator<HealthCheckApi>();
 

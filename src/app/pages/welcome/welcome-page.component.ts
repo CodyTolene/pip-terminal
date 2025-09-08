@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @Component({
   selector: 'pip-welcome-page',
   templateUrl: './welcome-page.component.html',

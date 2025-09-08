@@ -1,6 +1,8 @@
 import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
 
+import { PipRoute } from 'src/app/types/pip-route';
+
 export const PIP_BOY_3000_STATUS_PAGE_ROUTE: PipRoute = {
   path: '',
   data: {

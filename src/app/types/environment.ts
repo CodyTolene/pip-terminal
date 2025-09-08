@@ -1,4 +1,4 @@
-interface EnvironmentCredentials {
+export interface EnvironmentCredentials {
   apiUrl: string;
   /**
    * Dev: The URL to the root of the "public" folder.

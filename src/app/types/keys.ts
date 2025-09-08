@@ -1,19 +1,21 @@
+import { Primitive } from '@angular/fire/firestore';
+
 /**
  * All first-level deep keys of an object of type <T>.
  */
-type KeysOf<T> = { [P in keyof T]: P }[keyof T];
+export type KeysOf<T> = { [P in keyof T]: P }[keyof T];
 
 /**
  * All first level deep keys of an object of type <T> that are of type <string>
  * __only__.
  */
-type KeysOfString<T> = Extract<KeysOf<T>, string>;
+export type KeysOfString<T> = Extract<KeysOf<T>, string>;
 
 /**
  * Returns __all__ keys & nested keys of an object of type <T> that are of type
  * <string> __only__.
  */
-type NestedKeysOfString<T> = T extends Primitive
+export type NestedKeysOfString<T> = T extends Primitive
   ? never
   : T extends null | undefined
     ? ''
@@ -25,7 +27,7 @@ type NestedKeysOfString<T> = T extends Primitive
             >}`;
           }[keyof T & string];
 
-type DeepNestedKeysOfString<T, P extends keyof T & string> =
+export type DeepNestedKeysOfString<T, P extends keyof T & string> =
   T[P] extends Array<infer Inner>
     ? `${P}.${NestedKeysOfString<Inner>}`
     : T[P] extends object

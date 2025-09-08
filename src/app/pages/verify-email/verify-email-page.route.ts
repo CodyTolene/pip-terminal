@@ -2,6 +2,8 @@ import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
 import { isLoggedInGuard } from 'src/app/guards';
 
+import { PipRoute } from 'src/app/types/pip-route';
+
 export const VERIFY_EMAIL_PAGE_ROUTE: PipRoute = {
   path: 'verify-email',
   pathMatch: 'full',

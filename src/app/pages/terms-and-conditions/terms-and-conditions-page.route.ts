@@ -1,6 +1,8 @@
 import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
 
+import { PipRoute } from 'src/app/types/pip-route';
+
 export const TERMS_AND_CONDITIONS_PAGE_ROUTE: PipRoute = {
   path: 'terms-and-conditions',
   pathMatch: 'full',

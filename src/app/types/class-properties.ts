@@ -1,5 +1,5 @@
 /** All properties of a class <C>. */
-type ClassProperties<C> = Pick<
+export type ClassProperties<C> = Pick<
   C,
   {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type

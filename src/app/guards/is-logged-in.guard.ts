@@ -4,6 +4,8 @@ import { AuthService } from 'src/app/services';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 export const isLoggedInGuard: CanActivateFn = (route) => {
   const auth = inject(AuthService);
   const router = inject(Router);

@@ -12,6 +12,8 @@ import { PIP_BOY_3000_MK_IV_STATUS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000
 import { PIP_BOY_3000_MK_IV_WEAPONS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-iv/weapons/pip-boy-3000-mk-iv-weapons-page.route';
 import { PIP_BOY_3000_MK_IV_WORKSHOPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-iv/workshops/pip-boy-3000-mk-iv-workshops-page.route';
 
+import { PipRoute } from 'src/app/types/pip-route';
+
 export const PIP_BOY_3000_MK_IV_ROUTES: readonly PipRoute[] = [
   {
     path: '3000-mk-iv',

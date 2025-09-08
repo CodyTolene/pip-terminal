@@ -39,6 +39,8 @@ import {
   RouterModule,
 } from '@angular/router';
 
+import { ActiveTabs } from 'src/app/types/active-tabs';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-boy-3000-mk-iv-layout',

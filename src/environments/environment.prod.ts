@@ -1,3 +1,5 @@
+import { EnvironmentCredentials } from 'src/app/types/environment';
+
 export const environment: EnvironmentCredentials = {
   apiUrl: 'https://us-central1-pip-terminal.cloudfunctions.net/api',
   appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/releases',

@@ -1,4 +1,4 @@
-type DateTimeFormat =
+export type DateTimeFormat =
   | 'MM/dd/yyyy' // 01/01/2025
   | 'MM/dd/yyyy, hh:mm a (ZZZZ)' // 01/01/2025, 01:00 AM (CDT)
   | 'MM/dd/yyyy, hh:mm a' // 01/01/2025, 01:00 AM

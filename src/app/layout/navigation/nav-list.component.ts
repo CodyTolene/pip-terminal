@@ -15,6 +15,9 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
+import { PageName } from 'src/app/types/page-name';
+import { PageUrl } from 'src/app/types/page-url';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-nav-list',

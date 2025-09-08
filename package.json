@@ -56,7 +56,6 @@
     "@ngneat/until-destroy": "^10.0.0",
     "@proangular/pro-form": "^20.1.7",
     "crc": "^4.3.2",
-    "cypress": "^15.1.0",
     "io-ts": "^2.2.22",
     "jszip": "^3.10.1",
     "luxon": "^3.7.1",
@@ -66,6 +65,7 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^20.2.2",
     "@angular/build": "^20.1.6",
     "@angular/cli": "^20.1.6",
     "@angular/compiler-cli": "^20.1.7",
@@ -74,6 +74,7 @@
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.3.0",
     "angular-eslint": "20.1.1",
+    "cypress": "^15.1.0",
     "eslint": "^9.33.0",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",

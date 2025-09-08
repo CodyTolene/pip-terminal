@@ -16,6 +16,9 @@ import { VERIFY_EMAIL_PAGE_ROUTE } from 'src/app/pages/verify-email/verify-email
 import { WELCOME_PAGE_ROUTE } from 'src/app/pages/welcome/welcome-page.route';
 import { PAGE_REDIRECTS } from 'src/app/routing/page-redirects';
 
+import { PipRoute } from 'src/app/types/pip-route';
+import { PipRouteRedirect } from 'src/app/types/pip-route-redirect';
+
 export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   LOGIN_PAGE_ROUTE,
   PIP_BOY_2000_MK_VI_ROUTES,
