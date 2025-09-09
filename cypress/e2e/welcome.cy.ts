@@ -5,9 +5,9 @@ describe('Welcome page', () => {
 
   it('renders the hero, selector grid, and notes', () => {
     cy.get('main').within(() => {
-      cy.contains('h1', 'Welcome to Pip-Boy.com!').should('be.visible'); // hero
-      cy.contains('h2', 'Choose your Pip-Boy').should('be.visible'); // selector header
-      cy.get('div[role="navigation"][aria-label="Pip-Boy Selector"]') // selector grid
+      cy.contains('h1', 'Welcome to Pip-Boy.com!').should('be.visible');
+      cy.contains('h2', 'Choose your Pip-Boy').should('be.visible');
+      cy.get('div[role="navigation"][aria-label="Pip-Boy Selector"]')
         .as('selector')
         .within(() => {
           cy.get('a.pip-grid-item').should('have.length', 5);
@@ -35,8 +35,8 @@ describe('Welcome page', () => {
       .contains('a.pip-grid-item', 'Pip-Boy 3000 Mk V')
       .click();
 
-    cy.location('pathname').should('include', '/3000-mk-v'); // pipboy3000MkVUrl = '3000-mk-v'
-    cy.go('back'); // return to welcome page for later tests
+    cy.location('pathname').should('include', '/3000-mk-v');
+    cy.go('back');
   });
 
   it('has expected sponsor, developer, and support sections', () => {
@@ -58,8 +58,8 @@ describe('Welcome page', () => {
       'be.visible',
     );
     cy.get('div[aria-label="Developers"]').within(() => {
-      cy.get('a.pip-grid-item').should('have.length', 9); // 9 names in template
-      cy.contains('h4', 'gfwilliams').should('be.visible'); // sample spot check
+      cy.get('a.pip-grid-item').should('have.length', 9);
+      cy.contains('h4', 'gfwilliams').should('be.visible');
     });
 
     // Support

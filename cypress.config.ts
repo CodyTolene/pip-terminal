@@ -5,7 +5,7 @@ const port = process.env['APP_PORT'] ?? '4200';
 
 const downloadsFolder = 'cypress/downloads';
 const enableScreenshots = true;
-const enableVideos = false;
+const enableVideos = host === 'pip-boy.local'; // Local only (not CI)
 const fixturesFolder = 'cypress/fixtures';
 const screenshotsFolder = 'cypress/screenshots';
 const videosFolder = 'cypress/videos';
@@ -21,12 +21,11 @@ export default defineConfig({
     },
     downloadsFolder,
     fixturesFolder,
-    indexHtmlFile: 'cypress/component/index.html',
+    indexHtmlFile: 'cypress/support/component-index.html',
     screenshotOnRunFailure: enableScreenshots,
     screenshotsFolder,
     specPattern: '**/*.cy.ts',
-    // supportFile: "cypress/support/component.ts",
-    supportFile: false,
+    supportFile: 'cypress/support/component.ts',
     video: enableVideos,
     videosFolder,
     waitForAnimations,
@@ -42,8 +41,7 @@ export default defineConfig({
       // implement node event listeners here
     },
     specPattern: 'cypress/e2e/**/*.cy.ts',
-    // supportFile: "cypress/support/e2e.ts",
-    supportFile: false,
+    supportFile: 'cypress/support/e2e.ts',
     taskTimeout: 120000,
     videosFolder,
     viewportHeight: 1080,
