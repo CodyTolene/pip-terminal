@@ -196,21 +196,6 @@ You can open the Cypress GUI by running the following command:
 npm run cypress:open
 ```
 
-You can run the automated tests locally (and in CI) by running the following
-commands:
-
-End to End Tests:
-
-```bash
-npm run cypress:e2e
-```
-
-Component Tests:
-
-```bash
-npm run cypress:component
-```
-
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->

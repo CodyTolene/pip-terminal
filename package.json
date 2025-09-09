@@ -10,8 +10,6 @@
   },
   "scripts": {
     "angular-version": "ng --version",
-    "cypress:component": "cypress run-ct --spec 'cypress/component/**/*.cy.ts'",
-    "cypress:e2e": "cypress run --spec 'cypress/e2e/**/*.cy.ts'",
     "cypress:open": "cypress open",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
