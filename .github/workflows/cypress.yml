@@ -1,71 +1,111 @@
-# .github/workflows/cypress.yml  (replace the e2e job steps with this)
-e2e:
-  runs-on: ubuntu-latest
-  needs: component
-  env:
-    CI: true
-    APP_HOST: pip-boy.local
-    APP_PORT: 4200
-    FIREBASE_AUTH_EMULATOR_HOST: 127.0.0.1:9099
-    FIRESTORE_EMULATOR_HOST: 127.0.0.1:8080
-    FIREBASE_STORAGE_EMULATOR_HOST: 127.0.0.1:9199
+name: Cypress
 
-  steps:
-    - uses: actions/checkout@v4
+on:
+  pull_request:
+    branches: [dev]
+  # push:
+  #   branches: [ main ]
 
-    - name: Use Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: npm
+jobs:
+  component:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Setup Java (Firestore emulator)
-      uses: actions/setup-java@v4
-      with:
-        distribution: temurin
-        java-version: '17'
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-    - name: Install deps (root)
-      run: npm ci
+      - name: Install deps (root)
+        run: npm ci
 
-    - name: Install deps (api)
-      run: npm ci
-      working-directory: api
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-    - name: Build functions
-      run: npm run build
-      working-directory: api
+      - name: Run Cypress component tests
+        run: npx cypress run --component --browser chrome
 
-    - name: Map pip-boy.local
-      run: echo "127.0.0.1 pip-boy.local" | sudo tee -a /etc/hosts
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: component-artifacts
+          path: |
+            cypress/videos
+            cypress/screenshots
 
-    - name: Start Firebase emulators
-      run: |
-        npx firebase emulators:start --only auth,firestore,storage,functions --project pip-terminal > emu.log 2>&1 &
-        echo $! > emu.pid
-        # wait up to 10 minutes and dump logs if something doesn't open
-        npx wait-on -t 600000 tcp:127.0.0.1:8080 tcp:127.0.0.1:9099 tcp:127.0.0.1:9199 tcp:127.0.0.1:5001 || (echo '--- EMULATOR LOG ---'; sed -n '1,300p' emu.log; exit 1)
+  e2e:
+    runs-on: ubuntu-latest
+    needs: component
+    env:
+      CI: true
+      APP_HOST: pip-boy.local
+      APP_PORT: 4200
+      FIREBASE_AUTH_EMULATOR_HOST: 127.0.0.1:9099
+      FIRESTORE_EMULATOR_HOST: 127.0.0.1:8080
+      FIREBASE_STORAGE_EMULATOR_HOST: 127.0.0.1:9199
 
-    - name: Serve Angular app (dev server)
-      run: |
-        npx ng serve --host pip-boy.local --port 4200 --hmr=false > web.log 2>&1 &
-        npx wait-on http://pip-boy.local:4200
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Run Cypress e2e
-      run: npx cypress run --e2e --browser chrome
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-    - name: Upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: e2e-artifacts
-        path: |
-          cypress/videos
-          cypress/screenshots
-          emu.log
-          web.log
+      - name: Setup Java (Firestore emulator)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
 
-    - name: Stop emulators
-      if: always()
-      run: |
-        if [ -f emu.pid ]; then kill -15 $(cat emu.pid) || true; fi
+      - name: Install deps (root)
+        run: npm ci
+
+      - name: Install deps (api)
+        run: npm ci
+        working-directory: api
+
+      - name: Build functions
+        run: npm run build
+        working-directory: api
+
+      - name: Map pip-boy.local
+        run: echo "127.0.0.1 pip-boy.local" | sudo tee -a /etc/hosts
+
+      - name: Start Firebase emulators
+        run: |
+          npx firebase emulators:start --only auth,firestore,storage,functions --project pip-terminal > emu.log 2>&1 &
+          echo $! > emu.pid
+          # wait up to 10 minutes and dump logs if something doesn't open
+          npx wait-on -t 600000 tcp:127.0.0.1:8080 tcp:127.0.0.1:9099 tcp:127.0.0.1:9199 tcp:127.0.0.1:5001 || (echo '--- EMULATOR LOG ---'; sed -n '1,300p' emu.log; exit 1)
+
+      - name: Serve Angular app (dev server)
+        run: |
+          npx ng serve --host pip-boy.local --port 4200 --hmr=false > web.log 2>&1 &
+          npx wait-on http://pip-boy.local:4200
+
+      - name: Run Cypress e2e
+        run: npx cypress run --e2e --browser chrome
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts
+          path: |
+            cypress/videos
+            cypress/screenshots
+            emu.log
+            web.log
+
+      - name: Stop emulators
+        if: always()
+        run: |
+          if [ -f emu.pid ]; then kill -15 $(cat emu.pid) || true; fi
