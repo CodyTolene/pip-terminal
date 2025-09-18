@@ -1,4 +1,4 @@
-name: Cypress
+name: Cypress Testing
 
 on:
   pull_request:
@@ -10,35 +10,50 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out source code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
+      # Install Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: npm
 
+      # Install Java for the Firebase emulators
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
+      # Install global CLI tools used by the workflow
       - name: Install global tools
         run: |
-          npm i -g firebase-tools wait-on
+          npm install -g firebase-tools wait-on
           firebase --version
 
+      # Install project dependencies
       - name: Install root dependencies
         run: npm ci
 
+      # Apply any patch-package changes in CI
+      - name: Apply dependency patches (CI)
+        run: npx patch-package || true
+
+      # Install and build the Firebase functions API
       - name: Install API dependencies
         run: cd api && npm ci
-
       - name: Build Firebase Functions
         run: cd api && npm run build
 
+      # Build Angular (production)
+      - name: Verify Angular builds
+        env:
+          CI: 'true'
+          NG_CLI_ANALYTICS: 'false'
+        run: npm run build
+
+      # Start the Firebase emulators
       - name: Start Firebase emulators
         env:
           CI: 'true'
@@ -46,43 +61,48 @@ jobs:
           GCLOUD_PROJECT: pip-terminal
         run: |
           set -euxo pipefail
+          # Start the emulators and capture logs to a file.
           firebase emulators:start \
             --project pip-terminal \
             --only auth,firestore,functions,storage \
             --debug > emulator.log 2>&1 &
-          EMU_PID=$!
+          # Wait until all services are listening on their respective ports.
           npx wait-on -t 180000 tcp:8080 tcp:9099 tcp:9199 tcp:5001 || {
-            echo "Emulators failed to start. Dumping emulator.log:"
+            echo 'Emulators failed to start. Dumping emulator.log:'
             tail -n +1 -v emulator.log || true
-            kill $EMU_PID || true
             exit 1
           }
 
-      - name: Map pip-boy.local to loopback (CI)
-        run: |
-          echo "127.0.0.1 pip-boy.local" | sudo tee -a /etc/hosts
-          getent hosts pip-boy.local
-
+      # Start the Angular development server
       - name: Start Angular dev server
         env:
           CI: 'true'
+          NG_CLI_ANALYTICS: 'false'
         run: |
-          nohup npm run start:ci > frontend.log 2>&1 &
-          npx wait-on -t 180000 http://pip-boy.local:4200
+          set -euxo pipefail
+          nohup ./node_modules/.bin/ng serve --host 0.0.0.0 --port 4200 --hmr=false > frontend.log 2>&1 &
+          # Wait until the Angular app is listening. If it fails to bind, dump the log.
+          npx wait-on -t 180000 http://127.0.0.1:4200 || {
+            echo 'Dev server failed to start; dumping frontend.log'
+            tail -n +1 -v frontend.log || true
+            exit 1
+          }
 
+      # Run Cypress tests
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           start: ''
-          wait-on: 'http://pip-boy.local:4200'
+          wait-on: http://127.0.0.1:4200
           wait-on-timeout: 300
-          config: baseUrl=http://pip-boy.local:4200
+          config: baseUrl=http://127.0.0.1:4200
         env:
-          FIRESTORE_EMULATOR_HOST: '127.0.0.1:8080'
-          AUTH_EMULATOR_HOST: '127.0.0.1:9099'
-          STORAGE_EMULATOR_HOST: '127.0.0.1:9199'
-          FUNCTIONS_EMULATOR_HOST: '127.0.0.1:5001'
+          FIRESTORE_EMULATOR_HOST: 127.0.0.1:8080
+          AUTH_EMULATOR_HOST: 127.0.0.1:9099
+          STORAGE_EMULATOR_HOST: 127.0.0.1:9199
+          FUNCTIONS_EMULATOR_HOST: 127.0.0.1:5001
 
+      # Upload logs if any step above fails
       - name: Upload logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
