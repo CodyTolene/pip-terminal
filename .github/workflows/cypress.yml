@@ -49,11 +49,9 @@ jobs:
           firebase emulators:start \
             --project demo-pip-terminal \
             --only auth,firestore,functions,storage \
-            --host 127.0.0.1 \
             --debug > emulator.log 2>&1 &
           EMU_PID=$!
-          # Wait up to 120s for all emulator ports. If it times out, dump logs and fail.
-          npx wait-on -t 120000 tcp:8080 tcp:9099 tcp:9199 tcp:5001 || {
+          npx wait-on -t 180000 tcp:8080 tcp:9099 tcp:9199 tcp:5001 || {
             echo "Emulators failed to start. Dumping emulator.log:"
             tail -n +1 -v emulator.log || true
             kill $EMU_PID || true
