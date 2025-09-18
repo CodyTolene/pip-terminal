@@ -184,17 +184,66 @@ npm run deploy:api
 
 ### Automated Testing <a name="automated-testing"></a>
 
-#### Cloud Testing
+Automated tests help ensure that changes to the codebase don’t introduce
+regressions. This project uses [Cypress](https://www.cypress.io/) for end‑to‑end
+testing and runs tests both locally and in CI.
 
-Cypress Cloud: https://cloud.cypress.io/organizations
+#### Cloud and CI Testing
 
-#### Local Testing
+All pull requests to the `dev` branch automatically trigger a GitHub Actions
+workflow defined in `.github/workflows/cypress.yml`. The workflow performs the
+following steps:
 
-You can open the Cypress GUI by running the following command:
+1. **Install prerequisites** – installs Node.js 20 and Java 21 (the Firebase
+   emulators require Java), along with the Firebase CLI and a utility called
+   [`wait-on`](https://npm.im/wait-on).
+2. **Install dependencies and build the API** – runs `npm ci` in the root and
+   `api` directories, then compiles the Firebase Functions code so that the
+   emulators can load it.
+3. **Build the Angular app** – runs `npm run build` to ensure the app compiles
+   cleanly before serving it in the emulator environment.
+4. **Start Firebase emulators** – launches the Auth, Firestore, Functions and
+   Storage emulators defined in `firebase.json`【374065138564778†L1-L20】. The
+   workflow waits for all emulator ports (8080, 9099, 9199 and 5001) to be
+   reachable before continuing.
+5. **Start the Angular dev server** – runs `ng serve` on port 4200 without
+   opening a browser and waits until `http://127.0.0.1:4200` responds.
+6. **Run Cypress headlessly** – uses the official `cypress-io/github-action` to
+   execute all Cypress specs against the development server. Environment
+   variables point the app to the local emulators (`FIRESTORE_EMULATOR_HOST`,
+   `AUTH_EMULATOR_HOST`, `STORAGE_EMULATOR_HOST` and `FUNCTIONS_EMULATOR_HOST`).
+7. **Upload logs on failure** – if any step fails, the workflow uploads
+   `emulator.log` and `frontend.log` artifacts to aid debugging.
 
-```bash
-npm run cypress:open
-```
+The results of each CI run are visible on the “Actions” tab of the GitHub
+repository.
+
+#### Running Cypress Locally
+
+For quick feedback while developing, you can run the Cypress tests on your
+machine. Before launching Cypress you should ensure that both the Angular
+frontend and the Firebase emulators are running:
+
+1. In a new terminal, start the Angular frontend:
+
+   ```bash
+   npm run start
+   ```
+
+2. In a second terminal, start the Firebase API:
+
+   ```bash
+   npm run start:api
+   ```
+
+3. In a third terminal, run Cypress:
+
+   ```bash
+   npm run cypress:open
+   ```
+
+This will open the Cypress Test Runner. Click on either E2E Testing or Component
+Testing to run your tests.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
