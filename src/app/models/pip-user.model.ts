@@ -6,6 +6,8 @@ import { decode, isNonEmptyString } from 'src/app/utilities';
 
 import { User } from '@angular/fire/auth';
 
+import { ClassProperties } from 'src/app/types/class-properties';
+
 type PipUserApi = io.TypeOf<typeof PipUser.Codec>;
 export type FirestoreProfileApi = io.TypeOf<typeof FirestoreProfileCodec>;
 

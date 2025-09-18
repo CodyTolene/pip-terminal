@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 
 import { EmailVerificationService } from 'src/app/services/email-verification.service';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-register-page',

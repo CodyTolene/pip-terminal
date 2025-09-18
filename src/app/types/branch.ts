@@ -3,7 +3,7 @@
  * contains information about the name, path, type (file or directory), size,
  * modification date, and any child nodes (if it's a directory).
  */
-interface Branch {
+export interface Branch {
   name: string;
   path: string;
   type: 'file' | 'dir';

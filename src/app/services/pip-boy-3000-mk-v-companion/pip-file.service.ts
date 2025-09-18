@@ -8,6 +8,9 @@ import { Injectable, inject } from '@angular/core';
 
 import { PipAppBase } from 'src/app/models/pip-app.model';
 
+import { Branch } from 'src/app/types/branch';
+import { CmdDefaultResult } from 'src/app/types/cmd-default-result';
+
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
 import { PipCommandService } from './pip-command.service';

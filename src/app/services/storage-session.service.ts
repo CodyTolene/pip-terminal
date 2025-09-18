@@ -2,6 +2,8 @@ import { DateTime } from 'luxon';
 
 import { Injectable } from '@angular/core';
 
+import { StoredObject } from 'src/app/types/stored-object';
+
 // |-------------------------|
 // |  (λ)  | sessionStorage  |
 // |-------|-----------------|

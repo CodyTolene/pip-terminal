@@ -25,6 +25,8 @@ import { Router, RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @Component({
   selector: 'pip-verify-email-page',
   templateUrl: './verify-email-page.component.html',

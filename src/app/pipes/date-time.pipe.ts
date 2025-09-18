@@ -3,6 +3,8 @@ import { isNonEmptyValue } from 'src/app/utilities';
 
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { DateTimeFormat } from 'src/app/types/date-time-format';
+
 @Pipe({ name: 'dateTime', standalone: true })
 export class DateTimePipe implements PipeTransform {
   private readonly defaultFormat: DateTimeFormat = 'MM/dd/yyyy';
