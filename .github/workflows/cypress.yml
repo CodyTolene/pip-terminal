@@ -58,19 +58,25 @@ jobs:
             exit 1
           }
 
+      - name: Map pip-boy.local to loopback (CI)
+        run: |
+          echo "127.0.0.1 pip-boy.local" | sudo tee -a /etc/hosts
+          getent hosts pip-boy.local
+
       - name: Start Angular dev server
         env:
           CI: 'true'
         run: |
-          nohup npm run start -- --host 0.0.0.0 --port 4200 > frontend.log 2>&1 &
-          wait-on http://127.0.0.1:4200
+          nohup npm run start:ci > frontend.log 2>&1 &
+          npx wait-on -t 180000 http://pip-boy.local:4200
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           start: ''
-          wait-on: 'http://127.0.0.1:4200'
+          wait-on: 'http://pip-boy.local:4200'
           wait-on-timeout: 300
+          config: baseUrl=http://pip-boy.local:4200
         env:
           FIRESTORE_EMULATOR_HOST: '127.0.0.1:8080'
           AUTH_EMULATOR_HOST: '127.0.0.1:9099'

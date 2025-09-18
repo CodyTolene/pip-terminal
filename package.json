@@ -26,6 +26,7 @@
     "prettier:check": "prettier --check .",
     "start": "ng serve --open --host pip-boy.local --port 4200 --hmr=false",
     "start:api": "npm run serve --prefix api",
+    "start:ci": "ng serve --host 0.0.0.0 --port 4200 --hmr=false",
     "start:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true",
     "start:https": "ng serve --open --host pip-boy.local --port 4200 --hmr=false --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key",
     "start:https:hmr": "ng serve --open --host pip-boy.local --port 4200 --hmr=true --ssl --ssl-cert ssl/pip-boy.local.crt --ssl-key ssl/pip-boy.local.key",
