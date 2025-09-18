@@ -42,12 +42,12 @@ jobs:
       - name: Start Firebase emulators
         env:
           CI: 'true'
-          GOOGLE_CLOUD_PROJECT: demo-pip-terminal
-          GCLOUD_PROJECT: demo-pip-terminal
+          GOOGLE_CLOUD_PROJECT: pip-terminal
+          GCLOUD_PROJECT: pip-terminal
         run: |
           set -euxo pipefail
           firebase emulators:start \
-            --project demo-pip-terminal \
+            --project pip-terminal \
             --only auth,firestore,functions,storage \
             --debug > emulator.log 2>&1 &
           EMU_PID=$!
