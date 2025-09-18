@@ -9,9 +9,6 @@ on:
 jobs:
   cypress:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
     steps:
       - name: Check out source code
         uses: actions/checkout@v4
@@ -19,57 +16,57 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: 20.x
+          cache: npm
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '21'
 
       - name: Install global tools
         run: |
-          npm install --global firebase-tools
-          # wait-on is used to block the workflow until a TCP port or URL is
-          # reachable.  It avoids race conditions where Cypress starts before
-          # either the dev server or emulators are ready.
-          npm install --global wait-on
+          npm i -g firebase-tools wait-on
+          firebase --version
 
-      - name: Install dependencies
-        run: |
-          npm ci
-          # Install API dependencies
-          cd api && npm ci
+      - name: Install root dependencies
+        run: npm ci
 
-      - name: Download Firebase emulators
-        run: firebase setup:emulators:download --project ci-demo
+      - name: Install API dependencies
+        run: cd api && npm ci
+
+      - name: Build Firebase Functions
+        run: cd api && npm run build
 
       - name: Start Firebase emulators
+        env:
+          CI: 'true'
         run: |
-          nohup firebase emulators:start --project ci-demo \
+          nohup firebase emulators:start --project demo-pip-terminal \
             --only auth,firestore,functions,storage \
-            --host localhost >emulator.log 2>&1 &
-          # Wait for the Firestore emulator on port 8080.
-          wait-on tcp:8080
+            --host 127.0.0.1 > emulator.log 2>&1 &
+          # Wait for all emulator ports
+          wait-on tcp:8080 tcp:9099 tcp:9199 tcp:5001
 
       - name: Start Angular dev server
+        env:
+          CI: 'true'
         run: |
-          nohup npm run start -- --host 0.0.0.0 >frontend.log 2>&1 &
-          wait-on http://localhost:4200
+          nohup npm run start -- --host 0.0.0.0 --port 4200 > frontend.log 2>&1 &
+          wait-on http://127.0.0.1:4200
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          working-directory: .
           start: ''
-          wait-on: 'http://localhost:4200'
+          wait-on: 'http://127.0.0.1:4200'
           wait-on-timeout: 300
         env:
-          FIRESTORE_EMULATOR_HOST: 'localhost:8080'
-          AUTH_EMULATOR_HOST: 'localhost:9099'
-          STORAGE_EMULATOR_HOST: 'localhost:9199'
-          FUNCTIONS_EMULATOR_HOST: 'localhost:5001'
+          FIRESTORE_EMULATOR_HOST: '127.0.0.1:8080'
+          AUTH_EMULATOR_HOST: '127.0.0.1:9099'
+          STORAGE_EMULATOR_HOST: '127.0.0.1:9199'
+          FUNCTIONS_EMULATOR_HOST: '127.0.0.1:5001'
 
       - name: Upload logs on failure
         if: failure()
