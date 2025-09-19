@@ -7,6 +7,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { getUserByEmailOrNull } from './get-user-by-email-or-null';
 import { isEmulator } from '../utilities';
+import { setUserProfile } from './set-user-profile';
 
 export async function setUsersSeed(): Promise<boolean> {
   if (!isEmulator()) {
@@ -17,8 +18,8 @@ export async function setUsersSeed(): Promise<boolean> {
   const auth = admin.auth();
 
   // Admins
-  for (const admin of ADMINS_SEED) {
-    const email = admin.email.toLowerCase().trim();
+  for (const { native, profile } of ADMINS_SEED) {
+    const email = native.email.toLowerCase().trim();
     const existing = await getUserByEmailOrNull(auth, email);
     if (existing) {
       logger.info(`Admin user already exists: ${existing.email}, skipping.`);
@@ -26,8 +27,9 @@ export async function setUsersSeed(): Promise<boolean> {
     }
 
     // Create admin user
-    const created = await auth.createUser(admin);
+    const created = await auth.createUser(native);
     await auth.setCustomUserClaims(created.uid, { role: 'admin' });
+    await setUserProfile(created.uid, profile);
     logger.info(`Created admin user: ${created.email}`);
 
     // Assign storage bucket image
@@ -41,8 +43,8 @@ export async function setUsersSeed(): Promise<boolean> {
   }
 
   // Users
-  for (const user of USERS_SEED) {
-    const email = user.email.toLowerCase().trim();
+  for (const { native, profile } of USERS_SEED) {
+    const email = native.email.toLowerCase().trim();
     const existing = await getUserByEmailOrNull(auth, email);
     if (existing) {
       logger.info(`User already exists: ${existing.email}, skipping.`);
@@ -50,8 +52,9 @@ export async function setUsersSeed(): Promise<boolean> {
     }
 
     // Create user
-    const created = await auth.createUser(user);
+    const created = await auth.createUser(native);
     await auth.setCustomUserClaims(created.uid, { role: 'user' });
+    await setUserProfile(created.uid, profile);
     logger.info(`Created user: ${created.email}`);
   }
 
