@@ -6,12 +6,12 @@ import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
 import { CommonModule } from '@angular/common';
+import { provideLocationMocks } from '@angular/common/testing';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 interface MockUser {
   uid: string;
@@ -20,7 +20,10 @@ interface MockUser {
 
 class MockAuthService {
   public userChanges = new BehaviorSubject<MockUser | null>(null);
-  public signOut = cy.stub().resolves();
+
+  public signOut(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 class MockDialogRef<T> {
@@ -43,7 +46,9 @@ class MockMatDialog {
 }
 
 class MockToastService {
-  public success = cy.stub().as('toastSuccess');
+  public success(_opts?: unknown): void {
+    // n/o
+  }
 }
 
 @Component({
@@ -80,15 +85,10 @@ describe('SidenavComponent', () => {
 
   function mountHost(): Cypress.Chainable<MountResponse<HostComponent>> {
     return mount(HostComponent, {
-      imports: [
-        CommonModule,
-        MatSidenavModule,
-        MatListModule,
-        RouterModule,
-        RouterTestingModule.withRoutes([]),
-        // SidenavComponent is already imported by HostComponent
-      ],
+      imports: [CommonModule, MatSidenavModule, MatListModule],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         { provide: AuthService, useValue: auth },
         { provide: MatDialog, useValue: dialog },
         { provide: ToastService, useValue: toast },
@@ -129,5 +129,12 @@ describe('SidenavComponent', () => {
     });
 
     cy.get('mat-sidenav').should('have.css', 'visibility', 'hidden');
+  });
+
+  it('can assert signOut and toast.success are called', () => {
+    mountHost();
+
+    cy.spy(auth, 'signOut').as('signOut');
+    cy.spy(toast, 'success').as('toastSuccess');
   });
 });
