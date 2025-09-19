@@ -16,7 +16,7 @@
     "start": "npm run shell"
   },
   "engines": {
-    "node": ">=20 <23"
+    "node": "20"
   },
   "main": "lib/index.js",
   "dependencies": {

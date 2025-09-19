@@ -12,7 +12,11 @@
   height: 100%;
   box-sizing: border-box;
 
-  background: radial-gradient(ellipse at center, #031208 0%, #010a05 100%);
+  background: radial-gradient(
+    ellipse at center,
+    col.$pip-black 0%,
+    col.$black 100%
+  );
   color: col.$pip-green;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
@@ -127,7 +131,7 @@
 
     strong {
       color: col.$pip-green;
-      text-shadow: 0 0 4px rgba(0, 255, 100, 0.8);
+      // text-shadow: 0 0 4px rgba(0, 255, 100, 0.8);
     }
   }
 
