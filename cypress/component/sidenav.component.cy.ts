@@ -47,7 +47,7 @@ class MockMatDialog {
 
 class MockToastService {
   public success(_opts?: unknown): void {
-    // n/o
+    // no-op
   }
 }
 
