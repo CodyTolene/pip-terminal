@@ -50,6 +50,21 @@ mat-sidenav-container {
 
     mat-nav-list {
       padding: 0;
+
+      ::ng-deep pip-nav-list > nav > a {
+        $border: 1px dashed rgba(col.$pip-green-darkest-rgb, 0.25);
+
+        border-top: $border;
+        border-bottom: $border;
+
+        &.active {
+          background-color: rgba(col.$pip-green-darkest-rgb, 0.1);
+
+          &:hover {
+            background-color: col.$pip-green-darkest;
+          }
+        }
+      }
     }
   }
 

@@ -57,6 +57,27 @@ export class NavListComponent {
       exact: true,
     },
     {
+      commands: ['vault/:id'],
+      label: 'My Vault',
+    },
+    {
+      commands: ['login'],
+      label: 'Login',
+    },
+    {
+      commands: ['register'],
+      label: 'Register',
+    },
+    {
+      onClick: async ($event: MouseEvent) => {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.logout();
+      },
+      commands: ['logout'],
+      label: 'Logout',
+    },
+    {
       commands: ['2000-mk-vi'],
       label: 'Pip-Boy 2000 Mk VI',
     },
@@ -77,23 +98,6 @@ export class NavListComponent {
       label: 'Pip-Boy 3000 Mk V',
     },
     {
-      commands: ['login'],
-      label: 'Login',
-    },
-    {
-      commands: ['register'],
-      label: 'Register',
-    },
-    {
-      onClick: async ($event: MouseEvent) => {
-        $event.preventDefault();
-        $event.stopPropagation();
-        this.logout();
-      },
-      commands: ['logout'],
-      label: 'Logout',
-    },
-    {
       commands: ['status'],
       label: 'Status',
     },
@@ -104,10 +108,6 @@ export class NavListComponent {
     {
       commands: ['terms-and-conditions'],
       label: 'Terms and Conditions',
-    },
-    {
-      commands: ['vault/:id'],
-      label: 'My Vault',
     },
   ];
 
