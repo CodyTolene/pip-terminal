@@ -6,3 +6,4 @@ export { ScreenSizeEnum } from './screen-size.enum';
 export { SoundEnum } from './sound.enum';
 export { SubTabLabelEnum } from './sub-tab-label.enum';
 export { TabLabelEnum } from './tab-label.enum';
+export { ThemeEnum } from './theme.enum';

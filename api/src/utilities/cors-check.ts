@@ -10,6 +10,7 @@ export function corsCheck() {
     const prodWhitelist = ['https://pip-boy.com', 'https://www.pip-boy.com'];
     const devWhitelist = [
       'https://pip-boy.local:4200',
+      'http://pip-boy.local:4200',
       'https://localhost:4200',
       'http://localhost:4200',
       'localhost:4200',

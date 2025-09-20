@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup">
+  <pro-input-radio [formControl]="formGroup.controls.theme" label="">
+    <pro-input-radio-option [value]="ThemeEnum.SCAN_LINES">
+      Scan Lines
+    </pro-input-radio-option>
+    <pro-input-radio-option [value]="ThemeEnum.DARK">
+      Dark
+    </pro-input-radio-option>
+    <pro-input-radio-option [value]="ThemeEnum.DARK_GRID">
+      Dark Grid
+    </pro-input-radio-option>
+  </pro-input-radio>
+</form>
