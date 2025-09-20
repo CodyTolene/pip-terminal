@@ -1,5 +1,5 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, map } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
@@ -14,6 +14,9 @@ import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+
+import { PageName } from 'src/app/types/page-name';
+import { PageUrl } from 'src/app/types/page-url';
 
 @UntilDestroy()
 @Component({
@@ -54,6 +57,27 @@ export class NavListComponent {
       exact: true,
     },
     {
+      commands: ['vault/:id'],
+      label: 'My Vault',
+    },
+    {
+      commands: ['login'],
+      label: 'Login',
+    },
+    {
+      commands: ['register'],
+      label: 'Register',
+    },
+    {
+      onClick: async ($event: MouseEvent) => {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.logout();
+      },
+      commands: ['logout'],
+      label: 'Logout',
+    },
+    {
       commands: ['2000-mk-vi'],
       label: 'Pip-Boy 2000 Mk VI',
     },
@@ -74,23 +98,6 @@ export class NavListComponent {
       label: 'Pip-Boy 3000 Mk V',
     },
     {
-      commands: ['login'],
-      label: 'Login',
-    },
-    {
-      commands: ['register'],
-      label: 'Register',
-    },
-    {
-      onClick: async ($event: MouseEvent) => {
-        $event.preventDefault();
-        $event.stopPropagation();
-        this.logout();
-      },
-      commands: ['logout'],
-      label: 'Logout',
-    },
-    {
       commands: ['status'],
       label: 'Status',
     },
@@ -102,14 +109,11 @@ export class NavListComponent {
       commands: ['terms-and-conditions'],
       label: 'Terms and Conditions',
     },
-    {
-      commands: ['vault/:id'],
-      label: 'My Vault',
-    },
   ];
 
   protected readonly linksChanges: Observable<PageLink[]> =
     this.auth.userChanges.pipe(
+      startWith(null),
       map((user) => {
         return {
           // Filter links by user logged in state.

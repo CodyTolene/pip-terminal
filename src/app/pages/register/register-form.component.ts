@@ -22,6 +22,8 @@ import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-register-form',

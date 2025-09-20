@@ -2,6 +2,9 @@ import { signal } from '@angular/core';
 
 import { PipAppBase } from 'src/app/models/pip-app.model';
 
+import { CardStats } from 'src/app/types/card-stats';
+import { LogEntry } from 'src/app/types/log-entry';
+
 export const pipSignals = {
   batteryLevel: signal<number>(0),
   currentDeviceAppList: signal<readonly PipAppBase[]>([]),

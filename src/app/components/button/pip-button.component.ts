@@ -5,7 +5,7 @@ import { ThemePalette } from '@angular/material/core';
 @Component({
   selector: 'pip-button',
   template: `
-    <button [class.disabled]="disabled" [disabled]="disabled" disableRipple>
+    <button [class.disabled]="disabled" [disabled]="disabled">
       <ng-content />
     </button>
   `,
@@ -15,9 +15,11 @@ import { ThemePalette } from '@angular/material/core';
   standalone: true,
 })
 export class PipButtonComponent extends MatButton {
-  @Input({ required: false }) public override color: ThemePalette = 'primary';
+  public constructor() {
+    super();
 
-  public override get disableRipple(): boolean {
-    return true;
+    this.disableRipple = true;
   }
+
+  @Input({ required: false }) public override color: ThemePalette = 'primary';
 }

@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @Component({
   selector: 'pip-gdpr-banner',
   imports: [CommonModule, RouterModule],

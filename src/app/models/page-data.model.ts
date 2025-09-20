@@ -3,6 +3,9 @@ import { PageLayoutsEnum } from 'src/app/enums';
 
 import { Data } from '@angular/router';
 
+import { ClassProperties } from 'src/app/types/class-properties';
+import { PageName } from 'src/app/types/page-name';
+
 export class PageData implements Data {
   public constructor(props: ClassProperties<PageData>) {
     this.author = props['author'];

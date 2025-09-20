@@ -1,3 +1,6 @@
+import { PageName } from 'src/app/types/page-name';
+import { PageUrl } from 'src/app/types/page-url';
+
 /** The page name and the corresponding route URL records. */
 export const PAGES: Record<PageName, PageUrl> = {
   'My Vault': `vault/:id`,

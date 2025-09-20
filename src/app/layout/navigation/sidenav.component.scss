@@ -13,6 +13,8 @@
   width: 100%;
 }
 
+$border: 1px dashed rgba(col.$pip-green-darkest-rgb, 0.25);
+
 mat-sidenav-container {
   box-sizing: border-box;
   height: 100%;
@@ -22,7 +24,7 @@ mat-sidenav-container {
     font-family: monospace;
 
     .nav-message {
-      border-bottom: 1px dashed col.$pip-green-darkest;
+      border-bottom: $border;
       box-sizing: border-box;
       padding: 1rem;
       width: 100%;
@@ -50,6 +52,19 @@ mat-sidenav-container {
 
     mat-nav-list {
       padding: 0;
+
+      ::ng-deep pip-nav-list > nav > a {
+        border-top: $border;
+        border-bottom: $border;
+
+        &.active {
+          background-color: rgba(col.$pip-green-darkest-rgb, 0.1);
+
+          &:hover {
+            background-color: col.$pip-green-darkest;
+          }
+        }
+      }
     }
   }
 

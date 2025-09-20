@@ -25,7 +25,9 @@ export const beforeUserCreatedEvent = beforeUserCreated(
 
     if (!admins) {
       if (isEmulator()) {
-        admins = new Set(ADMINS_SEED.map((a) => a.email.toLowerCase().trim()));
+        admins = new Set(
+          ADMINS_SEED.map(({ native }) => native.email.toLowerCase().trim()),
+        );
       } else {
         const raw = ADMIN_EMAILS.value();
         if (!raw)

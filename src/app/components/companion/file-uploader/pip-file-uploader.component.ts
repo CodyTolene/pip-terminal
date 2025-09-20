@@ -31,6 +31,8 @@ import {
 } from 'src/app/components/companion/file-uploader/pip-file-upload-form-group';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 
+import { Branch } from 'src/app/types/branch';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-file-uploader',

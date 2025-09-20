@@ -16,6 +16,8 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
+import { Branch } from 'src/app/types/branch';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-file-explorer',

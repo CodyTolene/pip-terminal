@@ -5,6 +5,8 @@ import { Injectable, inject } from '@angular/core';
 
 import { PipCommandService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-command.service';
 
+import { CardStats } from 'src/app/types/card-stats';
+
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
 /**

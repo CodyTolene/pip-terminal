@@ -6,7 +6,7 @@ import { PAGE_URLS } from '../src/app/routing/page-urls';
 const SITE_URL = process.env.SITE_URL ?? 'https://pip-boy.com';
 const DIST_DIR = process.env.ANGULAR_DIST_DIR ?? path.join('public');
 
-function isoDate(d = new Date()) {
+function isoDate(d = new Date()): string {
   return d.toISOString().slice(0, 10); // yyyy-mm-dd
 }
 
@@ -59,11 +59,15 @@ function generateXml(urls: string[]): string {
   ].join('\n');
 }
 
-function ensureDir(dir: string) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+function ensureDir(dir: string): boolean {
+  if (!fs.existsSync(dir)) {
+    return fs.mkdirSync(dir, { recursive: true }) !== undefined;
+  }
+
+  return true;
 }
 
-function main() {
+function main(): void {
   const urls = buildUrls();
   const xml = generateXml(urls);
 
