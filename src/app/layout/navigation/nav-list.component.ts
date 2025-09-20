@@ -1,5 +1,5 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, map } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
@@ -113,6 +113,7 @@ export class NavListComponent {
 
   protected readonly linksChanges: Observable<PageLink[]> =
     this.auth.userChanges.pipe(
+      startWith(null),
       map((user) => {
         return {
           // Filter links by user logged in state.
