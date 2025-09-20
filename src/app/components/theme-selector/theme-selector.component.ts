@@ -25,7 +25,6 @@ import {
     InputRadioOptionComponent,
     ReactiveFormsModule,
   ],
-  styleUrl: './theme-selector.component.scss',
   providers: [],
   standalone: true,
 })
