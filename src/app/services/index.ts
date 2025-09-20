@@ -12,5 +12,6 @@ export * from './status.service';
 export * from './storage-local.service';
 export * from './storage-session.service';
 export * from './stylesheets.service';
+export * from './theme.service';
 export * from './toast.service';
 export * from './user-profile.service';

@@ -1,6 +1,8 @@
 @use 'font' as font;
 @use 'colors' as col;
 
+$pip-grid: rgba(158, 252, 106, 0.08);
+
 body,
 html {
   @include font.default-font();
@@ -11,18 +13,71 @@ html {
   overflow: hidden;
   position: relative;
 
-  &::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0, 255, 0, 0.015) 0px,
-      rgba(0, 255, 0, 0.015) 1px,
-      transparent 1px,
-      transparent 3px
+  &.theme-scan-lines {
+    &::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      // z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 0, 0.015) 0px,
+        rgba(0, 255, 0, 0.015) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+  }
+
+  &.theme-dark-grid {
+    background: radial-gradient(
+      ellipse at center,
+      col.$pip-black 0%,
+      #000 100%
+    );
+    position: relative;
+    isolation: isolate;
+    padding-bottom: 2rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.02) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 0;
+      animation: flicker 6s infinite;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(transparent 95%, $pip-grid 95%),
+        linear-gradient(90deg, transparent 95%, $pip-grid 95%);
+      background-size:
+        24px 24px,
+        24px 24px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+  }
+
+  &.theme-dark {
+    background: radial-gradient(
+      ellipse at center,
+      col.$pip-black 0%,
+      #000 100%
     );
   }
 
@@ -31,7 +86,7 @@ html {
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(0, 255, 0, 0.01);
+    // background: rgba(0, 255, 0, 0.01);
     mix-blend-mode: screen;
     pointer-events: none;
     z-index: 0;

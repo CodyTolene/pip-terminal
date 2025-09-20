@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.radio-overrides(
+    (
+      label-text-color: col.$pip-green-darkest,
+      selected-icon-color: col.$pip-green,
+      unselected-hover-icon-color: col.$pip-green,
+      selected-focus-icon-color: col.$pip-green,
+      selected-hover-icon-color: col.$pip-green,
+      unselected-icon-color: col.$pip-green-dark,
+    )
+  );
+}
+
+pro-input-radio {
+  .mdc-label:hover {
+    color: col.$pip-green;
+    cursor: pointer;
+  }
+  .mat-mdc-radio-checked .mdc-label {
+    color: col.$pip-green;
+  }
+}

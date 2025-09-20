@@ -15,6 +15,12 @@ footer {
   position: relative;
   width: 100%;
 
+  form {
+    border-top: 1px dashed col.$pip-green-darkest;
+    margin: 0 0 1rem 0;
+    padding-top: 0.5rem;
+  }
+
   .disclaimer {
     font-size: var.$font-xs;
     max-width: var.$section-max-width;

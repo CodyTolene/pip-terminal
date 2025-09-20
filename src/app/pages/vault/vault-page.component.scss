@@ -4,12 +4,12 @@
 
 :host {
   align-items: center;
-  background: radial-gradient(
-    ellipse at center,
-    #051a0d 0%,
-    #031208 60%,
-    #020e06 100%
-  );
+  // background: radial-gradient(
+  //   ellipse at center,
+  //   #051a0d 0%,
+  //   #031208 60%,
+  //   #020e06 100%
+  // );
   box-sizing: border-box;
   color: col.$pip-green;
   display: flex;

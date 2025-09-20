@@ -13,6 +13,7 @@ import {
   PageDataService,
   PageMetaService,
   SoundService,
+  ThemeService,
 } from 'src/app/services';
 import { isNonEmptyValue, shareSingleReplay } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
@@ -40,7 +41,7 @@ import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.
     PipBoy3000MkIVLayoutComponent,
   ],
   styleUrl: './pip.component.scss',
-  providers: [PageDataService, PageMetaService, SoundService],
+  providers: [PageDataService, PageMetaService, SoundService, ThemeService],
 })
 export class PipComponent implements OnInit {
   public constructor() {
@@ -52,6 +53,7 @@ export class PipComponent implements OnInit {
   private readonly appUpdateService = inject(AppUpdateService);
   private readonly pageDataService = inject(PageDataService);
   private readonly pageMetaService = inject(PageMetaService);
+  private readonly themeService = inject(ThemeService);
 
   private readonly pageDataChanges = this.pageDataService.pageDataChanges.pipe(
     filter(isNonEmptyValue),
@@ -73,6 +75,7 @@ export class PipComponent implements OnInit {
 
   public ngOnInit(): void {
     this.appUpdateService.init();
+    this.themeService.init();
 
     // Set the default tags for all pages.
     this.pageMetaService.setDefaultTags();

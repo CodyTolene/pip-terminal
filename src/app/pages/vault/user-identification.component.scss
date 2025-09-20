@@ -12,7 +12,13 @@
   height: 100%;
   box-sizing: border-box;
 
-  background: radial-gradient(ellipse at center, #031208 0%, #010a05 100%);
+  // background: radial-gradient(ellipse at center, #031208 0%, #010a05 100%);
+  // background: radial-gradient(
+  //   ellipse at center,
+  //   #001300 0%,
+  //   #000f00 60%,
+  //   #000800 100%
+  // );
   color: col.$pip-green;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
@@ -20,21 +26,21 @@
 
 @mixin pip-panel {
   position: relative;
-  box-shadow:
-    0 0 8px rgba(0, 255, 100, 0.35),
-    inset 0 0 0 1px rgba(0, 255, 100, 0.25);
+  // box-shadow:
+  //   0 0 8px rgba(0, 255, 100, 0.35),
+  //   inset 0 0 0 1px rgba(0, 255, 100, 0.25);
   background-image:
     repeating-linear-gradient(
       to bottom,
-      rgba(0, 255, 100, 0.05) 0,
-      rgba(0, 255, 100, 0.05) 2px,
+      rgba(0, 255, 0, 0.02) 0,
+      rgba(0, 255, 0, 0.02) 2px,
       transparent 2px,
       transparent 6px
     ),
     repeating-linear-gradient(
       to right,
-      rgba(0, 255, 100, 0.04) 0,
-      rgba(0, 255, 100, 0.04) 2px,
+      rgba(0, 255, 0, 0.01) 0,
+      rgba(0, 255, 0, 0.01) 2px,
       transparent 2px,
       transparent 6px
     );
@@ -62,14 +68,14 @@
       linear-gradient(col.$pip-green, col.$pip-green) bottom right / 2px 22px
         no-repeat;
     opacity: 0.9;
-    filter: drop-shadow(0 0 4px rgba(0, 255, 100, 0.6));
+    // filter: drop-shadow(0 0 4px rgba(0, 255, 100, 0.6));
   }
 
-  &:focus-within {
-    box-shadow:
-      0 0 12px rgba(0, 255, 140, 0.55),
-      inset 0 0 0 1px rgba(0, 255, 140, 0.35);
-  }
+  // &:focus-within {
+  //   box-shadow:
+  //     0 0 12px rgba(0, 255, 140, 0.55),
+  //     inset 0 0 0 1px rgba(0, 255, 140, 0.35);
+  // }
 }
 
 .user-id {
@@ -94,15 +100,15 @@
       right: 0;
       bottom: 0;
       height: 2px;
-      background:
-        linear-gradient(to right, col.$pip-green, col.$pip-green) center / 100%
-          2px no-repeat,
-        repeating-linear-gradient(
-          to right,
-          transparent 0 12px,
-          rgba(0, 255, 100, 0.55) 12px 14px
-        );
-      filter: drop-shadow(0 0 3px rgba(0, 255, 100, 0.8));
+      // background:
+      //   linear-gradient(to right, col.$pip-green, col.$pip-green) center / 100%
+      //     2px no-repeat,
+      //   repeating-linear-gradient(
+      //     to right,
+      //     transparent 0 12px,
+      //     rgba(0, 255, 100, 0.55) 12px 14px
+      //   );
+      // filter: drop-shadow(0 0 3px rgba(0, 255, 100, 0.8));
     }
   }
 
@@ -127,7 +133,7 @@
 
     strong {
       color: col.$pip-green;
-      text-shadow: 0 0 4px rgba(0, 255, 100, 0.8);
+      // text-shadow: 0 0 4px rgba(0, 255, 100, 0.8);
     }
   }
 
@@ -181,10 +187,11 @@
       padding: 0;
       border: none;
       border-radius: 0;
+      border: 1px solid col.$pip-green;
 
       &:hover {
-        box-shadow: 0 0 10px col.$pip-green;
-        transform: scale(1);
+        box-shadow: 0 0 5px col.$pip-green;
+        transform: scale(1.01);
       }
     }
   }
@@ -193,7 +200,6 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    box-shadow: 0 0 10px rgba(0, 255, 100, 0.7);
   }
 }
 
