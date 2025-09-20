@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use '../colors' as col;
 
-// Customize the entire app. Change :root to your selector if you want to scope the styles.
 :root {
   @include mat.radio-overrides(
     (
