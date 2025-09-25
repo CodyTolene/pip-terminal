@@ -44,10 +44,6 @@ export class SupportPageComponent implements OnInit {
 
   protected readonly currentUrl = signal<string>('');
 
-  public ngOnInit(): void {
-    this.navigate(this.src, true);
-  }
-
   @HostListener('click', ['$event'])
   public onHostClick(ev: MouseEvent): void {
     const vp = this.viewportRef?.nativeElement;
@@ -72,6 +68,10 @@ export class SupportPageComponent implements OnInit {
       ev.preventDefault();
       this.scrollToAnchor(href.slice(1));
     }
+  }
+
+  public ngOnInit(): void {
+    this.navigate(this.src, true);
   }
 
   protected goBack(): void {
