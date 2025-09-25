@@ -1,4 +1,3 @@
-// support-page.component.ts
 import { GithubService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
