@@ -1,14 +1,43 @@
-<div class="toolbar">
-  <button (click)="goBack()" [disabled]="!canGoBack()">◀</button>
-  <button (click)="goForward()" [disabled]="!canGoForward()">▶</button>
-  <button (click)="reload()">↻</button>
-  <input class="addr" [value]="currentUrl()" readonly />
-</div>
+<section
+  class="terminal"
+  role="region"
+  aria-label="Pip-Boy Terminal"
+  [attr.aria-busy]="loading() ? 'true' : 'false'"
+>
+  <header class="term-titlebar">
+    <div class="win-dots" aria-hidden="true">
+      <span class="dot dot-close"></span>
+      <span class="dot dot-min"></span>
+      <span class="dot dot-max"></span>
+    </div>
+    <h1 class="term-title">Azrael's Support Terminal</h1>
+    <div class="term-actions">
+      <button (click)="goBack()" [disabled]="!canGoBack()" aria-label="Back">
+        &blacktriangleleft;
+      </button>
+      <button
+        (click)="goForward()"
+        [disabled]="!canGoForward()"
+        aria-label="Forward"
+      >
+        &blacktriangleright;
+      </button>
+      <button (click)="reload()" aria-label="Reload">↻</button>
+    </div>
+  </header>
 
-@if (error()) {
-  <div class="status">Error loading. Check the URL or network.</div>
-} @else if (loading()) {
-  <div class="status">Loading…</div>
-} @else {
-  <div #viewport class="viewport" [innerHTML]="html()"></div>
-}
+  <div class="term-address">
+    <label class="visually-hidden" for="addr">Current document</label>
+    <input id="addr" class="addr" [value]="currentUrl()" readonly />
+  </div>
+
+  <div class="term-body">
+    @if (error()) {
+      <div class="status">Error loading. Check the URL or network.</div>
+    } @else if (loading()) {
+      <div class="status">Loading…</div>
+    } @else {
+      <div #viewport class="viewport" [innerHTML]="html()"></div>
+    }
+  </div>
+</section>

@@ -1,71 +1,196 @@
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
 :host {
+  // Fill the viewport minus your fixed header height
   display: block;
-  border: 1px solid #2b2b2b;
-  border-radius: 8px;
+  box-sizing: border-box;
+  block-size: calc(100dvh - var.$header-height);
+  padding: 1rem; // outer breathing room without causing overflow
   overflow: hidden;
 }
 
-.toolbar {
+.visually-hidden {
+  position: absolute !important;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.terminal {
+  background: radial-gradient(120% 120% at 50% 0%, #0d1712 0%, col.$black 60%);
+  border: 1px solid col.$pip-black;
+  border-radius: 10px;
+  color: col.$pip-green-lightest;
+  font:
+    14px/1.6 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
   display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.term-titlebar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  background: #0d0f11;
-  color: #dfe7e1;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: linear-gradient(#0d1712, #0b140f);
+  border-bottom: 1px solid col.$pip-black;
+}
 
-  button {
-    padding: 0.35rem 0.6rem;
-    border: 1px solid #3a3a3a;
-    background: #15181b;
-    color: #dfe7e1;
-    border-radius: 6px;
-    cursor: pointer;
+.win-dots {
+  display: inline-flex;
+  gap: 0.4rem;
 
-    &:disabled {
-      opacity: 0.4;
-      cursor: default;
+  .dot {
+    inline-size: 0.75rem;
+    block-size: 0.75rem;
+    border-radius: 50%;
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+      0 0 6px rgba(0, 0, 0, 0.35);
+
+    &.dot-close {
+      background: #ff605c;
+    }
+    &.dot-min {
+      background: #ffbd44;
+    }
+    &.dot-max {
+      background: #00ca4e;
     }
   }
 }
 
-.addr {
-  flex: 1;
-  min-width: 0;
-  padding: 0.35rem 0.6rem;
+.term-title {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: col.$pip-green;
+  user-select: none;
+}
+
+.term-actions button {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid col.$pip-black;
   border-radius: 6px;
-  border: 1px solid #3a3a3a;
-  background: #0f1316;
-  color: #98ffa1;
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.875rem;
+  background: #0f1a13;
+  color: col.$pip-green;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    transform 0.05s ease;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  &:hover:not(:disabled) {
+    border-color: rgba(0, 255, 0, 0.45);
+  }
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+.term-address {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0.5rem 0.75rem;
+  background: #09110c;
+  border-bottom: 1px solid col.$pip-black;
+}
+
+.addr {
+  inline-size: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid col.$pip-black;
+  background: #0b110d;
+  color: col.$pip-green-lightest;
+  font: inherit;
+  box-shadow: inset 0 0 0 1px rgba(0, 255, 0, 0.05);
+}
+
+.term-body {
+  background: col.$pip-green-gray;
+  padding: 0;
+
+  flex: 1 1 auto;
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  padding: 1rem 0.9rem;
+  color: #b6c1c7;
 }
 
 .viewport {
-  block-size: var(--frame-height, 60vh);
+  // Fill the rest of the space and be the only scroller
+  flex: 1 1 auto;
+  min-block-size: 0;
   overflow: auto;
-  background: #0a0d0e;
-  color: #e7f2ea;
   padding: 1rem 1.2rem;
 
-  :where(h1, h2, h3) {
-    margin: 1rem 0 0.5rem;
+  // CRT-like subtle scanlines
+  background: col.$pip-green-gray;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 100% 26px;
+
+  // Your custom scrollbar
+  @include sb.scrollbar;
+
+  /* links */
+  a {
+    color: col.$pip-green;
+    text-decoration: underline;
+  }
+  a:hover {
+    color: col.$pip-green-light;
   }
 
+  /* code and pre */
+  pre,
+  code,
+  kbd,
+  samp {
+    font: inherit;
+  }
   pre {
-    overflow: auto;
-    padding: 1rem;
-    background: #111;
-    color: #eee;
+    background: #0c1210;
+    color: #dfe7e1;
+    border: 1px solid col.$pip-black;
     border-radius: 8px;
+    padding: 1rem;
+    overflow: auto;
+    box-shadow: inset 0 0 0 1px rgba(0, 255, 0, 0.05);
   }
 
   img {
     max-width: 100%;
     height: auto;
+    border: 1px solid rgba(0, 255, 0, 0.08);
   }
-}
 
-.status {
-  padding: 1rem;
-  color: #b6c1c7;
+  // Optional: avoid extra blank space at bottom from markdown margins
+  > :last-child {
+    margin-block-end: 0;
+  }
 }

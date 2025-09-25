@@ -4,30 +4,30 @@ import { marked } from 'marked';
 import { Injectable, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import { GithubUrlData } from 'src/app/types/github-url-data';
+export interface GithubUrlData {
+  rawUrl: string;
+  rawDir: URL;
+  blobBase: URL;
+}
 
 @Injectable({ providedIn: 'root' })
 export class GithubService {
   private sanitizer = inject(DomSanitizer);
 
   /**
-   * Fetch and convert a GitHub README.md to sanitized HTML
-   *
-   * Accepts a full GitHub URL only
-   * - https://github.com/OWNER/REPO/blob/BRANCH/path/to/file.md
-   * - https://github.com/OWNER/REPO/tree/BRANCH/path/to/folder/
-   * - https://raw.githubusercontent.com/OWNER/REPO/BRANCH/path/to/file.md
-   *
-   * @returns Sanitized HTML or null on error
+   * Accepts GitHub URLs only:
+   *  - https://github.com/OWNER/REPO/blob/BRANCH/path/file.md
+   *  - https://github.com/OWNER/REPO/tree/BRANCH/path/  (auto README.md)
+   *  - https://raw.githubusercontent.com/OWNER/REPO/BRANCH/path/file.md
+   * Returns SafeHtml or null.
    */
   public async getReadme(inputUrl: string): Promise<SafeHtml | null> {
-    let normalized: { rawUrl: string; rawDir: URL; blobBase: URL } | null =
-      null;
+    let normalized: GithubUrlData | null = null;
 
     try {
       normalized = this.normalizeGithubUrl(inputUrl);
     } catch {
-      return null; // reject non GitHub or invalid GitHub URLs
+      return null; // reject non-GitHub or invalid URLs
     }
 
     try {
@@ -35,15 +35,31 @@ export class GithubService {
       if (!res.ok) return null;
 
       const md = await res.text();
-      // ✅ Marked: remove invalid options (mangle/headerIds) for newer typings
       const html = marked.parse(md);
 
+      // Rewrite links/images before sanitizing
       const rewritten = this.rewriteLinksAndImages(
         html as string,
         normalized.rawDir,
         normalized.blobBase,
       );
-      const safe = DOMPurify.sanitize(rewritten);
+
+      // Sanitize, but keep our navigation markers
+      const safe = DOMPurify.sanitize(rewritten, {
+        ADD_ATTR: ['data-doc-href', 'data-doc-hash', 'target', 'rel'],
+        SANITIZE_NAMED_PROPS: true,
+        // Extra hardening. Scripts/handlers are removed by default;
+        // the following forbids a few risky containers (rare in READMEs).
+        FORBID_TAGS: [
+          'style',
+          'iframe',
+          'frame',
+          'frameset',
+          'object',
+          'embed',
+          'form',
+        ],
+      });
 
       return this.sanitizer.bypassSecurityTrustHtml(safe);
     } catch {
@@ -51,12 +67,7 @@ export class GithubService {
     }
   }
 
-  /**
-   * Normalize various GitHub URL forms
-   *
-   * @param input A full GitHub URL
-   * @returns GithubUrlData or throws on invalid input
-   */
+  /** Rejects anything not on github.com or raw.githubusercontent.com */
   private normalizeGithubUrl(input: string): GithubUrlData {
     const url = new URL(input);
 
@@ -75,9 +86,9 @@ export class GithubService {
       return { rawUrl: url.toString(), rawDir, blobBase };
     }
 
-    // blob/tree form
+    // github.com blob or tree
     if (url.hostname === 'github.com') {
-      const parts = url.pathname.split('/').filter(Boolean);
+      const parts = url.pathname.split('/').filter(Boolean); // owner repo type branch ...
       if (parts.length < 5) throw new Error('bad blob/tree path');
       const [owner, repo, type, branch, ...rest] = parts;
       if (type !== 'blob' && type !== 'tree') throw new Error('not blob/tree');
@@ -102,12 +113,12 @@ export class GithubService {
   }
 
   /**
-   * Rewrite links and images in the HTML to point to the correct GitHub URLs.
-   *
-   * @param html The HTML to rewrite
-   * @param rawDir The raw directory URL
-   * @param blobBase The blob base URL
-   * @returns The rewritten HTML
+   * Rewrites:
+   * - relative images -> absolute RAW URLs
+   * - relative .md/folders -> in-frame (data-doc-*) to RAW
+   * - absolute same-repo blob/tree .md -> in-frame (data-doc-*) to RAW
+   * - any other absolute link -> open in new tab (target=_blank rel=noopener)
+   * - other relative non-.md -> GitHub blob in new tab
    */
   private rewriteLinksAndImages(
     html: string,
@@ -117,9 +128,8 @@ export class GithubService {
     const wrap = document.createElement('div');
     wrap.innerHTML = html;
 
-    // Regex to detect same-repo absolute links to blob/tree
-    // owner, repo, 'blob', branch, ...
-    const blobParts = blobBase.pathname.split('/').filter(Boolean);
+    // Same-repo detector for absolute blob/tree links
+    const blobParts = blobBase.pathname.split('/').filter(Boolean); // owner, repo, 'blob', branch, ...
     const owner = blobParts[0];
     const repo = blobParts[1];
     const sameRepoAbs = new RegExp(
@@ -127,7 +137,7 @@ export class GithubService {
       'i',
     );
 
-    // Images - only relative paths need rewriting
+    // Images -> absolute RAW
     wrap.querySelectorAll<HTMLImageElement>('img[src]').forEach((img) => {
       const src = img.getAttribute('src') || '';
       if (!src || /^[a-z]+:/i.test(src) || src.startsWith('//')) return;
@@ -139,7 +149,7 @@ export class GithubService {
       const href = a.getAttribute('href') || '';
       if (!href) return;
 
-      // Ignore mailto, anchors
+      // hashes and mailto stay as-is
       if (href.startsWith('#') || href.startsWith('mailto:')) return;
 
       // Absolute links
@@ -147,16 +157,15 @@ export class GithubService {
         try {
           const u = new URL(href, blobBase);
 
-          // Same-repo absolute link to blob/tree
+          // Same-repo absolute blob/tree -> in-frame
           const m =
             u.hostname === 'github.com' ? u.pathname.match(sameRepoAbs) : null;
           if (m) {
             const type = m[3]; // 'blob' or 'tree'
-            const branch = m[4]; // branch name (may contain slashes)
+            const branch = m[4]; // may contain slashes
             const fileOrDir = m[5]; // path within repo
             const hash = u.hash ? u.hash.slice(1) : '';
 
-            // If tree, point to its README.md
             const isDir = type === 'tree';
             const mdPath = isDir
               ? fileOrDir.replace(/\/?$/, '/') + 'README.md'
@@ -169,15 +178,16 @@ export class GithubService {
             return;
           }
         } catch {
-          // Invalid URL, fall through to external link
+          /* ignore and treat as external */
         }
-        // External link
+
+        // External absolute link -> always new tab
         a.setAttribute('target', '_blank');
         a.setAttribute('rel', 'noopener');
         return;
       }
 
-      // Relative links
+      // Relative links inside repo
       const bare = href.split('#')[0];
       const anchor = href.includes('#')
         ? href.substring(href.indexOf('#') + 1)
@@ -195,7 +205,7 @@ export class GithubService {
         return;
       }
 
-      // Other relative link (non-md) - point to blob
+      // Non-markdown relative -> GitHub blob in a new tab
       const blob = new URL(bare, blobBase).toString();
       a.setAttribute('href', blob);
       a.setAttribute('target', '_blank');
