@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  border: 1px solid #2b2b2b;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #0d0f11;
+  color: #dfe7e1;
+
+  button {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid #3a3a3a;
+    background: #15181b;
+    color: #dfe7e1;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+}
+
+.addr {
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #3a3a3a;
+  background: #0f1316;
+  color: #98ffa1;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+}
+
+.viewport {
+  block-size: var(--frame-height, 60vh);
+  overflow: auto;
+  background: #0a0d0e;
+  color: #e7f2ea;
+  padding: 1rem 1.2rem;
+
+  :where(h1, h2, h3) {
+    margin: 1rem 0 0.5rem;
+  }
+
+  pre {
+    overflow: auto;
+    padding: 1rem;
+    background: #111;
+    color: #eee;
+    border-radius: 8px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.status {
+  padding: 1rem;
+  color: #b6c1c7;
+}

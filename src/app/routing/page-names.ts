@@ -29,6 +29,7 @@ export const PAGE_NAMES = [
   'Privacy Policy',
   'Register',
   'Status',
+  'Support',
   'Terms and Conditions',
   'Verify Email',
 ] as const;

@@ -1,0 +1,14 @@
+<div class="toolbar">
+  <button (click)="goBack()" [disabled]="!canGoBack()">◀</button>
+  <button (click)="goForward()" [disabled]="!canGoForward()">▶</button>
+  <button (click)="reload()">↻</button>
+  <input class="addr" [value]="currentUrl()" readonly />
+</div>
+
+@if (error()) {
+  <div class="status">Error loading. Check the URL or network.</div>
+} @else if (loading()) {
+  <div class="status">Loading…</div>
+} @else {
+  <div #viewport class="viewport" [innerHTML]="html()"></div>
+}
