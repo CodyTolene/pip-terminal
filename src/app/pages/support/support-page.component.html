@@ -1,16 +1,15 @@
 <section
-  class="terminal"
   role="region"
   aria-label="Pip-Boy Terminal"
   [attr.aria-busy]="loading() ? 'true' : 'false'"
 >
-  <header class="term-titlebar">
-    <div class="term-titlewrap" aria-hidden="true">
+  <header aria-label="Terminal controls">
+    <div class="title" aria-hidden="true">
       <span class="lamp"></span>
-      <h1 class="term-title">Azrael's Support Terminal</h1>
+      <h1>Azrael's Support Terminal</h1>
     </div>
 
-    <div class="term-actions">
+    <div class="actions">
       <button (click)="goBack()" [disabled]="!canGoBack()" aria-label="Back">
         &blacktriangleleft;
       </button>
@@ -21,26 +20,26 @@
       >
         &blacktriangleright;
       </button>
-      <button (click)="reload()" aria-label="Reload">↻</button>
+      <button (click)="reload()" aria-label="Reload">&circlearrowright;</button>
     </div>
   </header>
 
-  <div class="term-address">
-    <label class="visually-hidden" for="addr">Current document</label>
-    <input id="addr" class="addr" [value]="currentUrl()" readonly />
+  <div class="web-address" aria-label="Current document URL">
+    <label for="addr">Current document</label>
+    <input id="addr" [value]="currentUrl()" readonly />
   </div>
 
-  <div class="term-body">
+  <div class="web-body" role="main" tabindex="0" aria-live="polite">
     @if (error()) {
-      <div class="status">[ ERROR ] Check the URL or network.</div>
+      <div>[ERROR] Check the URL or network.</div>
     } @else if (loading()) {
-      <div class="status">[ LOADING ] Please stand by…</div>
+      <div>[LOADING] Please stand by…</div>
     } @else {
-      <div #viewport class="viewport" [innerHTML]="html()"></div>
+      <div #viewport [innerHTML]="html()"></div>
     }
   </div>
 
-  <footer class="term-footer" aria-hidden="true">
+  <footer aria-hidden="true">
     <div class="meter">
       <span class="lamp"></span><span class="lamp"></span
       ><span class="lamp"></span><span class="lamp"></span>
