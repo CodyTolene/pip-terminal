@@ -1,0 +1,50 @@
+<section
+  class="terminal"
+  role="region"
+  aria-label="Pip-Boy Terminal"
+  [attr.aria-busy]="loading() ? 'true' : 'false'"
+>
+  <header class="term-titlebar">
+    <div class="term-titlewrap" aria-hidden="true">
+      <span class="lamp"></span>
+      <h1 class="term-title">Azrael's Support Terminal</h1>
+    </div>
+
+    <div class="term-actions">
+      <button (click)="goBack()" [disabled]="!canGoBack()" aria-label="Back">
+        &blacktriangleleft;
+      </button>
+      <button
+        (click)="goForward()"
+        [disabled]="!canGoForward()"
+        aria-label="Forward"
+      >
+        &blacktriangleright;
+      </button>
+      <button (click)="reload()" aria-label="Reload">↻</button>
+    </div>
+  </header>
+
+  <div class="term-address">
+    <label class="visually-hidden" for="addr">Current document</label>
+    <input id="addr" class="addr" [value]="currentUrl()" readonly />
+  </div>
+
+  <div class="term-body">
+    @if (error()) {
+      <div class="status">[ ERROR ] Check the URL or network.</div>
+    } @else if (loading()) {
+      <div class="status">[ LOADING ] Please stand by…</div>
+    } @else {
+      <div #viewport class="viewport" [innerHTML]="html()"></div>
+    }
+  </div>
+
+  <footer class="term-footer" aria-hidden="true">
+    <div class="meter">
+      <span class="lamp"></span><span class="lamp"></span
+      ><span class="lamp"></span><span class="lamp"></span>
+      <span class="label">&#10095;&nbsp;READY</span>
+    </div>
+  </footer>
+</section>
