@@ -4,11 +4,7 @@ import { marked } from 'marked';
 import { Injectable, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-export interface GithubUrlData {
-  rawUrl: string;
-  rawDir: URL;
-  blobBase: URL;
-}
+import { GithubUrlData } from 'src/app/types/github-url-data';
 
 @Injectable({ providedIn: 'root' })
 export class GithubService {

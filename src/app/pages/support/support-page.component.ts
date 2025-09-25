@@ -142,6 +142,7 @@ export class SupportPageComponent implements OnInit {
     const vp = this.viewportRef?.nativeElement;
     if (vp) vp.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
+
   private scrollToAnchor(id: string): void {
     const vp = this.viewportRef?.nativeElement;
     if (!vp) return;

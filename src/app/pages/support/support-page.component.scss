@@ -3,11 +3,10 @@
 @use '../../styles/variables' as var;
 
 :host {
-  // Fill the viewport minus your fixed header height
   display: block;
   box-sizing: border-box;
   block-size: calc(100dvh - var.$header-height);
-  padding: 1rem; // outer breathing room without causing overflow
+  padding: 1rem; /* breathing room around the bezel */
   overflow: hidden;
 }
 
@@ -24,9 +23,23 @@
 }
 
 .terminal {
-  background: radial-gradient(120% 120% at 50% 0%, #0d1712 0%, col.$black 60%);
-  border: 1px solid col.$pip-black;
-  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(0, 40, 20, 0.25) 0%,
+      transparent 50%
+    ),
+    col.$black;
+
+  border-radius: 12px;
+
   color: col.$pip-green-lightest;
   font:
     14px/1.6 ui-monospace,
@@ -34,66 +47,59 @@
     Menlo,
     Consolas,
     monospace;
-
-  display: flex;
-  flex-direction: column;
-  block-size: 100%;
-  min-block-size: 0;
-  overflow: hidden;
 }
 
 .term-titlebar {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  background: linear-gradient(#0d1712, #0b140f);
-  border-bottom: 1px solid col.$pip-black;
-}
+  padding: 0.6rem 0.9rem;
+  background: col.$pip-green-gray;
 
-.win-dots {
-  display: inline-flex;
-  gap: 0.4rem;
+  .term-titlewrap {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    color: col.$pip-green;
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 4px rgba(0, 255, 0, 0.35);
+  }
 
-  .dot {
-    inline-size: 0.75rem;
-    block-size: 0.75rem;
-    border-radius: 50%;
-    box-shadow:
-      inset 0 0 0 1px rgba(0, 0, 0, 0.5),
-      0 0 6px rgba(0, 0, 0, 0.35);
-
-    &.dot-close {
-      background: #ff605c;
-    }
-    &.dot-min {
-      background: #ffbd44;
-    }
-    &.dot-max {
-      background: #00ca4e;
-    }
+  .term-title {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 600;
   }
 }
 
-.term-title {
-  margin: 0;
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-  color: col.$pip-green;
-  user-select: none;
+.lamp {
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    #1cff6c 0 40%,
+    #0a3c20 41% 100%
+  );
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.35);
+  filter: saturate(120%);
+  &:nth-child(odd) {
+    opacity: 0.55;
+  }
 }
 
 .term-actions button {
   padding: 0.25rem 0.55rem;
   border: 1px solid col.$pip-black;
   border-radius: 6px;
-  background: #0f1a13;
+  background: #0e1a13;
   color: col.$pip-green;
   cursor: pointer;
   transition:
     border-color 0.15s ease,
-    transform 0.05s ease;
+    transform 0.05s ease,
+    box-shadow 0.15s ease;
 
   &:disabled {
     opacity: 0.45;
@@ -108,12 +114,15 @@
 }
 
 .term-address {
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1fr;
-  padding: 0.5rem 0.75rem;
-  background: #09110c;
+  padding: 0.5rem 1rem;
+  background: rgba(col.$pip-green-gray-rgb, 0.75);
+  // box-shadow: inset 0 0 1px black;
+
+  border-top: 1px solid col.$pip-black;
   border-bottom: 1px solid col.$pip-black;
+
+  // padding: 0.5rem 0.9rem;
+  // background: #07120d;
 }
 
 .addr {
@@ -121,20 +130,20 @@
   padding: 0.45rem 0.6rem;
   border-radius: 6px;
   border: 1px solid col.$pip-black;
-  background: #0b110d;
+  background: #0a1510;
   color: col.$pip-green-lightest;
   font: inherit;
-  box-shadow: inset 0 0 0 1px rgba(0, 255, 0, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(0, 255, 0, 0.06);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .term-body {
-  background: col.$pip-green-gray;
-  padding: 0;
-
   flex: 1 1 auto;
   min-block-size: 0;
   display: flex;
   flex-direction: column;
+  background: #0a0f0d;
 }
 
 .status {
@@ -143,21 +152,15 @@
 }
 
 .viewport {
-  // Fill the rest of the space and be the only scroller
   flex: 1 1 auto;
   min-block-size: 0;
   overflow: auto;
   padding: 1rem 1.2rem;
 
-  // CRT-like subtle scanlines
-  background: col.$pip-green-gray;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   background-size: 100% 26px;
 
-  // Your custom scrollbar
   @include sb.scrollbar;
 
-  /* links */
   a {
     color: col.$pip-green;
     text-decoration: underline;
@@ -166,7 +169,6 @@
     color: col.$pip-green-light;
   }
 
-  /* code and pre */
   pre,
   code,
   kbd,
@@ -180,17 +182,35 @@
     border-radius: 8px;
     padding: 1rem;
     overflow: auto;
-    box-shadow: inset 0 0 0 1px rgba(0, 255, 0, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(0, 255, 0, 0.06);
   }
-
   img {
     max-width: 100%;
     height: auto;
     border: 1px solid rgba(0, 255, 0, 0.08);
   }
 
-  // Optional: avoid extra blank space at bottom from markdown margins
   > :last-child {
     margin-block-end: 0;
+  }
+}
+
+.term-footer {
+  border-top: 1px solid col.$pip-black;
+  padding: 0.4rem 0.9rem;
+  background: #07110c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .meter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .label {
+      color: col.$pip-green-light;
+      letter-spacing: 0.08em;
+    }
   }
 }

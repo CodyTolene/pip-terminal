@@ -5,12 +5,11 @@
   [attr.aria-busy]="loading() ? 'true' : 'false'"
 >
   <header class="term-titlebar">
-    <div class="win-dots" aria-hidden="true">
-      <span class="dot dot-close"></span>
-      <span class="dot dot-min"></span>
-      <span class="dot dot-max"></span>
+    <div class="term-titlewrap" aria-hidden="true">
+      <span class="lamp"></span>
+      <h1 class="term-title">Azrael's Support Terminal</h1>
     </div>
-    <h1 class="term-title">Azrael's Support Terminal</h1>
+
     <div class="term-actions">
       <button (click)="goBack()" [disabled]="!canGoBack()" aria-label="Back">
         &blacktriangleleft;
@@ -33,11 +32,19 @@
 
   <div class="term-body">
     @if (error()) {
-      <div class="status">Error loading. Check the URL or network.</div>
+      <div class="status">[ ERROR ] Check the URL or network.</div>
     } @else if (loading()) {
-      <div class="status">Loading…</div>
+      <div class="status">[ LOADING ] Please stand by…</div>
     } @else {
       <div #viewport class="viewport" [innerHTML]="html()"></div>
     }
   </div>
+
+  <footer class="term-footer" aria-hidden="true">
+    <div class="meter">
+      <span class="lamp"></span><span class="lamp"></span
+      ><span class="lamp"></span><span class="lamp"></span>
+      <span class="label">&#10095;&nbsp;READY</span>
+    </div>
+  </footer>
 </section>
