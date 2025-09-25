@@ -31,21 +31,22 @@ export class GithubService {
       if (!res.ok) return null;
 
       const md = await res.text();
+      // Marked v5+: no built-in sanitize option. We sanitize AFTER parse.
       const html = marked.parse(md);
 
-      // Rewrite links/images before sanitizing
+      // Rewrite links/images before sanitizing (so sanitizer sees final URLs)
       const rewritten = this.rewriteLinksAndImages(
         html as string,
         normalized.rawDir,
         normalized.blobBase,
       );
 
-      // Sanitize, but keep our navigation markers
+      // Sanitize, preserving our in-frame navigation markers
       const safe = DOMPurify.sanitize(rewritten, {
         ADD_ATTR: ['data-doc-href', 'data-doc-hash', 'target', 'rel'],
         SANITIZE_NAMED_PROPS: true,
-        // Extra hardening. Scripts/handlers are removed by default;
-        // the following forbids a few risky containers (rare in READMEs).
+
+        // Extra hardening: forbid risky containers you highlighted
         FORBID_TAGS: [
           'style',
           'iframe',
@@ -55,6 +56,36 @@ export class GithubService {
           'embed',
           'form',
         ],
+
+        // Explicitly forbid common event attributes (redundant but defensive)
+        FORBID_ATTR: [
+          'onclick',
+          'onload',
+          'onerror',
+          'onmouseover',
+          'onfocus',
+          'onmouseenter',
+          'onmouseleave',
+          'onmousedown',
+          'onmouseup',
+          'onmousemove',
+          'onkeydown',
+          'onkeyup',
+          'onkeypress',
+          'onsubmit',
+          'onreset',
+          'onchange',
+          'oninput',
+          'onblur',
+          'oncontextmenu',
+          'ondragstart',
+          'ondrop',
+          'onwheel',
+          'onpaste',
+        ],
+
+        // If a forbidden tag appears, drop its contents too
+        KEEP_CONTENT: false,
       });
 
       return this.sanitizer.bypassSecurityTrustHtml(safe);
@@ -183,7 +214,7 @@ export class GithubService {
         return;
       }
 
-      // Relative links inside repo
+      // Relative links inside the repo
       const bare = href.split('#')[0];
       const anchor = href.includes('#')
         ? href.substring(href.indexOf('#') + 1)
@@ -201,7 +232,7 @@ export class GithubService {
         return;
       }
 
-      // Non-markdown relative -> GitHub blob in a new tab
+      // Set up other relative links to open in GitHub blob view in new tab
       const blob = new URL(bare, blobBase).toString();
       a.setAttribute('href', blob);
       a.setAttribute('target', '_blank');
