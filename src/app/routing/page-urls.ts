@@ -38,6 +38,7 @@ export const PAGE_URLS = (
     'privacy-policy',
     'register',
     'status',
+    'support',
     'terms-and-conditions',
     'verify-email',
     `vault/${id}`,

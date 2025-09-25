@@ -17,6 +17,7 @@ export const PAGES: Record<PageName, PageUrl> = {
   Home: '',
   Login: 'login',
   Register: 'register',
+  Support: 'support',
   Status: 'status',
   'Terms and Conditions': 'terms-and-conditions',
   'Verify Email': 'verify-email',

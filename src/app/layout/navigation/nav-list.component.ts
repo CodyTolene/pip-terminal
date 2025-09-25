@@ -102,6 +102,10 @@ export class NavListComponent {
       label: 'Status',
     },
     {
+      commands: ['support'],
+      label: 'Support',
+    },
+    {
       commands: ['privacy-policy'],
       label: 'Privacy Policy',
     },
