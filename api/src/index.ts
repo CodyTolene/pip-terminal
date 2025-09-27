@@ -8,6 +8,7 @@
  */
 
 export { beforeUserCreatedEvent } from './events/before-user-created.event';
+export { onForumPostCreated } from './events/on-forum-post-created.event';
 
 import * as admin from 'firebase-admin';
 import express from 'express';
@@ -17,13 +18,16 @@ import { corsCheck, isEmulator } from './utilities';
 import { HealthCheckController } from './controllers';
 import { setUsersSeed } from './data';
 
+// Initialize the admin SDK with the project ID and storage bucket.
 admin.initializeApp({
   projectId: 'pip-terminal',
   storageBucket: 'pip-terminal.firebasestorage.app',
 });
 
+// Restrict concurrency on all functions
 setGlobalOptions({ maxInstances: 5 });
 
+// Create an Express app for HTTP triggered functions
 const app = express();
 
 // Middleware
@@ -38,8 +42,8 @@ export const api = onRequest(
   app,
 );
 
-// Seed development data
-(async () => {
+// Seed development data in emulator mode only
+void (async () => {
   if (isEmulator()) {
     try {
       await setUsersSeed();

@@ -3,6 +3,10 @@ import { PageUrl } from 'src/app/types/page-url';
 
 /** The page name and the corresponding route URL records. */
 export const PAGES: Record<PageName, PageUrl> = {
+  Forum: 'forum',
+  'Forum - Post': 'forum/post',
+  Home: '',
+  Login: 'login',
   'My Vault': `vault/:id`,
   'Page Not Found': '**',
   'Pip-Boy 2000 Mk VI Simulator': '2000-mk-vi',
@@ -14,8 +18,6 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Pip-Boy 3000 Simulator': '3000',
   'Pip-Boy 3000A Simulator': '3000a',
   'Privacy Policy': 'privacy-policy',
-  Home: '',
-  Login: 'login',
   Register: 'register',
   Support: 'support',
   Status: 'status',

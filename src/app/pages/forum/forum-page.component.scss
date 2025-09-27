@@ -1,0 +1,27 @@
+// @use '../../styles/breakpoints' as bps;
+// @use '../../styles/colors' as col;
+// @use '../../styles/scrollbar' as sb;
+// @use '../../styles/variables' as var;
+
+.forum-posts {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.forum-post + .forum-post {
+  margin-top: 1.5rem;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.post-body p {
+  margin: 0.5rem 0;
+}

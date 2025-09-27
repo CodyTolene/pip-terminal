@@ -34,6 +34,8 @@ export const PAGE_URLS = (
     '3000-mk-v/maintenance',
     '3000-mk-v/radio',
     '3000a',
+    'forum',
+    'forum/post',
     'login',
     'privacy-policy',
     'register',

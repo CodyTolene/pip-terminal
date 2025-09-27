@@ -1,3 +1,5 @@
+export * from './forum/forum-page.component';
+export * from './forum/post/forum-post-page.component';
 export * from './login/login-page.component';
 export * from './pip-boy-2000-mk-vi/index';
 export * from './pip-boy-3000-mk-iv/index';

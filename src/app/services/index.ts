@@ -1,5 +1,6 @@
 export * from './app-update.service';
 export * from './auth.service';
+export * from './forum.service';
 export * from './github.service';
 export * from './map.service';
 export * from './page-data.service';

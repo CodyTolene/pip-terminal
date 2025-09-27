@@ -1,0 +1,29 @@
+<h1>New Post</h1>
+
+<section class="forum-new-post">
+  <h2>Create a Post</h2>
+  <form [formGroup]="formGroup" (ngSubmit)="createPost()">
+    <pro-input
+      [formControl]="formGroup.controls.title"
+      appearance="fill"
+      label="Title"
+      placeholder="Enter post title"
+      type="text"
+    ></pro-input>
+    <pro-input-textarea
+      [formControl]="formGroup.controls.content"
+      appearance="fill"
+      label="Content"
+      placeholder="Share your thoughts..."
+    ></pro-input-textarea>
+    <pip-button
+      [disabled]="formGroup.invalid || formGroup.disabled || isSubmitting()"
+      styling="filled"
+      type="submit"
+      >Post</pip-button
+    >
+    <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
+      >Cancel</pip-button
+    >
+  </form>
+</section>

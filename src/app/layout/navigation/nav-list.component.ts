@@ -78,6 +78,10 @@ export class NavListComponent {
       label: 'Logout',
     },
     {
+      commands: ['forum'],
+      label: 'Forum',
+    },
+    {
       commands: ['2000-mk-vi'],
       label: 'Pip-Boy 2000 Mk VI',
     },
@@ -123,15 +127,16 @@ export class NavListComponent {
           // Filter links by user logged in state.
           links: this.links.filter((link) => {
             switch (link.label) {
-              case 'Login': {
-                return user ? false : true;
-              }
+              // If logged in, hide these
+              // If logged out, show these
+              case 'Login':
               case 'Register': {
                 return user ? false : true;
               }
-              case 'Logout': {
-                return user ? true : false;
-              }
+              // If logged in, show these
+              // If logged out, hide these
+              case 'Forum':
+              case 'Logout':
               case 'My Vault': {
                 return user ? true : false;
               }

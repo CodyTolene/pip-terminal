@@ -3,19 +3,22 @@ import { DateTime } from 'luxon';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class Validation {
-  public static readonly user = {
-    displayName: {
-      minLength: 2,
-      maxLength: 128,
-      regExp: /^[A-Za-z0-9._-]+$/,
+  public static readonly forum = {
+    comment: {
+      content: {
+        minLength: 1,
+        maxLength: 2048,
+      },
     },
-    email: {
-      minLength: 6,
-      maxLength: 320,
-    },
-    password: {
-      minLength: 6,
-      maxLength: 128,
+    post: {
+      content: {
+        minLength: 1,
+        maxLength: 4096,
+      },
+      title: {
+        minLength: 1,
+        maxLength: 256,
+      },
     },
   };
 
@@ -35,6 +38,22 @@ export class Validation {
     vaultNumber: {
       min: 1,
       max: 999,
+    },
+  };
+
+  public static readonly user = {
+    displayName: {
+      minLength: 2,
+      maxLength: 128,
+      regExp: /^[A-Za-z0-9._-]+$/,
+    },
+    email: {
+      minLength: 6,
+      maxLength: 320,
+    },
+    password: {
+      minLength: 6,
+      maxLength: 128,
     },
   };
 

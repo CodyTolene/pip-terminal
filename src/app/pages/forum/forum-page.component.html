@@ -1,0 +1,33 @@
+<h1>Community Forum</h1>
+
+<a [routerLink]="forumPostLink">New Post</a>
+
+<section class="forum-posts">
+  <h2>Recent Posts</h2>
+  @if (postsChanges | async; as posts) {
+    @if (posts.length === 0) {
+      <ng-container *ngTemplateOutlet="noPostsTemplate" />
+    } @else {
+      @for (post of posts; track post.id) {
+        <div class="forum-post">
+          <div class="post-header">
+            <strong>{{ post.title }}</strong>
+            <span class="timestamp">{{
+              post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)'
+            }}</span>
+          </div>
+          <div class="post-body">
+            <p>{{ post.content }}</p>
+            <p class="signature">{{ post.authorName }}</p>
+          </div>
+        </div>
+      }
+    }
+  } @else {
+    <ng-container *ngTemplateOutlet="noPostsTemplate" />
+  }
+</section>
+
+<ng-template #noPostsTemplate>
+  <p>No posts yet. Be the first to share something!</p>
+</ng-template>

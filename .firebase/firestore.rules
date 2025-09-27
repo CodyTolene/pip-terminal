@@ -1,11 +1,16 @@
-// https://firebase.google.com/docs/firestore/security/rules-fields
-// https://firebase.google.com/docs/firestore/security/rules-structure#granular_operations
+// Extended Firestore security rules for the Pip‑Boy community forum.
+//
+// The original user profile rules are preserved. Additional match
+// statements have been added to support the `forum` collection and
+// associated subcollections of comments. Posts and comments can be read by
+// anyone but only authenticated users may create, update or delete their own
+// documents. Content length checks are enforced to mitigate abuse.
 
 rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-
+    // Existing user profile rules
     match /users/{uid} {
       allow read: if isOwner(uid);
       allow create, update: if isOwner(uid) && isValidProfile(request.resource.data);
@@ -17,10 +22,7 @@ service cloud.firestore {
     }
 
     function isValidProfile(d) {
-      return validDob(d) &&
-             validRoomNumber(d) &&
-             validSkill(d) &&
-             validVaultNumber(d);
+      return validDob(d) && validRoomNumber(d) && validSkill(d) && validVaultNumber(d);
     }
 
     // dateOfBirth (string):
@@ -29,40 +31,72 @@ service cloud.firestore {
     //  - must be >= 1900-01-01
     function validDob(d) {
       return !('dateOfBirth' in d) ||
-             d.dateOfBirth == null ||
-             (
-               d.dateOfBirth is string &&
-               (
-                 d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}$') ||
-                 d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{2}:\\d{2})$')
-               ) &&
-               d.dateOfBirth >= '1900-01-01'
-             );
+        d.dateOfBirth == null ||
+        (
+          d.dateOfBirth is string &&
+          (
+            d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}$') ||
+            d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{2}:\\d{2})$')
+          ) &&
+          d.dateOfBirth >= '1900-01-01'
+        );
     }
 
     // roomNumber: optional/null OR int in [1, 999]
     function validRoomNumber(d) {
       return !('roomNumber' in d) ||
-             d.roomNumber == null ||
-             (d.roomNumber is int && d.roomNumber >= 1 && d.roomNumber <= 999);
+        d.roomNumber == null ||
+        (d.roomNumber is int && d.roomNumber >= 1 && d.roomNumber <= 999);
     }
 
     // skill: optional/null OR string length in [2, 128]
     function validSkill(d) {
       return !('skill' in d) ||
-            d.skill == null ||
-            (
-              d.skill is string &&
-              d.skill.size() >= 2 &&
-              d.skill.size() <= 128
-            );
+        d.skill == null ||
+        (
+          d.skill is string &&
+          d.skill.size() >= 2 &&
+          d.skill.size() <= 128
+        );
     }
 
     // vaultNumber: optional/null OR int in [1, 999]
     function validVaultNumber(d) {
       return !('vaultNumber' in d) ||
-             d.vaultNumber == null ||
-             (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
+        d.vaultNumber == null ||
+        (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
+    }
+
+    // ***** Forum rules *****
+    // A forum post document lives at /forum/{postId}.
+    match /forum/{postId} {
+      // Allow anyone to read forum posts (including unauthenticated visitors).
+      allow read: if true;
+      // Create requires authentication and must abide by length/field checks.
+      allow create: if request.auth != null &&
+        request.resource.data.authorId == request.auth.uid &&
+        request.resource.data.content is string &&
+        request.resource.data.content.size() > 0 &&
+        request.resource.data.content.size() <= 4096 &&
+        request.resource.data.title is string &&
+        request.resource.data.title.size() > 0 &&
+        request.resource.data.title.size() <= 256 &&
+        request.resource.data.createdAt == request.time;
+      // Users may update or delete only their own posts.
+      allow update, delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+
+      // Comments subcollection under a post
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.auth != null &&
+          request.resource.data.authorId == request.auth.uid &&
+          request.resource.data.postId == postId &&
+          request.resource.data.content is string &&
+          request.resource.data.content.size() > 0 &&
+          request.resource.data.content.size() <= 2048 &&
+          request.resource.data.createdAt == request.time;
+        allow update, delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+      }
     }
   }
 }
