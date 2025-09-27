@@ -14,7 +14,8 @@ const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
 
 export const PAGE_NAMES = [
   'Forum',
-  'Forum - Post',
+  'Forum - New Post',
+  'Forum - View Post',
   'Home',
   'Login',
   'My Vault',

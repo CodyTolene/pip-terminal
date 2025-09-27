@@ -36,6 +36,7 @@ export const PAGE_URLS = (
     '3000a',
     'forum',
     'forum/post',
+    `forum/post/${id}`,
     'login',
     'privacy-policy',
     'register',

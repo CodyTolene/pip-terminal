@@ -1,6 +1,12 @@
 <h1>Community Forum</h1>
 
-<a [routerLink]="forumPostLink">New Post</a>
+@if (userChanges | async) {
+  <a [routerLink]="forumNewPostLink">New Post</a>
+} @else {
+  <a [routerLink]="loginLink" [queryParams]="getReturnUrlQueryParams()"
+    >New Post</a
+  >
+}
 
 <section class="forum-posts">
   <h2>Recent Posts</h2>
@@ -9,7 +15,7 @@
       <ng-container *ngTemplateOutlet="noPostsTemplate" />
     } @else {
       @for (post of posts; track post.id) {
-        <div class="forum-post">
+        <a [routerLink]="getPostViewLink(post.id)" class="forum-post">
           <div class="post-header">
             <strong>{{ post.title }}</strong>
             <span class="timestamp">{{
@@ -20,7 +26,7 @@
             <p>{{ post.content }}</p>
             <p class="signature">{{ post.authorName }}</p>
           </div>
-        </div>
+        </a>
       }
     }
   } @else {
@@ -29,5 +35,14 @@
 </section>
 
 <ng-template #noPostsTemplate>
-  <p>No posts yet. Be the first to share something!</p>
+  @if (userChanges | async) {
+    <p>No posts yet. Be the first to share something!</p>
+  } @else {
+    <p>
+      No posts yet. Please <a [routerLink]="loginLink">log in</a> or
+      <a [routerLink]="registerLink">register</a> to share something!
+    </p>
+  }
 </ng-template>
+
+<pip-footer />

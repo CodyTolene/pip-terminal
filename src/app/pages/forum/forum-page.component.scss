@@ -1,7 +1,17 @@
+@use '../../styles/colors' as col;
 // @use '../../styles/breakpoints' as bps;
-// @use '../../styles/colors' as col;
 // @use '../../styles/scrollbar' as sb;
 // @use '../../styles/variables' as var;
+
+:host {
+  align-items: center;
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
 
 .forum-posts {
   margin-bottom: 2rem;
@@ -24,4 +34,10 @@
 
 .post-body p {
   margin: 0.5rem 0;
+}
+
+pip-footer {
+  align-self: stretch;
+  margin-top: auto;
+  display: block;
 }

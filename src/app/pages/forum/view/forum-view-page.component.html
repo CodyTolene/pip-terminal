@@ -1,0 +1,28 @@
+<h1>View Post</h1>
+
+<a [routerLink]="forumLink">Go back</a>
+
+<section class="forum-post">
+  <div class="post-header">
+    <strong>
+      Post Title
+      <!-- {{post.title}} -->
+    </strong>
+    <span class="timestamp">
+      01/01/2049, 03:45 PM (CDT)
+      <!-- {{post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }} -->
+    </span>
+  </div>
+  <div class="post-body">
+    <p>
+      Post content goes here.
+      <!-- {{ post.content }} -->
+    </p>
+    <p class="signature">
+      — Author Name
+      <!-- {{ post.authorName }} -->
+    </p>
+  </div>
+</section>
+
+<pip-footer />

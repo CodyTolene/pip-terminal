@@ -135,7 +135,6 @@ export class NavListComponent {
               }
               // If logged in, show these
               // If logged out, hide these
-              case 'Forum':
               case 'Logout':
               case 'My Vault': {
                 return user ? true : false;

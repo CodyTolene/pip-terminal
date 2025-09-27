@@ -1,16 +1,11 @@
-// Extended Firestore security rules for the Pip‑Boy community forum.
-//
-// The original user profile rules are preserved. Additional match
-// statements have been added to support the `forum` collection and
-// associated subcollections of comments. Posts and comments can be read by
-// anyone but only authenticated users may create, update or delete their own
-// documents. Content length checks are enforced to mitigate abuse.
+// https://firebase.google.com/docs/firestore/security/rules-fields
+// https://firebase.google.com/docs/firestore/security/rules-structure#granular_operations
 
 rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Existing user profile rules
+    // ***** User profile rules *****
     match /users/{uid} {
       allow read: if isOwner(uid);
       allow create, update: if isOwner(uid) && isValidProfile(request.resource.data);

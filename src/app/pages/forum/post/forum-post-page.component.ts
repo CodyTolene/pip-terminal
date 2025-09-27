@@ -4,6 +4,7 @@ import {
   InputTextareaComponent,
 } from '@proangular/pro-form';
 import { firstValueFrom } from 'rxjs';
+import { PipFooterComponent } from 'src/app/layout';
 import {
   ForumPostFormGroup,
   forumPostFormGroup,
@@ -24,11 +25,12 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'pip-forum-post-page',
   standalone: true,
   imports: [
-    PipButtonComponent,
     CommonModule,
     FormsModule,
     InputComponent,
     InputTextareaComponent,
+    PipButtonComponent,
+    PipFooterComponent,
     ReactiveFormsModule,
   ],
   templateUrl: './forum-post-page.component.html',

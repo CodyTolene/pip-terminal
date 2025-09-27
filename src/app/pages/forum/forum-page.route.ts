@@ -1,13 +1,12 @@
 import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 import { PageLayoutsEnum } from 'src/app/enums';
-import { isLoggedInGuard } from 'src/app/guards/is-logged-in.guard';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
 export const FORUM_PAGE_ROUTE: PipRoute = {
   path: 'forum',
   pathMatch: 'full',
-  canActivate: [isLoggedInGuard],
+  canActivate: [],
   data: {
     author: META_AUTHOR,
     description:
