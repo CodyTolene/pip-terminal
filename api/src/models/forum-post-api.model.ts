@@ -4,6 +4,13 @@ import { FirestoreTimestampApi } from './firestore-timestamp-api.model';
 export interface ForumPostApi {
   authorId: string;
   authorName: string;
+  category:
+    | 'General'
+    | 'Pip-Boy 2000 Mk VI'
+    | 'Pip-Boy 3000 Mk IV'
+    | 'Pip-Boy 3000 Mk V'
+    | 'Pip-Boy 3000'
+    | 'Pip-Boy 3000A';
   content: string;
   createdAt: FirestoreTimestampApi;
   id: string;

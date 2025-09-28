@@ -3,6 +3,18 @@
 <section>
   <h2>Create a Post</h2>
   <form [formGroup]="formGroup" (ngSubmit)="createPost()">
+    <pro-input-dropdown
+      [formControl]="formGroup.controls.category"
+      hint="Select a category"
+      label="Category"
+      placeholder="Select an option"
+    >
+      @for (option of forumCategoryList; track option) {
+        <pro-input-dropdown-option [value]="option">{{
+          option
+        }}</pro-input-dropdown-option>
+      }
+    </pro-input-dropdown>
     <pro-input
       [formControl]="formGroup.controls.title"
       appearance="fill"

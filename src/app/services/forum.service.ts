@@ -1,4 +1,5 @@
 import { Observable, map } from 'rxjs';
+import { ForumCategoryEnum } from 'src/app/enums';
 import { PipUser } from 'src/app/models';
 
 import { Injectable, inject } from '@angular/core';
@@ -40,23 +41,22 @@ export class ForumService {
     });
   }
 
-  public async addPost(
-    title: string,
-    content: string,
-    user: PipUser | null,
-  ): Promise<void> {
+  public async addPost(post: PostArgs): Promise<void> {
+    const { category, content, title, user } = post;
+
     if (!user || user === null) {
       throw new Error('User must be logged in to create a post');
     }
 
     const postsRef = collection(this.firestore, 'forum');
-    const post = ForumPost.serialize({
+    const newPost = ForumPost.serialize({
       authorId: user.uid,
       authorName: user.displayName || user.email,
+      category,
       content,
       title,
     });
-    await addDoc(postsRef, post);
+    await addDoc(postsRef, newPost);
   }
 
   public getComments(postId: string): Observable<readonly ForumComment[]> {
@@ -74,4 +74,11 @@ export class ForumService {
       map(ForumPost.deserializeList),
     );
   }
+}
+
+interface PostArgs {
+  category: ForumCategoryEnum;
+  content: string;
+  title: string;
+  user: PipUser | null;
 }

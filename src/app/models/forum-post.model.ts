@@ -3,6 +3,7 @@ import { Timestamp, serverTimestamp } from 'firebase/firestore';
 import * as io from 'io-ts';
 import { DateTime } from 'luxon';
 import { apiDecorator } from 'src/app/decorators';
+import { ForumCategoryEnum } from 'src/app/enums';
 import { decode } from 'src/app/utilities';
 
 import { ClassProperties } from 'src/app/types/class-properties';
@@ -15,6 +16,7 @@ export class ForumPost {
   public constructor(props: ClassProperties<ForumPost>) {
     this.authorId = props.authorId;
     this.authorName = props.authorName;
+    this.category = props.category;
     this.content = props.content;
     this.createdAt = props.createdAt;
     this.id = props.id;
@@ -24,6 +26,14 @@ export class ForumPost {
   public static readonly Codec = io.type({
     authorId: io.string,
     authorName: io.string,
+    category: io.union([
+      io.literal(ForumCategoryEnum.GENERAL),
+      io.literal(ForumCategoryEnum.PIP_2000_MK_VI),
+      io.literal(ForumCategoryEnum.PIP_3000),
+      io.literal(ForumCategoryEnum.PIP_3000A),
+      io.literal(ForumCategoryEnum.PIP_3000_MK_IV),
+      io.literal(ForumCategoryEnum.PIP_3000_MK_V),
+    ]),
     content: io.string,
     createdAt: io.type({
       nanoseconds: io.number,
@@ -37,6 +47,8 @@ export class ForumPost {
   @api({ key: 'authorId' }) public readonly authorId: string;
   /** Display name (or email) of the author. */
   @api({ key: 'authorName' }) public readonly authorName: string;
+  /** The category of the forum post. */
+  @api({ key: 'category' }) public readonly category: ForumCategoryEnum;
   /** The main body content of the forum post. */
   @api({ key: 'content' }) public readonly content: string;
   /** Firestore document identifier for this post. */
@@ -56,6 +68,7 @@ export class ForumPost {
     return new ForumPost({
       authorId: decoded.authorId,
       authorName: decoded.authorName,
+      category: decoded.category,
       content: decoded.content,
       createdAt: DateTime.fromJSDate(createdAtDate),
       id: decoded.id,
@@ -74,6 +87,7 @@ export class ForumPost {
     return {
       authorId: value.authorId,
       authorName: value.authorName,
+      category: value.category,
       content: value.content,
       createdAt: serverTimestamp(),
       title: value.title,

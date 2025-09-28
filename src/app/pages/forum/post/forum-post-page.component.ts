@@ -1,16 +1,24 @@
 import {
   FormDirective,
   InputComponent,
+  InputDropdownComponent,
+  InputDropdownOptionComponent,
   InputTextareaComponent,
 } from '@proangular/pro-form';
 import { firstValueFrom } from 'rxjs';
+import { ForumCategoryEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout';
 import {
   ForumPostFormGroup,
   forumPostFormGroup,
 } from 'src/app/pages/forum/post/forum-post-form-group';
 import { AuthService, ForumService, ToastService } from 'src/app/services';
-import { isNonEmptyString, shareSingleReplay } from 'src/app/utilities';
+import {
+  getEnumValues,
+  isNonEmptyString,
+  isNonEmptyValue,
+  shareSingleReplay,
+} from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
@@ -28,6 +36,8 @@ import { PageUrl } from 'src/app/types/page-url';
     CommonModule,
     FormsModule,
     InputComponent,
+    InputDropdownComponent,
+    InputDropdownOptionComponent,
     InputTextareaComponent,
     PipButtonComponent,
     PipFooterComponent,
@@ -61,6 +71,7 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
   private readonly toastService = inject(ToastService);
 
   protected override readonly formGroup = forumPostFormGroup;
+  protected readonly forumCategoryList = getEnumValues(ForumCategoryEnum);
 
   protected readonly isSubmitting = signal(false);
   private readonly userChanges =
@@ -76,16 +87,23 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
     this.isSubmitting.set(true);
 
     try {
-      const { content, title } = this.formGroup.value;
+      const { category, content, title } = this.formGroup.value;
       if (!isNonEmptyString(content)) {
         throw new Error('Content must not be empty!');
       } else if (!isNonEmptyString(title)) {
         throw new Error('Title must not be empty!');
+      } else if (!isNonEmptyValue(category)) {
+        throw new Error('Category must be selected!');
       }
 
       const user = await firstValueFrom(this.userChanges);
 
-      await this.forumService.addPost(title, content, user);
+      await this.forumService.addPost({
+        category,
+        content,
+        title,
+        user,
+      });
       this.toastService.success({
         message: 'Post created successfully!',
         durationSecs: 3,

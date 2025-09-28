@@ -16,7 +16,7 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { logger, setGlobalOptions } from 'firebase-functions';
 import { corsCheck, isEmulator } from './utilities';
 import { HealthCheckController } from './controllers';
-import { setUsersSeed } from './data';
+import { setForumPostsSeed, setUsersSeed } from './data';
 
 // Initialize the admin SDK with the project ID and storage bucket.
 admin.initializeApp({
@@ -47,6 +47,7 @@ void (async () => {
   if (isEmulator()) {
     try {
       await setUsersSeed();
+      await setForumPostsSeed();
     } catch (e) {
       logger.error('Seeding development data failed:', e);
     }
