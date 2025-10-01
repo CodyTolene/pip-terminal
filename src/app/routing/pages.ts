@@ -4,6 +4,7 @@ import { PageUrl } from 'src/app/types/page-url';
 /** The page name and the corresponding route URL records. */
 export const PAGES: Record<PageName, PageUrl> = {
   Forum: 'forum',
+  'Forum - Category': 'forum/category/:id',
   'Forum - New Post': 'forum/post',
   'Forum - View Post': 'forum/post/:id',
   Home: '',

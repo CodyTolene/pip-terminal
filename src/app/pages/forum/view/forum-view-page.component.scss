@@ -13,12 +13,43 @@
   width: 100%;
 }
 
+/* Breadcrumb navigation styling */
+.breadcrumbs {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  a {
+    color: col.$pip-green;
+    text-decoration: underline;
+  }
+  span {
+    margin-left: 0.25rem;
+  }
+}
+
 section {
   margin-bottom: 2rem;
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Comments container */
+.comments {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Individual comment styling */
+.comments .comment {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0;
+}
+
+/* Remove border for the first comment */
+.comments .comment:first-child {
+  border-top: none;
 }
 
 pip-footer {

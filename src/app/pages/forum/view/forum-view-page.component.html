@@ -1,28 +1,46 @@
-<h1>View Post</h1>
+<nav class="breadcrumbs">
+  <a [routerLink]="forumLink">Forum</a>
+  @if (post(); as p) {
+    <span> / {{ p.category }}</span>
+    <span> / {{ p.title }}</span>
+  }
+</nav>
 
-<a [routerLink]="forumLink">Go back</a>
+@if (post(); as p) {
+  <section class="forum-post">
+    <div class="post-header">
+      <strong>{{ p.title }}</strong>
+      <span class="timestamp">
+        {{ p.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+      </span>
+    </div>
+    <div class="post-body">
+      <!-- Content may include markup; use innerHTML to preserve formatting -->
+      <p [innerHTML]="p.content"></p>
+      <p class="signature">— {{ p.authorName }}</p>
+    </div>
+  </section>
+  <section class="comments">
+    <h2>Comments</h2>
+    @if (comments().length === 0) {
+      <p>No comments yet.</p>
+    } @else {
+      @for (comment of comments(); track comment.id) {
+        <div class="comment">
+          <p>{{ comment.content }}</p>
+          <p class="signature">
+            - {{ comment.authorName }},
+            {{ comment.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+          </p>
+        </div>
+      }
+    }
+  </section>
+} @else if (loading()) {
+  <p>[LOADING] Please stand by...</p>
+} @else if (error()) {
+  <p>[ERROR] Unable to load post. Please try again later.</p>
+}
 
-<section class="forum-post">
-  <div class="post-header">
-    <strong>
-      Post Title
-      <!-- {{post.title}} -->
-    </strong>
-    <span class="timestamp">
-      01/01/2049, 03:45 PM (CDT)
-      <!-- {{post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }} -->
-    </span>
-  </div>
-  <div class="post-body">
-    <p>
-      Post content goes here.
-      <!-- {{ post.content }} -->
-    </p>
-    <p class="signature">
-      — Author Name
-      <!-- {{ post.authorName }} -->
-    </p>
-  </div>
-</section>
-
+<!-- Footer always present at the bottom -->
 <pip-footer />

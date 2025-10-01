@@ -98,11 +98,16 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
 
       const user = await firstValueFrom(this.userChanges);
 
+      if (!user || user === null) {
+        throw new Error('User must be logged in to create a post');
+      }
+
       await this.forumService.addPost({
+        authorId: user.uid,
+        authorName: user.displayName || user.email,
         category,
         content,
         title,
-        user,
       });
       this.toastService.success({
         message: 'Post created successfully!',

@@ -17,6 +17,7 @@ import { logger, setGlobalOptions } from 'firebase-functions';
 import { corsCheck, isEmulator } from './utilities';
 import { HealthCheckController } from './controllers';
 import { setForumPostsSeed, setUsersSeed } from './data';
+import { ADMINS_SEED } from './seeds';
 
 // Initialize the admin SDK with the project ID and storage bucket.
 admin.initializeApp({
@@ -46,8 +47,11 @@ export const api = onRequest(
 void (async () => {
   if (isEmulator()) {
     try {
-      await setUsersSeed();
-      await setForumPostsSeed();
+      const newUsers = await setUsersSeed();
+      const adminUser = newUsers?.find(
+        (u) => u.email === ADMINS_SEED[0].native.email,
+      );
+      await setForumPostsSeed(adminUser);
     } catch (e) {
       logger.error('Seeding development data failed:', e);
     }

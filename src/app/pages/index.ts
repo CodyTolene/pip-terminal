@@ -1,3 +1,4 @@
+export * from './forum/category/forum-category-page.component';
 export * from './forum/forum-page.component';
 export * from './forum/post/forum-post-page.component';
 export * from './forum/view/forum-view-page.component';
