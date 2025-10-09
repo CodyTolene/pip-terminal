@@ -8,9 +8,13 @@ import { shareSingleReplay } from 'src/app/utilities';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipPanelComponent } from 'src/app/components/panel/panel.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { PageUrl } from 'src/app/types/page-url';
 
@@ -21,8 +25,12 @@ import { PageUrl } from 'src/app/types/page-url';
     CommonModule,
     DateTimePipe,
     FormsModule,
+    MatIconModule,
+    MatTooltipModule,
     PipButtonComponent,
     PipFooterComponent,
+    PipPanelComponent,
+    PipTitleComponent,
     RouterModule,
   ],
   providers: [ForumService],
@@ -118,39 +126,44 @@ const categories = [
   {
     key: ForumCategoryEnum.GENERAL,
     name: ForumCategoryEnum.GENERAL,
-    description: 'General discussion about all things Pip-Boy.',
+    description: 'General discussion about all things Pip-Boy related.',
     link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.GENERAL],
   },
   {
     key: ForumCategoryEnum.PIP_2000_MK_VI,
     name: ForumCategoryEnum.PIP_2000_MK_VI,
-    description: 'Talk about the Pip-Boy 2000 Mk VI hardware and usage.',
+    description:
+      'Discuss the Pip-Boy 2000 Mk VI as seen in Fallout 76 (year 2102).',
     link:
       '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_2000_MK_VI],
   },
   {
     key: ForumCategoryEnum.PIP_3000,
     name: ForumCategoryEnum.PIP_3000,
-    description: 'Discussion for fans of the classic Pip-Boy 3000.',
+    description:
+      'Discussion around the classic Pip-Boy 3000 from Fallout 3 (year 2277).',
     link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000],
   },
   {
     key: ForumCategoryEnum.PIP_3000A,
     name: ForumCategoryEnum.PIP_3000A,
-    description: 'Share tips and stories about the Pip-Boy 3000A model.',
+    description:
+      'Share tips and stories about the Pip-Boy 3000A model from Fallout: New Vegas (year 2281).',
     link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000A],
   },
   {
     key: ForumCategoryEnum.PIP_3000_MK_IV,
     name: ForumCategoryEnum.PIP_3000_MK_IV,
-    description: 'All things related to the Pip-Boy 3000 Mk IV.',
+    description:
+      'All things related to the Pip-Boy 3000 Mk IV, as seen in Fallout 4 (year 2287).',
     link:
       '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_IV],
   },
   {
     key: ForumCategoryEnum.PIP_3000_MK_V,
     name: ForumCategoryEnum.PIP_3000_MK_V,
-    description: 'Discuss the latest Pip-Boy 3000 Mk V as seen on TV.',
+    description:
+      'Discuss the latest Pip-Boy 3000 Mk V as seen on TV (year 2296).',
     link:
       '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_V],
   },

@@ -1,7 +1,18 @@
 @use '../../../styles/colors' as col;
 // @use '../../../styles/breakpoints' as bps;
 // @use '../../../styles/scrollbar' as sb;
-// @use '../../../styles/variables' as var;
+@use '../../../styles/variables' as var;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  font-family: var.$secondary-font-family;
+  background-color: col.$pip-black;
+  color: col.$pip-green;
+  height: 100%;
+  width: 100%;
+}
 
 .breadcrumbs {
   align-self: flex-start;
@@ -9,11 +20,42 @@
   font-size: 0.85rem;
 
   a {
-    color: col.$pip-green;
+    color: col.$pip-green-light;
     text-decoration: underline;
   }
 
   span {
     margin-left: 0.25rem;
+    color: col.$pip-green;
   }
+}
+
+.forum-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  text-decoration: underline;
+  color: col.$pip-green-light;
+}
+
+.forum-intro {
+  margin: 0 0 1rem;
+  font-style: italic;
+  color: col.$pip-green-light;
+}
+
+// Style the pro-table component to adopt the console aesthetic.
+::ng-deep pro-table table {
+  background-color: col.$pip-green-gray;
+  color: col.$pip-green;
+  font-family: var.$secondary-font-family;
+  width: 100%;
+}
+
+::ng-deep pro-table th,
+::ng-deep pro-table td {
+  border-bottom: 1px dashed col.$pip-green-dark;
+}
+
+::ng-deep pro-table tr:hover {
+  background-color: col.$pip-green-darkest;
 }

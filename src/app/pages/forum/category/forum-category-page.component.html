@@ -2,6 +2,7 @@
   <a [routerLink]="forumLink">Forum</a> / {{ category() }}
 </nav>
 
-<h2>Forum</h2>
+<h1 class="forum-title">[ {{ category() }} ]</h1>
+<p class="forum-intro">Showing posts for category "{{ category() }}".</p>
 
 <pip-forum-table [category]="category()" />

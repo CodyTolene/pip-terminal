@@ -1,66 +1,82 @@
-<h1>Community Forum</h1>
-
-@if (userChanges | async) {
-  <a [routerLink]="forumNewPostLink">New Post</a>
-} @else {
-  <a [routerLink]="loginLink" [queryParams]="getReturnUrlQueryParams()"
-    >New Post</a
-  >
-}
-
-<section class="forum-categories">
-  <h2>Categories</h2>
-  <div class="category-grid">
-    @for (cat of categories; track cat.key) {
-      <a [routerLink]="cat.link" class="category-card">
-        <h3>{{ cat.name }}</h3>
-        <p>{{ cat.description }}</p>
-      </a>
-    }
-  </div>
+<section>
+  @if (userChanges | async) {
+    <a [routerLink]="forumNewPostLink" class="action-link">New Post</a>
+  } @else {
+    <a
+      [routerLink]="loginLink"
+      [queryParams]="getReturnUrlQueryParams()"
+      class="action-link"
+      >New Post</a
+    >
+  }
 </section>
 
-<section class="forum-posts">
-  <h2>Recent Posts</h2>
+<section class="intro">
+  <pip-title h1>Community Forum</pip-title>
+  <p>
+    Welcome to the Pip-Boy Community Forum. Share your knowledge, ask questions
+    and connect with other vault dwellers!
+  </p>
+</section>
 
-  @if (loading()) {
-    <p class="loading">Loading...</p>
-  } @else if (posts().length === 0) {
-    <ng-container *ngTemplateOutlet="noPostsTemplate" />
-  } @else {
-    @for (post of posts(); track post.id) {
-      <div class="post-group">
-        <a [routerLink]="post.url" class="forum-post">
-          <div class="post-header">
-            <h3>{{ post.title }}</h3>
-            <span class="timestamp">
-              {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
-            </span>
-          </div>
-          <div class="post-body">
-            <p>{{ post.content }}</p>
-            <p>Category: {{ post.category }}</p>
-            <p class="signature">Author: {{ post.authorName }}</p>
-          </div>
+<section>
+  <pip-panel>
+    <h3>Categories</h3>
+    <div class="pip-grid">
+      @for (cat of categories; track cat.key) {
+        <a [routerLink]="cat.link" class="pip-grid-item">
+          <h4>{{ cat.name }}</h4>
+          <span>{{ cat.description }}</span>
         </a>
-        {{ post | json }}
+      }
+    </div>
+  </pip-panel>
+</section>
+
+<section>
+  <div class="forum-posts">
+    <h3>Recent Posts</h3>
+    @if (loading()) {
+      <p class="loading">Loading...</p>
+    } @else if (posts().length === 0) {
+      <ng-container *ngTemplateOutlet="noPostsTemplate" />
+    } @else {
+      @for (post of posts(); track post.id) {
+        <div class="post-group">
+          <a [routerLink]="post.url" class="forum-post">
+            <div class="post-header">
+              <h5>{{ post.title }}</h5>
+              <span class="timestamp">
+                {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+              </span>
+            </div>
+            <div class="post-body">
+              <p class="category">Category: {{ post.category }}</p>
+              <p>{{ post.content }}</p>
+              <p class="signature">— {{ post.authorName }}</p>
+            </div>
+          </a>
+        </div>
+      }
+
+      <div class="pagination">
+        <pip-button
+          [disabled]="loading() || !hasPrevPage()"
+          (click)="prevPagePosts()"
+          [matTooltip]="'Previous Page'"
+        >
+          <mat-icon fontSet="material-icons-outlined">chevron_left</mat-icon>
+        </pip-button>
+        <pip-button
+          [disabled]="loading() || !hasNextPage()"
+          (click)="nextPagePosts()"
+          [matTooltip]="'Next Page'"
+        >
+          <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>
+        </pip-button>
       </div>
     }
-
-    <pip-button
-      [disabled]="loading() || !hasPrevPage()"
-      (click)="prevPagePosts()"
-    >
-      Previous Page
-    </pip-button>
-
-    <pip-button
-      [disabled]="loading() || !hasNextPage()"
-      (click)="nextPagePosts()"
-    >
-      Next Page
-    </pip-button>
-  }
+  </div>
 </section>
 
 <ng-template #noPostsTemplate>
@@ -68,8 +84,10 @@
     <p>No posts yet. Be the first to share something!</p>
   } @else {
     <p>
-      No posts yet. Please <a [routerLink]="loginLink">log in</a> or
-      <a [routerLink]="registerLink">register</a> to share something!
+      No posts yet. Please
+      <a [routerLink]="loginLink" class="action-link">log in</a> or
+      <a [routerLink]="registerLink" class="action-link">register</a> to share
+      something!
     </p>
   }
 </ng-template>

@@ -1,24 +1,43 @@
 @use '../../../styles/colors' as col;
 // @use '../../../styles/breakpoints' as bps;
 // @use '../../../styles/scrollbar' as sb;
-// @use '../../../styles/variables' as var;
+@use '../../../styles/variables' as var;
 
 :host {
   align-items: center;
   box-sizing: border-box;
-  color: col.$pip-green;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
+  padding: 1rem;
+  font-family: var.$secondary-font-family;
+  background-color: col.$pip-black;
+  color: col.$pip-green;
+}
+
+h1.forum-title,
+h2 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  color: col.$pip-green-light;
 }
 
 section {
   margin-bottom: 2rem;
   padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px dashed col.$pip-green-dark;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: col.$pip-green-gray;
+  width: 100%;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 pip-footer {

@@ -32,6 +32,11 @@ main {
       margin-bottom: 2rem;
     }
 
+    > pip-panel {
+      max-width: var.$section-max-width;
+      padding: 1rem;
+    }
+
     &.intro {
       margin: 0 auto;
       max-width: var.$section-max-width;
@@ -71,9 +76,7 @@ main {
   }
 }
 
-h1 {
-  color: col.$pip-green-dark;
-  font-size: var.$font-xl;
+pip-title[h1] {
   margin-bottom: 2rem;
   text-align: center;
   width: 100%;
@@ -114,4 +117,8 @@ hr.pip-divider {
   //   0 0 12px col.$pip-green;
   width: 80%;
   margin: 3rem auto;
+}
+
+pip-footer {
+  margin-top: 4rem;
 }

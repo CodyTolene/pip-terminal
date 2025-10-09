@@ -1,16 +1,20 @@
 @use '../../../styles/colors' as col;
 // @use '../../../styles/breakpoints' as bps;
 // @use '../../../styles/scrollbar' as sb;
-// @use '../../../styles/variables' as var;
+@use '../../../styles/variables' as var;
 
+// Host container styling for the view page.
 :host {
   align-items: center;
   box-sizing: border-box;
-  color: col.$pip-green;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
+  padding: 1rem;
+  font-family: var.$secondary-font-family;
+  background-color: col.$pip-black;
+  color: col.$pip-green;
 }
 
 .breadcrumbs {
@@ -19,31 +23,82 @@
   font-size: 0.85rem;
 
   a {
-    color: col.$pip-green;
+    color: col.$pip-green-light;
     text-decoration: underline;
   }
 
   span {
     margin-left: 0.25rem;
+    color: col.$pip-green;
   }
 }
 
 section {
   margin-bottom: 2rem;
   padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px dashed col.$pip-green-dark;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: col.$pip-green-gray;
+  width: 100%;
+}
+
+.forum-post .post-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+
+  strong {
+    font-size: 1.2rem;
+    color: col.$pip-green-light;
+  }
+
+  .timestamp {
+    font-size: 0.8rem;
+    color: col.$pip-green-light;
+  }
+}
+
+.forum-post .post-body {
+  p {
+    margin: 0.5rem 0;
+    color: col.$pip-green;
+  }
+
+  .signature {
+    font-size: 0.8rem;
+    color: col.$pip-green-lightest;
+    font-style: italic;
+  }
 }
 
 .comments {
   margin-top: 2rem;
   width: 100%;
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    text-decoration: underline;
+    color: col.$pip-green-light;
+  }
 }
 
 .comments .comment {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px dashed col.$pip-green-dark;
   padding: 0.5rem 0;
+
+  p {
+    margin: 0.25rem 0;
+    color: col.$pip-green;
+  }
+
+  .signature {
+    font-size: 0.75rem;
+    color: col.$pip-green-lightest;
+    font-style: italic;
+  }
 }
 
 .comments .comment:first-child {

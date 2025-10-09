@@ -1,0 +1,35 @@
+@use '../../styles/colors' as col;
+
+:host {
+  display: block;
+  color: col.$pip-green;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: inline-flex;
+  margin: 0;
+  text-transform: uppercase;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+
+  div {
+    position: relative;
+  }
+}
+
+h1 > div {
+  top: 2px;
+}
+
+span.bracket {
+  color: col.$pip-green-darkest;
+  // Multiply font size by 1.5
+  font-size: 1.25em;
+}

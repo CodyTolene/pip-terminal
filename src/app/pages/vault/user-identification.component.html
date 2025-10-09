@@ -1,4 +1,4 @@
-<section class="user-id">
+<pip-panel class="user-id">
   <h1>VAULT DWELLLER ID</h1>
   @if (isMobileChanges | async) {
     <ng-container *ngTemplateOutlet="userImageTemplate"></ng-container>
@@ -95,14 +95,14 @@
       </pip-loading>
     }
   </div>
-</section>
+</pip-panel>
 
 @if ((isMobileChanges | async) === false) {
   <ng-container *ngTemplateOutlet="userImageTemplate"></ng-container>
 }
 
 <ng-template #userImageTemplate>
-  <section class="user-image-container">
+  <pip-panel class="user-image-container">
     <div class="pip-grid">
       <div class="pip-grid-item">
         <img
@@ -118,5 +118,5 @@
         CHANGE IMAGE
       </pip-button>
     }
-  </section>
+  </pip-panel>
 </ng-template>

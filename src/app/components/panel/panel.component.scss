@@ -1,0 +1,33 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  position: relative;
+  background-color: rgba(col.$pip-green-dark, 0.05);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(col.$pip-green, col.$pip-green) top left / 22px 2px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) top left / 2px 22px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) top right / 22px 2px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) top right / 2px 22px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) bottom left / 22px 2px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) bottom left / 2px 22px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) bottom right / 22px 2px
+        no-repeat,
+      linear-gradient(col.$pip-green, col.$pip-green) bottom right / 2px 22px
+        no-repeat;
+    opacity: 0.05;
+  }
+}
