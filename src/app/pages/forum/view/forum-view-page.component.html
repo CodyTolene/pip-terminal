@@ -1,7 +1,7 @@
 <nav class="breadcrumbs">
-  <a [routerLink]="forumLink">Forum</a>
+  <a [routerLink]="forumLink">Forum</a> /
   @if (post(); as p) {
-    <span> / {{ p.category }}</span>
+    <a [routerLink]="p.categoryUrl">{{ p.category }}</a>
     <span> / {{ p.title }}</span>
   }
 </nav>

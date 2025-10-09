@@ -23,6 +23,7 @@ import { PageUrl } from 'src/app/types/page-url';
     PipFooterComponent,
     RouterModule,
   ],
+  providers: [ForumService],
   templateUrl: './forum-view-page.component.html',
   styleUrls: ['./forum-view-page.component.scss'],
 })
@@ -43,10 +44,10 @@ export class ForumViewPageComponent implements OnDestroy {
 
   protected readonly forumLink = '/' + ('forum' satisfies PageUrl);
 
-  protected readonly post = signal<ForumPost | null>(null);
   protected readonly comments = signal<readonly ForumComment[]>([]);
-  protected readonly loading = signal<boolean>(true);
   protected readonly error = signal<boolean>(false);
+  protected readonly loading = signal<boolean>(true);
+  protected readonly post = signal<ForumPost | null>(null);
 
   private commentsSub: Subscription | null = null;
 

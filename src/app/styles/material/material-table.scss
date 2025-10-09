@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+:root {
+  @include mat.table-overrides(
+    (
+      background-color: col.$pip-green-darkest,
+      header-headline-color: col.$pip-green,
+      row-item-label-text-color: col.$pip-green,
+    )
+  );
+}

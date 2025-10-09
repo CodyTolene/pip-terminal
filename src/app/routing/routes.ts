@@ -1,3 +1,4 @@
+import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/forum-category-page.route';
 import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
 import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/forum-post-page.route';
 import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/forum-view-page.route';
@@ -25,6 +26,7 @@ import { PipRouteRedirect } from 'src/app/types/pip-route-redirect';
 
 export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   FORUM_PAGE_ROUTE,
+  FORUM_CATEGORY_PAGE_ROUTE,
   FORUM_POST_PAGE_ROUTE,
   FORUM_VIEW_PAGE_ROUTE,
   LOGIN_PAGE_ROUTE,

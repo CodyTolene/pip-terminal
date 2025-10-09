@@ -4,16 +4,20 @@ import * as io from 'io-ts';
 import { DateTime } from 'luxon';
 import { apiDecorator } from 'src/app/decorators';
 import { ForumCategoryEnum } from 'src/app/enums';
+import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { decode } from 'src/app/utilities';
 
 import { ClassProperties } from 'src/app/types/class-properties';
+import { PageUrl } from 'src/app/types/page-url';
 
 const api = apiDecorator<ForumPostApi>();
 
-export type ForumPostCreate = Omit<ForumPost, 'id' | 'createdAt'>;
+type ForumPostArgs = Omit<ForumPost, 'categoryUrl' | 'contentPreview' | 'url'>;
+
+export type ForumPostCreate = Omit<ForumPostArgs, 'id' | 'createdAt'>;
 
 export class ForumPost {
-  public constructor(props: ClassProperties<ForumPost>) {
+  public constructor(props: ClassProperties<ForumPostArgs>) {
     this.authorId = props.authorId;
     this.authorName = props.authorName;
     this.category = props.category;
@@ -21,6 +25,17 @@ export class ForumPost {
     this.createdAt = props.createdAt;
     this.id = props.id;
     this.title = props.title;
+
+    const forumCategoryUrl: PageUrl = 'forum/category/:id';
+    const postUrl: PageUrl = 'forum/post/:id';
+
+    this.categoryUrl =
+      '/' + forumCategoryUrl.replace(':id', CATEGORY_TO_SLUG[this.category]);
+    this.contentPreview =
+      this.content.length > 100
+        ? `${this.content.slice(0, 100)}...`
+        : this.content;
+    this.url = '/' + postUrl.replace(':id', this.id);
   }
 
   public static readonly Codec = io.type({
@@ -57,6 +72,13 @@ export class ForumPost {
   @api({ key: 'createdAt' }) public readonly createdAt: DateTime;
   /** The title of the forum post. */
   @api({ key: 'title' }) public readonly title: string;
+
+  /** Link to view this posts category in the forum. */
+  public readonly categoryUrl: string;
+  /** Preview of the content, truncated to 100 characters. */
+  public readonly contentPreview: string;
+  /** Link to view this post in the forum. */
+  public readonly url: string;
 
   public static deserialize(value: unknown): ForumPost {
     const decoded = decode(ForumPost.Codec, value);

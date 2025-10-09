@@ -4,7 +4,6 @@
 $nav-list-background-color: col.$black;
 $nav-item-background-color: col.$black;
 
-// Customize the entire app. Change :root to your selector if you want to scope the styles.
 :root {
   @include mat.list-overrides(
     (

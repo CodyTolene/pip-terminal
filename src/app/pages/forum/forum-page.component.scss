@@ -4,25 +4,24 @@
 // @use '../../styles/variables' as var;
 
 :host {
-  align-items: center;
+  align-items: stretch;
   box-sizing: border-box;
   color: col.$pip-green;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1rem;
+  padding: 0;
   width: 100%;
+  gap: 1rem;
 }
 
-/* Container for categories with similar styling to posts */
 .forum-categories {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  margin: 1rem;
   padding: 1rem;
-  width: 100%;
+  margin-inline: 1rem;
 
   h2 {
     margin-top: 0;
@@ -30,18 +29,20 @@
 
   .category-grid {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
   .category-card {
     display: block;
+    height: 100%; /* match heights within a row */
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem;
     text-decoration: none;
     color: col.$pip-green;
+    box-sizing: border-box;
 
     h3 {
       margin: 0 0 0.5rem;
@@ -55,15 +56,13 @@
   }
 }
 
-/* Retain original forum-posts styles in case they are reused in the future */
 .forum-posts {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  margin: 1rem;
   padding: 1rem;
-  width: 100%;
+  margin-inline: 1rem;
 
   .post-group {
     display: flex;
@@ -80,10 +79,12 @@
         font-weight: bold;
         margin-bottom: 0.5rem;
       }
+
       .post-body p {
         margin: 0.5rem 0;
       }
     }
+
     .forum-post + .forum-post {
       margin-top: 1.5rem;
     }
@@ -92,6 +93,7 @@
 
 pip-footer {
   align-self: stretch;
+  margin-inline: 0;
   margin-top: auto;
   display: block;
 }

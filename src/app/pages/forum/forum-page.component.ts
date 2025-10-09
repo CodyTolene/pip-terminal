@@ -1,6 +1,7 @@
 import { ForumCategoryEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout';
 import { DateTimePipe } from 'src/app/pipes';
+import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { AuthService, ForumService, PostPage } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
@@ -24,6 +25,7 @@ import { PageUrl } from 'src/app/types/page-url';
     PipFooterComponent,
     RouterModule,
   ],
+  providers: [ForumService],
   templateUrl: './forum-page.component.html',
   styleUrls: ['./forum-page.component.scss'],
 })
@@ -33,6 +35,7 @@ export class ForumPageComponent implements OnInit {
 
   private readonly postsMaxPerPage = 5;
 
+  protected readonly ForumCategoryEnum = ForumCategoryEnum;
   protected readonly forumNewPostLink = forumNewPostLink;
   protected readonly forumPostViewLink = forumPostViewLink;
   protected readonly loginLink = loginLink;
@@ -56,16 +59,6 @@ export class ForumPageComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     await this.loadFirstPagePosts();
-  }
-
-  protected getCategoryLink(category: ForumCategoryEnum): string {
-    const forumPath: PageUrl = 'forum';
-    return '/' + forumPath + '?category=' + encodeURIComponent(category);
-  }
-
-  protected getPostViewLink(postId: string): string {
-    const forumPostViewLink: PageUrl = 'forum/post/:id';
-    return '/' + forumPostViewLink.replace(':id', postId);
   }
 
   protected getReturnUrlQueryParams(): object {
@@ -126,30 +119,39 @@ const categories = [
     key: ForumCategoryEnum.GENERAL,
     name: ForumCategoryEnum.GENERAL,
     description: 'General discussion about all things Pip-Boy.',
+    link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.GENERAL],
   },
   {
     key: ForumCategoryEnum.PIP_2000_MK_VI,
     name: ForumCategoryEnum.PIP_2000_MK_VI,
     description: 'Talk about the Pip-Boy 2000 Mk VI hardware and usage.',
+    link:
+      '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_2000_MK_VI],
   },
   {
     key: ForumCategoryEnum.PIP_3000,
     name: ForumCategoryEnum.PIP_3000,
     description: 'Discussion for fans of the classic Pip-Boy 3000.',
+    link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000],
   },
   {
     key: ForumCategoryEnum.PIP_3000A,
     name: ForumCategoryEnum.PIP_3000A,
     description: 'Share tips and stories about the Pip-Boy 3000A model.',
+    link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000A],
   },
   {
     key: ForumCategoryEnum.PIP_3000_MK_IV,
     name: ForumCategoryEnum.PIP_3000_MK_IV,
     description: 'All things related to the Pip-Boy 3000 Mk IV.',
+    link:
+      '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_IV],
   },
   {
     key: ForumCategoryEnum.PIP_3000_MK_V,
     name: ForumCategoryEnum.PIP_3000_MK_V,
     description: 'Discuss the latest Pip-Boy 3000 Mk V as seen on TV.',
+    link:
+      '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_V],
   },
 ];

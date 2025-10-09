@@ -43,6 +43,7 @@ import { PageUrl } from 'src/app/types/page-url';
     PipFooterComponent,
     ReactiveFormsModule,
   ],
+  providers: [ForumService],
   templateUrl: './forum-post-page.component.html',
   styleUrls: ['./forum-post-page.component.scss'],
 })

@@ -8,6 +8,18 @@
   >
 }
 
+<section class="forum-categories">
+  <h2>Categories</h2>
+  <div class="category-grid">
+    @for (cat of categories; track cat.key) {
+      <a [routerLink]="cat.link" class="category-card">
+        <h3>{{ cat.name }}</h3>
+        <p>{{ cat.description }}</p>
+      </a>
+    }
+  </div>
+</section>
+
 <section class="forum-posts">
   <h2>Recent Posts</h2>
 
@@ -18,7 +30,7 @@
   } @else {
     @for (post of posts(); track post.id) {
       <div class="post-group">
-        <a [routerLink]="getPostViewLink(post.id)" class="forum-post">
+        <a [routerLink]="post.url" class="forum-post">
           <div class="post-header">
             <h3>{{ post.title }}</h3>
             <span class="timestamp">
@@ -61,17 +73,5 @@
     </p>
   }
 </ng-template>
-
-<section class="forum-categories">
-  <h2>Categories</h2>
-  <div class="category-grid">
-    @for (cat of categories; track cat.key) {
-      <a [routerLink]="getCategoryLink(cat.key)" class="category-card">
-        <h3>{{ cat.name }}</h3>
-        <p>{{ cat.description }}</p>
-      </a>
-    }
-  </div>
-</section>
 
 <pip-footer />
