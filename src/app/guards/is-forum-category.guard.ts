@@ -1,10 +1,9 @@
-import { SLUG_TO_CATEGORY } from 'src/app/routing';
+import { RouteResourceId, SLUG_TO_CATEGORY } from 'src/app/routing';
 
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 import { PageUrl } from 'src/app/types/page-url';
-import { RouteResourceId } from 'src/app/types/route-resource-id';
 
 export const isForumCategoryGuard: CanActivateFn = (route) => {
   const router = inject(Router);

@@ -1,4 +1,11 @@
-import { RouteResourceId } from 'src/app/types/route-resource-id';
+/**
+ * The dynamic resource identifier for a route.
+ *
+ * @example
+ * const id: RouteResourceId = ':id';
+ * const resourceUrl = `https://.../resource/${id}`;
+ */
+export type RouteResourceId = ':id';
 
 /** The dynamic identifier used for resources in routes. */
 const id: RouteResourceId = ':id';
