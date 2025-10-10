@@ -3,8 +3,9 @@ import { ForumPost, PipUser } from 'src/app/models';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, Input, computed, inject, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
@@ -24,6 +25,9 @@ export class ForumHeaderComponent {
   protected readonly loginLink = loginLink;
   protected readonly forumLink = forumLink;
   protected readonly forumNewPostLink = forumNewPostLink;
+
+  @Input({ required: false, transform: coerceBooleanProperty })
+  public isCreate = false;
 
   public readonly category = input<ForumCategoryEnum | null>(null);
   public readonly post = input<ForumPost | null>(null);

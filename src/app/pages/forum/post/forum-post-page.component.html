@@ -1,45 +1,47 @@
-<h1 class="forum-title">[ New Post ]</h1>
+<pip-forum-header [user]="userChanges | async" isCreate />
 
 <section>
-  <h2>[ Create a Post ]</h2>
-  <form [formGroup]="formGroup" (ngSubmit)="createPost()">
-    <pro-input-dropdown
-      [formControl]="formGroup.controls.category"
-      hint="Select a category"
-      label="Category"
-      placeholder="Select an option"
-    >
-      @for (option of forumCategoryList; track option) {
-        <pro-input-dropdown-option [value]="option">{{
-          option
-        }}</pro-input-dropdown-option>
-      }
-    </pro-input-dropdown>
-    <pro-input
-      [formControl]="formGroup.controls.title"
-      appearance="fill"
-      label="Title"
-      placeholder="Enter post title"
-      type="text"
-    ></pro-input>
-    <pro-input-textarea
-      [formControl]="formGroup.controls.content"
-      appearance="fill"
-      label="Content"
-      placeholder="Share your thoughts..."
-    ></pro-input-textarea>
-    <div class="action-buttons">
-      <pip-button
-        [disabled]="formGroup.invalid || formGroup.disabled || isSubmitting()"
-        styling="filled"
-        type="submit"
-        >Post</pip-button
+  <pip-title h2>Create a Post</pip-title>
+  <pip-panel>
+    <form [formGroup]="formGroup" (ngSubmit)="createPost()">
+      <pro-input-dropdown
+        [formControl]="formGroup.controls.category"
+        hint="Select a category"
+        label="Category"
+        placeholder="Select an option"
       >
-      <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
-        >Cancel</pip-button
-      >
-    </div>
-  </form>
+        @for (option of forumCategoryList; track option) {
+          <pro-input-dropdown-option [value]="option">{{
+            option
+          }}</pro-input-dropdown-option>
+        }
+      </pro-input-dropdown>
+      <pro-input
+        [formControl]="formGroup.controls.title"
+        appearance="fill"
+        label="Title"
+        placeholder="Enter post title"
+        type="text"
+      ></pro-input>
+      <pro-input-textarea
+        [formControl]="formGroup.controls.content"
+        appearance="fill"
+        label="Content"
+        placeholder="Share your thoughts..."
+      ></pro-input-textarea>
+      <div class="action-buttons">
+        <pip-button
+          [disabled]="formGroup.invalid || formGroup.disabled || isSubmitting()"
+          styling="filled"
+          type="submit"
+          >Post</pip-button
+        >
+        <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
+          >Cancel</pip-button
+        >
+      </div>
+    </form>
+  </pip-panel>
 </section>
 
 <pip-footer />
