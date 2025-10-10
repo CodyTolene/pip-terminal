@@ -1,12 +1,15 @@
 import { Subscription, firstValueFrom } from 'rxjs';
 import { PipFooterComponent } from 'src/app/layout';
 import { DateTimePipe } from 'src/app/pipes';
-import { ForumService } from 'src/app/services';
+import { AuthService, ForumService } from 'src/app/services';
+import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+
+import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
 
 import { ForumComment } from 'src/app/models/forum-comment.model';
 import { ForumPost } from 'src/app/models/forum-post.model';
@@ -20,6 +23,7 @@ import { PageUrl } from 'src/app/types/page-url';
     CommonModule,
     DateTimePipe,
     FormsModule,
+    ForumHeaderComponent,
     PipFooterComponent,
     RouterModule,
   ],
@@ -39,8 +43,9 @@ export class ForumViewPageComponent implements OnDestroy {
     }
   }
 
-  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
   private readonly forumService = inject(ForumService);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly forumLink = '/' + ('forum' satisfies PageUrl);
 
@@ -48,6 +53,9 @@ export class ForumViewPageComponent implements OnDestroy {
   protected readonly error = signal<boolean>(false);
   protected readonly loading = signal<boolean>(true);
   protected readonly post = signal<ForumPost | null>(null);
+
+  protected readonly userChanges =
+    this.authService.userChanges.pipe(shareSingleReplay());
 
   private commentsSub: Subscription | null = null;
 

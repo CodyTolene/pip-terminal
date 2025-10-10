@@ -1,21 +1,17 @@
-<section>
-  @if (userChanges | async) {
-    <a [routerLink]="forumNewPostLink" class="action-link">New Post</a>
-  } @else {
-    <a
-      [routerLink]="loginLink"
-      [queryParams]="getReturnUrlQueryParams()"
-      class="action-link"
-      >New Post</a
-    >
-  }
-</section>
+<pip-forum-header [user]="userChanges | async" />
 
 <section class="intro">
   <pip-title h1>Community Forum</pip-title>
   <p>
-    Welcome to the Pip-Boy Community Forum. Share your knowledge, ask questions
-    and connect with other vault dwellers!
+    <strong>[ Vault-Tec Community Bulletin ]</strong>
+    Welcome to the Pip-Boy Community Forum. This console lists
+    {{ categories.length }} categories and the newest
+    {{ postsMaxPerPage }} posts recovered from the network. Entries are compiled
+    by certified vault dwellers and made ready for civilian review. Expect
+    repair notes, build logs, radio findings, tuning tips, and field reports
+    from the wastes. Pick a category card to dive in, or scroll to Recent Posts
+    below. Be civil, mark spoilers, credit sources, and report hazards through
+    the menu.
   </p>
 </section>
 

@@ -1,23 +1,21 @@
-<nav class="breadcrumbs">
-  <a [routerLink]="forumLink">Forum</a> /
-  @if (post(); as p) {
-    <a [routerLink]="p.categoryUrl">{{ p.category }}</a>
-    <span> / {{ p.title }}</span>
-  }
-</nav>
+@if (post(); as post) {
+  <pip-forum-header
+    [category]="post.category"
+    [post]="post"
+    [user]="userChanges | async"
+  />
 
-@if (post(); as p) {
   <section class="forum-post">
     <div class="post-header">
-      <strong>{{ p.title }}</strong>
+      <strong>{{ post.title }}</strong>
       <span class="timestamp">
-        {{ p.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+        {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
       </span>
     </div>
     <div class="post-body">
       <!-- Content may include markup; use innerHTML to preserve formatting -->
-      <p [innerHTML]="p.content"></p>
-      <p class="signature">— {{ p.authorName }}</p>
+      <p [innerHTML]="post.content"></p>
+      <p class="signature">— {{ post.authorName }}</p>
     </div>
   </section>
   <section class="comments">

@@ -22,7 +22,7 @@ h1 {
 
 section {
   box-sizing: border-box;
-  max-width: 1200px;
+  max-width: var.$page-max-width;
   padding: 1rem;
   width: 100%;
 

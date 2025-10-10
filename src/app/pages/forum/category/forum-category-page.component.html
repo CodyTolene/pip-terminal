@@ -1,8 +1,19 @@
-<nav class="breadcrumbs">
-  <a [routerLink]="forumLink">Forum</a> / {{ category() }}
-</nav>
+<pip-forum-header [category]="category()" [user]="userChanges | async" />
 
-<h1 class="forum-title">[ {{ category() }} ]</h1>
-<p class="forum-intro">Showing posts for category "{{ category() }}".</p>
+<section class="intro">
+  <pip-title h1>{{ category() }}</pip-title>
+  <p>
+    <strong>[ Vault-Tec Archive Notice ]</strong>
+    You are viewing the "{{ category() }}" index compiled by certified Vault-Tec
+    archivists. Sources include vault binders, caravan holotapes, and the odd
+    pre-war manual that survived decontamination. To find a specific post, use
+    the table below to filter or sort. Keep your Pip-Boy handy and report
+    hazards to the Overseer.
+  </p>
+</section>
 
-<pip-forum-table [category]="category()" />
+<section>
+  <pip-forum-table [category]="category()" />
+</section>
+
+<pip-footer />

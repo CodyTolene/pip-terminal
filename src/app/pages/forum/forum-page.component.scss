@@ -39,13 +39,13 @@ section {
   flex-direction: column;
   gap: 1rem;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: var.$page-max-width;
   padding: 0 1.5rem;
   width: 100%;
 
   &.intro {
     margin: 0 auto;
-    max-width: var.$section-max-width;
+    max-width: var.$page-max-width;
 
     pip-title[h1] {
       margin-bottom: 2rem;
@@ -167,6 +167,5 @@ section {
 pip-footer {
   align-self: stretch;
   display: block;
-  margin: 0;
-  width: 100%;
+  margin-top: auto;
 }

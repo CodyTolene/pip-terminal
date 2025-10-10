@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
@@ -25,6 +26,7 @@ import { PageUrl } from 'src/app/types/page-url';
     CommonModule,
     DateTimePipe,
     FormsModule,
+    ForumHeaderComponent,
     MatIconModule,
     MatTooltipModule,
     PipButtonComponent,
@@ -41,10 +43,9 @@ export class ForumPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly forumService = inject(ForumService);
 
-  private readonly postsMaxPerPage = 5;
+  protected readonly postsMaxPerPage = 5;
 
   protected readonly ForumCategoryEnum = ForumCategoryEnum;
-  protected readonly forumNewPostLink = forumNewPostLink;
   protected readonly forumPostViewLink = forumPostViewLink;
   protected readonly loginLink = loginLink;
   protected readonly registerLink = registerLink;
@@ -53,12 +54,15 @@ export class ForumPageComponent implements OnInit {
     this.authService.userChanges.pipe(shareSingleReplay());
 
   private readonly pageSig = signal<PostPage | null>(null);
+
   protected readonly loading = signal(false);
 
   protected readonly posts = computed(() => this.pageSig()?.posts ?? []);
+
   protected readonly hasPrevPage = computed(
     () => !!this.pageSig()?.hasMorePrev,
   );
+
   protected readonly hasNextPage = computed(
     () => !!this.pageSig()?.hasMoreNext,
   );
@@ -67,10 +71,6 @@ export class ForumPageComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     await this.loadFirstPagePosts();
-  }
-
-  protected getReturnUrlQueryParams(): object {
-    return { returnUrl: window.location.pathname };
   }
 
   protected async loadFirstPagePosts(): Promise<void> {
@@ -118,7 +118,6 @@ export class ForumPageComponent implements OnInit {
   }
 }
 
-const forumNewPostLink = '/' + ('forum/post' satisfies PageUrl);
 const forumPostViewLink = '/' + ('forum/post' satisfies PageUrl) + '/';
 const loginLink = '/' + ('login' satisfies PageUrl);
 const registerLink = '/' + ('register' satisfies PageUrl);
