@@ -4,8 +4,9 @@ import { AuthService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
@@ -22,17 +23,18 @@ import { PageUrl } from 'src/app/types/page-url';
     FormsModule,
     ForumHeaderComponent,
     ForumTableComponent,
+    PipFooterComponent,
     PipTitleComponent,
     ReactiveFormsModule,
     RouterModule,
-    PipFooterComponent,
   ],
   templateUrl: './forum-category-page.component.html',
   styleUrls: ['./forum-category-page.component.scss'],
 })
-export class ForumCategoryPageComponent {
+export class ForumCategoryPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
+  private readonly title = inject(Title);
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
@@ -45,4 +47,8 @@ export class ForumCategoryPageComponent {
   protected readonly category = computed(
     () => SLUG_TO_CATEGORY[this.slug() as keyof typeof SLUG_TO_CATEGORY],
   );
+
+  public ngOnInit(): void {
+    this.title.setTitle(`Forum - ${this.category()} - Pip-Boy Terminal`);
+  }
 }

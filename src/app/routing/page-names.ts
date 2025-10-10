@@ -24,12 +24,6 @@ const FORUM_PAGE_NAMES = [
   'Forum - Category',
   'Forum - New Post',
   'Forum - View Post',
-  // `Forum - ${ForumCategoryEnum.GENERAL}`,
-  // `Forum - ${ForumCategoryEnum.PIP_2000_MK_VI}`,
-  // `Forum - ${ForumCategoryEnum.PIP_3000A}`,
-  // `Forum - ${ForumCategoryEnum.PIP_3000_MK_IV}`,
-  // `Forum - ${ForumCategoryEnum.PIP_3000_MK_V}`,
-  // `Forum - ${ForumCategoryEnum.PIP_3000}`,
 ] as const;
 
 const PIP_BOY_SIMULATOR_PAGE_NAMES = [
