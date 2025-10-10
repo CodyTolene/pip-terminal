@@ -1,0 +1,29 @@
+@if (post(); as post) {
+  <div class="post-group">
+    @if (linkedPost) {
+      <a [routerLink]="post.url" class="forum-post">
+        <ng-container *ngTemplateOutlet="postBody; context: { post: post }" />
+      </a>
+    } @else {
+      <div class="forum-post">
+        <ng-container *ngTemplateOutlet="postBody; context: { post: post }" />
+      </div>
+    }
+  </div>
+} @else {
+  <p class="error">[ERROR] Post data is unavailable.</p>
+}
+
+<ng-template #postBody let-post="post">
+  <div class="post-header">
+    <h5>{{ post.title }}</h5>
+    <span class="timestamp">
+      {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+    </span>
+  </div>
+  <div class="post-body">
+    <p class="category">Category: {{ post.category }}</p>
+    <p>{{ post.content }}</p>
+    <p class="signature">— {{ post.authorName }}</p>
+  </div>
+</ng-template>

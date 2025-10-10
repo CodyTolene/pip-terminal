@@ -5,19 +5,12 @@
     [user]="userChanges | async"
   />
 
-  <section class="forum-post">
-    <div class="post-header">
-      <strong>{{ post.title }}</strong>
-      <span class="timestamp">
-        {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
-      </span>
-    </div>
-    <div class="post-body">
-      <!-- Content may include markup; use innerHTML to preserve formatting -->
-      <p [innerHTML]="post.content"></p>
-      <p class="signature">— {{ post.authorName }}</p>
-    </div>
+  <section>
+    <pip-panel>
+      <pip-forum-post [post]="post" />
+    </pip-panel>
   </section>
+
   <section class="comments">
     <h2>Comments</h2>
     @if (comments().length === 0) {

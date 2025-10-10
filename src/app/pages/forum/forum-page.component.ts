@@ -1,6 +1,5 @@
 import { ForumCategoryEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout';
-import { DateTimePipe } from 'src/app/pipes';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { AuthService, ForumService, PostPage } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
@@ -14,6 +13,7 @@ import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
+import { PipForumPostComponent } from 'src/app/components/forum-post/forum-post.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
@@ -24,13 +24,13 @@ import { PageUrl } from 'src/app/types/page-url';
   standalone: true,
   imports: [
     CommonModule,
-    DateTimePipe,
     FormsModule,
     ForumHeaderComponent,
     MatIconModule,
     MatTooltipModule,
     PipButtonComponent,
     PipFooterComponent,
+    PipForumPostComponent,
     PipPanelComponent,
     PipTitleComponent,
     RouterModule,

@@ -1,3 +1,4 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
@@ -26,6 +27,10 @@
         color: col.$pip-green;
         margin-left: 0.25rem;
       }
+    }
+
+    @include bps.media('max', 'lg') {
+      padding: 1rem;
     }
   }
 }

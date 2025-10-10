@@ -57,6 +57,7 @@ section {
       font-style: italic;
       margin: 0 0 2rem;
       color: col.$pip-green-light;
+      padding: 1rem;
     }
   }
 
@@ -92,60 +93,11 @@ section {
       color: col.$pip-green-light;
     }
 
-    .post-group {
+    pip-forum-post {
       border-top: 1px dashed col.$pip-green-darkest;
-      padding: 1rem;
-
-      &:first-child {
-        border-top: none;
-        padding-top: 0;
-      }
 
       &:hover {
         background-color: rgba(col.$pip-green-darkest-rgb, 0.1);
-      }
-
-      .forum-post {
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        color: col.$pip-green;
-
-        .post-header {
-          display: flex;
-          justify-content: space-between;
-          font-weight: bold;
-          flex-wrap: wrap;
-
-          h3 {
-            margin: 0;
-            color: col.$pip-green-light;
-          }
-
-          .timestamp {
-            font-size: var.$font-xs;
-            color: col.$pip-green-light;
-          }
-        }
-
-        .post-body {
-          p {
-            margin: 0.5rem 0;
-            color: col.$pip-green;
-
-            &.category {
-              margin: 0 0 1rem 0;
-              color: col.$pip-green-darkest;
-            }
-          }
-
-          .signature {
-            font-size: var.$font-xs;
-            color: col.$pip-green-lightest;
-            font-style: italic;
-            margin-top: 1rem;
-          }
-        }
       }
     }
 

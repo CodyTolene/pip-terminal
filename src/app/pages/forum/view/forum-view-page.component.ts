@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
+import { PipForumPostComponent } from 'src/app/components/forum-post/forum-post.component';
+import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 
 import { ForumComment } from 'src/app/models/forum-comment.model';
 import { ForumPost } from 'src/app/models/forum-post.model';
@@ -25,6 +27,8 @@ import { PageUrl } from 'src/app/types/page-url';
     FormsModule,
     ForumHeaderComponent,
     PipFooterComponent,
+    PipForumPostComponent,
+    PipPanelComponent,
     RouterModule,
   ],
   providers: [ForumService],
