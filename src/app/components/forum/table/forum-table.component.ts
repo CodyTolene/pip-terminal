@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { forumTableColumns } from 'src/app/components/forum-table/forum-table-columns';
+import { forumTableColumns } from 'src/app/components/forum/table/forum-table-columns';
 
 @Component({
   selector: 'pip-forum-table[category]',

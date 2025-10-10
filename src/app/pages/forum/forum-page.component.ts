@@ -12,8 +12,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
-import { PipForumPostComponent } from 'src/app/components/forum-post/forum-post.component';
+import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
+import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 

@@ -26,7 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
+import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 

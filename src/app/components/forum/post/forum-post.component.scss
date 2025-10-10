@@ -1,7 +1,7 @@
-@use '../../styles/colors' as col;
-@use '../../styles/variables' as var;
-// @use '../../styles/breakpoints' as bps;
-// @use '../../styles/scrollbar' as sb;
+@use '../../../styles/colors' as col;
+@use '../../../styles/variables' as var;
+// @use '../../../styles/breakpoints' as bps;
+// @use '../../../styles/scrollbar' as sb;
 
 :host {
   display: block;

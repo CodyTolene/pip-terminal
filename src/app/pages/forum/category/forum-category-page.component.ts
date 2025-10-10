@@ -9,8 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
-import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
-import { ForumTableComponent } from 'src/app/components/forum-table/forum-table.component';
+import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
+import { ForumTableComponent } from 'src/app/components/forum/table/forum-table.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { PageUrl } from 'src/app/types/page-url';

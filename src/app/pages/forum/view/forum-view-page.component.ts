@@ -9,8 +9,8 @@ import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
-import { ForumHeaderComponent } from 'src/app/components/forum-header/forum-header.component';
-import { PipForumPostComponent } from 'src/app/components/forum-post/forum-post.component';
+import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
+import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 
 import { ForumComment } from 'src/app/models/forum-comment.model';
