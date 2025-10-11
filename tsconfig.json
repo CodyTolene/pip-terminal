@@ -25,6 +25,7 @@
     ],
     "paths": {
       "src/*": ["src/*"],
+      "api/*": ["api/*"],
       "components/*": ["src/app/components/*"],
       "constants/*": ["src/app/constants/*"],
       "decorators/*": ["src/app/decorators/*"],
