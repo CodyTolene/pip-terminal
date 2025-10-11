@@ -1,0 +1,17 @@
+@if (comment(); as comment) {
+  <div class="comment-group">
+    <div class="forum-comment">
+      <div class="comment-body">
+        <p>{{ comment.content }}</p>
+        <div class="signature">
+          <span class="author">- {{ comment.authorName }}</span>
+          <span class="timestamp">
+            {{ comment.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <p class="error">[ERROR] Comment data is unavailable.</p>
+}

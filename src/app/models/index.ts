@@ -1,4 +1,6 @@
 export type { FirestoreProfileApi } from './pip-user.model';
+export type { ForumCommentCreate } from './forum-comment.model';
+export type { ForumPostCreate } from './forum-post.model';
 export { ForumComment } from './forum-comment.model';
 export { ForumPost } from './forum-post.model';
 export { HealthCheck } from './health-check.model';

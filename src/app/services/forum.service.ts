@@ -1,8 +1,18 @@
 import { Observable, defer, map } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
-import { PipUser } from 'src/app/models';
+import {
+  ForumComment,
+  ForumCommentCreate,
+  ForumPost,
+  ForumPostCreate,
+} from 'src/app/models';
 
-import { EnvironmentInjector, Injectable, inject } from '@angular/core';
+import {
+  EnvironmentInjector,
+  Injectable,
+  inject,
+  runInInjectionContext,
+} from '@angular/core';
 import {
   DocumentData,
   Firestore,
@@ -19,13 +29,9 @@ import {
   limitToLast,
   orderBy,
   query,
-  serverTimestamp,
   startAfter,
   where,
 } from '@angular/fire/firestore';
-
-import { ForumComment } from 'src/app/models/forum-comment.model';
-import { ForumPost, ForumPostCreate } from 'src/app/models/forum-post.model';
 
 @Injectable()
 export class ForumService {
@@ -33,42 +39,20 @@ export class ForumService {
   private readonly env = inject(EnvironmentInjector);
 
   private inCtx<T>(fn: () => Promise<T>): Promise<T> {
-    return this.env.runInContext(fn);
+    return runInInjectionContext(this.env, fn);
   }
 
   private inCtx$<T>(factory: () => Observable<T>): Observable<T> {
-    return defer(() => this.env.runInContext(factory));
+    return defer(() => runInInjectionContext(this.env, factory));
   }
 
-  public async addComment(
-    postId: string,
-    content: string,
-    user: PipUser | null,
-  ): Promise<void> {
-    if (!user) {
-      throw new Error('User must be logged in to add a comment');
-    }
-
-    await this.inCtx(async () => {
+  public async addComment(comment: ForumCommentCreate): Promise<void> {
+    return this.inCtx(async () => {
       const commentsRef = collection(
         this.firestore,
-        `forum/${postId}/comments`,
+        `forum/${comment.postId}/comments`,
       );
-      await addDoc(commentsRef, {
-        authorId: user.uid,
-        authorName: user.displayName || user.email || 'Anonymous',
-        content,
-        postId,
-        createdAt: serverTimestamp(),
-      });
-    });
-  }
-
-  public async addPost(post: ForumPostCreate): Promise<void> {
-    await this.inCtx(async () => {
-      const postsRef = collection(this.firestore, 'forum');
-      const newPost = ForumPost.serialize(post);
-      await addDoc(postsRef, newPost);
+      await addDoc(commentsRef, ForumComment.serialize(comment));
     });
   }
 
@@ -82,6 +66,14 @@ export class ForumService {
       return collectionData(qRef, { idField: 'id' }).pipe(
         map(ForumComment.deserializeList),
       );
+    });
+  }
+
+  public async addPost(post: ForumPostCreate): Promise<void> {
+    await this.inCtx(async () => {
+      const postsRef = collection(this.firestore, 'forum');
+      const newPost = ForumPost.serialize(post);
+      await addDoc(postsRef, newPost);
     });
   }
 

@@ -7,32 +7,17 @@
   display: block;
 }
 
-.post-group {
+.comment-group {
   padding: 1rem;
 
-  .forum-post {
+  .forum-comment {
     display: flex;
     flex-direction: column;
     text-decoration: none;
     color: col.$pip-green;
 
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-
-      .category {
-        font-size: var.$font-sm;
-        margin: 0;
-        color: col.$pip-green-darkest;
-      }
-    }
-
-    .post-body {
+    .comment-body {
       p {
-        font-size: var.$font-md;
         margin: 0;
         color: col.$pip-green;
       }

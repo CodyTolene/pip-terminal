@@ -5,24 +5,45 @@
     [user]="userChanges | async"
   />
 
-  <section>
+  <section class="post">
     <pip-panel>
-      <pip-forum-post [post]="post" />
+      <pip-forum-post [post]="post" simple />
     </pip-panel>
   </section>
 
   <section class="comments">
-    <h2>Comments</h2>
-    @if (comments().length === 0) {
-      <p>No comments yet.</p>
-    } @else {
+    @if (comments().length > 0) {
       @for (comment of comments(); track comment.id) {
-        <div class="comment">
-          <p>{{ comment.content }}</p>
-          <p class="signature">
-            - {{ comment.authorName }},
-            {{ comment.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
-          </p>
+        <pip-panel class="comment-panel">
+          <pip-forum-comment [comment]="comment" />
+        </pip-panel>
+      }
+    }
+    @if (userChanges | async; as user) {
+      @if (isReplying()) {
+        <form [formGroup]="formGroup" (ngSubmit)="submitComment()">
+          <pro-input-textarea
+            [formControl]="formGroup.controls.content"
+            appearance="outline"
+            label="Comment"
+            placeholder="Add a comment..."
+          ></pro-input-textarea>
+          <div class="action-buttons">
+            <pip-button [disabled]="isSubmitting()" (click)="cancelComment()"
+              >Cancel</pip-button
+            >
+            <pip-button
+              type="submit"
+              [disabled]="formGroup.invalid || isSubmitting()"
+              >Submit</pip-button
+            >
+          </div>
+        </form>
+      } @else {
+        <div class="action-buttons">
+          <pip-button (click)="isReplying.set(true); formGroup.reset()"
+            >Reply</pip-button
+          >
         </div>
       }
     }

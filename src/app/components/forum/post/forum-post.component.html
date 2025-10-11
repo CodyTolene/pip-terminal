@@ -17,13 +17,17 @@
 <ng-template #postBody let-post="post">
   <div class="post-header">
     <h5>{{ post.title }}</h5>
-    <span class="timestamp">
-      {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
-    </span>
+    @if (!simple) {
+      <p class="category">Category: {{ post.category }}</p>
+    }
   </div>
   <div class="post-body">
-    <p class="category">Category: {{ post.category }}</p>
     <p>{{ post.content }}</p>
-    <p class="signature">— {{ post.authorName }}</p>
+    <div class="signature">
+      <span class="author">- {{ post.authorName }}</span>
+      <span class="timestamp">
+        {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+      </span>
+    </div>
   </div>
 </ng-template>

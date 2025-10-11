@@ -16,5 +16,8 @@ export class PipForumPostComponent {
   @Input({ required: false, transform: coerceBooleanProperty })
   public linkedPost = false;
 
+  @Input({ required: false, transform: coerceBooleanProperty })
+  public simple = false;
+
   public readonly post = input.required<ForumPost>();
 }
