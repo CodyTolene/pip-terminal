@@ -3,10 +3,13 @@ import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost } from 'src/app/models';
 import { ForumService, PostPage, SortSpec } from 'src/app/services';
 
+import { CommonModule } from '@angular/common';
 import {
   Component,
+  HostBinding,
   Input,
   OnInit,
+  Signal,
   ViewChild,
   computed,
   inject,
@@ -20,12 +23,13 @@ import {
 import { Router } from '@angular/router';
 
 import { forumTableColumns } from 'src/app/components/forum/table/forum-table-columns';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'pip-forum-table[category]',
   templateUrl: './forum-table.component.html',
   styleUrl: './forum-table.component.scss',
-  imports: [MatPaginatorModule, TableComponent],
+  imports: [CommonModule, LoadingComponent, MatPaginatorModule, TableComponent],
   providers: [ForumService],
   standalone: true,
 })
@@ -39,13 +43,29 @@ export class ForumTableComponent implements OnInit {
   private readonly router = inject(Router);
 
   protected readonly columns = signal(forumTableColumns);
+
+  protected initialSort: TableSortChangeEvent<ForumPost> = {
+    key: 'createdAt',
+    direction: 'desc',
+  };
+
   protected readonly loading = signal(false);
+
+  @HostBinding('class.loading')
+  protected get isLoading(): boolean {
+    return this.loading();
+  }
 
   protected pageSizeOptions = [5, 10, 15];
   protected pageSizeDefault = this.pageSizeOptions[1]; // 10
 
   private readonly page = signal<PostPage | null>(null);
-  protected readonly posts = computed(() => this.page()?.posts ?? []);
+  protected readonly posts: Signal<readonly ForumPost[] | null> = computed(
+    () => {
+      // Make posts() null while loading so the loader shows and paginator hides
+      return this.loading() ? null : (this.page()?.posts ?? null);
+    },
+  );
 
   private readonly defaultSortKey = 'createdAt' satisfies keyof ForumPost;
   protected readonly currentSort = signal<SortSpec>({
@@ -89,7 +109,9 @@ export class ForumTableComponent implements OnInit {
 
     const lastIndex = Math.max(0, Math.ceil(this.total() / e.pageSize) - 1);
     const target = Math.min(Math.max(0, e.pageIndex), lastIndex);
-    if (target === this.pageIndex()) return;
+    if (target === this.pageIndex()) {
+      return;
+    }
 
     // cache hit
     const cached = this.pageCache.get(target);
@@ -106,6 +128,7 @@ export class ForumTableComponent implements OnInit {
         const first = await this.forumService.getPostsPage({
           category: this.category,
           pageSize: e.pageSize,
+          sort: this.currentSort(),
         });
         this.page.set(first);
         this.pageCache.set(0, first);
@@ -123,6 +146,7 @@ export class ForumTableComponent implements OnInit {
         const last = await this.forumService.getLastPostsPage({
           category: this.category,
           pageSize: e.pageSize,
+          sort: this.currentSort(),
         });
         this.page.set(last);
         this.pageCache.set(lastIndex, last);
@@ -136,13 +160,16 @@ export class ForumTableComponent implements OnInit {
     // Adjacent next or prev
     const goingNext = target > this.pageIndex();
     const current = this.page();
-    if (!current) return;
+    if (!current) {
+      return;
+    }
 
     this.loading.set(true);
     try {
       const result = await this.forumService.getPostsPage({
         category: this.category,
         pageSize: e.pageSize,
+        sort: this.currentSort(),
         lastDoc: goingNext ? current.lastDoc : undefined,
         firstDoc: goingNext ? undefined : current.firstDoc,
       });
@@ -161,12 +188,29 @@ export class ForumTableComponent implements OnInit {
   protected async onSortChange(
     event: TableSortChangeEvent<ForumPost>,
   ): Promise<void> {
+    // Sort didn't change, bail
+    if (
+      event.key === this.currentSort().field &&
+      event.direction === this.currentSort().direction
+    ) {
+      return;
+    }
+
     const spec: SortSpec = event.direction
       ? this.toSortSpec(event)
       : { field: this.defaultSortKey, direction: 'desc' };
     this.currentSort.set(spec);
 
-    // reset pagination and cache on sort change
+    const cols = this.columns();
+    const headerKey = event.direction
+      ? (cols.find((c) => (c.sortKey ?? c.key) === event.key)?.key ??
+        event.key ?? // fallback if sortKey===key
+        this.defaultSortKey)
+      : this.defaultSortKey;
+
+    // Store sort and re-apply after remount
+    this.initialSort = { key: headerKey, direction: spec.direction };
+
     this.pageCache.clear();
     this.pageIndex.set(0);
 
@@ -190,6 +234,7 @@ export class ForumTableComponent implements OnInit {
       const first = await this.forumService.getPostsPage({
         category: this.category,
         pageSize: this.pageSizeDefault,
+        sort: this.currentSort(),
       });
       this.page.set(first);
       this.pageCache.set(0, first);

@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
 import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
@@ -26,6 +27,7 @@ import { PageUrl } from 'src/app/types/page-url';
     CommonModule,
     FormsModule,
     ForumHeaderComponent,
+    LoadingComponent,
     MatIconModule,
     MatTooltipModule,
     PipButtonComponent,

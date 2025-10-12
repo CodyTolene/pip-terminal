@@ -62,9 +62,11 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
     effect(() => {
       const isSubmitting = this.isSubmitting();
       if (isSubmitting) {
+        this.formGroup.controls.category.disable({ emitEvent: false });
         this.formGroup.controls.content.disable({ emitEvent: false });
         this.formGroup.controls.title.disable({ emitEvent: false });
       } else {
+        this.formGroup.controls.category.enable({ emitEvent: false });
         this.formGroup.controls.content.enable({ emitEvent: false });
         this.formGroup.controls.title.enable({ emitEvent: false });
       }

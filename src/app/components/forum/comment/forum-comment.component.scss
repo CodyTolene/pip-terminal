@@ -18,8 +18,16 @@
 
     .comment-body {
       p {
-        margin: 0;
+        background-color: rgba(col.$pip-green-darkest, 0.25);
+        border-radius: 4px;
         color: col.$pip-green;
+        font-size: var.$font-md;
+        hyphens: auto;
+        margin: 0;
+        overflow-wrap: anywhere;
+        padding: 1rem;
+        white-space: normal;
+        word-break: break-word;
       }
 
       .signature {

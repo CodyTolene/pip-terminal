@@ -53,7 +53,11 @@ export class ForumService {
         this.firestore,
         `forum/${comment.postId}/comments`,
       );
-      await addDoc(commentsRef, ForumComment.serialize(comment));
+      try {
+        await addDoc(commentsRef, ForumComment.serialize(comment));
+      } catch {
+        throw new Error('Failed to add comment');
+      }
     });
   }
 

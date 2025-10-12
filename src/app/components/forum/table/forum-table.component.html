@@ -1,16 +1,51 @@
-<pro-table
+<!-- <pro-table
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
   [columns]="columns()"
   [data]="posts()"
+  [initialSort]="initialSort"
   [rowClickEnabled]="true"
 ></pro-table>
-<mat-paginator
-  #matPaginator
-  (page)="onPaginate($event)"
-  [hidePageSize]="true"
-  [length]="total()"
-  [pageIndex]="pageIndex()"
-  [pageSize]="10"
-  [showFirstLastButtons]="true"
-></mat-paginator>
+@if (posts()) {
+  <mat-paginator
+    #matPaginator
+    (page)="onPaginate($event)"
+    [hidePageSize]="true"
+    [length]="total()"
+    [pageIndex]="pageIndex()"
+    [pageSize]="10"
+    [showFirstLastButtons]="true"
+  ></mat-paginator>
+}
+
+@if (loading()) {
+  <div class="loading-overlay">
+    <pip-loading center />
+    <p><i>PLEASE STAND BY...</i></p>
+  </div>
+} -->
+
+@if (posts(); as posts) {
+  <pro-table
+    (rowClick)="onRowClick($event)"
+    (sortChange)="onSortChange($event)"
+    [columns]="columns()"
+    [data]="posts"
+    [initialSort]="initialSort"
+    [rowClickEnabled]="true"
+  ></pro-table>
+  <mat-paginator
+    #matPaginator
+    (page)="onPaginate($event)"
+    [hidePageSize]="true"
+    [length]="total()"
+    [pageIndex]="pageIndex()"
+    [pageSize]="10"
+    [showFirstLastButtons]="true"
+  ></mat-paginator>
+} @else if (posts() === null) {
+  <pip-loading center />
+  <p><i>PLEASE STAND BY...</i></p>
+} @else {
+  <p>Failed to load posts.</p>
+}

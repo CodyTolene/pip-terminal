@@ -29,7 +29,8 @@
   <div class="forum-posts">
     <h3>Recent Posts</h3>
     @if (loading()) {
-      <p class="loading">Loading...</p>
+      <pip-loading center />
+      <p class="loading"><i>PLEASE STAND BY...</i></p>
     } @else if (posts().length === 0) {
       <ng-container *ngTemplateOutlet="noPostsTemplate" />
     } @else {
