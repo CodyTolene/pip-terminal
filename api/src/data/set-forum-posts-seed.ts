@@ -2,21 +2,23 @@ import * as admin from 'firebase-admin';
 import { logger } from 'firebase-functions';
 import { isEmulator } from '../utilities';
 import { FORUM_POSTS_SEED } from '../seeds/forum-posts.seed';
-import type { ForumPostCreateApi } from '../models';
+import type { ForumPostApi, ForumPostCreateApi } from '../models';
 import { UserRecord } from 'firebase-admin/auth';
 
 const logExtraInfo = false;
 
 export async function setForumPostsSeed(
-  userRecord: UserRecord | undefined,
-): Promise<boolean> {
+  adminUser: UserRecord | undefined,
+): Promise<readonly ForumPostApi[] | null> {
   if (!isEmulator()) {
     logger.error('Seeding forum posts is only supported in the emulator.');
-    return false;
+    return null;
   }
 
   const db = admin.firestore();
   const forumCol = db.collection('forum');
+
+  const seeds: ForumPostApi[] = [];
 
   for (const item of FORUM_POSTS_SEED) {
     const docRef = forumCol.doc(item.id);
@@ -36,8 +38,8 @@ export async function setForumPostsSeed(
 
     const docData: ForumPostCreateApi = {
       ...rest,
-      authorId: userRecord?.uid ?? authorId,
-      authorName: userRecord?.displayName ?? authorName,
+      authorId: adminUser?.uid ?? authorId,
+      authorName: adminUser?.displayName ?? authorName,
       createdAt: ts ?? admin.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -45,9 +47,11 @@ export async function setForumPostsSeed(
     if (logExtraInfo) {
       logger.info(`Created forum post: ${id}`);
     }
+
+    seeds.push(item);
   }
 
   logger.info(`Finished seeding ${FORUM_POSTS_SEED.length} forum posts.`);
 
-  return true;
+  return seeds;
 }
