@@ -1,5 +1,6 @@
 <pro-table
   (rowClick)="onRowClick($event)"
+  (sortChange)="onSortChange($event)"
   [columns]="columns()"
   [data]="posts()"
   [rowClickEnabled]="true"

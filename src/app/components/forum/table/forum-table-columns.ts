@@ -3,7 +3,7 @@ import { ForumPost } from 'src/app/models';
 
 const defaultColumn: Partial<TableColumn<ForumPost>> = {
   copyable: false,
-  isSortable: false,
+  isSortable: true,
   minWidthPx: undefined,
   sortKey: undefined,
 };

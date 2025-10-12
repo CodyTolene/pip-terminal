@@ -1,4 +1,4 @@
-import { TableComponent } from '@proangular/pro-table';
+import { TableComponent, TableSortChangeEvent } from '@proangular/pro-table';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost } from 'src/app/models';
 import { ForumService, PostPage } from 'src/app/services';
@@ -151,6 +151,13 @@ export class ForumTableComponent implements OnInit {
 
   protected async onRowClick(post: ForumPost): Promise<void> {
     await this.router.navigateByUrl(post.url);
+  }
+
+  protected async onSortChange(
+    event: TableSortChangeEvent<ForumPost>,
+  ): Promise<void> {
+    // eslint-disable-next-line no-console
+    console.log(event);
   }
 
   private async reloadFirstPage(): Promise<void> {

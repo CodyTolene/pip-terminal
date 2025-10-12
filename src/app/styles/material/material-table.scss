@@ -11,6 +11,7 @@
       row-item-outline-color: col.$pip-green-dark,
     )
   );
+  --mat-sort-arrow-color: col.$pip-green;
 }
 
 .mat-mdc-table tr.mat-mdc-row.mat-mdc-row:hover,
@@ -21,5 +22,4 @@
 
 .mat-mdc-table thead {
   --mat-table-background-color: #{rgba(col.$pip-green-darkest, 0.18)};
-  // border-bottom: 1px dashed rgba(col.$pip-green-darkest, 0.25);
 }
