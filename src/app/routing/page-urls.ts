@@ -35,7 +35,7 @@ export const PAGE_URLS = (
     '3000-mk-v/radio',
     '3000a',
     'forum',
-    'forum/category/:id',
+    `forum/category/${id}`,
     'forum/post',
     `forum/post/${id}`,
     'login',

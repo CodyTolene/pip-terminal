@@ -32,8 +32,11 @@
 
     .post-body {
       p {
+        background-color: rgba(col.$pip-green-darkest, 0.25);
         font-size: var.$font-md;
         margin: 0;
+        padding: 1rem;
+        border-radius: 4px;
         color: col.$pip-green;
       }
 
