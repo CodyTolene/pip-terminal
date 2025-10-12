@@ -11,51 +11,59 @@
   padding: 1rem;
 
   .forum-post {
+    color: col.$pip-green;
     display: flex;
     flex-direction: column;
     text-decoration: none;
-    color: col.$pip-green;
 
     .post-header {
       display: flex;
-      justify-content: space-between;
-      font-weight: bold;
       flex-wrap: wrap;
+      font-weight: bold;
+      hyphens: auto;
+      justify-content: space-between;
       margin-bottom: 1rem;
+      overflow-wrap: anywhere;
+      white-space: normal;
+      word-break: break-word;
 
       .category {
+        color: col.$pip-green-darkest;
         font-size: var.$font-sm;
         margin: 0;
-        color: col.$pip-green-darkest;
       }
     }
 
     .post-body {
       p {
         background-color: rgba(col.$pip-green-darkest, 0.25);
-        font-size: var.$font-md;
-        margin: 0;
-        padding: 1rem;
         border-radius: 4px;
         color: col.$pip-green;
+        font-size: var.$font-md;
+        hyphens: auto;
+        margin: 0;
+        overflow-wrap: anywhere;
+        padding: 1rem;
+        white-space: normal;
+        word-break: break-word;
       }
 
       .signature {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
         align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         margin-top: 1rem;
 
         .author {
-          font-size: var.$font-xs;
           color: col.$pip-green-lightest;
+          font-size: var.$font-xs;
           font-style: italic;
         }
 
         .timestamp {
-          font-size: var.$font-xs;
           color: col.$pip-green-light;
+          font-size: var.$font-xs;
         }
       }
     }

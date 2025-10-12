@@ -4,3 +4,12 @@
   [data]="posts()"
   [rowClickEnabled]="true"
 ></pro-table>
+<mat-paginator
+  #matPaginator
+  (page)="onPaginate($event)"
+  [length]="total()"
+  [pageIndex]="pageIndex()"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageSize]="pageSizeDefault"
+  [showFirstLastButtons]="true"
+></mat-paginator>

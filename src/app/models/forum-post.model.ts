@@ -12,7 +12,10 @@ import { PageUrl } from 'src/app/types/page-url';
 
 const api = apiDecorator<ForumPostApi>();
 
-type ForumPostArgs = Omit<ForumPost, 'categoryUrl' | 'contentPreview' | 'url'>;
+type ForumPostArgs = Omit<
+  ForumPost,
+  'categoryUrl' | 'contentPreview' | 'titlePreview' | 'url'
+>;
 
 export type ForumPostCreate = Omit<ForumPostArgs, 'id' | 'createdAt'>;
 
@@ -32,9 +35,11 @@ export class ForumPost {
     this.categoryUrl =
       '/' + forumCategoryUrl.replace(':id', CATEGORY_TO_SLUG[this.category]);
     this.contentPreview =
-      this.content.length > 100
-        ? `${this.content.slice(0, 100)}...`
+      this.content.length > 50
+        ? `${this.content.slice(0, 50)}...`
         : this.content;
+    this.titlePreview =
+      this.title.length > 25 ? `${this.title.slice(0, 25)}...` : this.title;
     this.url = '/' + postUrl.replace(':id', this.id);
   }
 
@@ -75,8 +80,10 @@ export class ForumPost {
 
   /** Link to view this posts category in the forum. */
   public readonly categoryUrl: string;
-  /** Preview of the content, truncated to 100 characters. */
+  /** Preview of the content, truncated to 50 characters. */
   public readonly contentPreview: string;
+  /** Preview of the title, truncated to 25 characters. */
+  public readonly titlePreview: string;
   /** Link to view this post in the forum. */
   public readonly url: string;
 

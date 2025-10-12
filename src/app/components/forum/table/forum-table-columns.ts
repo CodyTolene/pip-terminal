@@ -11,8 +11,9 @@ const defaultColumn: Partial<TableColumn<ForumPost>> = {
 export const forumTableColumns: ReadonlyArray<TableColumn<ForumPost>> = [
   {
     ...defaultColumn,
-    key: 'title',
+    key: 'titlePreview',
     label: 'Title',
+    sortKey: 'title' satisfies keyof ForumPost,
   },
   {
     ...defaultColumn,
@@ -23,6 +24,7 @@ export const forumTableColumns: ReadonlyArray<TableColumn<ForumPost>> = [
     ...defaultColumn,
     key: 'contentPreview',
     label: 'Preview',
+    sortKey: 'content' satisfies keyof ForumPost,
   },
   {
     ...defaultColumn,

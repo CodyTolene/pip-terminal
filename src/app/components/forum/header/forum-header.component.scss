@@ -23,9 +23,35 @@
       align-items: center;
       display: inline-flex;
 
+      @include bps.media('max', 'sm') {
+        font-size: 0.6rem;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
       span {
         color: col.$pip-green;
         margin-left: 0.25rem;
+
+        &.post-title {
+          display: inline-block;
+          max-width: 800px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          @include bps.media('max', 'lg') {
+            max-width: 600px;
+          }
+
+          @include bps.media('max', 'md') {
+            max-width: 300px;
+          }
+
+          @include bps.media('max', 'sm') {
+            max-width: 200px;
+          }
+        }
       }
     }
 

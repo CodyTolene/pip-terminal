@@ -7,10 +7,16 @@ import {
   Component,
   Input,
   OnInit,
+  ViewChild,
   computed,
   inject,
   signal,
 } from '@angular/core';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { Router } from '@angular/router';
 
 import { forumTableColumns } from 'src/app/components/forum/table/forum-table-columns';
@@ -19,12 +25,15 @@ import { forumTableColumns } from 'src/app/components/forum/table/forum-table-co
   selector: 'pip-forum-table[category]',
   templateUrl: './forum-table.component.html',
   styleUrl: './forum-table.component.scss',
-  imports: [TableComponent],
+  imports: [MatPaginatorModule, TableComponent],
   providers: [ForumService],
   standalone: true,
 })
 export class ForumTableComponent implements OnInit {
   @Input({ required: true }) public category!: ForumCategoryEnum;
+
+  @ViewChild('matPaginator', { static: false })
+  private readonly paginator!: MatPaginator;
 
   private readonly forumService = inject(ForumService);
   private readonly router = inject(Router);
@@ -32,28 +41,127 @@ export class ForumTableComponent implements OnInit {
   protected readonly columns = signal(forumTableColumns);
   protected readonly loading = signal(false);
 
+  protected pageSizeOptions = [5, 10, 15];
+  protected pageSizeDefault = this.pageSizeOptions[0];
+
   private readonly page = signal<PostPage | null>(null);
-
-  private readonly postsMaxPerPage = 5;
-
   protected readonly posts = computed(() => this.page()?.posts ?? []);
 
+  protected readonly total = signal(0);
+  protected readonly pageIndex = signal(0);
+
+  private pageCache = new Map<number, PostPage>();
+
   public async ngOnInit(): Promise<void> {
-    await this.loadFirstPagePosts();
+    this.loading.set(true);
+    try {
+      // count and first page in parallel
+      const [total, first] = await Promise.all([
+        this.forumService.getPostsTotal({ category: this.category }),
+        this.forumService.getPostsPage({
+          category: this.category,
+          pageSize: this.pageSizeDefault,
+        }),
+      ]);
+      this.total.set(total);
+      this.page.set(first);
+      this.pageCache.set(0, first);
+      this.pageIndex.set(0);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  protected async onPaginate(e: PageEvent): Promise<void> {
+    // page size changed resets to first
+    if (e.pageSize !== this.pageSizeDefault) {
+      this.pageSizeDefault = e.pageSize;
+      this.pageCache.clear();
+      await this.reloadFirstPage();
+      this.pageIndex.set(0);
+      return;
+    }
+
+    const lastIndex = Math.max(0, Math.ceil(this.total() / e.pageSize) - 1);
+    const target = Math.min(Math.max(0, e.pageIndex), lastIndex);
+    if (target === this.pageIndex()) return;
+
+    // cache hit
+    const cached = this.pageCache.get(target);
+    if (cached) {
+      this.page.set(cached);
+      this.pageIndex.set(target);
+      return;
+    }
+
+    // First page
+    if (target === 0) {
+      this.loading.set(true);
+      try {
+        const first = await this.forumService.getPostsPage({
+          category: this.category,
+          pageSize: e.pageSize,
+        });
+        this.page.set(first);
+        this.pageCache.set(0, first);
+        this.pageIndex.set(0);
+      } finally {
+        this.loading.set(false);
+      }
+      return;
+    }
+
+    // Last page
+    if (target === lastIndex) {
+      this.loading.set(true);
+      try {
+        const last = await this.forumService.getLastPostsPage({
+          category: this.category,
+          pageSize: e.pageSize,
+        });
+        this.page.set(last);
+        this.pageCache.set(lastIndex, last);
+        this.pageIndex.set(lastIndex);
+      } finally {
+        this.loading.set(false);
+      }
+      return;
+    }
+
+    // Adjacent next or prev
+    const goingNext = target > this.pageIndex();
+    const current = this.page();
+    if (!current) return;
+
+    this.loading.set(true);
+    try {
+      const result = await this.forumService.getPostsPage({
+        category: this.category,
+        pageSize: e.pageSize,
+        lastDoc: goingNext ? current.lastDoc : undefined,
+        firstDoc: goingNext ? undefined : current.firstDoc,
+      });
+      this.page.set(result);
+      this.pageCache.set(target, result);
+      this.pageIndex.set(target);
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   protected async onRowClick(post: ForumPost): Promise<void> {
     await this.router.navigateByUrl(post.url);
   }
 
-  private async loadFirstPagePosts(): Promise<void> {
+  private async reloadFirstPage(): Promise<void> {
     this.loading.set(true);
     try {
       const first = await this.forumService.getPostsPage({
         category: this.category,
-        pageSize: this.postsMaxPerPage,
+        pageSize: this.pageSizeDefault,
       });
       this.page.set(first);
+      this.pageCache.set(0, first);
     } finally {
       this.loading.set(false);
     }

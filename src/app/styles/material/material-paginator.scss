@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+@use '../colors' as col;
+
+:root {
+  @include mat.paginator-overrides(
+    (
+      container-text-color: col.$pip-green,
+      container-background-color: transparent,
+      enabled-icon-color: col.$pip-green-light,
+      disabled-icon-color: col.$pip-green-darkest,
+    )
+  );
+}

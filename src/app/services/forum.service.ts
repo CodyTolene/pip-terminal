@@ -22,6 +22,7 @@ import {
   collectionData,
   doc,
   docData,
+  documentId,
   endBefore,
   getCountFromServer,
   getDocs,
@@ -86,16 +87,6 @@ export class ForumService {
     });
   }
 
-  // public getAllPosts(): Observable<readonly ForumPost[]> {
-  //   return this.inCtx$(() => {
-  //     const postsRef = collection(this.firestore, 'forum');
-  //     const qRef = query(postsRef, orderBy('createdAt', 'desc'));
-  //     return collectionData(qRef, { idField: 'id' }).pipe(
-  //       map(ForumPost.deserializeList),
-  //     );
-  //   });
-  // }
-
   public async getPostsPage(
     { pageSize = 10, lastDoc, firstDoc, category }: PostPageArgs = {
       pageSize: 10,
@@ -108,11 +99,11 @@ export class ForumService {
       const baseConstraints = [
         ...(category ? [where('category', '==', category)] : []),
         orderBy('createdAt', 'desc'),
+        orderBy(documentId(), 'desc'), // tie-breaker for stable paging
       ] as const;
 
       let qRef;
       if (firstDoc) {
-        // Previous
         qRef = query(
           postsRef,
           ...baseConstraints,
@@ -120,7 +111,6 @@ export class ForumService {
           limitToLast(n),
         );
       } else if (lastDoc) {
-        // Next
         qRef = query(
           postsRef,
           ...baseConstraints,
@@ -128,14 +118,14 @@ export class ForumService {
           limit(n),
         );
       } else {
-        // First page
         qRef = query(postsRef, ...baseConstraints, limit(n));
       }
 
       const snap = await getDocs(qRef);
+
+      let keptDocs: ReadonlyArray<QueryDocumentSnapshot<DocumentData>>;
       let hasMoreNext = false;
       let hasMorePrev = false;
-      let keptDocs: ReadonlyArray<QueryDocumentSnapshot<DocumentData>>;
 
       if (firstDoc) {
         hasMorePrev = snap.size > pageSize;
@@ -161,10 +151,52 @@ export class ForumService {
     });
   }
 
-  public async getPostsTotal(): Promise<number> {
+  public async getLastPostsPage({
+    pageSize = 10,
+    category,
+  }: {
+    pageSize?: number;
+    category?: ForumCategoryEnum;
+  } = {}): Promise<PostPage> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
-      const agg = await getCountFromServer(query(postsRef));
+      const n = pageSize + 1;
+
+      const baseConstraints = [
+        ...(category ? [where('category', '==', category)] : []),
+        orderBy('createdAt', 'desc'),
+        orderBy(documentId(), 'desc'),
+      ] as const;
+
+      const qRef = query(postsRef, ...baseConstraints, limitToLast(n));
+      const snap = await getDocs(qRef);
+
+      const keptDocs = snap.docs.slice(
+        Math.max(0, snap.docs.length - pageSize),
+      );
+      const posts = keptDocs.map((d) =>
+        ForumPost.deserialize({ id: d.id, ...(d.data() as object) }),
+      );
+
+      return {
+        posts,
+        firstDoc: keptDocs[0],
+        lastDoc: keptDocs[keptDocs.length - 1],
+        hasMoreNext: false,
+        hasMorePrev: snap.size > pageSize,
+      };
+    });
+  }
+
+  public async getPostsTotal(args?: {
+    category?: ForumCategoryEnum;
+  }): Promise<number> {
+    return this.inCtx(async () => {
+      const postsRef = collection(this.firestore, 'forum');
+      const constraints = [
+        ...(args?.category ? [where('category', '==', args.category)] : []),
+      ] as const;
+      const agg = await getCountFromServer(query(postsRef, ...constraints));
       return agg.data().count ?? 0;
     });
   }
