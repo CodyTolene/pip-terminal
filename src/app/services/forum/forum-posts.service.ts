@@ -29,6 +29,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 
+import { ForumPostPageArgs } from 'src/app/types/forum-post-page-args';
 import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
 
 @Injectable()
@@ -62,7 +63,7 @@ export class ForumPostsService {
   }
 
   public async getPostsPage(
-    { pageSize = 10, lastDoc, firstDoc, category, sort }: PostPageArgs = {
+    { pageSize = 10, lastDoc, firstDoc, category, sort }: ForumPostPageArgs = {
       pageSize: 10,
     },
   ): Promise<ForumPostPagedResult> {
@@ -184,17 +185,4 @@ export class ForumPostsService {
       return agg.data().count ?? 0;
     });
   }
-}
-
-interface PostPageArgs {
-  /** Number of posts to return per page. */
-  pageSize?: number;
-  /** Forward cursor (Next). */
-  lastDoc?: QueryDocumentSnapshot<DocumentData>;
-  /** Backward cursor (Previous). */
-  firstDoc?: QueryDocumentSnapshot<DocumentData>;
-  /** Optional category filter. */
-  category?: ForumCategoryEnum;
-  /** Optional sort specification. */
-  sort?: TableSortChangeEvent<ForumPost>;
 }

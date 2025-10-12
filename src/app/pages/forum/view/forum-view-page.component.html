@@ -22,18 +22,20 @@
             placeholder="Add a comment..."
           ></pro-input-textarea>
           <div class="action-buttons">
-            <pip-button [disabled]="isSubmitting()" (click)="cancelComment()"
-              >Cancel</pip-button
-            >
+            <pip-button [disabled]="isSubmitting()" (click)="cancelComment()">
+              Cancel
+            </pip-button>
             <pip-button
               type="submit"
               [disabled]="formGroup.invalid || isSubmitting()"
-              >Submit</pip-button
             >
+              Submit
+            </pip-button>
           </div>
         </form>
       } @else {
         <div class="action-buttons">
+          <ng-container *ngTemplateOutlet="commentPagination" />
           <pip-button (click)="isReplying.set(true); formGroup.reset()"
             >Reply</pip-button
           >
@@ -41,6 +43,7 @@
       }
     } @else {
       <div class="action-buttons">
+        <ng-container *ngTemplateOutlet="commentPagination" />
         <pip-button
           [routerLink]="loginLink"
           [queryParams]="getReturnUrlQueryParams()"
@@ -52,11 +55,13 @@
 
   <section class="comments">
     @if (comments().length > 0) {
-      @for (comment of comments(); track comment.id) {
-        <pip-panel class="comment-panel">
+      <pip-panel>
+        @for (comment of comments(); track comment.id) {
           <pip-forum-comment [comment]="comment" />
-        </pip-panel>
-      }
+        }
+      </pip-panel>
+    } @else {
+      <p class="no-comments"><i>No comments yet.</i></p>
     }
   </section>
 } @else if (loading()) {
@@ -65,5 +70,19 @@
   <p>[ERROR] Unable to load post. Please try again later.</p>
 }
 
-<!-- Footer always present at the bottom -->
+<ng-template #commentPagination>
+  <pip-button
+    [disabled]="loadingComments() || !hasPrevCommentsPage()"
+    (click)="prevPageComments()"
+  >
+    Prev
+  </pip-button>
+  <pip-button
+    [disabled]="loadingComments() || !hasNextCommentsPage()"
+    (click)="nextPageComments()"
+  >
+    Next
+  </pip-button>
+</ng-template>
+
 <pip-footer />
