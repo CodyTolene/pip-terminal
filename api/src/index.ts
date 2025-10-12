@@ -51,11 +51,23 @@ export const api = onRequest(
 void (async () => {
   if (isEmulator()) {
     try {
+      // Set users
       const newUsers = await setUsersSeed();
+
+      // Get reference to an admin user
       const adminUser = newUsers?.find(
-        (u) => u.email === ADMINS_SEED[0].native.email,
+        ({ email }) => email === ADMINS_SEED[0].native.email,
       );
+
+      // Reference to a non-admin user
+      // const user = newUsers?.find(
+      //   ({ email }) => email === USERS_SEED[0].native.email,
+      // );
+
+      // Add new posts by the admin user
       const newPosts = await setForumPostsSeed(adminUser);
+
+      // Add comments to the new posts
       await setForumPostsCommentsSeed(adminUser, newPosts);
     } catch (e) {
       logger.error('Seeding development data failed:', e);
