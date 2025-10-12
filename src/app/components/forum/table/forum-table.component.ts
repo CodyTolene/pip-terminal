@@ -42,7 +42,7 @@ export class ForumTableComponent implements OnInit {
   protected readonly loading = signal(false);
 
   protected pageSizeOptions = [5, 10, 15];
-  protected pageSizeDefault = this.pageSizeOptions[0];
+  protected pageSizeDefault = this.pageSizeOptions[1]; // 10
 
   private readonly page = signal<PostPage | null>(null);
   protected readonly posts = computed(() => this.page()?.posts ?? []);

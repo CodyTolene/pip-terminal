@@ -7,9 +7,9 @@
 <mat-paginator
   #matPaginator
   (page)="onPaginate($event)"
+  [hidePageSize]="true"
   [length]="total()"
   [pageIndex]="pageIndex()"
-  [pageSizeOptions]="pageSizeOptions"
-  [pageSize]="pageSizeDefault"
+  [pageSize]="10"
   [showFirstLastButtons]="true"
 ></mat-paginator>
