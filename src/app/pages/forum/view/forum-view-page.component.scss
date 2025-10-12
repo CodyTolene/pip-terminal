@@ -27,9 +27,7 @@ section {
   padding: 0 1.5rem;
   width: 100%;
 
-  &.comments {
-    margin-bottom: 2rem;
-
+  &.actions {
     form {
       display: flex;
       flex-direction: column;
@@ -48,6 +46,10 @@ section {
       gap: 1rem;
       width: 100%;
     }
+  }
+
+  &.comments {
+    margin-bottom: 4rem;
   }
 }
 

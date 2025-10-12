@@ -30,6 +30,7 @@ export async function setUsersSeed(): Promise<readonly UserRecord[] | null> {
       if (logExtraInfo) {
         logger.info(`Admin user already exists: ${existing.email}, skipping.`);
       }
+      users.push(existing);
       continue;
     }
 
@@ -63,6 +64,7 @@ export async function setUsersSeed(): Promise<readonly UserRecord[] | null> {
       if (logExtraInfo) {
         logger.info(`User already exists: ${existing.email}, skipping.`);
       }
+      users.push(existing);
       continue;
     }
 

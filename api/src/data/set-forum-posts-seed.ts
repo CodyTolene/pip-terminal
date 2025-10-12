@@ -27,6 +27,7 @@ export async function setForumPostsSeed(
       if (logExtraInfo) {
         logger.info(`Forum post already exists: ${item.id}, skipping.`);
       }
+      seeds.push(item);
       continue;
     }
 

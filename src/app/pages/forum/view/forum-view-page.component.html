@@ -11,14 +11,7 @@
     </pip-panel>
   </section>
 
-  <section class="comments">
-    @if (comments().length > 0) {
-      @for (comment of comments(); track comment.id) {
-        <pip-panel class="comment-panel">
-          <pip-forum-comment [comment]="comment" />
-        </pip-panel>
-      }
-    }
+  <section class="actions">
     @if (userChanges | async; as user) {
       @if (isReplying()) {
         <form [formGroup]="formGroup" (ngSubmit)="submitComment()">
@@ -54,6 +47,16 @@
           >Reply</pip-button
         >
       </div>
+    }
+  </section>
+
+  <section class="comments">
+    @if (comments().length > 0) {
+      @for (comment of comments(); track comment.id) {
+        <pip-panel class="comment-panel">
+          <pip-forum-comment [comment]="comment" />
+        </pip-panel>
+      }
     }
   </section>
 } @else if (loading()) {
