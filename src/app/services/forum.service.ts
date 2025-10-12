@@ -88,7 +88,7 @@ export class ForumService {
   }
 
   public async getPostsPage(
-    { pageSize = 10, lastDoc, firstDoc, category }: PostPageArgs = {
+    { pageSize = 10, lastDoc, firstDoc, category, sort }: PostPageArgs = {
       pageSize: 10,
     },
   ): Promise<PostPage> {
@@ -96,10 +96,13 @@ export class ForumService {
       const postsRef = collection(this.firestore, 'forum');
       const n = pageSize + 1;
 
+      const field = sort?.field ?? 'createdAt';
+      const dir: SortDir = sort?.direction ?? 'desc';
+
       const baseConstraints = [
         ...(category ? [where('category', '==', category)] : []),
-        orderBy('createdAt', 'desc'),
-        orderBy(documentId(), 'desc'), // tie-breaker for stable paging
+        orderBy(field, dir),
+        orderBy(documentId(), dir), // stable tie-breaker
       ] as const;
 
       let qRef;
@@ -154,23 +157,28 @@ export class ForumService {
   public async getLastPostsPage({
     pageSize = 10,
     category,
+    sort,
   }: {
     pageSize?: number;
     category?: ForumCategoryEnum;
+    sort?: SortSpec;
   } = {}): Promise<PostPage> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
       const n = pageSize + 1;
 
-      const baseConstraints = [
+      const field = sort?.field ?? 'createdAt';
+      const dir: SortDir = sort?.direction ?? 'desc';
+
+      const qRef = query(
+        postsRef,
         ...(category ? [where('category', '==', category)] : []),
-        orderBy('createdAt', 'desc'),
-        orderBy(documentId(), 'desc'),
-      ] as const;
+        orderBy(field, dir),
+        orderBy(documentId(), dir),
+        limitToLast(n),
+      );
 
-      const qRef = query(postsRef, ...baseConstraints, limitToLast(n));
       const snap = await getDocs(qRef);
-
       const keptDocs = snap.docs.slice(
         Math.max(0, snap.docs.length - pageSize),
       );
@@ -202,6 +210,13 @@ export class ForumService {
   }
 }
 
+type SortDir = 'asc' | 'desc';
+
+export interface SortSpec {
+  field: string;
+  direction: SortDir;
+}
+
 export interface PostPage {
   /** The posts for this page. */
   posts: readonly ForumPost[];
@@ -222,4 +237,6 @@ interface PostPageArgs {
   firstDoc?: QueryDocumentSnapshot<DocumentData>;
   /** Optional category filter. */
   category?: ForumCategoryEnum;
+  /** Optional sort specification. */
+  sort?: SortSpec;
 }

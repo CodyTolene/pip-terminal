@@ -1,7 +1,7 @@
 import { TableComponent, TableSortChangeEvent } from '@proangular/pro-table';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost } from 'src/app/models';
-import { ForumService, PostPage } from 'src/app/services';
+import { ForumService, PostPage, SortSpec } from 'src/app/services';
 
 import {
   Component,
@@ -47,6 +47,11 @@ export class ForumTableComponent implements OnInit {
   private readonly page = signal<PostPage | null>(null);
   protected readonly posts = computed(() => this.page()?.posts ?? []);
 
+  private readonly defaultSortKey = 'createdAt' satisfies keyof ForumPost;
+  protected readonly currentSort = signal<SortSpec>({
+    field: this.defaultSortKey,
+    direction: 'desc',
+  });
   protected readonly total = signal(0);
   protected readonly pageIndex = signal(0);
 
@@ -55,12 +60,12 @@ export class ForumTableComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     this.loading.set(true);
     try {
-      // count and first page in parallel
       const [total, first] = await Promise.all([
         this.forumService.getPostsTotal({ category: this.category }),
         this.forumService.getPostsPage({
           category: this.category,
           pageSize: this.pageSizeDefault,
+          sort: this.currentSort(),
         }),
       ]);
       this.total.set(total);
@@ -156,8 +161,27 @@ export class ForumTableComponent implements OnInit {
   protected async onSortChange(
     event: TableSortChangeEvent<ForumPost>,
   ): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log(event);
+    const spec: SortSpec = event.direction
+      ? this.toSortSpec(event)
+      : { field: this.defaultSortKey, direction: 'desc' };
+    this.currentSort.set(spec);
+
+    // reset pagination and cache on sort change
+    this.pageCache.clear();
+    this.pageIndex.set(0);
+
+    this.loading.set(true);
+    try {
+      const first = await this.forumService.getPostsPage({
+        category: this.category,
+        pageSize: this.pageSizeDefault,
+        sort: spec,
+      });
+      this.page.set(first);
+      this.pageCache.set(0, first);
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   private async reloadFirstPage(): Promise<void> {
@@ -172,5 +196,12 @@ export class ForumTableComponent implements OnInit {
     } finally {
       this.loading.set(false);
     }
+  }
+
+  private toSortSpec(e: TableSortChangeEvent<ForumPost>): SortSpec {
+    const field = (e.key ?? this.defaultSortKey) as keyof ForumPost;
+    const direction =
+      e.direction === 'asc' || e.direction === 'desc' ? e.direction : 'desc';
+    return { field, direction };
   }
 }
