@@ -1,11 +1,7 @@
+import { TableSortChangeEvent } from '@proangular/pro-table';
 import { Observable, defer, map } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
-import {
-  ForumComment,
-  ForumCommentCreate,
-  ForumPost,
-  ForumPostCreate,
-} from 'src/app/models';
+import { ForumPost, ForumPostCreate } from 'src/app/models';
 
 import {
   EnvironmentInjector,
@@ -19,7 +15,6 @@ import {
   QueryDocumentSnapshot,
   addDoc,
   collection,
-  collectionData,
   doc,
   docData,
   documentId,
@@ -34,8 +29,10 @@ import {
   where,
 } from '@angular/fire/firestore';
 
+import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
+
 @Injectable()
-export class ForumService {
+export class ForumPostsService {
   private readonly firestore = inject(Firestore);
   private readonly env = inject(EnvironmentInjector);
 
@@ -45,33 +42,6 @@ export class ForumService {
 
   private inCtx$<T>(factory: () => Observable<T>): Observable<T> {
     return defer(() => runInInjectionContext(this.env, factory));
-  }
-
-  public async addComment(comment: ForumCommentCreate): Promise<void> {
-    return this.inCtx(async () => {
-      const commentsRef = collection(
-        this.firestore,
-        `forum/${comment.postId}/comments`,
-      );
-      try {
-        await addDoc(commentsRef, ForumComment.serialize(comment));
-      } catch {
-        throw new Error('Failed to add comment');
-      }
-    });
-  }
-
-  public getComments(postId: string): Observable<readonly ForumComment[]> {
-    return this.inCtx$(() => {
-      const commentsRef = collection(
-        this.firestore,
-        `forum/${postId}/comments`,
-      );
-      const qRef = query(commentsRef, orderBy('createdAt', 'asc'));
-      return collectionData(qRef, { idField: 'id' }).pipe(
-        map(ForumComment.deserializeList),
-      );
-    });
   }
 
   public async addPost(post: ForumPostCreate): Promise<void> {
@@ -95,18 +65,19 @@ export class ForumService {
     { pageSize = 10, lastDoc, firstDoc, category, sort }: PostPageArgs = {
       pageSize: 10,
     },
-  ): Promise<PostPage> {
+  ): Promise<ForumPostPagedResult> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
       const n = pageSize + 1;
 
-      const field = sort?.field ?? 'createdAt';
-      const dir: SortDir = sort?.direction ?? 'desc';
+      const key = sort?.key ?? 'createdAt';
+      const dir: TableSortChangeEvent<ForumPost>['direction'] =
+        sort?.direction || 'desc';
 
       const baseConstraints = [
         ...(category ? [where('category', '==', category)] : []),
-        orderBy(field, dir),
-        orderBy(documentId(), dir), // stable tie-breaker
+        orderBy(key, dir),
+        orderBy(documentId(), dir),
       ] as const;
 
       let qRef;
@@ -165,19 +136,20 @@ export class ForumService {
   }: {
     pageSize?: number;
     category?: ForumCategoryEnum;
-    sort?: SortSpec;
-  } = {}): Promise<PostPage> {
+    sort?: TableSortChangeEvent<ForumPost>;
+  } = {}): Promise<ForumPostPagedResult> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
       const n = pageSize + 1;
 
-      const field = sort?.field ?? 'createdAt';
-      const dir: SortDir = sort?.direction ?? 'desc';
+      const key = sort?.key ?? 'createdAt';
+      const dir: TableSortChangeEvent<ForumPost>['direction'] =
+        sort?.direction || 'desc';
 
       const qRef = query(
         postsRef,
         ...(category ? [where('category', '==', category)] : []),
-        orderBy(field, dir),
+        orderBy(key, dir),
         orderBy(documentId(), dir),
         limitToLast(n),
       );
@@ -214,24 +186,6 @@ export class ForumService {
   }
 }
 
-type SortDir = 'asc' | 'desc';
-
-export interface SortSpec {
-  field: string;
-  direction: SortDir;
-}
-
-export interface PostPage {
-  /** The posts for this page. */
-  posts: readonly ForumPost[];
-  /** For fetching previous posts. */
-  firstDoc?: QueryDocumentSnapshot<DocumentData>;
-  /** For fetching next posts. */
-  lastDoc?: QueryDocumentSnapshot<DocumentData>;
-  hasMoreNext: boolean;
-  hasMorePrev: boolean;
-}
-
 interface PostPageArgs {
   /** Number of posts to return per page. */
   pageSize?: number;
@@ -242,5 +196,5 @@ interface PostPageArgs {
   /** Optional category filter. */
   category?: ForumCategoryEnum;
   /** Optional sort specification. */
-  sort?: SortSpec;
+  sort?: TableSortChangeEvent<ForumPost>;
 }

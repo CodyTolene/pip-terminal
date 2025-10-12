@@ -1,7 +1,7 @@
 import { ForumCategoryEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
-import { AuthService, ForumService, PostPage } from 'src/app/services';
+import { AuthService, ForumPostsService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
+import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
 import { PageUrl } from 'src/app/types/page-url';
 
 @Component({
@@ -37,13 +38,13 @@ import { PageUrl } from 'src/app/types/page-url';
     PipTitleComponent,
     RouterModule,
   ],
-  providers: [ForumService],
+  providers: [ForumPostsService],
   templateUrl: './forum-page.component.html',
   styleUrls: ['./forum-page.component.scss'],
 })
 export class ForumPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
-  private readonly forumService = inject(ForumService);
+  private readonly forumPostsService = inject(ForumPostsService);
 
   protected readonly postsMaxPerPage = 5;
 
@@ -55,7 +56,7 @@ export class ForumPageComponent implements OnInit {
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
 
-  private readonly pageSig = signal<PostPage | null>(null);
+  private readonly pageSig = signal<ForumPostPagedResult | null>(null);
 
   protected readonly loading = signal(false);
 
@@ -78,7 +79,7 @@ export class ForumPageComponent implements OnInit {
   protected async loadFirstPagePosts(): Promise<void> {
     this.loading.set(true);
     try {
-      const first = await this.forumService.getPostsPage({
+      const first = await this.forumPostsService.getPostsPage({
         pageSize: this.postsMaxPerPage,
       });
       this.pageSig.set(first);
@@ -93,7 +94,7 @@ export class ForumPageComponent implements OnInit {
 
     this.loading.set(true);
     try {
-      const next = await this.forumService.getPostsPage({
+      const next = await this.forumPostsService.getPostsPage({
         pageSize: this.postsMaxPerPage,
         lastDoc: page.lastDoc,
       });
@@ -109,7 +110,7 @@ export class ForumPageComponent implements OnInit {
 
     this.loading.set(true);
     try {
-      const prev = await this.forumService.getPostsPage({
+      const prev = await this.forumPostsService.getPostsPage({
         pageSize: this.postsMaxPerPage,
         firstDoc: page.firstDoc,
       });

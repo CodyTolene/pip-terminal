@@ -1,7 +1,7 @@
 import { TableComponent, TableSortChangeEvent } from '@proangular/pro-table';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost } from 'src/app/models';
-import { ForumService, PostPage, SortSpec } from 'src/app/services';
+import { ForumPostsService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -25,12 +25,14 @@ import { Router } from '@angular/router';
 import { forumTableColumns } from 'src/app/components/forum/table/forum-table-columns';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
+import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
+
 @Component({
   selector: 'pip-forum-table[category]',
   templateUrl: './forum-table.component.html',
   styleUrl: './forum-table.component.scss',
   imports: [CommonModule, LoadingComponent, MatPaginatorModule, TableComponent],
-  providers: [ForumService],
+  providers: [ForumPostsService],
   standalone: true,
 })
 export class ForumTableComponent implements OnInit {
@@ -39,7 +41,7 @@ export class ForumTableComponent implements OnInit {
   @ViewChild('matPaginator', { static: false })
   private readonly paginator!: MatPaginator;
 
-  private readonly forumService = inject(ForumService);
+  private readonly forumPostsService = inject(ForumPostsService);
   private readonly router = inject(Router);
 
   protected readonly columns = signal(forumTableColumns);
@@ -59,7 +61,7 @@ export class ForumTableComponent implements OnInit {
   protected pageSizeOptions = [5, 10, 15];
   protected pageSizeDefault = this.pageSizeOptions[1]; // 10
 
-  private readonly page = signal<PostPage | null>(null);
+  private readonly page = signal<ForumPostPagedResult | null>(null);
   protected readonly posts: Signal<readonly ForumPost[] | null> = computed(
     () => {
       // Make posts() null while loading so the loader shows and paginator hides
@@ -68,21 +70,21 @@ export class ForumTableComponent implements OnInit {
   );
 
   private readonly defaultSortKey = 'createdAt' satisfies keyof ForumPost;
-  protected readonly currentSort = signal<SortSpec>({
-    field: this.defaultSortKey,
+  protected readonly currentSort = signal<TableSortChangeEvent<ForumPost>>({
+    key: this.defaultSortKey,
     direction: 'desc',
   });
   protected readonly total = signal(0);
   protected readonly pageIndex = signal(0);
 
-  private pageCache = new Map<number, PostPage>();
+  private pageCache = new Map<number, ForumPostPagedResult>();
 
   public async ngOnInit(): Promise<void> {
     this.loading.set(true);
     try {
       const [total, first] = await Promise.all([
-        this.forumService.getPostsTotal({ category: this.category }),
-        this.forumService.getPostsPage({
+        this.forumPostsService.getPostsTotal({ category: this.category }),
+        this.forumPostsService.getPostsPage({
           category: this.category,
           pageSize: this.pageSizeDefault,
           sort: this.currentSort(),
@@ -125,7 +127,7 @@ export class ForumTableComponent implements OnInit {
     if (target === 0) {
       this.loading.set(true);
       try {
-        const first = await this.forumService.getPostsPage({
+        const first = await this.forumPostsService.getPostsPage({
           category: this.category,
           pageSize: e.pageSize,
           sort: this.currentSort(),
@@ -143,7 +145,7 @@ export class ForumTableComponent implements OnInit {
     if (target === lastIndex) {
       this.loading.set(true);
       try {
-        const last = await this.forumService.getLastPostsPage({
+        const last = await this.forumPostsService.getLastPostsPage({
           category: this.category,
           pageSize: e.pageSize,
           sort: this.currentSort(),
@@ -166,7 +168,7 @@ export class ForumTableComponent implements OnInit {
 
     this.loading.set(true);
     try {
-      const result = await this.forumService.getPostsPage({
+      const result = await this.forumPostsService.getPostsPage({
         category: this.category,
         pageSize: e.pageSize,
         sort: this.currentSort(),
@@ -190,21 +192,21 @@ export class ForumTableComponent implements OnInit {
   ): Promise<void> {
     // Sort didn't change, bail
     if (
-      event.key === this.currentSort().field &&
+      event.key === this.currentSort().key &&
       event.direction === this.currentSort().direction
     ) {
       return;
     }
 
-    const spec: SortSpec = event.direction
-      ? this.toSortSpec(event)
-      : { field: this.defaultSortKey, direction: 'desc' };
+    const spec: TableSortChangeEvent<ForumPost> = event.direction
+      ? event
+      : { key: this.defaultSortKey, direction: 'desc' };
     this.currentSort.set(spec);
 
     const cols = this.columns();
     const headerKey = event.direction
       ? (cols.find((c) => (c.sortKey ?? c.key) === event.key)?.key ??
-        event.key ?? // fallback if sortKey===key
+        event.key ??
         this.defaultSortKey)
       : this.defaultSortKey;
 
@@ -216,7 +218,7 @@ export class ForumTableComponent implements OnInit {
 
     this.loading.set(true);
     try {
-      const first = await this.forumService.getPostsPage({
+      const first = await this.forumPostsService.getPostsPage({
         category: this.category,
         pageSize: this.pageSizeDefault,
         sort: spec,
@@ -231,7 +233,7 @@ export class ForumTableComponent implements OnInit {
   private async reloadFirstPage(): Promise<void> {
     this.loading.set(true);
     try {
-      const first = await this.forumService.getPostsPage({
+      const first = await this.forumPostsService.getPostsPage({
         category: this.category,
         pageSize: this.pageSizeDefault,
         sort: this.currentSort(),
@@ -241,12 +243,5 @@ export class ForumTableComponent implements OnInit {
     } finally {
       this.loading.set(false);
     }
-  }
-
-  private toSortSpec(e: TableSortChangeEvent<ForumPost>): SortSpec {
-    const field = (e.key ?? this.defaultSortKey) as keyof ForumPost;
-    const direction =
-      e.direction === 'asc' || e.direction === 'desc' ? e.direction : 'desc';
-    return { field, direction };
   }
 }

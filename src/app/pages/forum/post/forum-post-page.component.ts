@@ -12,7 +12,7 @@ import {
   ForumPostFormGroup,
   forumPostFormGroup,
 } from 'src/app/pages/forum/post/forum-post-form-group';
-import { AuthService, ForumService, ToastService } from 'src/app/services';
+import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
 import {
   getEnumValues,
   isNonEmptyString,
@@ -49,7 +49,7 @@ import { PageUrl } from 'src/app/types/page-url';
     PipTitleComponent,
     ReactiveFormsModule,
   ],
-  providers: [ForumService],
+  providers: [ForumPostsService],
   templateUrl: './forum-post-page.component.html',
   styleUrls: ['./forum-post-page.component.scss'],
 })
@@ -75,7 +75,7 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
 
   private readonly authService = inject(AuthService);
   private readonly forumLink = '/' + ('forum' satisfies PageUrl);
-  private readonly forumService = inject(ForumService);
+  private readonly forumPostsService = inject(ForumPostsService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
 
@@ -111,7 +111,7 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
         throw new Error('User must be logged in to create a post');
       }
 
-      await this.forumService.addPost({
+      await this.forumPostsService.addPost({
         authorId: user.uid,
         authorName: user.displayName || user.email,
         category,

@@ -6,7 +6,12 @@ import {
   CommentFormGroup,
   commentFormGroup,
 } from 'src/app/pages/forum/view/comment-form-group';
-import { AuthService, ForumService, ToastService } from 'src/app/services';
+import {
+  AuthService,
+  ForumCommentsService,
+  ForumPostsService,
+  ToastService,
+} from 'src/app/services';
 import { isNonEmptyString, shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -42,7 +47,7 @@ import { PageUrl } from 'src/app/types/page-url';
     ReactiveFormsModule,
     RouterModule,
   ],
-  providers: [ForumService],
+  providers: [ForumCommentsService, ForumPostsService],
   templateUrl: './forum-view-page.component.html',
   styleUrls: ['./forum-view-page.component.scss'],
 })
@@ -72,7 +77,8 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
   }
 
   private readonly authService = inject(AuthService);
-  private readonly forumService = inject(ForumService);
+  private readonly forumCommentsService = inject(ForumCommentsService);
+  private readonly forumPostsService = inject(ForumPostsService);
   private readonly route = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
 
@@ -131,7 +137,7 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
         return;
       }
 
-      await this.forumService.addComment({
+      await this.forumCommentsService.addComment({
         authorId: user.uid,
         authorName: user.displayName || user.email,
         content,
@@ -160,7 +166,7 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
   }
 
   private loadComments(postId: string): void {
-    this.forumService
+    this.forumCommentsService
       .getComments(postId)
       .pipe(untilDestroyed(this))
       .subscribe((list) => this.comments.set(list));
@@ -170,7 +176,7 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
     this.loading.set(true);
     this.error.set(false);
     try {
-      const post = await firstValueFrom(this.forumService.getPost(id));
+      const post = await firstValueFrom(this.forumPostsService.getPost(id));
       if (!post) {
         throw new Error('Post not found');
       }
