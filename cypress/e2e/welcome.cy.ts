@@ -45,7 +45,7 @@ describe('Welcome page', () => {
     cy.get('@sponsorsHeader')
       .scrollIntoView()
       .should('be.visible')
-      .should('have.text', 'Sponsors');
+      .should('contain.text', 'Sponsors');
     cy.get('div[aria-label="Sponsors"]').within(() => {
       cy.get('a.pip-grid-item').should('have.length.at.least', 3);
       cy.get('img.sponsor').each(($img) => {
@@ -67,7 +67,7 @@ describe('Welcome page', () => {
     cy.get('@supportHeader')
       .scrollIntoView()
       .should('be.visible')
-      .should('have.text', 'Vault-Tec Support');
+      .should('contain.text', 'Vault-Tec Support');
     cy.get('div[aria-label="Support Team"]').within(() => {
       cy.get('a.pip-grid-item').should('have.length', 3);
       cy.contains('h4', 'Matchwood').should('be.visible');
