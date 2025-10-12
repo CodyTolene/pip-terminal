@@ -77,12 +77,14 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
   private readonly toastService = inject(ToastService);
 
   protected override readonly formGroup = commentFormGroup;
-  protected readonly forumLink = '/' + ('forum' satisfies PageUrl);
+
+  protected readonly forumLink = forumLink;
+  protected readonly loginLink = loginLink;
 
   protected readonly comments = signal<readonly ForumComment[]>([]);
+  protected readonly error = signal<boolean>(false);
   protected readonly isReplying = signal(false);
   protected readonly isSubmitting = signal(false);
-  protected readonly error = signal<boolean>(false);
   protected readonly loading = signal<boolean>(true);
   protected readonly post = signal<ForumPost | null>(null);
 
@@ -96,6 +98,10 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
 
     this.formGroup.reset();
     this.isReplying.set(false);
+  }
+
+  protected getReturnUrlQueryParams(): object {
+    return { returnUrl: window.location.pathname };
   }
 
   protected async submitComment(): Promise<void> {
@@ -177,3 +183,6 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
     }
   }
 }
+
+const forumLink = '/' + ('forum' satisfies PageUrl);
+const loginLink = '/' + ('login' satisfies PageUrl);

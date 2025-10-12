@@ -46,6 +46,14 @@
           >
         </div>
       }
+    } @else {
+      <div class="action-buttons">
+        <pip-button
+          [routerLink]="loginLink"
+          [queryParams]="getReturnUrlQueryParams()"
+          >Reply</pip-button
+        >
+      </div>
     }
   </section>
 } @else if (loading()) {

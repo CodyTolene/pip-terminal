@@ -1,12 +1,25 @@
 @use '@angular/material' as mat;
 @use '../colors' as col;
+@use 'sass:color';
 
 :root {
   @include mat.table-overrides(
     (
-      background-color: col.$pip-green-darkest,
+      background-color: transparent,
       header-headline-color: col.$pip-green,
       row-item-label-text-color: col.$pip-green,
+      row-item-outline-color: col.$pip-green-dark,
     )
   );
+}
+
+.mat-mdc-table tr.mat-mdc-row.mat-mdc-row:hover,
+.mat-mdc-table tr.mat-mdc-row.mat-mdc-row.even.even:hover {
+  --mat-table-background-color: col.$pip-green-darkest;
+  background-color: rgba(col.$pip-green-darkest, 0.05);
+}
+
+.mat-mdc-table thead {
+  --mat-table-background-color: #{rgba(col.$pip-green-darkest, 0.18)};
+  // border-bottom: 1px dashed rgba(col.$pip-green-darkest, 0.25);
 }
