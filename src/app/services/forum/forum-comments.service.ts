@@ -1,4 +1,5 @@
 import { TableSortChangeEvent } from '@proangular/pro-table';
+import { DateTime } from 'luxon';
 import { Observable, defer, map } from 'rxjs';
 import { ForumComment, ForumCommentCreate } from 'src/app/models';
 
@@ -42,13 +43,30 @@ export class ForumCommentsService {
     return defer(() => runInInjectionContext(this.env, factory));
   }
 
-  public async addComment(input: ForumCommentCreate): Promise<void> {
+  public async addComment(
+    input: ForumCommentCreate,
+  ): Promise<ForumComment | null> {
     return this.inCtx(async () => {
-      const commentsRef = collection(
-        this.firestore,
-        `forum/${input.postId}/comments`,
-      );
-      await addDoc(commentsRef, ForumComment.serialize(input));
+      try {
+        const commentsRef = collection(
+          this.firestore,
+          `forum/${input.postId}/comments`,
+        );
+        const serialized = ForumComment.serialize(input);
+        const newDoc = await addDoc(commentsRef, serialized);
+        const deserialized = ForumComment.deserialize({
+          id: newDoc.id,
+          ...serialized,
+          createdAt: {
+            seconds: DateTime.now().toSeconds(),
+            nanoseconds: 0,
+          },
+        });
+        return deserialized;
+      } catch (e) {
+        console.error('Failed to add comment', e);
+        return null;
+      }
     });
   }
 

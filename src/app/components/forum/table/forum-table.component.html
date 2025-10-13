@@ -17,8 +17,16 @@
     [showFirstLastButtons]="true"
   ></mat-paginator>
 } @else if (posts() === null) {
-  <pip-loading center />
-  <p><i>PLEASE STAND BY...</i></p>
+  <section class="loading-container">
+    <pip-loading />
+    <p class="loading"><i>LOADING POSTS</i></p>
+  </section>
 } @else {
-  <p>Failed to load posts.</p>
+  <section class="loading-container">
+    <mat-icon [inline]="true" fontSet="material-icons-outlined" class="error"
+      >error</mat-icon
+    >
+    <p class="loading error"><i>FAILED TO LOAD POSTS</i></p>
+    <p class="loading error"><i>PLEASE TRY AGAIN LATER</i></p>
+  </section>
 }

@@ -1,0 +1,16 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitComment()">
+  <pro-input-textarea
+    [formControl]="formGroup.controls.content"
+    appearance="outline"
+    label="Comment"
+    placeholder="Add a comment..."
+  ></pro-input-textarea>
+  <div class="action-buttons">
+    <pip-button [disabled]="isSubmitting()" (click)="cancelComment()">
+      Cancel
+    </pip-button>
+    <pip-button type="submit" [disabled]="formGroup.invalid || isSubmitting()">
+      Submit
+    </pip-button>
+  </div>
+</form>

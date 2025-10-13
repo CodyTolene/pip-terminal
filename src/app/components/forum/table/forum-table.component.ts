@@ -15,6 +15,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import {
   MatPaginator,
   MatPaginatorModule,
@@ -31,7 +32,13 @@ import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
   selector: 'pip-forum-table[category]',
   templateUrl: './forum-table.component.html',
   styleUrl: './forum-table.component.scss',
-  imports: [CommonModule, LoadingComponent, MatPaginatorModule, TableComponent],
+  imports: [
+    CommonModule,
+    LoadingComponent,
+    MatIcon,
+    MatPaginatorModule,
+    TableComponent,
+  ],
   providers: [ForumPostsService],
   standalone: true,
 })

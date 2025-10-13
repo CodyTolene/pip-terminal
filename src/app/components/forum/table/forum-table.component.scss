@@ -13,25 +13,33 @@
   }
 }
 
-p {
-  display: inline-flex;
-  justify-content: center;
-  margin: 0 0 1rem 0;
-  width: 100%;
-}
-
-.loading-overlay {
+section.loading-container {
   align-items: center;
-  background-color: rgba(black, 0.5);
-  bottom: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 0;
   height: 100%;
   justify-content: center;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
+  margin: 0 auto;
+  max-width: var.$page-max-width;
+  padding: 0 1.5rem;
   width: 100%;
-  z-index: var.$backdrop-z-index;
+
+  .loading {
+    margin: 0;
+    padding: 0;
+  }
+
+  mat-icon {
+    font-size: 3rem;
+    line-height: 3rem;
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .error {
+    color: col.$warn;
+    font-weight: bold;
+  }
 }
