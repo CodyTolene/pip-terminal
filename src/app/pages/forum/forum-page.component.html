@@ -34,21 +34,28 @@
     } @else if (posts().length === 0) {
       <ng-container *ngTemplateOutlet="noPostsTemplate" />
     } @else {
-      @for (post of posts(); track post.id) {
+      @for (post of posts(); track post.id; let i = $index) {
         <pip-forum-post linkedPost [post]="post" />
+      }
+      @if (showAds()) {
+        <pip-adsense-unit
+          [fullWidthResponsive]="true"
+          adClient="ca-pub-4966893083726404"
+          adSlot="4516696288"
+        />
       }
 
       <div class="pagination">
         <pip-button
-          [disabled]="loading() || !hasPrevPage()"
           (click)="prevPagePosts()"
+          [disabled]="loading() || !hasPrevPage()"
           [matTooltip]="'Previous Page'"
         >
           <mat-icon fontSet="material-icons-outlined">chevron_left</mat-icon>
         </pip-button>
         <pip-button
-          [disabled]="loading() || !hasNextPage()"
           (click)="nextPagePosts()"
+          [disabled]="loading() || !hasNextPage()"
           [matTooltip]="'Next Page'"
         >
           <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>

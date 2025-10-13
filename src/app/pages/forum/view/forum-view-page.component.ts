@@ -1,6 +1,12 @@
-import { FormDirective, InputTextareaComponent } from '@proangular/pro-form';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import {
+  FormDirective,
+  InputDropdownComponent,
+  InputDropdownOptionComponent,
+  InputTextareaComponent,
+} from '@proangular/pro-form';
 import { TableSortChangeEvent } from '@proangular/pro-table';
-import { firstValueFrom } from 'rxjs';
+import { filter, firstValueFrom } from 'rxjs';
 import { PipFooterComponent } from 'src/app/layout';
 import {
   CommentFormGroup,
@@ -12,11 +18,17 @@ import {
   ForumPostsService,
   ToastService,
 } from 'src/app/services';
-import { isNonEmptyString, shareSingleReplay } from 'src/app/utilities';
+import {
+  isNonEmptyString,
+  isNonEmptyValue,
+  shareSingleReplay,
+} from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -24,6 +36,7 @@ import { PipForumCommentComponent } from 'src/app/components/forum/comment/forum
 import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
 import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { ForumComment } from 'src/app/models/forum-comment.model';
 import { ForumPost } from 'src/app/models/forum-post.model';
@@ -31,6 +44,7 @@ import { ForumPost } from 'src/app/models/forum-post.model';
 import { ForumCommentPagedResult } from 'src/app/types/forum-comment-paged-result';
 import { PageUrl } from 'src/app/types/page-url';
 
+@UntilDestroy()
 @Component({
   selector: 'pip-forum-view-page',
   standalone: true,
@@ -38,12 +52,17 @@ import { PageUrl } from 'src/app/types/page-url';
     CommonModule,
     FormsModule,
     ForumHeaderComponent,
+    InputDropdownComponent,
+    InputDropdownOptionComponent,
     InputTextareaComponent,
+    MatIcon,
+    MatTooltip,
     PipButtonComponent,
     PipFooterComponent,
     PipForumCommentComponent,
     PipForumPostComponent,
     PipPanelComponent,
+    PipTitleComponent,
     ReactiveFormsModule,
     RouterModule,
   ],
@@ -74,6 +93,18 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
         this.formGroup.controls.content.enable({ emitEvent: false });
       }
     });
+
+    this.commentSortOrderFormControl.valueChanges
+      .pipe(filter(isNonEmptyValue), untilDestroyed(this))
+      .subscribe((sort) => {
+        this.commentSortSig.set(sort);
+        const post = this.post();
+        if (!post) return;
+
+        // show loading state between sorts
+        this.commentsPageSig.set(null);
+        void this.loadFirstPageComments(post.id, sort);
+      });
   }
 
   private readonly authService = inject(AuthService);
@@ -92,6 +123,14 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
     key: 'createdAt',
     direction: 'desc',
   };
+
+  protected readonly commentSortOrderFormControl = new FormControl<
+    TableSortChangeEvent<ForumComment>
+  >(this.defaultCommentSort);
+
+  private readonly commentSortSig = signal<TableSortChangeEvent<ForumComment>>(
+    this.defaultCommentSort,
+  );
 
   private readonly commentsPageSig = signal<ForumCommentPagedResult | null>(
     null,
@@ -171,7 +210,7 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
       this.isSubmitting.set(false);
       this.isReplying.set(false);
 
-      await this.loadFirstPageComments(post.id);
+      await this.loadFirstPageComments(post.id, this.commentSortSig());
     } catch (e) {
       console.error('Failed to create comment:', e);
       this.toastService.error({
@@ -182,12 +221,15 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
     }
   }
 
-  protected async loadFirstPageComments(postId: string): Promise<void> {
+  protected async loadFirstPageComments(
+    postId: string,
+    sort: TableSortChangeEvent<ForumComment> = this.commentSortSig(),
+  ): Promise<void> {
     this.loadingComments.set(true);
     try {
       const first = await this.forumCommentsService.getCommentsPage(postId, {
         pageSize: this.commentsMaxPerPage,
-        sort: this.defaultCommentSort,
+        sort,
       });
       this.commentsPageSig.set(first);
     } finally {
@@ -205,7 +247,7 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
       const next = await this.forumCommentsService.getCommentsPage(post.id, {
         pageSize: this.commentsMaxPerPage,
         lastDoc: page.lastDoc,
-        sort: this.defaultCommentSort,
+        sort: this.commentSortSig(),
       });
       this.commentsPageSig.set(next);
     } finally {
@@ -223,7 +265,7 @@ export class ForumViewPageComponent extends FormDirective<CommentFormGroup> {
       const prev = await this.forumCommentsService.getCommentsPage(post.id, {
         pageSize: this.commentsMaxPerPage,
         firstDoc: page.firstDoc,
-        sort: this.defaultCommentSort,
+        sort: this.commentSortSig(),
       });
       this.commentsPageSig.set(prev);
     } finally {

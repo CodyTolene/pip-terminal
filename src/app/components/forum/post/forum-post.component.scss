@@ -22,7 +22,7 @@
       font-weight: bold;
       hyphens: auto;
       justify-content: space-between;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
       overflow-wrap: anywhere;
       white-space: normal;
       word-break: break-word;
@@ -53,7 +53,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin-top: 1rem;
+        margin-top: 2rem;
 
         .author {
           color: col.$pip-green-lightest;

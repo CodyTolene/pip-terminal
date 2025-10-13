@@ -4,7 +4,9 @@
 :root {
   @include mat.form-field-overrides(
     (
-      //container-height: 2rem,
+      // container-height: 1rem,
+      // container-vertical-padding: 0,
+      // container-text-line-height: 36px,
       disabled-leading-icon-color: col.$pip-green-darkest,
       disabled-select-arrow-color: col.$pip-green-darkest,
       disabled-trailing-icon-color: col.$pip-green-darkest,

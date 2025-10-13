@@ -6,60 +6,63 @@
   />
 
   <section class="post">
+    <pip-title h2>Forum Post</pip-title>
     <pip-panel>
       <pip-forum-post [post]="post" simple />
     </pip-panel>
   </section>
 
-  <section class="actions">
-    @if (userChanges | async; as user) {
-      @if (isReplying()) {
-        <form [formGroup]="formGroup" (ngSubmit)="submitComment()">
-          <pro-input-textarea
-            [formControl]="formGroup.controls.content"
-            appearance="outline"
-            label="Comment"
-            placeholder="Add a comment..."
-          ></pro-input-textarea>
+  <section class="comments">
+    <pip-title h3>Comments</pip-title>
+    <div class="actions">
+      @if (userChanges | async; as user) {
+        @if (isReplying()) {
+          <form [formGroup]="formGroup" (ngSubmit)="submitComment()">
+            <pro-input-textarea
+              [formControl]="formGroup.controls.content"
+              appearance="outline"
+              label="Comment"
+              placeholder="Add a comment..."
+            ></pro-input-textarea>
+            <div class="action-buttons">
+              <pip-button [disabled]="isSubmitting()" (click)="cancelComment()">
+                Cancel
+              </pip-button>
+              <pip-button
+                type="submit"
+                [disabled]="formGroup.invalid || isSubmitting()"
+              >
+                Submit
+              </pip-button>
+            </div>
+          </form>
+        } @else {
           <div class="action-buttons">
-            <pip-button [disabled]="isSubmitting()" (click)="cancelComment()">
-              Cancel
-            </pip-button>
-            <pip-button
-              type="submit"
-              [disabled]="formGroup.invalid || isSubmitting()"
+            <pip-button (click)="isReplying.set(true); formGroup.reset()"
+              >Reply</pip-button
             >
-              Submit
-            </pip-button>
+            <ng-container *ngTemplateOutlet="sorting" />
+            <ng-container *ngTemplateOutlet="commentPagination" />
           </div>
-        </form>
+        }
       } @else {
         <div class="action-buttons">
-          <ng-container *ngTemplateOutlet="commentPagination" />
-          <pip-button (click)="isReplying.set(true); formGroup.reset()"
+          <pip-button
+            [routerLink]="loginLink"
+            [queryParams]="getReturnUrlQueryParams()"
             >Reply</pip-button
           >
+          <ng-container *ngTemplateOutlet="sorting" />
+          <ng-container *ngTemplateOutlet="commentPagination" />
         </div>
       }
-    } @else {
-      <div class="action-buttons">
-        <ng-container *ngTemplateOutlet="commentPagination" />
-        <pip-button
-          [routerLink]="loginLink"
-          [queryParams]="getReturnUrlQueryParams()"
-          >Reply</pip-button
-        >
-      </div>
-    }
-  </section>
-
-  <section class="comments">
+    </div>
     @if (comments().length > 0) {
-      <pip-panel>
-        @for (comment of comments(); track comment.id) {
+      @for (comment of comments(); track comment.id) {
+        <pip-panel>
           <pip-forum-comment [comment]="comment" />
-        }
-      </pip-panel>
+        </pip-panel>
+      }
     } @else {
       <p class="no-comments"><i>No comments yet.</i></p>
     }
@@ -71,18 +74,37 @@
 }
 
 <ng-template #commentPagination>
-  <pip-button
-    [disabled]="loadingComments() || !hasPrevCommentsPage()"
-    (click)="prevPageComments()"
+  <div class="pagination">
+    <pip-button
+      (click)="prevPageComments()"
+      [disabled]="loadingComments() || !hasPrevCommentsPage()"
+      [matTooltip]="'Previous Page'"
+    >
+      <mat-icon fontSet="material-icons-outlined">chevron_left</mat-icon>
+    </pip-button>
+    <pip-button
+      (click)="nextPageComments()"
+      [disabled]="loadingComments() || !hasNextCommentsPage()"
+      [matTooltip]="'Next Page'"
+    >
+      <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>
+    </pip-button>
+  </div>
+</ng-template>
+
+<ng-template #sorting>
+  <pro-input-dropdown
+    [formControl]="commentSortOrderFormControl"
+    hideHint
+    label="Sorting"
   >
-    Prev
-  </pip-button>
-  <pip-button
-    [disabled]="loadingComments() || !hasNextCommentsPage()"
-    (click)="nextPageComments()"
-  >
-    Next
-  </pip-button>
+    <pro-input-dropdown-option [value]="{ key: 'createdAt', direction: 'asc' }"
+      >Date Ascending</pro-input-dropdown-option
+    >
+    <pro-input-dropdown-option [value]="{ key: 'createdAt', direction: 'desc' }"
+      >Date Descending</pro-input-dropdown-option
+    >
+  </pro-input-dropdown>
 </ng-template>
 
 <pip-footer />

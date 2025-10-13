@@ -2,7 +2,11 @@ import { ForumCategoryEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { AuthService, ForumPostsService } from 'src/app/services';
-import { shareSingleReplay } from 'src/app/utilities';
+import {
+  randomIntBetween as _randomIntBetween,
+  shareSingleReplay,
+} from 'src/app/utilities';
+import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
@@ -11,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
+import { AdsenseUnitComponent } from 'src/app/components/adsense-unit/adsense-unit.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
 import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
@@ -25,6 +30,7 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'pip-forum-page',
   standalone: true,
   imports: [
+    AdsenseUnitComponent,
     CommonModule,
     FormsModule,
     ForumHeaderComponent,
@@ -52,6 +58,7 @@ export class ForumPageComponent implements OnInit {
   protected readonly forumPostViewLink = forumPostViewLink;
   protected readonly loginLink = loginLink;
   protected readonly registerLink = registerLink;
+  protected readonly showAds = signal(environment.isProduction);
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
