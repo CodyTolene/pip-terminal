@@ -25,7 +25,7 @@
       </form>
     </div>
     @for (comment of comments(); track comment.id) {
-      <pip-panel><pip-forum-comment [comment]="comment" /></pip-panel>
+      <pip-panel><pip-forum-comment-display [comment]="comment" /></pip-panel>
     }
     <div class="pagination">
       <pip-button

@@ -23,7 +23,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 import {
   CommentFormGroup,
   commentFormGroup,
-} from 'src/app/components/comment-form/comment-form-group';
+} from 'src/app/components/forum/comment/comment-form-group';
 
 @Component({
   selector: 'pip-comment-form',

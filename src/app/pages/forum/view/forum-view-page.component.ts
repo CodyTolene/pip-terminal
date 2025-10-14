@@ -11,8 +11,8 @@ import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipCommentFormComponent } from 'src/app/components/comment-form/comment-form.component';
-import { PipCommentWallComponent } from 'src/app/components/comment-wall/comment-wall.component';
+import { PipCommentFormComponent } from 'src/app/components/forum/comment/comment-form.component';
+import { PipCommentWallComponent } from 'src/app/components/forum/comment/comment-wall.component';
 import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
 import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';

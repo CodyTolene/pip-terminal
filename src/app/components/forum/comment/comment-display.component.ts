@@ -6,11 +6,11 @@ import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'pip-forum-comment[comment]',
-  templateUrl: './forum-comment.component.html',
+  selector: 'pip-forum-comment-display[comment]',
+  templateUrl: './comment-display.component.html',
   imports: [CommonModule, DateTimePipe, RouterModule],
-  styleUrl: './forum-comment.component.scss',
+  styleUrl: './comment-display.component.scss',
 })
-export class PipForumCommentComponent {
+export class PipForumCommentDisplayComponent {
   public readonly comment = input.required<ForumComment>();
 }

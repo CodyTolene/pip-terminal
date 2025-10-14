@@ -23,7 +23,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipForumCommentComponent } from 'src/app/components/forum/comment/forum-comment.component';
+import { PipForumCommentDisplayComponent } from 'src/app/components/forum/comment/comment-display.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
@@ -41,7 +41,7 @@ import { ForumCommentPagedResult } from 'src/app/types/forum-comment-paged-resul
     MatIcon,
     MatTooltip,
     PipButtonComponent,
-    PipForumCommentComponent,
+    PipForumCommentDisplayComponent,
     PipPanelComponent,
     PipTitleComponent,
     ReactiveFormsModule,
