@@ -22,7 +22,11 @@
     }
   </div>
   <div class="post-body">
-    <p>{{ post.content }}</p>
+    @if (simple) {
+      <p>{{ post.content }}</p>
+    } @else {
+      <p [innerHTML]="post.contentHtml"></p>
+    }
     <div class="signature">
       <span class="author">- {{ post.authorName }}</span>
       <span class="timestamp">

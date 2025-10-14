@@ -13,7 +13,9 @@ import { environment } from 'src/environments/environment';
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  Input,
   OnInit,
+  booleanAttribute,
   computed,
   effect,
   inject,
@@ -74,6 +76,9 @@ export class PipForumPostWallComponent implements OnInit {
       }
     });
   }
+
+  @Input({ transform: booleanAttribute })
+  public simple = false;
 
   private readonly forumPostsService = inject(ForumPostsService);
   private readonly authService = inject(AuthService);

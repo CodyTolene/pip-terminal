@@ -2,15 +2,18 @@ import { ForumPostApi, ForumPostCreateApi } from 'api/src/models';
 import { Timestamp, serverTimestamp } from 'firebase/firestore';
 import * as io from 'io-ts';
 import { DateTime } from 'luxon';
+import Delta from 'quill-delta';
 import { apiDecorator } from 'src/app/decorators';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { decode } from 'src/app/utilities';
 
+import { QuillDelta } from 'src/app/models/quill-delta.model';
+
 import { ClassProperties } from 'src/app/types/class-properties';
 import { PageUrl } from 'src/app/types/page-url';
 
-const api = apiDecorator<ForumPostApi>();
+const api = apiDecorator<ForumPostApi<Delta>>();
 
 type ForumPostArgs = Omit<
   ForumPost,
@@ -25,6 +28,8 @@ export class ForumPost {
     this.authorName = props.authorName;
     this.category = props.category;
     this.content = props.content;
+    this.contentDelta = props.contentDelta;
+    this.contentHtml = props.contentHtml;
     this.createdAt = props.createdAt;
     this.id = props.id;
     this.title = props.title;
@@ -55,10 +60,9 @@ export class ForumPost {
       io.literal(ForumCategoryEnum.PIP_3000_MK_V),
     ]),
     content: io.string,
-    createdAt: io.type({
-      nanoseconds: io.number,
-      seconds: io.number,
-    }),
+    contentDelta: QuillDelta.Codec,
+    contentHtml: io.string,
+    createdAt: io.type({ nanoseconds: io.number, seconds: io.number }),
     id: io.string,
     title: io.string,
   });
@@ -71,10 +75,14 @@ export class ForumPost {
   @api({ key: 'category' }) public readonly category: ForumCategoryEnum;
   /** The main body content of the forum post. */
   @api({ key: 'content' }) public readonly content: string;
-  /** Firestore document identifier for this post. */
-  @api({ key: 'id' }) public readonly id: string;
+  /** The content of the post in Quill Delta format. */
+  @api({ key: 'contentDelta' }) public readonly contentDelta: Delta;
+  /** The content of the post in a safe, sanitized HTML format. */
+  @api({ key: 'contentHtml' }) public readonly contentHtml: string;
   /** Creation timestamp – converted to a Luxon DateTime. */
   @api({ key: 'createdAt' }) public readonly createdAt: DateTime;
+  /** Firestore document identifier for this post. */
+  @api({ key: 'id' }) public readonly id: string;
   /** The title of the forum post. */
   @api({ key: 'title' }) public readonly title: string;
 
@@ -99,6 +107,8 @@ export class ForumPost {
       authorName: decoded.authorName,
       category: decoded.category,
       content: decoded.content,
+      contentDelta: new Delta(decoded.contentDelta),
+      contentHtml: decoded.contentHtml,
       createdAt: DateTime.fromJSDate(createdAtDate),
       id: decoded.id,
       title: decoded.title,
@@ -112,12 +122,14 @@ export class ForumPost {
     return values.map(ForumPost.deserialize);
   }
 
-  public static serialize(value: ForumPostCreate): ForumPostCreateApi {
+  public static serialize(value: ForumPostCreate): ForumPostCreateApi<Delta> {
     return {
       authorId: value.authorId,
       authorName: value.authorName,
       category: value.category,
       content: value.content,
+      contentDelta: value.contentDelta,
+      contentHtml: value.contentHtml,
       createdAt: serverTimestamp(),
       title: value.title,
     };

@@ -6,6 +6,7 @@
     placeholder="Enter post title"
     type="text"
   ></pro-input>
+
   <pro-input-dropdown
     [formControl]="formGroup.controls.category"
     label="Category"
@@ -17,12 +18,17 @@
       }}</pro-input-dropdown-option>
     }
   </pro-input-dropdown>
-  <pro-input-textarea
+
+  <quill-editor
     [formControl]="formGroup.controls.content"
-    appearance="outline"
-    label="Content"
+    [modules]="editorModules"
+    [formats]="allowedFormats"
+    (onContentChanged)="onEditorChange($event)"
+    format="object"
+    style="height: 300px"
     placeholder="Share your thoughts..."
-  ></pro-input-textarea>
+  ></quill-editor>
+
   <div class="action-buttons">
     <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
       >Cancel</pip-button

@@ -41,7 +41,7 @@ function timestampForPosition(
 
 export async function setForumPostsCommentsSeed(
   adminUser: UserRecord | undefined,
-  forumPosts: readonly ForumPostApi[] | null,
+  forumPosts: ReadonlyArray<ForumPostApi<unknown>> | null,
   commentsPerPost = 20,
 ): Promise<readonly ForumCommentApi[] | null> {
   if (!isEmulator()) {

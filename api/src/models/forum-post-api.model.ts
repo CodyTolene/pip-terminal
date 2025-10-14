@@ -1,7 +1,7 @@
 import { FieldValue } from 'firebase-admin/firestore';
 import { FirestoreTimestampApi } from './firestore-timestamp-api.model';
 
-export interface ForumPostApi {
+export interface ForumPostApi<QuillDelta> {
   authorId: string;
   authorName: string;
   category:
@@ -12,11 +12,16 @@ export interface ForumPostApi {
     | 'Pip-Boy 3000'
     | 'Pip-Boy 3000A';
   content: string;
+  contentDelta: QuillDelta;
+  contentHtml: string;
   createdAt: FirestoreTimestampApi;
   id: string;
   title: string;
 }
 
-export type ForumPostCreateApi = Omit<ForumPostApi, 'createdAt' | 'id'> & {
+export type ForumPostCreateApi<T> = Omit<
+  ForumPostApi<T>,
+  'createdAt' | 'id'
+> & {
   createdAt: FieldValue;
 };

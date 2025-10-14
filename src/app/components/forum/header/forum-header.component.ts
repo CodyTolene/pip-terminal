@@ -1,11 +1,17 @@
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost, PipUser } from 'src/app/models';
-import { CATEGORY_TO_SLUG } from 'src/app/routing';
+import { CATEGORY_TO_SLUG, RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, Input, computed, inject, input } from '@angular/core';
+import {
+  Component,
+  Input,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
@@ -26,7 +32,7 @@ export class ForumHeaderComponent {
   protected readonly forumLink = forumLink;
   protected readonly forumNewPostLink = forumNewPostLink;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public isCreate = false;
 
   public readonly category = input<ForumCategoryEnum | null>(null);
@@ -35,7 +41,10 @@ export class ForumHeaderComponent {
 
   protected readonly categoryUrl = computed(() =>
     this.category()
-      ? forumCategoryLink.replace(':id', CATEGORY_TO_SLUG[this.category()!])
+      ? forumCategoryLink.replace(
+          ':id' satisfies RouteResourceId,
+          CATEGORY_TO_SLUG[this.category()!],
+        )
       : null,
   );
 

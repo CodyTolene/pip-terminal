@@ -1,6 +1,5 @@
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, booleanAttribute } from '@angular/core';
 
 @Component({
   selector: 'pip-title',
@@ -11,22 +10,22 @@ import { Component, Input, OnInit } from '@angular/core';
   standalone: true,
 })
 export class PipTitleComponent implements OnInit {
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public h1 = false;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public h2 = false;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public h3 = false;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public h4 = false;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public h5 = false;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public h6 = false;
 
   public ngOnInit(): void {

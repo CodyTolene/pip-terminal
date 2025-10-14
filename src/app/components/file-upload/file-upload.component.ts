@@ -1,7 +1,6 @@
 import { InputDirective } from '@proangular/pro-form';
 
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, Input } from '@angular/core';
+import { Component, Input, booleanAttribute } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 
@@ -18,13 +17,8 @@ export class PipFileUploadComponent extends InputDirective<FileList | null> {
 
   public override readonly id = `file-upload-${++uniqueFileUploadId}`;
 
-  @Input() public set multiple(value: BooleanInput) {
-    this.#multiple = coerceBooleanProperty(value);
-  }
-  public get multiple(): boolean {
-    return this.#multiple;
-  }
-  #multiple = false;
+  @Input({ transform: booleanAttribute })
+  public multiple = false;
 
   protected onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;

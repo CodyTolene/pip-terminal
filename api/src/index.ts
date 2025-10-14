@@ -47,28 +47,35 @@ export const api = onRequest(
   app,
 );
 
-// Seed development data in emulator mode only
+const ENABLE_USER_SEEDS = true;
+const ENABLE_POSTS_SEEDS = false;
+
+// Seed development data
 void (async () => {
   if (isEmulator()) {
     try {
-      // Set users
-      const newUsers = await setUsersSeed();
+      if (ENABLE_USER_SEEDS) {
+        // Set users
+        const newUsers = await setUsersSeed();
 
-      // Get reference to an admin user
-      const adminUser = newUsers?.find(
-        ({ email }) => email === ADMINS_SEED[0].native.email,
-      );
+        // Get reference to an admin user
+        const adminUser = newUsers?.find(
+          ({ email }) => email === ADMINS_SEED[0].native.email,
+        );
 
-      // Reference to a non-admin user
-      // const user = newUsers?.find(
-      //   ({ email }) => email === USERS_SEED[0].native.email,
-      // );
+        // Reference to a non-admin user
+        // const user = newUsers?.find(
+        //   ({ email }) => email === USERS_SEED[0].native.email,
+        // );
 
-      // Add new posts by the admin user
-      const newPosts = await setForumPostsSeed(adminUser);
+        if (ENABLE_POSTS_SEEDS) {
+          // Add new posts by the admin user
+          const newPosts = await setForumPostsSeed(adminUser);
 
-      // Add comments to the new posts
-      await setForumPostsCommentsSeed(adminUser, newPosts);
+          // Add comments to the new posts
+          await setForumPostsCommentsSeed(adminUser, newPosts);
+        }
+      }
     } catch (e) {
       logger.error('Seeding development data failed:', e);
     }

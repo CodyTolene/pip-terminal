@@ -1,5 +1,5 @@
 import { filter, map } from 'rxjs';
-import { PAGES } from 'src/app/routing';
+import { PAGES, RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 import { isNonEmptyValue, shareSingleReplay } from 'src/app/utilities';
@@ -50,7 +50,9 @@ export class HeaderComponent implements OnDestroy {
   private readonly vaultUrl = PAGES['My Vault'];
   protected readonly userVaultUrl = this.userChanges.pipe(
     filter(isNonEmptyValue),
-    map((user) => this.vaultUrl.replace(':id', user.uid)),
+    map((user) =>
+      this.vaultUrl.replace(':id' satisfies RouteResourceId, user.uid),
+    ),
   );
 
   private timers: number[] = [];

@@ -1,9 +1,8 @@
 import { DateTimePipe } from '@proangular/pro-form';
 import { ForumPost } from 'src/app/models';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, booleanAttribute, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -13,10 +12,10 @@ import { RouterModule } from '@angular/router';
   styleUrl: './post-display.component.scss',
 })
 export class PipForumPostDisplayComponent {
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public linkedPost = false;
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public simple = false;
 
   public readonly post = input.required<ForumPost>();

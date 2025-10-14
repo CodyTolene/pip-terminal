@@ -1,6 +1,7 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PipFooterComponent } from 'src/app/layout';
 import { LoginFormComponent } from 'src/app/pages/login/login-form.component';
+import { RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
@@ -56,7 +57,10 @@ export class LoginPageComponent implements OnInit {
       }
 
       // Default to the user's Vault page
-      const userVault = this.vaultPage.replace(':id', user.uid);
+      const userVault = this.vaultPage.replace(
+        ':id' satisfies RouteResourceId,
+        user.uid,
+      );
       this.router.navigate([userVault]);
     });
   }

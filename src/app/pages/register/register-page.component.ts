@@ -1,6 +1,7 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PipFooterComponent } from 'src/app/layout';
 import { RegisterFormComponent } from 'src/app/pages/register/register-form.component';
+import { RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
 import { CommonModule } from '@angular/common';
@@ -46,7 +47,10 @@ export class RegisterPageComponent implements OnInit {
         return;
       }
 
-      const userVault = this.vaultPage.replace(':id', user.uid);
+      const userVault = this.vaultPage.replace(
+        ':id' satisfies RouteResourceId,
+        user.uid,
+      );
       this.router.navigate([userVault]);
     });
   }

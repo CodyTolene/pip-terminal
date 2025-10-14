@@ -3,13 +3,15 @@ import {
   InputComponent,
   InputDropdownComponent,
   InputDropdownOptionComponent,
-  InputTextareaComponent,
 } from '@proangular/pro-form';
+import { QuillModule } from 'ngx-quill';
 import { firstValueFrom } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
+import { ForumPostCreate } from 'src/app/models';
 import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
 import {
   getEnumValues,
+  isNonEmptyObject,
   isNonEmptyString,
   isNonEmptyValue,
   shareSingleReplay,
@@ -34,8 +36,8 @@ import { PageUrl } from 'src/app/types/page-url';
     InputComponent,
     InputDropdownComponent,
     InputDropdownOptionComponent,
-    InputTextareaComponent,
     PipButtonComponent,
+    QuillModule,
     ReactiveFormsModule,
   ],
   styleUrl: './post-form.component.scss',
@@ -59,12 +61,15 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
       }
     });
   }
+
   private readonly authService = inject(AuthService);
   private readonly forumPostsService = inject(ForumPostsService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
 
   protected override readonly formGroup = forumPostFormGroup;
+  private contentHtml = '';
+  private plainText = '';
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
@@ -74,6 +79,9 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
   protected readonly forumCategoryList = getEnumValues(ForumCategoryEnum);
 
   protected readonly isSubmitting = signal(false);
+
+  public readonly editorModules = editorModules;
+  public readonly allowedFormats = allowedFormats;
 
   protected async createPost(): Promise<void> {
     if (this.formGroup.invalid) {
@@ -86,27 +94,34 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
 
     try {
       const { category, content, title } = this.formGroup.value;
-      if (!isNonEmptyString(content)) {
+
+      if (!isNonEmptyObject(content)) {
         throw new Error('Content must not be empty!');
-      } else if (!isNonEmptyString(title)) {
+      }
+      if (!isNonEmptyString(title)) {
         throw new Error('Title must not be empty!');
-      } else if (!isNonEmptyValue(category)) {
+      }
+      if (!isNonEmptyValue(category)) {
         throw new Error('Category must be selected!');
       }
 
       const user = await firstValueFrom(this.userChanges);
-
-      if (!user || user === null) {
+      if (!user) {
         throw new Error('User must be logged in to create a post');
       }
 
-      await this.forumPostsService.addPost({
+      const toCreate: ForumPostCreate = {
         authorId: user.uid,
         authorName: user.displayName || user.email,
         category,
-        content,
+        content: this.plainText,
+        contentDelta: JSON.parse(JSON.stringify(content ?? { ops: [] })),
+        contentHtml: this.contentHtml,
         title,
-      });
+      };
+
+      await this.forumPostsService.addPost(toCreate);
+
       this.toastService.success({
         message: 'Post created successfully!',
         durationSecs: 3,
@@ -127,4 +142,35 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
   protected async cancel(): Promise<void> {
     await this.router.navigate([this.forumLink]);
   }
+
+  protected onEditorChange(e: { html: string | null; text: string }): void {
+    this.contentHtml = e?.html ?? '';
+    this.plainText = (e?.text ?? '').trim();
+  }
 }
+
+const allowedFormats = [
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'header',
+  'list',
+  'blockquote',
+  'code-block',
+  'link',
+  'image',
+  'align',
+];
+
+const editorModules = {
+  toolbar: [
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ header: [1, 2, 3, false] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['blockquote', 'code-block'],
+    ['link', 'image'],
+    [{ align: [] }],
+    ['clean'],
+  ],
+};

@@ -1,6 +1,5 @@
 import { environment } from 'src/environments/environment';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
@@ -10,6 +9,7 @@ import {
   PLATFORM_ID,
   Renderer2,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 
@@ -43,7 +43,7 @@ export class AdsenseUnitComponent implements AfterViewInit {
 
   @Input() public adFormat = 'auto';
 
-  @Input({ transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public fullWidthResponsive = true;
 
   @ViewChild('adRef', { static: true })
