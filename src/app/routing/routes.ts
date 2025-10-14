@@ -1,7 +1,7 @@
-import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/forum-category-page.route';
+import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/category-page.route';
 import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
-import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/forum-post-page.route';
-import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/forum-view-page.route';
+import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/post-page.route';
+import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/view-page.route';
 import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
 import { PIP_BOY_2000_MK_VI_ROUTES } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi.routes';
 import { PIP_BOY_3000_MK_IV_ROUTES } from 'src/app/pages/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv.routes';

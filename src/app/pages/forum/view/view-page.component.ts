@@ -14,7 +14,7 @@ import { PipButtonComponent } from 'src/app/components/button/pip-button.compone
 import { PipCommentFormComponent } from 'src/app/components/forum/comment/comment-form.component';
 import { PipCommentWallComponent } from 'src/app/components/forum/comment/comment-wall.component';
 import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
-import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
+import { PipForumPostDisplayComponent } from 'src/app/components/forum/post/post-display.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
@@ -36,14 +36,14 @@ import { PageUrl } from 'src/app/types/page-url';
     PipCommentFormComponent,
     PipCommentWallComponent,
     PipFooterComponent,
-    PipForumPostComponent,
+    PipForumPostDisplayComponent,
     PipPanelComponent,
     PipTitleComponent,
     RouterModule,
   ],
   providers: [ForumPostsService],
-  templateUrl: './forum-view-page.component.html',
-  styleUrls: ['./forum-view-page.component.scss'],
+  templateUrl: './view-page.component.html',
+  styleUrls: ['./view-page.component.scss'],
 })
 export class ForumViewPageComponent {
   public constructor() {
@@ -82,13 +82,9 @@ export class ForumViewPageComponent {
   protected async onCloseCommentForm(
     newComment: ForumComment | null,
   ): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log('New comment:', newComment);
-
     if (newComment && this.post()) {
       await this.commentWallComponent.reload();
     }
-
     this.isReplying.set(false);
   }
 

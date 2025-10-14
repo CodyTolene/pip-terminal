@@ -7,11 +7,6 @@ import {
 } from '@proangular/pro-form';
 import { firstValueFrom } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
-import { PipFooterComponent } from 'src/app/layout';
-import {
-  ForumPostFormGroup,
-  forumPostFormGroup,
-} from 'src/app/pages/forum/post/forum-post-form-group';
 import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
 import {
   getEnumValues,
@@ -20,40 +15,32 @@ import {
   shareSingleReplay,
 } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
-import { PipPanelComponent } from 'src/app/components/panel/panel.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import {
+  ForumPostFormGroup,
+  forumPostFormGroup,
+} from 'src/app/components/forum/post/post-form-group';
 
 import { PageUrl } from 'src/app/types/page-url';
 
 @Component({
-  selector: 'pip-forum-post-page',
-  standalone: true,
+  selector: 'pip-forum-post-form',
+  templateUrl: './post-form.component.html',
   imports: [
-    CommonModule,
-    FormsModule,
-    ForumHeaderComponent,
     InputComponent,
     InputDropdownComponent,
     InputDropdownOptionComponent,
     InputTextareaComponent,
     PipButtonComponent,
-    PipFooterComponent,
-    PipPanelComponent,
-    PipTitleComponent,
     ReactiveFormsModule,
   ],
-  providers: [ForumPostsService],
-  templateUrl: './forum-post-page.component.html',
-  styleUrls: ['./forum-post-page.component.scss'],
+  styleUrl: './post-form.component.scss',
 })
-export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
+export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup> {
   public constructor() {
     super();
 
@@ -72,19 +59,21 @@ export class ForumPostPageComponent extends FormDirective<ForumPostFormGroup> {
       }
     });
   }
-
   private readonly authService = inject(AuthService);
-  private readonly forumLink = '/' + ('forum' satisfies PageUrl);
   private readonly forumPostsService = inject(ForumPostsService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
 
   protected override readonly formGroup = forumPostFormGroup;
+
+  protected readonly userChanges =
+    this.authService.userChanges.pipe(shareSingleReplay());
+
+  private readonly forumLink = '/' + ('forum' satisfies PageUrl);
+
   protected readonly forumCategoryList = getEnumValues(ForumCategoryEnum);
 
   protected readonly isSubmitting = signal(false);
-  protected readonly userChanges =
-    this.authService.userChanges.pipe(shareSingleReplay());
 
   protected async createPost(): Promise<void> {
     if (this.formGroup.invalid) {

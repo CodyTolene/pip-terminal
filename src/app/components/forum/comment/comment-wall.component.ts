@@ -8,6 +8,7 @@ import { filter } from 'rxjs';
 import { ForumComment, ForumPost } from 'src/app/models';
 import { ForumCommentsService } from 'src/app/services';
 import { isNonEmptyValue } from 'src/app/utilities';
+import { environment } from 'src/environments/environment';
 
 import {
   Component,
@@ -22,6 +23,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 
+import { AdsenseUnitComponent } from 'src/app/components/adsense-unit/adsense-unit.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipForumCommentDisplayComponent } from 'src/app/components/forum/comment/comment-display.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
@@ -35,6 +37,7 @@ import { ForumCommentPagedResult } from 'src/app/types/forum-comment-paged-resul
   selector: 'pip-comment-wall[post]',
   templateUrl: './comment-wall.component.html',
   imports: [
+    AdsenseUnitComponent,
     InputDropdownComponent,
     InputDropdownOptionComponent,
     LoadingComponent,
@@ -86,6 +89,8 @@ export class PipCommentWallComponent implements OnInit {
 
   protected readonly loadingComments = signal<boolean>(false);
 
+  protected readonly showAds = signal(environment.isProduction);
+
   private readonly commentSortSig = signal<TableSortChangeEvent<ForumComment>>(
     this.defaultCommentSort,
   );
@@ -111,9 +116,6 @@ export class PipCommentWallComponent implements OnInit {
   }
 
   public async reload(): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log('Reloading comments...');
-
     this.commentsPageSig.set(null);
     void (await this.loadFirstPageComments(
       this.post.id,

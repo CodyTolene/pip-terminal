@@ -7,12 +7,12 @@ import { Component, Input, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'pip-forum-post[post]',
-  templateUrl: './forum-post.component.html',
+  selector: 'pip-forum-post-display[post]',
+  templateUrl: './post-display.component.html',
   imports: [CommonModule, DateTimePipe, RouterModule],
-  styleUrl: './forum-post.component.scss',
+  styleUrl: './post-display.component.scss',
 })
-export class PipForumPostComponent {
+export class PipForumPostDisplayComponent {
   @Input({ required: false, transform: coerceBooleanProperty })
   public linkedPost = false;
 

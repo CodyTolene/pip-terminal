@@ -28,8 +28,8 @@ import { PageUrl } from 'src/app/types/page-url';
     ReactiveFormsModule,
     RouterModule,
   ],
-  templateUrl: './forum-category-page.component.html',
-  styleUrls: ['./forum-category-page.component.scss'],
+  templateUrl: './category-page.component.html',
+  styleUrls: ['./category-page.component.scss'],
 })
 export class ForumCategoryPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);

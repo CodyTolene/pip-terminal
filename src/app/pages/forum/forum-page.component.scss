@@ -20,13 +20,6 @@ h3 {
   margin: 1.5rem 0 0 0;
 }
 
-.action-link {
-  color: col.$pip-green-light;
-  text-decoration: underline;
-  font-weight: bold;
-  margin-right: 1rem;
-}
-
 section {
   align-items: stretch;
   box-sizing: border-box;
@@ -50,17 +43,17 @@ section {
 
     > p {
       font-style: italic;
-      margin: 0 0 2rem;
+      margin: 0;
       color: col.$pip-green-light;
       padding: 1rem;
     }
   }
 
-  pip-panel {
+  &.categories {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 1rem;
+    margin: 0 auto 4rem auto;
 
     > div.pip-grid {
       padding: 2rem;
@@ -77,45 +70,8 @@ section {
     }
   }
 
-  .forum-posts {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    margin-inline: 0;
-
-    h3 {
-      margin-top: 0;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      color: col.$pip-green-light;
-    }
-
-    .loading {
-      display: inline-flex;
-      justify-content: center;
-      margin: 0 0 1rem 0;
-    }
-
-    pip-forum-post {
-      border-top: 1px dashed col.$pip-green-darkest;
-
-      &:hover {
-        background-color: rgba(col.$pip-green-darkest-rgb, 0.1);
-      }
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: flex-end;
-      margin: 1rem 0;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      align-items: center;
-
-      pip-button {
-        margin-left: 0.5rem;
-      }
-    }
+  &.posts {
+    margin-bottom: 4rem;
   }
 }
 

@@ -1,15 +1,15 @@
-@if (loadingComments()) {
+@if (loading()) {
   <pip-loading center />
   <p class="loading">
-    <i>LOADING COMMENTS</i>
+    <i>LOADING POSTS</i>
   </p>
 } @else {
-  @if (comments().length > 0) {
+  @if (posts().length > 0) {
     <div class="actions">
-      <pip-title h2>COMMENTS</pip-title>
+      <pip-title h2>POSTS</pip-title>
       <form>
         <pro-input-dropdown
-          [formControl]="commentSortOrderFormControl"
+          [formControl]="postSortOrderFormControl"
           hideHint
           label="Sorting"
         >
@@ -24,9 +24,9 @@
         </pro-input-dropdown>
       </form>
     </div>
-    @for (comment of comments(); track comment.id) {
+    @for (post of posts(); track post.id) {
       <pip-panel>
-        <pip-forum-comment-display [comment]="comment" />
+        <pip-forum-post-display linkedPost [post]="post" />
       </pip-panel>
     }
     @if (showAds()) {
@@ -38,21 +38,30 @@
     }
     <div class="pagination">
       <pip-button
-        (click)="prevPageComments()"
-        [disabled]="loadingComments() || !hasPrevCommentsPage()"
+        (click)="prevPagePosts()"
+        [disabled]="loading() || !hasPrevPage()"
         [matTooltip]="'Previous Page'"
       >
         <mat-icon fontSet="material-icons-outlined">chevron_left</mat-icon>
       </pip-button>
       <pip-button
-        (click)="nextPageComments()"
-        [disabled]="loadingComments() || !hasNextCommentsPage()"
+        (click)="nextPagePosts()"
+        [disabled]="loading() || !hasNextPage()"
         [matTooltip]="'Next Page'"
       >
         <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>
       </pip-button>
     </div>
   } @else {
-    <p><i>No comments yet.</i></p>
+    @if (userChanges | async) {
+      <p>No posts yet. Be the first to share something!</p>
+    } @else {
+      <p>
+        No posts yet. Please
+        <a [routerLink]="loginLink" class="action-link">log in</a>or
+        <a [routerLink]="registerLink" class="action-link">register</a>to share
+        something!
+      </p>
+    }
   }
 }

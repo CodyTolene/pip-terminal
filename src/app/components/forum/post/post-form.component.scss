@@ -1,0 +1,42 @@
+// @use '../../../styles/colors' as col;
+// @use '../../../styles/variables' as var;
+@use '../../../styles/breakpoints' as bps;
+// @use '../../../styles/scrollbar' as sb;
+
+form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  pro-input-dropdown,
+  pro-input {
+    $gap: 2rem;
+    flex: 0 0 calc(50% - ($gap / 2));
+    margin-bottom: 1rem;
+    max-width: calc(50% - ($gap / 2));
+  }
+
+  pro-input-textarea {
+    flex: 0 0 100%;
+    margin-bottom: 1rem;
+    max-width: 100%;
+  }
+
+  @include bps.media('max', 'sm') {
+    pro-input-dropdown,
+    pro-input {
+      flex: 0 0 100%;
+      margin-bottom: 1rem;
+      max-width: 100%;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+  }
+}

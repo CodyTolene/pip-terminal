@@ -6,41 +6,29 @@ import {
   randomIntBetween as _randomIntBetween,
   shareSingleReplay,
 } from 'src/app/utilities';
-import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
-import { AdsenseUnitComponent } from 'src/app/components/adsense-unit/adsense-unit.component';
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { ForumHeaderComponent } from 'src/app/components/forum/header/forum-header.component';
-import { PipForumPostComponent } from 'src/app/components/forum/post/forum-post.component';
-import { LoadingComponent } from 'src/app/components/loading/loading.component';
-import { PipPanelComponent } from 'src/app/components/panel/panel.component';
+import { PipForumPostWallComponent } from 'src/app/components/forum/post/post-wall.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
-
-import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
-import { PageUrl } from 'src/app/types/page-url';
 
 @Component({
   selector: 'pip-forum-page',
   standalone: true,
   imports: [
-    AdsenseUnitComponent,
     CommonModule,
     FormsModule,
     ForumHeaderComponent,
-    LoadingComponent,
     MatIconModule,
     MatTooltipModule,
-    PipButtonComponent,
     PipFooterComponent,
-    PipForumPostComponent,
-    PipPanelComponent,
+    PipForumPostWallComponent,
     PipTitleComponent,
     RouterModule,
   ],
@@ -48,89 +36,15 @@ import { PageUrl } from 'src/app/types/page-url';
   templateUrl: './forum-page.component.html',
   styleUrls: ['./forum-page.component.scss'],
 })
-export class ForumPageComponent implements OnInit {
+export class ForumPageComponent {
   private readonly authService = inject(AuthService);
-  private readonly forumPostsService = inject(ForumPostsService);
-
-  protected readonly postsMaxPerPage = 5;
-
-  protected readonly ForumCategoryEnum = ForumCategoryEnum;
-  protected readonly forumPostViewLink = forumPostViewLink;
-  protected readonly loginLink = loginLink;
-  protected readonly registerLink = registerLink;
-  protected readonly showAds = signal(environment.isProduction);
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
 
-  private readonly pageSig = signal<ForumPostPagedResult | null>(null);
-
-  protected readonly loading = signal(false);
-
-  protected readonly posts = computed(() => this.pageSig()?.posts ?? []);
-
-  protected readonly hasPrevPage = computed(
-    () => !!this.pageSig()?.hasMorePrev,
-  );
-
-  protected readonly hasNextPage = computed(
-    () => !!this.pageSig()?.hasMoreNext,
-  );
-
   protected readonly categories = categories;
-
-  public async ngOnInit(): Promise<void> {
-    await this.loadFirstPagePosts();
-  }
-
-  protected async loadFirstPagePosts(): Promise<void> {
-    this.loading.set(true);
-    try {
-      const first = await this.forumPostsService.getPostsPage({
-        pageSize: this.postsMaxPerPage,
-      });
-      this.pageSig.set(first);
-    } finally {
-      this.loading.set(false);
-    }
-  }
-
-  protected async nextPagePosts(): Promise<void> {
-    const page = this.pageSig();
-    if (!page?.lastDoc || !page.hasMoreNext) return;
-
-    this.loading.set(true);
-    try {
-      const next = await this.forumPostsService.getPostsPage({
-        pageSize: this.postsMaxPerPage,
-        lastDoc: page.lastDoc,
-      });
-      this.pageSig.set(next);
-    } finally {
-      this.loading.set(false);
-    }
-  }
-
-  protected async prevPagePosts(): Promise<void> {
-    const page = this.pageSig();
-    if (!page?.firstDoc || !page.hasMorePrev) return;
-
-    this.loading.set(true);
-    try {
-      const prev = await this.forumPostsService.getPostsPage({
-        pageSize: this.postsMaxPerPage,
-        firstDoc: page.firstDoc,
-      });
-      this.pageSig.set(prev);
-    } finally {
-      this.loading.set(false);
-    }
-  }
 }
 
-const forumPostViewLink = '/' + ('forum/post' satisfies PageUrl) + '/';
-const loginLink = '/' + ('login' satisfies PageUrl);
-const registerLink = '/' + ('register' satisfies PageUrl);
 const categories = [
   {
     key: ForumCategoryEnum.GENERAL,

@@ -1,0 +1,37 @@
+<form [formGroup]="formGroup" (ngSubmit)="createPost()">
+  <pro-input
+    [formControl]="formGroup.controls.title"
+    appearance="outline"
+    label="Title"
+    placeholder="Enter post title"
+    type="text"
+  ></pro-input>
+  <pro-input-dropdown
+    [formControl]="formGroup.controls.category"
+    label="Category"
+    placeholder="Select an option"
+  >
+    @for (option of forumCategoryList; track option) {
+      <pro-input-dropdown-option [value]="option">{{
+        option
+      }}</pro-input-dropdown-option>
+    }
+  </pro-input-dropdown>
+  <pro-input-textarea
+    [formControl]="formGroup.controls.content"
+    appearance="outline"
+    label="Content"
+    placeholder="Share your thoughts..."
+  ></pro-input-textarea>
+  <div class="action-buttons">
+    <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
+      >Cancel</pip-button
+    >
+    <pip-button
+      [disabled]="formGroup.invalid || formGroup.disabled || isSubmitting()"
+      styling="filled"
+      type="submit"
+      >Post</pip-button
+    >
+  </div>
+</form>
