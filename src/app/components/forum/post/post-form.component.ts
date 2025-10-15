@@ -132,7 +132,15 @@ export class PipForumPostFormComponent
         title,
       };
 
-      await this.forumPostsService.addPost(toCreate);
+      const newPost = await this.forumPostsService.addPost(toCreate);
+      if (!newPost) {
+        this.toastService.error({
+          message: 'Failed to create post. Please try again later.',
+          durationSecs: 3,
+        });
+        this.isSubmitting.set(false);
+        return;
+      }
 
       this.toastService.success({
         message: 'Post created successfully!',
@@ -140,7 +148,17 @@ export class PipForumPostFormComponent
       });
       this.formGroup.reset();
       this.isSubmitting.set(false);
-      await this.router.navigate([this.forumLink]);
+
+      const postUrl: PageUrl = 'forum/post/:id';
+      const url = '/' + postUrl.replace(':id', newPost.id ?? '');
+
+      try {
+        // Navigate to the new post
+        await this.router.navigate([url]);
+      } catch {
+        // Fallback: Navigate to forum main page
+        await this.router.navigate([this.forumLink]);
+      }
     } catch (e) {
       console.error('Failed to create post:', e);
       this.toastService.error({

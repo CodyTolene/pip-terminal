@@ -1,4 +1,5 @@
 import { TableSortChangeEvent } from '@proangular/pro-table';
+import { DateTime } from 'luxon';
 import { Observable, defer, map } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost, ForumPostCreate } from 'src/app/models';
@@ -36,8 +37,8 @@ import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
 
 @Injectable()
 export class ForumPostsService {
-  private readonly firestore = inject(Firestore);
   private readonly env = inject(EnvironmentInjector);
+  private readonly firestore = inject(Firestore);
   private readonly markupService = inject(MarkupService);
 
   private inCtx<T>(fn: () => Promise<T>): Promise<T> {
@@ -48,13 +49,32 @@ export class ForumPostsService {
     return defer(() => runInInjectionContext(this.env, factory));
   }
 
-  public async addPost(post: ForumPostCreate): Promise<void> {
-    await this.inCtx(async () => {
-      const postsRef = collection(this.firestore, 'forum');
-      const newPost = ForumPost.serialize(post, {
-        markupService: this.markupService,
-      });
-      await addDoc(postsRef, newPost);
+  public async addPost(post: ForumPostCreate): Promise<ForumPost | null> {
+    return this.inCtx(async () => {
+      try {
+        const postsRef = collection(this.firestore, 'forum');
+        const serialized = ForumPost.serialize(post, {
+          markupService: this.markupService,
+        });
+        const newDoc = await addDoc(postsRef, serialized);
+        const deserialized = ForumPost.deserialize(
+          {
+            id: newDoc.id,
+            ...serialized,
+            createdAt: {
+              seconds: DateTime.now().toSeconds(),
+              nanoseconds: 0,
+            },
+          },
+          {
+            markupService: this.markupService,
+          },
+        );
+        return deserialized;
+      } catch (error) {
+        console.error('Failed to add post', error);
+        return null;
+      }
     });
   }
 
