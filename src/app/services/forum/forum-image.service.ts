@@ -32,7 +32,7 @@ export class ForumImageService {
   }
 
   public attachToQuill(q: Quill): () => void {
-    // Toolbar image"handler
+    // Toolbar image handler
     const tb: Toolbar | undefined = q.getModule('toolbar') as
       | Toolbar
       | undefined;

@@ -8,7 +8,8 @@
  */
 
 export { beforeUserCreatedEvent } from './events/before-user-created.event';
-export { onForumPostCreated } from './events/on-forum-post-created.event';
+
+// export { onForumPostCreated } from './events/on-forum-post-created.event';
 
 import * as admin from 'firebase-admin';
 import express from 'express';

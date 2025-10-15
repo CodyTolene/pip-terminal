@@ -9,6 +9,7 @@ export const onForumPostCreated = onDocumentCreated(
     if (!post) {
       return;
     }
+    logger.info(post);
     const authorId = post.authorId;
     const contentLength =
       typeof post.contentHtml === 'string' ? post.contentHtml.length : 0;

@@ -133,7 +133,19 @@ quill-editor {
 // Toolbar background color
 quill-editor {
   .ql-toolbar.ql-snow {
-    background-color: col.$pip-black;
+    // background-color: col.$pip-black;
+    align-content: center;
+    align-items: center;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    min-height: 4rem;
+    padding: 0.5rem 1rem;
+  }
+  .ql-editor {
+    padding: 1rem;
   }
 }
 
