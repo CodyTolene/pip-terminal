@@ -17,7 +17,8 @@ form {
     max-width: calc(50% - ($gap / 2));
   }
 
-  pro-input-textarea {
+  quill-editor {
+    display: grid;
     flex: 0 0 100%;
     margin-bottom: 1rem;
     max-width: 100%;

@@ -46,15 +46,15 @@ export class ForumPost {
 
     this.contentText = this.markup.getTextFrom(this.contentHtml);
     this.contentPreview =
-      this.contentText.length > 223
-        ? this.contentText.slice(0, 223) + '…'
+      this.contentText.length > 200
+        ? this.contentText.slice(0, 200) + '…'
         : this.contentText;
     this.safeHtml = this.markup.toSafeHtml(props.contentHtml);
 
     this.categoryUrl =
       '/' + forumCategoryUrl.replace(':id', CATEGORY_TO_SLUG[this.category]);
     this.titlePreview =
-      this.title.length > 100 ? `${this.title.slice(0, 100)}...` : this.title;
+      this.title.length > 80 ? `${this.title.slice(0, 80)}...` : this.title;
     this.url = '/' + postUrl.replace(':id', this.id);
   }
 

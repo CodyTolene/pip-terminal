@@ -1,2 +1,20 @@
+@use 'colors' as col;
+
 // @use 'quill/dist/quill.bubble.css';
-@import 'quill/dist/quill.snow.css';
+// @use 'quill/dist/quill.core.css';
+
+// Core Quill Snow theme
+@use 'quill/dist/quill.snow.css';
+
+// Customizations and overrides
+@use './quill/quill-borders.scss';
+@use './quill/quill-placeholder.scss';
+@use './quill/quill-toolbar.scss';
+
+quill-editor {
+  .ql-container {
+    font-size: 1rem;
+    min-height: 200px;
+    height: 300px;
+  }
+}

@@ -56,12 +56,23 @@ export class MarkupService {
 
   /** Extract text from HTML safely (works in browser and SSR) */
   public getTextFrom(html: string | null | SafeHtml | undefined): string {
-    const safe = this.sanitizeToString(html);
+    const safe = this.sanitizeToString(html ?? '');
+
+    // Make implicit breaks explicit and replace images with a marker
+    const withBreaks = safe
+      .replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, '') // drop code
+      .replace(/<img\b[^>]*>/gi, ' [img] ') // <-- add this
+      .replace(/<br\s*\/?>/gi, ' \n ') // line breaks
+      .replace(
+        /<\/(p|div|section|article|header|footer|aside|li|ul|ol|h[1-6]|blockquote|pre|table|thead|tbody|tfoot|tr|td|th)>/gi,
+        ' $&',
+      );
+
     if (!isPlatformBrowser(this.platformId)) {
-      // Simple SSR fallback: strip tags and decode a few common entities
-      return safe
+      // SSR: strip tags, decode entities, normalize whitespace
+      return withBreaks
         .replace(/<[^>]*>/g, ' ')
-        .replace(/&nbsp;/g, ' ')
+        .replace(/&nbsp;|&#160;/g, ' ')
         .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
@@ -70,9 +81,21 @@ export class MarkupService {
         .replace(/\s+/g, ' ')
         .trim();
     }
-    const tpl = this.doc.createElement('template'); // inert
-    tpl.innerHTML = safe;
-    return tpl.content.textContent?.trim() ?? '';
+
+    // Browser: ensure imgs become text nodes, then use innerText for spacing
+    const el = this.doc.createElement('div');
+    el.innerHTML = withBreaks;
+
+    // Fallback in case any <img> slipped through
+    el.querySelectorAll('img').forEach((img) => {
+      img.replaceWith(this.doc.createTextNode(' [img] '));
+    });
+
+    const text = (el as HTMLElement).innerText || el.textContent || '';
+    return text
+      .replace(/\u00A0/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   /** Sanitize untrusted HTML to a plain string */
