@@ -29,6 +29,8 @@ import {
   where,
 } from '@angular/fire/firestore';
 
+import { MarkupService } from 'src/app/services/markup.service';
+
 import { ForumPostPageArgs } from 'src/app/types/forum-post-page-args';
 import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
 
@@ -36,6 +38,7 @@ import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
 export class ForumPostsService {
   private readonly firestore = inject(Firestore);
   private readonly env = inject(EnvironmentInjector);
+  private readonly markupService = inject(MarkupService);
 
   private inCtx<T>(fn: () => Promise<T>): Promise<T> {
     return runInInjectionContext(this.env, fn);
@@ -48,7 +51,9 @@ export class ForumPostsService {
   public async addPost(post: ForumPostCreate): Promise<void> {
     await this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
-      const newPost = ForumPost.serialize(post);
+      const newPost = ForumPost.serialize(post, {
+        markupService: this.markupService,
+      });
       await addDoc(postsRef, newPost);
     });
   }
@@ -57,7 +62,13 @@ export class ForumPostsService {
     return this.inCtx$(() => {
       const postRef = doc(this.firestore, `forum/${postId}`);
       return docData(postRef, { idField: 'id' }).pipe(
-        map((data) => (data ? ForumPost.deserialize(data) : null)),
+        map((data) =>
+          data
+            ? ForumPost.deserialize(data, {
+                markupService: this.markupService,
+              })
+            : null,
+        ),
       );
     });
   }
@@ -117,7 +128,10 @@ export class ForumPostsService {
       }
 
       const posts = keptDocs.map((d) =>
-        ForumPost.deserialize({ id: d.id, ...(d.data() as object) }),
+        ForumPost.deserialize(
+          { id: d.id, ...(d.data() as object) },
+          { markupService: this.markupService },
+        ),
       );
 
       return {
@@ -160,7 +174,10 @@ export class ForumPostsService {
         Math.max(0, snap.docs.length - pageSize),
       );
       const posts = keptDocs.map((d) =>
-        ForumPost.deserialize({ id: d.id, ...(d.data() as object) }),
+        ForumPost.deserialize(
+          { id: d.id, ...(d.data() as object) },
+          { markupService: this.markupService },
+        ),
       );
 
       return {

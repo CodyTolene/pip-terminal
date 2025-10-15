@@ -11,7 +11,7 @@ export const onForumPostCreated = onDocumentCreated(
     }
     const authorId = post.authorId;
     const contentLength =
-      typeof post.content === 'string' ? post.content.length : 0;
+      typeof post.contentHtml === 'string' ? post.contentHtml.length : 0;
     logger.info(
       `Forum post created by ${authorId} with ${contentLength} characters`,
     );

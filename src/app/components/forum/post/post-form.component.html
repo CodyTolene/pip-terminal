@@ -20,13 +20,13 @@
   </pro-input-dropdown>
 
   <quill-editor
-    [formControl]="formGroup.controls.content"
-    [modules]="editorModules"
+    (onEditorCreated)="onEditorCreated($event)"
+    [formControl]="formGroup.controls.contentHtml"
     [formats]="allowedFormats"
-    (onContentChanged)="onEditorChange($event)"
-    format="object"
-    style="height: 300px"
+    [modules]="editorModules"
+    format="html"
     placeholder="Share your thoughts..."
+    style="height: 300px"
   ></quill-editor>
 
   <div class="action-buttons">

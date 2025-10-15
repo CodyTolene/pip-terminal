@@ -70,9 +70,9 @@ service cloud.firestore {
       // Create requires authentication and must abide by length/field checks.
       allow create: if request.auth != null &&
         request.resource.data.authorId == request.auth.uid &&
-        request.resource.data.content is string &&
-        request.resource.data.content.size() > 0 &&
-        request.resource.data.content.size() <= 4096 &&
+        request.resource.data.contentHtml is string &&
+        request.resource.data.contentHtml.size() > 0 &&
+        request.resource.data.contentHtml.size() <= 4096 &&
         request.resource.data.title is string &&
         request.resource.data.title.size() > 0 &&
         request.resource.data.title.size() <= 256 &&

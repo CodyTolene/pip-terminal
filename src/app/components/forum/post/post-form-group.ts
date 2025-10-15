@@ -1,4 +1,3 @@
-import Delta from 'quill-delta';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { Validation } from 'src/app/utilities';
 
@@ -6,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface ForumPostFormGroup {
   category: FormControl<ForumCategoryEnum | null>;
-  content: FormControl<Delta | null>;
+  contentHtml: FormControl<string | null>;
   title: FormControl<string | null>;
 }
 
@@ -15,11 +14,11 @@ export const forumPostFormGroup = new FormGroup<ForumPostFormGroup>({
     validators: [Validators.required],
     nonNullable: true,
   }),
-  content: new FormControl<Delta | null>(null, {
+  contentHtml: new FormControl<string | null>(null, {
     validators: [
       Validators.required,
-      Validators.minLength(Validation.forum.post.content.minLength),
-      Validators.maxLength(Validation.forum.post.content.maxLength),
+      Validators.minLength(Validation.forum.post.contentHtml.minLength),
+      Validators.maxLength(Validation.forum.post.contentHtml.maxLength),
     ],
     nonNullable: true,
   }),

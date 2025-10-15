@@ -11,7 +11,7 @@ export class Validation {
       },
     },
     post: {
-      content: {
+      contentHtml: {
         minLength: 1,
         maxLength: 4096,
       },

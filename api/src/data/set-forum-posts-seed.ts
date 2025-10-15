@@ -9,7 +9,7 @@ const logExtraInfo = false;
 
 export async function setForumPostsSeed(
   adminUser: UserRecord | undefined,
-): Promise<ReadonlyArray<ForumPostApi<unknown>> | null> {
+): Promise<readonly ForumPostApi[] | null> {
   if (!isEmulator()) {
     logger.error('Seeding forum posts is only supported in the emulator.');
     return null;
@@ -18,7 +18,7 @@ export async function setForumPostsSeed(
   const db = admin.firestore();
   const forumCol = db.collection('forum');
 
-  const seeds: Array<ForumPostApi<unknown>> = [];
+  const seeds: ForumPostApi[] = [];
 
   for (const item of FORUM_POSTS_SEED) {
     const docRef = forumCol.doc(item.id);
@@ -37,7 +37,7 @@ export async function setForumPostsSeed(
       createdAt.nanoseconds,
     );
 
-    const docData: ForumPostCreateApi<unknown> = {
+    const docData: ForumPostCreateApi = {
       ...rest,
       authorId: adminUser?.uid ?? authorId,
       authorName: adminUser?.displayName ?? authorName,

@@ -18,7 +18,7 @@
 
     .post-header {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       font-weight: bold;
       hyphens: auto;
       justify-content: space-between;
@@ -31,6 +31,7 @@
         color: col.$pip-green-darkest;
         font-size: var.$font-sm;
         margin: 0;
+        min-width: 150px;
       }
     }
 
@@ -46,6 +47,12 @@
         padding: 1rem;
         white-space: normal;
         word-break: break-word;
+
+        ::ng-deep img {
+          max-width: 100%;
+          width: auto;
+          height: auto;
+        }
       }
 
       .signature {

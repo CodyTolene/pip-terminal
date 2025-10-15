@@ -18,8 +18,8 @@ export const forumTableColumns: ReadonlyArray<TableColumn<ForumPost>> = [
   {
     ...defaultColumn,
     key: 'contentPreview',
-    label: 'Content',
-    sortKey: 'content' satisfies keyof ForumPost,
+    label: 'Content Preview',
+    sortKey: 'contentHtml' satisfies keyof ForumPost,
   },
   {
     ...defaultColumn,

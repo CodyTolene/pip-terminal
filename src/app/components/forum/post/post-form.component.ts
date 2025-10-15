@@ -5,19 +5,25 @@ import {
   InputDropdownOptionComponent,
 } from '@proangular/pro-form';
 import { QuillModule } from 'ngx-quill';
+import Quill from 'quill';
 import { firstValueFrom } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPostCreate } from 'src/app/models';
-import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
+import {
+  AuthService,
+  ForumImageService,
+  ForumPostsService,
+  MarkupService,
+  ToastService,
+} from 'src/app/services';
 import {
   getEnumValues,
-  isNonEmptyObject,
   isNonEmptyString,
   isNonEmptyValue,
   shareSingleReplay,
 } from 'src/app/utilities';
 
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, OnDestroy, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -40,9 +46,13 @@ import { PageUrl } from 'src/app/types/page-url';
     QuillModule,
     ReactiveFormsModule,
   ],
+  providers: [],
   styleUrl: './post-form.component.scss',
 })
-export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup> {
+export class PipForumPostFormComponent
+  extends FormDirective<ForumPostFormGroup>
+  implements OnDestroy
+{
   public constructor() {
     super();
 
@@ -52,11 +62,11 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
       const isSubmitting = this.isSubmitting();
       if (isSubmitting) {
         this.formGroup.controls.category.disable({ emitEvent: false });
-        this.formGroup.controls.content.disable({ emitEvent: false });
+        this.formGroup.controls.contentHtml.disable({ emitEvent: false });
         this.formGroup.controls.title.disable({ emitEvent: false });
       } else {
         this.formGroup.controls.category.enable({ emitEvent: false });
-        this.formGroup.controls.content.enable({ emitEvent: false });
+        this.formGroup.controls.contentHtml.enable({ emitEvent: false });
         this.formGroup.controls.title.enable({ emitEvent: false });
       }
     });
@@ -64,12 +74,12 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
 
   private readonly authService = inject(AuthService);
   private readonly forumPostsService = inject(ForumPostsService);
+  private readonly imageService = inject(ForumImageService);
+  private readonly markupService = inject(MarkupService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
 
   protected override readonly formGroup = forumPostFormGroup;
-  private contentHtml = '';
-  private plainText = '';
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
@@ -83,6 +93,8 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
   public readonly editorModules = editorModules;
   public readonly allowedFormats = allowedFormats;
 
+  private detachQuill?: () => void;
+
   protected async createPost(): Promise<void> {
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
@@ -93,9 +105,9 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
     this.isSubmitting.set(true);
 
     try {
-      const { category, content, title } = this.formGroup.value;
+      const { category, contentHtml, title } = this.formGroup.value;
 
-      if (!isNonEmptyObject(content)) {
+      if (!isNonEmptyString(contentHtml)) {
         throw new Error('Content must not be empty!');
       }
       if (!isNonEmptyString(title)) {
@@ -110,13 +122,13 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
         throw new Error('User must be logged in to create a post');
       }
 
+      const safeHtml = this.markupService.sanitizeForStorage(contentHtml ?? '');
+
       const toCreate: ForumPostCreate = {
         authorId: user.uid,
         authorName: user.displayName || user.email,
         category,
-        content: this.plainText,
-        contentDelta: JSON.parse(JSON.stringify(content ?? { ops: [] })),
-        contentHtml: this.contentHtml,
+        contentHtml: safeHtml,
         title,
       };
 
@@ -143,9 +155,14 @@ export class PipForumPostFormComponent extends FormDirective<ForumPostFormGroup>
     await this.router.navigate([this.forumLink]);
   }
 
-  protected onEditorChange(e: { html: string | null; text: string }): void {
-    this.contentHtml = e?.html ?? '';
-    this.plainText = (e?.text ?? '').trim();
+  protected onEditorCreated(q: Quill): void {
+    // Delegate all image picking/paste/drop handling to the service
+    this.detachQuill?.();
+    this.detachQuill = this.imageService.attachToQuill(q);
+  }
+
+  public ngOnDestroy(): void {
+    this.detachQuill?.();
   }
 }
 

@@ -16,14 +16,16 @@
 
 <ng-template #postBody let-post="post">
   <div class="post-header">
-    <h5>{{ post.title }}</h5>
-    @if (!simple) {
+    @if (simple) {
+      <h5>{{ post.titlePreview }}</h5>
+    } @else {
+      <h5>{{ post.title }}</h5>
       <p class="category">Category: {{ post.category }}</p>
     }
   </div>
   <div class="post-body">
     @if (simple) {
-      <p>{{ post.content }}</p>
+      <p>{{ post.contentPreview }}</p>
     } @else {
       <p [innerHTML]="post.contentHtml"></p>
     }

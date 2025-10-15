@@ -2,33 +2,40 @@ import { ForumPostApi, ForumPostCreateApi } from 'api/src/models';
 import { Timestamp, serverTimestamp } from 'firebase/firestore';
 import * as io from 'io-ts';
 import { DateTime } from 'luxon';
-import Delta from 'quill-delta';
 import { apiDecorator } from 'src/app/decorators';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { decode } from 'src/app/utilities';
 
-import { QuillDelta } from 'src/app/models/quill-delta.model';
+import { SafeHtml } from '@angular/platform-browser';
+
+import { MarkupService } from 'src/app/services/markup.service';
 
 import { ClassProperties } from 'src/app/types/class-properties';
 import { PageUrl } from 'src/app/types/page-url';
 
-const api = apiDecorator<ForumPostApi<Delta>>();
+const api = apiDecorator<ForumPostApi>();
 
 type ForumPostArgs = Omit<
   ForumPost,
-  'categoryUrl' | 'contentPreview' | 'titlePreview' | 'url'
+  | 'categoryUrl'
+  | 'contentPreview'
+  | 'contentText'
+  | 'safeHtml'
+  | 'titlePreview'
+  | 'url'
 >;
 
 export type ForumPostCreate = Omit<ForumPostArgs, 'id' | 'createdAt'>;
 
 export class ForumPost {
-  public constructor(props: ClassProperties<ForumPostArgs>) {
+  public constructor(
+    props: ClassProperties<ForumPostArgs>,
+    private readonly markup: MarkupService,
+  ) {
     this.authorId = props.authorId;
     this.authorName = props.authorName;
     this.category = props.category;
-    this.content = props.content;
-    this.contentDelta = props.contentDelta;
     this.contentHtml = props.contentHtml;
     this.createdAt = props.createdAt;
     this.id = props.id;
@@ -37,14 +44,17 @@ export class ForumPost {
     const forumCategoryUrl: PageUrl = 'forum/category/:id';
     const postUrl: PageUrl = 'forum/post/:id';
 
+    this.contentText = this.markup.getTextFrom(this.contentHtml);
+    this.contentPreview =
+      this.contentText.length > 223
+        ? this.contentText.slice(0, 223) + '…'
+        : this.contentText;
+    this.safeHtml = this.markup.toSafeHtml(props.contentHtml);
+
     this.categoryUrl =
       '/' + forumCategoryUrl.replace(':id', CATEGORY_TO_SLUG[this.category]);
-    this.contentPreview =
-      this.content.length > 50
-        ? `${this.content.slice(0, 50)}...`
-        : this.content;
     this.titlePreview =
-      this.title.length > 25 ? `${this.title.slice(0, 25)}...` : this.title;
+      this.title.length > 100 ? `${this.title.slice(0, 100)}...` : this.title;
     this.url = '/' + postUrl.replace(':id', this.id);
   }
 
@@ -59,8 +69,6 @@ export class ForumPost {
       io.literal(ForumCategoryEnum.PIP_3000_MK_IV),
       io.literal(ForumCategoryEnum.PIP_3000_MK_V),
     ]),
-    content: io.string,
-    contentDelta: QuillDelta.Codec,
     contentHtml: io.string,
     createdAt: io.type({ nanoseconds: io.number, seconds: io.number }),
     id: io.string,
@@ -74,10 +82,6 @@ export class ForumPost {
   /** The category of the forum post. */
   @api({ key: 'category' }) public readonly category: ForumCategoryEnum;
   /** The main body content of the forum post. */
-  @api({ key: 'content' }) public readonly content: string;
-  /** The content of the post in Quill Delta format. */
-  @api({ key: 'contentDelta' }) public readonly contentDelta: Delta;
-  /** The content of the post in a safe, sanitized HTML format. */
   @api({ key: 'contentHtml' }) public readonly contentHtml: string;
   /** Creation timestamp – converted to a Luxon DateTime. */
   @api({ key: 'createdAt' }) public readonly createdAt: DateTime;
@@ -88,50 +92,71 @@ export class ForumPost {
 
   /** Link to view this posts category in the forum. */
   public readonly categoryUrl: string;
-  /** Preview of the content, truncated to 50 characters. */
+  /** Preview of the content as text (not HTML), truncated to 100 characters. */
   public readonly contentPreview: string;
-  /** Preview of the title, truncated to 25 characters. */
+  /** The content as plain text, with all HTML tags removed. */
+  public readonly contentText: string;
+  /** The content as sanitized SafeHtml for [innerHTML]. */
+  public readonly safeHtml: SafeHtml;
+  /** Preview of the title, truncated to 250 characters. */
   public readonly titlePreview: string;
   /** Link to view this post in the forum. */
   public readonly url: string;
 
-  public static deserialize(value: unknown): ForumPost {
+  public static deserialize(
+    value: unknown,
+    args: ForumPostDeserializeArgs,
+  ): ForumPost {
     const decoded = decode(ForumPost.Codec, value);
     const createdAtDate = new Timestamp(
       decoded.createdAt.seconds,
       decoded.createdAt.nanoseconds,
     ).toDate();
 
-    return new ForumPost({
-      authorId: decoded.authorId,
-      authorName: decoded.authorName,
-      category: decoded.category,
-      content: decoded.content,
-      contentDelta: new Delta(decoded.contentDelta),
-      contentHtml: decoded.contentHtml,
-      createdAt: DateTime.fromJSDate(createdAtDate),
-      id: decoded.id,
-      title: decoded.title,
-    });
+    return new ForumPost(
+      {
+        authorId: decoded.authorId,
+        authorName: decoded.authorName,
+        category: decoded.category,
+        contentHtml: decoded.contentHtml,
+        createdAt: DateTime.fromJSDate(createdAtDate),
+        id: decoded.id,
+        title: decoded.title,
+      },
+      args.markupService,
+    );
   }
 
-  public static deserializeList(values: unknown[]): readonly ForumPost[] {
+  public static deserializeList(
+    values: unknown[],
+    args: ForumPostDeserializeArgs,
+  ): readonly ForumPost[] {
     if (Array.isArray(values) === false) {
       throw new Error('Expected an array to deserialize a list of ForumPost');
     }
-    return values.map(ForumPost.deserialize);
+    return values.map((value) => ForumPost.deserialize(value, args));
   }
 
-  public static serialize(value: ForumPostCreate): ForumPostCreateApi<Delta> {
+  public static serialize(
+    value: ForumPostCreate,
+    args: ForumPostSerializeArgs,
+  ): ForumPostCreateApi {
+    const clean = args.markupService.sanitizeForStorage(value.contentHtml);
     return {
       authorId: value.authorId,
       authorName: value.authorName,
       category: value.category,
-      content: value.content,
-      contentDelta: value.contentDelta,
-      contentHtml: value.contentHtml,
+      contentHtml: clean,
       createdAt: serverTimestamp(),
       title: value.title,
     };
   }
+}
+
+export interface ForumPostDeserializeArgs {
+  markupService: MarkupService;
+}
+
+export interface ForumPostSerializeArgs {
+  markupService: MarkupService;
 }

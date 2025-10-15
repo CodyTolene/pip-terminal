@@ -7,5 +7,3 @@ export { HealthCheck } from './health-check.model';
 export { PageData } from './page-data.model';
 export { PipApp } from './pip-app.model';
 export { PipUser } from './pip-user.model';
-export { QuillDelta } from './quill-delta.model';
-export { QuillDeltaOp } from './quill-delta-op.model';

@@ -2,6 +2,7 @@ export * from './app-update.service';
 export * from './auth.service';
 export * from './github.service';
 export * from './map.service';
+export * from './markup.service';
 export * from './page-data.service';
 export * from './page-meta.service';
 export * from './screen.service';
@@ -18,6 +19,7 @@ export * from './user-profile.service';
 /** ---- Forum ---- */
 
 export * from './forum/forum-comments.service';
+export * from './forum/forum-image.service';
 export * from './forum/forum-posts.service';
 
 /** ---- Pip-Boy 3000 Mk IV Services ---- */
