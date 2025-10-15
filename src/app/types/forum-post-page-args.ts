@@ -16,4 +16,6 @@ export interface ForumPostPageArgs {
   category?: ForumCategoryEnum;
   /** Optional sort specification. */
   sort?: TableSortChangeEvent<ForumPost>;
+  /** Optional author ID filter. */
+  authorId?: string;
 }

@@ -74,9 +74,14 @@ export class ForumPostsService {
   }
 
   public async getPostsPage(
-    { pageSize = 10, lastDoc, firstDoc, category, sort }: ForumPostPageArgs = {
-      pageSize: 10,
-    },
+    {
+      pageSize = 10,
+      lastDoc,
+      firstDoc,
+      category,
+      sort,
+      authorId,
+    }: ForumPostPageArgs = { pageSize: 10 },
   ): Promise<ForumPostPagedResult> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
@@ -88,6 +93,7 @@ export class ForumPostsService {
 
       const baseConstraints = [
         ...(category ? [where('category', '==', category)] : []),
+        ...(authorId ? [where('authorId', '==', authorId)] : []),
         orderBy(key, dir),
         orderBy(documentId(), dir),
       ] as const;
@@ -148,10 +154,12 @@ export class ForumPostsService {
     pageSize = 10,
     category,
     sort,
+    authorId,
   }: {
     pageSize?: number;
     category?: ForumCategoryEnum;
     sort?: TableSortChangeEvent<ForumPost>;
+    authorId?: string;
   } = {}): Promise<ForumPostPagedResult> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
@@ -164,6 +172,7 @@ export class ForumPostsService {
       const qRef = query(
         postsRef,
         ...(category ? [where('category', '==', category)] : []),
+        ...(authorId ? [where('authorId', '==', authorId)] : []),
         orderBy(key, dir),
         orderBy(documentId(), dir),
         limitToLast(n),
@@ -192,11 +201,13 @@ export class ForumPostsService {
 
   public async getPostsTotal(args?: {
     category?: ForumCategoryEnum;
+    authorId?: string;
   }): Promise<number> {
     return this.inCtx(async () => {
       const postsRef = collection(this.firestore, 'forum');
       const constraints = [
         ...(args?.category ? [where('category', '==', args.category)] : []),
+        ...(args?.authorId ? [where('authorId', '==', args.authorId)] : []),
       ] as const;
       const agg = await getCountFromServer(query(postsRef, ...constraints));
       return agg.data().count ?? 0;

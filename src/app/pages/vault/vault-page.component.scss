@@ -20,20 +20,41 @@ main {
   justify-content: normal;
   margin: 0 auto;
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   max-width: 800px;
   width: 100%;
+}
 
-  .user-actions {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    width: 100%;
+section.user-identification {
+  margin-bottom: 1rem;
+}
 
-    @include bps.media('max', 'md') {
-      padding: 0 1rem;
-    }
+section.user-actions {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 2rem 0;
+  width: 100%;
+
+  @include bps.media('max', 'md') {
+    padding: 0 1rem;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 1px dashed col.$pip-green-darkest;
+  margin: 0;
+  width: 100%;
+}
+
+section.posts {
+  box-sizing: border-box;
+  margin-top: 2rem;
+  padding: 0;
+
+  @include bps.media('max', 'md') {
+    padding: 1rem;
   }
 }
 

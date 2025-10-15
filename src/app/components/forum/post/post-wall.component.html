@@ -6,7 +6,11 @@
 } @else {
   @if (posts().length > 0) {
     <div class="actions">
-      <pip-title h2>POSTS</pip-title>
+      @if (authorId) {
+        <pip-title h2>MY POSTS</pip-title>
+      } @else {
+        <pip-title h2>ALL POSTS</pip-title>
+      }
       <form>
         <pro-input-dropdown
           [formControl]="postSortOrderFormControl"
@@ -54,7 +58,17 @@
     </div>
   } @else {
     @if (userChanges | async) {
-      <p>No posts yet. Be the first to share something!</p>
+      @if (authorId) {
+        <pip-title h2>MY POSTS</pip-title>
+        <p>
+          You haven't posted anything to the forum yet.
+          <a [routerLink]="forumNewPostLink" class="action-link"
+            >Create your first post now!</a
+          >
+        </p>
+      } @else {
+        <p>No posts yet. Be the first to share something!</p>
+      }
     } @else {
       <p>
         No posts yet. Please

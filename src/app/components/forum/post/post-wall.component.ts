@@ -14,7 +14,9 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   booleanAttribute,
   computed,
   effect,
@@ -57,13 +59,12 @@ import { PageUrl } from 'src/app/types/page-url';
   ],
   styleUrl: './post-wall.component.scss',
 })
-export class PipForumPostWallComponent implements OnInit {
+export class PipForumPostWallComponent implements OnInit, OnChanges {
   public constructor() {
     this.postSortOrderFormControl.valueChanges
       .pipe(filter(isNonEmptyValue), untilDestroyed(this))
       .subscribe((sort) => {
         this.postSortSig.set(sort);
-        this.postsPageSig.set(null);
         void this.loadFirstPagePosts(sort);
       });
 
@@ -80,11 +81,16 @@ export class PipForumPostWallComponent implements OnInit {
   @Input({ transform: booleanAttribute })
   public simple = false;
 
+  // accept [authorId]="user.uid"
+  @Input() public authorId: string | null = null;
+
   private readonly forumPostsService = inject(ForumPostsService);
   private readonly authService = inject(AuthService);
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
+
+  protected readonly forumNewPostLink = forumNewPostLink;
 
   protected readonly postsMaxPerPage = 5;
 
@@ -107,8 +113,6 @@ export class PipForumPostWallComponent implements OnInit {
     this.defaultPostsSort,
   );
 
-  private readonly postsPageSig = signal<ForumPostPagedResult | null>(null);
-
   protected readonly posts = computed(() => this.pageSig()?.posts ?? []);
 
   protected readonly loginLink = loginLink;
@@ -127,6 +131,13 @@ export class PipForumPostWallComponent implements OnInit {
     await this.loadFirstPagePosts();
   }
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('authorId' in changes && !changes['authorId'].firstChange) {
+      this.pageSig.set(null);
+      void this.loadFirstPagePosts(this.postSortSig());
+    }
+  }
+
   protected async nextPagePosts(): Promise<void> {
     const page = this.pageSig();
     if (!page?.lastDoc || !page.hasMoreNext) return;
@@ -136,6 +147,8 @@ export class PipForumPostWallComponent implements OnInit {
       const next = await this.forumPostsService.getPostsPage({
         pageSize: this.postsMaxPerPage,
         lastDoc: page.lastDoc,
+        sort: this.postSortSig(),
+        authorId: this.authorId ?? undefined,
       });
       this.pageSig.set(next);
     } finally {
@@ -152,6 +165,8 @@ export class PipForumPostWallComponent implements OnInit {
       const prev = await this.forumPostsService.getPostsPage({
         pageSize: this.postsMaxPerPage,
         firstDoc: page.firstDoc,
+        sort: this.postSortSig(),
+        authorId: this.authorId ?? undefined,
       });
       this.pageSig.set(prev);
     } finally {
@@ -167,6 +182,7 @@ export class PipForumPostWallComponent implements OnInit {
       const first = await this.forumPostsService.getPostsPage({
         pageSize: this.postsMaxPerPage,
         sort,
+        authorId: this.authorId ?? undefined,
       });
       this.pageSig.set(first);
     } finally {
@@ -175,6 +191,6 @@ export class PipForumPostWallComponent implements OnInit {
   }
 }
 
+const forumNewPostLink = '/' + ('forum/post' satisfies PageUrl);
 const loginLink = '/' + ('login' satisfies PageUrl);
-
 const registerLink = '/' + ('register' satisfies PageUrl);
