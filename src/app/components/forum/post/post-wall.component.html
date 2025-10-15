@@ -67,7 +67,13 @@
           >
         </p>
       } @else {
-        <p>No posts yet. Be the first to share something!</p>
+        <pip-title h2>ALL POSTS</pip-title>
+        <p>
+          No posts yet.
+          <a [routerLink]="forumNewPostLink" class="action-link"
+            >Be the first to share something!</a
+          >
+        </p>
       }
     } @else {
       <p>
