@@ -18,6 +18,7 @@ import {
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 import { PipForumPostWallComponent } from 'src/app/components/forum/post/post-wall.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { UserIdentificationComponent } from './user-identification.component';
 
@@ -32,6 +33,7 @@ import { UserIdentificationComponent } from './user-identification.component';
     PipButtonComponent,
     PipFooterComponent,
     PipForumPostWallComponent,
+    PipTitleComponent,
     UserIdentificationComponent,
   ],
   providers: [ForumPostsService],

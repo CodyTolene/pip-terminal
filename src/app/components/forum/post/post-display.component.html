@@ -29,11 +29,42 @@
     } @else {
       <p [innerHTML]="post.contentHtml"></p>
     }
-    <div class="signature">
-      <span class="author">- {{ post.authorName }}</span>
-      <span class="timestamp">
-        {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
-      </span>
+  </div>
+  @if (!simple) {
+    <div class="stats">
+      @if (userChanges | async; as user) {
+        <button
+          (click)="onLikePostClick()"
+          (keyup)="onLikePostClick()"
+          class="likes clickable"
+          matTooltip="Like Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>thumb_up</mat-icon>
+          <span>{{ post.likesCount }}</span>
+        </button>
+        <button
+          (click)="onFlagPostClick()"
+          (keyup)="onFlagPostClick()"
+          class="flags clickable"
+          matTooltip="Flag Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>flag</mat-icon>
+          <!-- <span>{{ post.flagsCount }}</span> -->
+        </button>
+      } @else {
+        <button class="likes">
+          <mat-icon>thumb_up</mat-icon>
+          <span>{{ post.likesCount }}</span>
+        </button>
+      }
     </div>
+  }
+  <div class="signature">
+    <span class="author">- {{ post.authorName }}</span>
+    <span class="timestamp">
+      {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+    </span>
   </div>
 </ng-template>

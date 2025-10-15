@@ -49,29 +49,67 @@
         word-break: break-word;
 
         ::ng-deep img {
+          height: auto;
           max-width: 100%;
           width: auto;
-          height: auto;
+        }
+      }
+    }
+
+    .stats {
+      align-items: center;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      margin: 1rem 0;
+
+      button.likes,
+      button.flags {
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        color: col.$pip-green;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+
+        &:hover {
+          background-color: transparent;
+        }
+
+        &.clickable {
+          cursor: pointer;
+        }
+
+        &.disabled {
+          cursor: not-allowed;
+          color: col.$pip-green-darkest;
         }
       }
 
-      .signature {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-top: 2rem;
+      .likes mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
 
-        .author {
-          color: col.$pip-green-lightest;
-          font-size: var.$font-xs;
-          font-style: italic;
-        }
+    .signature {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 1rem;
 
-        .timestamp {
-          color: col.$pip-green-light;
-          font-size: var.$font-xs;
-        }
+      .author {
+        color: col.$pip-green-lightest;
+        font-size: var.$font-xs;
+        font-style: italic;
+      }
+
+      .timestamp {
+        color: col.$pip-green-light;
+        font-size: var.$font-xs;
       }
     }
   }

@@ -23,3 +23,10 @@
 .mat-mdc-table thead {
   --mat-table-background-color: #{rgba(col.$pip-green-darkest, 0.18)};
 }
+
+pro-table {
+  table td {
+    word-break: break-word;
+    white-space: normal;
+  }
+}

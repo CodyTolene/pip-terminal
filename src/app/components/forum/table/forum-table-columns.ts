@@ -23,6 +23,16 @@ export const forumTableColumns: ReadonlyArray<TableColumn<ForumPost>> = [
   },
   {
     ...defaultColumn,
+    key: 'likesCount',
+    label: 'Likes',
+  },
+  {
+    ...defaultColumn,
+    key: 'authorName',
+    label: 'Author',
+  },
+  {
+    ...defaultColumn,
     key: 'createdAt',
     label: 'Date',
   },

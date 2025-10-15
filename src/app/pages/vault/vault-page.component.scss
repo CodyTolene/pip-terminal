@@ -19,14 +19,20 @@ main {
   flex-wrap: nowrap;
   justify-content: normal;
   margin: 0 auto;
-  margin-top: 2rem;
   margin-bottom: 4rem;
   max-width: 800px;
   width: 100%;
 }
 
+pip-title[h1] {
+  margin: 1rem 0 2rem 0;
+  text-align: center;
+  width: 100%;
+}
+
 section.user-identification {
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 section.user-actions {
