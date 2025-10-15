@@ -9,7 +9,10 @@ import { ClassProperties } from 'src/app/types/class-properties';
 
 const api = apiDecorator<ForumCommentApi>();
 
-export type ForumCommentCreate = Omit<ForumComment, 'id' | 'createdAt'>;
+export type ForumCommentCreate = Omit<
+  ForumComment,
+  'createdAt' | 'flagsCount' | 'id' | 'likesCount'
+>;
 
 export class ForumComment {
   public constructor(props: ClassProperties<ForumComment>) {
@@ -17,7 +20,9 @@ export class ForumComment {
     this.authorName = props.authorName;
     this.content = props.content;
     this.createdAt = props.createdAt;
+    this.flagsCount = props.flagsCount;
     this.id = props.id;
+    this.likesCount = props.likesCount;
     this.postId = props.postId;
   }
 
@@ -29,7 +34,9 @@ export class ForumComment {
       io.type({ seconds: io.number, nanoseconds: io.number }),
       io.null,
     ]),
+    flagsCount: io.number,
     id: io.string,
+    likesCount: io.number,
     postId: io.string,
   });
 
@@ -41,8 +48,12 @@ export class ForumComment {
   @api({ key: 'content' }) public readonly content: string;
   /** Timestamp of when the comment was created. */
   @api({ key: 'createdAt' }) public readonly createdAt: DateTime;
+  /** Number of times this comment has been flagged. */
+  @api({ key: 'flagsCount' }) public readonly flagsCount: number;
   /** Firestore document identifier for this comment. */
   @api({ key: 'id' }) public readonly id: string;
+  /** Number of likes this comment has received. */
+  @api({ key: 'likesCount' }) public readonly likesCount: number;
   /** The identifier of the parent post. */
   @api({ key: 'postId' }) public readonly postId: string;
 
@@ -60,7 +71,9 @@ export class ForumComment {
       authorName: decoded.authorName,
       content: decoded.content,
       createdAt: DateTime.fromJSDate(createdAtDate),
+      flagsCount: decoded.flagsCount,
       id: decoded.id,
+      likesCount: decoded.likesCount,
       postId: decoded.postId,
     });
   }
@@ -75,6 +88,7 @@ export class ForumComment {
   }
 
   public static serialize(value: ForumCommentCreate): ForumCommentCreateApi {
+    // const clean = args.markupService.sanitizeForStorage(value.contentHtml);
     return {
       authorId: value.authorId,
       authorName: value.authorName,

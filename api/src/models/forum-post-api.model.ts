@@ -21,7 +21,7 @@ export interface ForumPostApi {
 
 export type ForumPostCreateApi = Omit<
   ForumPostApi,
-  'createdAt' | 'id' | 'flagsCount' | 'likesCount'
+  'createdAt' | 'flagsCount' | 'id' | 'likesCount'
 > & {
   createdAt: FieldValue;
 };

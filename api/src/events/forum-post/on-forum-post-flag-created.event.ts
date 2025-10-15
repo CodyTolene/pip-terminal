@@ -13,12 +13,11 @@ export const onForumPostFlagCreated = onDocumentCreated(
     try {
       await postRef.update({
         flagsCount: FieldValue.increment(1),
-        flagsUpdatedAt: FieldValue.serverTimestamp(),
       });
-      logger.info(`Flag added to post ${event.params.postId}.`);
+      logger.info(`Flag added to post "${event.params.postId}".`);
     } catch (err) {
       logger.error(
-        'Error updating flag count (create):',
+        'Error updating post flag count (create):',
         event.params.postId,
         err,
       );

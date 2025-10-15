@@ -6,13 +6,15 @@ export interface ForumCommentApi {
   authorName: string;
   content: string;
   createdAt: FirestoreTimestampApi;
+  flagsCount: number;
   id: string;
+  likesCount: number;
   postId: string;
 }
 
 export type ForumCommentCreateApi = Omit<
   ForumCommentApi,
-  'createdAt' | 'id'
+  'createdAt' | 'flagsCount' | 'id' | 'likesCount'
 > & {
   createdAt: FieldValue;
 };

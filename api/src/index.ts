@@ -8,12 +8,23 @@
  */
 
 // User Events
-export { beforeUserCreatedEvent } from './events/before-user-created.event';
+export { beforeUserCreatedEvent } from './events/users/before-user-created.event';
 
-// Forum Events
-export { onForumPostFlagCreated } from './events/on-forum-post-flag-created.event';
-export { onForumPostFlagDeleted } from './events/on-forum-post-flag-deleted.event';
+// Forum post and comment on-create events
 // export { onForumPostCreated } from './events/on-forum-post-created.event';
+// export { onForumPostCommentCreated } from './events/forum-post-comment/on-forum-post-comment-created.event';
+
+// Forum Post Events
+export { onForumPostFlagCreated } from './events/forum-post/on-forum-post-flag-created.event';
+export { onForumPostFlagDeleted } from './events/forum-post/on-forum-post-flag-deleted.event';
+export { onForumPostLikeCreated } from './events/forum-post/on-forum-post-like-created.event';
+export { onForumPostLikeDeleted } from './events/forum-post/on-forum-post-like-deleted.event';
+
+// Forum Comment Events
+export { onForumPostCommentFlagCreated } from './events/forum-post-comment/on-forum-post-comment-flag-created.event';
+export { onForumPostCommentFlagDeleted } from './events/forum-post-comment/on-forum-post-comment-flag-deleted.event';
+export { onForumPostCommentLikeCreated } from './events/forum-post-comment/on-forum-post-comment-like-created.event';
+export { onForumPostCommentLikeDeleted } from './events/forum-post-comment/on-forum-post-comment-like-deleted.event';
 
 import * as admin from 'firebase-admin';
 import express from 'express';

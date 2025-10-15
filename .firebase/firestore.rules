@@ -5,7 +5,9 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
+    function signedIn() { 
+      return request.auth != null; 
+    }
 
     // ***** User profile rules *****
     match /users/{uid} {
@@ -64,12 +66,11 @@ service cloud.firestore {
         (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
     }
 
-    // ***** Forum rules *****
-    // A forum post document lives at /forum/{postId}.
+    // Forum
+    // Forum Posts
     match /forum/{postId} {
       // Allow anyone to read forum posts (including unauthenticated visitors).
       allow read: if true;
-
       // Create requires authentication and must abide by length/field checks.
       allow create: if signedIn() &&
         request.resource.data.authorId == request.auth.uid &&
@@ -79,37 +80,91 @@ service cloud.firestore {
         request.resource.data.title is string &&
         request.resource.data.title.size() > 0 &&
         request.resource.data.title.size() <= 256 &&
-        request.resource.data.createdAt == request.time;
-
-      // Users may update or delete only their own posts, but cannot touch flagsCount.
-      allow update, delete: if signedIn()
+        // Block clients from seeding fake totals on create
+        request.resource.data.createdAt == request.time &&
+        (
+          !('likesCount' in request.resource.data) ||
+          request.resource.data.likesCount == 0
+        ) &&
+        (
+          !('flagsCount' in request.resource.data) ||
+          request.resource.data.flagsCount == 0
+        );
+      // Only post owners can edit, and they cannot change system counters
+      allow update: if signedIn()
         && resource.data.authorId == request.auth.uid
-        && request.resource.data.flagsCount == resource.data.flagsCount;
+        && request.resource.data.flagsCount == resource.data.flagsCount
+        && request.resource.data.likesCount == resource.data.likesCount;
+      allow delete: if signedIn()
+        && resource.data.authorId == request.auth.uid;
 
-      // Comments subcollection under a post
+      // Post likes
+      match /likes/{uid} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && request.auth.uid == uid
+          && !exists(/databases/$(database)/documents/forum/$(postId)/likes/$(uid));
+        allow delete: if signedIn() && request.auth.uid == uid;
+      }
+
+      // Post flags
+      match /flags/{uid} {
+        // One doc per user per post
+        allow read: if signedIn();
+        // allow create only if it doesn't exist, and only by the owner uid
+        allow create: if signedIn()
+          && request.auth.uid == uid
+          && !exists(/databases/$(database)/documents/forum/$(postId)/flags/$(uid));
+        // owner may remove their flag
+        allow delete: if signedIn() && request.auth.uid == uid;
+      }
+
+      // Posts > Comments
       match /comments/{commentId} {
         allow read: if true;
+        // Create requires authentication and must abide by length/field checks.
         allow create: if signedIn() &&
           request.resource.data.authorId == request.auth.uid &&
           request.resource.data.postId == postId &&
           request.resource.data.content is string &&
           request.resource.data.content.size() > 0 &&
           request.resource.data.content.size() <= 2048 &&
-          request.resource.data.createdAt == request.time;
-        allow update, delete: if signedIn() && resource.data.authorId == request.auth.uid;
-      }
+          // Block clients from seeding fake totals on create
+          request.resource.data.createdAt == request.time &&
+          (
+            !('likesCount' in request.resource.data) ||
+            request.resource.data.likesCount == 0
+          ) &&
+          (
+            !('flagsCount' in request.resource.data) ||
+            request.resource.data.flagsCount == 0
+          );
+        // Only comment owners can edit. They cannot change system counters.
+        allow update: if signedIn()
+          && resource.data.authorId == request.auth.uid
+          && request.resource.data.likesCount == resource.data.likesCount
+          && request.resource.data.flagsCount == resource.data.flagsCount;
+        allow delete: if signedIn()
+          && resource.data.authorId == request.auth.uid;
 
-     match /flags/{uid} {
-        // one doc per user per post
-        allow read: if signedIn();
+        // Comment likes
+        match /likes/{uid} {
+          allow read: if signedIn();
+          allow create: if signedIn()
+            && request.auth.uid == uid
+            && !exists(/databases/$(database)/documents/forum/$(postId)/comments/$(commentId)/likes/$(uid));
+          allow delete: if signedIn() && request.auth.uid == uid;
+        }
 
-        // allow create only if it doesn't exist, and only by the owner uid
-        allow create: if signedIn()
-          && request.auth.uid == uid
-          && !exists(/databases/$(database)/documents/forum/$(postId)/flags/$(uid));
-
-        // owner may remove their flag
-        allow delete: if signedIn() && request.auth.uid == uid;
+        // Comment flags
+        match /flags/{uid} {
+          // One doc per user per comment
+          allow read: if signedIn();
+          allow create: if signedIn()
+            && request.auth.uid == uid
+            && !exists(/databases/$(database)/documents/forum/$(postId)/comments/$(commentId)/flags/$(uid));
+          allow delete: if signedIn() && request.auth.uid == uid;
+        }
       }
     }
   }

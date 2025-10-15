@@ -73,9 +73,7 @@ export class PipForumPostDisplayComponent {
   }
 
   protected onLikePostClick(): void {
-    // TODO: REMOVE
-    // eslint-disable-next-line no-console
-    console.log('Like post', this.post);
+    // console.log('Like post', this.post);
     this.toastService.error({
       message: 'Liking posts is not implemented yet.',
     });

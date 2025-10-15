@@ -1,11 +1,7 @@
 import * as admin from 'firebase-admin';
 import { logger } from 'firebase-functions';
 import { UserRecord } from 'firebase-admin/auth';
-import {
-  ForumCommentApi,
-  ForumCommentCreateApi,
-  ForumPostApi,
-} from '../models';
+import { ForumCommentApi, ForumPostApi } from '../models';
 import { isEmulator } from '../utilities';
 
 const logExtraInfo = false;
@@ -97,20 +93,19 @@ export async function setForumPostsCommentsSeed(
       const createdAt = timestampForPosition(i, commentsPerPost);
       const docRef = commentsCol.doc();
 
-      const data: ForumCommentCreateApi = {
+      const data: ForumCommentApi = {
         authorId: adminUser.uid,
         authorName: adminUser.displayName ?? 'Admin User',
         content: `Comment ${i + 1} on post "${post.title}" (${post.id})`,
         createdAt,
+        flagsCount: i,
+        id: docRef.id,
+        likesCount: i * 2,
         postId: post.id,
       };
 
       batch.set(docRef, data);
-      comments.push({
-        id: docRef.id,
-        ...data,
-        createdAt,
-      } satisfies ForumCommentApi);
+      comments.push(data);
     }
 
     await batch.commit();
