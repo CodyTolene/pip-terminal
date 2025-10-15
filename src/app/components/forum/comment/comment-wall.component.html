@@ -25,7 +25,7 @@
       </form>
     </div>
     @for (comment of comments(); track comment.id) {
-      <pip-panel>
+      <pip-panel color="warn">
         <pip-forum-comment-display [comment]="comment" />
       </pip-panel>
     }

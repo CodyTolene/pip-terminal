@@ -130,10 +130,8 @@ quill-editor {
   }
 }
 
-// Toolbar background color
 quill-editor {
   .ql-toolbar.ql-snow {
-    // background-color: col.$pip-black;
     align-content: center;
     align-items: center;
     background-color: transparent;
@@ -147,6 +145,11 @@ quill-editor {
   .ql-editor {
     padding: 1rem;
   }
+}
+
+// Toolbar background color
+quill-editor .ql-toolbar.ql-snow {
+  background-color: rgba(col.$pip-black, 0.5);
 }
 
 @include quill-toolbar-theme('.ql-snow.ql-toolbar');

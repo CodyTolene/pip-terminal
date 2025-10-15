@@ -13,14 +13,15 @@
 }
 
 main {
-  align-items: stretch;
+  align-items: center;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  gap: 1rem;
   justify-content: normal;
   margin: 0 auto;
   margin-bottom: 4rem;
-  max-width: 800px;
+  max-width: var.$page-max-width;
   width: 100%;
 }
 
@@ -33,6 +34,8 @@ pip-title[h1] {
 section.user-identification {
   margin-top: 1rem;
   margin-bottom: 2rem;
+  max-width: var.$section-max-width;
+  width: 100%;
 }
 
 section.user-actions {
@@ -40,6 +43,7 @@ section.user-actions {
   display: flex;
   justify-content: space-between;
   margin: 0 0 2rem 0;
+  max-width: var.$section-max-width;
   width: 100%;
 
   @include bps.media('max', 'md') {
@@ -57,7 +61,7 @@ hr {
 section.posts {
   box-sizing: border-box;
   margin-top: 2rem;
-  padding: 0;
+  padding: 0 1.5rem;
 
   @include bps.media('max', 'md') {
     padding: 1rem;
