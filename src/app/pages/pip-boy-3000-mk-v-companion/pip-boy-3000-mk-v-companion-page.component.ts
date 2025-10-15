@@ -6,6 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipDividerComponent } from 'src/app/components/divider/divider.component';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 
@@ -15,6 +16,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   imports: [
     MatExpansionModule,
     PipButtonComponent,
+    PipDividerComponent,
     PipFooterComponent,
     RouterModule,
   ],

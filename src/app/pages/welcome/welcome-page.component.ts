@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipDividerComponent } from 'src/app/components/divider/divider.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
@@ -18,10 +19,11 @@ import { PageUrl } from 'src/app/types/page-url';
   imports: [
     MatIconModule,
     PipButtonComponent,
+    PipDividerComponent,
     PipFooterComponent,
-    RouterModule,
-    PipTitleComponent,
     PipPanelComponent,
+    PipTitleComponent,
+    RouterModule,
   ],
   styleUrl: './welcome-page.component.scss',
   standalone: true,

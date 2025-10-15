@@ -109,14 +109,10 @@ pip-button {
   max-width: var.$section-max-width;
 }
 
-hr.pip-divider {
-  border: 0;
-  border-top: 4px solid col.$pip-green-darkest;
-  // box-shadow:
-  //   0 0 6px col.$pip-green,
-  //   0 0 12px col.$pip-green;
-  width: 80%;
-  margin: 3rem auto;
+pip-divider {
+  margin: 0 auto;
+  max-width: var.$page-max-width;
+  padding: 0 2rem;
 }
 
 pip-footer {
