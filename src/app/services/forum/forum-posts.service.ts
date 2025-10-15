@@ -10,12 +10,14 @@ import {
   inject,
   runInInjectionContext,
 } from '@angular/core';
+import { FirebaseError } from '@angular/fire/app';
 import {
   DocumentData,
   Firestore,
   QueryDocumentSnapshot,
   addDoc,
   collection,
+  deleteDoc,
   doc,
   docData,
   documentId,
@@ -26,6 +28,8 @@ import {
   limitToLast,
   orderBy,
   query,
+  serverTimestamp,
+  setDoc,
   startAfter,
   where,
 } from '@angular/fire/firestore';
@@ -233,4 +237,77 @@ export class ForumPostsService {
       return agg.data().count ?? 0;
     });
   }
+
+  public async flagPost(
+    postId: string,
+    uid: string,
+    reason?: string,
+  ): Promise<FlagResult> {
+    return this.inCtx(async () => {
+      const flagRef = doc(this.firestore, `forum/${postId}/flags/${uid}`);
+      try {
+        await setDoc(flagRef, {
+          createdAt: serverTimestamp(),
+          ...(reason ? { reason } : {}),
+        });
+        return { ok: true as const };
+      } catch (e) {
+        const err = e as FirebaseError;
+        if (err.code === 'permission-denied') {
+          return { ok: false as const, reason: 'already-flagged' as const };
+        }
+        if (err.code === 'unauthenticated') {
+          return { ok: false as const, reason: 'needs-auth' as const };
+        }
+        return { ok: false as const, reason: 'unknown' as const };
+      }
+    });
+  }
+
+  public async unflagPost(postId: string, uid: string): Promise<UnflagResult> {
+    return this.inCtx(async () => {
+      const flagRef = doc(this.firestore, `forum/${postId}/flags/${uid}`);
+      try {
+        await deleteDoc(flagRef);
+        return { ok: true as const };
+      } catch (e) {
+        const err = e as FirebaseError;
+
+        if (err.code === 'unauthenticated') {
+          return {
+            ok: false as const,
+            reason: 'needs-auth',
+            message: err.message,
+          };
+        }
+        if (err.code === 'permission-denied') {
+          return {
+            ok: false as const,
+            reason: 'not-owner',
+            message: err.message,
+          };
+        }
+        if (err.code === 'deadline-exceeded' || err.code === 'unavailable') {
+          return {
+            ok: false as const,
+            reason: 'retry-later',
+            message: err.message,
+          };
+        }
+        return { ok: false as const, reason: 'unknown', message: err.message };
+      }
+    });
+  }
 }
+
+export type FlagResult =
+  | { ok: true }
+  | { ok: false; reason: 'already-flagged' | 'needs-auth' | 'unknown' };
+
+export type UnflagResult =
+  | { ok: true }
+  | {
+      ok: false;
+      reason: 'needs-auth' | 'not-owner' | 'retry-later' | 'unknown';
+      message?: string;
+    };

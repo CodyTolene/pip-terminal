@@ -7,8 +7,12 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
+// User Events
 export { beforeUserCreatedEvent } from './events/before-user-created.event';
 
+// Forum Events
+export { onForumPostFlagCreated } from './events/on-forum-post-flag-created.event';
+export { onForumPostFlagDeleted } from './events/on-forum-post-flag-deleted.event';
 // export { onForumPostCreated } from './events/on-forum-post-created.event';
 
 import * as admin from 'firebase-admin';

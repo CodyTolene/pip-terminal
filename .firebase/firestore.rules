@@ -5,6 +5,8 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+
     // ***** User profile rules *****
     match /users/{uid} {
       allow read: if isOwner(uid);
@@ -13,7 +15,7 @@ service cloud.firestore {
     }
 
     function isOwner(uid) {
-      return request.auth != null && request.auth.uid == uid;
+      return signedIn() && request.auth.uid == uid;
     }
 
     function isValidProfile(d) {
@@ -67,8 +69,9 @@ service cloud.firestore {
     match /forum/{postId} {
       // Allow anyone to read forum posts (including unauthenticated visitors).
       allow read: if true;
+
       // Create requires authentication and must abide by length/field checks.
-      allow create: if request.auth != null &&
+      allow create: if signedIn() &&
         request.resource.data.authorId == request.auth.uid &&
         request.resource.data.contentHtml is string &&
         request.resource.data.contentHtml.size() > 0 &&
@@ -77,20 +80,36 @@ service cloud.firestore {
         request.resource.data.title.size() > 0 &&
         request.resource.data.title.size() <= 256 &&
         request.resource.data.createdAt == request.time;
-      // Users may update or delete only their own posts.
-      allow update, delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+
+      // Users may update or delete only their own posts, but cannot touch flagsCount.
+      allow update, delete: if signedIn()
+        && resource.data.authorId == request.auth.uid
+        && request.resource.data.flagsCount == resource.data.flagsCount;
 
       // Comments subcollection under a post
       match /comments/{commentId} {
         allow read: if true;
-        allow create: if request.auth != null &&
+        allow create: if signedIn() &&
           request.resource.data.authorId == request.auth.uid &&
           request.resource.data.postId == postId &&
           request.resource.data.content is string &&
           request.resource.data.content.size() > 0 &&
           request.resource.data.content.size() <= 2048 &&
           request.resource.data.createdAt == request.time;
-        allow update, delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+        allow update, delete: if signedIn() && resource.data.authorId == request.auth.uid;
+      }
+
+     match /flags/{uid} {
+        // one doc per user per post
+        allow read: if signedIn();
+
+        // allow create only if it doesn't exist, and only by the owner uid
+        allow create: if signedIn()
+          && request.auth.uid == uid
+          && !exists(/databases/$(database)/documents/forum/$(postId)/flags/$(uid));
+
+        // owner may remove their flag
+        allow delete: if signedIn() && request.auth.uid == uid;
       }
     }
   }
