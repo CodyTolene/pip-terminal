@@ -12,7 +12,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     category: 'General',
     contentHtml: '<p>' + makeString(4096 - 7, 'C') + '</p>', // max content length
     createdAt: { nanoseconds: 0, seconds: 1718000000, type: undefined },
+    flagsCount: 0,
     id: 'general-1',
+    likesCount: 0,
     title: makeString(256, 'T'), // max title length
   },
   // General post 2: 1 character past max length
@@ -22,7 +24,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     category: 'General',
     contentHtml: '<p>' + makeString(4096 - 7, 'C') + '</p>', // max content length
     createdAt: { nanoseconds: 0, seconds: 1718000100 },
+    flagsCount: 0,
     id: 'general-2',
+    likesCount: 0,
     title: makeString(257, 'T'), // max + 1
   },
   // General posts 3–50: normal samples
@@ -36,7 +40,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
       seconds: 1718000200 + i * 100,
       type: undefined,
     },
+    flagsCount: 0,
     id: `general-${i + 3}`,
+    likesCount: 0,
     title: `General Discussion ${i + 3}`,
   })),
   // Other categories (just one of each)
@@ -47,7 +53,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     contentHtml:
       '<p>Here are some steps I used to replace the screen on my Mk VI.</p>',
     createdAt: { nanoseconds: 0, seconds: 1717300000 },
+    flagsCount: 0,
     id: 'post-2',
+    likesCount: 0,
     title: 'Repair Tips for Mk VI',
   },
   {
@@ -56,7 +64,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     category: 'Pip-Boy 3000 Mk IV',
     contentHtml: '<p>How rare is the 3000 Mk IV compared to later models?</p>',
     createdAt: { nanoseconds: 0, seconds: 1717400000 },
+    flagsCount: 0,
     id: 'post-3',
+    likesCount: 0,
     title: 'Mk IV Rarity',
   },
   {
@@ -66,7 +76,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     contentHtml:
       '<p>Working on Espruino firmware mods for the Mk V. Join in!</p>',
     createdAt: { nanoseconds: 0, seconds: 1717500000 },
+    flagsCount: 0,
     id: 'post-4',
+    likesCount: 0,
     title: 'Custom Firmware Development',
   },
   {
@@ -76,7 +88,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     contentHtml:
       '<p>Scanned copies of early Pip-Boy 3000 manuals now available.</p>',
     createdAt: { nanoseconds: 0, seconds: 1717600000 },
+    flagsCount: 0,
     id: 'post-5',
+    likesCount: 0,
     title: 'Original 3000 Documentation',
   },
   {
@@ -86,7 +100,9 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     contentHtml:
       "<p>The 3000A has subtle hardware changes. Let's compare notes.</p>",
     createdAt: { nanoseconds: 0, seconds: 1717700000 },
+    flagsCount: 0,
     id: 'post-6',
+    likesCount: 0,
     title: 'Differences in 3000A Model',
   },
   {
@@ -101,8 +117,34 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
       seconds: 1760484067,
       type: 'firestore/timestamp/1.0',
     },
+    flagsCount: 0,
     id: 'JJIRCIkmfSPjHpLECxyJ',
+    likesCount: 0,
     title:
       'This is a new post with the WYSIWYG editor!This is a new post with the WYSIWYG editor!This is a new post with the WYSIWYG editor!This is a new post with the WYSIWYG editor!This is a new post with the WYSIWYG editor!This is a new post with the WYSIWYG edito',
+  },
+  // This is a post that is highly flagged (to test moderation views)
+  {
+    authorId: 'user-flagged',
+    authorName: 'ControversialUser',
+    category: 'General',
+    contentHtml: '<p>This post has been flagged multiple times.</p>',
+    createdAt: { nanoseconds: 0, seconds: 1718005000 },
+    flagsCount: 101,
+    id: 'general-flagged',
+    likesCount: 0,
+    title: 'Controversial Opinions',
+  },
+  // This is a highly liked post (to test sorting by likes)
+  {
+    authorId: 'user-popular',
+    authorName: 'PopularUser',
+    category: 'General',
+    contentHtml: '<p>This post is very popular and has many likes!</p>',
+    createdAt: { nanoseconds: 0, seconds: 1718006000 },
+    flagsCount: 0,
+    id: 'general-popular',
+    likesCount: 250,
+    title: 'Most Liked Post',
   },
 ];

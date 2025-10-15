@@ -13,10 +13,15 @@ export interface ForumPostApi {
     | 'Pip-Boy 3000A';
   contentHtml: string;
   createdAt: FirestoreTimestampApi;
+  flagsCount: number;
   id: string;
+  likesCount: number;
   title: string;
 }
 
-export type ForumPostCreateApi = Omit<ForumPostApi, 'createdAt' | 'id'> & {
+export type ForumPostCreateApi = Omit<
+  ForumPostApi,
+  'createdAt' | 'id' | 'flagsCount' | 'likesCount'
+> & {
   createdAt: FieldValue;
 };

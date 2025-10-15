@@ -26,7 +26,10 @@ type ForumPostArgs = Omit<
   | 'url'
 >;
 
-export type ForumPostCreate = Omit<ForumPostArgs, 'id' | 'createdAt'>;
+export type ForumPostCreate = Omit<
+  ForumPostArgs,
+  'createdAt' | 'flagsCount' | 'id' | 'likesCount'
+>;
 
 export class ForumPost {
   public constructor(
@@ -38,7 +41,9 @@ export class ForumPost {
     this.category = props.category;
     this.contentHtml = props.contentHtml;
     this.createdAt = props.createdAt;
+    this.flagsCount = props.flagsCount;
     this.id = props.id;
+    this.likesCount = props.likesCount;
     this.title = props.title;
 
     const forumCategoryUrl: PageUrl = 'forum/category/:id';
@@ -71,7 +76,9 @@ export class ForumPost {
     ]),
     contentHtml: io.string,
     createdAt: io.type({ nanoseconds: io.number, seconds: io.number }),
+    flagsCount: io.number,
     id: io.string,
+    likesCount: io.number,
     title: io.string,
   });
 
@@ -85,8 +92,12 @@ export class ForumPost {
   @api({ key: 'contentHtml' }) public readonly contentHtml: string;
   /** Creation timestamp – converted to a Luxon DateTime. */
   @api({ key: 'createdAt' }) public readonly createdAt: DateTime;
+  /** Number of times this post has been flagged. */
+  @api({ key: 'flagsCount' }) public readonly flagsCount: number;
   /** Firestore document identifier for this post. */
   @api({ key: 'id' }) public readonly id: string;
+  /** Number of likes this post has received. */
+  @api({ key: 'likesCount' }) public readonly likesCount: number;
   /** The title of the forum post. */
   @api({ key: 'title' }) public readonly title: string;
 
@@ -120,7 +131,9 @@ export class ForumPost {
         category: decoded.category,
         contentHtml: decoded.contentHtml,
         createdAt: DateTime.fromJSDate(createdAtDate),
+        flagsCount: decoded.flagsCount,
         id: decoded.id,
+        likesCount: decoded.likesCount,
         title: decoded.title,
       },
       args.markupService,
