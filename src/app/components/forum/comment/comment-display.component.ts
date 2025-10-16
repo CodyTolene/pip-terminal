@@ -118,6 +118,7 @@ export class PipForumCommentDisplayComponent {
       comment.postId,
       comment.id,
       user.uid,
+      'TEST_REASON',
     );
 
     if (result.ok) {

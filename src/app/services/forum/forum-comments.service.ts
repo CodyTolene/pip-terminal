@@ -1,7 +1,7 @@
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { DateTime } from 'luxon';
 import { Observable, defer } from 'rxjs';
-import { ForumComment, ForumCommentCreate } from 'src/app/models';
+import { ForumComment, ForumCommentCreate, ForumFlag } from 'src/app/models';
 
 import {
   EnvironmentInjector,
@@ -147,18 +147,18 @@ export class ForumCommentsService {
     postId: string,
     commentId: string,
     uid: string,
-    reason?: string,
+    reason: string,
   ): Promise<FlagResult> {
     return this.inCtx(async () => {
       const flagRef = doc(
         this.firestore,
         `forum/${postId}/comments/${commentId}/flags/${uid}`,
       );
+      const flag = ForumFlag.serialize({
+        reason,
+      });
       try {
-        await setDoc(flagRef, {
-          createdAt: serverTimestamp(),
-          ...(reason ? { reason } : {}),
-        });
+        await setDoc(flagRef, flag);
         return { ok: true as const };
       } catch (e) {
         const err = e as FirebaseError;

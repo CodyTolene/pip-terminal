@@ -48,30 +48,30 @@
     letter-spacing: 0.08em;
     font-weight: 600;
     padding: 0.5rem 0.9rem;
-    box-shadow: 0 0 8px col.$pip-green-darkest;
     transition:
       transform 0.05s ease,
-      background-color 0.12s ease,
-      box-shadow 0.12s ease;
+      background-color 0.12s ease;
 
     .mdc-button__label {
       color: inherit;
     }
 
     &:hover {
-      background: rgba(0, 255, 99, 0.08);
-      box-shadow: 0 0 12px rgba(0, 255, 99, 0.35);
+      background: rgba(col.$pip-green-dark, 0.1);
     }
 
     &:focus-visible {
       outline: none;
-      box-shadow:
-        0 0 0 2px rgba(0, 255, 99, 0.6),
-        0 0 10px rgba(0, 255, 99, 0.6);
     }
   }
 
-  button[mat-button][cdkfocusinitial] {
-    background: rgba(0, 255, 99, 0.1);
+  button[mat-button] {
+    font-weight: bolder;
+    background: rgba(col.$pip-green-dark, 0.1);
+  }
+
+  button[disabled].mat-mdc-button-disabled {
+    color: col.$pip-green-dark;
+    background-color: rgba(col.$pip-green-dark, 0.1);
   }
 }

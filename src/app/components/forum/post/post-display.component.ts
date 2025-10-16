@@ -27,6 +27,10 @@ import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+import {
+  PipDialogFlagComponent,
+  PipDialogFlagResult,
+} from 'src/app/components/dialog-flag/pip-dialog-flag.component';
 
 import { PageUrl } from 'src/app/types/page-url';
 
@@ -79,12 +83,16 @@ export class PipForumPostDisplayComponent {
 
   protected async onFlagPostClick(): Promise<void> {
     const dialogRef = this.dialog.open<
-      PipDialogConfirmComponent,
+      PipDialogFlagComponent,
       PipDialogConfirmInput,
-      boolean | null
-    >(PipDialogConfirmComponent, {
+      PipDialogFlagResult | null
+    >(PipDialogFlagComponent, {
       data: {
-        message: `Are you sure you want to report this post?`,
+        dialogTitle: 'Report Post',
+        messageTitle: '',
+        message: `Why are you reporting this post?`,
+        confirmButtonLabel: 'Report',
+        cancelButtonLabel: 'Cancel',
       },
     });
 
@@ -92,11 +100,10 @@ export class PipForumPostDisplayComponent {
       .afterClosed()
       .pipe(untilDestroyed(this))
       .subscribe(async (shouldFlag) => {
-        if (!shouldFlag) {
+        if (!shouldFlag || !shouldFlag.reason) {
           return;
         }
-
-        await this.flagPost();
+        await this.flagPost(shouldFlag.reason);
       });
   }
 
@@ -131,10 +138,10 @@ export class PipForumPostDisplayComponent {
     this.spoilerRevealed.set(true);
   }
 
-  private async flagPost(): Promise<void> {
+  private async flagPost(reason: string): Promise<void> {
     const post = this.post();
     const user = await getFirstNonEmptyValueFrom(this.authService.userChanges);
-    const result = await this.postsService.flagPost(post.id, user.uid);
+    const result = await this.postsService.flagPost(post.id, user.uid, reason);
 
     if (result.ok) {
       this.toastService.success({
