@@ -28,6 +28,8 @@ import {
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-forum-post-display[post]',
@@ -49,6 +51,8 @@ export class PipForumPostDisplayComponent {
 
   public readonly post = input.required<ForumPost>();
 
+  protected readonly loginLink = loginLink;
+
   private readonly likesDelta = signal(0);
   public readonly likesCountShown = computed(() => {
     const base = this.post()?.likesCount ?? 0;
@@ -68,6 +72,10 @@ export class PipForumPostDisplayComponent {
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
+
+  protected getReturnUrlQueryParams(): object {
+    return { returnUrl: window.location.pathname };
+  }
 
   protected async onFlagPostClick(): Promise<void> {
     const dialogRef = this.dialog.open<
@@ -251,3 +259,5 @@ export class PipForumPostDisplayComponent {
       });
   }
 }
+
+const loginLink = '/' + ('login' satisfies PageUrl);

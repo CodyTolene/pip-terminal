@@ -71,9 +71,24 @@
           <!-- <span>{{ post.flagsCount }}</span> -->
         </button>
       } @else {
-        <button class="likes">
+        <button
+          [routerLink]="loginLink"
+          [queryParams]="getReturnUrlQueryParams()"
+          class="likes clickable"
+          matTooltip="Like Post"
+          matTooltipPosition="above"
+        >
           <mat-icon>thumb_up</mat-icon>
           <span>{{ likesCountShown() }}</span>
+        </button>
+        <button
+          [routerLink]="loginLink"
+          [queryParams]="getReturnUrlQueryParams()"
+          class="flags clickable"
+          matTooltip="Flag Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>flag</mat-icon>
         </button>
       }
     </div>
