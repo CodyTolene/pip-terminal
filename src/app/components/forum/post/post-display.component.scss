@@ -71,8 +71,6 @@
         display: grid;
         place-items: center;
         text-align: center;
-        // padding: 2rem;
-        // Keep your green vibe
         background: rgba(col.$pip-green-darkest, 0.55);
         border: 1px dashed col.$pip-green;
         border-radius: 4px;
@@ -80,14 +78,10 @@
         font-weight: 600;
         line-height: 1.2;
         cursor: pointer;
-        z-index: 2; // above blurred content
+        z-index: 2;
 
         span {
-          // subtle CRT-ish glow to match your UI
-          // text-shadow:
-          //   0 0 2px col.$pip-green,
-          //   0 0 4px col.$pip-green;
-          pointer-events: none; // let the container capture clicks/keys
+          pointer-events: none;
         }
 
         &:focus-visible {
