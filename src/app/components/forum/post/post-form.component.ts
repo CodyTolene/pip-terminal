@@ -18,6 +18,7 @@ import {
   ToastService,
 } from 'src/app/services';
 import {
+  Validation,
   getEnumValues,
   isNonEmptyString,
   isNonEmptyValue,
@@ -26,6 +27,7 @@ import {
 
 import { Component, OnDestroy, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -33,6 +35,7 @@ import {
   ForumPostFormGroup,
   forumPostFormGroup,
 } from 'src/app/components/forum/post/post-form-group';
+import { Counter } from 'src/app/components/forum/post/quill-counter';
 
 import { PageUrl } from 'src/app/types/page-url';
 
@@ -44,6 +47,7 @@ import { PageUrl } from 'src/app/types/page-url';
     InputComponent,
     InputDropdownComponent,
     InputDropdownOptionComponent,
+    MatIcon,
     PipButtonComponent,
     QuillModule,
     ReactiveFormsModule,
@@ -58,8 +62,22 @@ export class PipForumPostFormComponent
   public constructor() {
     super();
 
+    // Set up form, quill, and dynamic validation
+    this.formGroup.controls.contentHtml.addValidators(
+      Validation.maxVisibleCharsFromHtmlValidator(
+        Validation.forum.post.contentHtml.maxLength,
+        inject(MarkupService),
+        // How many characters an image is "worth" in the count
+        this.imageCharacterWeight,
+      ),
+    );
+    this.formGroup.controls.contentHtml.updateValueAndValidity({
+      emitEvent: false,
+    });
+    Quill.register('modules/counter', Counter);
     this.formGroup.reset();
 
+    // Reactive form disabling while submitting
     effect(() => {
       const isSubmitting = this.isSubmitting();
       if (isSubmitting) {
@@ -88,14 +106,20 @@ export class PipForumPostFormComponent
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
 
+  protected readonly contentMaxLen =
+    Validation.forum.post.contentHtml.maxLength;
+
+  protected readonly imageCharacterWeight = 500;
+
   private readonly forumLink = '/' + ('forum' satisfies PageUrl);
 
   protected readonly forumCategoryList = getEnumValues(ForumCategoryEnum);
 
   protected readonly isSubmitting = signal(false);
 
-  public readonly editorModules = editorModules;
-  public readonly allowedFormats = allowedFormats;
+  protected readonly editorModules = editorModules;
+
+  protected readonly allowedFormats = allowedFormats;
 
   private detachQuill?: () => void;
 

@@ -19,7 +19,6 @@ export const forumPostFormGroup = new FormGroup<ForumPostFormGroup>({
     validators: [
       Validators.required,
       Validators.minLength(Validation.forum.post.contentHtml.minLength),
-      Validators.maxLength(Validation.forum.post.contentHtml.maxLength),
     ],
     nonNullable: true,
   }),

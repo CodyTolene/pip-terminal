@@ -7,14 +7,7 @@
 @use 'quill/dist/quill.snow.css';
 
 // Customizations and overrides
+@use './quill/quill-body.scss';
 @use './quill/quill-borders.scss';
 @use './quill/quill-placeholder.scss';
 @use './quill/quill-toolbar.scss';
-
-quill-editor {
-  .ql-container {
-    font-size: 1rem;
-    min-height: 200px;
-    height: 300px;
-  }
-}

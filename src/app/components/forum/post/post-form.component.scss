@@ -1,7 +1,7 @@
-// @use '../../../styles/colors' as col;
-// @use '../../../styles/variables' as var;
 @use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
 // @use '../../../styles/scrollbar' as sb;
+@use '../../../styles/variables' as var;
 
 form {
   display: flex;
@@ -17,21 +17,58 @@ form {
     max-width: calc(50% - ($gap / 2));
   }
 
-  pro-input-checkbox {
-    display: flex;
-    justify-content: flex-end;
-    $gap: 2rem;
-    flex: 0 0 calc(100% - ($gap / 2));
-    margin-bottom: 1rem;
-    max-width: calc(100% - ($gap / 2));
-  }
+  // pro-input-checkbox {
+  //   display: flex;
+  //   justify-content: flex-end;
+  //   $gap: 2rem;
+  //   flex: 0 0 calc(100% - ($gap / 2));
+  //   margin-bottom: 1rem;
+  //   max-width: calc(100% - ($gap / 2));
+  // }
 
   quill-editor {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     flex: 0 0 100%;
-    margin-top: 1rem;
+    height: 500px;
     margin-bottom: 2rem;
-    max-width: 100%;
+    margin-top: 1rem;
+    min-height: 500px;
+  }
+
+  .last-row {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+
+    .counter-validation {
+      font-size: var.$font-xs;
+      margin-top: 0.25rem;
+
+      .form-hint {
+        opacity: 0.8;
+
+        &.near {
+          color: col.$caution;
+        }
+
+        &.over {
+          color: col.$warn;
+        }
+      }
+
+      .form-hint-img {
+        display: flex;
+        align-items: center;
+        color: col.$pip-green-darkest;
+        font-size: var.$font-xxs;
+      }
+    }
   }
 
   @include bps.media('max', 'sm') {

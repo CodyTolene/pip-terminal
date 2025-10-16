@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
+import { MarkupService } from 'src/app/services';
 
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class Validation {
   public static readonly forum = {
@@ -63,5 +64,17 @@ export class Validation {
     const password = control.get('password')?.value;
     const passwordConfirm = control.get('passwordConfirm')?.value;
     return password === passwordConfirm ? null : { passwordMismatch: true };
+  }
+
+  public static maxVisibleCharsFromHtmlValidator(
+    limit: number,
+    markup: MarkupService,
+    imageWeight = 0,
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const html: string = control.value ?? '';
+      const text = markup.countVisibleChars(html, imageWeight);
+      return text <= limit ? null : { maxVisibleChars: { limit } };
+    };
   }
 }

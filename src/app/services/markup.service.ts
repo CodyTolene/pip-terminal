@@ -14,6 +14,46 @@ export class MarkupService {
   private readonly platformId = inject(PLATFORM_ID);
 
   /**
+   * Count visible characters in HTML, optionally weighting images.
+   *
+   * @param html The html to count characters from.
+   * @param imageWeight The weight to give each image in the count (default 0).
+   * @returns The number of characters plus image weights.
+   */
+  public countVisibleChars(
+    html: string | null | SafeHtml | undefined,
+    imageWeight = 0,
+  ): number {
+    const safe =
+      this.sanitizer.sanitize(SecurityContext.HTML, html ?? '') ?? '';
+
+    // Strip script/style and give block boundaries a space so words do not run together
+    const cleaned = safe
+      .replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, '')
+      .replace(/<br\s*\/?>/gi, ' \n ')
+      .replace(
+        /<\/(p|div|section|article|header|footer|aside|li|ul|ol|h[1-6]|blockquote|pre|table|thead|tbody|tfoot|tr|td|th)>/gi,
+        ' $&',
+      );
+
+    const el = this.doc.createElement('div');
+    el.innerHTML = cleaned;
+
+    // Count images, then remove them from the DOM text so they are not in the text count
+    const imgs = el.querySelectorAll('img').length;
+    el.querySelectorAll('img').forEach((node) => node.remove());
+
+    const rawText = (el as HTMLElement).innerText || el.textContent || '';
+    const normalized = rawText
+      .replace(/\u00A0/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const textChars = Array.from(normalized).length;
+    return textChars + imgs * imageWeight;
+  }
+
+  /**
    * Sanitize untrusted HTML for storage in Firestore.
    *
    * @param untrusted An HTML string from user input.

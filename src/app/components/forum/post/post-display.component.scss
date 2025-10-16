@@ -38,6 +38,14 @@
     .post-body {
       position: relative;
 
+      // Clip any visual effects (like blur) to this box
+      // so they cannot bleed into ancestors or siblings.
+      overflow: hidden; // hard clip for all browsers
+      border-radius: 4px; // match inner radius
+      clip-path: inset(0 round 4px); // ensure rounded clipping on GPU layers
+      isolation: isolate; // contain stacking context
+      contain: paint; // prevent painting outside bounds
+
       &.is-spoiler {
         .spoiler-content {
           filter: blur(8px);
@@ -66,6 +74,7 @@
       }
 
       .spoiler-cover {
+        border: 1px solid rgba(col.$pip-green-darkest, 0.1);
         position: absolute;
         inset: 0;
         display: grid;

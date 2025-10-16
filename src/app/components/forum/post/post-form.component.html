@@ -24,15 +24,33 @@
     (onEditorCreated)="onEditorCreated($event)"
     [formControl]="formGroup.controls.contentHtml"
     [formats]="allowedFormats"
-    [modules]="editorModules"
+    [modules]="{
+      toolbar: editorModules.toolbar,
+      counter: {
+        container: counterContainer,
+        unit: 'character',
+        max: contentMaxLen,
+        imageWeight: 500,
+      },
+    }"
     format="html"
     placeholder="Share your thoughts..."
   ></quill-editor>
-  <!-- SPOILER -->
-  <pro-input-checkbox
-    [formControl]="formGroup.controls.isSpoiler"
-    label="Mark as Spoiler"
-  ></pro-input-checkbox>
+  <div class="last-row">
+    <div class="counter-validation">
+      <!-- CUSTOM VALIDATION: HTML CHARACTER COUNTER -->
+      <div #counterContainer class="form-hint" aria-live="polite"></div>
+      <div class="form-hint-img">
+        <mat-icon [inline]="true">info</mat-icon>&nbsp;Images count as
+        {{ imageCharacterWeight }} characters
+      </div>
+    </div>
+    <!-- SPOILER -->
+    <pro-input-checkbox
+      [formControl]="formGroup.controls.isSpoiler"
+      label="Contains spoilers"
+    ></pro-input-checkbox>
+  </div>
   <!-- ACTION BUTTONS -->
   <div class="action-buttons">
     <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
