@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
@@ -42,52 +43,57 @@ export class ForumPageComponent {
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
 
-  protected readonly categories = categories;
+  protected readonly categories: readonly ForumCategory[] = [
+    {
+      key: ForumCategoryEnum.GENERAL,
+      name: ForumCategoryEnum.GENERAL,
+      description: `General discussion about all things that are Pip-Boy or website related (year ${DateTime.now().year}).`,
+      link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.GENERAL],
+    },
+    {
+      key: ForumCategoryEnum.PIP_2000_MK_VI,
+      name: ForumCategoryEnum.PIP_2000_MK_VI,
+      description:
+        'Discuss the Pip-Boy 2000 Mk VI as seen in the game Fallout 76 (year 2102).',
+      link:
+        '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_2000_MK_VI],
+    },
+    {
+      key: ForumCategoryEnum.PIP_3000,
+      name: ForumCategoryEnum.PIP_3000,
+      description:
+        'Discuss the Pip-Boy 3000 as seen in the game Fallout 3 (year 2277).',
+      link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000],
+    },
+    {
+      key: ForumCategoryEnum.PIP_3000A,
+      name: ForumCategoryEnum.PIP_3000A,
+      description:
+        'Discuss the Pip-Boy 3000A as seen in the game Fallout: New Vegas (year 2281).',
+      link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000A],
+    },
+    {
+      key: ForumCategoryEnum.PIP_3000_MK_IV,
+      name: ForumCategoryEnum.PIP_3000_MK_IV,
+      description:
+        'Discuss the Pip-Boy 3000 Mk IV as seen in the game Fallout 4 (year 2287).',
+      link:
+        '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_IV],
+    },
+    {
+      key: ForumCategoryEnum.PIP_3000_MK_V,
+      name: ForumCategoryEnum.PIP_3000_MK_V,
+      description:
+        'Discuss the Pip-Boy 3000 Mk V as seen on Amazon TV (year 2296).',
+      link:
+        '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_V],
+    },
+  ];
 }
 
-const categories = [
-  {
-    key: ForumCategoryEnum.GENERAL,
-    name: ForumCategoryEnum.GENERAL,
-    description: 'General discussion about all things Pip-Boy related.',
-    link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.GENERAL],
-  },
-  {
-    key: ForumCategoryEnum.PIP_2000_MK_VI,
-    name: ForumCategoryEnum.PIP_2000_MK_VI,
-    description:
-      'Discuss the Pip-Boy 2000 Mk VI as seen in the game Fallout 76 (year 2102).',
-    link:
-      '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_2000_MK_VI],
-  },
-  {
-    key: ForumCategoryEnum.PIP_3000,
-    name: ForumCategoryEnum.PIP_3000,
-    description:
-      'Discuss the Pip-Boy 3000 as seen in the game Fallout 3 (year 2277).',
-    link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000],
-  },
-  {
-    key: ForumCategoryEnum.PIP_3000A,
-    name: ForumCategoryEnum.PIP_3000A,
-    description:
-      'Discuss the Pip-Boy 3000A as seen in the game Fallout: New Vegas (year 2281).',
-    link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000A],
-  },
-  {
-    key: ForumCategoryEnum.PIP_3000_MK_IV,
-    name: ForumCategoryEnum.PIP_3000_MK_IV,
-    description:
-      'Discuss the Pip-Boy 3000 Mk IV as seen in the game Fallout 4 (year 2287).',
-    link:
-      '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_IV],
-  },
-  {
-    key: ForumCategoryEnum.PIP_3000_MK_V,
-    name: ForumCategoryEnum.PIP_3000_MK_V,
-    description:
-      'Discuss the Pip-Boy 3000 Mk V as seen on Amazon TV (year 2296).',
-    link:
-      '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.PIP_3000_MK_V],
-  },
-];
+interface ForumCategory {
+  key: ForumCategoryEnum;
+  name: string;
+  description: string;
+  link: string;
+}
