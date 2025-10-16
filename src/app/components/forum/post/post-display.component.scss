@@ -122,14 +122,20 @@
           cursor: pointer;
         }
 
+        &[disabled],
         &.disabled {
           cursor: not-allowed;
           color: col.$pip-green-darkest;
         }
       }
 
-      .likes mat-icon {
-        margin-right: 0.5rem;
+      .likes {
+        mat-icon {
+          margin-right: 0.5rem;
+        }
+        // .count {
+        //   color: col.$pip-green;
+        // }
       }
     }
 

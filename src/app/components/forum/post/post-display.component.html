@@ -66,7 +66,7 @@
           matTooltipPosition="above"
         >
           <mat-icon>thumb_up</mat-icon>
-          <span>{{ likesCountShown() }}</span>
+          <span class="count">{{ likesCountShown() }}</span>
         </button>
       } @else {
         <button
@@ -86,14 +86,16 @@
           matTooltipPosition="above"
         >
           <mat-icon>thumb_up</mat-icon>
-          <span>{{ likesCountShown() }}</span>
+          <span class="count">{{ likesCountShown() }}</span>
         </button>
       }
     } @else {
-      <span></span>
+      <button class="flags" disabled>
+        <mat-icon>flag</mat-icon>
+      </button>
       <button class="likes" disabled>
         <mat-icon>thumb_up</mat-icon>
-        <span>{{ likesCountShown() }}</span>
+        <span class="count">{{ likesCountShown() }}</span>
       </button>
     }
   </div>
