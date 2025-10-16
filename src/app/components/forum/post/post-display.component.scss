@@ -71,14 +71,18 @@
         display: grid;
         place-items: center;
         text-align: center;
-        background: rgba(col.$pip-green-darkest, 0.55);
-        border: 1px dashed col.$pip-green;
+        background: rgba(col.$pip-green-darkest, 0.05);
         border-radius: 4px;
-        color: col.$pip-green-lightest;
+        color: col.$pip-green-light;
         font-weight: 600;
         line-height: 1.2;
         cursor: pointer;
         z-index: 2;
+
+        &:hover {
+          background: rgba(col.$pip-green-darkest, 0.5);
+          border: 1px solid rgba(col.$pip-green-darkest, 1);
+        }
 
         span {
           pointer-events: none;
