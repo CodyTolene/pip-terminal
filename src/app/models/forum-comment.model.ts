@@ -94,6 +94,10 @@ export class ForumComment {
       authorName: value.authorName,
       content: value.content,
       createdAt: serverTimestamp(),
+      // New comments start with zero flags. Checked by backend too on create.
+      flagsCount: 0,
+      // New comments start with zero likes. Checked by backend too on create.
+      likesCount: 0,
       postId: value.postId,
     };
   }

@@ -12,8 +12,11 @@ import {
   Component,
   Input,
   booleanAttribute,
+  computed,
+  effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
@@ -46,6 +49,16 @@ export class PipForumPostDisplayComponent {
 
   public readonly post = input.required<ForumPost>();
 
+  private readonly likesDelta = signal(0);
+  public readonly likesCountShown = computed(() => {
+    const p = this.post();
+    return (p?.likesCount ?? 0) + this.likesDelta();
+  });
+  private readonly resetLikesDelta = effect(() => {
+    this.post();
+    this.likesDelta.set(0);
+  });
+
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
 
@@ -72,11 +85,28 @@ export class PipForumPostDisplayComponent {
       });
   }
 
-  protected onLikePostClick(): void {
-    // console.log('Like post', this.post);
-    this.toastService.error({
-      message: 'Liking posts is not implemented yet.',
-    });
+  protected async onLikePostClick(): Promise<void> {
+    const post = this.post();
+    const user = await getFirstNonEmptyValueFrom(this.authService.userChanges);
+    const result = await this.postService.likePost(post.id, user.uid);
+
+    if (result.ok) {
+      this.toastService.success({
+        message: 'Post liked.',
+      });
+      // Update the post locally with the new count
+      this.likesDelta.update((n) => n + 1);
+    } else if (result.reason === 'already-liked') {
+      this.unlikePost();
+    } else if (result.reason === 'needs-auth') {
+      this.toastService.error({
+        message: 'Sign in to like posts.',
+      });
+    } else {
+      this.toastService.error({
+        message: 'Failed to like post.',
+      });
+    }
   }
 
   private async flagPost(): Promise<void> {
@@ -89,30 +119,7 @@ export class PipForumPostDisplayComponent {
         message: 'Thanks, your report was received.',
       });
     } else if (result.reason === 'already-flagged') {
-      const dialogRef = this.dialog.open<
-        PipDialogConfirmComponent,
-        PipDialogConfirmInput,
-        boolean | null
-      >(PipDialogConfirmComponent, {
-        data: {
-          cancelButtonLabel: 'Cancel',
-          confirmButtonLabel: 'Unflag',
-          dialogTitle: 'Already Reported',
-          messageTitle: '',
-          message: `You already flagged this post, would you like to unflag it?`,
-        },
-      });
-
-      dialogRef
-        .afterClosed()
-        .pipe(untilDestroyed(this))
-        .subscribe(async (shouldFlag) => {
-          if (!shouldFlag) {
-            return;
-          }
-
-          await this.unflagPost();
-        });
+      this.unflagPost();
     } else if (result.reason === 'needs-auth') {
       this.toastService.error({
         message: 'Sign in to flag posts.',
@@ -124,30 +131,109 @@ export class PipForumPostDisplayComponent {
     }
   }
 
-  private async unflagPost(): Promise<void> {
-    const post = this.post();
-    const user = await getFirstNonEmptyValueFrom(this.authService.userChanges);
-    const result = await this.postService.unflagPost(post.id, user.uid);
-    if (result.ok) {
-      this.toastService.success({
-        message: 'Post unflagged.',
+  private unflagPost(): void {
+    const dialogRef = this.dialog.open<
+      PipDialogConfirmComponent,
+      PipDialogConfirmInput,
+      boolean | null
+    >(PipDialogConfirmComponent, {
+      data: {
+        cancelButtonLabel: 'Cancel',
+        confirmButtonLabel: 'Unflag',
+        dialogTitle: 'Already Reported',
+        messageTitle: '',
+        message: `You already flagged this post, would you like to unflag it?`,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe(async (shouldFlag) => {
+        if (!shouldFlag) {
+          return;
+        }
+
+        const post = this.post();
+        const user = await getFirstNonEmptyValueFrom(
+          this.authService.userChanges,
+        );
+        const result = await this.postService.unflagPost(post.id, user.uid);
+        if (result.ok) {
+          this.toastService.success({
+            message: 'Post unflagged.',
+          });
+        } else if (result.reason === 'needs-auth') {
+          this.toastService.error({
+            message: 'Sign in to unflag posts.',
+          });
+        } else if (result.reason === 'not-owner') {
+          this.toastService.error({
+            message: 'You can only unflag your own flags.',
+          });
+        } else if (result.reason === 'retry-later') {
+          this.toastService.error({
+            message: 'Network error, please try again later.',
+          });
+        } else {
+          this.toastService.error({
+            message: 'Failed to unflag post.',
+          });
+        }
       });
-    } else if (result.reason === 'needs-auth') {
-      this.toastService.error({
-        message: 'Sign in to unflag posts.',
+  }
+
+  private unlikePost(): void {
+    const dialogRef = this.dialog.open<
+      PipDialogConfirmComponent,
+      PipDialogConfirmInput,
+      boolean | null
+    >(PipDialogConfirmComponent, {
+      data: {
+        cancelButtonLabel: 'Cancel',
+        confirmButtonLabel: 'Unlike',
+        dialogTitle: 'Already Liked',
+        messageTitle: '',
+        message: `You already liked this post, do you want to unlike it?`,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe(async (shouldFlag) => {
+        if (!shouldFlag) {
+          return;
+        }
+
+        const post = this.post();
+        const user = await getFirstNonEmptyValueFrom(
+          this.authService.userChanges,
+        );
+        const result = await this.postService.unlikePost(post.id, user.uid);
+        if (result.ok) {
+          this.toastService.success({
+            message: 'Post unliked.',
+          });
+          // Decrease locally (don’t go below zero)
+          this.likesDelta.update((n) => (n > 0 ? n - 1 : 0));
+        } else if (result.reason === 'needs-auth') {
+          this.toastService.error({
+            message: 'Sign in to unlike posts.',
+          });
+        } else if (result.reason === 'not-owner') {
+          this.toastService.error({
+            message: 'You can only unlike your own likes.',
+          });
+        } else if (result.reason === 'retry-later') {
+          this.toastService.error({
+            message: 'Network error, please try again later.',
+          });
+        } else {
+          this.toastService.error({
+            message: 'Failed to unlike post.',
+          });
+        }
       });
-    } else if (result.reason === 'not-owner') {
-      this.toastService.error({
-        message: 'You can only unflag your own flags.',
-      });
-    } else if (result.reason === 'retry-later') {
-      this.toastService.error({
-        message: 'Network error, please try again later.',
-      });
-    } else {
-      this.toastService.error({
-        message: 'Failed to unflag post.',
-      });
-    }
   }
 }

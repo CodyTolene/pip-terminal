@@ -12,9 +12,16 @@ export interface ForumCommentApi {
   postId: string;
 }
 
+// export type ForumCommentUpdateApi = Omit<
+//   ForumCommentApi,
+//   'createdAt' | 'flagsCount' | 'id' | 'likesCount'
+// > & {
+//   createdAt: FieldValue;
+// };
+
 export type ForumCommentCreateApi = Omit<
   ForumCommentApi,
-  'createdAt' | 'flagsCount' | 'id' | 'likesCount'
+  'createdAt' | 'id'
 > & {
   createdAt: FieldValue;
 };

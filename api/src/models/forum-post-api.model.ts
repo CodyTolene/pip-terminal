@@ -19,9 +19,13 @@ export interface ForumPostApi {
   title: string;
 }
 
-export type ForumPostCreateApi = Omit<
-  ForumPostApi,
-  'createdAt' | 'flagsCount' | 'id' | 'likesCount'
-> & {
+// export type ForumPostUpdateApi = Omit<
+//   ForumPostApi,
+//   'createdAt' | 'flagsCount' | 'id' | 'likesCount'
+// > & {
+//   createdAt: FieldValue;
+// };
+
+export type ForumPostCreateApi = Omit<ForumPostApi, 'createdAt' | 'id'> & {
   createdAt: FieldValue;
 };
