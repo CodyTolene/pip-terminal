@@ -47,16 +47,16 @@ describe('Welcome page', () => {
       .should('be.visible')
       .should('contain.text', 'Sponsors');
     cy.get('div[aria-label="Sponsors"]').within(() => {
-      cy.get('a.pip-grid-item').should('have.length.at.least', 3);
+      cy.get('.pip-grid-item').should('have.length.at.least', 4);
       cy.get('img.sponsor').each(($img) => {
         cy.wrap($img).should('have.attr', 'alt').and('not.be.empty');
       });
     });
 
     // Developers
-    cy.contains('section.developers h2', 'Vault-Tec Engineers').should(
-      'be.visible',
-    );
+    cy.contains('section.developers h2', 'Vault-Tec Engineers')
+      .scrollIntoView()
+      .should('be.visible');
     cy.get('div[aria-label="Developers"]').within(() => {
       cy.get('a.pip-grid-item').should('have.length', 9);
       cy.contains('h4', 'gfwilliams').should('be.visible');
