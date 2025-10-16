@@ -71,6 +71,34 @@
 
   <pip-divider />
 
+  <section class="forum">
+    <div class="forum-header">
+      <pip-title h2>Community Forum</pip-title>
+      <pip-badge>NEW</pip-badge>
+    </div>
+    <p>
+      Report to the commons and make your mark on the record. Share blueprints,
+      request assistance from the engineering corps, and greet new arrivals to
+      the vault. The community terminal is open, secure, and ready for your
+      first holotape upload.
+    </p>
+
+    <div class="actions">
+      <pip-button
+        aria-label="Visit the Community Forum"
+        [routerLink]="forumLink"
+      >
+        Visit the Forum
+      </pip-button>
+      <pip-button
+        aria-label="Visit the Community Discord"
+        (click)="openDiscordPage()"
+      >
+        Join the Discord
+      </pip-button>
+    </div>
+  </section>
+
   <section class="sponsors">
     <pip-title h2>Sponsors</pip-title>
     <p>
@@ -280,10 +308,6 @@
         <h4>Matchwood</h4>
       </a>
     </div>
-
-    <pip-button aria-label="Contributor Button" (click)="openDiscordPage()">
-      Join the Community Discord!
-    </pip-button>
   </section>
 
   <pip-footer />

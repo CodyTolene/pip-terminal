@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
+import { PipLogComponent } from 'src/app/components/badge/badge.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipDividerComponent } from 'src/app/components/divider/divider.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
@@ -21,6 +22,7 @@ import { PageUrl } from 'src/app/types/page-url';
     PipButtonComponent,
     PipDividerComponent,
     PipFooterComponent,
+    PipLogComponent,
     PipPanelComponent,
     PipTitleComponent,
     RouterModule,
@@ -31,6 +33,7 @@ import { PageUrl } from 'src/app/types/page-url';
 export class WelcomePageComponent {
   protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
+  protected readonly forumLink = forumLink;
   protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
   protected readonly versionNumber = APP_VERSION;
 
@@ -46,3 +49,5 @@ export class WelcomePageComponent {
     window.open('https://github.com/sponsors/CodyTolene', '_blank');
   }
 }
+
+const forumLink = '/' + ('forum' satisfies PageUrl);
