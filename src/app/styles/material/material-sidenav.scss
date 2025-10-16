@@ -23,3 +23,11 @@ mat-sidenav-container > .mat-drawer.mat-drawer-end {
 mat-sidenav-container > mat-sidenav > div.mat-drawer-inner-container {
   @include sb.scrollbar;
 }
+
+mat-sidenav.mat-drawer a.mdc-list-item span,
+mat-sidenav.mat-drawer a.mdc-list-item .mdc-list-item__primary-text,
+mat-sidenav.mat-sidenav a.mdc-list-item span,
+mat-sidenav.mat-sidenav a.mdc-list-item .mdc-list-item__primary-text {
+  display: inline-flex;
+  align-items: center;
+}

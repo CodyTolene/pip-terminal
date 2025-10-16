@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { PipLogComponent } from 'src/app/components/badge/badge.component';
+import { PipBadgeComponent } from 'src/app/components/badge/badge.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipDividerComponent } from 'src/app/components/divider/divider.component';
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
@@ -19,10 +19,10 @@ import { PageUrl } from 'src/app/types/page-url';
   templateUrl: './welcome-page.component.html',
   imports: [
     MatIconModule,
+    PipBadgeComponent,
     PipButtonComponent,
     PipDividerComponent,
     PipFooterComponent,
-    PipLogComponent,
     PipPanelComponent,
     PipTitleComponent,
     RouterModule,

@@ -115,10 +115,10 @@
         />
       </div>
     </div>
+    @if (isEditModeSignal()) {
+      <pip-button type="button" (click)="openAvatarDialog()">
+        CHANGE IMAGE
+      </pip-button>
+    }
   </div>
-  @if (isEditModeSignal()) {
-    <pip-button type="button" (click)="openAvatarDialog()">
-      CHANGE IMAGE
-    </pip-button>
-  }
 </ng-template>
