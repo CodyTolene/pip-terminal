@@ -53,15 +53,14 @@ section.user-actions {
 
 pip-divider {
   margin: 0 auto;
-  max-width: var.$page-max-width;
-  padding: 0 2rem;
+  max-width: var.$section-max-width;
 }
 
 section.posts {
   box-sizing: border-box;
   margin-top: 2rem;
-  padding: 0 1.5rem;
   width: 100%;
+  max-width: var.$section-max-width;
 
   @include bps.media('max', 'md') {
     padding: 1rem;
