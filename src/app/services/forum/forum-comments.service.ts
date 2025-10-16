@@ -1,6 +1,6 @@
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { DateTime } from 'luxon';
-import { Observable, defer, map } from 'rxjs';
+import { Observable, defer } from 'rxjs';
 import { ForumComment, ForumCommentCreate } from 'src/app/models';
 
 import {
@@ -9,26 +9,33 @@ import {
   inject,
   runInInjectionContext,
 } from '@angular/core';
+import { FirebaseError } from '@angular/fire/app';
 import {
   DocumentData,
   Firestore,
   QueryDocumentSnapshot,
   addDoc,
   collection,
-  collectionData,
+  deleteDoc,
+  doc,
   documentId,
   endBefore,
-  getCountFromServer,
   getDocs,
   limit,
   limitToLast,
   orderBy,
   query,
+  serverTimestamp,
+  setDoc,
   startAfter,
 } from '@angular/fire/firestore';
 
+import { FlagResult } from 'src/app/types/flag-result';
 import { ForumCommentPageArgs } from 'src/app/types/forum-comment-page-args';
 import { ForumCommentPagedResult } from 'src/app/types/forum-comment-paged-result';
+import { LikeResult } from 'src/app/types/like-result';
+import { UnflagResult } from 'src/app/types/unflag-result';
+import { UnlikeResult } from 'src/app/types/unlike-result';
 
 @Injectable()
 export class ForumCommentsService {
@@ -67,19 +74,6 @@ export class ForumCommentsService {
         console.error('Failed to add comment', e);
         return null;
       }
-    });
-  }
-
-  public getComments(postId: string): Observable<readonly ForumComment[]> {
-    return this.inCtx$(() => {
-      const commentsRef = collection(
-        this.firestore,
-        `forum/${postId}/comments`,
-      );
-      const qRef = query(commentsRef, orderBy('createdAt', 'asc'));
-      return collectionData(qRef, { idField: 'id' }).pipe(
-        map(ForumComment.deserializeList),
-      );
     });
   }
 
@@ -149,58 +143,134 @@ export class ForumCommentsService {
     });
   }
 
-  public async getLastCommentsPage(
+  public async flagComment(
     postId: string,
-    {
-      pageSize = 10,
-      sort,
-    }: { pageSize?: number; sort?: TableSortChangeEvent<ForumComment> } = {},
-  ): Promise<ForumCommentPagedResult> {
+    commentId: string,
+    uid: string,
+    reason?: string,
+  ): Promise<FlagResult> {
     return this.inCtx(async () => {
-      const commentsRef = collection(
+      const flagRef = doc(
         this.firestore,
-        `forum/${postId}/comments`,
+        `forum/${postId}/comments/${commentId}/flags/${uid}`,
       );
-      const n = pageSize + 1;
-
-      const key = sort?.key ?? 'createdAt';
-      const dir: TableSortChangeEvent<ForumComment>['direction'] =
-        sort?.direction || 'desc';
-
-      const qRef = query(
-        commentsRef,
-        orderBy(key, dir),
-        orderBy(documentId(), dir),
-        limitToLast(n),
-      );
-
-      const snap = await getDocs(qRef);
-      const keptDocs = snap.docs.slice(
-        Math.max(0, snap.docs.length - pageSize),
-      );
-
-      const comments = keptDocs.map((d) =>
-        ForumComment.deserialize({ id: d.id, ...(d.data() as object) }),
-      );
-
-      return {
-        hasMoreNext: false,
-        hasMorePrev: snap.size > pageSize,
-        comments,
-        firstDoc: keptDocs[0] ?? undefined,
-        lastDoc: keptDocs[keptDocs.length - 1] ?? undefined,
-      };
+      try {
+        await setDoc(flagRef, {
+          createdAt: serverTimestamp(),
+          ...(reason ? { reason } : {}),
+        });
+        return { ok: true as const };
+      } catch (e) {
+        const err = e as FirebaseError;
+        if (err.code === 'permission-denied') {
+          return { ok: false as const, reason: 'already-flagged' as const };
+        }
+        if (err.code === 'unauthenticated') {
+          return { ok: false as const, reason: 'needs-auth' as const };
+        }
+        return { ok: false as const, reason: 'unknown' as const };
+      }
     });
   }
 
-  public async getCommentsTotal(postId: string): Promise<number> {
+  public async unflagComment(
+    postId: string,
+    commentId: string,
+    uid: string,
+  ): Promise<UnflagResult> {
     return this.inCtx(async () => {
-      const commentsRef = collection(
+      const flagRef = doc(
         this.firestore,
-        `forum/${postId}/comments`,
+        `forum/${postId}/comments/${commentId}/flags/${uid}`,
       );
-      const agg = await getCountFromServer(query(commentsRef));
-      return agg.data().count ?? 0;
+      try {
+        await deleteDoc(flagRef);
+        return { ok: true as const };
+      } catch (e) {
+        const err = e as FirebaseError;
+        if (err.code === 'unauthenticated') {
+          return {
+            ok: false as const,
+            reason: 'needs-auth',
+            message: err.message,
+          };
+        }
+        if (err.code === 'permission-denied') {
+          return {
+            ok: false as const,
+            reason: 'not-owner',
+            message: err.message,
+          };
+        }
+        if (err.code === 'deadline-exceeded' || err.code === 'unavailable') {
+          return {
+            ok: false as const,
+            reason: 'retry-later',
+            message: err.message,
+          };
+        }
+        return { ok: false as const, reason: 'unknown', message: err.message };
+      }
+    });
+  }
+
+  public async likeComment(
+    postId: string,
+    commentId: string,
+    uid: string,
+  ): Promise<LikeResult> {
+    return this.inCtx(async () => {
+      const likeRef = doc(
+        this.firestore,
+        `forum/${postId}/comments/${commentId}/likes/${uid}`,
+      );
+      try {
+        await setDoc(likeRef, { createdAt: serverTimestamp() });
+        return { ok: true as const };
+      } catch (e) {
+        const err = e as FirebaseError;
+        if (err.code === 'permission-denied') {
+          return { ok: false as const, reason: 'already-liked' as const };
+        }
+        if (err.code === 'unauthenticated') {
+          return { ok: false as const, reason: 'needs-auth' as const };
+        }
+        return { ok: false as const, reason: 'unknown' as const };
+      }
+    });
+  }
+
+  public async unlikeComment(
+    postId: string,
+    commentId: string,
+    uid: string,
+  ): Promise<UnlikeResult> {
+    return this.inCtx(async () => {
+      const likeRef = doc(
+        this.firestore,
+        `forum/${postId}/comments/${commentId}/likes/${uid}`,
+      );
+      try {
+        await deleteDoc(likeRef);
+        return { ok: true as const };
+      } catch (e) {
+        const err = e as FirebaseError;
+        if (err.code === 'permission-denied') {
+          return {
+            ok: false as const,
+            reason: 'not-owner',
+            message: err.message,
+          };
+        }
+        if (err.code === 'deadline-exceeded' || err.code === 'unavailable') {
+          return {
+            ok: false as const,
+            reason: 'retry-later',
+            message: err.message,
+          };
+        }
+        return { ok: false as const, reason: 'unknown', message: err.message };
+      }
     });
   }
 }

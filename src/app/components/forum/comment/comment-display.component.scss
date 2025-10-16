@@ -48,6 +48,44 @@
           color: col.$pip-green-light;
         }
       }
+
+      .stats {
+        align-items: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin: 1rem 0;
+
+        button.likes,
+        button.flags {
+          align-items: center;
+          background-color: transparent;
+          border: none;
+          color: col.$pip-green;
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: center;
+
+          &:hover {
+            background-color: transparent;
+          }
+
+          &.clickable {
+            cursor: pointer;
+          }
+
+          &.disabled {
+            cursor: not-allowed;
+            color: col.$pip-green-darkest;
+          }
+        }
+
+        .likes mat-icon {
+          margin-right: 0.5rem;
+        }
+      }
     }
   }
 }

@@ -36,8 +36,12 @@ import {
 
 import { MarkupService } from 'src/app/services/markup.service';
 
+import { FlagResult } from 'src/app/types/flag-result';
 import { ForumPostPageArgs } from 'src/app/types/forum-post-page-args';
 import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
+import { LikeResult } from 'src/app/types/like-result';
+import { UnflagResult } from 'src/app/types/unflag-result';
+import { UnlikeResult } from 'src/app/types/unlike-result';
 
 @Injectable()
 export class ForumPostsService {
@@ -345,27 +349,3 @@ export class ForumPostsService {
     });
   }
 }
-
-export type LikeResult =
-  | { ok: true }
-  | { ok: false; reason: 'already-liked' | 'needs-auth' | 'unknown' };
-
-export type UnlikeResult =
-  | { ok: true }
-  | {
-      ok: false;
-      reason: 'needs-auth' | 'not-owner' | 'retry-later' | 'unknown';
-      message?: string;
-    };
-
-export type FlagResult =
-  | { ok: true }
-  | { ok: false; reason: 'already-flagged' | 'needs-auth' | 'unknown' };
-
-export type UnflagResult =
-  | { ok: true }
-  | {
-      ok: false;
-      reason: 'needs-auth' | 'not-owner' | 'retry-later' | 'unknown';
-      message?: string;
-    };

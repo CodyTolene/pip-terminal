@@ -40,7 +40,7 @@ import { PageUrl } from 'src/app/types/page-url';
 export class PipForumPostDisplayComponent {
   private readonly authService = inject(AuthService);
   private readonly dialog = inject(MatDialog);
-  private readonly postService = inject(ForumPostsService);
+  private readonly postsService = inject(ForumPostsService);
   private readonly toastService = inject(ToastService);
 
   @Input({ transform: booleanAttribute })
@@ -103,7 +103,7 @@ export class PipForumPostDisplayComponent {
   protected async onLikePostClick(): Promise<void> {
     const post = this.post();
     const user = await getFirstNonEmptyValueFrom(this.authService.userChanges);
-    const result = await this.postService.likePost(post.id, user.uid);
+    const result = await this.postsService.likePost(post.id, user.uid);
 
     if (result.ok) {
       this.toastService.success({
@@ -134,7 +134,7 @@ export class PipForumPostDisplayComponent {
   private async flagPost(): Promise<void> {
     const post = this.post();
     const user = await getFirstNonEmptyValueFrom(this.authService.userChanges);
-    const result = await this.postService.flagPost(post.id, user.uid);
+    const result = await this.postsService.flagPost(post.id, user.uid);
 
     if (result.ok) {
       this.toastService.success({
@@ -180,7 +180,7 @@ export class PipForumPostDisplayComponent {
         const user = await getFirstNonEmptyValueFrom(
           this.authService.userChanges,
         );
-        const result = await this.postService.unflagPost(post.id, user.uid);
+        const result = await this.postsService.unflagPost(post.id, user.uid);
         if (result.ok) {
           this.toastService.success({
             message: 'Post unflagged.',
@@ -232,7 +232,7 @@ export class PipForumPostDisplayComponent {
         const user = await getFirstNonEmptyValueFrom(
           this.authService.userChanges,
         );
-        const result = await this.postService.unlikePost(post.id, user.uid);
+        const result = await this.postsService.unlikePost(post.id, user.uid);
         if (result.ok) {
           this.toastService.success({
             message: 'Post unliked.',
