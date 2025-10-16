@@ -51,12 +51,19 @@ export class PipForumPostDisplayComponent {
 
   private readonly likesDelta = signal(0);
   public readonly likesCountShown = computed(() => {
-    const p = this.post();
-    return (p?.likesCount ?? 0) + this.likesDelta();
+    const base = this.post()?.likesCount ?? 0;
+    const shown = base + this.likesDelta();
+    return shown < 0 ? 0 : shown;
   });
   private readonly resetLikesDelta = effect(() => {
     this.post();
     this.likesDelta.set(0);
+  });
+
+  public readonly spoilerRevealed = signal(false);
+  private readonly resetSpoiler = effect(() => {
+    this.post();
+    this.spoilerRevealed.set(false);
   });
 
   protected readonly userChanges =
@@ -107,6 +114,13 @@ export class PipForumPostDisplayComponent {
         message: 'Failed to like post.',
       });
     }
+  }
+
+  protected revealSpoiler(ev?: Event): void {
+    // prevent navigation when the whole card is an <a>
+    ev?.preventDefault?.();
+    ev?.stopPropagation?.();
+    this.spoilerRevealed.set(true);
   }
 
   private async flagPost(): Promise<void> {
@@ -216,7 +230,7 @@ export class PipForumPostDisplayComponent {
             message: 'Post unliked.',
           });
           // Decrease locally (don’t go below zero)
-          this.likesDelta.update((n) => (n > 0 ? n - 1 : 0));
+          this.likesDelta.update((n) => n - 1);
         } else if (result.reason === 'needs-auth') {
           this.toastService.error({
             message: 'Sign in to unlike posts.',

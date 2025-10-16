@@ -1,5 +1,6 @@
 import {
   FormDirective,
+  InputCheckboxComponent,
   InputComponent,
   InputDropdownComponent,
   InputDropdownOptionComponent,
@@ -39,6 +40,7 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'pip-forum-post-form',
   templateUrl: './post-form.component.html',
   imports: [
+    InputCheckboxComponent,
     InputComponent,
     InputDropdownComponent,
     InputDropdownOptionComponent,
@@ -63,10 +65,12 @@ export class PipForumPostFormComponent
       if (isSubmitting) {
         this.formGroup.controls.category.disable({ emitEvent: false });
         this.formGroup.controls.contentHtml.disable({ emitEvent: false });
+        this.formGroup.controls.isSpoiler.disable({ emitEvent: false });
         this.formGroup.controls.title.disable({ emitEvent: false });
       } else {
         this.formGroup.controls.category.enable({ emitEvent: false });
         this.formGroup.controls.contentHtml.enable({ emitEvent: false });
+        this.formGroup.controls.isSpoiler.enable({ emitEvent: false });
         this.formGroup.controls.title.enable({ emitEvent: false });
       }
     });
@@ -105,7 +109,7 @@ export class PipForumPostFormComponent
     this.isSubmitting.set(true);
 
     try {
-      const { category, contentHtml, title } = this.formGroup.value;
+      const { category, contentHtml, isSpoiler, title } = this.formGroup.value;
 
       if (!isNonEmptyString(contentHtml)) {
         throw new Error('Content must not be empty!');
@@ -115,6 +119,9 @@ export class PipForumPostFormComponent
       }
       if (!isNonEmptyValue(category)) {
         throw new Error('Category must be selected!');
+      }
+      if (isSpoiler === null || isSpoiler === undefined) {
+        throw new Error('isSpoiler must be set!');
       }
 
       const user = await firstValueFrom(this.userChanges);
@@ -129,6 +136,7 @@ export class PipForumPostFormComponent
         authorName: user.displayName || user.email,
         category,
         contentHtml: safeHtml,
+        isSpoiler,
         title,
       };
 

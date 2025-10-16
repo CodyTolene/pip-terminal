@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export interface ForumPostFormGroup {
   category: FormControl<ForumCategoryEnum | null>;
   contentHtml: FormControl<string | null>;
+  isSpoiler: FormControl<boolean>;
   title: FormControl<string | null>;
 }
 
@@ -22,6 +23,7 @@ export const forumPostFormGroup = new FormGroup<ForumPostFormGroup>({
     ],
     nonNullable: true,
   }),
+  isSpoiler: new FormControl<boolean>(false, { nonNullable: true }),
   title: new FormControl<string | null>(null, {
     validators: [
       Validators.required,

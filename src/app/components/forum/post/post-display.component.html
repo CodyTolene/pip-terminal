@@ -23,11 +23,28 @@
     }
     <p class="category">Category: {{ post.category }}</p>
   </div>
-  <div class="post-body">
-    @if (simple) {
-      <p>{{ post.contentPreview }}</p>
-    } @else {
-      <p [innerHTML]="post.contentHtml"></p>
+  <div
+    class="post-body"
+    [class.is-spoiler]="post.isSpoiler && !spoilerRevealed()"
+  >
+    <div class="spoiler-content">
+      @if (simple) {
+        <p>{{ post.contentPreview }}</p>
+      } @else {
+        <p [innerHTML]="post.contentHtml"></p>
+      }
+    </div>
+    @if (post.isSpoiler && !spoilerRevealed()) {
+      <div
+        class="spoiler-cover"
+        role="button"
+        tabindex="0"
+        (click)="revealSpoiler($event)"
+        (keydown.enter)="revealSpoiler($event)"
+        (keydown.space)="revealSpoiler($event)"
+      >
+        <span> Spoiler<br />Click to reveal </span>
+      </div>
     }
   </div>
   @if (!simple) {

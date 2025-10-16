@@ -9,12 +9,21 @@ form {
   flex-wrap: wrap;
   justify-content: space-between;
 
-  pro-input-dropdown,
-  pro-input {
+  pro-input,
+  pro-input-dropdown {
     $gap: 2rem;
     flex: 0 0 calc(50% - ($gap / 2));
     margin-bottom: 1rem;
     max-width: calc(50% - ($gap / 2));
+  }
+
+  pro-input-checkbox {
+    display: flex;
+    justify-content: flex-end;
+    $gap: 2rem;
+    flex: 0 0 calc(100% - ($gap / 2));
+    margin-bottom: 1rem;
+    max-width: calc(100% - ($gap / 2));
   }
 
   quill-editor {

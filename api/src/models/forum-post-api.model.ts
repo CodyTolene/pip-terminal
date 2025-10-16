@@ -15,6 +15,7 @@ export interface ForumPostApi {
   createdAt: FirestoreTimestampApi;
   flagsCount: number;
   id: string;
+  isSpoiler: boolean;
   likesCount: number;
   title: string;
 }

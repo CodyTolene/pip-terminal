@@ -43,6 +43,7 @@ export class ForumPost {
     this.createdAt = props.createdAt;
     this.flagsCount = props.flagsCount;
     this.id = props.id;
+    this.isSpoiler = props.isSpoiler;
     this.likesCount = props.likesCount;
     this.title = props.title;
 
@@ -78,6 +79,7 @@ export class ForumPost {
     createdAt: io.type({ nanoseconds: io.number, seconds: io.number }),
     flagsCount: io.number,
     id: io.string,
+    isSpoiler: io.boolean,
     likesCount: io.number,
     title: io.string,
   });
@@ -96,6 +98,8 @@ export class ForumPost {
   @api({ key: 'flagsCount' }) public readonly flagsCount: number;
   /** Firestore document identifier for this post. */
   @api({ key: 'id' }) public readonly id: string;
+  /** Whether this post is a spoiler. */
+  @api({ key: 'isSpoiler' }) public readonly isSpoiler: boolean;
   /** Number of likes this post has received. */
   @api({ key: 'likesCount' }) public readonly likesCount: number;
   /** The title of the forum post. */
@@ -133,6 +137,7 @@ export class ForumPost {
         createdAt: DateTime.fromJSDate(createdAtDate),
         flagsCount: decoded.flagsCount,
         id: decoded.id,
+        isSpoiler: decoded.isSpoiler,
         likesCount: decoded.likesCount,
         title: decoded.title,
       },
@@ -165,6 +170,7 @@ export class ForumPost {
       flagsCount: 0,
       // New posts start with zero likes. Checked by backend too on create.
       likesCount: 0,
+      isSpoiler: value.isSpoiler,
       title: value.title,
     };
   }

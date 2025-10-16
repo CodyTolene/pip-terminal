@@ -1,4 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="createPost()">
+  <!-- TITLE -->
   <pro-input
     [formControl]="formGroup.controls.title"
     appearance="outline"
@@ -6,7 +7,7 @@
     placeholder="Enter post title"
     type="text"
   ></pro-input>
-
+  <!-- CATEGORY -->
   <pro-input-dropdown
     [formControl]="formGroup.controls.category"
     label="Category"
@@ -18,7 +19,7 @@
       }}</pro-input-dropdown-option>
     }
   </pro-input-dropdown>
-
+  <!-- CONTENT -->
   <quill-editor
     (onEditorCreated)="onEditorCreated($event)"
     [formControl]="formGroup.controls.contentHtml"
@@ -27,7 +28,12 @@
     format="html"
     placeholder="Share your thoughts..."
   ></quill-editor>
-
+  <!-- SPOILER -->
+  <pro-input-checkbox
+    [formControl]="formGroup.controls.isSpoiler"
+    label="Mark as Spoiler"
+  ></pro-input-checkbox>
+  <!-- ACTION BUTTONS -->
   <div class="action-buttons">
     <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
       >Cancel</pip-button
