@@ -68,6 +68,8 @@ export class ForumPost {
     authorId: io.string,
     authorName: io.string,
     category: io.union([
+      io.literal(ForumCategoryEnum.ANNOUNCEMENTS),
+      io.literal(ForumCategoryEnum.COSPLAY),
       io.literal(ForumCategoryEnum.GENERAL),
       io.literal(ForumCategoryEnum.PIP_2000_MK_VI),
       io.literal(ForumCategoryEnum.PIP_3000),

@@ -13,7 +13,7 @@
     label="Category"
     placeholder="Select an option"
   >
-    @for (option of forumCategoryList; track option) {
+    @for (option of forumCategoryList | async; track option) {
       <pro-input-dropdown-option [value]="option">{{
         option
       }}</pro-input-dropdown-option>
@@ -64,3 +64,5 @@
     >
   </div>
 </form>
+
+<!-- {{ formGroup.value | json }} -->

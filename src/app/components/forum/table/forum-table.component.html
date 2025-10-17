@@ -1,21 +1,23 @@
 @if (posts(); as posts) {
-  <pro-table
-    (rowClick)="onRowClick($event)"
-    (sortChange)="onSortChange($event)"
-    [columns]="columns()"
-    [data]="posts"
-    [initialSort]="initialSort"
-    [rowClickEnabled]="true"
-  ></pro-table>
-  <mat-paginator
-    #matPaginator
-    (page)="onPaginate($event)"
-    [hidePageSize]="true"
-    [length]="total()"
-    [pageIndex]="pageIndex()"
-    [pageSize]="10"
-    [showFirstLastButtons]="true"
-  ></mat-paginator>
+  <section class="table-container">
+    <pro-table
+      (rowClick)="onRowClick($event)"
+      (sortChange)="onSortChange($event)"
+      [columns]="columns()"
+      [data]="posts"
+      [initialSort]="initialSort"
+      [rowClickEnabled]="true"
+    ></pro-table>
+    <mat-paginator
+      #matPaginator
+      (page)="onPaginate($event)"
+      [hidePageSize]="true"
+      [length]="total()"
+      [pageIndex]="pageIndex()"
+      [pageSize]="10"
+      [showFirstLastButtons]="true"
+    ></mat-paginator>
+  </section>
 } @else if (posts() === null) {
   <section class="loading-container">
     <pip-loading />

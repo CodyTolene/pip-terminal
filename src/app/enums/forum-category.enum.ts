@@ -1,4 +1,6 @@
 export enum ForumCategoryEnum {
+  ANNOUNCEMENTS = 'Announcements',
+  COSPLAY = 'Cosplay',
   GENERAL = 'General',
   PIP_2000_MK_VI = 'Pip-Boy 2000 Mk VI', // From Fallout 76
   PIP_3000 = 'Pip-Boy 3000', // From Fallout 3

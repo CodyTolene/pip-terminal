@@ -6,7 +6,6 @@ import { ForumPostsService } from 'src/app/services';
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  HostBinding,
   Input,
   OnInit,
   Signal,
@@ -59,11 +58,6 @@ export class ForumTableComponent implements OnInit {
   };
 
   protected readonly loading = signal(false);
-
-  @HostBinding('class.loading')
-  protected get isLoading(): boolean {
-    return this.loading();
-  }
 
   protected pageSizeOptions = [5, 10, 15];
   protected pageSizeDefault = this.pageSizeOptions[1]; // 10

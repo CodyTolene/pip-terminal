@@ -45,9 +45,24 @@ export class ForumPageComponent {
 
   protected readonly categories: readonly ForumCategory[] = [
     {
+      key: ForumCategoryEnum.ANNOUNCEMENTS,
+      name: ForumCategoryEnum.ANNOUNCEMENTS,
+      description:
+        'Official announcements from web administrators and moderators.',
+      link:
+        '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.ANNOUNCEMENTS],
+    },
+    {
+      key: ForumCategoryEnum.COSPLAY,
+      name: ForumCategoryEnum.COSPLAY,
+      description:
+        'Show off costumes and props, swap techniques, and get or give advice.',
+      link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.COSPLAY],
+    },
+    {
       key: ForumCategoryEnum.GENERAL,
       name: ForumCategoryEnum.GENERAL,
-      description: `General discussion about all things that are Pip-Boy or website related (year ${DateTime.now().year}).`,
+      description: `Discuss all things that are Pip-Boy or website related (year ${DateTime.now().year}).`,
       link: '/forum/category/' + CATEGORY_TO_SLUG[ForumCategoryEnum.GENERAL],
     },
     {

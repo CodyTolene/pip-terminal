@@ -7,7 +7,7 @@ import {
 } from '@proangular/pro-form';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
-import { firstValueFrom } from 'rxjs';
+import { combineLatest, filter, firstValueFrom, map, of } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPostCreate } from 'src/app/models';
 import {
@@ -25,6 +25,7 @@ import {
   shareSingleReplay,
 } from 'src/app/utilities';
 
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
@@ -43,6 +44,7 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'pip-forum-post-form',
   templateUrl: './post-form.component.html',
   imports: [
+    CommonModule,
     InputCheckboxComponent,
     InputComponent,
     InputDropdownComponent,
@@ -113,7 +115,17 @@ export class PipForumPostFormComponent
 
   private readonly forumLink = '/' + ('forum' satisfies PageUrl);
 
-  protected readonly forumCategoryList = getEnumValues(ForumCategoryEnum);
+  protected readonly forumCategoryList = combineLatest([
+    this.userChanges.pipe(filter(isNonEmptyValue)),
+    of(getEnumValues(ForumCategoryEnum)),
+  ]).pipe(
+    map(([user, categories]) => {
+      if (user.isAdmin) {
+        return categories;
+      }
+      return categories.filter((c) => c !== ForumCategoryEnum.ANNOUNCEMENTS);
+    }),
+  );
 
   protected readonly isSubmitting = signal(false);
 

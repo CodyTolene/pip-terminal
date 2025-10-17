@@ -11,8 +11,11 @@ import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
+  User,
   UserCredential,
   createUserWithEmailAndPassword,
+  getIdTokenResult,
+  onIdTokenChanged,
   sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -26,10 +29,14 @@ export class AuthService {
     // Watch auth state and wire Firestore extras in
     this.auth.onAuthStateChanged(
       async (user) => {
-        // Tear down any previous Firestore listener
+        // Tear down any previous listeners
         if (this.extrasUnsub) {
           this.extrasUnsub();
           this.extrasUnsub = undefined;
+        }
+        if (this.tokenUnsub) {
+          this.tokenUnsub();
+          this.tokenUnsub = undefined;
         }
 
         if (!user) {
@@ -37,9 +44,13 @@ export class AuthService {
           return;
         }
 
-        // Emit immediately using current extras (one-time fetch)
+        // Emit immediately using current extras and fresh claims
         try {
-          const profile = await this.getUserProfile(user.uid);
+          const [profile, role] = await Promise.all([
+            this.getUserProfile(user.uid),
+            this.getUserRole(user, true),
+          ]);
+
           const hydratedUser = PipUser.deserialize({
             user,
             profile: {
@@ -48,12 +59,13 @@ export class AuthService {
               skill: profile?.skill ?? undefined,
               vaultNumber: profile?.vaultNumber ?? undefined,
             },
+            role,
           });
-          // console.log(hydratedUser);
+
           this.userSubject.next(hydratedUser);
         } catch (err) {
           console.error(
-            '[AuthService] getUserProfile failed (non-fatal), reset.',
+            '[AuthService] initial hydrate failed (non-fatal), reset.',
             err,
           );
           this.userSubject.next(null);
@@ -64,23 +76,43 @@ export class AuthService {
         const ref = fsDoc(this.firestore, 'users', user.uid);
         this.extrasUnsub = onSnapshot(
           ref,
-          (snap) => {
+          async (snap) => {
             const data = snap.exists()
               ? (snap.data() as PipUser['profile'])
               : undefined;
+
+            // Keep the latest role in step even if only profile changed
+            const role = await this.getUserRole(user, false);
+
             const profile = {
               dateOfBirth: data?.dateOfBirth ?? undefined,
               roomNumber: data?.roomNumber ?? undefined,
               skill: data?.skill ?? undefined,
               vaultNumber: data?.vaultNumber ?? undefined,
             };
-            this.userSubject.next(PipUser.deserialize({ user, profile }));
+
+            this.userSubject.next(PipUser.deserialize({ user, profile, role }));
           },
           (error) => {
             console.error('[AuthService] onSnapshot error:', error);
             // Keep last good value; do not push null here
           },
         );
+
+        // Also react to claim changes while signed in
+        this.tokenUnsub = onIdTokenChanged(this.auth, async (u) => {
+          if (!u) return;
+          try {
+            const [profile, role] = await Promise.all([
+              this.getUserProfile(u.uid),
+              this.getUserRole(u, false),
+            ]);
+            const next = PipUser.deserialize({ user: u, profile, role });
+            this.userSubject.next(next);
+          } catch (e) {
+            console.error('[AuthService] onIdTokenChanged hydrate failed:', e);
+          }
+        });
       },
       (error) => {
         console.error('[AuthService] onAuthStateChanged error:', error);
@@ -93,6 +125,7 @@ export class AuthService {
   private readonly firestore = inject(Firestore);
 
   private extrasUnsub?: () => void;
+  private tokenUnsub?: () => void;
 
   private readonly userSubject = new ReplaySubject<PipUser | null>(1);
 
@@ -116,7 +149,12 @@ export class AuthService {
   }
 
   public patchUserProfile(user: PipUser, profile: FirestoreProfileApi): void {
-    const updatedUser = new PipUser({ ...user, profile });
+    // Preserve role when patching the profile
+    const updatedUser = new PipUser({
+      native: user.native,
+      profile,
+      role: user.role,
+    });
     this.userSubject.next(updatedUser);
   }
 
@@ -141,10 +179,14 @@ export class AuthService {
   }
 
   public signOut(): Promise<void> {
-    // Clean up Firestore listener on sign out
+    // Clean up listeners on sign out
     if (this.extrasUnsub) {
       this.extrasUnsub();
       this.extrasUnsub = undefined;
+    }
+    if (this.tokenUnsub) {
+      this.tokenUnsub();
+      this.tokenUnsub = undefined;
     }
     return signOut(this.auth);
   }
@@ -162,5 +204,16 @@ export class AuthService {
     const ref = fsDoc(this.firestore, 'users', uid);
     const snap = await fsGetDoc(ref);
     return snap.exists() ? (snap.data() as PipUser['profile']) : undefined;
+  }
+
+  private async getUserRole(
+    user: User,
+    force: boolean,
+  ): Promise<'admin' | 'user' | null> {
+    const token = await getIdTokenResult(user, force);
+    const roleClaim = token.claims['role'];
+    return typeof roleClaim === 'string'
+      ? (roleClaim as 'admin' | 'user')
+      : null;
   }
 }
