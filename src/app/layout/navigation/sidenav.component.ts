@@ -1,4 +1,5 @@
 import { APP_VERSION } from 'src/app/constants';
+import { StripInlineStylesDirective } from 'src/app/directives';
 import { NavListComponent } from 'src/app/layout/navigation/nav-list.component';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
     MatSidenavModule,
     NavListComponent,
     RouterModule,
+    StripInlineStylesDirective,
   ],
   standalone: true,
 })
