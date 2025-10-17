@@ -64,7 +64,7 @@ export const api = onRequest(
 );
 
 const ENABLE_USER_SEEDS = true;
-const ENABLE_POSTS_SEEDS = true;
+const ENABLE_POSTS_SEEDS = false;
 
 // Seed development data
 void (async () => {

@@ -76,7 +76,11 @@ export class PipForumPostFormComponent
     this.formGroup.controls.contentHtml.updateValueAndValidity({
       emitEvent: false,
     });
-    Quill.register('modules/counter', Counter);
+    // Chheck to see if `modules/counter` is already registered
+    if (!Quill.imports['modules/counter']) {
+      // Register custom module for counting characters
+      Quill.register('modules/counter', Counter);
+    }
     this.formGroup.reset();
 
     // Reactive form disabling while submitting
