@@ -1,5 +1,6 @@
 @use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
+@use '../../styles/fluid-font' as ff;
 @use '../../styles/variables' as var;
 
 footer {
@@ -36,13 +37,27 @@ footer {
     max-width: var.$page-max-width;
     padding: 0 1.5rem;
 
+    // 360px and below
+    @include bps.media('max', 'xs') {
+      padding: 0;
+    }
+
     .branding {
       align-items: center;
       display: flex;
+      flex-direction: row;
+
+      @include bps.media('max', 'xs') {
+        flex-direction: column;
+      }
 
       img.logo {
         height: 40px;
         margin-right: 1rem;
+
+        @include bps.media('max', 'sm') {
+          margin-right: 0.5rem;
+        }
       }
 
       .site-title {
@@ -50,6 +65,12 @@ footer {
         font-family: var.$secondary-font-family;
         font-size: var.$font-xl;
         letter-spacing: 1px;
+
+        @include ff.fluid-font(var.$font-lg, var.$font-xxl);
+
+        @include bps.media('max', 'xs') {
+          text-align: center;
+        }
       }
     }
   }
@@ -60,17 +81,5 @@ footer {
     font-size: 1rem;
     opacity: 0.7;
     margin-bottom: 2rem;
-  }
-}
-
-@include bps.media('max', 'md') {
-  .logo-container > .branding > .site-title {
-    font-size: var.$font-md;
-  }
-}
-
-@include bps.media('max', 'sm') {
-  .logo-container > .branding > .site-title {
-    font-size: var.$font-sm;
   }
 }

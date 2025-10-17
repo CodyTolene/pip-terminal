@@ -20,6 +20,7 @@ import {
 @Component({
   selector: 'pip-theme-selector',
   templateUrl: './theme-selector.component.html',
+  styleUrls: ['./theme-selector.component.scss'],
   imports: [
     InputRadioComponent,
     InputRadioOptionComponent,
