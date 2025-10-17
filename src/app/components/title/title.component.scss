@@ -3,6 +3,7 @@
 :host {
   display: block;
   color: col.$pip-green;
+  text-align: center;
 }
 
 h1,
@@ -28,8 +29,90 @@ h1 > div {
   top: 2px;
 }
 
-span.bracket {
-  color: col.$pip-green-darkest;
-  // Multiply font size by 1.5
-  font-size: 1.25em;
+$bracket-gap: 0.35em;
+$bracket-thickness: 4px;
+$bracket-color: col.$pip-green-darkest;
+
+.bracketed {
+  --bracket-arm: 0.6em;
+}
+
+.bracketed {
+  position: relative;
+  display: inline-block;
+  padding-left: calc(var(--bracket-arm) + $bracket-gap);
+  padding-right: calc(var(--bracket-arm) + $bracket-gap);
+  white-space: normal;
+
+  // Left and right brackets
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc(var(--bracket-arm) + $bracket-gap);
+    pointer-events: none;
+  }
+
+  // Left bracket
+  &::before {
+    left: calc($bracket-thickness * 2);
+    transform: translateX(calc(-1 * $bracket-gap));
+    background:
+      linear-gradient(
+          to right,
+          $bracket-color 0,
+          $bracket-color $bracket-thickness,
+          transparent $bracket-thickness
+        )
+        left center / $bracket-thickness 100% no-repeat,
+      linear-gradient($bracket-color, $bracket-color) left top /
+        var(--bracket-arm) $bracket-thickness no-repeat,
+      linear-gradient($bracket-color, $bracket-color) left bottom /
+        var(--bracket-arm) $bracket-thickness no-repeat;
+  }
+
+  // Right bracket
+  &::after {
+    right: calc($bracket-thickness * 2);
+    transform: translateX($bracket-gap);
+    background:
+    /* vertical stroke (anchored to the right) */
+      linear-gradient(
+          to left,
+          $bracket-color 0,
+          $bracket-color $bracket-thickness,
+          transparent $bracket-thickness
+        )
+        right center / $bracket-thickness 100% no-repeat,
+      linear-gradient($bracket-color, $bracket-color) right top /
+        var(--bracket-arm) $bracket-thickness no-repeat,
+      linear-gradient($bracket-color, $bracket-color) right bottom /
+        var(--bracket-arm) $bracket-thickness no-repeat;
+  }
+}
+
+h1 .bracketed {
+  --bracket-arm: 0.3em;
+}
+
+h2 .bracketed {
+  --bracket-arm: 0.28em;
+}
+
+h3 .bracketed {
+  --bracket-arm: 0.26em;
+}
+
+h4 .bracketed {
+  --bracket-arm: 0.24em;
+}
+
+h5 .bracketed {
+  --bracket-arm: 0.22em;
+}
+
+h6 .bracketed {
+  --bracket-arm: 0.2em;
 }
