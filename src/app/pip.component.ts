@@ -1,5 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged, filter, map } from 'rxjs';
+import { StripInlineStylesDirective } from 'src/app/directives';
 import { PageLayoutsEnum } from 'src/app/enums';
 import {
   PipBoy2000MkVILayoutComponent,
@@ -39,6 +40,7 @@ import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.
     PipBoy3000ALayoutComponent,
     PipBoy3000LayoutComponent,
     PipBoy3000MkIVLayoutComponent,
+    StripInlineStylesDirective,
   ],
   styleUrl: './pip.component.scss',
   providers: [PageDataService, PageMetaService, SoundService, ThemeService],
