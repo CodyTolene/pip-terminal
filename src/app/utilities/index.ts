@@ -5,6 +5,7 @@ export * from './enums.util';
 export * from './is-type.util';
 export * from './observables.util';
 export * from './pip-log.util';
+export * from './random-int-between';
 export * from './to-type.util';
 export * from './to-value.util';
 export * from './validation.util';

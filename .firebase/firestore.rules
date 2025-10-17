@@ -5,7 +5,15 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() { 
+      return request.auth != null; 
+    }
 
+    function isAdmin() {
+      return signedIn() && request.auth.token.role == 'admin';
+    }
+
+    // ***** User profile rules *****
     match /users/{uid} {
       allow read: if isOwner(uid);
       allow create, update: if isOwner(uid) && isValidProfile(request.resource.data);
@@ -13,56 +21,191 @@ service cloud.firestore {
     }
 
     function isOwner(uid) {
-      return request.auth != null && request.auth.uid == uid;
+      return signedIn() && request.auth.uid == uid;
     }
 
     function isValidProfile(d) {
-      return validDob(d) &&
-             validRoomNumber(d) &&
-             validSkill(d) &&
-             validVaultNumber(d);
+      return validDob(d) && validRoomNumber(d) && validSkill(d) && validVaultNumber(d);
     }
 
     // dateOfBirth (string):
-    //  - missing or null allowed
-    //  - if present: YYYY-MM-DD OR full ISO with Z or ±HH:MM
-    //  - must be >= 1900-01-01
+    // - missing or null allowed
+    // - if present: YYYY-MM-DD OR full ISO with Z or ±HH:MM
+    // - must be >= 1900-01-01
     function validDob(d) {
       return !('dateOfBirth' in d) ||
-             d.dateOfBirth == null ||
-             (
-               d.dateOfBirth is string &&
-               (
-                 d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}$') ||
-                 d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{2}:\\d{2})$')
-               ) &&
-               d.dateOfBirth >= '1900-01-01'
-             );
+        d.dateOfBirth == null ||
+        (
+          d.dateOfBirth is string &&
+          (
+            d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}$') ||
+            d.dateOfBirth.matches('^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{2}:\\d{2})$')
+          ) &&
+          d.dateOfBirth >= '1900-01-01'
+        );
     }
 
     // roomNumber: optional/null OR int in [1, 999]
     function validRoomNumber(d) {
       return !('roomNumber' in d) ||
-             d.roomNumber == null ||
-             (d.roomNumber is int && d.roomNumber >= 1 && d.roomNumber <= 999);
+        d.roomNumber == null ||
+        (d.roomNumber is int && d.roomNumber >= 1 && d.roomNumber <= 999);
     }
 
     // skill: optional/null OR string length in [2, 128]
     function validSkill(d) {
       return !('skill' in d) ||
-            d.skill == null ||
-            (
-              d.skill is string &&
-              d.skill.size() >= 2 &&
-              d.skill.size() <= 128
-            );
+        d.skill == null ||
+        (
+          d.skill is string &&
+          d.skill.size() >= 2 &&
+          d.skill.size() <= 128
+        );
     }
 
     // vaultNumber: optional/null OR int in [1, 999]
     function validVaultNumber(d) {
       return !('vaultNumber' in d) ||
-             d.vaultNumber == null ||
-             (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
+        d.vaultNumber == null ||
+        (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
+    }
+
+    // ***** Forum helpers *****
+    // Common post field checks shared by create/update.
+    function validForumPostCommon(d) {
+      return d.title is string
+        && d.title.size() > 0
+        && d.title.size() <= 256
+        && d.contentHtml is string
+        && d.contentHtml.size() > 0
+        // Stored as HTML. UI caps visible text at 4096. Server allows generous HTML up to 20,480.
+        && d.contentHtml.size() <= 20480
+        // Optional guard: block embedded base64 data URIs in HTML.
+        // Note: regex is case sensitive. This matches lowercase "data:" only.
+        && !d.contentHtml.matches('.*data:[a-z]+/[a-z0-9.+-]+;base64,.*')
+        // Validate category and restrict "Announcements" to admins
+        && d.category is string
+        && d.category.size() > 0
+        && d.category.size() <= 128
+        && (d.category != 'Announcements' || isAdmin());
+    }
+
+    function validForumPostCreate(d) {
+      return validForumPostCommon(d)
+        && d.authorId == request.auth.uid
+        && d.createdAt == request.time
+        // Prevent client seeding counters
+        && ( !('likesCount' in d) || d.likesCount == 0 )
+        && ( !('flagsCount' in d) || d.flagsCount == 0 );
+    }
+
+    function validForumPostUpdate(d, before) {
+      return validForumPostCommon(d)
+        // Immutable fields
+        && d.authorId == before.authorId
+        && d.createdAt == before.createdAt
+        // Client cannot change counters
+        && d.likesCount == before.likesCount
+        && d.flagsCount == before.flagsCount;
+    }
+
+    // Common comment checks shared by create/update.
+    function validForumCommentCommon(d, postId) {
+      return d.postId == postId
+        && d.content is string
+        && d.content.size() > 0
+        && d.content.size() <= 2048;
+    }
+
+    function validForumCommentCreate(d, postId) {
+      return validForumCommentCommon(d, postId)
+        && d.authorId == request.auth.uid
+        && d.createdAt == request.time
+        && ( !('likesCount' in d) || d.likesCount == 0 )
+        && ( !('flagsCount' in d) || d.flagsCount == 0 );
+    }
+
+    function validForumCommentUpdate(d, before, postId) {
+      return validForumCommentCommon(d, postId)
+        // Immutable fields
+        && d.authorId == before.authorId
+        && d.postId == before.postId
+        && d.createdAt == before.createdAt
+        // Client cannot change counters
+        && d.likesCount == before.likesCount
+        && d.flagsCount == before.flagsCount;
+    }
+
+    // ***** Forum *****
+    match /forum/{postId} {
+      // Allow anyone to read forum posts.
+      allow read: if true;
+
+      // Create requires authentication and must pass create checks.
+      allow create: if signedIn()
+        && validForumPostCreate(request.resource.data);
+
+      // Update requires authentication and must pass update checks.
+      allow update: if signedIn()
+        && validForumPostUpdate(request.resource.data, resource.data);
+
+      // Only post owners can delete.
+      allow delete: if signedIn()
+        && resource.data.authorId == request.auth.uid;
+
+      // Post likes
+      match /likes/{uid} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && request.auth.uid == uid
+          && !exists(/databases/$(database)/documents/forum/$(postId)/likes/$(uid));
+        allow delete: if signedIn() && request.auth.uid == uid;
+      }
+
+      // Post flags
+      match /flags/{uid} {
+        // One doc per user per post
+        allow read: if signedIn();
+        // Allow create only if it doesn't exist, and only by the owner uid
+        allow create: if signedIn()
+          && request.auth.uid == uid
+          && !exists(/databases/$(database)/documents/forum/$(postId)/flags/$(uid));
+        // Owner may remove their flag
+        allow delete: if signedIn() && request.auth.uid == uid;
+      }
+
+      // Posts > Comments
+      match /comments/{commentId} {
+        allow read: if true;
+
+        allow create: if signedIn()
+          && validForumCommentCreate(request.resource.data, postId);
+
+        allow update: if signedIn()
+          && validForumCommentUpdate(request.resource.data, resource.data, postId);
+
+        allow delete: if signedIn()
+          && resource.data.authorId == request.auth.uid;
+
+        // Comment likes
+        match /likes/{uid} {
+          allow read: if signedIn();
+          allow create: if signedIn()
+            && request.auth.uid == uid
+            && !exists(/databases/$(database)/documents/forum/$(postId)/comments/$(commentId)/likes/$(uid));
+          allow delete: if signedIn() && request.auth.uid == uid;
+        }
+
+        // Comment flags
+        match /flags/{uid} {
+          // One doc per user per comment
+          allow read: if signedIn();
+          allow create: if signedIn()
+            && request.auth.uid == uid
+            && !exists(/databases/$(database)/documents/forum/$(postId)/comments/$(commentId)/flags/$(uid));
+          allow delete: if signedIn() && request.auth.uid == uid;
+        }
+      }
     }
   }
 }

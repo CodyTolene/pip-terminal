@@ -1,0 +1,12 @@
+// @use '../../styles/colors' as col;
+// @use '../../styles/breakpoints' as bps;
+// @use '../../styles/scrollbar' as sb;
+// @use '../../styles/variables' as var;
+
+.action-buttons {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  width: 100%;
+}

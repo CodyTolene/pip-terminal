@@ -1,15 +1,26 @@
 import { defineConfig } from 'cypress';
 
-const host = process.env['APP_HOST'] ?? 'pip-boy.local';
+const isCI = !!process.env['CI'];
+const host = process.env['APP_HOST'] ?? (isCI ? 'localhost' : 'pip-boy.local');
 const port = process.env['APP_PORT'] ?? '4200';
 
 const downloadsFolder = 'cypress/downloads';
 const enableScreenshots = true;
-const enableVideos = host === 'pip-boy.local'; // Local only (not CI)
+const enableVideos = !isCI; // Local only (not CI)
 const fixturesFolder = 'cypress/fixtures';
 const screenshotsFolder = 'cypress/screenshots';
 const videosFolder = 'cypress/videos';
 const waitForAnimations = true;
+
+// Chromium flags that avoid DBus/GPU/sandbox issues in CI
+const chromiumFlags = [
+  '--no-sandbox',
+  '--disable-dev-shm-usage',
+  '--disable-gpu',
+  '--disable-setuid-sandbox',
+  '--disable-features=UseOzonePlatform,VizDisplayCompositor',
+  '--remote-debugging-port=0',
+];
 
 export default defineConfig({
   component: {
@@ -30,6 +41,7 @@ export default defineConfig({
     videosFolder,
     waitForAnimations,
   },
+
   e2e: {
     baseUrl: `http://${host}:${port}`,
     downloadsFolder,
@@ -37,8 +49,21 @@ export default defineConfig({
     screenshotOnRunFailure: enableScreenshots,
     screenshotsFolder,
     scrollBehavior: 'center',
-    setupNodeEvents(_on, _config) {
-      // implement node event listeners here
+    setupNodeEvents(on, config) {
+      // Add Chromium flags in all CI runs (and locally if needed)
+      on('before:browser:launch', (browser, launchOptions) => {
+        const isChromiumFamily =
+          browser?.family === 'chromium' ||
+          browser?.name === 'chrome' ||
+          browser?.name === 'chromium' ||
+          browser?.name === 'edge';
+        if (isChromiumFamily) {
+          launchOptions.args.push(...chromiumFlags);
+        }
+        return launchOptions;
+      });
+
+      return config;
     },
     specPattern: 'cypress/e2e/**/*.cy.ts',
     supportFile: 'cypress/support/e2e.ts',

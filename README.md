@@ -27,6 +27,7 @@
   - [Deploying Frontend](#deploy-frontend)
   - [Deploying API](#deploy-api)
   - [Automated Testing](#automated-testing)
+  - [Throttling](#throttling)
   - [Versioning](#versioning)
   - [Content Guidelines](#content-guidelines)
   - [File Structure](#file-structure)
@@ -244,6 +245,32 @@ frontend and the Firebase emulators are running:
 
 This will open the Cypress Test Runner. Click on either E2E Testing or Component
 Testing to run your tests.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+### Throttling <a name="throttling"></a>
+
+It can be difficult to throttle the Firestore Emulator during local develompent
+using browser tools. To force throttling, you can use a network level tool like
+[Clumsy][link-clumsy]. Clumsy allows you to simulate various network conditions
+including latency, packet loss, and bandwidth limitations. You can download it
+from the following link:
+
+https://jagt.github.io/clumsy/download.html
+
+Use the following filter perameters to throttle the Firestore Emulator port
+(8080):
+
+```bash
+outbound and ip.DstAddr == 127.0.0.1 and tcp.DstPort == 8080
+```
+
+A useful function is "Lag" which adds latency to packets, set the delay to
+something like 1000ms (1 second) to simulate a slower connection.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -503,6 +530,7 @@ Cody Tolene
 <!-- LINK REFERENCES -->
 
 [link-admin-users]: /api//src//seeds/admins.seed.ts
+[link-clumsy]: https://jagt.github.io/clumsy/
 [link-discord-robco-industries]: https://discord.gg/WNEuWsck6n
 [link-discord]: https://discord.gg/zQmAkEg8XG
 [link-ffmpeg]: https://ffmpeg.org/

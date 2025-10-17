@@ -51,14 +51,12 @@
   }
   <p>Terms and Conditions</p>
   <a [href]="termsAndConditionsUrl" class="terms-link" target="_blank"
-    >Click here to view Terms and Conditions</a
+    >Click here to view</a
   >
   <pro-input-checkbox
     [formControl]="formGroup.controls.terms"
-    hideHint
-    label="I agree to the terms and conditions"
-    >I agree to the Terms and Conditions</pro-input-checkbox
-  >
+    label="I agree to the Terms and Conditions listed above."
+  ></pro-input-checkbox>
   <pip-button
     [disabled]="formGroup.invalid || formGroup.disabled || isRegistering()"
     type="submit"

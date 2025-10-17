@@ -1,0 +1,22 @@
+@use '../colors' as col;
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.select-overrides(
+    (
+      placeholder-text-color: col.$pip-black,
+    )
+  );
+}
+
+.mat-mdc-option > .mdc-list-item__primary-text {
+  color: col.$pip-green;
+
+  &:hover {
+    color: col.$pip-green;
+  }
+}
+
+mat-option.mdc-list-item:hover .mdc-list-item__primary-text {
+  color: col.$pip-green;
+}

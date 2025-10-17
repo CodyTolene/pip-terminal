@@ -36,6 +36,7 @@ import {
   PipDialogAvatarResult,
 } from 'src/app/components/dialog-avatar/pip-dialog-avatar.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { PipPanelComponent } from 'src/app/components/panel/panel.component';
 
 @UntilDestroy()
 @Component({
@@ -50,6 +51,7 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
     InputDatepickerComponent,
     LoadingComponent,
     PipButtonComponent,
+    PipPanelComponent,
     ReactiveFormsModule,
     VaultNumberDirective,
     VaultNumberPipe,

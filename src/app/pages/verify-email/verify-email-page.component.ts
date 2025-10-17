@@ -10,6 +10,7 @@ import {
 import { VERIFY_EMAIL_STORAGE_KEY } from 'src/app/constants';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
 import { PipUser } from 'src/app/models';
+import { RouteResourceId } from 'src/app/routing';
 import {
   AuthService,
   StorageLocalService,
@@ -161,7 +162,7 @@ export class VerifyEmailPageComponent {
 
       if (user.emailVerified) {
         const userVaultUrl = ('vault/:id' satisfies PageUrl).replace(
-          ':id',
+          ':id' satisfies RouteResourceId,
           user.uid,
         );
         this.toast.success({

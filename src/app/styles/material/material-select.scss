@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use '../colors' as col;
 
-// https://material.angular.io/components/form-field/styling
 :root {
   @include mat.select-overrides(
     (

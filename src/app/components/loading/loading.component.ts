@@ -1,12 +1,12 @@
 import { VaultNumberDirective } from 'src/app/directives';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   Component,
   ContentChild,
   Input,
+  booleanAttribute,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -23,10 +23,9 @@ import { RouterModule } from '@angular/router';
   standalone: true,
 })
 export class LoadingComponent implements AfterContentInit {
-  @Input({ required: false })
-  public ariaLive: 'off' | 'polite' | 'assertive' = 'polite';
+  @Input() public ariaLive: 'off' | 'polite' | 'assertive' = 'polite';
 
-  @Input({ required: false, transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public center = false;
 
   @ContentChild(VaultNumberDirective)

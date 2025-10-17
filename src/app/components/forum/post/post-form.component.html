@@ -1,0 +1,68 @@
+<form [formGroup]="formGroup" (ngSubmit)="createPost()">
+  <!-- TITLE -->
+  <pro-input
+    [formControl]="formGroup.controls.title"
+    appearance="outline"
+    label="Title"
+    placeholder="Enter post title"
+    type="text"
+  ></pro-input>
+  <!-- CATEGORY -->
+  <pro-input-dropdown
+    [formControl]="formGroup.controls.category"
+    label="Category"
+    placeholder="Select an option"
+  >
+    @for (option of forumCategoryList | async; track option) {
+      <pro-input-dropdown-option [value]="option">{{
+        option
+      }}</pro-input-dropdown-option>
+    }
+  </pro-input-dropdown>
+  <!-- CONTENT -->
+  <quill-editor
+    (onEditorCreated)="onEditorCreated($event)"
+    [formControl]="formGroup.controls.contentHtml"
+    [formats]="allowedFormats"
+    [modules]="{
+      toolbar: editorModules.toolbar,
+      counter: {
+        container: counterContainer,
+        unit: 'character',
+        max: contentMaxLen,
+        imageWeight: 500,
+      },
+    }"
+    format="html"
+    placeholder="Share your thoughts..."
+  ></quill-editor>
+  <div class="last-row">
+    <div class="counter-validation">
+      <!-- CUSTOM VALIDATION: HTML CHARACTER COUNTER -->
+      <div #counterContainer class="form-hint" aria-live="polite"></div>
+      <div class="form-hint-img">
+        <mat-icon [inline]="true">info</mat-icon>&nbsp;Images count as
+        {{ imageCharacterWeight }} characters
+      </div>
+    </div>
+    <!-- SPOILER -->
+    <pro-input-checkbox
+      [formControl]="formGroup.controls.isSpoiler"
+      label="Contains spoilers"
+    ></pro-input-checkbox>
+  </div>
+  <!-- ACTION BUTTONS -->
+  <div class="action-buttons">
+    <pip-button type="button" (click)="cancel()" [disabled]="isSubmitting()"
+      >Cancel</pip-button
+    >
+    <pip-button
+      [disabled]="formGroup.invalid || formGroup.disabled || isSubmitting()"
+      styling="filled"
+      type="submit"
+      >Post</pip-button
+    >
+  </div>
+</form>
+
+<!-- {{ formGroup.value | json }} -->

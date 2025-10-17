@@ -1,0 +1,53 @@
+@if (post(); as post) {
+  <pip-forum-header
+    [category]="post.category"
+    [post]="post"
+    [user]="userChanges | async"
+  />
+
+  <section class="post">
+    <pip-title h1>Forum Post</pip-title>
+    <pip-panel>
+      <pip-forum-post-display [post]="post" />
+    </pip-panel>
+
+    @if (isReplying()) {
+      <pip-comment-form
+        [post]="post"
+        (closeForm)="onCloseCommentForm($event)"
+      />
+    } @else {
+      <div class="action-buttons">
+        @if (userChanges | async; as user) {
+          <pip-button (click)="isReplying.set(true)">Reply</pip-button>
+        } @else {
+          <pip-button
+            [routerLink]="loginLink"
+            [queryParams]="getReturnUrlQueryParams()"
+            >Reply</pip-button
+          >
+        }
+      </div>
+    }
+    <hr />
+  </section>
+
+  <section class="comments">
+    <pip-comment-wall [post]="post" />
+  </section>
+} @else if (loading()) {
+  <section class="loading-container">
+    <pip-loading />
+    <p class="loading"><i>LOADING POST</i></p>
+  </section>
+} @else if (error()) {
+  <section class="loading-container">
+    <mat-icon [inline]="true" fontSet="material-icons-outlined" class="error"
+      >error</mat-icon
+    >
+    <p class="loading error"><i>FAILED TO LOAD POST</i></p>
+    <p class="loading error"><i>PLEASE TRY AGAIN LATER</i></p>
+  </section>
+}
+
+<pip-footer />

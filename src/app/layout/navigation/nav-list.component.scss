@@ -1,0 +1,21 @@
+// @use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+// @use '../../styles/scrollbar' as sb;
+// @use '../../styles/variables' as var;
+
+mat-icon {
+  color: col.$pip-green-dark;
+  margin-right: 1rem;
+}
+
+a.active mat-icon {
+  color: col.$pip-green;
+}
+
+a:hover mat-icon {
+  color: col.$pip-green-light;
+}
+
+pip-badge {
+  margin-left: 1rem;
+}

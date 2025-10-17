@@ -1,0 +1,34 @@
+@if (posts(); as posts) {
+  <section class="table-container">
+    <pro-table
+      (rowClick)="onRowClick($event)"
+      (sortChange)="onSortChange($event)"
+      [columns]="columns()"
+      [data]="posts"
+      [initialSort]="initialSort"
+      [rowClickEnabled]="true"
+    ></pro-table>
+    <mat-paginator
+      #matPaginator
+      (page)="onPaginate($event)"
+      [hidePageSize]="true"
+      [length]="total()"
+      [pageIndex]="pageIndex()"
+      [pageSize]="10"
+      [showFirstLastButtons]="true"
+    ></mat-paginator>
+  </section>
+} @else if (posts() === null) {
+  <section class="loading-container">
+    <pip-loading />
+    <p class="loading"><i>LOADING POSTS</i></p>
+  </section>
+} @else {
+  <section class="loading-container">
+    <mat-icon [inline]="true" fontSet="material-icons-outlined" class="error"
+      >error</mat-icon
+    >
+    <p class="loading error"><i>FAILED TO LOAD POSTS</i></p>
+    <p class="loading error"><i>PLEASE TRY AGAIN LATER</i></p>
+  </section>
+}

@@ -32,6 +32,11 @@ main {
       margin-bottom: 2rem;
     }
 
+    > pip-panel {
+      max-width: var.$section-max-width;
+      padding: 1rem;
+    }
+
     &.intro {
       margin: 0 auto;
       max-width: var.$section-max-width;
@@ -68,12 +73,45 @@ main {
         margin: 0;
       }
     }
+
+    pip-title {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    &.forum {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+
+      .forum-header {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-direction: row;
+        margin-bottom: 1rem;
+
+        pip-title {
+          margin: 0;
+        }
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+    }
   }
 }
 
-h1 {
-  color: col.$pip-green-dark;
-  font-size: var.$font-xl;
+pip-title[h1] {
   margin-bottom: 2rem;
   text-align: center;
   width: 100%;
@@ -106,12 +144,12 @@ pip-button {
   max-width: var.$section-max-width;
 }
 
-hr.pip-divider {
-  border: 0;
-  border-top: 4px solid col.$pip-green-darkest;
-  // box-shadow:
-  //   0 0 6px col.$pip-green,
-  //   0 0 12px col.$pip-green;
-  width: 80%;
-  margin: 3rem auto;
+pip-divider {
+  margin: 0 auto;
+  max-width: var.$page-max-width;
+  padding: 0 2rem;
+}
+
+pip-footer {
+  margin-top: 4rem;
 }

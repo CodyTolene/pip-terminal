@@ -10,9 +10,9 @@
     </div>
     <div class="menu-container">
       @if (userChanges | async; as user) {
-        <span [title]="user.displayName || user.email || 'User'">{{
+        <a [routerLink]="userVaultUrl | async" title="User Vault">{{
           user.displayName || user.email || 'User'
-        }}</span>
+        }}</a>
       }
       <button
         (click)="toggleNavbar()"

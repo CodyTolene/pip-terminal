@@ -1,0 +1,30 @@
+<pip-forum-header [user]="userChanges | async" />
+
+<section class="intro">
+  <pip-title h1>Community Forum</pip-title>
+  <p>
+    <strong>[ Vault-Tec Community Bulletin ]</strong>
+    Welcome to the Pip-Boy Community Forum. This console lists all the available
+    categories and the newest posts recovered from the network. Entries are
+    compiled by certified vault dwellers and made ready for civilian review.
+    Pick a category to dive in, or scroll to the most Recent Posts below.
+  </p>
+</section>
+
+<section class="categories">
+  <h3>Categories</h3>
+  <div class="pip-grid">
+    @for (cat of categories; track cat.key) {
+      <a [routerLink]="cat.link" class="pip-grid-item">
+        <h4>{{ cat.name }}</h4>
+        <span>{{ cat.description }}</span>
+      </a>
+    }
+  </div>
+</section>
+
+<section class="posts">
+  <pip-forum-post-wall simple />
+</section>
+
+<pip-footer />

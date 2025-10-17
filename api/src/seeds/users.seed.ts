@@ -4,7 +4,7 @@ export const USERS_SEED: readonly UserSeed[] = [
       // Firebase User Auth fields
       disabled: false,
       displayName: 'User - Default',
-      email: 'test.1@pip-boy.local',
+      email: 'test.1@testing.local',
       emailVerified: true,
       password: 'DevUserPass000',
       phoneNumber: '+15555555555',
@@ -23,7 +23,7 @@ export const USERS_SEED: readonly UserSeed[] = [
       // Firebase User Auth fields
       disabled: false,
       displayName: 'User - Unverified',
-      email: 'test.2@pip-boy.local',
+      email: 'test.2@testing.local',
       emailVerified: false,
       phoneNumber: undefined,
       password: 'DevUserPass000',
@@ -42,7 +42,7 @@ export const USERS_SEED: readonly UserSeed[] = [
       // Firebase User Auth fields
       disabled: true,
       displayName: 'User - Disabled',
-      email: 'test.3@pip-boy.local',
+      email: 'test.3@testing.local',
       emailVerified: true,
       phoneNumber: undefined,
       password: 'DevUserPass000',
@@ -62,7 +62,7 @@ export const USERS_SEED: readonly UserSeed[] = [
       // Firebase User Auth fields
       disabled: false,
       displayName: 'User - No Profile',
-      email: 'test.4@pip-boy.local',
+      email: 'test.4@testing.local',
       emailVerified: true,
       phoneNumber: undefined,
       password: 'DevUserPass000',

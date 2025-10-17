@@ -12,24 +12,40 @@ const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
   'STAT > STATUS - Pip-Boy 3000 Mk IV',
 ] as const;
 
+const PIP_BOY_3000_MK_V_PAGE_NAMES = [
+  'Pip-Boy 3000 Mk V Apps',
+  'Pip-Boy 3000 Mk V Companion App',
+  'Pip-Boy 3000 Mk V Maintenance',
+  'Pip-Boy 3000 Mk V Radio',
+] as const;
+
+const FORUM_PAGE_NAMES = [
+  'Forum',
+  'Forum - Category',
+  'Forum - New Post',
+  'Forum - View Post',
+] as const;
+
+const PIP_BOY_SIMULATOR_PAGE_NAMES = [
+  'Pip-Boy 2000 Mk VI Simulator',
+  'Pip-Boy 3000 Mk IV Simulator',
+  'Pip-Boy 3000 Simulator',
+  'Pip-Boy 3000A Simulator',
+] as const;
+
 export const PAGE_NAMES = [
   'Home',
   'Login',
   'My Vault',
   'Page Not Found',
-  'Pip-Boy 2000 Mk VI Simulator',
-  'Pip-Boy 3000 Mk IV Simulator',
-  ...PIP_BOY_3000_MK_IV_PAGE_NAMES,
-  'Pip-Boy 3000 Mk V Apps',
-  'Pip-Boy 3000 Mk V Companion App',
-  'Pip-Boy 3000 Mk V Maintenance',
-  'Pip-Boy 3000 Mk V Radio',
-  'Pip-Boy 3000 Simulator',
-  'Pip-Boy 3000A Simulator',
   'Privacy Policy',
   'Register',
   'Status',
   'Support',
   'Terms and Conditions',
   'Verify Email',
+  ...FORUM_PAGE_NAMES,
+  ...PIP_BOY_3000_MK_IV_PAGE_NAMES,
+  ...PIP_BOY_3000_MK_V_PAGE_NAMES,
+  ...PIP_BOY_SIMULATOR_PAGE_NAMES,
 ] as const;

@@ -1,0 +1,16 @@
+<pip-forum-header [category]="category()" [user]="userChanges | async" />
+
+<section class="intro">
+  <pip-title h1>{{ category() }}</pip-title>
+  <p>
+    <strong>[ Vault-Tec Archive Notice ]</strong>
+    You are viewing the "{{ category() }}" index compiled by certified Vault-Tec
+    archivists. To find a specific post, use the table below to filter or sort.
+  </p>
+</section>
+
+<section>
+  <pip-forum-table [category]="category()" />
+</section>
+
+<pip-footer />

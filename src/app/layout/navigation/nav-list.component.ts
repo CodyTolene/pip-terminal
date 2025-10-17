@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 
+import { PipBadgeComponent } from 'src/app/components/badge/badge.component';
 import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
@@ -21,25 +22,15 @@ import { PageUrl } from 'src/app/types/page-url';
 @UntilDestroy()
 @Component({
   selector: 'pip-nav-list',
-  template: `
-    <nav aria-label="Main">
-      @for (link of linksChanges | async; track link) {
-        <a
-          #rla="routerLinkActive"
-          (click)="link.onClick?.($event); closeNavBar()"
-          [attr.aria-current]="rla.isActive ? 'page' : null"
-          [routerLinkActiveOptions]="
-            link.exact ? { exact: true } : { exact: false }
-          "
-          [routerLink]="link.onClick ? null : link.commands"
-          mat-list-item
-          routerLinkActive="active"
-          >{{ link.label }}</a
-        >
-      }
-    </nav>
-  `,
-  imports: [CommonModule, MatIconModule, MatListModule, RouterModule],
+  templateUrl: './nav-list.component.html',
+  styleUrls: ['./nav-list.component.scss'],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatListModule,
+    PipBadgeComponent,
+    RouterModule,
+  ],
   standalone: true,
 })
 export class NavListComponent {
@@ -53,19 +44,23 @@ export class NavListComponent {
   private readonly links: readonly PageLink[] = [
     {
       commands: [''],
+      icon: 'home',
       label: 'Home',
       exact: true,
     },
     {
       commands: ['vault/:id'],
+      icon: 'account_balance',
       label: 'My Vault',
     },
     {
       commands: ['login'],
+      icon: 'login',
       label: 'Login',
     },
     {
       commands: ['register'],
+      icon: 'person_add',
       label: 'Register',
     },
     {
@@ -75,42 +70,58 @@ export class NavListComponent {
         this.logout();
       },
       commands: ['logout'],
+      icon: 'logout',
       label: 'Logout',
     },
     {
+      commands: ['forum'],
+      icon: 'forum',
+      isNewFeature: true,
+      label: 'Forum',
+    },
+    {
       commands: ['2000-mk-vi'],
+      icon: 'star',
       label: 'Pip-Boy 2000 Mk VI',
     },
     {
       commands: ['3000'],
+      icon: 'star',
       label: 'Pip-Boy 3000',
     },
     {
       commands: ['3000a'],
+      icon: 'star',
       label: 'Pip-Boy 3000A',
     },
     {
       commands: ['3000-mk-iv'],
+      icon: 'star',
       label: 'Pip-Boy 3000 Mk IV',
     },
     {
       commands: ['3000-mk-v'],
+      icon: 'star',
       label: 'Pip-Boy 3000 Mk V',
     },
     {
       commands: ['status'],
+      icon: 'search_insights',
       label: 'Status',
     },
     {
       commands: ['support'],
+      icon: 'contact_support',
       label: 'Support',
     },
     {
       commands: ['privacy-policy'],
+      icon: 'privacy_tip',
       label: 'Privacy Policy',
     },
     {
       commands: ['terms-and-conditions'],
+      icon: 'gavel',
       label: 'Terms and Conditions',
     },
   ];
@@ -123,15 +134,15 @@ export class NavListComponent {
           // Filter links by user logged in state.
           links: this.links.filter((link) => {
             switch (link.label) {
-              case 'Login': {
-                return user ? false : true;
-              }
+              // If logged in, hide these
+              // If logged out, show these
+              case 'Login':
               case 'Register': {
                 return user ? false : true;
               }
-              case 'Logout': {
-                return user ? true : false;
-              }
+              // If logged in, show these
+              // If logged out, hide these
+              case 'Logout':
               case 'My Vault': {
                 return user ? true : false;
               }
@@ -197,6 +208,7 @@ export class NavListComponent {
 
 interface PageLink {
   commands: ReadonlyArray<PageUrl | 'logout'>;
+  icon: string;
   label:
     | 'Logout'
     | 'Pip-Boy 2000 Mk VI'
@@ -206,6 +218,7 @@ interface PageLink {
     | 'Pip-Boy 3000A'
     | PageName;
   exact?: boolean;
+  isNewFeature?: boolean;
   isNewTab?: boolean;
   onClick?: (mouseEvent: MouseEvent) => void;
   queryParams?: Record<string, string | number>;

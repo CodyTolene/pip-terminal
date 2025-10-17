@@ -1,0 +1,13 @@
+@use 'colors' as col;
+
+// @use 'quill/dist/quill.bubble.css';
+// @use 'quill/dist/quill.core.css';
+
+// Core Quill Snow theme
+@use 'quill/dist/quill.snow.css';
+
+// Customizations and overrides
+@use './quill/quill-body.scss';
+@use './quill/quill-borders.scss';
+@use './quill/quill-placeholder.scss';
+@use './quill/quill-toolbar.scss';

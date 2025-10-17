@@ -21,7 +21,7 @@ mat-sidenav-container {
 
   mat-sidenav {
     border-left: 1px solid col.$pip-green-darkest;
-    font-family: monospace;
+    font-family: var.$secondary-font-family;
 
     .nav-message {
       border-bottom: $border;

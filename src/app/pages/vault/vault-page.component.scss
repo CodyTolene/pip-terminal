@@ -13,27 +13,57 @@
 }
 
 main {
-  align-items: stretch;
+  align-items: center;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  gap: 1rem;
   justify-content: normal;
   margin: 0 auto;
-  margin-top: 2rem;
+  margin-bottom: 4rem;
+  max-width: var.$page-max-width;
+  width: 100%;
+}
+
+pip-title[h1] {
+  margin: 1rem 0 2rem 0;
+  text-align: center;
+  width: 100%;
+}
+
+section.user-identification {
+  margin-top: 1rem;
   margin-bottom: 2rem;
-  max-width: 800px;
+  max-width: var.$section-max-width;
+  width: 100%;
+}
+
+section.user-actions {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  max-width: var.$section-max-width;
   width: 100%;
 
-  .user-actions {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    width: 100%;
+  @include bps.media('max', 'md') {
+    padding: 0 1rem;
+  }
+}
 
-    @include bps.media('max', 'md') {
-      padding: 0 1rem;
-    }
+pip-divider {
+  margin: 0 auto;
+  max-width: var.$section-max-width;
+}
+
+section.posts {
+  box-sizing: border-box;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: var.$section-max-width;
+
+  @include bps.media('max', 'md') {
+    padding: 1rem;
   }
 }
 

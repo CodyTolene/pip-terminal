@@ -1,0 +1,108 @@
+@if (post(); as post) {
+  <div class="post-group">
+    @if (linkedPost) {
+      <a [routerLink]="post.url" class="forum-post">
+        <ng-container *ngTemplateOutlet="postBody; context: { post: post }" />
+      </a>
+    } @else {
+      <div class="forum-post">
+        <ng-container *ngTemplateOutlet="postBody; context: { post: post }" />
+      </div>
+    }
+  </div>
+} @else {
+  <p class="error">[ERROR] Post data is unavailable.</p>
+}
+
+<ng-template #postBody let-post="post">
+  <div class="post-header">
+    @if (simple) {
+      <h5>{{ post.titlePreview }}</h5>
+    } @else {
+      <h5>{{ post.title }}</h5>
+    }
+    <p class="category">Category: {{ post.category }}</p>
+  </div>
+  <div
+    class="post-body"
+    [class.is-spoiler]="post.isSpoiler && !spoilerRevealed()"
+  >
+    <div class="spoiler-content">
+      @if (simple) {
+        <p>{{ post.contentPreview }}</p>
+      } @else {
+        <p [innerHTML]="post.contentHtml"></p>
+      }
+    </div>
+    @if (post.isSpoiler && !spoilerRevealed()) {
+      <div
+        class="spoiler-cover"
+        role="button"
+        tabindex="0"
+        (click)="revealSpoiler($event)"
+        (keydown.enter)="revealSpoiler($event)"
+        (keydown.space)="revealSpoiler($event)"
+      >
+        <span> Spoiler<br />Click to reveal </span>
+      </div>
+    }
+  </div>
+  <div class="stats">
+    @if (!simple) {
+      @if (userChanges | async; as user) {
+        <button
+          (click)="onFlagPostClick()"
+          class="flags clickable"
+          matTooltip="Flag Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>flag</mat-icon>
+          <!-- <span>{{ post.flagsCount }}</span> -->
+        </button>
+        <button
+          (click)="onLikePostClick()"
+          class="likes clickable"
+          matTooltip="Like Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>thumb_up</mat-icon>
+          <span class="count">{{ likesCountShown() }}</span>
+        </button>
+      } @else {
+        <button
+          [routerLink]="loginLink"
+          [queryParams]="getReturnUrlQueryParams()"
+          class="flags clickable"
+          matTooltip="Flag Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>flag</mat-icon>
+        </button>
+        <button
+          [routerLink]="loginLink"
+          [queryParams]="getReturnUrlQueryParams()"
+          class="likes clickable"
+          matTooltip="Like Post"
+          matTooltipPosition="above"
+        >
+          <mat-icon>thumb_up</mat-icon>
+          <span class="count">{{ likesCountShown() }}</span>
+        </button>
+      }
+    } @else {
+      <button class="flags" disabled>
+        <mat-icon>flag</mat-icon>
+      </button>
+      <button class="likes" disabled>
+        <mat-icon>thumb_up</mat-icon>
+        <span class="count">{{ likesCountShown() }}</span>
+      </button>
+    }
+  </div>
+  <div class="signature">
+    <span class="author">- {{ post.authorName }}</span>
+    <span class="timestamp">
+      {{ post.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+    </span>
+  </div>
+</ng-template>
