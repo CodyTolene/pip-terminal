@@ -1,11 +1,14 @@
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { PipUser } from 'src/app/models';
 import { ToastService, UserProfileService } from 'src/app/services';
+import { Validation } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  ViewChild,
   inject,
   signal,
 } from '@angular/core';
@@ -36,6 +39,9 @@ export class PipDialogAvatarComponent {
   private readonly data = inject<PipDialogAvatarInput>(MAT_DIALOG_DATA);
   private readonly toast = inject(ToastService);
   private readonly userProfile = inject(UserProfileService);
+
+  @ViewChild('avatarFileInput', { static: false })
+  private fileInput?: ElementRef<HTMLInputElement>;
 
   protected readonly user = this.data.user;
   protected readonly isSavingSignal = signal(false);
@@ -70,8 +76,34 @@ export class PipDialogAvatarComponent {
 
   protected onFileSelected(evt: Event): void {
     const input = evt.target as HTMLInputElement | null;
-    this.selectedFile =
-      input?.files && input.files.length > 0 ? input.files[0] : null;
+    const file = input?.files && input.files.length > 0 ? input.files[0] : null;
+
+    if (!file) {
+      this.resetSelectionAndInput(input);
+      return;
+    }
+
+    // Validate type and size right away
+    if (!/^image\/.+$/i.test(file.type || '')) {
+      this.toast.error({
+        message: 'Please select an image file.',
+        durationSecs: 3,
+      });
+      this.resetSelectionAndInput(input);
+      return;
+    }
+
+    if (file.size >= Validation.maxImageSizeBytes) {
+      this.toast.error({
+        message: 'Image too large (max 2MB).',
+        durationSecs: 3,
+      });
+      this.resetSelectionAndInput(input);
+      return;
+    }
+
+    // Valid selection
+    this.selectedFile = file;
     this.selectedImageEvent = evt;
     this.croppedImage = null;
   }
@@ -82,6 +114,10 @@ export class PipDialogAvatarComponent {
 
   protected onLoadImageFailed(err: unknown): void {
     console.error('[AvatarDialog] cropper failed to load image', err);
+    this.toast.error({
+      message: 'Failed to load image for cropping.',
+      durationSecs: 3,
+    });
   }
 
   protected async save(): Promise<void> {
@@ -93,9 +129,34 @@ export class PipDialogAvatarComponent {
 
     try {
       const toUpload = this.croppedImage ?? (await this.fallbackCenterCrop());
-      if (!toUpload) return;
+      if (!toUpload) {
+        this.toast.error({
+          message: 'Could not prepare image.',
+          durationSecs: 3,
+        });
+        return;
+      }
 
       const blob = this.dataURItoBlob(toUpload);
+
+      // Final guard to match Storage rules
+      if (!/^image\/.+$/i.test(blob.type || '')) {
+        this.toast.error({
+          message: 'Only image files are allowed.',
+          durationSecs: 3,
+        });
+        this.resetSelectionAndInput();
+        return;
+      }
+      if (blob.size >= Validation.maxImageSizeBytes) {
+        this.toast.error({
+          message: 'Image too large (max 2MB).',
+          durationSecs: 3,
+        });
+        this.resetSelectionAndInput();
+        return;
+      }
+
       const previousUrl = this.user.photoURL ?? null;
 
       const newUrl = await this.userProfile.uploadProfileImage(
@@ -108,15 +169,38 @@ export class PipDialogAvatarComponent {
         durationSecs: 3,
       });
       this.dialogRef.close({ photoURL: newUrl });
-    } catch (e) {
-      console.error('[AvatarDialog] save failed', e);
-      this.toast.error({
-        message: 'Failed to update profile image. Please try again later.',
-        durationSecs: 3,
-      });
+    } catch (e: unknown) {
+      // Map expected errors from service
+      if (e instanceof Error && e.cause === 'image-too-large') {
+        this.toast.error({
+          message: 'Image too large (max 2MB).',
+          durationSecs: 3,
+        });
+        this.resetSelectionAndInput();
+      } else if (e instanceof Error && e.cause === 'image-bad-type') {
+        this.toast.error({
+          message: 'Only image files are allowed.',
+          durationSecs: 3,
+        });
+        this.resetSelectionAndInput();
+      } else {
+        console.error('[AvatarDialog] save failed', e);
+        this.toast.error({
+          message: 'Failed to update profile image. Please try again later.',
+          durationSecs: 3,
+        });
+      }
     } finally {
       this.isSavingSignal.set(false);
     }
+  }
+
+  private resetSelectionAndInput(input?: HTMLInputElement | null): void {
+    const el = input ?? this.fileInput?.nativeElement ?? null;
+    if (el) el.value = '';
+    this.selectedFile = null;
+    this.selectedImageEvent = null;
+    this.croppedImage = null;
   }
 
   private dataURItoBlob(dataURI: string): Blob {
