@@ -103,9 +103,7 @@ describe('Welcome page', () => {
     );
 
     // Discord button
-    cy.contains('pip-button', 'Join the Community Discord!')
-      .scrollIntoView()
-      .click();
+    cy.contains('pip-button', 'Join the Discord').scrollIntoView().click();
     cy.get('@winOpen').should(
       'have.been.calledWith',
       'https://discord.gg/zQmAkEg8XG',
