@@ -52,20 +52,17 @@ export class AuthService {
 
           // Emit immediately using current extras and fresh claims
           try {
-            const [profile, role] = await Promise.all([
+            const [rawProfile, role] = await Promise.all([
               this.getUserProfile(user.uid),
               // Force refresh once on login
               this.getUserRole(user, true),
             ]);
 
+            const profile = this.coerceProfile(rawProfile);
+
             const hydratedUser = PipUser.deserialize({
               user,
-              profile: {
-                dateOfBirth: profile?.dateOfBirth ?? undefined,
-                roomNumber: profile?.roomNumber ?? undefined,
-                skill: profile?.skill ?? undefined,
-                vaultNumber: profile?.vaultNumber ?? undefined,
-              },
+              profile,
               role,
             });
 
@@ -93,12 +90,7 @@ export class AuthService {
                 // we'll also keep the token subscription below
                 const role = await this.getUserRole(user, false);
 
-                const profile = {
-                  dateOfBirth: data?.dateOfBirth ?? undefined,
-                  roomNumber: data?.roomNumber ?? undefined,
-                  skill: data?.skill ?? undefined,
-                  vaultNumber: data?.vaultNumber ?? undefined,
-                };
+                const profile = this.coerceProfile(data);
 
                 this.userSubject.next(
                   PipUser.deserialize({ user, profile, role }),
@@ -128,10 +120,12 @@ export class AuthService {
 
               try {
                 // Refresh profile each time, cheap, keeps model consistent
-                const profile = await this.getUserProfile(u.uid);
+                const rawProfile = await this.getUserProfile(u.uid);
+                const profile = this.coerceProfile(rawProfile);
                 const next = PipUser.deserialize({ user: u, profile, role });
                 this.userSubject.next(next);
               } catch (e) {
+                // Most common during new signup before profile doc exists; now coerced, so shouldn't fire.
                 console.error('[AuthService] idToken hydrate failed:', e);
               }
             },
@@ -256,6 +250,16 @@ export class AuthService {
         ? (roleClaim as 'admin' | 'user')
         : null;
     });
+  }
+
+  // Ensure we always pass a valid FirestoreProfileApi object to the codec
+  private coerceProfile(raw?: PipUser['profile']): FirestoreProfileApi {
+    return {
+      dateOfBirth: raw?.dateOfBirth ?? undefined,
+      roomNumber: raw?.roomNumber ?? undefined,
+      skill: raw?.skill ?? undefined,
+      vaultNumber: raw?.vaultNumber ?? undefined,
+    };
   }
 
   // Decode base64url JWT payload to read custom claims (no verification - UI only)
