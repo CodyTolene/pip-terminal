@@ -2,7 +2,6 @@
 @use '../colors' as col;
 
 :root {
-  // Default colors
   @include mat.snack-bar-overrides(
     (
       button-color: col.$pip-green,

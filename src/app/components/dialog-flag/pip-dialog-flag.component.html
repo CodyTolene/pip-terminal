@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <h3>{{ messageTitle }}</h3>
+  @if (message) {
+    <p>{{ message }}</p>
+  }
+  <pro-input-dropdown
+    [formControl]="flagReasonControl"
+    hideHint
+    label="Report reason"
+    placeholder="Select a reason"
+  >
+    @for (flagReason of flagReasonList; track $index) {
+      <pro-input-dropdown-option [value]="flagReason">{{
+        flagReason
+      }}</pro-input-dropdown-option>
+    }
+  </pro-input-dropdown>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button [disabled]="isSaving()" mat-button (click)="cancel()">
+    {{ cancelButtonLabel }}
+  </button>
+  <button
+    (click)="save()"
+    [disabled]="flagReasonControl.invalid || isSaving()"
+    mat-button
+  >
+    {{ confirmButtonLabel }}
+  </button>
+</mat-dialog-actions>

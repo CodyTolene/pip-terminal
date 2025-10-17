@@ -5,7 +5,7 @@
  * const id: RouteResourceId = ':id';
  * const resourceUrl = `https://.../resource/${id}`;
  */
-type RouteResourceId = ':id';
+export type RouteResourceId = ':id';
 
 /** The dynamic identifier used for resources in routes. */
 const id: RouteResourceId = ':id';
@@ -34,6 +34,10 @@ export const PAGE_URLS = (
     '3000-mk-v/maintenance',
     '3000-mk-v/radio',
     '3000a',
+    'forum',
+    `forum/category/${id}`,
+    'forum/post',
+    `forum/post/${id}`,
     'login',
     'privacy-policy',
     'register',

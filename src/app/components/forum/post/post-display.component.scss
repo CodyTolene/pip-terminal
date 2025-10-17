@@ -1,0 +1,170 @@
+@use '../../../styles/colors' as col;
+@use '../../../styles/variables' as var;
+// @use '../../../styles/breakpoints' as bps;
+// @use '../../../styles/scrollbar' as sb;
+
+:host {
+  display: block;
+}
+
+.post-group {
+  padding: 1rem;
+
+  .forum-post {
+    color: col.$pip-green;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+
+    .post-header {
+      display: flex;
+      flex-wrap: nowrap;
+      font-weight: bold;
+      hyphens: auto;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      overflow-wrap: anywhere;
+      white-space: normal;
+      word-break: break-word;
+
+      .category {
+        color: col.$pip-green-darkest;
+        font-size: var.$font-sm;
+        margin: 0;
+        min-width: 150px;
+      }
+    }
+
+    .post-body {
+      position: relative;
+
+      // Clip any visual effects (like blur) to this box
+      // so they cannot bleed into ancestors or siblings.
+      overflow: hidden; // hard clip for all browsers
+      border-radius: 4px; // match inner radius
+      clip-path: inset(0 round 4px); // ensure rounded clipping on GPU layers
+      isolation: isolate; // contain stacking context
+      contain: paint; // prevent painting outside bounds
+
+      &.is-spoiler {
+        .spoiler-content {
+          filter: blur(8px);
+          user-select: none;
+          pointer-events: none;
+        }
+      }
+
+      p {
+        background-color: rgba(col.$pip-green-darkest, 0.25);
+        border-radius: 4px;
+        color: col.$pip-green;
+        font-size: var.$font-md;
+        hyphens: auto;
+        margin: 0;
+        overflow-wrap: anywhere;
+        padding: 1rem;
+        white-space: normal;
+        word-break: break-word;
+
+        ::ng-deep img {
+          height: auto;
+          max-width: 100%;
+          width: auto;
+        }
+      }
+
+      .spoiler-cover {
+        border: 1px solid rgba(col.$pip-green-darkest, 0.1);
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background: rgba(col.$pip-green-darkest, 0.05);
+        overflow: hidden;
+        border-radius: 4px;
+        color: rgba(col.$pip-green-lightest, 0.5);
+        font-weight: 600;
+        line-height: 1.2;
+        cursor: pointer;
+        z-index: 2;
+
+        &:hover {
+          background: rgba(col.$pip-green-darkest, 0.3);
+        }
+
+        span {
+          pointer-events: none;
+        }
+
+        &:focus-visible {
+          outline: 2px solid col.$pip-green;
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    .stats {
+      align-items: center;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      margin: 1rem 0;
+
+      button.likes,
+      button.flags {
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        color: col.$pip-green;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+
+        &:hover {
+          background-color: transparent;
+        }
+
+        &.clickable {
+          cursor: pointer;
+        }
+
+        &[disabled],
+        &.disabled {
+          cursor: not-allowed;
+          color: col.$pip-green-darkest;
+        }
+      }
+
+      .likes {
+        mat-icon {
+          margin-right: 0.5rem;
+        }
+        // .count {
+        //   color: col.$pip-green;
+        // }
+      }
+    }
+
+    .signature {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 1rem;
+
+      .author {
+        color: col.$pip-green-lightest;
+        font-size: var.$font-xs;
+        font-style: italic;
+      }
+
+      .timestamp {
+        color: col.$pip-green-light;
+        font-size: var.$font-xs;
+      }
+    }
+  }
+}

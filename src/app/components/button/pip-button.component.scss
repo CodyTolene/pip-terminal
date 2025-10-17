@@ -25,13 +25,19 @@
 :host {
   display: block;
   font-size: 1rem;
+  max-height: 36px;
   @include background;
 }
 
 button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   font-size: inherit;
   font-weight: bolder;
   height: 100%;
+  max-height: 34px;
   padding: 0.5rem 2rem;
   text-align: center;
   text-decoration: none;

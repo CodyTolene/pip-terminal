@@ -6,7 +6,11 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
+import { PipBadgeComponent } from 'src/app/components/badge/badge.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipDividerComponent } from 'src/app/components/divider/divider.component';
+import { PipPanelComponent } from 'src/app/components/panel/panel.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { PageUrl } from 'src/app/types/page-url';
 
@@ -15,8 +19,12 @@ import { PageUrl } from 'src/app/types/page-url';
   templateUrl: './welcome-page.component.html',
   imports: [
     MatIconModule,
+    PipBadgeComponent,
     PipButtonComponent,
+    PipDividerComponent,
     PipFooterComponent,
+    PipPanelComponent,
+    PipTitleComponent,
     RouterModule,
   ],
   styleUrl: './welcome-page.component.scss',
@@ -25,6 +33,7 @@ import { PageUrl } from 'src/app/types/page-url';
 export class WelcomePageComponent {
   protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
+  protected readonly forumLink = forumLink;
   protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
   protected readonly versionNumber = APP_VERSION;
 
@@ -40,3 +49,5 @@ export class WelcomePageComponent {
     window.open('https://github.com/sponsors/CodyTolene', '_blank');
   }
 }
+
+const forumLink = '/' + ('forum' satisfies PageUrl);

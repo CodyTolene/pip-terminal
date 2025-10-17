@@ -6,6 +6,10 @@ on:
   # push:
   #   branches: [ main ]
 
+concurrency:
+  group: cypress-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   cypress:
     runs-on: ubuntu-latest
@@ -91,6 +95,7 @@ jobs:
       # Run Cypress tests
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
+        timeout-minutes: 25 # stop this step if it hangs
         with:
           start: ''
           wait-on: http://127.0.0.1:4200
@@ -102,9 +107,15 @@ jobs:
           STORAGE_EMULATOR_HOST: 127.0.0.1:9199
           FUNCTIONS_EMULATOR_HOST: 127.0.0.1:5001
 
-      # Upload logs if any step above fails
-      - name: Upload logs on failure
-        if: failure()
+      # Always dump logs so timeouts are debuggable
+      - name: Dump logs
+        if: always()
+        run: |
+          echo '=== emulator.log ===' && (tail -n +1 -v emulator.log || true)
+          echo '=== frontend.log ===' && (tail -n +1 -v frontend.log || true)
+
+      - name: Upload logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ci-logs

@@ -6,8 +6,7 @@ import {
 import { pipSignals } from 'src/app/signals';
 import { logMessage } from 'src/app/utilities';
 
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, booleanAttribute, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
@@ -25,13 +24,8 @@ export class PipActionsMiscComponent {
   private readonly pipGetDataService = inject(PipGetDataService);
   private readonly pipSoundService = inject(PipSoundService);
 
-  @Input() public set hideDeleteAllAppsButton(value: BooleanInput) {
-    this.#hideDeleteAllAppsButton = coerceBooleanProperty(value);
-  }
-  public get hideDeleteAllAppsButton(): boolean {
-    return this.#hideDeleteAllAppsButton;
-  }
-  #hideDeleteAllAppsButton = false;
+  @Input({ transform: booleanAttribute })
+  public hideDeleteAllAppsButton = false;
 
   protected readonly signals = pipSignals;
 

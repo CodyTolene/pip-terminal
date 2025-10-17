@@ -4,29 +4,51 @@
 :root {
   @include mat.form-field-overrides(
     (
-      //container-height: 2rem,
+      // container-height: 1rem,
+      // container-vertical-padding: 0,
+      // container-text-line-height: 36px,
+      disabled-leading-icon-color: col.$pip-green-darkest,
+      disabled-select-arrow-color: col.$pip-green-darkest,
+      disabled-trailing-icon-color: col.$pip-green-darkest,
+      enabled-select-arrow-color: col.$pip-green,
+      filled-active-indicator-color: col.$pip-green,
       filled-caret-color: col.$pip-green,
       filled-container-color: col.$pip-green,
       filled-disabled-container-color: col.$pip-green-darkest,
       filled-disabled-input-text-color: col.$pip-green-dark,
       filled-disabled-label-text-color: col.$gray-darkest,
+      filled-error-hover-active-indicator-color: col.$pip-green,
+      filled-error-hover-label-text-color: col.$pip-green-dark,
       filled-focus-active-indicator-color: col.$pip-green,
       filled-focus-label-text-color: col.$pip-green,
+      filled-hover-active-indicator-color: col.$pip-green-dark,
       filled-hover-label-text-color: col.$pip-green,
       filled-input-text-color: col.$pip-green,
       filled-input-text-placeholder-color: col.$pip-green-dark,
       filled-label-text-color: col.$pip-green,
-      filled-active-indicator-color: col.$pip-green,
-      trailing-icon-color: col.$pip-green,
       leading-icon-color: col.$pip-green,
-      disabled-leading-icon-color: col.$pip-green-darkest,
-      disabled-trailing-icon-color: col.$pip-green-darkest,
-      enabled-select-arrow-color: col.$pip-green,
-      disabled-select-arrow-color: col.$pip-green-darkest,
-      filled-error-hover-active-indicator-color: col.$pip-green,
-      filled-hover-active-indicator-color: col.$pip-green-dark
+      outlined-focus-label-text-color: col.$pip-green,
+      outlined-hover-label-text-color: col.$pip-green,
+      outlined-hover-outline-color: col.$pip-green-dark,
+      outlined-input-text-color: col.$pip-green,
+      outlined-input-text-placeholder-color: col.$pip-green-dark,
+      outlined-label-text-color: col.$pip-green,
+      outlined-outline-color: col.$pip-green,
+      trailing-icon-color: col.$pip-green
     )
   );
+}
+
+pro-input:hover {
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
+      .mdc-text-field--focused
+    ):hover
+    .mat-mdc-notch-piece {
+    border-color: var(
+      --mat-form-field-outlined-hover-outline-color,
+      var(--mat-sys-on-surface)
+    );
+  }
 }
 
 mat-form-field {
@@ -41,12 +63,6 @@ mat-form-field {
   input {
     color: col.$pip-green;
   }
-
-  // .mat-mdc-form-field-hint-wrapper,
-  // .mat-mdc-form-field-subscript-wrapper {
-  //   display: none;
-  //   visibility: hidden;
-  // }
 }
 
 pro-input,

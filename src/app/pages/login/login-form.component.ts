@@ -105,10 +105,10 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
       });
       this.loginErrorMessage.set(null);
       // Routing will be handled from here in the parent page component.
+      // this.isLoggingIn.set(true); // We can leave this true to disable the form.
     } catch (err) {
       console.error('Auth error:', err);
       this.loginErrorMessage.set(this.mapFirebaseError(err));
-    } finally {
       this.isLoggingIn.set(false);
     }
   }

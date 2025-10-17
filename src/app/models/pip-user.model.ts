@@ -20,6 +20,7 @@ type PipUserArgs = Omit<
   | 'displayName'
   | 'email'
   | 'emailVerified'
+  | 'isAdmin'
   | 'phoneNumber'
   | 'photoURL'
   | 'roomNumber'
@@ -32,6 +33,7 @@ export class PipUser {
   public constructor(args: ClassProperties<PipUserArgs>) {
     this.native = args.native;
     this.profile = args.profile;
+    this.role = args.role ?? null;
   }
 
   public static readonly Codec = io.type(
@@ -44,6 +46,7 @@ export class PipUser {
 
   @api({ key: 'native' }) public readonly native: User;
   @api({ key: 'profile' }) public readonly profile: FirestoreProfileApi;
+  public readonly role: 'admin' | 'user' | null;
 
   public get dateOfBirth(): DateTime | null {
     return this.profile.dateOfBirth
@@ -65,6 +68,10 @@ export class PipUser {
 
   public get emailVerified(): boolean {
     return this.native.emailVerified;
+  }
+
+  public get isAdmin(): boolean {
+    return this.role === 'admin';
   }
 
   public get phoneNumber(): string | null {
@@ -94,11 +101,16 @@ export class PipUser {
   public static deserialize(args: {
     user: User;
     profile?: FirestoreProfileApi;
+    role?: 'admin' | 'user' | null;
   }): PipUser {
     decode(FirebaseUserCodec, args.user);
     const profile = decode(FirestoreProfileCodec, args.profile);
     decode(PipUser.Codec, { native: args.user, profile });
-    return new PipUser({ native: args.user, profile });
+    return new PipUser({
+      native: args.user,
+      profile,
+      role: args.role ?? null,
+    });
   }
 
   public static deserializeList(

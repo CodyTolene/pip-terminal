@@ -1,0 +1,12 @@
+quill-editor {
+  .ql-container {
+    font-size: 1rem;
+    min-height: 200px;
+    width: 100%;
+
+    .ql-editor {
+      width: 100%;
+      word-break: break-word;
+    }
+  }
+}

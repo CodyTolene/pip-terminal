@@ -1,4 +1,5 @@
 import { from, map, switchMap, take } from 'rxjs';
+import { RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
 import { inject } from '@angular/core';
@@ -37,7 +38,9 @@ export const vaultAuthGuard: CanActivateFn = (route) => {
         // User is logged in, visiting `/vault`
         // Redirect `/vault` (no id) to `/vault/:uid`
         const userVaultUrl: PageUrl = 'vault/:id';
-        return router.createUrlTree([userVaultUrl.replace(':id', user.uid)]);
+        return router.createUrlTree([
+          userVaultUrl.replace(':id' satisfies RouteResourceId, user.uid),
+        ]);
       }
 
       // Make sure id matches the users id, if not route to home

@@ -1,0 +1,29 @@
+<section>
+  <nav class="breadcrumbs">
+    <a [routerLink]="forumLink">Forum</a>&nbsp;/&nbsp;
+    @if (isCreate) {
+      <span>Create a Post</span>
+    } @else {
+      @if (categoryUrl(); as categoryUrl) {
+        <a [routerLink]="categoryUrl">{{ category() }}</a
+        >&nbsp;/&nbsp;
+      }
+      @if (post(); as p) {
+        <span class="post-title">{{ p.title }}</span>
+      }
+    }
+  </nav>
+  @if (!isCreate) {
+    @if (user()) {
+      <a [routerLink]="forumNewPostLink"
+        ><mat-icon fontSet="material-icons-outlined" inline>add_box</mat-icon
+        >&nbsp;New Post</a
+      >
+    } @else {
+      <a [routerLink]="loginLink" [queryParams]="getReturnUrlQueryParams()"
+        ><mat-icon fontSet="material-icons-outlined" inline>add_box</mat-icon
+        >&nbsp;New Post</a
+      >
+    }
+  }
+</section>

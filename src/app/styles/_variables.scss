@@ -1,6 +1,6 @@
-// Font families
-$default-font-family: 'Roboto', sans-serif;
-$font-mono: monospace;
+// Font
+$default-font-family: 'Roboto Mono', monospace;
+$secondary-font-family: monospace;
 
 // Font sizes
 $font-xxs: 13px;
@@ -18,7 +18,9 @@ $navbar-height: 32px;
 $footer-height: 2rem;
 
 // Widths
+$page-max-width: 1200px;
 $section-max-width: 800px;
 
 // Z-Indexes
 $gdpr-banner-z-index: 9999;
+$backdrop-z-index: 9998;

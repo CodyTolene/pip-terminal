@@ -1,0 +1,63 @@
+@if (comment(); as comment) {
+  <div class="comment-group">
+    <div class="forum-comment">
+      <div class="comment-body">
+        <ng-container *ngTemplateOutlet="commentBody; context: { comment }" />
+        <div class="signature">
+          <span class="author">- {{ comment.authorName }}</span>
+          <span class="timestamp">
+            {{ comment.createdAt | dateTime: 'MM/dd/yyyy, hh:mm a (ZZZZ)' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <p class="error">[ERROR] Comment data is unavailable.</p>
+}
+
+<ng-template #commentBody let-comment="comment">
+  <p>{{ comment.content }}</p>
+  <div class="stats">
+    @if (userChanges | async; as user) {
+      <button
+        (click)="onFlagCommentClick()"
+        class="flags clickable"
+        matTooltip="Flag Comment"
+        matTooltipPosition="above"
+      >
+        <mat-icon>flag</mat-icon>
+        <!-- <span>{{ comment.flagsCount }}</span> -->
+      </button>
+      <button
+        (click)="onLikeCommentClick()"
+        class="likes clickable"
+        matTooltip="Like Comment"
+        matTooltipPosition="above"
+      >
+        <mat-icon>thumb_up</mat-icon>
+        <span>{{ likesCountShown() }}</span>
+      </button>
+    } @else {
+      <button
+        [routerLink]="loginLink"
+        [queryParams]="getReturnUrlQueryParams()"
+        class="flags clickable"
+        matTooltip="Flag Comment"
+        matTooltipPosition="above"
+      >
+        <mat-icon>flag</mat-icon>
+      </button>
+      <button
+        [routerLink]="loginLink"
+        [queryParams]="getReturnUrlQueryParams()"
+        class="likes clickable"
+        matTooltip="Like Comment"
+        matTooltipPosition="above"
+      >
+        <mat-icon>thumb_up</mat-icon>
+        <span>{{ likesCountShown() }}</span>
+      </button>
+    }
+  </div>
+</ng-template>

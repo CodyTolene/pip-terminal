@@ -1,0 +1,46 @@
+// @use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
+// @use '../../../styles/scrollbar' as sb;
+@use '../../../styles/variables' as var;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+section.table-container {
+  border: 1px solid rgba(col.$pip-green-darkest, 0.25);
+}
+
+section.loading-container {
+  align-items: center;
+  border: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: var.$page-max-width;
+  padding: 0 1.5rem;
+  width: 100%;
+
+  .loading {
+    margin: 0;
+    padding: 0;
+  }
+
+  mat-icon {
+    font-size: 3rem;
+    line-height: 3rem;
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .error {
+    color: col.$warn;
+    font-weight: bold;
+  }
+}

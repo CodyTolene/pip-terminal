@@ -26,5 +26,19 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "forum-post-pages",
+      "urls": [
+        "/forum/post/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 50,
+        "maxAge": "24h",
+        "timeout": "10s"
+      }
+    }
   ]
 }

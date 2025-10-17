@@ -1,0 +1,82 @@
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+// @use '../../styles/breakpoints' as bps;
+// @use '../../styles/scrollbar' as sb;
+
+:host {
+  align-items: stretch;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 1rem;
+  padding: 0;
+  background-color: transparent;
+  color: col.$pip-green;
+}
+
+h3 {
+  margin: 1.5rem 0 0 0;
+}
+
+section {
+  align-items: stretch;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: var.$page-max-width;
+  padding: 0 1.5rem;
+  width: 100%;
+
+  &.intro {
+    margin: 0 auto;
+    max-width: var.$page-max-width;
+
+    pip-title[h1] {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    > p {
+      font-style: italic;
+      margin: 0;
+      color: col.$pip-green-light;
+      padding: 1rem;
+    }
+  }
+
+  &.categories {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto 4rem auto;
+
+    > div.pip-grid {
+      padding: 2rem;
+      margin: 0;
+
+      .pip-grid-item {
+        min-height: 120px;
+        justify-content: space-evenly;
+
+        h4 {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &.posts {
+    margin-bottom: 4rem;
+  }
+}
+
+pip-footer {
+  align-self: stretch;
+  display: block;
+  margin-top: auto;
+}

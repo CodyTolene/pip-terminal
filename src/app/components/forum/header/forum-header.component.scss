@@ -1,0 +1,72 @@
+@use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
+@use '../../../styles/variables' as var;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  font-size: var.$font-xxs;
+  justify-content: center;
+  width: 100%;
+
+  section {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: var.$page-max-width;
+    padding: 1rem 2.5rem;
+    width: 100%;
+
+    .breadcrumbs {
+      align-items: center;
+      display: inline-flex;
+
+      @include bps.media('max', 'sm') {
+        font-size: 0.6rem;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
+      span {
+        color: col.$pip-green;
+        margin-left: 0.25rem;
+
+        &.post-title {
+          display: inline-block;
+          max-width: 800px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          @include bps.media('max', 'lg') {
+            max-width: 600px;
+          }
+
+          @include bps.media('max', 'md') {
+            max-width: 300px;
+          }
+
+          @include bps.media('max', 'sm') {
+            max-width: 200px;
+          }
+        }
+      }
+    }
+
+    @include bps.media('max', 'lg') {
+      padding: 1rem;
+    }
+  }
+}
+
+a {
+  align-items: center;
+  color: col.$pip-green-dark;
+  display: inline-flex;
+
+  &:hover {
+    color: col.$pip-green;
+  }
+}

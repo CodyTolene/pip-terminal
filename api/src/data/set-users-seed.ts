@@ -8,21 +8,29 @@ import * as path from 'node:path';
 import { getUserByEmailOrNull } from './get-user-by-email-or-null';
 import { isEmulator } from '../utilities';
 import { setUserProfile } from './set-user-profile';
+import { UserRecord } from 'firebase-admin/auth';
 
-export async function setUsersSeed(): Promise<boolean> {
+const logExtraInfo = false;
+
+export async function setUsersSeed(): Promise<readonly UserRecord[] | null> {
   if (!isEmulator()) {
     logger.error('Seeding users is only supported in the emulator.');
-    return false;
+    return null;
   }
 
   const auth = admin.auth();
+
+  const users: UserRecord[] = [];
 
   // Admins
   for (const { native, profile } of ADMINS_SEED) {
     const email = native.email.toLowerCase().trim();
     const existing = await getUserByEmailOrNull(auth, email);
     if (existing) {
-      logger.info(`Admin user already exists: ${existing.email}, skipping.`);
+      if (logExtraInfo) {
+        logger.info(`Admin user already exists: ${existing.email}, skipping.`);
+      }
+      users.push(existing);
       continue;
     }
 
@@ -30,7 +38,10 @@ export async function setUsersSeed(): Promise<boolean> {
     const created = await auth.createUser(native);
     await auth.setCustomUserClaims(created.uid, { role: 'admin' });
     await setUserProfile(created.uid, profile);
-    logger.info(`Created admin user: ${created.email}`);
+
+    if (logExtraInfo) {
+      logger.info(`Created admin user: ${created.email}`);
+    }
 
     // Assign storage bucket image
     const localPath = path.resolve(
@@ -39,7 +50,10 @@ export async function setUsersSeed(): Promise<boolean> {
     );
     const fileBuffer = fs.readFileSync(localPath);
     await setUserPhoto(created.uid, fileBuffer, 'image/png', 'profile.png');
-    logger.info(`Uploaded profile photo for admin user: ${created.email}`);
+    if (logExtraInfo) {
+      logger.info(`Uploaded profile photo for admin user: ${created.email}`);
+    }
+    users.push(created);
   }
 
   // Users
@@ -47,7 +61,10 @@ export async function setUsersSeed(): Promise<boolean> {
     const email = native.email.toLowerCase().trim();
     const existing = await getUserByEmailOrNull(auth, email);
     if (existing) {
-      logger.info(`User already exists: ${existing.email}, skipping.`);
+      if (logExtraInfo) {
+        logger.info(`User already exists: ${existing.email}, skipping.`);
+      }
+      users.push(existing);
       continue;
     }
 
@@ -55,8 +72,13 @@ export async function setUsersSeed(): Promise<boolean> {
     const created = await auth.createUser(native);
     await auth.setCustomUserClaims(created.uid, { role: 'user' });
     await setUserProfile(created.uid, profile);
-    logger.info(`Created user: ${created.email}`);
+    if (logExtraInfo) {
+      logger.info(`Created user: ${created.email}`);
+    }
+    users.push(created);
   }
 
-  return true;
+  logger.info(`Finished seeding ${users.length} users.`);
+
+  return users.length > 0 ? users : null;
 }

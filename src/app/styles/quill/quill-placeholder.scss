@@ -1,0 +1,8 @@
+@use '../colors' as col;
+
+// Placeholder color
+quill-editor {
+  .ql-editor.ql-blank::before {
+    color: col.$pip-green-dark;
+  }
+}

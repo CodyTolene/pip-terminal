@@ -1,26 +1,37 @@
 @use '@angular/material' as mat;
 @use '../colors' as col;
 
-// https://material.angular.dev/components/datepicker/styling
 :root {
   @include mat.datepicker-overrides(
     (
       calendar-body-label-text-color: col.$pip-green,
       calendar-container-background-color: col.$pip-black,
       calendar-container-text-color: col.$pip-green,
+      calendar-date-hover-state-background-color: col.$pip-green-dark,
       calendar-date-selected-state-text-color: col.$pip-green,
       calendar-date-text-color: col.$pip-green,
       calendar-header-text-color: col.$pip-green-dark,
-      calendar-period-button-text-color: col.$pip-green-dark,
-      range-input-disabled-state-text-color: col.$pip-green-darkest,
-      calendar-date-hover-state-background-color: col.$pip-green-dark,
       calendar-navigation-button-icon-color: col.$pip-green,
       calendar-period-button-icon-color: col.$pip-green,
+      calendar-period-button-text-color: col.$pip-green-dark,
+      range-input-disabled-state-text-color: col.$pip-green-darkest,
     )
   );
 }
 
 pro-input-datepicker {
+  &:hover {
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
+        .mdc-text-field--focused
+      ):hover
+      .mat-mdc-notch-piece {
+      border-color: var(
+        --mat-form-field-outlined-hover-outline-color,
+        var(--mat-sys-on-surface)
+      );
+    }
+  }
+
   mat-form-field.mat-mdc-form-field {
     outline: none;
     border-radius: 4px;
@@ -75,4 +86,12 @@ pro-input-datepicker {
   .mat-form-field-disabled {
     margin-bottom: 20px;
   }
+}
+
+// CDK
+
+mat-datepicker-content.mat-datepicker-content {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid col.$pip-green;
+  border-radius: 4px;
 }

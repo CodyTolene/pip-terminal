@@ -1,8 +1,11 @@
 @if (userChanges | async; as user) {
   <main>
-    <pip-user-identification [user]="user" />
+    <pip-title h1>User Vault</pip-title>
+    <section class="user-identification">
+      <pip-user-identification [user]="user" />
+    </section>
     @if (isEditModeSignal() === false) {
-      <div class="user-actions">
+      <section class="user-actions">
         <pip-button
           (click)="startEdit()"
           [disabled]="isLoggingOutSignal()"
@@ -15,43 +18,15 @@
           type="button"
           >LOG OUT</pip-button
         >
-      </div>
+      </section>
     }
+    <pip-divider />
+    <section class="posts">
+      <pip-forum-post-wall [authorId]="user.uid" simple />
+    </section>
   </main>
 } @else {
   <pip-loading center>LOADING USER PROFILE</pip-loading>
 }
-
-<!--
-<section class="card status-card">
-  <h2 class="card-title">STATUS</h2>
-  <div class="gauges">
-    <div class="gauge">
-      <div class="gauge-head">
-        <span>HP</span><span class="val">100</span>
-      </div>
-      <div class="bar">
-        <div class="fill hp" style="width: 100%"></div>
-      </div>
-    </div>
-    <div class="gauge">
-      <div class="gauge-head">
-        <span>AP</span><span class="val">80</span>
-      </div>
-      <div class="bar">
-        <div class="fill ap" style="width: 80%"></div>
-      </div>
-    </div>
-    <div class="gauge">
-      <div class="gauge-head">
-        <span>RAD</span><span class="val">0</span>
-      </div>
-      <div class="bar">
-        <div class="fill rad" style="width: 0%"></div>
-      </div>
-    </div>
-  </div>
-</section>
--->
 
 <pip-footer />

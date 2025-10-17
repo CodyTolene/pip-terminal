@@ -1,0 +1,155 @@
+@use '../colors' as col;
+
+/**
+ * Quill Snow toolbar skin
+ * Scope it where your editor lives (global, or :host ::ng-deep quill-editor).
+ *
+ * @param {string} $scope   Root selector to apply styles under
+ * @param {color}  $base    Default icon/text color
+ * @param {color}  $hover   Hover color
+ * @param {color}  $active  Active/selected color
+ * @param {color}  $bg      Toolbar and menus background
+ * @param {color}  $border  Toolbar and menus border color
+ */
+@mixin quill-toolbar-theme(
+  $scope: '.ql-snow.ql-toolbar',
+  $base: col.$pip-green-darkest,
+  $hover: col.$pip-green,
+  $active: col.$pip-green,
+  $bg: col.$pip-black,
+  $border: var(--mat-form-field-outlined-outline-color)
+) {
+  // Base toolbar shell
+  #{$scope} {
+    color: $base;
+    background: $bg;
+    border-color: $border;
+  }
+
+  // All icons (buttons + pickers)
+  #{$scope} .ql-stroke {
+    stroke: $base;
+    color: $base;
+    fill: transparent;
+  }
+  #{$scope} .ql-fill {
+    fill: $base;
+    color: $base;
+    stroke: none;
+  }
+
+  // Hover on buttons and picker labels
+  #{$scope} button:hover .ql-stroke,
+  #{$scope} .ql-picker-label:hover .ql-stroke {
+    stroke: $hover;
+    color: $hover;
+  }
+  #{$scope} button:hover .ql-fill,
+  #{$scope} .ql-picker-label:hover .ql-fill {
+    fill: $hover;
+    color: $hover;
+  }
+
+  // Active state (this is what was still blue by default)
+  #{$scope} button.ql-active .ql-stroke,
+  #{$scope} .ql-picker-label.ql-active .ql-stroke,
+  #{$scope} .ql-picker-item.ql-selected .ql-stroke {
+    stroke: $active;
+    color: $active;
+  }
+
+  #{$scope} button.ql-active .ql-fill,
+  #{$scope} .ql-picker-label.ql-active .ql-fill,
+  #{$scope} .ql-picker-item.ql-selected .ql-fill {
+    fill: $active;
+    color: $active;
+  }
+
+  // Disabled
+  #{$scope} button:disabled .ql-stroke,
+  #{$scope} button:disabled .ql-fill {
+    opacity: 0.4;
+  }
+
+  // Picker text and caret
+  #{$scope} .ql-picker {
+    color: $base;
+  }
+  #{$scope} .ql-picker-label::before {
+    color: $base;
+  } // current value text
+  #{$scope} .ql-picker-label:hover::before {
+    color: $hover;
+  }
+  #{$scope} .ql-picker-label.ql-active::before {
+    color: $active;
+  }
+
+  // Picker menus (header/font/size/align/color/background)
+  #{$scope} .ql-picker-options {
+    background: $bg;
+    border-color: $border;
+  }
+  #{$scope} .ql-picker-item {
+    color: $base;
+  }
+  #{$scope} .ql-picker-item:hover,
+  #{$scope} .ql-picker-item:focus {
+    color: $hover;
+  }
+  #{$scope} .ql-picker-item.ql-selected {
+    color: $active;
+  }
+
+  // Color swatch pickers need visible borders on dark backgrounds
+  #{$scope} .ql-color-picker .ql-picker-item,
+  #{$scope} .ql-background .ql-picker-item {
+    box-shadow: inset 0 0 0 1px $border;
+  }
+
+  // Link/image/video tooltip (appears outside toolbar)
+  .ql-snow .ql-tooltip {
+    color: $base;
+    background: $bg;
+    border-color: $border;
+  }
+  .ql-snow .ql-tooltip input {
+    color: $base;
+    background: transparent;
+    border-color: $border;
+  }
+  .ql-snow .ql-tooltip a {
+    color: $hover;
+  }
+}
+
+// Toolbar text color
+quill-editor {
+  .ql-toolbar.ql-snow {
+    color: col.$pip-green;
+  }
+}
+
+quill-editor {
+  .ql-toolbar.ql-snow {
+    align-content: center;
+    align-items: center;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    min-height: 4rem;
+    padding: 0.5rem 1rem;
+  }
+  .ql-editor {
+    padding: 1rem;
+  }
+}
+
+// Toolbar background color
+quill-editor .ql-toolbar.ql-snow {
+  background-color: rgba(col.$pip-black, 0.5);
+}
+
+@include quill-toolbar-theme('.ql-snow.ql-toolbar');

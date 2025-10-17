@@ -1,0 +1,35 @@
+@if (h1) {
+  <h1>
+    <ng-container *ngTemplateOutlet="content" />
+  </h1>
+} @else if (h2) {
+  <h2>
+    <ng-container *ngTemplateOutlet="content" />
+  </h2>
+} @else if (h3) {
+  <h3>
+    <ng-container *ngTemplateOutlet="content" />
+  </h3>
+} @else if (h4) {
+  <h4>
+    <ng-container *ngTemplateOutlet="content" />
+  </h4>
+} @else if (h5) {
+  <h5>
+    <ng-container *ngTemplateOutlet="content" />
+  </h5>
+} @else if (h6) {
+  <h6>
+    <ng-container *ngTemplateOutlet="content" />
+  </h6>
+} @else {
+  <span>
+    <ng-container *ngTemplateOutlet="content" />
+  </span>
+}
+
+<ng-template #content>
+  <span class="bracket">&lbrack;</span>&nbsp;
+  <div><ng-content /></div>
+  &nbsp;<span class="bracket">&rbrack;</span>
+</ng-template>

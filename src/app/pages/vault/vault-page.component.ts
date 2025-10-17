@@ -2,7 +2,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { delayWhen, timer } from 'rxjs';
 import { PipFooterComponent } from 'src/app/layout';
 import { isEditModeSignal } from 'src/app/pages/vault/vault.signals';
-import { AuthService, ToastService } from 'src/app/services';
+import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
 import { shareSingleReplay } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +16,10 @@ import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+import { PipDividerComponent } from 'src/app/components/divider/divider.component';
+import { PipForumPostWallComponent } from 'src/app/components/forum/post/post-wall.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { UserIdentificationComponent } from './user-identification.component';
 
@@ -28,10 +31,14 @@ import { UserIdentificationComponent } from './user-identification.component';
   imports: [
     CommonModule,
     LoadingComponent,
-    PipFooterComponent,
-    UserIdentificationComponent,
     PipButtonComponent,
+    PipDividerComponent,
+    PipFooterComponent,
+    PipForumPostWallComponent,
+    PipTitleComponent,
+    UserIdentificationComponent,
   ],
+  providers: [ForumPostsService],
   standalone: true,
 })
 export class VaultPageComponent implements OnDestroy {

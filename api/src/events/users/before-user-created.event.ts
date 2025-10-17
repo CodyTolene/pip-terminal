@@ -1,8 +1,8 @@
 import { logger } from 'firebase-functions';
 import { beforeUserCreated } from 'firebase-functions/v2/identity';
 import { defineSecret } from 'firebase-functions/params';
-import { isEmulator } from '../utilities';
-import { ADMINS_SEED } from '../seeds';
+import { isEmulator } from '../../utilities';
+import { ADMINS_SEED } from '../../seeds';
 
 const ADMIN_EMAILS = defineSecret('ADMIN_EMAILS');
 

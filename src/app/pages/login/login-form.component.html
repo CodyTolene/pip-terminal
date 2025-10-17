@@ -29,7 +29,10 @@
 </form>
 <div class="or-container">
   <p>- OR -</p>
-  <pip-button (click)="googleLogin()" styling="filled"
+  <pip-button
+    [disabled]="isLoggingIn()"
+    (click)="googleLogin()"
+    styling="filled"
     >Sign In with Google</pip-button
   >
   <p>

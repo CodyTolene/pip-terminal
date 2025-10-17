@@ -12,56 +12,11 @@
   height: 100%;
   box-sizing: border-box;
   color: col.$pip-green;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var.$secondary-font-family;
   letter-spacing: 1px;
 }
 
-@mixin pip-panel {
-  position: relative;
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(0, 255, 0, 0.02) 0,
-      rgba(0, 255, 0, 0.02) 2px,
-      transparent 2px,
-      transparent 6px
-    ),
-    repeating-linear-gradient(
-      to right,
-      rgba(0, 255, 0, 0.01) 0,
-      rgba(0, 255, 0, 0.01) 2px,
-      transparent 2px,
-      transparent 6px
-    );
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      linear-gradient(col.$pip-green, col.$pip-green) top left / 22px 2px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) top left / 2px 22px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) top right / 22px 2px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) top right / 2px 22px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) bottom left / 22px 2px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) bottom left / 2px 22px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) bottom right / 22px 2px
-        no-repeat,
-      linear-gradient(col.$pip-green, col.$pip-green) bottom right / 2px 22px
-        no-repeat;
-    opacity: 0.9;
-  }
-}
-
 .user-id {
-  @include pip-panel;
   flex: 1 1 60%;
   min-width: 0;
   padding: 1rem;
@@ -141,7 +96,6 @@
 }
 
 .user-image-container {
-  @include pip-panel;
   box-sizing: border-box;
   flex: 0 0 260px;
   align-self: stretch;
