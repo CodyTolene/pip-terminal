@@ -110,10 +110,10 @@ export class UserProfileService {
     }
 
     // Enforce max size (2 MB)
-    const maxSizeByes = Validation.maxImageSizeBytes;
-    if (file.size > maxSizeByes) {
+    const maxSizeBytes = Validation.maxImageSizeBytes;
+    if (file.size >= maxSizeBytes) {
       const err = new Error(
-        `Image too large (max ${maxSizeByes / (1024 * 1024)}MB).`,
+        `Image too large (max ${maxSizeBytes / (1024 * 1024)}MB).`,
       );
       err.cause = 'image-too-large';
       throw err;
