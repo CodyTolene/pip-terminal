@@ -1,8 +1,10 @@
-// Font
+@use './breakpoints' as bps;
+
+// ---- Font ----
 $default-font-family: 'Roboto Mono', monospace;
 $secondary-font-family: monospace;
 
-// Font sizes
+// ---- Font sizes ----
 $font-xxs: 13px;
 $font-xs: 14px;
 $font-sm: 15px;
@@ -11,16 +13,17 @@ $font-lg: 24px;
 $font-xl: 28px;
 $font-xxl: 32px;
 
-// Heights
+// ---- Heights ----
 $gdpr-banner-height: 80px;
 $header-height: 56px;
 $navbar-height: 32px;
 $footer-height: 2rem;
 
-// Widths
+// ---- Widths ----
+$auth-forms-width: calc(bps.getBreakpoint(sm) - (2 * 1rem));
 $page-max-width: 1200px;
 $section-max-width: 800px;
 
-// Z-Indexes
+// ---- Z-Indexes ----
 $gdpr-banner-z-index: 9999;
 $backdrop-z-index: 9998;

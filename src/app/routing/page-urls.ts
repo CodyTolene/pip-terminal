@@ -10,7 +10,10 @@ export type RouteResourceId = ':id';
 /** The dynamic identifier used for resources in routes. */
 const id: RouteResourceId = ':id';
 
-/** All the route URL's for every page. */
+/**
+ * All the route URL's for every page. The order of this array must
+ * correspond exactly to the entries in PAGE_NAMES (from page-names.ts).
+ */
 export const PAGE_URLS = (
   [
     '', // Home
@@ -34,6 +37,7 @@ export const PAGE_URLS = (
     '3000-mk-v/maintenance',
     '3000-mk-v/radio',
     '3000a',
+    'forgot-password',
     'forum',
     `forum/category/${id}`,
     'forum/post',

@@ -13,6 +13,8 @@ import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 
+import { PageUrl } from 'src/app/types/page-url';
+
 @Component({
   selector: 'pip-login-form',
   imports: [
@@ -48,9 +50,14 @@ export class LoginFormComponent extends FormDirective<LoginFormGroup> {
   private readonly toast = inject(ToastService);
 
   protected override readonly formGroup = loginFormGroup;
+
   protected readonly isLoggingIn = signal(false);
   protected readonly loginErrorMessage = signal<string | null>(null);
   protected readonly userChanges = this.auth.userChanges;
+
+  protected readonly forgotPasswordUrl =
+    '/' + ('forgot-password' satisfies PageUrl);
+  protected readonly registerUrl = '/' + ('register' satisfies PageUrl);
 
   private mapFirebaseError(err: unknown): string {
     const fallback = 'Sign in failed. Please try again in a moment.';

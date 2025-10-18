@@ -1,3 +1,4 @@
+import { FORGOT_PASSWORD_PAGE_ROUTE } from 'src/app/pages/forgot-password/forgot-password-page.route';
 import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/category-page.route';
 import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
 import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/post-page.route';
@@ -24,9 +25,14 @@ import { PAGE_REDIRECTS } from 'src/app/routing/page-redirects';
 import { PipRoute } from 'src/app/types/pip-route';
 import { PipRouteRedirect } from 'src/app/types/pip-route-redirect';
 
+/**
+ * Consolidated list of all application routes and redirects. When adding
+ * new pages ensure they are included here and in the appropriate order.
+ */
 export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
-  FORUM_PAGE_ROUTE,
+  FORGOT_PASSWORD_PAGE_ROUTE,
   FORUM_CATEGORY_PAGE_ROUTE,
+  FORUM_PAGE_ROUTE,
   FORUM_POST_PAGE_ROUTE,
   FORUM_VIEW_PAGE_ROUTE,
   LOGIN_PAGE_ROUTE,

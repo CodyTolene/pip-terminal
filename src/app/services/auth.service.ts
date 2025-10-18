@@ -22,6 +22,7 @@ import {
   getIdTokenResult,
   idToken,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -193,6 +194,10 @@ export class AuthService {
       if (!user) return;
       await sendEmailVerification(user);
     });
+  }
+
+  public sendPasswordResetEmail(email: string): Promise<void> {
+    return this.inCtx(() => sendPasswordResetEmail(this.auth, email));
   }
 
   public signInWithEmail(

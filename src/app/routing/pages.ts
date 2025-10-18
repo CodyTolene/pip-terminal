@@ -1,9 +1,14 @@
 import { PageName } from 'src/app/types/page-name';
 import { PageUrl } from 'src/app/types/page-url';
 
-/** The page name and the corresponding route URL records. */
+/**
+ * The page name and the corresponding route URL records. The keys must
+ * match those defined in PAGE_NAMES. Additional entries for forgot/reset
+ * password pages are included.
+ */
 export const PAGES: Record<PageName, PageUrl> = {
   /** Default Routes */
+  'Forgot Password': 'forgot-password',
   Home: '',
   Login: 'login',
   'My Vault': `vault/:id`,
