@@ -12,7 +12,11 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { AuthService } from 'src/app/services';
-import { getFirstNonEmptyValueFrom, isNonEmptyString } from 'src/app/utilities';
+import {
+  Validation,
+  getFirstNonEmptyValueFrom,
+  isNonEmptyString,
+} from 'src/app/utilities';
 
 import { Injectable, inject } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
@@ -97,12 +101,30 @@ export class UserProfileService {
     file: Blob,
     previousUrl?: string | null,
   ): Promise<string> {
+    // Enforce image type
+    const type = file.type || '';
+    if (!/^image\/.+$/i.test(type)) {
+      const err = new Error('Only image files are allowed.');
+      err.cause = 'image-bad-type';
+      throw err;
+    }
+
+    // Enforce max size (2 MB)
+    const maxSizeBytes = Validation.maxImageSizeBytes;
+    if (file.size >= maxSizeBytes) {
+      const err = new Error(
+        `Image too large (max ${maxSizeBytes / (1024 * 1024)}MB).`,
+      );
+      err.cause = 'image-too-large';
+      throw err;
+    }
+
     const fileName = `profile-${Date.now()}.png`;
     const filePath = `users/${uid}/images/${fileName}`;
     const storageRef = stRef(this.storage, filePath);
 
     await stUploadBytes(storageRef, file, {
-      contentType: 'image/png',
+      contentType: type || 'image/png',
       cacheControl: 'public, max-age=31536000, immutable',
     });
 

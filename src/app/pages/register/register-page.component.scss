@@ -1,3 +1,4 @@
+@use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
 @use '../../styles/variables' as var;
 
@@ -11,13 +12,8 @@
   width: 100%;
 }
 
-h1 {
-  color: col.$pip-green;
-  display: flex;
-  font-size: var.$font-xl;
-  justify-content: center;
-  margin: 2.5rem 0 2rem 0;
-  width: 100%;
+pip-title {
+  margin: 3rem 1rem 3rem 1rem;
 }
 
 .register-intro > p,
@@ -35,6 +31,20 @@ h1 {
 
   > p {
     margin: 2rem 1rem 1rem;
+  }
+
+  @include bps.media('max', 'sm') {
+    padding: 1rem;
+    max-width: 100%;
+
+    .register-intro > p,
+    .register-form > p {
+      max-width: 100%;
+    }
+
+    pip-register-form {
+      width: 100%;
+    }
   }
 }
 

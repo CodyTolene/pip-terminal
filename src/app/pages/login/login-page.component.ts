@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { PipTitleComponent } from 'src/app/components/title/title.component';
+
 import { EmailVerificationService } from 'src/app/services/email-verification.service';
 
 import { PageUrl } from 'src/app/types/page-url';
@@ -15,7 +17,12 @@ import { PageUrl } from 'src/app/types/page-url';
 @UntilDestroy()
 @Component({
   selector: 'pip-login-page',
-  imports: [CommonModule, LoginFormComponent, PipFooterComponent],
+  imports: [
+    CommonModule,
+    LoginFormComponent,
+    PipFooterComponent,
+    PipTitleComponent,
+  ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
   standalone: true,

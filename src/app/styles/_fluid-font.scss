@@ -1,0 +1,23 @@
+@use './breakpoints' as bps;
+
+// Mixin for a dynamic font size that scales between a minimum and maximum
+// based on the viewport width.
+//
+// Usage example: `@include fluid-type(1rem, 2rem);`
+// Usage example: `@include fluid-type(var.$font-md, var.$font-xxl);`
+@mixin fluid-font(
+  $min,
+  $max,
+  $minVW: bps.getBreakpoint(xs),
+  $maxVW: bps.getBreakpoint(lg)
+) {
+  // Use interpolation so Sass does not try to pre-calc mixed units
+  font-size: clamp(
+    $min,
+    calc(
+      #{$min} +
+        ((#{$max} - #{$min}) * ((100vw - #{$minVW}) / (#{$maxVW} - #{$minVW})))
+    ),
+    $max
+  );
+}
