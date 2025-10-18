@@ -34,6 +34,7 @@ const PIP_BOY_SIMULATOR_PAGE_NAMES = [
 ] as const;
 
 export const PAGE_NAMES = [
+  'Forgot Password',
   'Home',
   'Login',
   'My Vault',

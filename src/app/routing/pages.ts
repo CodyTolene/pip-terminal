@@ -4,6 +4,7 @@ import { PageUrl } from 'src/app/types/page-url';
 /** The page name and the corresponding route URL records. */
 export const PAGES: Record<PageName, PageUrl> = {
   /** Default Routes */
+  'Forgot Password': 'forgot-password',
   Home: '',
   Login: 'login',
   'My Vault': `vault/:id`,

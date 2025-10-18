@@ -13,17 +13,30 @@
 }
 
 pip-title {
-  margin: 3rem 1rem 3rem 1rem;
+  margin: 3rem 1rem;
 }
 
-.register-intro > p,
-.register-form > p {
-  max-width: 356px;
-  text-align: center;
+.register-intro,
+.register-outro {
+  max-width: var.$section-max-width;
+  width: 100%;
+}
+
+.register-outro {
+  margin-bottom: 4rem;
+}
+
+.register-form {
+  max-width: var.$auth-forms-width;
 }
 
 .register-intro > p {
   margin: 0 1rem 2rem 1rem;
+  text-align: center;
+}
+
+.register-outro > p {
+  text-align: center;
 }
 
 .register-form {
