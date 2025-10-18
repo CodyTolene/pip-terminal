@@ -7,11 +7,6 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { ForgotPasswordFormComponent } from './forgot-password-form.component';
 
-/**
- * A simple page wrapper for the forgot password workflow. This page
- * presents explanatory text, the forgot password form, and a footer.
- * The actual business logic resides in the form component.
- */
 @Component({
   selector: 'pip-forgot-password-page',
   standalone: true,

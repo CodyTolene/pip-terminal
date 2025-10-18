@@ -25,10 +25,6 @@ import { PAGE_REDIRECTS } from 'src/app/routing/page-redirects';
 import { PipRoute } from 'src/app/types/pip-route';
 import { PipRouteRedirect } from 'src/app/types/pip-route-redirect';
 
-/**
- * Consolidated list of all application routes and redirects. When adding
- * new pages ensure they are included here and in the appropriate order.
- */
 export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   FORGOT_PASSWORD_PAGE_ROUTE,
   FORUM_CATEGORY_PAGE_ROUTE,

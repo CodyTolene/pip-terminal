@@ -4,11 +4,6 @@ import { isLoggedOutGuard } from 'src/app/guards';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
-/**
- * Route configuration for the forgot password page. This route is guarded
- * by {@link isLoggedOutGuard} to prevent logged in users from accessing
- * the reset flow. The component is lazy-loaded via the pages barrel.
- */
 export const FORGOT_PASSWORD_PAGE_ROUTE: PipRoute = {
   path: 'forgot-password',
   pathMatch: 'full',
