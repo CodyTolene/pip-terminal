@@ -34,6 +34,7 @@ export const PAGE_URLS = (
     '3000-mk-v/maintenance',
     '3000-mk-v/radio',
     '3000a',
+    'forgot-password',
     'forum',
     `forum/category/${id}`,
     'forum/post',

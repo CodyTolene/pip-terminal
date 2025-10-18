@@ -1,3 +1,4 @@
+export * from './forgot-password/forgot-password-page.component';
 export * from './forum/category/category-page.component';
 export * from './forum/forum-page.component';
 export * from './forum/post/post-page.component';
