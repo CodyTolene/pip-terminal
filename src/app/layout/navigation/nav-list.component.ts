@@ -6,7 +6,6 @@ import { isNavbarOpenSignal } from 'src/app/signals';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 
@@ -15,6 +14,7 @@ import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+import { PipIconComponent } from 'src/app/components/icon/icon.component';
 
 import { PageName } from 'src/app/types/page-name';
 import { PageUrl } from 'src/app/types/page-url';
@@ -26,9 +26,9 @@ import { PageUrl } from 'src/app/types/page-url';
   styleUrls: ['./nav-list.component.scss'],
   imports: [
     CommonModule,
-    MatIconModule,
     MatListModule,
     PipBadgeComponent,
+    PipIconComponent,
     RouterModule,
   ],
   standalone: true,
@@ -50,7 +50,7 @@ export class NavListComponent {
     },
     {
       commands: ['vault/:id'],
-      icon: 'account_balance',
+      icon: 'vault-door',
       label: 'My Vault',
     },
     {

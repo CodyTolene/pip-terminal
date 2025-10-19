@@ -3,16 +3,16 @@
 // @use '../../styles/scrollbar' as sb;
 // @use '../../styles/variables' as var;
 
-mat-icon {
+pip-icon {
   color: col.$pip-green-dark;
   margin-right: 1rem;
 }
 
-a.active mat-icon {
+a.active pip-icon {
   color: col.$pip-green;
 }
 
-a:hover mat-icon {
+a:hover pip-icon {
   color: col.$pip-green-light;
 }
 
