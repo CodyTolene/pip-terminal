@@ -6,7 +6,6 @@ import { isNavbarOpenSignal } from 'src/app/signals';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 
@@ -15,7 +14,11 @@ import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+import { PipIconComponent } from 'src/app/components/icon/icon.component';
 
+import { IconCustomName } from 'src/app/types/icon-custom-name';
+import { IconFontSet } from 'src/app/types/icon-font-set';
+import { IconName } from 'src/app/types/icon-name';
 import { PageName } from 'src/app/types/page-name';
 import { PageUrl } from 'src/app/types/page-url';
 
@@ -26,9 +29,9 @@ import { PageUrl } from 'src/app/types/page-url';
   styleUrls: ['./nav-list.component.scss'],
   imports: [
     CommonModule,
-    MatIconModule,
     MatListModule,
     PipBadgeComponent,
+    PipIconComponent,
     RouterModule,
   ],
   standalone: true,
@@ -45,22 +48,26 @@ export class NavListComponent {
     {
       commands: [''],
       icon: 'home',
+      fontSet: 'material-icons-outlined',
       label: 'Home',
       exact: true,
     },
     {
       commands: ['vault/:id'],
-      icon: 'account_balance',
+      icon: 'vault-door',
+      fontSet: 'material-icons-outlined',
       label: 'My Vault',
     },
     {
       commands: ['login'],
       icon: 'login',
+      fontSet: 'material-icons-outlined',
       label: 'Login',
     },
     {
       commands: ['register'],
       icon: 'person_add',
+      fontSet: 'material-icons-outlined',
       label: 'Register',
     },
     {
@@ -71,57 +78,73 @@ export class NavListComponent {
       },
       commands: ['logout'],
       icon: 'logout',
+      fontSet: 'material-icons-outlined',
       label: 'Logout',
     },
     {
       commands: ['forum'],
       icon: 'forum',
+      fontSet: 'material-icons-outlined',
       isNewFeature: true,
       label: 'Forum',
     },
     {
       commands: ['2000-mk-vi'],
       icon: 'star',
+      // icon: 'pip-boy-2000-mk-vi',
+      fontSet: 'material-icons-outlined',
       label: 'Pip-Boy 2000 Mk VI',
     },
     {
       commands: ['3000'],
       icon: 'star',
+      // icon: 'pip-boy-3000',
+      fontSet: 'material-icons-outlined',
       label: 'Pip-Boy 3000',
     },
     {
       commands: ['3000a'],
       icon: 'star',
+      // icon: 'pip-boy-3000a',
+      fontSet: 'material-icons-outlined',
       label: 'Pip-Boy 3000A',
     },
     {
       commands: ['3000-mk-iv'],
       icon: 'star',
+      // icon: 'pip-boy-3000-mk-iv',
+      fontSet: 'material-icons-outlined',
       label: 'Pip-Boy 3000 Mk IV',
     },
     {
       commands: ['3000-mk-v'],
       icon: 'star',
+      // icon: 'pip-boy-3000-mk-v',
+      fontSet: 'material-icons-outlined',
       label: 'Pip-Boy 3000 Mk V',
     },
     {
       commands: ['status'],
       icon: 'search_insights',
+      fontSet: 'material-icons-outlined',
       label: 'Status',
     },
     {
       commands: ['support'],
       icon: 'contact_support',
+      fontSet: 'material-icons-outlined',
       label: 'Support',
     },
     {
       commands: ['privacy-policy'],
       icon: 'privacy_tip',
+      fontSet: 'material-icons-outlined',
       label: 'Privacy Policy',
     },
     {
       commands: ['terms-and-conditions'],
       icon: 'gavel',
+      fontSet: 'material-icons-outlined',
       label: 'Terms and Conditions',
     },
   ];
@@ -208,7 +231,8 @@ export class NavListComponent {
 
 interface PageLink {
   commands: ReadonlyArray<PageUrl | 'logout'>;
-  icon: string;
+  fontSet: IconFontSet;
+  icon: IconName | IconCustomName;
   label:
     | 'Logout'
     | 'Pip-Boy 2000 Mk VI'

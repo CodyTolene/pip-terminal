@@ -1,4 +1,3 @@
-export * from './app-check-provider';
 export * from './custom-validators.util';
 export * from './decode.util';
 export * from './enums.util';
