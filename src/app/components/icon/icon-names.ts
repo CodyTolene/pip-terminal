@@ -1705,6 +1705,7 @@ export const iconNames = [
   'sd_card_alert',
   'sd_storage',
   'search',
+  'search_insights',
   'search_off',
   'security',
   'security_update',
