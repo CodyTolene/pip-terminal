@@ -1,5 +1,6 @@
+import { appCheckProvider } from 'src/app/providers';
+import { customIconsProvider } from 'src/app/providers/custom-icons.provider';
 import { ROUTES } from 'src/app/routing';
-import { appCheckProvider } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -34,6 +35,8 @@ import {
 } from '@angular/fire/storage';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
+
+import { iconCustomNames } from 'src/app/components/icon/icon-custom-names';
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
 import { StorageSessionService } from 'src/app/services/storage-session.service';
@@ -105,5 +108,6 @@ export const appConfig: ApplicationConfig = {
     StorageLocalService,
     StorageSessionService,
     UserTrackingService,
+    customIconsProvider(iconCustomNames),
   ],
 };

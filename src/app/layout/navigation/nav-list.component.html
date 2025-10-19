@@ -10,8 +10,7 @@
       [routerLink]="link.onClick ? null : link.commands"
       mat-list-item
       routerLinkActive="active"
-      ><mat-icon fontSet="material-icons-outlined">{{ link.icon }}</mat-icon
-      >{{ link.label }}
+      ><pip-icon [fontSet]="link.fontSet" [name]="link.icon" />{{ link.label }}
       @if (link.isNewFeature) {
         <pip-badge>NEW</pip-badge>
       }
