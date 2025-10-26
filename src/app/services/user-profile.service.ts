@@ -75,24 +75,15 @@ export class UserProfileService {
 
   public async updateProfile(
     uid: string,
-    data: Partial<FirestoreProfileApi>,
+    data: FirestoreProfileApi,
   ): Promise<FirestoreProfileApi | null> {
     const user = await getFirstNonEmptyValueFrom(this.auth.userChanges);
     if (user && user.uid === uid) {
-      // If any properties are missing, set them as null
-      const toUpdate: FirestoreProfileApi = {
-        dateOfBirth: null,
-        disableAds: null,
-        roomNumber: null,
-        skill: null,
-        vaultNumber: null,
-        ...data,
-      };
       const docRef = fsDoc(this.firestore, 'users', uid).withConverter(
         userExtrasConverter,
       );
-      await fsSetDoc(docRef, toUpdate, { merge: true });
-      return toUpdate;
+      await fsSetDoc(docRef, data, { merge: true });
+      return data;
     }
     return null;
   }

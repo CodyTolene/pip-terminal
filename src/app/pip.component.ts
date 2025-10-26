@@ -53,7 +53,7 @@ export class PipComponent implements OnInit {
     // }
   }
 
-  private readonly ads = inject(AdsService);
+  private readonly adsService = inject(AdsService);
   private readonly appUpdateService = inject(AppUpdateService);
   private readonly pageDataService = inject(PageDataService);
   private readonly pageMetaService = inject(PageMetaService);
@@ -80,6 +80,7 @@ export class PipComponent implements OnInit {
   public ngOnInit(): void {
     this.appUpdateService.init();
     this.themeService.init();
+    this.adsService.init();
 
     // Set the default tags for all pages.
     this.pageMetaService.setDefaultTags();

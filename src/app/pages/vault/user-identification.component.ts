@@ -173,9 +173,16 @@ export class UserIdentificationComponent implements OnInit {
         vaultNumber: vaultNumberParsed,
       };
 
+      const currentUser = await getFirstNonEmptyValueFrom(
+        this.auth.userChanges,
+      );
+
       const profileResult = await this.userProfile.updateProfile(
         this.user.uid,
-        profile,
+        {
+          ...currentUser.profile,
+          ...profile,
+        },
       );
 
       if (!profileResult) {
@@ -185,10 +192,6 @@ export class UserIdentificationComponent implements OnInit {
         console.error('[User ID Component] Failed to update profile', profile);
         return;
       }
-
-      const currentUser = await getFirstNonEmptyValueFrom(
-        this.auth.userChanges,
-      );
 
       // Make sure our local user object is in sync before
       // switching back to the main view (non edit mode)

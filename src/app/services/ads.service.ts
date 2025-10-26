@@ -41,6 +41,10 @@ export class AdsService {
   private readonly auth = inject(AuthService);
   private readonly showAdsSig = signal<boolean>(false);
 
+  public init(): void {
+    // No-op: Ensures service is constructed.
+  }
+
   public showAds(): boolean {
     return this.showAdsSig();
   }
