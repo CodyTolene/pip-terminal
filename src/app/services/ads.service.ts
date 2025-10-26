@@ -1,3 +1,4 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { environment } from 'src/environments/environment';
 
 import { Injectable, inject, signal } from '@angular/core';
@@ -9,18 +10,14 @@ import { ScriptsService } from './scripts.service';
  * Service responsible for loading and unloading third‑party advertising
  * scripts based on the current user's ad preferences.
  */
+@UntilDestroy()
 @Injectable({ providedIn: 'root' })
 export class AdsService {
   public constructor() {
-    this.auth.userChanges.subscribe((user) => {
+    this.auth.userChanges.pipe(untilDestroyed(this)).subscribe((user) => {
       const disableAds = !!user?.profile?.disableAds;
       const shouldShow = environment.isProduction && !disableAds;
       this.showAdsSig.set(shouldShow);
-
-      // eslint-disable-next-line no-console
-      console.log(
-        `AdsService: User ads disabled = ${disableAds}, showing ads = ${shouldShow}`,
-      );
 
       // Load or unload ad scripts based on whether ads should be shown.
       if (shouldShow) {

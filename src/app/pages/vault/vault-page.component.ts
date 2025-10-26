@@ -76,7 +76,7 @@ export class VaultPageComponent implements OnInit, OnDestroy {
 
   public async ngOnInit(): Promise<void> {
     const user = await getFirstNonEmptyValueFrom(this.userChanges);
-    const disableAds = user.disableAds;
+    const disableAds = user.profile?.disableAds ?? false;
     this.disableAdsCheckbox.setValue(disableAds);
 
     this.disableAdsCheckbox.valueChanges
