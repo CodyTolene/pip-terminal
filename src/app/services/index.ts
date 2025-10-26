@@ -1,3 +1,4 @@
+export * from './ads.service';
 export * from './app-update.service';
 export * from './auth.service';
 export * from './github.service';

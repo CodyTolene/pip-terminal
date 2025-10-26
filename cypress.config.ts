@@ -50,19 +50,19 @@ export default defineConfig({
     screenshotsFolder,
     scrollBehavior: 'center',
     setupNodeEvents(on, config) {
-      // Add Chromium flags in all CI runs (and locally if needed)
-      on('before:browser:launch', (browser, launchOptions) => {
-        const isChromiumFamily =
-          browser?.family === 'chromium' ||
-          browser?.name === 'chrome' ||
-          browser?.name === 'chromium' ||
-          browser?.name === 'edge';
-        if (isChromiumFamily) {
-          launchOptions.args.push(...chromiumFlags);
-        }
-        return launchOptions;
-      });
-
+      if (isCI) {
+        on('before:browser:launch', (browser, launchOptions) => {
+          const isChromiumFamily =
+            browser?.family === 'chromium' ||
+            browser?.name === 'chrome' ||
+            browser?.name === 'chromium' ||
+            browser?.name === 'edge';
+          if (isChromiumFamily) {
+            launchOptions.args.push(...chromiumFlags);
+          }
+          return launchOptions;
+        });
+      }
       return config;
     },
     specPattern: 'cypress/e2e/**/*.cy.ts',

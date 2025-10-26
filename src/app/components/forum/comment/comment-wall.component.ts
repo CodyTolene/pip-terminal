@@ -6,9 +6,8 @@ import {
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { filter } from 'rxjs';
 import { ForumComment, ForumPost } from 'src/app/models';
-import { ForumCommentsService } from 'src/app/services';
+import { AdsService, ForumCommentsService } from 'src/app/services';
 import { isNonEmptyValue } from 'src/app/utilities';
-import { environment } from 'src/environments/environment';
 
 import {
   Component,
@@ -74,6 +73,7 @@ export class PipCommentWallComponent implements OnInit {
   }
 
   private readonly forumCommentsService = inject(ForumCommentsService);
+  private readonly adsService = inject(AdsService);
 
   @Input({ required: true }) public post!: ForumPost;
 
@@ -89,7 +89,7 @@ export class PipCommentWallComponent implements OnInit {
 
   protected readonly loadingComments = signal<boolean>(false);
 
-  protected readonly showAds = signal(environment.isProduction);
+  protected readonly showAds = computed(() => this.adsService.showAds());
 
   private readonly commentSortSig = signal<TableSortChangeEvent<ForumComment>>(
     this.defaultCommentSort,

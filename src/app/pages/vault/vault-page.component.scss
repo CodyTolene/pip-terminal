@@ -39,15 +39,27 @@ section.user-identification {
 }
 
 section.user-actions {
+  align-items: center;
   box-sizing: border-box;
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: space-between;
   margin: 0;
   max-width: var.$section-max-width;
   width: 100%;
 
   @include bps.media('max', 'md') {
+    align-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
     padding: 0 1rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
 

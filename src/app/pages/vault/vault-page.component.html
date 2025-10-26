@@ -6,18 +6,24 @@
     </section>
     @if (isEditModeSignal() === false) {
       <section class="user-actions">
-        <pip-button
-          (click)="startEdit()"
-          [disabled]="isLoggingOutSignal()"
-          type="button"
-          >EDIT</pip-button
-        >
-        <pip-button
-          (click)="signOut()"
-          [disabled]="isLoggingOutSignal()"
-          type="button"
-          >LOG OUT</pip-button
-        >
+        <pro-input-checkbox
+          [formControl]="disableAdsCheckbox"
+          label="Disable Advertisements"
+        />
+        <div class="action-buttons">
+          <pip-button
+            (click)="startEdit()"
+            [disabled]="isLoggingOutSignal() || isSavingSignal()"
+            type="button"
+            >EDIT PROFILE</pip-button
+          >
+          <pip-button
+            (click)="signOut()"
+            [disabled]="isLoggingOutSignal() || isSavingSignal()"
+            type="button"
+            >LOG OUT</pip-button
+          >
+        </div>
       </section>
     }
     <pip-divider />
