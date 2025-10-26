@@ -6,9 +6,8 @@ import {
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { filter } from 'rxjs';
 import { ForumPost } from 'src/app/models';
-import { AuthService, ForumPostsService } from 'src/app/services';
+import { AdsService, AuthService, ForumPostsService } from 'src/app/services';
 import { isNonEmptyValue, shareSingleReplay } from 'src/app/utilities';
-import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
 import {
@@ -81,11 +80,11 @@ export class PipForumPostWallComponent implements OnInit, OnChanges {
   @Input({ transform: booleanAttribute })
   public simple = false;
 
-  // accept [authorId]="user.uid"
   @Input() public authorId: string | null = null;
 
   private readonly forumPostsService = inject(ForumPostsService);
   private readonly authService = inject(AuthService);
+  private readonly adsService = inject(AdsService);
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
@@ -105,7 +104,7 @@ export class PipForumPostWallComponent implements OnInit, OnChanges {
 
   private readonly pageSig = signal<ForumPostPagedResult | null>(null);
 
-  protected readonly showAds = signal(environment.isProduction);
+  protected readonly showAds = computed(() => this.adsService.showAds());
 
   protected readonly loading = signal(false);
 

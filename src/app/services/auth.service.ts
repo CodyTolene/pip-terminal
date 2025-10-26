@@ -261,6 +261,7 @@ export class AuthService {
   private coerceProfile(raw?: PipUser['profile']): FirestoreProfileApi {
     return {
       dateOfBirth: raw?.dateOfBirth ?? undefined,
+      disableAds: raw?.disableAds ?? undefined,
       roomNumber: raw?.roomNumber ?? undefined,
       skill: raw?.skill ?? undefined,
       vaultNumber: raw?.vaultNumber ?? undefined,
