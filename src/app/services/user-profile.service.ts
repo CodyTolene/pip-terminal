@@ -82,6 +82,7 @@ export class UserProfileService {
       // If any properties are missing, set them as null
       const toUpdate: FirestoreProfileApi = {
         dateOfBirth: null,
+        disableAds: null,
         roomNumber: null,
         skill: null,
         vaultNumber: null,

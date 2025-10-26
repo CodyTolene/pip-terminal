@@ -13,6 +13,7 @@ export const USERS_SEED: readonly UserSeed[] = [
     profile: {
       // Extra profile fields (Firestore)
       dateOfBirth: '2000-01-01', // JS Date
+      disableAds: true,
       roomNumber: 1,
       skill: 'Exploring',
       vaultNumber: 2,
@@ -32,6 +33,7 @@ export const USERS_SEED: readonly UserSeed[] = [
     profile: {
       // Extra profile fields (Firestore)
       dateOfBirth: '2000-01-01T00:00:00.000-05:00', // ISO 8601 string
+      disableAds: false,
       roomNumber: 3,
       skill: 'Adventuring',
       vaultNumber: 4,
@@ -52,6 +54,7 @@ export const USERS_SEED: readonly UserSeed[] = [
       // Extra profile fields (Firestore)
       // All NULL for testing
       dateOfBirth: null,
+      disableAds: false,
       roomNumber: null,
       skill: null,
       vaultNumber: null,

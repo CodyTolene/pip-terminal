@@ -25,7 +25,11 @@ service cloud.firestore {
     }
 
     function isValidProfile(d) {
-      return validDob(d) && validRoomNumber(d) && validSkill(d) && validVaultNumber(d);
+      return validDob(d)
+        && validRoomNumber(d)
+        && validSkill(d)
+        && validVaultNumber(d)
+        && validDisableAds(d);
     }
 
     // dateOfBirth (string):
@@ -68,6 +72,13 @@ service cloud.firestore {
       return !('vaultNumber' in d) ||
         d.vaultNumber == null ||
         (d.vaultNumber is int && d.vaultNumber >= 1 && d.vaultNumber <= 999);
+    }
+
+    // disableAds: optional/null OR boolean
+    function validDisableAds(d) {
+      return !('disableAds' in d) ||
+        d.disableAds == null ||
+        (d.disableAds is bool);
     }
 
     // ***** Forum helpers *****
