@@ -33,6 +33,7 @@ export const PAGE_URLS = (
     '3000-mk-v/apps',
     '3000-mk-v/maintenance',
     '3000-mk-v/radio',
+    '3000-mk-v/update',
     '3000a',
     'forgot-password',
     'forum',

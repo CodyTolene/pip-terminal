@@ -30,6 +30,7 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Pip-Boy 3000 Mk V Companion App': '3000-mk-v',
   'Pip-Boy 3000 Mk V Maintenance': '3000-mk-v/maintenance',
   'Pip-Boy 3000 Mk V Radio': '3000-mk-v/radio',
+  'Pip-Boy 3000 Mk V Update': '3000-mk-v/update',
   /** Pip-Boy 3000 Mk IV Routes */
   'DATA > QUESTS - Pip-Boy 3000 Mk IV': '3000-mk-iv/data/quests',
   'DATA > STATS - Pip-Boy 3000 Mk IV': '3000-mk-iv/data/stats',

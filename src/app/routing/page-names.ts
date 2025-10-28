@@ -17,6 +17,7 @@ const PIP_BOY_3000_MK_V_PAGE_NAMES = [
   'Pip-Boy 3000 Mk V Companion App',
   'Pip-Boy 3000 Mk V Maintenance',
   'Pip-Boy 3000 Mk V Radio',
+  'Pip-Boy 3000 Mk V Update',
 ] as const;
 
 const FORUM_PAGE_NAMES = [

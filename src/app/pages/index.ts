@@ -10,6 +10,7 @@ export * from './pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.component';
 export * from './pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.component';
 export * from './pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.component';
 export * from './pip-boy-3000-mk-v-radio/pip-boy-3000-mk-v-radio-page.component';
+export * from './pip-boy-3000-mk-v-update/pip-boy-3000-mk-v-update-page.component';
 export * from './pip-boy-3000/index';
 export * from './pip-boy-3000a/index';
 export * from './privacy-policy/privacy-policy-page.component';

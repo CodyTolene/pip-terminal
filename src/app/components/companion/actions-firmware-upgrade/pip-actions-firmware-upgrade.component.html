@@ -1,0 +1,19 @@
+<form>
+  <pro-input-dropdown
+    [formControl]="formGroup.controls.firmwareDropdown"
+    hideHint
+    label="Choose Firmware Release"
+    placeholder="Select a firmware release"
+  >
+    @for (release of releases; track release.label) {
+      <pro-input-dropdown-option [value]="release.url">
+        {{ release.label }}
+      </pro-input-dropdown-option>
+    }
+  </pro-input-dropdown>
+  <pro-input-checkbox
+    [formControl]="formGroup.controls.skipMediaFilesCheckbox"
+    hideHint
+    label="Skip Existing Media Files"
+  ></pro-input-checkbox>
+</form>
