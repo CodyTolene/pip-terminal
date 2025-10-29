@@ -1,4 +1,4 @@
-<h3>Set to Custom Date and Time</h3>
+<pip-title h3>Set to Custom Date and Time</pip-title>
 <form [formGroup]="formGroup">
   <pro-input-datepicker
     [formControl]="formGroup.controls.date"
@@ -47,7 +47,7 @@
   </pip-button>
 </div>
 
-<h3>Set to Current Date and Time</h3>
+<pip-title h3>Set to Current Date and Time</pip-title>
 <span class="time">{{
   timeChanges | async | dateTime: 'yyyy-MM-dd h:mm:ss a'
 }}</span>

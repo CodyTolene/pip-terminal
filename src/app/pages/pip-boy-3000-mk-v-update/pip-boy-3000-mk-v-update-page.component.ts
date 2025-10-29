@@ -1,11 +1,14 @@
+import { PAGES } from 'src/app/routing';
 import { PipConnectionService } from 'src/app/services';
 import { logMessage } from 'src/app/utilities';
 
 import { Component, OnDestroy, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { PipActionsFirmwareUpgradeComponent } from 'src/app/components/companion/actions-firmware-upgrade/pip-actions-firmware-upgrade.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 
@@ -16,6 +19,8 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipActionsFirmwareUpgradeComponent,
     PipActionsPrimaryComponent,
     PipLogComponent,
+    PipTitleComponent,
+    RouterModule,
   ],
   styleUrl: './pip-boy-3000-mk-v-update-page.component.scss',
   standalone: true,
@@ -35,6 +40,8 @@ export class PipBoy3000MkVUpdatePageComponent implements OnDestroy {
 
   private readonly pipConnectionService = inject(PipConnectionService);
   private scriptsService = inject(ScriptsService);
+
+  protected readonly PAGES = PAGES;
 
   public async ngOnDestroy(): Promise<void> {
     this.scriptsService.unloadAll();

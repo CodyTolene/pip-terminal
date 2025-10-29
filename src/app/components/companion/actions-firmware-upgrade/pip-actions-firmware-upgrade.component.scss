@@ -28,13 +28,18 @@ form {
 
   $gap: 2rem;
 
-  pro-input-checkbox,
   pip-file-upload,
   pro-input-dropdown {
     flex: 0 0 100%;
     margin-bottom: 1rem;
     max-width: 100%;
     width: 100%;
+  }
+
+  pro-input-checkbox {
+    flex: 0 0 calc(50% - ($gap / 2));
+    margin-bottom: 1rem;
+    max-width: calc(50% - ($gap / 2));
   }
 
   p {

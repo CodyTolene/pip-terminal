@@ -1,15 +1,15 @@
 <pip-title h3>Firmware Upgrade</pip-title>
 <p>
-  Upgrade the device's firmware by selecting an official release or uploading a
-  custom firmware <code>.zip</code> file.
+  Upgrade or downgrade your device's firmware by selecting a release, or
+  uploading your own custom firmware.
 </p>
 <form>
   @if (formGroup.controls.customFirmware.value === null) {
     <pro-input-dropdown
       [formControl]="formGroup.controls.firmwareDropdown"
       hideHint
-      label="Official Firmware Release"
-      placeholder="Select a firmware release"
+      label="Firmware Release"
+      placeholder="Select"
     >
       @for (release of releases; track release.label) {
         <pro-input-dropdown-option [value]="release.url">
@@ -36,20 +36,24 @@
       <pip-file-upload
         [accept]="['.zip']"
         [formControl]="formGroup.controls.customFirmware"
-        label="Custom Firmware Release"
+        label="Upload Custom Firmware"
       />
     }
   }
   <pro-input-checkbox
     [formControl]="formGroup.controls.skipMediaFilesCheckbox"
     hideHint
-    label="Skip media files (wav, avi) during the upgrade
-    process to reduce upgrade time and avoid overwriting existing media."
+    label="Skip existing media files (wav, avi) during the upgrade."
+  ></pro-input-checkbox>
+  <pro-input-checkbox
+    [formControl]="formGroup.controls.eraseSdCardCheckbox"
+    hideHint
+    label="Erase SD Card before firmware upgrade."
   ></pro-input-checkbox>
   <pip-button
     (click)="onUpgradeClick()"
     [disabled]="formGroup.invalid || isUpgrading()"
-    >Upgrade Firmware</pip-button
+    >Upload Firmware</pip-button
   >
 </form>
 

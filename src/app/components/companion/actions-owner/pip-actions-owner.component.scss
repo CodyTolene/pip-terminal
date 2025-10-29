@@ -12,13 +12,20 @@
   }
 }
 
-h3 {
+pip-title {
+  margin-bottom: 1rem;
   margin-top: 0;
+  text-align: start;
+  width: 100%;
 }
 
 pip-button {
   margin-bottom: 1rem;
   width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 form {

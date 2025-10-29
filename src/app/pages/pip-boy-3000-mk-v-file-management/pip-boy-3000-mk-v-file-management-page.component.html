@@ -1,39 +1,34 @@
 <main>
   <section class="intro">
-    <pip-title h2>Maintenance</pip-title>
+    <pip-title h2>File Management</pip-title>
     <a [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Companion App']"
       >&lt; BACK TO PIP-BOY 3000 MK V</a
     >
     <p>
-      This tool allows you to easily maintain some of the settings on your
+      Here you can manage the files and folders on your
       Pip-Boy&nbsp;3000&nbsp;Mk&nbsp;V.
     </p>
     <img
       class="fan-art"
-      src="images/fan-art/debug_sm.png"
+      src="images/fan-art/stats_sm.png"
       alt="Fan Art"
       title="Fan Art"
     />
   </section>
-
   <section>
     <pip-actions-primary />
   </section>
-
   <section>
     <pip-actions-misc />
   </section>
-
   <section>
-    <pip-actions-owner />
+    <pip-file-explorer />
   </section>
-
   <section>
-    <pip-actions-testing />
+    <pip-file-uploader />
   </section>
-
   <section>
-    <pip-actions-date-time />
+    <pip-actions-zip-upload />
   </section>
 </main>
 
