@@ -12,6 +12,7 @@
   justify-content: space-between;
   padding: 1rem;
   width: 100%;
+  margin-bottom: 2rem;
 
   &:hover {
     @include ani.borderAnimation;
@@ -25,12 +26,24 @@ form {
   justify-content: space-between;
   width: 100%;
 
+  $gap: 2rem;
+
   pro-input-checkbox,
+  pip-file-upload,
   pro-input-dropdown {
-    $gap: 2rem;
-    flex: 0 0 calc(50% - ($gap / 2));
+    flex: 0 0 100%;
     margin-bottom: 1rem;
-    max-width: calc(50% - ($gap / 2));
+    max-width: 100%;
+    width: 100%;
+  }
+
+  p {
+    flex: 0 0 100%;
+    margin: 0 0 1rem 0;
+    text-align: center;
+  }
+
+  pip-button {
     width: 100%;
   }
 }

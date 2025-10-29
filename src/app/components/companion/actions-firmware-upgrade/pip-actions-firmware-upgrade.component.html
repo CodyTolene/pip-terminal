@@ -1,19 +1,56 @@
+<pip-title h3>Firmware Upgrade</pip-title>
+<p>
+  Upgrade the device's firmware by selecting an official release or uploading a
+  custom firmware <code>.zip</code> file.
+</p>
 <form>
-  <pro-input-dropdown
-    [formControl]="formGroup.controls.firmwareDropdown"
-    hideHint
-    label="Choose Firmware Release"
-    placeholder="Select a firmware release"
-  >
-    @for (release of releases; track release.label) {
-      <pro-input-dropdown-option [value]="release.url">
-        {{ release.label }}
-      </pro-input-dropdown-option>
+  @if (formGroup.controls.customFirmware.value === null) {
+    <pro-input-dropdown
+      [formControl]="formGroup.controls.firmwareDropdown"
+      hideHint
+      label="Official Firmware Release"
+      placeholder="Select a firmware release"
+    >
+      @for (release of releases; track release.label) {
+        <pro-input-dropdown-option [value]="release.url">
+          {{ release.label }}
+        </pro-input-dropdown-option>
+      }
+      @if (formGroup.controls.firmwareDropdown.value !== null) {
+        <pro-input-dropdown-option [value]="null">
+          None
+        </pro-input-dropdown-option>
+      }
+    </pro-input-dropdown>
+  }
+  @if (formGroup.controls.firmwareDropdown.value === null) {
+    @if (formGroup.controls.customFirmware.value === null) {
+      <p>- OR -</p>
     }
-  </pro-input-dropdown>
+    @if (formGroup.controls.customFirmware.value) {
+      <pip-button (click)="onClearCustomFirmwareClick()"
+        >Custom Firmware Selected</pip-button
+      >
+      <p>Click again to clear.</p>
+    } @else {
+      <pip-file-upload
+        [accept]="['.zip']"
+        [formControl]="formGroup.controls.customFirmware"
+        label="Custom Firmware Release"
+      />
+    }
+  }
   <pro-input-checkbox
     [formControl]="formGroup.controls.skipMediaFilesCheckbox"
     hideHint
-    label="Skip Existing Media Files"
+    label="Skip media files (wav, avi) during the upgrade
+    process to reduce upgrade time and avoid overwriting existing media."
   ></pro-input-checkbox>
+  <pip-button
+    (click)="onUpgradeClick()"
+    [disabled]="formGroup.invalid || isUpgrading()"
+    >Upgrade Firmware</pip-button
+  >
 </form>
+
+{{ formGroup.value | json }}
