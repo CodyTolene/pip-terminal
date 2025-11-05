@@ -22,7 +22,7 @@
   </div>
 
   @if (!isCollapsed()) {
-    <div>
+    <div #scroller>
       @for (entry of signals.logMessages(); track entry) {
         <div>
           <b>λ</b>&nbsp;&nbsp;{{ entry.message }}{{ entry.url ? '&#58;' : '' }}
@@ -34,9 +34,9 @@
       @if (signals.logMessages().length === 0) {
         <div>λ Log empty.</div>
       }
+      <div #bottom aria-hidden="true" style="height: 1px"></div>
     </div>
   } @else {
-    <!-- Optional collapsed hint; remove if you don't want it -->
     <div class="collapsed-hint">Log is collapsed.</div>
   }
 </aside>
