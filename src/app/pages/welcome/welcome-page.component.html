@@ -69,6 +69,29 @@
     </pip-panel>
   </section>
 
+  <section class="open-source">
+    <pip-title h2>Open-Source</pip-title>
+    <p>
+      This project is open-source and welcome to contributions from vault
+      dwellers around the world! Explore the code, suggest features, or report
+      issues on GitHub.
+    </p>
+
+    <pip-button
+      aria-label="Visit the Pip-Boy.comGitHub Repository"
+      (click)="openGitHubRepo()"
+    >
+      View Pip-Boy.com on GitHub
+    </pip-button>
+
+    <pip-button
+      aria-label="Visit the Community Apps GitHub Repository"
+      (click)="openAppsRepo()"
+    >
+      View Community Apps on GitHub
+    </pip-button>
+  </section>
+
   <pip-divider />
 
   <section class="forum">
@@ -76,6 +99,7 @@
       <pip-title h2>Community Forum</pip-title>
       <pip-badge>NEW</pip-badge>
     </div>
+
     <p>
       Report to the commons and make your mark on the record. Share blueprints,
       request assistance from the engineering corps, and greet new arrivals to
