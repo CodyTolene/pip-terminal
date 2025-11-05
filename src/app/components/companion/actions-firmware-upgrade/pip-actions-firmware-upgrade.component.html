@@ -1,0 +1,84 @@
+<pip-title h3>Firmware</pip-title>
+<p>
+  Upgrade or downgrade your device's firmware by selecting a release, or
+  uploading your own custom firmware zip.
+</p>
+<p class="warning">
+  Warning: This feature is not fully tested, especially when using a custom
+  firmware or downgrading your firmware. Use at your own risk!
+</p>
+<p class="linked">
+  You can also use the official firmware upgrade tool from The Wand Company
+  here:
+  <a href="https://thewandcompany.com/pip-boy/upgrade/?erase" target="_blank"
+    >https://thewandcompany.com/pip-boy/upgrade/?erase</a
+  >
+</p>
+<form>
+  <pro-input-dropdown
+    [formControl]="formGroup.controls.firmwareDropdown"
+    hideHint
+    label="Firmware Release"
+    placeholder="Select"
+  >
+    @for (release of releases; track release.label) {
+      <pro-input-dropdown-option [value]="release.url">
+        {{ release.label }}
+      </pro-input-dropdown-option>
+    }
+    @if (formGroup.controls.firmwareDropdown.value !== null) {
+      <pro-input-dropdown-option [value]="null">
+        None
+      </pro-input-dropdown-option>
+    }
+  </pro-input-dropdown>
+
+  @if (formGroup.controls.firmwareDropdown.value === null) {
+    @if (formGroup.controls.customFirmware.value === null) {
+      <p>- OR -</p>
+    }
+    @if (formGroup.controls.customFirmware.value) {
+      <pip-button (click)="onClearCustomFirmwareClick()"
+        >Custom Firmware Selected</pip-button
+      >
+      <p>Click again to clear.</p>
+    } @else {
+      <pip-file-upload
+        [accept]="['.zip']"
+        [formControl]="formGroup.controls.customFirmware"
+        label="Upload Custom Firmware"
+      />
+    }
+  }
+  <!-- TODO: FUTURE UPGRADES -->
+  <!--
+  <pro-input-checkbox
+    [formControl]="formGroup.controls.skipMediaFilesCheckbox"
+    hideHint
+    label="Skip existing media files (wav, avi) during the upgrade."
+  ></pro-input-checkbox>
+  <pro-input-checkbox
+    [formControl]="formGroup.controls.eraseSdCardCheckbox"
+    hideHint
+    label="Erase SD Card before firmware upgrade."
+  ></pro-input-checkbox>
+  -->
+  <pip-button
+    (click)="onUpgradeClick()"
+    [disabled]="formGroup.invalid || isUpgrading()"
+  >
+    Upload Firmware
+  </pip-button>
+
+  @if (progressPct() > 0 || isUpgrading()) {
+    <div style="margin-top: 8px">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progressPct()"
+      ></mat-progress-bar>
+      <div style="margin-top: 6px">{{ statusText() }}</div>
+    </div>
+  }
+</form>
+
+<!-- {{ formGroup.value | json }} -->

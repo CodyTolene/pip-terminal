@@ -14,6 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
@@ -29,6 +30,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
     MatTooltipModule,
     PipButtonComponent,
     PipFileUploadComponent,
+    PipTitleComponent,
     ReactiveFormsModule,
   ],
   styleUrl: './pip-actions-zip-upload.component.scss',

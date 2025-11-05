@@ -1,11 +1,14 @@
 <main>
-  <section>
-    <h2>Radio</h2>
+  <section class="intro">
+    <pip-title h2>Radio</pip-title>
+    <a [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Companion App']"
+      >&lt; BACK TO PIP-BOY 3000 MK V</a
+    >
     <p>
       This page allows you to upload custom WAV files to your Pip-Boy's radio
-      system. Once connected to the device, you can override the default radio
-      tracks with your own selections, giving you full control over the
-      soundtrack that plays during your wasteland adventures.
+      system. Override the default radio tracks with your own selections, giving
+      you full control over the soundtrack that plays during your wasteland
+      adventures!
     </p>
     <img
       class="fan-art"
@@ -14,30 +17,26 @@
       title="Fan Art"
     />
     <p>
-      Music must be converted to a specific format before it can be played on
-      the device. For more information on compatible audio, check out the
-      documentation from the
+      You can download the
       <a
-        href="https://github.com/CodyTolene/pip-terminal?tab=readme-ov-file#music-"
+        href="https://github.com/CodyTolene/pip-boy-3000-mk-v-media-converter/releases"
         target="_blank"
+        >Pip-Boy 3000 Mk V - Media Conversion Tool</a
       >
-        Pip-Terminal Repo</a
-      >
-      or the
-      <strong>RobCo Industries</strong>
-      <a
-        href="https://log.robco-industries.org/documentation/pipboy-3000/#audio"
-        target="_blank"
-      >
-        website</a
-      >.
+      to convert your audio files into the correct WAV format for upload.
     </p>
-    <pip-actions-primary />
-    <pip-actions-misc hideDeleteAllAppsButton />
   </section>
 
   <section>
-    <h3>Radio Host/Voice Files</h3>
+    <pip-actions-primary />
+  </section>
+
+  <section>
+    <pip-actions-misc hideDeleteAllAppsButton />
+  </section>
+
+  <section class="radio-host">
+    <pip-title h3>Radio Host/Voice Files</pip-title>
     <p>Upload WAV Files (DX01 - DX03)</p>
     @for (name of dxFileNames; track name; let i = $index) {
       <div class="upload-container">
@@ -73,8 +72,8 @@
     }
   </section>
 
-  <section>
-    <h3>Radio Music Files</h3>
+  <section class="radio-music">
+    <pip-title h3>Radio Music Files</pip-title>
     <p>Upload WAV Files (MX01 - MX16)</p>
     @for (name of mxFileNames; track name; let i = $index) {
       <div class="upload-container">

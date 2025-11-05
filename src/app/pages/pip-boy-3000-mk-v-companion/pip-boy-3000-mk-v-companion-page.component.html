@@ -1,6 +1,6 @@
 <main>
   <section class="intro">
-    <h1>Pip-Boy 3000 Mk V</h1>
+    <pip-title h1>Pip-Boy 3000 Mk V</pip-title>
     <h3>Companion Application</h3>
     <p>
       Use this companion application to connect, add apps, games, browse files,
@@ -27,8 +27,8 @@
           src="images/misc/apps_250x250.png"
           alt="Pip-Boy 3000 Mk V Apps & Games"
         />
-        <h4>Installer</h4>
-        <span>Official Apps & Games</span>
+        <h4>Apps & Games</h4>
+        <span> Browse and Install </span>
       </a>
       <a
         [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Maintenance']"
@@ -50,7 +50,29 @@
           alt="Pip-Boy 3000 Mk V Radio"
         />
         <h4>Radio</h4>
-        <span>Custom Music</span>
+        <span>Add Custom Music</span>
+      </a>
+      <a
+        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V File Management']"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/file_management_250x250.png"
+          alt="Pip-Boy 3000 Mk V File Management"
+        />
+        <h4>File Management</h4>
+        <span>Manage Files & Folders</span>
+      </a>
+      <a
+        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Update']"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/firmware_250x250.png"
+          alt="Pip-Boy 3000 Mk V Update"
+        />
+        <h4>Update Device</h4>
+        <span>Restore & Upgrade Firmware</span>
       </a>
     </div>
     <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">

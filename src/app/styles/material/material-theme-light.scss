@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '../variables' as var;
 
 html {
   // Light theme
@@ -9,7 +10,7 @@ html {
         primary: mat.$green-palette,
         tertiary: mat.$green-palette,
       ),
-      typography: 'Roboto Mono',
+      typography: var.$default-font-family,
       density: 0,
     )
   );

@@ -20,6 +20,7 @@ import {
 } from '@angular/forms';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
@@ -33,6 +34,7 @@ import { logMessage } from 'src/app/utilities/pip-log.util';
     InputDatepickerComponent,
     InputTimepickerComponent,
     PipButtonComponent,
+    PipTitleComponent,
     ReactiveFormsModule,
   ],
   styleUrl: './pip-actions-date-time.component.scss',

@@ -10,11 +10,12 @@ import { Component, Input, booleanAttribute, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 @Component({
   selector: 'pip-actions-misc',
   templateUrl: './pip-actions-misc.component.html',
-  imports: [MatDialogModule, PipButtonComponent],
+  imports: [MatDialogModule, PipButtonComponent, PipTitleComponent],
   styleUrl: './pip-actions-misc.component.scss',
   providers: [],
   standalone: true,

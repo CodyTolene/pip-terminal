@@ -15,6 +15,7 @@ import {
   PipDialogConfirmComponent,
   PipDialogConfirmInput,
 } from 'src/app/components/dialog-confirm/pip-dialog-confirm.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { Branch } from 'src/app/types/branch';
 
@@ -24,11 +25,12 @@ import { Branch } from 'src/app/types/branch';
   templateUrl: './pip-file-explorer.component.html',
   styleUrls: ['./pip-file-explorer.component.scss'],
   imports: [
-    PipButtonComponent,
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
     MatTreeModule,
+    PipButtonComponent,
+    PipTitleComponent,
   ],
   providers: [],
   standalone: true,

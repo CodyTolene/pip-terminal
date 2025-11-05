@@ -30,7 +30,7 @@ h1 > div {
 }
 
 $bracket-gap: 0.35em;
-$bracket-thickness: 4px;
+$bracket-thickness: 2px;
 $bracket-color: col.$pip-green-darkest;
 
 .bracketed {
@@ -43,6 +43,12 @@ $bracket-color: col.$pip-green-darkest;
   padding-left: calc(var(--bracket-arm) + $bracket-gap);
   padding-right: calc(var(--bracket-arm) + $bracket-gap);
   white-space: normal;
+
+  background-color: rgba(col.$pip-green-darkest, 0.1);
+
+  &:hover {
+    background-color: rgba(col.$pip-green-dark, 0.1);
+  }
 
   // Left and right brackets
   &::before,
@@ -57,7 +63,7 @@ $bracket-color: col.$pip-green-darkest;
 
   // Left bracket
   &::before {
-    left: calc($bracket-thickness * 2);
+    left: calc(($bracket-thickness * 2) + $bracket-gap / 2);
     transform: translateX(calc(-1 * $bracket-gap));
     background:
       linear-gradient(
@@ -75,7 +81,7 @@ $bracket-color: col.$pip-green-darkest;
 
   // Right bracket
   &::after {
-    right: calc($bracket-thickness * 2);
+    right: calc(($bracket-thickness * 2) + $bracket-gap / 2);
     transform: translateX($bracket-gap);
     background:
     /* vertical stroke (anchored to the right) */

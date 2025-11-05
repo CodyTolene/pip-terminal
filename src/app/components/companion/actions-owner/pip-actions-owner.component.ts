@@ -11,13 +11,19 @@ import {
 } from '@angular/forms';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { logMessage } from 'src/app/utilities/pip-log.util';
 
 @Component({
   selector: 'pip-actions-owner',
   templateUrl: './pip-actions-owner.component.html',
-  imports: [InputComponent, PipButtonComponent, ReactiveFormsModule],
+  imports: [
+    InputComponent,
+    PipButtonComponent,
+    PipTitleComponent,
+    ReactiveFormsModule,
+  ],
   styleUrl: './pip-actions-owner.component.scss',
   providers: [],
   standalone: true,

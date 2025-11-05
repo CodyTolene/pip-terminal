@@ -8,8 +8,10 @@ import { PIP_BOY_2000_MK_VI_ROUTES } from 'src/app/pages/pip-boy-2000-mk-vi/pip-
 import { PIP_BOY_3000_MK_IV_ROUTES } from 'src/app/pages/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv.routes';
 import { PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.route';
 import { PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.route';
+import { PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-file-management/pip-boy-3000-mk-v-file-management-page.route';
 import { PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.route';
 import { PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-radio/pip-boy-3000-mk-v-radio-page.route';
+import { PIP_BOY_3000_MK_V_UPDATE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-update/pip-boy-3000-mk-v-update-page.route';
 import { PIP_BOY_3000_ROUTES } from 'src/app/pages/pip-boy-3000/pip-boy-3000.routes';
 import { PIP_BOY_3000A_ROUTES } from 'src/app/pages/pip-boy-3000a/pip-boy-3000a.routes';
 import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-policy-page.route';
@@ -37,8 +39,10 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   ...PIP_BOY_3000_MK_IV_ROUTES,
   PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE,
+  PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE,
+  PIP_BOY_3000_MK_V_UPDATE_PAGE_ROUTE,
   PIP_BOY_3000_ROUTES,
   PRIVACY_POLICY_PAGE_ROUTE,
   REGISTER_PAGE_ROUTE,
