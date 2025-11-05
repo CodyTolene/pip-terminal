@@ -599,7 +599,10 @@ export class PipFileService {
    * @param file The zip file to upload.
    * @returns Whether the upload was successful.
    */
-  public async uploadZipToDevice(file: File): Promise<boolean> {
+  public async uploadZipToDevice(
+    file: File,
+    showLargeFileWarning = true,
+  ): Promise<boolean> {
     logMessage('Preparing Zip file...');
 
     const zipData = await file.arrayBuffer();
@@ -631,8 +634,12 @@ export class PipFileService {
     let uploaded = 0;
 
     for (const [originalPath, file] of files) {
-      if (originalPath.toLowerCase().endsWith('.wav')) {
-        logMessage(`Detected WAV file upload, this may take a while...`);
+      if (showLargeFileWarning) {
+        if (originalPath.toLowerCase().endsWith('.wav')) {
+          logMessage(`Detected WAV file upload, this may take a while...`);
+        } else if (originalPath.toLowerCase().endsWith('.avi')) {
+          logMessage(`Detected AVI file upload, this may take a while...`);
+        }
       }
 
       // Adjust path if it ends with .min.js

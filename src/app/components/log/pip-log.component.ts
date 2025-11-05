@@ -7,6 +7,7 @@ import { clearLog, shareSingleReplay } from 'src/app/utilities';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewChecked,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
@@ -26,6 +27,7 @@ import { ScreenService } from 'src/app/services/screen.service';
   imports: [CommonModule, PipButtonComponent],
   styleUrl: './pip-log.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PipLogComponent implements OnInit, AfterViewChecked {
   private readonly elementRef = inject(ElementRef);
