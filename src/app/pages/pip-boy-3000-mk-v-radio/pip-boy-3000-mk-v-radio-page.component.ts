@@ -3,6 +3,7 @@ import { FormDirective } from '@proangular/pro-form';
 import { combineLatest, map, shareReplay } from 'rxjs';
 import { DX_RADIO_FILE_NAMES, MX_RADIO_FILE_NAMES } from 'src/app/constants';
 import { DxRadioFileNameEnum, MxRadioFileNameEnum } from 'src/app/enums';
+import { PAGES } from 'src/app/routing';
 import { PipConnectionService } from 'src/app/services';
 import { logMessage } from 'src/app/utilities';
 
@@ -17,12 +18,14 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
 import { ScriptsService } from 'src/app/services/scripts.service';
@@ -41,7 +44,9 @@ import { pipSignals } from 'src/app/signals/pip.signals';
     PipButtonComponent,
     PipFileUploadComponent,
     PipLogComponent,
+    PipTitleComponent,
     ReactiveFormsModule,
+    RouterModule,
   ],
   styleUrl: './pip-boy-3000-mk-v-radio-page.component.scss',
   standalone: true,
@@ -78,6 +83,7 @@ export class PipBoy3000MkVRadioPageComponent
   private readonly pipSoundService = inject(PipSoundService);
   private readonly scriptsService = inject(ScriptsService);
 
+  protected readonly PAGES = PAGES;
   protected override readonly formGroup: FormGroup<RadioSetFormGroup>;
 
   // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style

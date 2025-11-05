@@ -1,0 +1,79 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  padding: 0;
+  flex-direction: row;
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    flex-direction: column;
+  }
+
+  main,
+  pip-log {
+    flex: 1 1 50%;
+  }
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    > main {
+      flex: 1 1 70%;
+    }
+  }
+
+  main {
+    @include sb.scrollbar;
+    align-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    > section {
+      box-sizing: border-box;
+      flex: 0 1 100%;
+
+      pip-button {
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
+      img.fan-art {
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+    }
+
+    > section {
+      padding: 0;
+
+      // Apply to tablets and smaller.
+      @include bps.media('max', 'lg') {
+        flex: 0 1 100%;
+      }
+    }
+  }
+}
+
+pip-title {
+  margin: 0;
+  padding: 0 0 1rem 0;
+  text-align: start;
+  width: 100%;
+}
+
+pip-button {
+  margin-top: 1rem;
+  flex: 0 1 calc(100%);
+}

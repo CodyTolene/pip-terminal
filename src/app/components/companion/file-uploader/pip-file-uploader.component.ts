@@ -30,6 +30,7 @@ import {
   fileUploadFormGroup,
 } from 'src/app/components/companion/file-uploader/pip-file-upload-form-group';
 import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { Branch } from 'src/app/types/branch';
 
@@ -46,6 +47,7 @@ import { Branch } from 'src/app/types/branch';
     MatIconModule,
     PipButtonComponent,
     PipFileUploadComponent,
+    PipTitleComponent,
     ReactiveFormsModule,
   ],
   providers: [],

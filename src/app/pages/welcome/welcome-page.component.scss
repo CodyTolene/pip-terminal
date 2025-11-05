@@ -42,12 +42,13 @@ main {
       max-width: var.$section-max-width;
     }
 
-    &.pip-selection,
-    &.notice,
-    &.sponsors,
     &.developers,
-    &.support,
-    &.disclaimer {
+    &.disclaimer,
+    &.notice,
+    &.open-source,
+    &.pip-selection,
+    &.sponsors,
+    &.support {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -81,11 +82,15 @@ main {
       margin: 2rem 0 3rem 0;
     }
 
+    &.open-source {
+      margin-top: 1rem;
+    }
+
     &.forum {
       align-items: center;
       display: flex;
       flex-direction: column;
-      margin-bottom: 2rem;
+      // margin-bottom: 2rem;
 
       .forum-header {
         align-items: center;

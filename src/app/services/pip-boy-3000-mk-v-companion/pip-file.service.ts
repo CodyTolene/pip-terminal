@@ -1,4 +1,3 @@
-import { isNonEmptyString } from '@proangular/pro-form';
 import JSZip, { JSZipObject } from 'jszip';
 import { Commands } from 'src/app/commands';
 import { pipSignals } from 'src/app/signals';
@@ -442,55 +441,152 @@ export class PipFileService {
     }
   }
 
+  private async tryDeleteIfExists(path: string): Promise<void> {
+    try {
+      const res = await this.deleteFileOnDevice(path);
+      if (!res?.success) {
+        // benign: file may not exist — ignore NO_PATH/NO_FILE
+        const msg = (res?.message || '').toUpperCase();
+        if (!msg.includes('NO_PATH') && !msg.includes('NO_FILE')) {
+          // eslint-disable-next-line no-console
+          console.debug('[sendFileToDevice] pre-delete warning:', res?.message);
+        }
+      }
+    } catch (e) {
+      // ignore — pre-delete is a best-effort
+      // eslint-disable-next-line no-console
+      console.debug('[sendFileToDevice] pre-delete threw (ignored):', e);
+    }
+  }
+
   /**
-   * Sends a single file to the device.
+   * Sends a single file to the device with adaptive retries.
    *
-   * @param path The path to save the file to on the device.
-   * @param fileData The file data to send as a Uint8Array.
-   * @param onProgress A callback with the progress percentage.
-   * @returns The size of the file sent.
+   * @note This code was guided and commented by Copilot to mimic the
+   * original Pip-Boy upload logic as closely as possible.
    */
   public async sendFileToDevice(
     path: string,
     fileData: Uint8Array,
     onProgress?: (progress: number) => void,
   ): Promise<number> {
+    // Ensure single in-flight upload from this service
     while (this.isUploading) {
-      await wait(50); // wait before trying again
+      await wait(50);
     }
-
     this.isUploading = true;
 
-    const binaryString = this.uint8ArrayToBinaryString(fileData);
-
     try {
-      await this.pipConnectionService.connection?.espruinoSendFile(
-        path,
-        binaryString,
-        {
-          fs: true,
-          chunkSize: 1024,
-          noACK: true,
-          progress: (chunkNo: number, chunkCount: number) => {
-            const percent = Math.round((chunkNo / chunkCount) * 100);
-            if (onProgress) {
-              onProgress(percent);
-            }
-          },
-        },
-      );
+      if (!this.pipConnectionService.connection?.isOpen) {
+        logMessage('Please connect to the device first.');
+        return 0;
+      }
 
-      await wait(200);
-      return fileData.length;
-    } catch (error) {
+      await this.tryDeleteIfExists(path);
+
+      // Convert to binary string once (espruinoSendFile expects this)
+      const binaryString = this.uint8ArrayToBinaryString(fileData);
+
+      // Start fast; on failures reduce chunk size and enable ACKs.
+      interface Plan {
+        chunkSize: number;
+        noACK: boolean;
+      }
+      const plans: Plan[] = [
+        { chunkSize: 1024, noACK: true }, // fast path
+        { chunkSize: 768, noACK: true },
+        { chunkSize: 512, noACK: true },
+        { chunkSize: 512, noACK: false }, // flip to ACK
+        { chunkSize: 384, noACK: false },
+        { chunkSize: 256, noACK: false },
+      ];
+
+      const MAX_RETRIES_PER_PLAN = 2; // per plan before moving to the next
+      let lastErr: unknown;
+
+      for (let i = 0; i < plans.length; i++) {
+        const plan = plans[i];
+
+        for (let attempt = 0; attempt <= MAX_RETRIES_PER_PLAN; attempt++) {
+          // Exponential backoff between retries inside a plan (except first try)
+          if (attempt > 0) {
+            const backoff = Math.min(2000, 150 * Math.pow(1.8, attempt - 1));
+            await wait(backoff);
+          }
+
+          try {
+            await this.pipConnectionService.connection.espruinoSendFile(
+              path,
+              binaryString,
+              {
+                fs: true,
+                chunkSize: plan.chunkSize,
+                noACK: plan.noACK,
+                progress: (chunkNo: number, chunkCount: number) => {
+                  if (onProgress) {
+                    const percent = Math.round((chunkNo / chunkCount) * 100);
+                    onProgress(percent);
+                  }
+                },
+              },
+            );
+
+            // Small settle lets the device flush FS before next command
+            await wait(200);
+            return fileData.length; // success
+          } catch (err) {
+            lastErr = err;
+
+            // Classify transient errors that merit retry
+            const msg =
+              typeof err === 'string'
+                ? err
+                : (err as Error)?.message || String(err);
+
+            const transient =
+              msg.includes('NAK') ||
+              msg.includes('Writable stream is locked') ||
+              msg.includes('Failed to list') ||
+              msg.includes('NetworkError') || // port hiccup during send
+              msg.includes('undefined');
+
+            // Log once per failure (debug-level)
+            // eslint-disable-next-line no-console
+            console.debug(
+              `[sendFileToDevice] plan=${i} attempt=${attempt} ` +
+                `(chunk=${plan.chunkSize}, noACK=${plan.noACK}) failed:`,
+              msg,
+            );
+
+            if (!transient && attempt === MAX_RETRIES_PER_PLAN) {
+              // Non-transient — bail out of the whole loop
+              logMessage(`Upload failed for ${path}: ${msg}`);
+              return 0;
+            }
+
+            // If port quietly closed, surface a clear failure now
+            if (!this.pipConnectionService.connection?.isOpen) {
+              logMessage(`Upload failed for ${path}: connection closed.`);
+              return 0;
+            }
+
+            // Otherwise loop to retry; if we exhaust retries for this plan,
+            // we'll fall through to the next (smaller chunks / ACK on).
+          }
+        }
+        // Moving to next (more conservative) plan, tiny pause helps
+        await wait(120);
+      }
+
+      // Exhausted all plans
       logMessage(
         `Upload failed for ${path}: ${
-          isNonEmptyString(error) ? error : (error as Error)?.message
+          typeof lastErr === 'string'
+            ? lastErr
+            : (lastErr as Error)?.message || 'Unknown error'
         }`,
       );
-
-      // Extra debug info
-      console.error('Upload error detail:', error);
+      console.error('Upload error detail:', lastErr);
       return 0;
     } finally {
       this.isUploading = false;
@@ -503,7 +599,10 @@ export class PipFileService {
    * @param file The zip file to upload.
    * @returns Whether the upload was successful.
    */
-  public async uploadZipToDevice(file: File): Promise<boolean> {
+  public async uploadZipToDevice(
+    file: File,
+    showLargeFileWarning = true,
+  ): Promise<boolean> {
     logMessage('Preparing Zip file...');
 
     const zipData = await file.arrayBuffer();
@@ -535,8 +634,12 @@ export class PipFileService {
     let uploaded = 0;
 
     for (const [originalPath, file] of files) {
-      if (originalPath.toLowerCase().endsWith('.wav')) {
-        logMessage(`Detected WAV file upload, this may take a while...`);
+      if (showLargeFileWarning) {
+        if (originalPath.toLowerCase().endsWith('.wav')) {
+          logMessage(`Detected WAV file upload, this may take a while...`);
+        } else if (originalPath.toLowerCase().endsWith('.avi')) {
+          logMessage(`Detected AVI file upload, this may take a while...`);
+        }
       }
 
       // Adjust path if it ends with .min.js

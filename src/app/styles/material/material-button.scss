@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use '../colors' as col;
+@use '../variables' as var;
 
 :root {
   @include mat.fab-overrides(
@@ -10,10 +11,16 @@
   );
 }
 
+button {
+  font-family: var.$default-font-family;
+  line-height: 1rem;
+}
+
 .mdc-button,
 pip-button.mdc-button {
   background: col.$pip-green;
   background-color: col.$pip-green;
+  font-family: var.$default-font-family;
   padding: 0;
   width: auto;
 }

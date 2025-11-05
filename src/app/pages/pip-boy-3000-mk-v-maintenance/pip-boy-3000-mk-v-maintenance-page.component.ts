@@ -1,18 +1,17 @@
+import { PAGES } from 'src/app/routing';
 import { PipConnectionService } from 'src/app/services';
 import { logMessage } from 'src/app/utilities';
 
 import { Component, OnDestroy, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { PipActionsDateTimeComponent } from 'src/app/components/companion/actions-date-time/pip-actions-date-time.component';
 import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
 import { PipActionsOwnerComponent } from 'src/app/components/companion/actions-owner/pip-actions-owner.component';
 import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
 import { PipActionsTestingComponent } from 'src/app/components/companion/actions-testing/pip-actions-testing.component';
-// import { PipActionsUpdateComponent } from 'src/app/components/companion/actions-update/pip-actions-update.component';
-import { PipActionsZipUploadComponent } from 'src/app/components/companion/actions-zip-upload/pip-actions-zip-upload.component';
-import { PipFileExplorerComponent } from 'src/app/components/companion/file-explorer/pip-file-explorer.component';
-import { PipFileUploaderComponent } from 'src/app/components/companion/file-uploader/pip-file-uploader.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
+import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 
@@ -25,10 +24,9 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipActionsOwnerComponent,
     PipActionsPrimaryComponent,
     PipActionsTestingComponent,
-    PipActionsZipUploadComponent,
-    PipFileExplorerComponent,
-    PipFileUploaderComponent,
     PipLogComponent,
+    PipTitleComponent,
+    RouterModule,
   ],
   styleUrl: './pip-boy-3000-mk-v-maintenance-page.component.scss',
   standalone: true,
@@ -45,6 +43,8 @@ export class PipBoy3000MkVMaintenancePageComponent implements OnDestroy {
     );
     logMessage('Terminal online and ready to connect.');
   }
+
+  protected readonly PAGES = PAGES;
 
   private readonly pipConnectionService = inject(PipConnectionService);
   private scriptsService = inject(ScriptsService);

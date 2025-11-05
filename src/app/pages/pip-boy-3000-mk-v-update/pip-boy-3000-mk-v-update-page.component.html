@@ -1,0 +1,34 @@
+<main>
+  <section class="intro">
+    <pip-title h2>Update</pip-title>
+    <a [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Companion App']"
+      >&lt; BACK TO PIP-BOY 3000 MK V</a
+    >
+    <p>
+      On this page you can update your Pip-Boy&nbsp;3000&nbsp;Mk&nbsp;V's
+      firmware and operating system. This is an open-source firmware upgrade
+      tool for The Wand Company's Pip-Boy 3000 Mk V.
+    </p>
+    <p>
+      You can contribute to this project, or report any issues by visiting the
+      GitHub link
+      <a href="https://github.com/CodyTolene/pip-terminal" target="_blank"
+        >https://github.com/CodyTolene/pip-terminal</a
+      >.
+    </p>
+    <img
+      class="fan-art"
+      src="images/fan-art/connect_sm.png"
+      alt="Fan Art"
+      title="Fan Art"
+    />
+  </section>
+  <section>
+    <pip-actions-primary />
+  </section>
+  <section>
+    <pip-actions-firmware-upgrade />
+  </section>
+</main>
+
+<pip-log />

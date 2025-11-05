@@ -1,0 +1,66 @@
+@use '../../../styles/animations/border-animation' as ani;
+// @use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
+// @use '../../../styles/scrollbar' as sb;
+
+:host {
+  box-sizing: border-box;
+  border: 2px dashed transparent;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+  margin-bottom: 2rem;
+
+  &:hover {
+    @include ani.borderAnimation;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+
+  $gap: 2rem;
+
+  pip-file-upload,
+  pro-input-dropdown {
+    flex: 0 0 100%;
+    margin-bottom: 1rem;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  pro-input-checkbox {
+    flex: 0 0 calc(50% - ($gap / 2));
+    margin-bottom: 1rem;
+    max-width: calc(50% - ($gap / 2));
+  }
+
+  p {
+    flex: 0 0 100%;
+    margin: 0 0 1rem 0;
+    text-align: center;
+  }
+
+  pip-button {
+    width: 100%;
+  }
+}
+
+p {
+  margin: 0;
+
+  &.warning {
+    color: col.$warn;
+  }
+
+  &.linked {
+    margin-bottom: 1rem;
+  }
+}

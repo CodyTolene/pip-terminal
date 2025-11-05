@@ -45,6 +45,10 @@ export class WelcomePageComponent {
     window.open('https://discord.gg/zQmAkEg8XG', '_blank');
   }
 
+  protected openGitHubRepo(): void {
+    window.open('https://github.com/CodyTolene/pip-terminal', '_blank');
+  }
+
   protected openSponsorPage(): void {
     window.open('https://github.com/sponsors/CodyTolene', '_blank');
   }
