@@ -1,28 +1,27 @@
-<pip-title h3>Firmware Upgrade</pip-title>
+<pip-title h3>Firmware</pip-title>
 <p>
   Upgrade or downgrade your device's firmware by selecting a release, or
-  uploading your own custom firmware.
+  uploading your own custom firmware zip.
 </p>
 <form>
-  @if (formGroup.controls.customFirmware.value === null) {
-    <pro-input-dropdown
-      [formControl]="formGroup.controls.firmwareDropdown"
-      hideHint
-      label="Firmware Release"
-      placeholder="Select"
-    >
-      @for (release of releases; track release.label) {
-        <pro-input-dropdown-option [value]="release.url">
-          {{ release.label }}
-        </pro-input-dropdown-option>
-      }
-      @if (formGroup.controls.firmwareDropdown.value !== null) {
-        <pro-input-dropdown-option [value]="null">
-          None
-        </pro-input-dropdown-option>
-      }
-    </pro-input-dropdown>
-  }
+  <pro-input-dropdown
+    [formControl]="formGroup.controls.firmwareDropdown"
+    hideHint
+    label="Firmware Release"
+    placeholder="Select"
+  >
+    @for (release of releases; track release.label) {
+      <pro-input-dropdown-option [value]="release.url">
+        {{ release.label }}
+      </pro-input-dropdown-option>
+    }
+    @if (formGroup.controls.firmwareDropdown.value !== null) {
+      <pro-input-dropdown-option [value]="null">
+        None
+      </pro-input-dropdown-option>
+    }
+  </pro-input-dropdown>
+
   @if (formGroup.controls.firmwareDropdown.value === null) {
     @if (formGroup.controls.customFirmware.value === null) {
       <p>- OR -</p>
@@ -40,6 +39,8 @@
       />
     }
   }
+  <!-- TODO: FUTURE UPGRADES -->
+  <!--
   <pro-input-checkbox
     [formControl]="formGroup.controls.skipMediaFilesCheckbox"
     hideHint
@@ -50,11 +51,23 @@
     hideHint
     label="Erase SD Card before firmware upgrade."
   ></pro-input-checkbox>
+  -->
   <pip-button
     (click)="onUpgradeClick()"
     [disabled]="formGroup.invalid || isUpgrading()"
-    >Upload Firmware</pip-button
   >
+    Upload Firmware
+  </pip-button>
+
+  @if (progressPct() > 0 || isUpgrading()) {
+    <div style="margin-top: 8px">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progressPct()"
+      ></mat-progress-bar>
+      <div style="margin-top: 6px">{{ statusText() }}</div>
+    </div>
+  }
 </form>
 
-{{ formGroup.value | json }}
+<!-- {{ formGroup.value | json }} -->
