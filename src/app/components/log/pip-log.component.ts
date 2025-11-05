@@ -110,7 +110,7 @@ export class PipLogComponent implements OnInit, AfterViewChecked {
     setTimeout(() => this.scrollToBottom());
   }
 
-  private scrollToBottom(debug = true): void {
+  private scrollToBottom(debug = false): void {
     const toTop = this.isCollapsed();
 
     const isScrollable = (el: HTMLElement | null | undefined): boolean =>

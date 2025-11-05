@@ -462,7 +462,7 @@ export class PipFileService {
   /**
    * Sends a single file to the device with adaptive retries.
    *
-   * @note This code was guided and commented by co-pilot to mimick the
+   * @note This code was guided and commented by co-pilot to mimic the
    * original Pip-Boy upload logic as closely as possible.
    */
   public async sendFileToDevice(

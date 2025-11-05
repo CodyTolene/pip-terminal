@@ -210,7 +210,7 @@ export class PipActionsFirmwareUpgradeComponent
   }
 
   private setStatus(text: string): void {
-    this.statusText.set('');
+    this.statusText.set(text);
     logMessage(text);
   }
 

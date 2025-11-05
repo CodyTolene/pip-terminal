@@ -8,7 +8,7 @@ export const PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE: PipRoute = {
   pathMatch: 'full',
   data: {
     author: META_AUTHOR,
-    description: 'Maintenance options for your Pip-Boy 3000 Mk V!',
+    description: 'Manage files and directories on your Pip-Boy 3000 Mk V!',
     keywords: [
       'Pip-Boy 3000 Mk V',
       'File',
