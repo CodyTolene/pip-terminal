@@ -152,7 +152,16 @@ export class UserProfileService {
   private isStorageUrl(url: string): boolean {
     return (
       url.startsWith('gs://') ||
-      url.startsWith('https://firebasestorage.googleapis.com')
+      (url.startsWith('https://') && this.isFirebaseStorageHost(url))
     );
+  }
+
+  private isFirebaseStorageHost(url: string): boolean {
+    try {
+      const u = new URL(url);
+      return u.hostname === 'firebasestorage.googleapis.com';
+    } catch {
+      return false;
+    }
   }
 }
