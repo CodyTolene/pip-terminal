@@ -127,11 +127,11 @@ export class MarkupService {
       return withBreaks
         .replace(/<[^>]*>/g, ' ')
         .replace(/&nbsp;|&#160;/g, ' ')
-        .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&#39;/g, "'")
         .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&')
         .replace(/\s+/g, ' ')
         .trim();
     }
