@@ -27,7 +27,7 @@ export class MarkupService {
     const safe =
       this.sanitizer.sanitize(SecurityContext.HTML, html ?? '') ?? '';
 
-    const cleaned = this.sanitizeDangerousTags(safe)
+    const cleaned = safe
       .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
       // add space after block elements to prevent word run-ons
       .replace(
@@ -97,7 +97,7 @@ export class MarkupService {
   public getTextFrom(html: string | null | SafeHtml | undefined): string {
     const safe = this.sanitizeToString(html ?? '');
 
-    const withBreaks = this.sanitizeDangerousTags(safe)
+    const withBreaks = safe
       .replace(/<img\b[^>]*>/gi, ' [img] ') // replace images with marker
       .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
       // add space after block elements to prevent word run-ons
@@ -134,34 +134,6 @@ export class MarkupService {
       .replace(/\u00A0/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
-  }
-
-  /**
-   * Remove potentially dangerous <script> and <style> tags and fragments.
-   * Applies replacements repeatedly until no more matches.
-   */
-  private sanitizeDangerousTags(input: string): string {
-    let previous: string;
-    do {
-      previous = input;
-      input = input
-        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '') // full script tags
-        .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '') // full style tags
-        .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
-        .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
-        .replace(/<\/script>/gi, '') // orphaned closing script tags
-        .replace(/<\/style>/gi, ''); // orphaned closing style tags
-
-      // Extra loop to catch any lingering fragments of "<script" or "<style"
-      let fragPrevious: string;
-      do {
-        fragPrevious = input;
-        input = input
-          .replace(/<script/gi, '') // orphaned '<script' fragments
-          .replace(/<style/gi, ''); // orphaned '<style' fragments
-      } while (input !== fragPrevious);
-    } while (input !== previous);
-    return input;
   }
 
   /** Sanitize untrusted HTML to a plain string */
