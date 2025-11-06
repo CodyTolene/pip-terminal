@@ -1,15 +1,19 @@
 <div align="center">
-  <img align="center" src=".github/images/logo/pip-terminal.png" />
-  <h1 align="center">Pip Terminal (<a href="https://www.Pip-Boy.com">Pip-Boy.com</a>)</h1>
+  <!--
+  <img 
+    align="center" 
+    src="https://raw.githubusercontent.com/CodyTolene/pip-terminal/main/.github/images/logo/fav-icon.png" 
+    width="250"
+  />
+  -->
+  <img 
+    align="center" 
+    src="https://raw.githubusercontent.com/CodyTolene/pip-terminal/main/.github/images/logo/fav-icon.png" 
+    width="250"
+  />
+  <h1 align="center">Pip Terminal - <a href="https://www.Pip-Boy.com">Pip-Boy.com</a></h1>
   <p align="center">
-    A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!
-  </p>
-  <p align="center">
-    Purchase the device from the Bethesda store 
-    <a href="https://gear.bethesda.net/products/fallout-series-pip-boy-die-cast-replica">
-      here</a>. View the official upgrade site 
-    <a href="https://www.thewandcompany.com/pip-boy/upgrade/">
-      here</a>.
+    Pip-Boy.com brings Pip-Boy interfaces to the web with interactive simulations for multiple models. It also includes a companion app for the real Pip-Boy 3000 Mk V using Web Serial to flash firmware, install community apps, manage files, and run utilities.
   </p>
 </div>
 
@@ -204,9 +208,8 @@ following steps:
 3. **Build the Angular app** – runs `npm run build` to ensure the app compiles
    cleanly before serving it in the emulator environment.
 4. **Start Firebase emulators** – launches the Auth, Firestore, Functions and
-   Storage emulators defined in `firebase.json`【374065138564778†L1-L20】. The
-   workflow waits for all emulator ports (8080, 9099, 9199 and 5001) to be
-   reachable before continuing.
+   Storage emulators defined in `firebase.json`. The workflow waits for all
+   emulator ports (8080, 9099, 9199 and 5001) to be reachable before continuing.
 5. **Start the Angular dev server** – runs `ng serve` on port 4200 without
    opening a browser and waits until `http://127.0.0.1:4200` responds.
 6. **Run Cypress headlessly** – uses the official `cypress-io/github-action` to

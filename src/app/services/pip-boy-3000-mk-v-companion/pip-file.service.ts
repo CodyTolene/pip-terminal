@@ -193,7 +193,8 @@ export class PipFileService {
       return [];
     }
 
-    const escapedPath = dir.replace(/"/g, '\\"');
+    // Escapes both backslashes and quotes
+    const escapedPath = dir.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
     const nodes: Branch[] = [];
     let offset = 0;
     const pageSize = 20;

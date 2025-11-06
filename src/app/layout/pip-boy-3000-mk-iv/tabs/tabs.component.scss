@@ -56,22 +56,19 @@ button.tabs-button {
   .label {
     display: block;
     position: relative;
-    bottom: 2rem;
+    bottom: 1.5rem;
     padding: 0 0.25rem;
 
     @include bps.media('max', 'md') {
       font-size: var.$font-xl;
-      bottom: 1.75rem;
     }
 
     @include bps.media('max', 'sm') {
       font-size: var.$font-lg;
-      bottom: 1.6rem;
     }
 
     @include bps.media('max', 'xs') {
       font-size: var.$font-md;
-      bottom: 1.5rem;
     }
   }
 

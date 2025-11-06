@@ -1,7 +1,7 @@
 {
   "name": "pip-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "3.17.0",
+  "version": "3.17.1",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
@@ -93,7 +93,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "npm-check-updates": "^18.0.2",
-    "patch-package": "^8.0.0",
+    "patch-package": "^8.0.1",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "typescript": "~5.8.3",

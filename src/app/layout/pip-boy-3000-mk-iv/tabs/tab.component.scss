@@ -5,6 +5,8 @@
 nav.tab-header {
   display: flex;
   justify-content: space-evenly;
+  margin-top: 0.75rem;
+  overflow-y: hidden;
   position: relative;
   width: 100%;
 }

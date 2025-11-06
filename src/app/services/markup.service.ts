@@ -27,10 +27,9 @@ export class MarkupService {
     const safe =
       this.sanitizer.sanitize(SecurityContext.HTML, html ?? '') ?? '';
 
-    // Strip script/style and give block boundaries a space so words do not run together
     const cleaned = safe
-      .replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, '')
-      .replace(/<br\s*\/?>/gi, ' \n ')
+      .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
+      // add space after block elements to prevent word run-ons
       .replace(
         /<\/(p|div|section|article|header|footer|aside|li|ul|ol|h[1-6]|blockquote|pre|table|thead|tbody|tfoot|tr|td|th)>/gi,
         ' $&',
@@ -98,11 +97,10 @@ export class MarkupService {
   public getTextFrom(html: string | null | SafeHtml | undefined): string {
     const safe = this.sanitizeToString(html ?? '');
 
-    // Make implicit breaks explicit and replace images with a marker
     const withBreaks = safe
-      .replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, '') // drop code
-      .replace(/<img\b[^>]*>/gi, ' [img] ') // <-- add this
-      .replace(/<br\s*\/?>/gi, ' \n ') // line breaks
+      .replace(/<img\b[^>]*>/gi, ' [img] ') // replace images with marker
+      .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
+      // add space after block elements to prevent word run-ons
       .replace(
         /<\/(p|div|section|article|header|footer|aside|li|ul|ol|h[1-6]|blockquote|pre|table|thead|tbody|tfoot|tr|td|th)>/gi,
         ' $&',
@@ -113,11 +111,11 @@ export class MarkupService {
       return withBreaks
         .replace(/<[^>]*>/g, ' ')
         .replace(/&nbsp;|&#160;/g, ' ')
-        .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&#39;/g, "'")
         .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&')
         .replace(/\s+/g, ' ')
         .trim();
     }
