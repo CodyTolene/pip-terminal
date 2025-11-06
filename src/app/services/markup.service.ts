@@ -27,15 +27,7 @@ export class MarkupService {
     const safe =
       this.sanitizer.sanitize(SecurityContext.HTML, html ?? '') ?? '';
 
-    // Strip script/style and give block boundaries a space so words do not run together
-    const cleaned = safe
-      // Remove script/style tags more aggressively (handles incomplete tags)
-      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '') // complete script tags
-      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '') // complete style tags
-      .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
-      .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
-      .replace(/<\/script>/gi, '') // orphaned closing script tags
-      .replace(/<\/style>/gi, '') // orphaned closing style tags
+    const cleaned = this.sanitizeDangerousTags(safe)
       .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
       // add space after block elements to prevent word run-ons
       .replace(
@@ -105,15 +97,7 @@ export class MarkupService {
   public getTextFrom(html: string | null | SafeHtml | undefined): string {
     const safe = this.sanitizeToString(html ?? '');
 
-    // Make implicit breaks explicit and replace images with a marker
-    const withBreaks = safe
-      // Remove script/style tags more aggressively (handles incomplete tags)
-      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '') // complete script tags
-      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '') // complete style tags
-      .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
-      .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
-      .replace(/<\/script>/gi, '') // orphaned closing script tags
-      .replace(/<\/style>/gi, '') // orphaned closing style tags
+    const withBreaks = this.sanitizeDangerousTags(safe)
       .replace(/<img\b[^>]*>/gi, ' [img] ') // replace images with marker
       .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
       // add space after block elements to prevent word run-ons
@@ -150,6 +134,25 @@ export class MarkupService {
       .replace(/\u00A0/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+  }
+
+  /**
+   * Remove potentially dangerous <script> and <style> tags and fragments.
+   * Applies replacements repeatedly until no more matches.
+   */
+  private sanitizeDangerousTags(input: string): string {
+    let previous: string;
+    do {
+      previous = input;
+      input = input
+        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '') // full script tags
+        .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '') // full style tags
+        .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
+        .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
+        .replace(/<\/script>/gi, '') // orphaned closing script tags
+        .replace(/<\/style>/gi, ''); // orphaned closing style tags
+    } while (input !== previous);
+    return input;
   }
 
   /** Sanitize untrusted HTML to a plain string */
