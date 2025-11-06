@@ -150,9 +150,16 @@ export class MarkupService {
         .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
         .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
         .replace(/<\/script>/gi, '') // orphaned closing script tags
-        .replace(/<\/style>/gi, '') // orphaned closing style tags
-        .replace(/<script/gi, '') // orphaned '<script' fragments
-        .replace(/<style/gi, ''); // orphaned '<style' fragments
+        .replace(/<\/style>/gi, ''); // orphaned closing style tags
+
+      // Extra loop to catch any lingering fragments of "<script" or "<style"
+      let fragPrevious: string;
+      do {
+        fragPrevious = input;
+        input = input
+          .replace(/<script/gi, '') // orphaned '<script' fragments
+          .replace(/<style/gi, ''); // orphaned '<style' fragments
+      } while (input !== fragPrevious);
     } while (input !== previous);
     return input;
   }
