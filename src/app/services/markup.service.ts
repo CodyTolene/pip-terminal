@@ -29,8 +29,15 @@ export class MarkupService {
 
     // Strip script/style and give block boundaries a space so words do not run together
     const cleaned = safe
-      .replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, '')
-      .replace(/<br\s*\/?>/gi, ' \n ')
+      // Remove script/style tags more aggressively (handles incomplete tags)
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '') // complete script tags
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '') // complete style tags
+      .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
+      .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
+      .replace(/<\/script>/gi, '') // orphaned closing script tags
+      .replace(/<\/style>/gi, '') // orphaned closing style tags
+      .replace(/<br\s*\/?>/gi, ' \n ') // normalize breaks
+      // add space after block elements to prevent word run-ons
       .replace(
         /<\/(p|div|section|article|header|footer|aside|li|ul|ol|h[1-6]|blockquote|pre|table|thead|tbody|tfoot|tr|td|th)>/gi,
         ' $&',
