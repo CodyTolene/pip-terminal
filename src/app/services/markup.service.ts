@@ -150,7 +150,9 @@ export class MarkupService {
         .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
         .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
         .replace(/<\/script>/gi, '') // orphaned closing script tags
-        .replace(/<\/style>/gi, ''); // orphaned closing style tags
+        .replace(/<\/style>/gi, '') // orphaned closing style tags
+        .replace(/<script/gi, '') // orphaned '<script' fragments
+        .replace(/<style/gi, ''); // orphaned '<style' fragments
     } while (input !== previous);
     return input;
   }
