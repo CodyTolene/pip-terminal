@@ -145,8 +145,8 @@ export class MarkupService {
     do {
       previous = input;
       input = input
-        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '') // full script tags
-        .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '') // full style tags
+        .replace(/<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gi, '') // full script tags (handles attributes/whitespace)
+        .replace(/<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gi, '') // full style tags (handles attributes/whitespace)
         .replace(/<script\b[^>]*>/gi, '') // orphaned opening script tags
         .replace(/<style\b[^>]*>/gi, '') // orphaned opening style tags
         .replace(/<\/script>/gi, '') // orphaned closing script tags
