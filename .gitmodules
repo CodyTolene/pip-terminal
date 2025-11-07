@@ -2,3 +2,6 @@
 	path = public/pip
 	url = https://github.com/CodyTolene/pip-boy-apps.git
 	ignore = all
+[submodule "src/app/components/companion/actions-firmware-builder"]
+	path = src/app/components/companion/actions-firmware-builder
+	url = https://github.com/AidansLab/Pip-Boy-CFW-Builder

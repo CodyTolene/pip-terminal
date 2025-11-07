@@ -1,0 +1,321 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  padding: 0;
+  flex-direction: row;
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    flex-direction: column;
+  }
+
+  main,
+  pip-log {
+    flex: 1 1 50%;
+  }
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    > main {
+      flex: 1 1 70%;
+    }
+  }
+
+  main {
+    @include sb.scrollbar;
+    align-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    > section {
+      box-sizing: border-box;
+      flex: 0 1 100%;
+
+      pip-button {
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
+      img.fan-art {
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+    }
+
+    > section {
+      padding: 0;
+
+      // Apply to tablets and smaller.
+      @include bps.media('max', 'lg') {
+        flex: 0 1 100%;
+      }
+    }
+  }
+}
+
+pip-title {
+  margin: 0;
+  padding: 0 0 1rem 0;
+  text-align: start;
+  width: 100%;
+}
+
+pip-button {
+  margin-top: 1rem;
+  flex: 0 1 calc(100%);
+}
+
+// Firmware Builder Specific Styles
+.firmware-builder {
+  width: 100%;
+
+  .builder-container {
+    padding: 1rem;
+    background: rgba(0, 20, 0, 0.5);
+    border: 2px solid var(--pip-color-green);
+    margin-top: 1rem;
+  }
+
+  .step {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 2px solid var(--pip-color-green);
+    background: rgba(0, 255, 65, 0.05);
+    position: relative;
+
+    &::before {
+      content: '█';
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      animation: glow 1s ease-in-out infinite;
+    }
+
+    h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding-left: 25px;
+      color: var(--pip-color-green);
+    }
+  }
+
+  select,
+  button {
+    font-family: 'Share Tech Mono', monospace;
+    background: rgba(0, 26, 0, 0.8);
+    color: var(--pip-color-green);
+    border: 2px solid var(--pip-color-green);
+    padding: 12px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    &:hover:not(:disabled) {
+      background: rgba(0, 255, 65, 0.2);
+      box-shadow:
+        inset 0 0 20px rgba(0, 255, 65, 0.3),
+        0 0 20px rgba(0, 255, 65, 0.5);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  select {
+    &:hover,
+    &:focus {
+      background: rgba(0, 255, 65, 0.1);
+      box-shadow:
+        inset 0 0 10px rgba(0, 255, 65, 0.2),
+        0 0 10px rgba(0, 255, 65, 0.3);
+      outline: none;
+    }
+  }
+
+  #patch-list {
+    border: 2px solid var(--pip-color-green);
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: rgba(0, 20, 0, 0.5);
+    scrollbar-width: thin;
+    scrollbar-color: #00ff41 #001a00;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #001a00;
+      border: 1px solid #00ff41;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #00ff41;
+      border: 1px solid #001a00;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #00dd36;
+    }
+
+    .patch-item {
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      border-left: 3px solid var(--pip-color-green);
+      background: rgba(0, 255, 65, 0.03);
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(0, 255, 65, 0.08);
+        border-left-width: 5px;
+      }
+
+      input[type='checkbox'] {
+        margin-top: 2px;
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        accent-color: #00ff41;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+
+      label {
+        font-weight: bold;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.95em;
+        color: var(--pip-color-green);
+      }
+
+      p {
+        font-size: 0.8em;
+        margin: 4px 0 0 0;
+        margin-left: 28px;
+        opacity: 0.7;
+        line-height: 1.4;
+        color: var(--pip-color-green);
+      }
+
+      input[type='text'] {
+        font-family: 'Share Tech Mono', monospace;
+        background: #001a00;
+        color: #00ff41;
+        border: 1px solid #00ff41;
+        padding: 4px 8px;
+        font-size: 0.9em;
+        margin-left: 20px;
+        margin-top: 5px;
+        width: calc(100% - 28px);
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        }
+      }
+    }
+  }
+
+  #fw-loading-status {
+    color: var(--pip-color-green);
+    opacity: 0.7;
+    margin-top: 10px;
+    text-align: center;
+    animation: glow 1.5s ease-in-out infinite;
+  }
+
+  #download-link {
+    display: none;
+    padding: 10px;
+    text-align: center;
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--pip-color-green);
+    text-decoration: none;
+    font-size: 0.9em;
+    border: 2px solid var(--pip-color-green);
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+    display: block;
+
+    &:hover {
+      background: rgba(0, 255, 65, 0.15);
+      box-shadow:
+        inset 0 0 10px rgba(0, 255, 65, 0.2),
+        0 0 10px rgba(0, 255, 65, 0.3);
+      opacity: 1;
+    }
+  }
+
+  #write-sd-button,
+  #write-flash-button {
+    padding: 20px 30px !important;
+    font-size: 1.2em !important;
+    font-weight: bold;
+    border: 3px solid var(--pip-color-green) !important;
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glow {
+    0%,
+    100% {
+      text-shadow:
+        0 0 5px var(--pip-color-green),
+        0 0 10px var(--pip-color-green),
+        0 0 20px var(--pip-color-green);
+    }
+    50% {
+      text-shadow:
+        0 0 2px var(--pip-color-green),
+        0 0 5px var(--pip-color-green),
+        0 0 10px var(--pip-color-green);
+    }
+  }
+}
