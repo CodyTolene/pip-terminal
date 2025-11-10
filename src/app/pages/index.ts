@@ -7,6 +7,7 @@ export * from './login/login-page.component';
 export * from './pip-boy-2000-mk-vi/index';
 export * from './pip-boy-3000-mk-iv/index';
 export * from './pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.component';
+export * from './pip-boy-3000-mk-v-cfw-builder/pip-boy-3000-mk-v-cfw-builder-page.component';
 export * from './pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.component';
 export * from './pip-boy-3000-mk-v-file-management/pip-boy-3000-mk-v-file-management-page.component';
 export * from './pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.component';

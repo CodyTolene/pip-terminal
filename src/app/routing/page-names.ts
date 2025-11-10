@@ -14,6 +14,7 @@ const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
 
 const PIP_BOY_3000_MK_V_PAGE_NAMES = [
   'Pip-Boy 3000 Mk V Apps',
+  'Pip-Boy 3000 Mk V CFW Builder',
   'Pip-Boy 3000 Mk V Companion App',
   'Pip-Boy 3000 Mk V File Management',
   'Pip-Boy 3000 Mk V Maintenance',

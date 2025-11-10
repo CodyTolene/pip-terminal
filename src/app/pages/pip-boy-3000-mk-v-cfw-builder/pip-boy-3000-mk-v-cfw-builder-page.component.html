@@ -1,0 +1,78 @@
+<main>
+  <section class="intro">
+    <pip-title h2>CFW Builder</pip-title>
+    <a [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Companion App']"
+      >&lt; BACK TO PIP-BOY 3000 MK V</a
+    >
+    <p>
+      This is a modular firmware builder for the Pip-Boy 3000 Mk V. Connect your
+      device, select your base firmware version, choose patches to apply, and
+      generate your custom firmware. You can then write it directly to your
+      device's SD card or flash memory.
+    </p>
+    <p>
+      You can contribute to this project, or report any issues by visiting the
+      GitHub link
+      <a href="https://github.com/AidansLab/Pip-Boy-CFW-Builder" target="_blank"
+        >https://github.com/AidansLab/Pip-Boy-CFW-Builder</a
+      >.
+    </p>
+  </section>
+
+  <section class="cfw-builder">
+    <div class="step">
+      <h3>Step 0: Connect to Pip-Boy</h3>
+      <button id="connect-button" class="pip-button">CONNECT TO PIP-BOY</button>
+      <p id="connection-status" class="status-text"></p>
+    </div>
+
+    <div class="step">
+      <h3>Step 1: Select Base FW Version</h3>
+      <select id="fw-select" disabled>
+        <option value="">-- CONNECT TO PIP-BOY FIRST --</option>
+      </select>
+      <p
+        id="fw-loading-status"
+        class="status-text loading"
+        style="display: none"
+      >
+        LOADING FILE<span class="blink">█</span>
+      </p>
+    </div>
+
+    <div class="step">
+      <h3>Step 2: Select Patches to Apply</h3>
+      <div id="patch-list" class="patch-list">
+        <p class="loading">LOADING PATCHES<span class="blink">█</span></p>
+      </div>
+    </div>
+
+    <div class="step">
+      <h3>Step 3: Generate Patched File</h3>
+      <button id="patch-button" class="pip-button" disabled>
+        SELECT BASE FIRMWARE FIRST
+      </button>
+    </div>
+
+    <div class="step">
+      <div class="button-row">
+        <button id="write-sd-button" class="pip-button primary" disabled>
+          █ WRITE TO SD CARD █
+        </button>
+        <button id="write-flash-button" class="pip-button primary" disabled>
+          █ WRITE TO FLASH █
+        </button>
+      </div>
+
+      <button id="install-from-sd-button" class="pip-button full-width">
+        █ INSTALL FROM SD TO FLASH █
+      </button>
+
+      <a id="download-link" href="#" download="FW.js_patched.js">
+        DOWNLOAD PATCHED FILE
+      </a>
+    </div>
+  </section>
+</main>
+
+<pip-log />

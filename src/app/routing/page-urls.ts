@@ -31,6 +31,7 @@ export const PAGE_URLS = (
     '3000-mk-iv/stat/status',
     '3000-mk-v',
     '3000-mk-v/apps',
+    '3000-mk-v/cfw-builder',
     '3000-mk-v/file-management',
     '3000-mk-v/maintenance',
     '3000-mk-v/radio',
