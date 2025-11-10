@@ -5,3 +5,4 @@
 [submodule "public/Pip-Boy-CFW-Builder"]
 	path = public/Pip-Boy-CFW-Builder
 	url = https://github.com/AidansLab/Pip-Boy-CFW-Builder
+	branch = main
