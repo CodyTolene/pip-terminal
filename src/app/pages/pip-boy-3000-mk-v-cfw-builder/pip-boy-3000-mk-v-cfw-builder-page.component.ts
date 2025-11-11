@@ -199,8 +199,7 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     if (document.readyState === 'complete') {
       // Use setTimeout to ensure script execution context is ready
       setTimeout(() => {
-        const event = document.createEvent('Event');
-        event.initEvent('DOMContentLoaded', true, true);
+        const event = new Event('DOMContentLoaded', { bubbles: true, cancelable: true });
         window.document.dispatchEvent(event);
       }, 100);
     }
