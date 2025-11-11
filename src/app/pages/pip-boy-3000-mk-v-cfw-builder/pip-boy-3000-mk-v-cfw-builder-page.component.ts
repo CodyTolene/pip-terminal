@@ -151,9 +151,15 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
       if (window.Espruino?.init) {
         window.Espruino.init();
         // Wait for initialization to complete (Espruino.initialised flag)
+        let attempts = 0;
+        const maxAttempts = 50; // 50 * 100ms = 5 seconds
         const checkInit = setInterval(() => {
           if (window.Espruino?.initialised) {
             clearInterval(checkInit);
+            resolve();
+          } else if (++attempts >= maxAttempts) {
+            clearInterval(checkInit);
+            console.warn('Espruino did not initialise after 5 seconds');
             resolve();
           }
         }, 100);
