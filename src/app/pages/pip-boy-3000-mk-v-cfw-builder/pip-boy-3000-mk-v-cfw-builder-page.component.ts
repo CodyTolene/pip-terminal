@@ -55,19 +55,18 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public async ngOnDestroy(): Promise<void> {
-    // Restore original console.log
+  public ngOnDestroy(): void {
+    // Restore console.log immediately
     if (this.originalConsoleLog) {
       // eslint-disable-next-line no-console
       console.log = this.originalConsoleLog;
     }
 
-    // Don't unload CFW scripts as they contain global state that cannot be re-initialized
-    // this.scriptsService.unloadAll();
-
-    // Disconnect from the Pip-Boy if there's an active connection
+    // Disconnect without waiting (fire-and-forget)
     if (this.pipConnectionService.connection?.isOpen) {
-      await this.pipConnectionService.disconnect();
+      this.pipConnectionService.disconnect().catch((err) => {
+        console.error('Error during disconnect:', err);
+      });
     }
   }
 
