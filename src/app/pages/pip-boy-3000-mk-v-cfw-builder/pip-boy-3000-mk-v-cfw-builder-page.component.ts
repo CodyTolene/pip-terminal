@@ -5,6 +5,7 @@ import { logMessage } from 'src/app/utilities';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipLogComponent } from 'src/app/components/log/pip-log.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
@@ -24,7 +25,12 @@ declare const window: WindowWithCFW;
 @Component({
   selector: 'pip-boy-3000-mk-v-cfw-builder-page',
   templateUrl: './pip-boy-3000-mk-v-cfw-builder-page.component.html',
-  imports: [PipLogComponent, PipTitleComponent, RouterModule],
+  imports: [
+    PipLogComponent,
+    PipTitleComponent,
+    RouterModule,
+    PipButtonComponent,
+  ],
   styleUrl: './pip-boy-3000-mk-v-cfw-builder-page.component.scss',
   standalone: true,
 })
@@ -47,11 +53,12 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
 
   private readonly pipConnectionService = inject(PipConnectionService);
   private readonly scriptsService = inject(ScriptsService);
+
   private originalConsoleLog?: (...args: unknown[]) => void;
 
   public async ngOnInit(): Promise<void> {
     // Load CFW Builder scripts from submodule (only once globally)
-    await this.loadCfwBuilderScripts();
+    await this.loadScripts();
     logMessage(
       'CFW Builder initialized. Terminal online and ready to connect.',
     );
@@ -59,6 +66,8 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.cleanUpConsoleLogInterceptor();
+
+    this.cleanUpScripts();
 
     // Disconnect without waiting (fire-and-forget)
     if (this.pipConnectionService.connection?.isOpen) {
@@ -77,7 +86,15 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async loadCfwBuilderScripts(): Promise<void> {
+  private cleanUpScripts(): void {
+    const allScripts = [...coreScripts, ...secondaryScripts];
+    for (const script of allScripts) {
+      this.scriptsService.unloadScript(script);
+    }
+    this.cfwScriptsLoaded = false;
+  }
+
+  private async loadScripts(): Promise<void> {
     // Only load scripts once globally to prevent redeclaration errors
     if (this.cfwScriptsLoaded) {
       return;
@@ -90,38 +107,10 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     // Expose logMessage to patcher.js for terminal integration
     window.pipTerminalLog = logMessage;
 
-    // Load Acorn (JavaScript parser)
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/libs/acorn/acorn.js',
-    );
-
-    // Load Espruino core
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/espruino.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/core/serial.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/core/serial_web_serial.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/core/config.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/core/utils.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/core/env.js',
-    );
-
-    // Load Espruino plugins
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/plugins/minify.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/plugins/pretokenise.js',
-    );
+    // Load Initial Acorn & Espruino scripts
+    for (const script of coreScripts) {
+      await this.scriptsService.loadScript(script);
+    }
 
     // Initialize Espruino after all core and plugin files are loaded
     // This is needed because espruino.js expects DOMContentLoaded which has already fired
@@ -148,31 +137,10 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Load Esprima libraries
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esprima.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esmangle.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/escodegen.js',
-    );
-
-    // Load untokenize.js which adds preminify to Espruino.Plugins.Minify
-    await this.scriptsService.loadScript('Pip-Boy-CFW-Builder/untokenize.js');
-
-    // Load manifests
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/Patches/patch_manifest.js',
-    );
-    await this.scriptsService.loadScript(
-      'Pip-Boy-CFW-Builder/Firmware/fw_manifest.js',
-    );
-
-    // Load UI and patcher scripts
-    await this.scriptsService.loadScript('Pip-Boy-CFW-Builder/ui.js');
-    await this.scriptsService.loadScript('Pip-Boy-CFW-Builder/patcher.js');
+    // Load secondary scripts
+    for (const script of secondaryScripts) {
+      await this.scriptsService.loadScript(script);
+    }
 
     // The patcher.js listens for DOMContentLoaded which has already fired.
     // We need to trigger initialization by dispatching the event after scripts load
@@ -191,8 +159,8 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
   private setConsoleLogInterceptor(): void {
     // eslint-disable-next-line no-console
     this.originalConsoleLog = console.log;
-    // Intercept console.log globally for the lifetime of this component.
 
+    // Intercept console.log globally for the lifetime of this component.
     // eslint-disable-next-line no-console
     console.log = (...args: unknown[]): void => {
       // Always call the original console.log
@@ -217,3 +185,33 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     };
   }
 }
+
+const coreScripts = [
+  // Acorn (JavaScript parser)
+  'Pip-Boy-CFW-Builder/libs/acorn/acorn.js',
+  // Espruino core
+  'Pip-Boy-CFW-Builder/EspruinoTools/espruino.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/serial.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/serial_web_serial.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/config.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/utils.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/env.js',
+  // Espruino modules
+  'Pip-Boy-CFW-Builder/EspruinoTools/plugins/minify.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/plugins/pretokenise.js',
+];
+
+const secondaryScripts = [
+  // Esprima
+  'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esprima.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esmangle.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/escodegen.js',
+  // Untokenize.js - Adds preminify to Espruino.Plugins.Minify
+  'Pip-Boy-CFW-Builder/untokenize.js',
+  // Manifests
+  'Pip-Boy-CFW-Builder/Patches/patch_manifest.js',
+  'Pip-Boy-CFW-Builder/Firmware/fw_manifest.js',
+  // Patcher
+  'Pip-Boy-CFW-Builder/ui.js',
+  'Pip-Boy-CFW-Builder/patcher.js',
+];
