@@ -7,6 +7,7 @@ import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
 import { PIP_BOY_2000_MK_VI_ROUTES } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi.routes';
 import { PIP_BOY_3000_MK_IV_ROUTES } from 'src/app/pages/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv.routes';
 import { PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.route';
+import { PIP_BOY_3000_MK_V_CFW_BUILDER_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-cfw-builder/pip-boy-3000-mk-v-cfw-builder-page.route';
 import { PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.route';
 import { PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-file-management/pip-boy-3000-mk-v-file-management-page.route';
 import { PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.route';
@@ -38,6 +39,7 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   PIP_BOY_3000A_ROUTES,
   ...PIP_BOY_3000_MK_IV_ROUTES,
   PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE,
+  PIP_BOY_3000_MK_V_CFW_BUILDER_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE,

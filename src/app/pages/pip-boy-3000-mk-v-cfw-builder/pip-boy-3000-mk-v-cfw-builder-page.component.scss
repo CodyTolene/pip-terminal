@@ -1,0 +1,310 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/scrollbar' as sb;
+@use '../../styles/variables' as var;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  padding: 0;
+  flex-direction: row;
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    flex-direction: column;
+  }
+
+  main,
+  pip-log {
+    flex: 1 1 50%;
+  }
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    > main {
+      flex: 1 1 70%;
+    }
+  }
+
+  main {
+    @include sb.scrollbar;
+    align-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    > section {
+      box-sizing: border-box;
+      flex: 0 1 100%;
+
+      &.intro {
+        img.fan-art {
+          max-width: 300px;
+          height: auto;
+          display: block;
+          margin: 0 auto;
+        }
+      }
+
+      &.cfw-builder {
+        width: 100%;
+
+        .step {
+          margin-bottom: 1.5rem;
+          padding: 1rem;
+          border: 2px solid col.$pip-green;
+          background: rgba(0, 255, 0, 0.05);
+          position: relative;
+
+          &::before {
+            content: '█';
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            color: col.$pip-green;
+            text-shadow:
+              0 0 5px col.$pip-green,
+              0 0 10px col.$pip-green;
+          }
+
+          h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-left: 25px;
+            color: col.$pip-green;
+          }
+
+          select,
+          .pip-button {
+            font-family: 'Roboto Mono', monospace;
+            background: col.$pip-black;
+            color: col.$pip-green;
+            border: 2px solid col.$pip-green;
+            padding: 12px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+            }
+
+            &:not(:disabled):hover {
+              background: col.$pip-black;
+              box-shadow:
+                inset 0 0 20px rgba(0, 255, 0, 0.3),
+                0 0 20px rgba(0, 255, 0, 0.5);
+            }
+
+            &:not(:disabled):active {
+              transform: scale(0.98);
+            }
+          }
+
+          select {
+            option {
+              background: col.$pip-black;
+            }
+          }
+
+          .pip-button {
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+
+            &.primary,
+            &.primary.primary {
+              padding: 20px 30px;
+              font-size: 1.1em;
+              font-weight: bold;
+              border: 3px solid col.$pip-green;
+              text-shadow:
+                0 0 5px col.$pip-green,
+                0 0 10px col.$pip-green;
+            }
+          }
+
+          .status-text {
+            margin-top: 10px;
+            text-align: center;
+            color: col.$pip-green;
+
+            &.loading {
+              opacity: 0.7;
+            }
+          }
+
+          .patch-list {
+            border: 2px solid col.$pip-green;
+            padding: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: rgba(0, 20, 0, 0.5);
+
+            &::-webkit-scrollbar {
+              width: 12px;
+            }
+
+            &::-webkit-scrollbar-track {
+              background: col.$pip-black;
+              border: 1px solid col.$pip-green;
+            }
+
+            &::-webkit-scrollbar-thumb {
+              background: col.$pip-green;
+              border: 1px solid col.$pip-black;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+              background: col.$pip-green-light;
+            }
+
+            p.loading {
+              color: col.$pip-green;
+              opacity: 0.7;
+            }
+          }
+
+          .button-row {
+            display: flex;
+            gap: 10px;
+
+            .pip-button {
+              flex: 1;
+            }
+          }
+
+          .pip-button.full-width {
+            width: 100%;
+            margin-top: 10px;
+          }
+
+          .download-link,
+          #download-link {
+            display: none;
+            padding: 10px;
+            text-align: center;
+            background: rgba(0, 255, 0, 0.1);
+            color: col.$pip-green;
+            text-decoration: none;
+            font-size: 0.9em;
+            border: 2px solid col.$pip-green;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+
+            &:hover {
+              background: rgba(0, 255, 0, 0.15);
+              box-shadow:
+                inset 0 0 10px rgba(0, 255, 0, 0.2),
+                0 0 10px rgba(0, 255, 0, 0.3);
+              opacity: 1;
+            }
+
+            &.active {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+pip-title {
+  margin: 0;
+  padding: 0 0 1rem 0;
+  text-align: start;
+  width: 100%;
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+// Patch item styles
+::ng-deep #patch-list .patch-item {
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border-left: 3px solid col.$pip-green;
+  background: rgba(0, 255, 0, 0.03);
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 255, 0, 0.08);
+    border-left-width: 5px;
+  }
+
+  input[type='checkbox'] {
+    margin-top: 2px;
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: col.$pip-green;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  label {
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.95em;
+    color: col.$pip-green;
+  }
+
+  p {
+    font-size: 0.8em;
+    margin: 4px 0 0 0;
+    margin-left: 28px;
+    opacity: 0.7;
+    line-height: 1.4;
+    color: col.$pip-green;
+  }
+
+  .patch-text-input {
+    font-family: 'Roboto Mono', monospace;
+    background: col.$pip-black;
+    color: col.$pip-green;
+    border: 1px solid col.$pip-green;
+    padding: 5px 8px;
+    font-size: 0.9em;
+    width: 200px;
+    margin-left: 28px;
+    margin-top: 5px;
+
+    &:focus {
+      background: rgba(0, 255, 0, 0.1);
+      outline: 1px solid col.$pip-green;
+    }
+  }
+}
