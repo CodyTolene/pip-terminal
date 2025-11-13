@@ -8,6 +8,11 @@ on:
     branches:
       - main
 
+env:
+  # Update to the desired commit hash as needed
+  # https://github.com/AidansLab/Pip-Boy-CFW-Builder
+  CFW_COMMIT: 440d84edf5816eb7ce9d2d3679f9602c0ddc49b7
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -16,18 +21,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Pull latest changes in submodules
+      - name: Checkout submodule
         run: |
-          git submodule foreach '
-            branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo main)
-            git fetch origin $branch && git checkout $branch && git pull origin $branch
-          '
+          echo "Pulling public/pip..."
+          cd public/pip
+          git fetch origin main
+          git checkout main
+          git pull origin main
+          cd ../..
+
+          echo "Pulling public/Pip-Boy-CFW-Builder..."
+          cd public/Pip-Boy-CFW-Builder
+          git fetch origin
+          git checkout $CFW_COMMIT
+          cd ../..
+
+          echo "Ensuring submodules are clean..."
+          git submodule foreach 'git reset --hard && git clean -fdx'
+
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:check
       - run: npm run generate:apps
       - run: npm run generate:sitemap
       - run: npm run build:prod
+
       # Deploy to production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
