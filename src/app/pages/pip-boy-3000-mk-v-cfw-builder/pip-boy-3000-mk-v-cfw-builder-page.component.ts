@@ -36,6 +36,8 @@ declare const window: WindowWithCFW;
 })
 export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
   public constructor() {
+    this.setConsoleLogInterceptor();
+
     logMessage(
       'Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, ' +
         'and brand names are the property of their respective owners. This ' +
@@ -44,28 +46,32 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     );
     logMessage('CFW Builder initializing...');
   }
-
-  private static cfwScriptsLoaded = false;
+  private readonly pipConnectionService = inject(PipConnectionService);
+  private readonly scriptsService = inject(ScriptsService);
 
   protected readonly PAGES = PAGES;
 
-  private readonly pipConnectionService = inject(PipConnectionService);
-  private readonly scriptsService = inject(ScriptsService);
-  private originalConsoleLog?: (...args: unknown[]) => void;
+  private cfwScriptsLoaded = false;
   private isDestroyed = false;
+
+  private originalConsoleLog?: (...args: unknown[]) => void;
+
   private espruinoInitCheckInterval?: ReturnType<typeof setInterval>;
   private domContentLoadedTimeout?: ReturnType<typeof setTimeout>;
 
   public async ngOnInit(): Promise<void> {
     // Load CFW Builder scripts from submodule (only once globally)
-    await this.loadCfwBuilderScripts();
+    await this.loadScripts();
+
     logMessage(
       'CFW Builder initialized. Terminal online and ready to connect.',
     );
   }
 
   public ngOnDestroy(): void {
-    this.isDestroyed = true;
+    this.cleanUpConsoleLogInterceptor();
+
+    this.cleanUpScripts();
 
     // Clear any pending DOMContentLoaded dispatch
     if (this.domContentLoadedTimeout) {
@@ -92,178 +98,165 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
       }
     }
 
-    // Restore console.log immediately if we hooked it
-    if (this.originalConsoleLog) {
-      // eslint-disable-next-line no-console
-      console.log = this.originalConsoleLog;
-      this.originalConsoleLog = undefined;
-    }
-
     // Disconnect from PipConnectionService (fire-and-forget for backward compatibility)
     if (this.pipConnectionService.connection?.isOpen) {
       this.pipConnectionService.disconnect().catch((err) => {
         console.error('Error during disconnect:', err);
       });
     }
+
+    this.isDestroyed = true;
   }
 
-  private async loadCfwBuilderScripts(): Promise<void> {
-    // Check if scripts were already loaded globally
-    const scriptsAlreadyLoaded =
-      PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded;
-
-    // Set base path and logMessage - these need to be set every time
-    window.CFW_BUILDER_BASE_PATH = 'Pip-Boy-CFW-Builder/';
-    window.pipTerminalLog = logMessage;
-
-    // Hook console.log to also send firmware write progress to terminal
-    // This must be set up on every component initialization, not just first load
-    if (!this.isDestroyed && !this.originalConsoleLog) {
+  private cleanUpConsoleLogInterceptor(): void {
+    // Restore console.log immediately
+    if (this.originalConsoleLog) {
       // eslint-disable-next-line no-console
-      this.originalConsoleLog = console.log;
-      // eslint-disable-next-line no-console
-      console.log = (...args: unknown[]): void => {
-        if (this.originalConsoleLog) {
-          this.originalConsoleLog(...args);
-        }
+      console.log = this.originalConsoleLog;
+      this.originalConsoleLog = undefined;
+    }
+  }
 
-        // Send specific firmware-related messages to terminal
-        const message = args.join(' ');
-        if (
-          message.includes('Wrote chunk') ||
-          message.includes('written to flash') ||
-          message.includes('Uploaded') ||
-          message.includes('Uploading')
-        ) {
-          logMessage(message);
-        } else if (message.includes('Device connected:')) {
-          // Special handling for connection message with JSON object
-          logMessage('Pip-Boy connected successfully');
-        } else if (message.includes('Disconnected')) {
-          // Special handling for connection message with JSON object
-          logMessage('Pip-Boy disconnected');
-        }
-      };
+  private cleanUpScripts(): void {
+    const allScripts = [...coreScripts, ...secondaryScripts];
+    for (const script of allScripts) {
+      this.scriptsService.unloadScript(script);
+    }
+    this.cfwScriptsLoaded = false;
+  }
+
+  private async loadScripts(): Promise<void> {
+    // Only load scripts once globally to prevent redeclaration errors
+    if (this.cfwScriptsLoaded) {
+      return;
     }
 
-    // Only load scripts once globally to prevent redeclaration errors
-    if (!scriptsAlreadyLoaded) {
-      PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded = true;
+    // Set base path for CFW Builder resources (used by manifests)
+    window.CFW_BUILDER_BASE_PATH = 'Pip-Boy-CFW-Builder/';
 
-      // Load Acorn (JavaScript parser)
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/libs/acorn/acorn.js',
-      );
+    // Expose logMessage to patcher.js for terminal integration
+    window.pipTerminalLog = logMessage;
 
-      // Load Espruino core
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/espruino.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/core/serial.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/core/serial_web_serial.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/core/config.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/core/utils.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/core/env.js',
-      );
+    // Load Initial Acorn & Espruino scripts
+    for (const script of coreScripts) {
+      await this.scriptsService.loadScript(script);
+    }
 
-      // Load Espruino plugins
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/plugins/minify.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/plugins/pretokenise.js',
-      );
-
-      // Initialize Espruino after all core and plugin files are loaded
-      // This is needed because espruino.js expects DOMContentLoaded which has already fired
-      // We need to wait for initialization to complete before loading patcher
-      await new Promise<void>((resolve) => {
-        if (window.Espruino?.init) {
-          window.Espruino.init();
-          // Wait for initialization to complete (Espruino.initialised flag)
-          let attempts = 0;
-          const maxAttempts = 50; // 50 * 100ms = 5 seconds
-          this.espruinoInitCheckInterval = setInterval(() => {
-            if (this.isDestroyed) {
-              // Component was destroyed, stop checking
-              if (this.espruinoInitCheckInterval) {
-                clearInterval(this.espruinoInitCheckInterval);
-                this.espruinoInitCheckInterval = undefined;
-              }
-              resolve();
-            } else if (window.Espruino?.initialised) {
-              if (this.espruinoInitCheckInterval) {
-                clearInterval(this.espruinoInitCheckInterval);
-                this.espruinoInitCheckInterval = undefined;
-              }
-              resolve();
-            } else if (++attempts >= maxAttempts) {
-              if (this.espruinoInitCheckInterval) {
-                clearInterval(this.espruinoInitCheckInterval);
-                this.espruinoInitCheckInterval = undefined;
-              }
-              console.warn('Espruino did not initialise after 5 seconds');
-              resolve();
+    // Initialize Espruino after all core and plugin files are loaded
+    // This is needed because espruino.js expects DOMContentLoaded which has already fired
+    // We need to wait for initialization to complete before loading patcher
+    await new Promise<void>((resolve) => {
+      if (window.Espruino?.init) {
+        window.Espruino.init();
+        // Wait for initialization to complete (Espruino.initialised flag)
+        let attempts = 0;
+        const maxAttempts = 50; // 50 * 100ms = 5 seconds
+        this.espruinoInitCheckInterval = setInterval(() => {
+          if (this.isDestroyed) {
+            // Component was destroyed, stop checking
+            if (this.espruinoInitCheckInterval) {
+              clearInterval(this.espruinoInitCheckInterval);
+              this.espruinoInitCheckInterval = undefined;
             }
-          }, 100);
-        } else {
-          console.warn('Espruino object not found or init method missing');
-          resolve();
-        }
-      });
+            resolve();
+          } else if (window.Espruino?.initialised) {
+            if (this.espruinoInitCheckInterval) {
+              clearInterval(this.espruinoInitCheckInterval);
+              this.espruinoInitCheckInterval = undefined;
+            }
+            resolve();
+          } else if (++attempts >= maxAttempts) {
+            if (this.espruinoInitCheckInterval) {
+              clearInterval(this.espruinoInitCheckInterval);
+              this.espruinoInitCheckInterval = undefined;
+            }
+            console.warn('Espruino did not initialise after 5 seconds');
+            resolve();
+          }
+        }, 100);
+      } else {
+        console.warn('Espruino object not found or init method missing');
+        resolve();
+      }
+    });
 
-      // Load Esprima libraries
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esprima.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esmangle.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/escodegen.js',
-      );
-
-      // Load untokenize.js which adds preminify to Espruino.Plugins.Minify
-      await this.scriptsService.loadScript('Pip-Boy-CFW-Builder/untokenize.js');
-
-      // Load manifests
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/Patches/patch_manifest.js',
-      );
-      await this.scriptsService.loadScript(
-        'Pip-Boy-CFW-Builder/Firmware/fw_manifest.js',
-      );
-
-      // Load UI and patcher scripts
-      await this.scriptsService.loadScript('Pip-Boy-CFW-Builder/ui.js');
-      await this.scriptsService.loadScript('Pip-Boy-CFW-Builder/patcher.js');
+    // Load secondary scripts
+    for (const script of secondaryScripts) {
+      await this.scriptsService.loadScript(script);
     }
 
     // The patcher.js listens for DOMContentLoaded which has already fired.
-    // We need to trigger initialization by dispatching the event after scripts load.
-    // This must happen EVERY time the component initializes, not just on first load,
-    // because the event listeners need to be re-attached to the new DOM elements.
-    if (document.readyState === 'complete' && !this.isDestroyed) {
+    // We need to trigger initialization by dispatching the event after scripts load
+    if (document.readyState === 'complete') {
       // Use setTimeout to ensure script execution context is ready
-      this.domContentLoadedTimeout = setTimeout(() => {
-        this.domContentLoadedTimeout = undefined;
-        if (!this.isDestroyed) {
-          const event = new Event('DOMContentLoaded', {
-            bubbles: true,
-            cancelable: true,
-          });
-          window.document.dispatchEvent(event);
-        }
+      setTimeout(() => {
+        const event = new Event('DOMContentLoaded', {
+          bubbles: true,
+          cancelable: true,
+        });
+        window.document.dispatchEvent(event);
+
+        this.cfwScriptsLoaded = true;
       }, 100);
     }
   }
+
+  private setConsoleLogInterceptor(): void {
+    // eslint-disable-next-line no-console
+    this.originalConsoleLog = console.log;
+
+    // Intercept console.log globally for the lifetime of this component.
+    // eslint-disable-next-line no-console
+    console.log = (...args: unknown[]): void => {
+      // Always call the original console.log
+      if (this.originalConsoleLog) {
+        this.originalConsoleLog(...args);
+      }
+
+      // Filtering logic for the terminal
+      const message = args.join(' ');
+      if (
+        message.includes('Wrote chunk') ||
+        message.includes('written to flash') ||
+        message.includes('Uploaded') ||
+        message.includes('Uploading')
+      ) {
+        logMessage(message);
+      } else if (message.includes('Device connected:')) {
+        logMessage('Pip-Boy connected successfully');
+      } else if (message.includes('Disconnected')) {
+        logMessage('Pip-Boy disconnected');
+      }
+    };
+  }
 }
+
+const coreScripts = [
+  // Acorn (JavaScript parser)
+  'Pip-Boy-CFW-Builder/libs/acorn/acorn.js',
+  // Espruino core
+  'Pip-Boy-CFW-Builder/EspruinoTools/espruino.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/serial.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/serial_web_serial.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/config.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/utils.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/core/env.js',
+  // Espruino modules
+  'Pip-Boy-CFW-Builder/EspruinoTools/plugins/minify.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/plugins/pretokenise.js',
+];
+
+const secondaryScripts = [
+  // Esprima
+  'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esprima.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/esmangle.js',
+  'Pip-Boy-CFW-Builder/EspruinoTools/libs/esprima/escodegen.js',
+  // Untokenize.js - Adds preminify to Espruino.Plugins.Minify
+  'Pip-Boy-CFW-Builder/untokenize.js',
+  // Manifests
+  'Pip-Boy-CFW-Builder/Patches/patch_manifest.js',
+  'Pip-Boy-CFW-Builder/Firmware/fw_manifest.js',
+  // Patcher
+  'Pip-Boy-CFW-Builder/ui.js',
+  'Pip-Boy-CFW-Builder/patcher.js',
+];
