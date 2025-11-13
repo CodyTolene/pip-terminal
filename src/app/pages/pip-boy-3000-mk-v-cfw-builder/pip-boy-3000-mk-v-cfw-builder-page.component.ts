@@ -30,6 +30,8 @@ declare const window: WindowWithCFW;
 })
 export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
   public constructor() {
+    this.setConsoleLogInterceptor();
+
     logMessage(
       'Bethesda Softworks, LLC. The Wand Company, all trademarks, logos, ' +
         'and brand names are the property of their respective owners. This ' +
@@ -39,7 +41,7 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     logMessage('CFW Builder initializing...');
   }
 
-  private static cfwScriptsLoaded = false;
+  private cfwScriptsLoaded = false;
 
   protected readonly PAGES = PAGES;
 
@@ -56,11 +58,7 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    // Restore console.log immediately
-    if (this.originalConsoleLog) {
-      // eslint-disable-next-line no-console
-      console.log = this.originalConsoleLog;
-    }
+    this.cleanUpConsoleLogInterceptor();
 
     // Disconnect without waiting (fire-and-forget)
     if (this.pipConnectionService.connection?.isOpen) {
@@ -70,45 +68,27 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  private cleanUpConsoleLogInterceptor(): void {
+    // Restore console.log immediately
+    if (this.originalConsoleLog) {
+      // eslint-disable-next-line no-console
+      console.log = this.originalConsoleLog;
+      this.originalConsoleLog = undefined;
+    }
+  }
+
   private async loadCfwBuilderScripts(): Promise<void> {
     // Only load scripts once globally to prevent redeclaration errors
-    if (PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded) {
+    if (this.cfwScriptsLoaded) {
       return;
     }
-    PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded = true;
+    this.cfwScriptsLoaded = true;
 
     // Set base path for CFW Builder resources (used by manifests)
     window.CFW_BUILDER_BASE_PATH = 'Pip-Boy-CFW-Builder/';
 
     // Expose logMessage to patcher.js for terminal integration
     window.pipTerminalLog = logMessage;
-
-    // Hook console.log to also send firmware write progress to terminal
-    // eslint-disable-next-line no-console
-    this.originalConsoleLog = console.log;
-    // eslint-disable-next-line no-console
-    console.log = (...args: unknown[]): void => {
-      if (this.originalConsoleLog) {
-        this.originalConsoleLog(...args);
-      }
-
-      // Send specific firmware-related messages to terminal
-      const message = args.join(' ');
-      if (
-        message.includes('Wrote chunk') ||
-        message.includes('written to flash') ||
-        message.includes('Uploaded') ||
-        message.includes('Uploading')
-      ) {
-        logMessage(message);
-      } else if (message.includes('Device connected:')) {
-        // Special handling for connection message with JSON object
-        logMessage('Pip-Boy connected successfully');
-      } else if (message.includes('Disconnected')) {
-        // Special handling for connection message with JSON object
-        logMessage('Pip-Boy disconnected');
-      }
-    };
 
     // Load Acorn (JavaScript parser)
     await this.scriptsService.loadScript(
@@ -206,5 +186,34 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
         window.document.dispatchEvent(event);
       }, 100);
     }
+  }
+
+  private setConsoleLogInterceptor(): void {
+    // eslint-disable-next-line no-console
+    this.originalConsoleLog = console.log;
+    // Intercept console.log globally for the lifetime of this component.
+
+    // eslint-disable-next-line no-console
+    console.log = (...args: unknown[]): void => {
+      // Always call the original console.log
+      if (this.originalConsoleLog) {
+        this.originalConsoleLog(...args);
+      }
+
+      // Filtering logic for the terminal
+      const message = args.join(' ');
+      if (
+        message.includes('Wrote chunk') ||
+        message.includes('written to flash') ||
+        message.includes('Uploaded') ||
+        message.includes('Uploading')
+      ) {
+        logMessage(message);
+      } else if (message.includes('Device connected:')) {
+        logMessage('Pip-Boy connected successfully');
+      } else if (message.includes('Disconnected')) {
+        logMessage('Pip-Boy disconnected');
+      }
+    };
   }
 }
