@@ -46,12 +46,13 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     );
     logMessage('CFW Builder initializing...');
   }
+  private static cfwScriptsLoaded = false;
+
   private readonly pipConnectionService = inject(PipConnectionService);
   private readonly scriptsService = inject(ScriptsService);
 
   protected readonly PAGES = PAGES;
 
-  private cfwScriptsLoaded = false;
   private isDestroyed = false;
 
   private originalConsoleLog?: (...args: unknown[]) => void;
@@ -69,9 +70,7 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.cleanUpConsoleLogInterceptor();
-
-    this.cleanUpScripts();
+    this.isDestroyed = true;
 
     // Clear any pending DOMContentLoaded dispatch
     if (this.domContentLoadedTimeout) {
@@ -98,14 +97,14 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.cleanUpConsoleLogInterceptor();
+
     // Disconnect from PipConnectionService (fire-and-forget for backward compatibility)
     if (this.pipConnectionService.connection?.isOpen) {
       this.pipConnectionService.disconnect().catch((err) => {
         console.error('Error during disconnect:', err);
       });
     }
-
-    this.isDestroyed = true;
   }
 
   private cleanUpConsoleLogInterceptor(): void {
@@ -117,86 +116,83 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private cleanUpScripts(): void {
-    const allScripts = [...coreScripts, ...secondaryScripts];
-    for (const script of allScripts) {
-      this.scriptsService.unloadScript(script);
-    }
-    this.cfwScriptsLoaded = false;
-  }
-
   private async loadScripts(): Promise<void> {
-    // Only load scripts once globally to prevent redeclaration errors
-    if (this.cfwScriptsLoaded) {
-      return;
-    }
+    // Check if scripts were already loaded globally
+    const scriptsAlreadyLoaded =
+      PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded;
 
-    // Set base path for CFW Builder resources (used by manifests)
+    // Set base path and logMessage - these need to be set every time
     window.CFW_BUILDER_BASE_PATH = 'Pip-Boy-CFW-Builder/';
-
-    // Expose logMessage to patcher.js for terminal integration
     window.pipTerminalLog = logMessage;
 
-    // Load Initial Acorn & Espruino scripts
-    for (const script of coreScripts) {
-      await this.scriptsService.loadScript(script);
-    }
+    // Only load scripts once globally to prevent redeclaration errors
+    if (!scriptsAlreadyLoaded) {
+      PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded = true;
 
-    // Initialize Espruino after all core and plugin files are loaded
-    // This is needed because espruino.js expects DOMContentLoaded which has already fired
-    // We need to wait for initialization to complete before loading patcher
-    await new Promise<void>((resolve) => {
-      if (window.Espruino?.init) {
-        window.Espruino.init();
-        // Wait for initialization to complete (Espruino.initialised flag)
-        let attempts = 0;
-        const maxAttempts = 50; // 50 * 100ms = 5 seconds
-        this.espruinoInitCheckInterval = setInterval(() => {
-          if (this.isDestroyed) {
-            // Component was destroyed, stop checking
-            if (this.espruinoInitCheckInterval) {
-              clearInterval(this.espruinoInitCheckInterval);
-              this.espruinoInitCheckInterval = undefined;
-            }
-            resolve();
-          } else if (window.Espruino?.initialised) {
-            if (this.espruinoInitCheckInterval) {
-              clearInterval(this.espruinoInitCheckInterval);
-              this.espruinoInitCheckInterval = undefined;
-            }
-            resolve();
-          } else if (++attempts >= maxAttempts) {
-            if (this.espruinoInitCheckInterval) {
-              clearInterval(this.espruinoInitCheckInterval);
-              this.espruinoInitCheckInterval = undefined;
-            }
-            console.warn('Espruino did not initialise after 5 seconds');
-            resolve();
-          }
-        }, 100);
-      } else {
-        console.warn('Espruino object not found or init method missing');
-        resolve();
+      // Load Initial Acorn & Espruino scripts
+      for (const script of coreScripts) {
+        await this.scriptsService.loadScript(script);
       }
-    });
 
-    // Load secondary scripts
-    for (const script of secondaryScripts) {
-      await this.scriptsService.loadScript(script);
+      // Initialize Espruino after all core and plugin files are loaded
+      // This is needed because espruino.js expects DOMContentLoaded which has already fired
+      // We need to wait for initialization to complete before loading patcher
+      await new Promise<void>((resolve) => {
+        if (window.Espruino?.init) {
+          window.Espruino.init();
+          // Wait for initialization to complete (Espruino.initialised flag)
+          let attempts = 0;
+          const maxAttempts = 50; // 50 * 100ms = 5 seconds
+          this.espruinoInitCheckInterval = setInterval(() => {
+            if (this.isDestroyed) {
+              // Component was destroyed, stop checking
+              if (this.espruinoInitCheckInterval) {
+                clearInterval(this.espruinoInitCheckInterval);
+                this.espruinoInitCheckInterval = undefined;
+              }
+              resolve();
+            } else if (window.Espruino?.initialised) {
+              if (this.espruinoInitCheckInterval) {
+                clearInterval(this.espruinoInitCheckInterval);
+                this.espruinoInitCheckInterval = undefined;
+              }
+              resolve();
+            } else if (++attempts >= maxAttempts) {
+              if (this.espruinoInitCheckInterval) {
+                clearInterval(this.espruinoInitCheckInterval);
+                this.espruinoInitCheckInterval = undefined;
+              }
+              console.warn('Espruino did not initialise after 5 seconds');
+              resolve();
+            }
+          }, 100);
+        } else {
+          console.warn('Espruino object not found or init method missing');
+          resolve();
+        }
+      });
+
+      // Load secondary scripts
+      for (const script of secondaryScripts) {
+        await this.scriptsService.loadScript(script);
+      }
     }
 
     // The patcher.js listens for DOMContentLoaded which has already fired.
-    // We need to trigger initialization by dispatching the event after scripts load
-    if (document.readyState === 'complete') {
+    // We need to trigger initialization by dispatching the event after scripts load.
+    // This must happen EVERY time the component initializes, not just on first load,
+    // because the event listeners need to be re-attached to the new DOM elements.
+    if (document.readyState === 'complete' && !this.isDestroyed) {
       // Use setTimeout to ensure script execution context is ready
-      setTimeout(() => {
-        const event = new Event('DOMContentLoaded', {
-          bubbles: true,
-          cancelable: true,
-        });
-        window.document.dispatchEvent(event);
-
-        this.cfwScriptsLoaded = true;
+      this.domContentLoadedTimeout = setTimeout(() => {
+        this.domContentLoadedTimeout = undefined;
+        if (!this.isDestroyed) {
+          const event = new Event('DOMContentLoaded', {
+            bubbles: true,
+            cancelable: true,
+          });
+          window.document.dispatchEvent(event);
+        }
       }, 100);
     }
   }
