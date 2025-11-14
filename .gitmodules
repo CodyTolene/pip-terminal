@@ -2,3 +2,7 @@
 	path = public/pip
 	url = https://github.com/CodyTolene/pip-boy-apps.git
 	ignore = all
+[submodule "public/Pip-Boy-CFW-Builder"]
+	path = public/Pip-Boy-CFW-Builder
+	url = https://github.com/AidansLab/Pip-Boy-CFW-Builder
+	branch = main

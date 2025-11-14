@@ -74,6 +74,17 @@
         <h4>Update Device</h4>
         <span>Restore & Upgrade Firmware</span>
       </a>
+      <a
+        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V CFW Builder']"
+        class="pip-grid-item"
+      >
+        <img
+          src="images/misc/builder_250x250.png"
+          alt="Pip-Boy 3000 Mk V CFW Builder"
+        />
+        <h4>CFW Builder</h4>
+        <span>Build Custom Firmware</span>
+      </a>
     </div>
     <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">
       Become an App Contributor!
