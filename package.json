@@ -80,7 +80,7 @@
     "@types/jasmine": "~5.1.8",
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.3.0",
-    "angular-eslint": "20.1.1",
+    "angular-eslint": "20.6.0",
     "axios": "^1.12.2",
     "cypress": "^15.1.0",
     "eslint": "^9.33.0",
