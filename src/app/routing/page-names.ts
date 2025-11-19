@@ -1,3 +1,4 @@
+// Pip-Boy 3000 Mk IV Simulator Page Names
 const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
   'DATA > QUESTS - Pip-Boy 3000 Mk IV',
   'DATA > STATS - Pip-Boy 3000 Mk IV',
@@ -12,21 +13,27 @@ const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
   'STAT > STATUS - Pip-Boy 3000 Mk IV',
 ] as const;
 
+// TWC: Pip-Boy 3000 Mk V Companion Terminals
 const PIP_BOY_3000_MK_V_PAGE_NAMES = [
   'Pip-Boy 3000 Mk V Apps',
   'Pip-Boy 3000 Mk V CFW Builder',
-  'Pip-Boy 3000 Mk V Companion App',
+  'Pip-Boy 3000 Mk V Companion Terminal',
   'Pip-Boy 3000 Mk V File Management',
   'Pip-Boy 3000 Mk V Maintenance',
   'Pip-Boy 3000 Mk V Radio',
   'Pip-Boy 3000 Mk V Update',
 ] as const;
 
+// TWC: Pip-Boy 3000 Companion Terminals
+const PIP_BOY_3000_COMPANION_PAGE_NAMES = [
+  'Pip-Boy 3000 Companion Terminal',
+] as const;
+
 const FORUM_PAGE_NAMES = [
-  'Forum',
   'Forum - Category',
   'Forum - New Post',
   'Forum - View Post',
+  'Forum',
 ] as const;
 
 const PIP_BOY_SIMULATOR_PAGE_NAMES = [
@@ -49,6 +56,7 @@ export const PAGE_NAMES = [
   'Terms and Conditions',
   'Verify Email',
   ...FORUM_PAGE_NAMES,
+  ...PIP_BOY_3000_COMPANION_PAGE_NAMES,
   ...PIP_BOY_3000_MK_IV_PAGE_NAMES,
   ...PIP_BOY_3000_MK_V_PAGE_NAMES,
   ...PIP_BOY_SIMULATOR_PAGE_NAMES,

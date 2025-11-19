@@ -1,0 +1,47 @@
+<section class="intro">
+  <pip-title h1>Pip-Boy 3000 Companion</pip-title>
+  <h3>Companion Application</h3>
+  <p>Coming Soon!</p>
+  <p>
+    Brace for the apocalypse with seamless customization: load up apps and games
+    from our dev hub, wrangle files like a wasteland scavenger, dive into
+    community-shared mods, and unleash even more Vault-Tec vibes. Whether you're
+    a lone wanderer suiting up or a mad scientist dev cooking up add-ons, this
+    terminal is your ultimate hub for infinite Fallout flair and tweaks.
+  </p>
+</section>
+
+<section class="pre-order">
+  <pip-title h2>Pre-order today!</pip-title>
+  <p>
+    Pre-orders are live. Emerge from the vault ready! Snag the official Pip-Boy
+    3000 replica straight from the Bethesda Gear Store and gear up for the
+    nuclear frontier.
+  </p>
+  <pip-button
+    class="pre-order-button"
+    aria-label="Pre-order your Pip-Boy 3000 Replica"
+    (click)="openBethesdaGearPage()"
+  >
+    PRE-ORDER NOW!
+  </pip-button>
+</section>
+
+<section class="discord">
+  <pip-title h2>Discord</pip-title>
+  <p>
+    While you wait for the radstorm to clear, rally with our Discord crew (250+
+    survivors strong) to geek out on the new model, swap build blueprints, and
+    snag insider tips. Full activation drops in 2026. Stay irradiated!
+  </p>
+  <pip-button
+    aria-label="Visit the Community Discord"
+    (click)="openDiscordPage()"
+  >
+    Join the Wasteland Discord!
+  </pip-button>
+</section>
+
+<a [routerLink]="['/']">Return to Home</a>
+
+<pip-footer />
