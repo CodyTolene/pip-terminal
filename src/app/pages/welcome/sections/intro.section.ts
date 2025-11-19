@@ -8,7 +8,7 @@ import { PageUrl } from 'src/app/types/page-url';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'section [welcome-intro]',
+  selector: 'section[welcome-intro]',
   template: `
     <pip-title h1>Welcome to Pip-Boy.com!</pip-title>
 

@@ -96,6 +96,7 @@ export class NavListComponent {
     {
       commands: ['3000-companion'],
       icon: 'pip-boy-3000',
+      isNewFeature: true,
       fontSet: 'material-icons-outlined',
       label: 'Pip-Boy 3000 Companion',
     },
