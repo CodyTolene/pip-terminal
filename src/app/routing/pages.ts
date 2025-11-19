@@ -25,10 +25,12 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Pip-Boy 3000 Mk IV Simulator': '3000-mk-iv',
   'Pip-Boy 3000 Simulator': '3000',
   'Pip-Boy 3000A Simulator': '3000a',
-  /** Pip-Boy 3000 Mk V Routes */
+  /** Pip-Boy 3000 Companion Terminal Routes */
+  'Pip-Boy 3000 Companion Terminal': '3000-companion',
+  /** Pip-Boy 3000 Mk V Companion Terminal Routes */
   'Pip-Boy 3000 Mk V Apps': '3000-mk-v/apps',
   'Pip-Boy 3000 Mk V CFW Builder': '3000-mk-v/cfw-builder',
-  'Pip-Boy 3000 Mk V Companion App': '3000-mk-v',
+  'Pip-Boy 3000 Mk V Companion Terminal': '3000-mk-v',
   'Pip-Boy 3000 Mk V Maintenance': '3000-mk-v/maintenance',
   'Pip-Boy 3000 Mk V File Management': '3000-mk-v/file-management',
   'Pip-Boy 3000 Mk V Radio': '3000-mk-v/radio',

@@ -1,0 +1,70 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  align-items: center;
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+  width: 100%;
+}
+
+pip-title {
+  margin: 3rem 1rem;
+}
+
+section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4rem;
+  max-width: var.$page-max-width;
+  padding: 0 1rem;
+  width: 100%;
+
+  &.discord,
+  &.pre-order {
+    pip-title {
+      margin: 0 0 1rem 0;
+    }
+    p {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &.discord {
+    margin-bottom: 2rem;
+
+    pip-title {
+      margin-top: 0;
+    }
+  }
+}
+
+.action-buttons {
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2rem 0;
+  width: 100%;
+
+  pip-button {
+    margin: 0.5rem;
+  }
+}
+
+a {
+  margin-bottom: 4rem;
+}
+
+pip-footer {
+  align-self: stretch;
+  margin-top: auto;
+  display: block;
+}
