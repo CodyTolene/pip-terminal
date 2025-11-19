@@ -1,57 +1,37 @@
-import { APP_VERSION } from 'src/app/constants';
-import { PageLayoutsEnum } from 'src/app/enums';
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
+import { WelcomeCompanionsSection } from 'src/app/pages/welcome/sections/companions.section';
+import { WelcomeDevelopersSection } from 'src/app/pages/welcome/sections/developers.section';
+import { WelcomeIntroSection } from 'src/app/pages/welcome/sections/intro.section';
+import { WelcomeOpenSourceSection } from 'src/app/pages/welcome/sections/open-source.section';
+import { WelcomeSimulationSection } from 'src/app/pages/welcome/sections/simulation.section';
+import { WelcomeSponsorsSection } from 'src/app/pages/welcome/sections/sponsors.section';
+import { WelcomeSupportSection } from 'src/app/pages/welcome/sections/support.section';
 
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { PipBadgeComponent } from 'src/app/components/badge/badge.component';
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipDividerComponent } from 'src/app/components/divider/divider.component';
-import { PipPanelComponent } from 'src/app/components/panel/panel.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
-
-import { PageUrl } from 'src/app/types/page-url';
+import { PipNoticeComponent } from 'src/app/components/notice/notice.component';
 
 @Component({
   selector: 'pip-welcome-page',
   templateUrl: './welcome-page.component.html',
   imports: [
     MatIconModule,
-    PipBadgeComponent,
-    PipButtonComponent,
     PipDividerComponent,
     PipFooterComponent,
-    PipPanelComponent,
-    PipTitleComponent,
+    PipNoticeComponent,
     RouterModule,
+    WelcomeCompanionsSection,
+    WelcomeDevelopersSection,
+    WelcomeIntroSection,
+    WelcomeOpenSourceSection,
+    WelcomeSimulationSection,
+    WelcomeSponsorsSection,
+    WelcomeSupportSection,
   ],
   styleUrl: './welcome-page.component.scss',
   standalone: true,
 })
-export class WelcomePageComponent {
-  protected readonly PageLayoutsEnum = PageLayoutsEnum;
-
-  protected readonly forumLink = forumLink;
-  protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
-  protected readonly versionNumber = APP_VERSION;
-
-  protected openAppsRepo(): void {
-    window.open('https://github.com/CodyTolene/pip-boy-apps', '_blank');
-  }
-
-  protected openDiscordPage(): void {
-    window.open('https://discord.gg/zQmAkEg8XG', '_blank');
-  }
-
-  protected openGitHubRepo(): void {
-    window.open('https://github.com/CodyTolene/pip-terminal', '_blank');
-  }
-
-  protected openSponsorPage(): void {
-    window.open('https://github.com/sponsors/CodyTolene', '_blank');
-  }
-}
-
-const forumLink = '/' + ('forum' satisfies PageUrl);
+export class WelcomePageComponent {}

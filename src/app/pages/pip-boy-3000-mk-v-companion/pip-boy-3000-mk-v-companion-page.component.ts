@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
 import { PipDividerComponent } from 'src/app/components/divider/divider.component';
+import { PipNoticeComponent } from 'src/app/components/notice/notice.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
@@ -19,6 +20,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipButtonComponent,
     PipDividerComponent,
     PipFooterComponent,
+    PipNoticeComponent,
     PipTitleComponent,
     RouterModule,
   ],
