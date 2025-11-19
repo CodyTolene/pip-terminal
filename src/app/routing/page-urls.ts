@@ -17,6 +17,7 @@ export const PAGE_URLS = (
     '**', // Catch-all
     '2000-mk-vi',
     '3000',
+    '3000-companion',
     '3000-mk-iv',
     '3000-mk-iv/data/quests',
     '3000-mk-iv/data/stats',

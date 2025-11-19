@@ -12,7 +12,7 @@ export const PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE: PipRoute = {
       'View the apps and games available for your Pip-Boy 3000 Mk V!',
     keywords: ['Pip-Boy 3000 Mk V', 'Companion App', ...META_DEFAULT_KEYWORDS],
     layout: PageLayoutsEnum.NONE,
-    title: 'Pip-Boy 3000 Mk V Companion App',
+    title: 'Pip-Boy 3000 Mk V Companion Terminal',
   },
   loadComponent: () =>
     import('src/app/pages').then((c) => c.PipBoy3000MkVAppsPageComponent),

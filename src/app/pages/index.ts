@@ -5,6 +5,7 @@ export * from './forum/post/post-page.component';
 export * from './forum/view/view-page.component';
 export * from './login/login-page.component';
 export * from './pip-boy-2000-mk-vi/index';
+export * from './pip-boy-3000-companion/pip-boy-3000-companion-page.component';
 export * from './pip-boy-3000-mk-iv/index';
 export * from './pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.component';
 export * from './pip-boy-3000-mk-v-cfw-builder/pip-boy-3000-mk-v-cfw-builder-page.component';
