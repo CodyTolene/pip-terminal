@@ -85,43 +85,43 @@ export class NavListComponent {
       commands: ['forum'],
       icon: 'forum',
       fontSet: 'material-icons-outlined',
-      isNewFeature: true,
       label: 'Forum',
     },
     {
-      commands: ['2000-mk-vi'],
-      icon: 'star',
-      // icon: 'pip-boy-2000-mk-vi',
+      commands: ['3000-mk-v'],
+      icon: 'pip-boy-3000-mk-v',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 2000 Mk VI',
+      label: 'Pip-Boy 3000 Mk V Companion',
+    },
+    {
+      commands: ['3000-companion'],
+      icon: 'pip-boy-3000',
+      fontSet: 'material-icons-outlined',
+      label: 'Pip-Boy 3000 Companion',
+    },
+    {
+      commands: ['2000-mk-vi'],
+      icon: 'pip-boy-2000-mk-vi',
+      fontSet: 'material-icons-outlined',
+      label: 'Pip-Boy 2000 Mk VI Sim',
     },
     {
       commands: ['3000'],
-      icon: 'star',
-      // icon: 'pip-boy-3000',
+      icon: 'pip-boy-3000',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000',
+      label: 'Pip-Boy 3000 Sim',
     },
     {
       commands: ['3000a'],
-      icon: 'star',
-      // icon: 'pip-boy-3000a',
+      icon: 'pip-boy-3000',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000A',
+      label: 'Pip-Boy 3000A Sim',
     },
     {
       commands: ['3000-mk-iv'],
-      icon: 'star',
-      // icon: 'pip-boy-3000-mk-iv',
+      icon: 'pip-boy-3000-mk-iv',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000 Mk IV',
-    },
-    {
-      commands: ['3000-mk-v'],
-      icon: 'star',
-      // icon: 'pip-boy-3000-mk-v',
-      fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000 Mk V',
+      label: 'Pip-Boy 3000 Mk IV Sim',
     },
     {
       commands: ['status'],
@@ -235,11 +235,12 @@ interface PageLink {
   icon: IconName | IconCustomName;
   label:
     | 'Logout'
-    | 'Pip-Boy 2000 Mk VI'
-    | 'Pip-Boy 3000 Mk IV'
-    | 'Pip-Boy 3000 Mk V'
-    | 'Pip-Boy 3000'
-    | 'Pip-Boy 3000A'
+    | 'Pip-Boy 2000 Mk VI Sim'
+    | 'Pip-Boy 3000 Companion'
+    | 'Pip-Boy 3000 Mk IV Sim'
+    | 'Pip-Boy 3000 Mk V Companion'
+    | 'Pip-Boy 3000 Sim'
+    | 'Pip-Boy 3000A Sim'
     | PageName;
   exact?: boolean;
   isNewFeature?: boolean;
