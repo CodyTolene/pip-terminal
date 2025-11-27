@@ -3,7 +3,6 @@ import { ForumPost, PipUser } from 'src/app/models';
 import { CATEGORY_TO_SLUG, RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -20,7 +19,7 @@ import { PageUrl } from 'src/app/types/page-url';
 @Component({
   selector: 'pip-forum-header[user]',
   templateUrl: './forum-header.component.html',
-  imports: [CommonModule, MatIconModule, RouterModule],
+  imports: [MatIconModule, RouterModule],
   styleUrl: './forum-header.component.scss',
   standalone: true,
 })

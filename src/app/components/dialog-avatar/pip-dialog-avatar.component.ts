@@ -3,7 +3,6 @@ import { PipUser } from 'src/app/models';
 import { ToastService, UserProfileService } from 'src/app/services';
 import { Validation } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,12 +21,7 @@ import {
 @Component({
   selector: 'pip-dialog-avatar',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule,
-    ImageCropperComponent,
-  ],
+  imports: [MatDialogModule, MatButtonModule, ImageCropperComponent],
   templateUrl: './pip-dialog-avatar.component.html',
   styleUrls: ['./pip-dialog-avatar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

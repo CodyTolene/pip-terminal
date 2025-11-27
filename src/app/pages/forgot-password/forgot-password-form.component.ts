@@ -2,7 +2,6 @@ import { FirebaseError } from '@firebase/app';
 import { FormDirective, InputComponent } from '@proangular/pro-form';
 import { AuthService, ToastService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,7 +19,6 @@ import {
   selector: 'pip-forgot-password-form',
   standalone: true,
   imports: [
-    CommonModule,
     InputComponent,
     PipButtonComponent,
     ReactiveFormsModule,

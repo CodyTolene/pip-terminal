@@ -3,7 +3,6 @@ import { StripInlineStylesDirective } from 'src/app/directives';
 import { NavListComponent } from 'src/app/layout/navigation/nav-list.component';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild, effect } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -14,7 +13,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
   imports: [
-    CommonModule,
     MatListModule,
     MatSidenavModule,
     NavListComponent,

@@ -1,6 +1,6 @@
 import { environment } from 'src/environments/environment';
 
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -18,7 +18,7 @@ type AdsByGoogle = unknown[];
 @Component({
   selector: 'pip-adsense-unit[adClient][adSlot]',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `<ins #adRef class="adsbygoogle" style="display:block"></ins>`,
   styles: [
     `

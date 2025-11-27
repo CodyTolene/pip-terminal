@@ -1,6 +1,5 @@
 import { VaultNumberDirective } from 'src/app/directives';
 
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   Component,
@@ -12,7 +11,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pip-loading',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './loading.component.html',
   styleUrl: './loading.component.scss',
   host: {

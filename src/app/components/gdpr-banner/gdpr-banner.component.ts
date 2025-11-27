@@ -1,6 +1,5 @@
 import { PAGES } from 'src/app/routing';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -10,7 +9,7 @@ import { PageUrl } from 'src/app/types/page-url';
 
 @Component({
   selector: 'pip-gdpr-banner',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './gdpr-banner.component.html',
   styleUrl: './gdpr-banner.component.scss',
   standalone: true,

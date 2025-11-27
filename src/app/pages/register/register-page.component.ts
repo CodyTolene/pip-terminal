@@ -4,7 +4,6 @@ import { RegisterFormComponent } from 'src/app/pages/register/register-form.comp
 import { RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -17,12 +16,7 @@ import { PageUrl } from 'src/app/types/page-url';
 @UntilDestroy()
 @Component({
   selector: 'pip-register-page',
-  imports: [
-    CommonModule,
-    PipFooterComponent,
-    PipTitleComponent,
-    RegisterFormComponent,
-  ],
+  imports: [PipFooterComponent, PipTitleComponent, RegisterFormComponent],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.scss',
   standalone: true,
