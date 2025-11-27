@@ -6,7 +6,6 @@ import {
 } from 'src/app/pages/login/login-form-group';
 import { AuthService, ToastService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -18,7 +17,6 @@ import { PageUrl } from 'src/app/types/page-url';
 @Component({
   selector: 'pip-login-form',
   imports: [
-    CommonModule,
     InputComponent,
     PipButtonComponent,
     ReactiveFormsModule,

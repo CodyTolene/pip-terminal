@@ -4,7 +4,6 @@ import { LoginFormComponent } from 'src/app/pages/login/login-form.component';
 import { RouteResourceId } from 'src/app/routing';
 import { AuthService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -17,12 +16,7 @@ import { PageUrl } from 'src/app/types/page-url';
 @UntilDestroy()
 @Component({
   selector: 'pip-login-page',
-  imports: [
-    CommonModule,
-    LoginFormComponent,
-    PipFooterComponent,
-    PipTitleComponent,
-  ],
+  imports: [LoginFormComponent, PipFooterComponent, PipTitleComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
   standalone: true,

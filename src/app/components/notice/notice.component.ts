@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { PipPanelComponent } from 'src/app/components/panel/panel.component';
@@ -7,7 +6,7 @@ import { PipPanelComponent } from 'src/app/components/panel/panel.component';
   selector: 'pip-notice',
   templateUrl: './notice.component.html',
   styleUrl: './notice.component.scss',
-  imports: [CommonModule, PipPanelComponent],
+  imports: [PipPanelComponent],
   standalone: true,
 })
 export class PipNoticeComponent {}

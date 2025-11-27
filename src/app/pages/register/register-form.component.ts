@@ -14,7 +14,6 @@ import { AuthService, UserProfileService } from 'src/app/services';
 import { isNonEmptyString } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +28,6 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'pip-register-form',
   standalone: true,
   imports: [
-    CommonModule,
     InputCheckboxComponent,
     InputComponent,
     PipButtonComponent,
