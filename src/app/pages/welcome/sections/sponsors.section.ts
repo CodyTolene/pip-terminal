@@ -38,6 +38,20 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>Theeohn</h4>
         <span>$25 / month</span>
       </a>
+      <!-- SPARERCARD (https://github.com/Sparercard) -->
+      <a
+        class="pip-grid-item"
+        href="https://github.com/Sparercard"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/sponsors/sparercard_250x250.jpg"
+          alt="Sparercard"
+        />
+        <h4>Sparercard</h4>
+        <span>$25 / month</span>
+      </a>
       <!-- ECKSERAH (https://github.com/eckserah) -->
       <a class="pip-grid-item" href="https://fallout.wiki/" target="_blank">
         <img
@@ -81,20 +95,6 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="BeanutPudder"
         />
         <h4>BeanutPudder</h4>
-        <span>$5 / month</span>
-      </a>
-      <!-- SPARERCARD (https://github.com/Sparercard) -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/Sparercard"
-        target="_blank"
-      >
-        <img
-          class="sponsor"
-          src="images/sponsors/sparercard_250x250.jpg"
-          alt="Sparercard"
-        />
-        <h4>Sparercard</h4>
         <span>$5 / month</span>
       </a>
     </div>
