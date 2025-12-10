@@ -5,9 +5,10 @@ import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
 
-class MockStorageLocalService
-  implements Pick<StorageLocalService, 'get' | 'set'>
-{
+class MockStorageLocalService implements Pick<
+  StorageLocalService,
+  'get' | 'set'
+> {
   private readonly store = new Map<string, unknown>();
 
   public get<T>(key: string): T | null {
