@@ -1,8 +1,3 @@
-import {
-  doc as fsDoc,
-  getDoc as fsGetDoc,
-  onSnapshot,
-} from 'firebase/firestore';
 import { Observable, ReplaySubject, Subscription, defer, map } from 'rxjs';
 import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { shareSingleReplay } from 'src/app/utilities';
@@ -15,8 +10,8 @@ import {
 } from '@angular/core';
 import {
   Auth,
+  User as FirestoreUser,
   GoogleAuthProvider,
-  User,
   UserCredential,
   createUserWithEmailAndPassword,
   getIdTokenResult,
@@ -27,7 +22,12 @@ import {
   signInWithPopup,
   signOut,
 } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc as fsDoc,
+  getDoc as fsGetDoc,
+  onSnapshot,
+} from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -239,13 +239,15 @@ export class AuthService {
   private async getUserProfile(
     uid: string,
   ): Promise<PipUser['profile'] | undefined> {
-    const ref = fsDoc(this.firestore, 'users', uid);
-    const snap = await fsGetDoc(ref);
-    return snap.exists() ? (snap.data() as PipUser['profile']) : undefined;
+    return this.inCtx(async () => {
+      const ref = fsDoc(this.firestore, 'users', uid);
+      const snap = await fsGetDoc(ref);
+      return snap.exists() ? (snap.data() as PipUser['profile']) : undefined;
+    });
   }
 
   private getUserRole(
-    user: User,
+    user: FirestoreUser,
     force: boolean,
   ): Promise<'admin' | 'user' | null> {
     return this.inCtx(async () => {
