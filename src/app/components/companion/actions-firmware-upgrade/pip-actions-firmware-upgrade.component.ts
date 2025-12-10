@@ -15,7 +15,6 @@ import { pipSignals } from 'src/app/signals';
 import { isNonEmptyValue, wait } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -40,7 +39,6 @@ import {
   styleUrl: './pip-actions-firmware-upgrade.component.scss',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     InputDropdownComponent,
     InputDropdownOptionComponent,

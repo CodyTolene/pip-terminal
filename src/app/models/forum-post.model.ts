@@ -1,5 +1,4 @@
 import { ForumPostApi, ForumPostCreateApi } from 'api/src/models';
-import { Timestamp, serverTimestamp } from 'firebase/firestore';
 import * as io from 'io-ts';
 import { DateTime } from 'luxon';
 import { apiDecorator } from 'src/app/decorators';
@@ -7,6 +6,7 @@ import { ForumCategoryEnum } from 'src/app/enums';
 import { CATEGORY_TO_SLUG } from 'src/app/routing';
 import { decode } from 'src/app/utilities';
 
+import { Timestamp, serverTimestamp } from '@angular/fire/firestore';
 import { SafeHtml } from '@angular/platform-browser';
 
 import { MarkupService } from 'src/app/services/markup.service';

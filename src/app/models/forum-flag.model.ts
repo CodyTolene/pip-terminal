@@ -1,9 +1,10 @@
 import { ForumFlagApi, ForumFlagCreateApi } from 'api/src/models';
-import { Timestamp, serverTimestamp } from 'firebase/firestore';
 import * as io from 'io-ts';
 import { DateTime } from 'luxon';
 import { apiDecorator } from 'src/app/decorators';
 import { decode } from 'src/app/utilities';
+
+import { Timestamp, serverTimestamp } from '@angular/fire/firestore';
 
 import { ClassProperties } from 'src/app/types/class-properties';
 

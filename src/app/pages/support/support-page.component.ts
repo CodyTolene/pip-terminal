@@ -1,6 +1,5 @@
 import { GithubService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -23,7 +22,7 @@ const REPO = {
 @Component({
   selector: 'pip-support-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: 'support-page.component.html',
   styleUrl: 'support-page.component.scss',
 })
