@@ -1,14 +1,3 @@
-import {
-  FirestoreDataConverter as FsConverter,
-  doc as fsDoc,
-  setDoc as fsSetDoc,
-} from 'firebase/firestore';
-import {
-  deleteObject,
-  getDownloadURL,
-  ref as stRef,
-  uploadBytes as stUploadBytes,
-} from 'firebase/storage';
 import { firstValueFrom } from 'rxjs';
 import { FirestoreProfileApi, PipUser } from 'src/app/models';
 import { AuthService } from 'src/app/services';
@@ -20,8 +9,19 @@ import {
 
 import { Injectable, inject } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
-import { Storage } from '@angular/fire/storage';
+import {
+  Firestore,
+  FirestoreDataConverter as FsConverter,
+  doc as fsDoc,
+  setDoc as fsSetDoc,
+} from '@angular/fire/firestore';
+import {
+  Storage,
+  deleteObject,
+  getDownloadURL,
+  ref as stRef,
+  uploadBytes as stUploadBytes,
+} from '@angular/fire/storage';
 
 const userExtrasConverter: FsConverter<FirestoreProfileApi> = {
   toFirestore: (data: FirestoreProfileApi) => data,

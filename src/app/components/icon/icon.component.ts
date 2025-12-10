@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,7 +20,7 @@ import { IconName } from 'src/app/types/icon-name';
   selector: 'pip-icon[name]',
   templateUrl: './icon.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatIcon],
+  imports: [MatIcon],
   standalone: true,
   host: { class: 'mat-icon' },
 })

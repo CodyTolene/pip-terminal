@@ -166,8 +166,9 @@ export class UserIdentificationComponent implements OnInit {
         ? vaultNumber
         : toNumber(vaultNumber);
 
-      const profile: Partial<FirestoreProfileApi> = {
+      const profile: FirestoreProfileApi = {
         dateOfBirth: dateOfBirth?.toISO() ?? null,
+        disableAds: this.user.profile?.disableAds ?? null,
         roomNumber: roomNumberParsed,
         skill: isNonEmptyString(skill) ? skill : null,
         vaultNumber: vaultNumberParsed,

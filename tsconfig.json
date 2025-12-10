@@ -19,10 +19,6 @@
     "target": "ES2022",
     "module": "ES2022",
     "baseUrl": "./",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
     "paths": {
       "src/*": ["src/*"],
       "api/*": ["api/*"],

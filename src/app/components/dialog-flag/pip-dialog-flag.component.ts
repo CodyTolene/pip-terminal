@@ -5,7 +5,6 @@ import {
 import { FlagReasonEnum } from 'src/app/enums';
 import { getEnumValues } from 'src/app/utilities';
 
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +25,6 @@ import { PipDialogConfirmComponent } from 'src/app/components/dialog-confirm/pip
     './pip-dialog-flag.component.scss',
   ],
   imports: [
-    CommonModule,
     InputDropdownComponent,
     InputDropdownOptionComponent,
     MatButtonModule,

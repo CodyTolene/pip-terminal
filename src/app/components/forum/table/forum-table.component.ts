@@ -3,7 +3,6 @@ import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumPost } from 'src/app/models';
 import { ForumPostsService } from 'src/app/services';
 
-import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -31,13 +30,7 @@ import { ForumPostPagedResult } from 'src/app/types/forum-post-paged-result';
   selector: 'pip-forum-table[category]',
   templateUrl: './forum-table.component.html',
   styleUrl: './forum-table.component.scss',
-  imports: [
-    CommonModule,
-    LoadingComponent,
-    MatIcon,
-    MatPaginatorModule,
-    TableComponent,
-  ],
+  imports: [LoadingComponent, MatIcon, MatPaginatorModule, TableComponent],
   providers: [ForumPostsService],
   standalone: true,
 })
