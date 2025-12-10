@@ -6,7 +6,7 @@
   "homepage": "https://pip-boy.com/",
   "private": true,
   "engines": {
-    "node": ">=^20.19.0 <23"
+    "node": ">=20.19.0 <23"
   },
   "scripts": {
     "angular-version": "ng --version",
