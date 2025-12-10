@@ -118,7 +118,11 @@ export class VaultPageComponent implements OnInit, OnDestroy {
             message: `Advertisement preference updated.`,
             durationSecs: 3,
           });
-        } catch {
+        } catch (error: unknown) {
+          console.error(
+            '[Vault Page Component] Error updating advertisement preference:',
+            error,
+          );
           // Revert checkbox value on error
           this.disableAdsCheckbox.setValue(!disableAds, {
             emitEvent: false,

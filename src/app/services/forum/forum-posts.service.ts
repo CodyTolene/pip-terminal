@@ -1,6 +1,6 @@
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { DateTime } from 'luxon';
-import { Observable, defer, map } from 'rxjs';
+import { Observable, defer } from 'rxjs';
 import { ForumCategoryEnum } from 'src/app/enums';
 import { ForumFlag, ForumPost, ForumPostCreate } from 'src/app/models';
 
@@ -19,10 +19,10 @@ import {
   collection,
   deleteDoc,
   doc,
-  docData,
   documentId,
   endBefore,
   getCountFromServer,
+  getDoc,
   getDocs,
   limit,
   limitToLast,
@@ -87,18 +87,23 @@ export class ForumPostsService {
   }
 
   public getPost(postId: string): Observable<ForumPost | null> {
-    return this.inCtx$(() => {
-      const postRef = doc(this.firestore, `forum/${postId}`);
-      return docData(postRef, { idField: 'id' }).pipe(
-        map((data) =>
-          data
-            ? ForumPost.deserialize(data, {
-                markupService: this.markupService,
-              })
-            : null,
-        ),
-      );
-    });
+    return this.inCtx$(() =>
+      defer(async () => {
+        const postRef = doc(this.firestore, 'forum', postId);
+
+        const docSnap = await getDoc(postRef);
+        if (!docSnap.exists()) {
+          return null;
+        }
+        const data = ForumPost.deserialize(
+          { id: docSnap.id, ...docSnap.data() },
+          {
+            markupService: this.markupService,
+          },
+        );
+        return data;
+      }),
+    );
   }
 
   public async getPostsPage(
