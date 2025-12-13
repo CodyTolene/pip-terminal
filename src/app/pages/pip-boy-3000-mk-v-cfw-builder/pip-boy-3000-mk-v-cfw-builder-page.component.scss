@@ -15,9 +15,12 @@
     flex-direction: column;
   }
 
-  main,
+  main {
+    flex: 1 1 60%;
+  }
+
   pip-log {
-    flex: 1 1 50%;
+    flex: 1 1 40%;
   }
 
   // Apply to tablets and smaller.

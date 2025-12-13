@@ -19,8 +19,8 @@
   @include bps.media('max', 'lg') {
     border-top: 5px ridge col.$pip-green-dark;
     border-top-style: ridge;
-    flex: 1 1 30%;
-    max-height: 30%;
+    flex: 1 1 20%;
+    max-height: 20%;
   }
 }
 
