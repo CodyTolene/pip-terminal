@@ -58,10 +58,6 @@ export class PipLogComponent implements OnInit, AfterViewChecked {
 
   public async ngOnInit(): Promise<void> {
     const screenSize = await firstValueFrom(this.screenSizeChanges);
-    if (screenSize !== 'desktop') {
-      this.isCollapsed.set(true);
-    }
-
     this.previousScreenSize = screenSize;
     this.screenSizeChanges.pipe(untilDestroyed(this)).subscribe((size) => {
       if (size !== this.previousScreenSize) {
