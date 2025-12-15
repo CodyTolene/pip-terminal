@@ -67,7 +67,48 @@ Join the Community
 
 ### Prerequisites <a name="prerequisites"></a>
 
-Node.js: https://nodejs.org/en/download/
+- Git: https://git-scm.com/downloads
+
+- You can use the Git Bash terminal to run the scripts in this project. You may
+  want to enable better copy/paste on Windows with the following script:
+
+  ```bash
+  bind 'set enable-bracketed-paste on'
+  ```
+
+  > ![info][img-info] Preserves formatting and prevents unwanted characters when
+  > pasting into the terminal.
+
+- Node.js: https://nodejs.org/en/download/
+
+- NVM (Node Version Manager): https://github.com/coreybutler/nvm-windows or
+  https://github.com/nvm-sh/nvm
+
+  This is recommended for managing Node.js versions. To know what node version
+  you need see the `engines` field in the root `package.json` file.
+
+  ```bash
+  # Example install of Node.js 20
+  nvm install 20
+  nvm use 20
+  ```
+
+  To see what versions of Angular support what versions of Node.js, see the
+  following link: https://angular.dev/reference/versions
+
+- You may need to set the repo as a safe directory if you encounter the error
+  "fatal: detected dubious ownership in repository at 'C:/repos/pip-terminal'".
+
+  ```bash
+  git config --global --add safe.directory C:/repos/pip-terminal
+  ```
+
+  > ![info][img-info] Change `C:/repos/pip-terminal` to your local path.
+
+- You will need to install Java 21 or higher to run the Firebase emulators. You
+  can download it from the following link:
+
+  https://adoptium.net/temurin/releases
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
