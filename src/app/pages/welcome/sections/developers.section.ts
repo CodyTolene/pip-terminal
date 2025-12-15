@@ -130,6 +130,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>AidansLab</h4>
         <!--
         <span>"InventoryPatch"</span>
+        <span>"CFW"</span>
+        -->
+      </a>
+      <!-- Dougie (Discord: @rainbowtaco "Dougie") -->
+      <a
+        class="pip-grid-item"
+        href="https://github.com/Dougie-1"
+        target="_blank"
+      >
+        <h4>Dougie</h4>
+        <!--
+        <span>"CFW"</span>
         -->
       </a>
     </div>
