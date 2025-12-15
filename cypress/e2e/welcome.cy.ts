@@ -84,7 +84,7 @@ describe('Welcome page', () => {
         .scrollIntoView()
         .should('be.visible');
       cy.get('div[aria-label="Developers"]').within(() => {
-        cy.get('a.pip-grid-item').should('have.length', 10);
+        cy.get('a.pip-grid-item').should('have.length', 11);
         cy.contains('h4', 'gfwilliams').scrollIntoView().should('be.visible');
       });
     });
