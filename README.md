@@ -70,7 +70,7 @@ Join the Community
 - Git: https://git-scm.com/downloads
 
 - You can use the Git Bash terminal to run the scripts in this project. You may
-  want to enable better copy/paste on windows with the following script:
+  want to enable better copy/paste on Windows with the following script:
 
   ```bash
   bind 'set enable-bracketed-paste on'
