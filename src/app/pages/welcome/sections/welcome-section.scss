@@ -143,7 +143,7 @@ pip-title {
       position: absolute;
       border: 2px solid col.$pip-green;
       width: calc($line-width * 2.5);
-      height: calc($line-width * 2.5);
+      height: $line-width;
       opacity: 0;
       transition: all 0.3s ease;
 

@@ -16,6 +16,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
     </p>
 
     <div class="pip-grid" aria-label="Support Team">
+      <!-- Forgone.Z -->
       <a
         class="pip-grid-item"
         href="https://linktr.ee/Forgone.Z"
@@ -23,7 +24,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       >
         <h4>Forgone.Z</h4>
       </a>
-      <!-- beaverboy-12 (Discord: @idontlikeithere23 "⛧Azrael⛧") -->
+      <!-- beaverboy-12 "Azrael" -->
       <a
         class="pip-grid-item"
         href="https://github.com/beaverboy-12"
@@ -31,7 +32,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       >
         <h4>beaverboy-12</h4>
       </a>
-      <!-- -->
+      <!-- Matchwood  -->
+      <!-- Currently no link per request -->
       <a class="pip-grid-item" href>
         <h4>Matchwood</h4>
       </a>
