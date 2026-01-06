@@ -15,21 +15,37 @@ import { PageUrl } from 'src/app/types/page-url';
     <pip-title h2>Pip-Boy Companion Terminals</pip-title>
     <p>Select a model below to begin.</p>
     <div class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
-      <a [routerLink]="[pipboy3000MkVUrl]" class="pip-grid-item">
+      <a [routerLink]="[pipboy3000MkVUrl]" class="pip-grid-item terminal-card">
+        <div class="card-overlay"></div>
+        <div class="radar-pulse"></div>
         <img
           src="images/pip-boy/pip-boy-3000-mk-v_250x200.png"
           alt="Pip-Boy 3000 Mk V"
         />
         <h4>Pip-Boy 3000 Mk V</h4>
-        <span>Companion Application</span>
+        <span class="device-label">Companion Application</span>
+        <div class="card-corners">
+          <span class="corner tl"></span>
+          <span class="corner tr"></span>
+          <span class="corner bl"></span>
+          <span class="corner br"></span>
+        </div>
       </a>
-      <a [routerLink]="[pipboy3000Url]" class="pip-grid-item">
+      <a [routerLink]="[pipboy3000Url]" class="pip-grid-item terminal-card">
+        <div class="card-overlay"></div>
+        <div class="radar-pulse"></div>
         <img
           src="images/pip-boy/pip-boy-3000_TWC_250x200.png"
           alt="Pip-Boy 3000"
         />
         <h4><pip-badge>NEW</pip-badge> Pip-Boy 3000*</h4>
-        <span>Companion Application</span>
+        <span class="device-label">Companion Application</span>
+        <div class="card-corners">
+          <span class="corner tl"></span>
+          <span class="corner tr"></span>
+          <span class="corner bl"></span>
+          <span class="corner br"></span>
+        </div>
       </a>
     </div>
     <p class="note"><strong>*Coming soon</strong></p>

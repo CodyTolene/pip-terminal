@@ -17,7 +17,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
     </p>
 
     <div class="pip-grid" aria-label="Sponsors">
-      <!-- THEEOHN (https://github.com/Theeohn) -->
+      <!-- Theeohn (https://github.com/Theeohn) -->
       <a
         class="pip-grid-item"
         href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
@@ -38,7 +38,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>Theeohn</h4>
         <span>$25 / month</span>
       </a>
-      <!-- SPARERCARD (https://github.com/Sparercard) -->
+      <!-- Sparercard (https://github.com/Sparercard) -->
       <a
         class="pip-grid-item"
         href="https://github.com/Sparercard"
@@ -52,7 +52,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>Sparercard</h4>
         <span>$25 / month</span>
       </a>
-      <!-- ECKSERAH (https://github.com/eckserah) -->
+      <!-- Eckserah (https://github.com/eckserah) -->
       <a class="pip-grid-item" href="https://fallout.wiki/" target="_blank">
         <img
           class="sponsor"
@@ -62,7 +62,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>Eckserah</h4>
         <span>$20 / month</span>
       </a>
-      <!-- S15 COSTUMING (https://github.com/S15Costuming) -->
+      <!-- S15 Costuming (https://github.com/S15Costuming) -->
       <a
         class="pip-grid-item"
         href="https://linktr.ee/S15Costuming"
@@ -83,7 +83,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>S15 Costuming</h4>
         <span>$5 / month</span>
       </a>
-      <!-- BEANUTPUDDER (https://github.com/BeanutPudder) -->
+      <!-- BeanutPudder (https://github.com/BeanutPudder) -->
       <a
         class="pip-grid-item"
         href="https://github.com/BeanutPudder"
@@ -95,6 +95,20 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="BeanutPudder"
         />
         <h4>BeanutPudder</h4>
+        <span>$5 / month</span>
+      </a>
+      <!-- Crashrek (https://github.com/RioRocketMan) -->
+      <a
+        class="pip-grid-item"
+        href="https://www.instagram.com/slainpublic?igsh=MXAxaW42b3FkNmp0eA=="
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/sponsors/rio_padilla_250x250.jpg"
+          alt="Rio Padilla"
+        />
+        <h4>Rio Padilla</h4>
         <span>$5 / month</span>
       </a>
     </div>
