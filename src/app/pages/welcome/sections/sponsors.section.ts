@@ -97,6 +97,21 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>BeanutPudder</h4>
         <span>$5 / month</span>
       </a>
+      <!-- CRASHREK (https://github.com/RioRocketMan) -->
+      <a
+        class="pip-grid-item"
+        href="https://www.instagram.com/slainpublic?igsh=MXAxaW42b3FkNmp0eA=="
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/sponsors/rio_padilla_250x250.jpg"
+          alt="Rio Padilla"
+        />
+        <h4>Rio Padilla</h4>
+        <span>$5 / month</span>
+      </a>
+      <!-- GOD BLESS AND THANK YOU ALL FOR SUPPORTING THE TERMINAL! -->
     </div>
 
     <pip-button aria-label="Sponsor Button" (click)="openSponsorPage()">
