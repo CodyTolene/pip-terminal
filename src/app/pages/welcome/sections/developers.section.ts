@@ -17,7 +17,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
     </p>
 
     <div class="pip-grid" aria-label="Developers">
-      <!-- Darrian (Discord: @rikkuness "Darrian")-->
+      <!-- rikkuness "Darrian" -->
       <a
         class="pip-grid-item"
         href="https://github.com/rikkuness"
@@ -26,17 +26,19 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>rikkuness</h4>
         <!--
         <span>"RobCo Industries" founder</span>
+        <span>Original Developer</span>
         -->
       </a>
-      <!-- Gordon Williams -->
+      <!-- gfwilliams "Gordon Williams" -->
       <a
         class="pip-grid-item"
         href="https://github.com/gfwilliams"
         target="_blank"
       >
         <h4>gfwilliams</h4>
+        <!--<span>Original Developer</span>-->
       </a>
-      <!-- -->
+      <!-- rblakesley "Richard Blakesley" -->
       <a
         class="pip-grid-item"
         href="https://github.com/rblakesley"
@@ -44,6 +46,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       >
         <h4>rblakesley</h4>
         <!--
+        <span>Original Developer</span>
         <span>"Asteroid"</span>
         <span>"Custom IMG"</span>
         <span>"Custom Map"</span>
@@ -53,7 +56,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"Settings"</span>
         -->
       </a>
-      <!-- Gnargle (Discord: @projynova "Athene") -->
+      <!-- Gnargle "Athene" -->
       <a
         class="pip-grid-item"
         href="https://github.com/gnargle"
@@ -65,7 +68,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"Stats Display"</span>
         -->
       </a>
-      <!-- MercurialPony (Discord: "@Mercy") -->
+      <!-- MercurialPony "Mercy" -->
       <a
         class="pip-grid-item"
         href="https://github.com/MercurialPony"
@@ -76,7 +79,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"PipUI+"</span>
         -->
       </a>
-
+      <!-- pip-4111 -->
       <a
         class="pip-grid-item"
         href="https://github.com/pip-4111"
@@ -87,7 +90,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"Porta Hack"</span>
         -->
       </a>
-      <!-- killes007 (Discord: @killes007 "k!lles") -->
+      <!-- killes007 "k!lles" -->
       <a
         class="pip-grid-item"
         href="https://github.com/killes007"
@@ -99,7 +102,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"Pip2048"</span>
         -->
       </a>
-      <!-- TetrisKid48 (Discord: @tetriskid "tetriskid") -->
+      <!-- TetrisKid48 "tetriskid" -->
       <a
         class="pip-grid-item"
         href="https://github.com/TetrisKid48"
@@ -110,7 +113,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"Vault Breaker"</span>
         -->
       </a>
-      <!-- TylerJBarlett (Discord: @sumdumshady "Homicidal Mailman") -->
+      <!-- TylerJBarlett "Homicidal Mailman" -->
       <a
         class="pip-grid-item"
         href="https://github.com/tylerjbartlett"
@@ -121,7 +124,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"MTG Life Counter"</span>
         -->
       </a>
-      <!-- AidansLab (Discord: @nightmare_goggles "NightmareGoggles") -->
+      <!-- AidansLab "NightmareGoggles" -->
       <a
         class="pip-grid-item"
         href="https://github.com/AidansLab"
@@ -133,7 +136,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>"CFW"</span>
         -->
       </a>
-      <!-- Dougie (Discord: @rainbowtaco "Dougie") -->
+      <!-- Dougie "Dougie" -->
       <a
         class="pip-grid-item"
         href="https://github.com/Dougie-1"

@@ -9,7 +9,7 @@ import { StorageLocalService } from 'src/app/services/storage-local.service';
 export class ThemeService {
   private readonly storage = inject(StorageLocalService);
 
-  private readonly defaultTheme = ThemeEnum.DARK;
+  private readonly defaultTheme = ThemeEnum.SCAN_LINES;
 
   public currentThemeChanges = new ReplaySubject<ThemeEnum>(1);
 
