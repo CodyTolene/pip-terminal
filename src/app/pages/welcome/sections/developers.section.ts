@@ -26,7 +26,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <h4>rikkuness</h4>
         <!--
         <span>"RobCo Industries" founder</span>
-        <span>Original Developer"</span>
+        <span>Original Developer</span>
         -->
       </a>
       <!-- gfwilliams "Gordon Williams" -->
@@ -36,7 +36,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         target="_blank"
       >
         <h4>gfwilliams</h4>
-        <!--<span>Original Developer"</span>-->
+        <!--<span>Original Developer</span>-->
       </a>
       <!-- rblakesley "Richard Blakesley" -->
       <a
@@ -46,7 +46,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       >
         <h4>rblakesley</h4>
         <!--
-        <span>Original Developer"</span>
+        <span>Original Developer</span>
         <span>"Asteroid"</span>
         <span>"Custom IMG"</span>
         <span>"Custom Map"</span>
