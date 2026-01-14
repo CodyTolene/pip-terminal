@@ -19,7 +19,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
     <div class="pip-grid" aria-label="Sponsors">
       <!-- Theeohn (https://github.com/Theeohn) -->
       <a
-        class="pip-grid-item"
+        class="pip-grid-item sponsor-item"
         href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
         target="_blank"
       >
@@ -40,7 +40,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       </a>
       <!-- Sparercard (https://github.com/Sparercard) -->
       <a
-        class="pip-grid-item"
+        class="pip-grid-item sponsor-item"
         href="https://github.com/Sparercard"
         target="_blank"
       >
@@ -53,7 +53,11 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>$25 / month</span>
       </a>
       <!-- Eckserah (https://github.com/eckserah) -->
-      <a class="pip-grid-item" href="https://fallout.wiki/" target="_blank">
+      <a
+        class="pip-grid-item sponsor-item"
+        href="https://fallout.wiki/"
+        target="_blank"
+      >
         <img
           class="sponsor"
           src="images/sponsors/eckserah_birdstion_250x250.png"
@@ -64,7 +68,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       </a>
       <!-- S15 Costuming (https://github.com/S15Costuming) -->
       <a
-        class="pip-grid-item"
+        class="pip-grid-item sponsor-item"
         href="https://linktr.ee/S15Costuming"
         target="_blank"
       >
@@ -85,7 +89,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       </a>
       <!-- BeanutPudder (https://github.com/BeanutPudder) -->
       <a
-        class="pip-grid-item"
+        class="pip-grid-item sponsor-item"
         href="https://github.com/BeanutPudder"
         target="_blank"
       >
@@ -99,7 +103,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       </a>
       <!-- Crashrek (https://github.com/RioRocketMan) -->
       <a
-        class="pip-grid-item"
+        class="pip-grid-item sponsor-item"
         href="https://www.instagram.com/slainpublic?igsh=MXAxaW42b3FkNmp0eA=="
         target="_blank"
       >
@@ -109,6 +113,20 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="Rio Padilla"
         />
         <h4>Rio Padilla</h4>
+        <span>$5 / month</span>
+      </a>
+      <!-- Jim D. (https://github.com/JLDenson) -->
+      <a
+        class="pip-grid-item sponsor-item"
+        href="https://www.youtube.com/@jamesdenson4730"
+        target="_blank"
+      >
+        <img
+          class="sponsor"
+          src="images/sponsors/jim_d_250x250.jpg"
+          alt="Jim D."
+        />
+        <h4>Jim D.</h4>
         <span>$5 / month</span>
       </a>
     </div>

@@ -1,47 +1,131 @@
-<section class="intro">
-  <pip-title h1>Pip-Boy 3000 Companion</pip-title>
-  <h3>Companion Application</h3>
-  <p>Coming Soon!</p>
-  <p>
-    Brace for the apocalypse with seamless customization: load up apps and games
-    from our dev hub, wrangle files like a wasteland scavenger, dive into
-    community-shared mods, and unleash even more Vault-Tec vibes. Whether you're
-    a lone wanderer suiting up or a mad scientist dev cooking up add-ons, this
-    terminal is your ultimate hub for infinite Fallout flair and tweaks.
-  </p>
-</section>
+<main>
+  <section class="intro">
+    <pip-title h1>Pip-Boy 3000 Companion</pip-title>
+    <h3>Community Companion Project</h3>
 
-<section class="pre-order">
-  <pip-title h2>Pre-order today!</pip-title>
-  <p>
-    Pre-orders are live. Emerge from the vault ready! Snag the official Pip-Boy
-    3000 replica straight from the Bethesda Gear Store and gear up for the
-    nuclear frontier.
-  </p>
-  <pip-button
-    class="pre-order-button"
-    aria-label="Pre-order your Pip-Boy 3000 Replica"
-    (click)="openBethesdaGearPage()"
-  >
-    PRE-ORDER NOW!
-  </pip-button>
-</section>
+    <p class="lead">In development, updates rolling out as we learn more.</p>
 
-<section class="discord">
-  <pip-title h2>Discord</pip-title>
-  <p>
-    While you wait for the radstorm to clear, rally with our Discord crew (250+
-    survivors strong) to geek out on the new model, swap build blueprints, and
-    snag insider tips. Full activation drops in 2026. Stay irradiated!
-  </p>
-  <pip-button
-    aria-label="Visit the Community Discord"
-    (click)="openDiscordPage()"
-  >
-    Join the Wasteland Discord!
-  </pip-button>
-</section>
+    <p>
+      This is a planned community-built terminal aimed at helping you manage
+      apps, files, and mods for compatible Pip-Boy devices. Support for the
+      upcoming Pip-Boy 3000 release depends on device firmware capabilities and
+      what The Wand Company enables at launch. If an official companion app
+      ships, or if access is restricted, some or all features here may be
+      delayed or unavailable on release.
+    </p>
 
-<a [routerLink]="['/']">Return to Home</a>
+    <div class="status-grid" role="list">
+      <div class="status-card" role="listitem">
+        <h4>Firmware readiness</h4>
+        <p>Awaiting launch firmware details and access allowances.</p>
+      </div>
+      <div class="status-card" role="listitem">
+        <h4>Feature focus</h4>
+        <p>App loading, file sync, and mod management tools.</p>
+      </div>
+      <div class="status-card" role="listitem">
+        <h4>Release rhythm</h4>
+        <p>Rolling drops as new hardware intel lands.</p>
+      </div>
+    </div>
 
-<pip-footer />
+    <p class="disclaimer">
+      Unofficial fan project. Not affiliated with or endorsed by Bethesda or The
+      Wand Company.
+    </p>
+  </section>
+
+  <section class="features">
+    <pip-title h2>Planned Capabilities</pip-title>
+    <p>
+      Here's what we'd love to ship near launch day. Final scope depends on what
+      the device exposes and what the firmware allows.
+    </p>
+    <div class="pip-grid" role="list">
+      <div class="pip-grid-item feature-card" role="listitem">
+        <img src="images/misc/apps_250x250.png" alt="Apps and games" />
+        <h4>App Dock</h4>
+        <span>Browse and install community apps</span>
+      </div>
+      <div class="pip-grid-item feature-card" role="listitem">
+        <img
+          src="images/misc/file_management_250x250.png"
+          alt="File management"
+        />
+        <h4>File Sync</h4>
+        <span>Drag, drop, and organize device storage</span>
+      </div>
+      <div class="pip-grid-item feature-card" role="listitem">
+        <img src="images/misc/gear_250x250.png" alt="Maintenance tools" />
+        <h4>Diagnostics</h4>
+        <span>Logs, device health, and recovery tools</span>
+      </div>
+    </div>
+    <p class="note">
+      Feature list will evolve as we learn what the device exposes.
+    </p>
+  </section>
+
+  <section class="callouts" aria-label="Community actions">
+    <div class="callout-card pre-order">
+      <pip-title h2>Pre-order today</pip-title>
+      <p>
+        Pre-orders are live for the official Pip-Boy 3000 replica from the
+        Bethesda Gear Store. If you pre-order, please note that third-party
+        companion support may vary at launch.
+      </p>
+      <pip-button
+        class="pre-order-button"
+        aria-label="Pre-order your Pip-Boy 3000 Replica"
+        (click)="openBethesdaGearPage()"
+      >
+        PRE-ORDER NOW
+      </pip-button>
+    </div>
+
+    <div class="callout-card discord">
+      <pip-title h2>Discord</pip-title>
+      <p>
+        Join our Discord (400+ members) to follow progress, share device
+        findings, and help shape what ships first. Full feature rollout is
+        planned through 2026 as compatibility becomes clearer.
+      </p>
+      <pip-button
+        aria-label="Visit the Community Discord"
+        (click)="openDiscordPage()"
+      >
+        Join the Wasteland Discord
+      </pip-button>
+    </div>
+  </section>
+
+  <section class="faq">
+    <pip-title h2>Quick Answers</pip-title>
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Will this replace an official app?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          No. If an official companion ships, this project focuses on
+          community-driven tooling and add-ons.
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>When will the first build ship?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          As soon as we can validate the firmware interfaces at launch. Updates
+          will land in public drops.
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </section>
+
+  <a class="return-home" [routerLink]="['/']">Return to Home</a>
+
+  <pip-footer />
+</main>
