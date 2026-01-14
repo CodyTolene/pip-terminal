@@ -1,5 +1,6 @@
 @use '../../styles/breakpoints' as bps;
 @use '../../styles/colors' as col;
+@use '../../styles/fluid-font' as ff;
 @use '../../styles/variables' as var;
 
 :host {
@@ -13,53 +14,134 @@
   width: 100%;
 }
 
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+}
+
 pip-title {
-  margin: 3rem 1rem;
+  margin: 2.5rem 1rem 1.5rem;
 }
 
 section {
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-bottom: 4rem;
+  max-width: var.$page-max-width;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+p {
+  max-width: var.$section-max-width;
+}
+
+.intro {
+  .lead {
+    font-size: var.$font-md;
+    margin-bottom: 1rem;
+  }
+
+  pip-title {
+    margin-bottom: 1rem;
+  }
+}
+
+.disclaimer {
+  font-size: var.$font-xxs;
+  margin-top: 1.5rem;
+}
+
+.status-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin: 2rem 0 1rem;
+  max-width: var.$section-max-width;
+  width: 100%;
+}
+
+.status-card {
+  background: rgba(0, 255, 0, 0.04);
+  border: 1px solid col.$pip-green-dark;
+  border-radius: 4px;
+  padding: 1rem;
+
+  h4 {
+    margin: 0 0 0.5rem;
+  }
+}
+
+.features {
+  .pip-grid {
+    margin-top: 2rem;
+  }
+
+  .note {
+    font-size: var.$font-xxs;
+    margin-top: 0;
+  }
+}
+
+.callouts {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   max-width: var.$page-max-width;
   padding: 0 1rem;
   width: 100%;
+}
 
-  &.discord,
-  &.pre-order {
-    pip-title {
-      margin: 0 0 1rem 0;
-    }
-    p {
-      margin-bottom: 2rem;
-    }
+.callout-card {
+  background: rgba(0, 255, 0, 0.03);
+  border: 1px solid col.$pip-green;
+  border-radius: 4px;
+  padding: 1.5rem;
+
+  pip-title {
+    margin: 0 0 1rem;
   }
 
-  &.discord {
-    margin-bottom: 2rem;
-
-    pip-title {
-      margin-top: 0;
-    }
+  p {
+    margin-bottom: 1.5rem;
   }
 }
 
-.action-buttons {
-  align-content: center;
+mat-accordion {
+  color: col.$black;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 2rem 0;
+  margin-bottom: 1rem;
   width: 100%;
+  max-width: var.$section-max-width;
 
-  pip-button {
-    margin: 0.5rem;
+  mat-expansion-panel {
+    width: 100%;
+
+    p {
+      color: col.$black;
+    }
+
+    a:hover {
+      color: col.$black;
+    }
+
+    mat-panel-title {
+      @include ff.fluid-font(10px, var.$font-sm);
+    }
+
+    @include bps.media('max', 'md') {
+      mat-expansion-panel-header {
+        font-size: var.$font-xxs;
+      }
+    }
   }
 }
 
-a {
+.return-home {
   margin-bottom: 4rem;
 }
 
