@@ -28,12 +28,27 @@ export class EmailVerificationService {
     }
 
     this.inFlightUids.add(user.uid);
+    let holdInFlight = false;
     try {
       await sendEmailVerification(user);
-      this.saveLastAttempt(DateTime.now());
+      try {
+        this.saveLastAttempt(DateTime.now());
+      } catch (err) {
+        holdInFlight = true;
+        console.warn(
+          '[EmailVerificationService] saveLastAttempt failed; holding in-flight cooldown.',
+          err,
+        );
+      }
       return true;
     } finally {
-      this.inFlightUids.delete(user.uid);
+      if (holdInFlight) {
+        setTimeout(() => {
+          this.inFlightUids.delete(user.uid);
+        }, coolDownSeconds * 1000);
+      } else {
+        this.inFlightUids.delete(user.uid);
+      }
     }
   }
 
