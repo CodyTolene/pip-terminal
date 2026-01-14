@@ -8,6 +8,7 @@ import { User, sendEmailVerification } from '@angular/fire/auth';
 @Injectable({ providedIn: 'root' })
 export class EmailVerificationService {
   private readonly storage = inject(StorageLocalService);
+  private readonly inFlightUids = new Set<string>();
 
   public async sendIfEligible(
     user: User,
@@ -17,14 +18,23 @@ export class EmailVerificationService {
       return false;
     }
 
+    if (this.inFlightUids.has(user.uid)) {
+      return false;
+    }
+
     const remaining = this.secondsRemaining(coolDownSeconds);
     if (remaining > 0) {
       return false;
     }
 
-    await sendEmailVerification(user);
-    this.saveLastAttempt(DateTime.now());
-    return true;
+    this.inFlightUids.add(user.uid);
+    try {
+      await sendEmailVerification(user);
+      this.saveLastAttempt(DateTime.now());
+      return true;
+    } finally {
+      this.inFlightUids.delete(user.uid);
+    }
   }
 
   private saveLastAttempt(dt: DateTime): void {
