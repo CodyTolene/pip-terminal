@@ -1,7 +1,6 @@
 import { MountResponse, mount } from 'cypress/angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
-import { StripInlineStylesDirective } from 'src/app/directives';
 import { SidenavComponent } from 'src/app/layout/navigation/sidenav.component';
 import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
@@ -55,7 +54,7 @@ class MockToastService {
 @Component({
   selector: 'pip-host',
   template: `
-    <pip-sidenav stripInlineStyles>
+    <pip-sidenav>
       <div class="page-content">Hello content</div>
     </pip-sidenav>
   `,
@@ -68,7 +67,7 @@ class MockToastService {
     `,
   ],
   standalone: true,
-  imports: [SidenavComponent, StripInlineStylesDirective],
+  imports: [SidenavComponent],
 })
 class HostComponent {}
 
