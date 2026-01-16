@@ -33,6 +33,13 @@
         <pip-forum-comment-display [comment]="comment" />
       </pip-panel>
     }
+    @if (showAds()) {
+      <pip-adsense-unit
+        [fullWidthResponsive]="true"
+        adClient="ca-pub-4966893083726404"
+        adSlot="4516696288"
+      />
+    }
     <div class="pagination">
       <pip-button
         (click)="prevPageComments()"
