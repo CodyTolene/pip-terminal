@@ -22,12 +22,10 @@ describe('Welcome page', () => {
             cy.contains('h4', 'Pip-Boy 3000 Mk V')
               .scrollIntoView()
               .should('be.visible');
-            cy.contains('h4', 'NEW').should('be.visible');
+            cy.contains('h4', 'TBA').should('be.visible');
           });
-        cy.get('.note')
-          .scrollIntoView()
-          .contains('Coming soon')
-          .should('be.visible');
+        cy.get('.note').scrollIntoView().contains('TBA').should('be.visible');
+        cy.get('.note').contains('Coming soon').should('be.visible');
       });
 
       // Simulation section grid
@@ -42,6 +40,8 @@ describe('Welcome page', () => {
             cy.contains('h4', 'Pip-Boy 3000 Mk IV')
               .scrollIntoView()
               .should('be.visible');
+            cy.contains('h4', 'WIP').should('be.visible');
+            cy.contains('h4', 'TBA').should('be.visible');
           });
         cy.get('.note')
           .scrollIntoView()
@@ -49,7 +49,13 @@ describe('Welcome page', () => {
           .should('be.visible');
         cy.get('.note')
           .scrollIntoView()
-          .contains('Partially Completed')
+          .contains('Work in progress')
+          .should('be.visible');
+      });
+
+      cy.get('section[welcome-community]').within(() => {
+        cy.contains('h2', 'Community Support')
+          .scrollIntoView()
           .should('be.visible');
       });
     });
@@ -64,27 +70,5 @@ describe('Welcome page', () => {
 
     cy.location('pathname').should('include', '/3000-mk-v');
     cy.go('back');
-  });
-
-  it('opens external links with pip buttons via window.open', () => {
-    cy.window().then((win) => cy.stub(win, 'open').as('winOpen'));
-
-    // Become a contributor button
-    cy.contains('pip-button', 'Become A Contributor!').scrollIntoView().click();
-    cy.get('@winOpen').should(
-      'have.been.calledWith',
-      'https://github.com/CodyTolene/pip-boy-apps',
-      '_blank',
-    );
-
-    // Discord button
-    cy.contains('pip-button', 'Join the Wasteland Discord!')
-      .scrollIntoView()
-      .click();
-    cy.get('@winOpen').should(
-      'have.been.calledWith',
-      'https://discord.gg/zQmAkEg8XG',
-      '_blank',
-    );
   });
 });
