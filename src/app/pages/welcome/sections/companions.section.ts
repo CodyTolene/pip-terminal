@@ -38,7 +38,7 @@ import { PageUrl } from 'src/app/types/page-url';
           src="images/pip-boy/pip-boy-3000_TWC_250x200.png"
           alt="Pip-Boy 3000"
         />
-        <h4><pip-badge>TBA</pip-badge> Pip-Boy 3000</h4>
+        <h4><pip-badge>NEW</pip-badge> Pip-Boy 3000*</h4>
         <span class="device-label">Companion Application</span>
         <div class="card-corners">
           <span class="corner tl"></span>
@@ -48,7 +48,7 @@ import { PageUrl } from 'src/app/types/page-url';
         </div>
       </a>
     </div>
-    <p class="note"><pip-badge>TBA</pip-badge> Coming soon</p>
+    <p class="note"><strong>*Coming soon</strong></p>
   `,
   styleUrls: ['./welcome-section.scss'],
   imports: [PipBadgeComponent, PipTitleComponent, RouterModule],

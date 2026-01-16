@@ -1,4 +1,5 @@
 import { APP_VERSION } from 'src/app/constants';
+import { StripInlineStylesDirective } from 'src/app/directives';
 import { NavListComponent } from 'src/app/layout/navigation/nav-list.component';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
@@ -11,7 +12,13 @@ import { RouterModule } from '@angular/router';
   selector: 'pip-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
-  imports: [MatListModule, MatSidenavModule, NavListComponent, RouterModule],
+  imports: [
+    MatListModule,
+    MatSidenavModule,
+    NavListComponent,
+    RouterModule,
+    StripInlineStylesDirective,
+  ],
   standalone: true,
 })
 export class SidenavComponent {

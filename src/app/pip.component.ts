@@ -1,5 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged, filter, map } from 'rxjs';
+import { StripInlineStylesDirective } from 'src/app/directives';
 import { PageLayoutsEnum } from 'src/app/enums';
 import {
   PipBoy2000MkVILayoutComponent,
@@ -9,6 +10,7 @@ import {
 } from 'src/app/layout';
 import { DefaultLayoutComponent } from 'src/app/layout/default/default-layout.component';
 import {
+  AdsService,
   AppUpdateService,
   PageDataService,
   PageMetaService,
@@ -39,6 +41,7 @@ import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.
     PipBoy3000ALayoutComponent,
     PipBoy3000LayoutComponent,
     PipBoy3000MkIVLayoutComponent,
+    StripInlineStylesDirective,
   ],
   styleUrl: './pip.component.scss',
   providers: [PageDataService, PageMetaService, SoundService, ThemeService],
@@ -50,6 +53,7 @@ export class PipComponent implements OnInit {
     // }
   }
 
+  private readonly adsService = inject(AdsService);
   private readonly appUpdateService = inject(AppUpdateService);
   private readonly pageDataService = inject(PageDataService);
   private readonly pageMetaService = inject(PageMetaService);
@@ -76,6 +80,7 @@ export class PipComponent implements OnInit {
   public ngOnInit(): void {
     this.appUpdateService.init();
     this.themeService.init();
+    this.adsService.init();
 
     // Set the default tags for all pages.
     this.pageMetaService.setDefaultTags();

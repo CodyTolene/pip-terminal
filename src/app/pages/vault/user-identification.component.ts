@@ -168,6 +168,7 @@ export class UserIdentificationComponent implements OnInit {
 
       const profile: FirestoreProfileApi = {
         dateOfBirth: dateOfBirth?.toISO() ?? null,
+        disableAds: this.user.profile?.disableAds ?? null,
         roomNumber: roomNumberParsed,
         skill: isNonEmptyString(skill) ? skill : null,
         vaultNumber: vaultNumberParsed,

@@ -23,7 +23,7 @@
     text-decoration: none;
     width: 250px;
 
-    &.community-item {
+    &.sponsor-item {
       width: 180px;
     }
 
@@ -33,7 +33,7 @@
       width: 100%;
       z-index: 0;
 
-      &.community {
+      &.sponsor {
         filter: grayscale(1) brightness(0.8) contrast(1.2);
         mix-blend-mode: screen;
       }
@@ -93,7 +93,7 @@
       line-height: 0;
     }
 
-    .double-img-container .community-overlay {
+    .double-img-container .sponsor-overlay {
       position: absolute;
       inset: 0;
       display: block;
@@ -108,11 +108,11 @@
       pointer-events: none;
     }
 
-    &:hover .double-img-container .community-overlay {
+    &:hover .double-img-container .sponsor-overlay {
       opacity: 1;
     }
 
-    .double-img-container .community-overlay-scroll-in-top {
+    .double-img-container .sponsor-overlay-scroll-in-top {
       position: absolute;
       inset: 0;
       display: block;
@@ -132,15 +132,15 @@
       will-change: transform;
     }
 
-    &:hover .double-img-container .community-overlay-scroll-in-top,
-    &:focus-within .double-img-container .community-overlay-scroll-in-top {
+    &:hover .double-img-container .sponsor-overlay-scroll-in-top,
+    &:focus-within .double-img-container .sponsor-overlay-scroll-in-top {
       transform: translateY(0);
     }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .community-overlay-scroll-in-top {
+  .sponsor-overlay-scroll-in-top {
     transition: none !important;
     transform: translateY(0) !important;
   }
