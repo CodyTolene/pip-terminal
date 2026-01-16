@@ -106,6 +106,7 @@ export const iconNames = [
   'adjust',
   'admin_panel_settings',
   'adobe',
+  'ads_click',
   'agriculture',
   'air',
   'airline_seat_flat',

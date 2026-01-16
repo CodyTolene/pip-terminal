@@ -3,14 +3,11 @@ import { delayWhen, timer } from 'rxjs';
 import { PipFooterComponent } from 'src/app/layout';
 import { isEditModeSignal } from 'src/app/pages/vault/vault.signals';
 import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
-import {
-  getFirstNonEmptyValueFrom,
-  shareSingleReplay,
-} from 'src/app/utilities';
+import { shareSingleReplay } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -44,7 +41,7 @@ import { UserIdentificationComponent } from './user-identification.component';
   providers: [ForumPostsService],
   standalone: true,
 })
-export class VaultPageComponent implements OnInit, OnDestroy {
+export class VaultPageComponent implements OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
@@ -59,10 +56,6 @@ export class VaultPageComponent implements OnInit, OnDestroy {
     delayWhen(() => (environment.isProduction ? timer(2000) : timer(0))),
     shareSingleReplay(),
   );
-
-  public async ngOnInit(): Promise<void> {
-    await getFirstNonEmptyValueFrom(this.userChanges);
-  }
 
   protected startEdit(): void {
     this.isEditModeSignal.set(true);

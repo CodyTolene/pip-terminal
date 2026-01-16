@@ -6,120 +6,121 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'section[welcome-sponsors]',
+  selector: 'section[welcome-community]',
   template: `
     <pip-title h2>Community Support</pip-title>
     <p>
       Huge thanks to these community members for feedback, bug reports, ideas,
       and helping shape Pip-Boy.com.
     </p>
-
     <div class="pip-grid" aria-label="Community Support">
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
         target="_blank"
       >
         <div class="double-img-container">
           <img
-            class="sponsor"
-            src="images/sponsors/theeohn_megistus_no_glasses_250x250.png"
+            class="community"
+            src="images/community/theeohn_megistus_no_glasses_250x250.png"
             alt="Theeohn"
           />
           <img
-            class="sponsor-overlay-scroll-in-top"
-            src="images/sponsors/theeohn_megistus_glasses_250x250.png"
+            class="community-overlay-scroll-in-top"
+            src="images/community/theeohn_megistus_glasses_250x250.png"
             alt="Theeohn Glasses"
           />
         </div>
         <h4>Theeohn</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://github.com/Sparercard"
         target="_blank"
       >
         <img
-          class="sponsor"
-          src="images/sponsors/sparercard_250x250.jpg"
+          class="community"
+          src="images/community/sparercard_250x250.jpg"
           alt="Sparercard"
         />
         <h4>Sparercard</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://fallout.wiki/"
         target="_blank"
       >
         <img
-          class="sponsor"
-          src="images/sponsors/eckserah_birdstion_250x250.png"
+          class="community"
+          src="images/community/eckserah_birdstion_250x250.png"
           alt="Eckserah"
         />
         <h4>Eckserah</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://linktr.ee/S15Costuming"
         target="_blank"
       >
         <div class="double-img-container">
           <img
-            class="sponsor"
-            src="images/sponsors/s15_costuming_250x250.jpeg"
+            class="community"
+            src="images/community/s15_costuming_250x250.jpeg"
             alt="S15 Costuming"
           />
           <img
-            class="sponsor-overlay"
-            src="images/sponsors/s15_costuming_plate_250x250.png"
+            class="community-overlay"
+            src="images/community/s15_costuming_plate_250x250.png"
             alt="S15 Costuming Plate"
           />
         </div>
         <h4>S15 Costuming</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://github.com/BeanutPudder"
         target="_blank"
       >
         <img
-          class="sponsor"
-          src="images/sponsors/beanut_pudder_250x250.jpg"
+          class="community"
+          src="images/community/beanut_pudder_250x250.jpg"
           alt="BeanutPudder"
         />
         <h4>BeanutPudder</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://www.instagram.com/slainpublic?igsh=MXAxaW42b3FkNmp0eA=="
         target="_blank"
       >
         <img
-          class="sponsor"
-          src="images/sponsors/rio_padilla_250x250.jpg"
+          class="community"
+          src="images/community/rio_padilla_250x250.jpg"
           alt="Rio Padilla"
         />
         <h4>Rio Padilla</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
       <a
-        class="pip-grid-item sponsor-item"
+        class="pip-grid-item community-item"
         href="https://www.youtube.com/@jamesdenson4730"
         target="_blank"
       >
         <img
-          class="sponsor"
-          src="images/sponsors/jim_d_250x250.jpg"
+          class="community"
+          src="images/community/jim_d_250x250.jpg"
           alt="Jim D."
         />
         <h4>Jim D.</h4>
-        <span>Supporter</span>
+        <span>Community Support</span>
       </a>
+    </div>
+    <div class="pip-grid" aria-label="Community Support">
       <a
         class="pip-grid-item"
         href="https://github.com/rikkuness"
@@ -230,7 +231,6 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
         <span>Technical Support</span>
       </a>
     </div>
-
     <pip-button aria-label="Support Button" (click)="openGitHubPage()">
       View Project on GitHub
     </pip-button>
@@ -238,7 +238,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   styleUrls: ['./welcome-section.scss'],
   imports: [PipButtonComponent, PipTitleComponent, RouterModule],
 })
-export class WelcomeSponsorsSection {
+export class WelcomeCommunitySection {
   protected openGitHubPage(): void {
     window.open('https://github.com/CodyTolene/pip-terminal', '_blank');
   }

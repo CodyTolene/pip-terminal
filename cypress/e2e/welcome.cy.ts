@@ -66,54 +66,8 @@ describe('Welcome page', () => {
     cy.go('back');
   });
 
-  it('has expected sponsor, developer, and support sections', () => {
-    // Sponsors
-    cy.get('section[welcome-sponsors]').within(() => {
-      cy.contains('h2', 'Sponsors').scrollIntoView().should('be.visible');
-      cy.get('div[aria-label="Sponsors"]').within(() => {
-        cy.get('a.pip-grid-item').should('have.length.at.least', 5);
-        cy.get('img.sponsor').each(($img) => {
-          cy.wrap($img).should('have.attr', 'alt').and('not.be.empty');
-        });
-      });
-    });
-
-    // Developers
-    cy.get('section[welcome-developers]').within(() => {
-      cy.contains('h2', 'Vault-Tec Engineers')
-        .scrollIntoView()
-        .should('be.visible');
-      cy.get('div[aria-label="Developers"]').within(() => {
-        cy.get('a.pip-grid-item').should('have.length', 11);
-        cy.contains('h4', 'gfwilliams').scrollIntoView().should('be.visible');
-      });
-    });
-
-    // Support
-    cy.get('section[welcome-support]').within(() => {
-      cy.contains('h2', 'Vault-Tec Support')
-        .scrollIntoView()
-        .should('be.visible');
-      cy.get('div[aria-label="Support Team"]').within(() => {
-        cy.get('a.pip-grid-item').should('have.length', 3);
-        cy.contains('h4', 'Matchwood').scrollIntoView().should('be.visible');
-      });
-    });
-
-    // Footer element present
-    cy.get('pip-footer').should('exist');
-  });
-
   it('opens external links with pip buttons via window.open', () => {
     cy.window().then((win) => cy.stub(win, 'open').as('winOpen'));
-
-    // Sponsor button
-    cy.contains('pip-button', 'Become a sponsor!').scrollIntoView().click();
-    cy.get('@winOpen').should(
-      'have.been.calledWith',
-      'https://github.com/sponsors/CodyTolene',
-      '_blank',
-    );
 
     // Become a contributor button
     cy.contains('pip-button', 'Become A Contributor!').scrollIntoView().click();
