@@ -150,6 +150,7 @@ export class AuthService {
 
   private extrasUnsub?: () => void;
   private tokenSub?: Subscription;
+  private readonly legacyProfileCleanupInFlight = new Set<string>();
 
   private readonly userSubject = new ReplaySubject<PipUser | null>(1);
 
@@ -278,6 +279,10 @@ export class AuthService {
   }
 
   private async removeLegacyProfileField(uid: string): Promise<void> {
+    if (this.legacyProfileCleanupInFlight.has(uid)) {
+      return;
+    }
+    this.legacyProfileCleanupInFlight.add(uid);
     try {
       const ref = fsDoc(this.firestore, 'users', uid);
       await fsUpdateDoc(ref, { disableAds: deleteField() });
@@ -286,6 +291,8 @@ export class AuthService {
         '[AuthService] Failed to remove legacy profile field:',
         error,
       );
+    } finally {
+      this.legacyProfileCleanupInFlight.delete(uid);
     }
   }
 
