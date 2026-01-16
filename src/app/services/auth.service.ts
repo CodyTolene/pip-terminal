@@ -24,10 +24,8 @@ import {
 } from '@angular/fire/auth';
 import {
   Firestore,
-  deleteField,
   doc as fsDoc,
   getDoc as fsGetDoc,
-  updateDoc as fsUpdateDoc,
   onSnapshot,
 } from '@angular/fire/firestore';
 
@@ -61,7 +59,7 @@ export class AuthService {
               this.getUserRole(user, true),
             ]);
 
-            const profile = this.coerceProfile(rawProfile, user.uid);
+            const profile = this.coerceProfile(rawProfile);
 
             const hydratedUser = PipUser.deserialize({
               user,
@@ -93,7 +91,7 @@ export class AuthService {
                 // we'll also keep the token subscription below
                 const role = await this.getUserRole(user, false);
 
-                const profile = this.coerceProfile(data, user.uid);
+                const profile = this.coerceProfile(data);
 
                 this.userSubject.next(
                   PipUser.deserialize({ user, profile, role }),
@@ -124,7 +122,7 @@ export class AuthService {
               try {
                 // Refresh profile each time, cheap, keeps model consistent
                 const rawProfile = await this.getUserProfile(u.uid);
-                const profile = this.coerceProfile(rawProfile, u.uid);
+                const profile = this.coerceProfile(rawProfile);
                 const next = PipUser.deserialize({ user: u, profile, role });
                 this.userSubject.next(next);
               } catch (e) {
@@ -150,7 +148,6 @@ export class AuthService {
 
   private extrasUnsub?: () => void;
   private tokenSub?: Subscription;
-  private readonly legacyProfileCleanupInFlight = new Set<string>();
 
   private readonly userSubject = new ReplaySubject<PipUser | null>(1);
 
@@ -263,37 +260,14 @@ export class AuthService {
   }
 
   // Ensure we always pass a valid FirestoreProfileApi object to the codec
-  private coerceProfile(
-    raw?: PipUser['profile'],
-    uid?: string,
-  ): FirestoreProfileApi {
-    if (uid && raw && typeof raw === 'object' && 'disableAds' in raw) {
-      void this.removeLegacyProfileField(uid);
-    }
+  private coerceProfile(raw?: PipUser['profile']): FirestoreProfileApi {
     return {
       dateOfBirth: raw?.dateOfBirth ?? undefined,
+      disableAds: raw?.disableAds ?? undefined,
       roomNumber: raw?.roomNumber ?? undefined,
       skill: raw?.skill ?? undefined,
       vaultNumber: raw?.vaultNumber ?? undefined,
     };
-  }
-
-  private async removeLegacyProfileField(uid: string): Promise<void> {
-    if (this.legacyProfileCleanupInFlight.has(uid)) {
-      return;
-    }
-    this.legacyProfileCleanupInFlight.add(uid);
-    try {
-      const ref = fsDoc(this.firestore, 'users', uid);
-      await fsUpdateDoc(ref, { disableAds: deleteField() });
-    } catch (error) {
-      console.warn(
-        '[AuthService] Failed to remove legacy profile field:',
-        error,
-      );
-    } finally {
-      this.legacyProfileCleanupInFlight.delete(uid);
-    }
   }
 
   // Decode base64url JWT payload to read custom claims (no verification - UI only)

@@ -6,16 +6,20 @@
     </section>
     @if (isEditModeSignal() === false) {
       <section class="user-actions">
+        <pro-input-checkbox
+          [formControl]="disableAdsCheckbox"
+          label="Disable Advertisements"
+        />
         <div class="action-buttons">
           <pip-button
             (click)="startEdit()"
-            [disabled]="isLoggingOutSignal()"
+            [disabled]="isLoggingOutSignal() || isSavingSignal()"
             type="button"
             >EDIT PROFILE</pip-button
           >
           <pip-button
             (click)="signOut()"
-            [disabled]="isLoggingOutSignal()"
+            [disabled]="isLoggingOutSignal() || isSavingSignal()"
             type="button"
             >LOG OUT</pip-button
           >
