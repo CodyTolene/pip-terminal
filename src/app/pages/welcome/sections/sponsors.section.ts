@@ -8,16 +8,13 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'section[welcome-sponsors]',
   template: `
-    <pip-title h2>Sponsors</pip-title>
+    <pip-title h2>Community Support</pip-title>
     <p>
-      Thanks to our sponsors below, the Pip-Boy Terminal remains open to the
-      entire wasteland, free to use, easy to access, and built for everyone who
-      dreams of gearing up with a Pip-Boy. We're grateful for the support that
-      keeps this project alive:
+      Huge thanks to these community members for feedback, bug reports, ideas,
+      and helping shape Pip-Boy.com.
     </p>
 
-    <div class="pip-grid" aria-label="Sponsors">
-      <!-- Theeohn (https://github.com/Theeohn) -->
+    <div class="pip-grid" aria-label="Community Support">
       <a
         class="pip-grid-item sponsor-item"
         href="https://youtube.com/@theeohnm?si=ELPEw76GxJQgJgWE"
@@ -36,9 +33,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           />
         </div>
         <h4>Theeohn</h4>
-        <span>$25 / month</span>
+        <span>Supporter</span>
       </a>
-      <!-- Sparercard (https://github.com/Sparercard) -->
       <a
         class="pip-grid-item sponsor-item"
         href="https://github.com/Sparercard"
@@ -50,9 +46,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="Sparercard"
         />
         <h4>Sparercard</h4>
-        <span>$25 / month</span>
+        <span>Supporter</span>
       </a>
-      <!-- Eckserah (https://github.com/eckserah) -->
       <a
         class="pip-grid-item sponsor-item"
         href="https://fallout.wiki/"
@@ -64,9 +59,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="Eckserah"
         />
         <h4>Eckserah</h4>
-        <span>$20 / month</span>
+        <span>Supporter</span>
       </a>
-      <!-- S15 Costuming (https://github.com/S15Costuming) -->
       <a
         class="pip-grid-item sponsor-item"
         href="https://linktr.ee/S15Costuming"
@@ -85,9 +79,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           />
         </div>
         <h4>S15 Costuming</h4>
-        <span>$5 / month</span>
+        <span>Supporter</span>
       </a>
-      <!-- BeanutPudder (https://github.com/BeanutPudder) -->
       <a
         class="pip-grid-item sponsor-item"
         href="https://github.com/BeanutPudder"
@@ -99,9 +92,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="BeanutPudder"
         />
         <h4>BeanutPudder</h4>
-        <span>$5 / month</span>
+        <span>Supporter</span>
       </a>
-      <!-- Crashrek (https://github.com/RioRocketMan) -->
       <a
         class="pip-grid-item sponsor-item"
         href="https://www.instagram.com/slainpublic?igsh=MXAxaW42b3FkNmp0eA=="
@@ -113,9 +105,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="Rio Padilla"
         />
         <h4>Rio Padilla</h4>
-        <span>$5 / month</span>
+        <span>Supporter</span>
       </a>
-      <!-- Jim D. (https://github.com/JLDenson) -->
       <a
         class="pip-grid-item sponsor-item"
         href="https://www.youtube.com/@jamesdenson4730"
@@ -127,19 +118,128 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
           alt="Jim D."
         />
         <h4>Jim D.</h4>
-        <span>$5 / month</span>
+        <span>Supporter</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/rikkuness"
+        target="_blank"
+      >
+        <h4>rikkuness</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/gfwilliams"
+        target="_blank"
+      >
+        <h4>gfwilliams</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/rblakesley"
+        target="_blank"
+      >
+        <h4>rblakesley</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/gnargle"
+        target="_blank"
+      >
+        <h4>gnargle</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/MercurialPony"
+        target="_blank"
+      >
+        <h4>MercurialPony</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/pip-4111"
+        target="_blank"
+      >
+        <h4>pip-4111</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/killes007"
+        target="_blank"
+      >
+        <h4>killes007</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/TetrisKid48"
+        target="_blank"
+      >
+        <h4>TetrisKid48</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/tylerjbartlett"
+        target="_blank"
+      >
+        <h4>tylerjbartlett</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/AidansLab"
+        target="_blank"
+      >
+        <h4>AidansLab</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/Dougie-1"
+        target="_blank"
+      >
+        <h4>Dougie</h4>
+        <span>Engineer</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://linktr.ee/Forgone.Z"
+        target="_blank"
+      >
+        <h4>Forgone.Z</h4>
+        <span>Technical Support</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://github.com/beaverboy-12"
+        target="_blank"
+      >
+        <h4>beaverboy-12</h4>
+        <span>Technical Support</span>
+      </a>
+      <!-- Currently no link per request -->
+      <a class="pip-grid-item" href>
+        <h4>Matchwood</h4>
+        <span>Technical Support</span>
       </a>
     </div>
 
-    <pip-button aria-label="Sponsor Button" (click)="openSponsorPage()">
-      Become a sponsor!
+    <pip-button aria-label="Support Button" (click)="openGitHubPage()">
+      View Project on GitHub
     </pip-button>
   `,
   styleUrls: ['./welcome-section.scss'],
   imports: [PipButtonComponent, PipTitleComponent, RouterModule],
 })
 export class WelcomeSponsorsSection {
-  protected openSponsorPage(): void {
-    window.open('https://github.com/sponsors/CodyTolene', '_blank');
+  protected openGitHubPage(): void {
+    window.open('https://github.com/CodyTolene/pip-terminal', '_blank');
   }
 }
