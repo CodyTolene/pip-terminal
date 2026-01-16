@@ -17,7 +17,6 @@ type PipUserArgs = Omit<
   PipUser,
   // Omit getters
   | 'dateOfBirth'
-  | 'disableAds'
   | 'displayName'
   | 'email'
   | 'emailVerified'
@@ -53,10 +52,6 @@ export class PipUser {
     return this.profile.dateOfBirth
       ? DateTime.fromISO(this.profile.dateOfBirth)
       : null;
-  }
-
-  public get disableAds(): boolean {
-    return this.profile.disableAds || false;
   }
 
   public get displayName(): string | null {

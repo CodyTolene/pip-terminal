@@ -13,7 +13,6 @@ export const ADMINS_SEED: readonly UserSeed[] = [
     profile: {
       // Extra profile fields (Firestore)
       dateOfBirth: '2000-01-01',
-      disableAds: true,
       roomNumber: 88,
       skill: 'Support',
       vaultNumber: 101,

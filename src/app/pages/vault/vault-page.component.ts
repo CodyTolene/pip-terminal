@@ -1,24 +1,16 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { InputCheckboxComponent } from '@proangular/pro-form';
-import { delayWhen, filter, firstValueFrom, timer } from 'rxjs';
+import { delayWhen, timer } from 'rxjs';
 import { PipFooterComponent } from 'src/app/layout';
 import { isEditModeSignal } from 'src/app/pages/vault/vault.signals';
-import {
-  AuthService,
-  ForumPostsService,
-  ToastService,
-  UserProfileService,
-} from 'src/app/services';
+import { AuthService, ForumPostsService, ToastService } from 'src/app/services';
 import {
   getFirstNonEmptyValueFrom,
-  isNonEmptyValue,
   shareSingleReplay,
 } from 'src/app/utilities';
 import { environment } from 'src/environments/environment';
 
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -41,14 +33,12 @@ import { UserIdentificationComponent } from './user-identification.component';
   styleUrls: ['./vault-page.component.scss'],
   imports: [
     CommonModule,
-    InputCheckboxComponent,
     LoadingComponent,
     PipButtonComponent,
     PipDividerComponent,
     PipFooterComponent,
     PipForumPostWallComponent,
     PipTitleComponent,
-    ReactiveFormsModule,
     UserIdentificationComponent,
   ],
   providers: [ForumPostsService],
@@ -59,14 +49,10 @@ export class VaultPageComponent implements OnInit, OnDestroy {
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
-  private readonly userProfile = inject(UserProfileService);
-
-  protected readonly disableAdsCheckbox = new FormControl<boolean>(false);
 
   protected readonly isEditModeSignal = isEditModeSignal;
 
   protected isLoggingOutSignal = signal<boolean>(false);
-  protected isSavingSignal = signal<boolean>(false);
 
   protected readonly userChanges = this.auth.userChanges.pipe(
     // Delay user changes by 2 seconds to display loader
@@ -75,68 +61,7 @@ export class VaultPageComponent implements OnInit, OnDestroy {
   );
 
   public async ngOnInit(): Promise<void> {
-    const user = await getFirstNonEmptyValueFrom(this.userChanges);
-    const disableAds = user.profile?.disableAds ?? false;
-    this.disableAdsCheckbox.setValue(disableAds);
-
-    this.disableAdsCheckbox.valueChanges
-      .pipe(filter(isNonEmptyValue), untilDestroyed(this))
-      .subscribe(async (disableAds) => {
-        this.isSavingSignal.set(true);
-        this.disableAdsCheckbox.disable({ emitEvent: false });
-
-        try {
-          const currentUser = await getFirstNonEmptyValueFrom(
-            this.auth.userChanges,
-          );
-
-          const profileResult = await this.userProfile.updateProfile(
-            currentUser.uid,
-            {
-              ...currentUser.profile,
-              disableAds,
-            },
-          );
-
-          if (!profileResult) {
-            this.toast.error({
-              message:
-                'Failed to save Advertisement Settings. Please try again later.',
-            });
-            console.error('[Vault Page Component] Failed to update profile', {
-              disableAds,
-            });
-            return;
-          }
-
-          this.auth.patchUserProfile(currentUser, profileResult);
-
-          // Await the next emission
-          await firstValueFrom(this.auth.userChanges);
-
-          this.toast.success({
-            message: `Advertisement preference updated.`,
-            durationSecs: 3,
-          });
-        } catch (error: unknown) {
-          console.error(
-            '[Vault Page Component] Error updating advertisement preference:',
-            error,
-          );
-          // Revert checkbox value on error
-          this.disableAdsCheckbox.setValue(!disableAds, {
-            emitEvent: false,
-          });
-
-          this.toast.error({
-            message: `Failed to update advertisement preference.`,
-            durationSecs: 5,
-          });
-        } finally {
-          this.disableAdsCheckbox.enable({ emitEvent: false });
-          this.isSavingSignal.set(false);
-        }
-      });
+    await getFirstNonEmptyValueFrom(this.userChanges);
   }
 
   protected startEdit(): void {
