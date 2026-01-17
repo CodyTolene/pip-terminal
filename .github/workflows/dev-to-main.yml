@@ -13,7 +13,7 @@ permissions:
 env:
   # Update to the desired commit hash as needed
   # https://github.com/AidansLab/Pip-Boy-CFW-Builder
-  CFW_COMMIT: 1198eabe36b9faf29c004d9bcc387048fbfa635d
+  CFW_COMMIT: f630963f807a9370101c835edfb12b2ebe87b18a
 
 jobs:
   deploy_preview:
