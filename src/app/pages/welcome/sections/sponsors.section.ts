@@ -10,10 +10,10 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   template: `
     <pip-title h2>Sponsors</pip-title>
     <p>
-      Thanks to our sponsors below, the Pip-Boy Terminal remains open to the
-      entire wasteland, free to use, easy to access, and built for everyone who
-      dreams of gearing up with a Pip-Boy. We're grateful for the support that
-      keeps this project alive:
+      Thanks to our sponsors below, the Pip-Boy.com remains open to the entire
+      wasteland, free to use, easy to access, and built for everyone who dreams
+      of gearing up with a Pip-Boy. We're grateful for the support that keeps
+      this project alive:
     </p>
 
     <div class="pip-grid" aria-label="Sponsors">
