@@ -49,6 +49,6 @@ export class ForumCategoryPageComponent implements OnInit {
   );
 
   public ngOnInit(): void {
-    this.title.setTitle(`Forum - ${this.category()} - Pip-Boy Terminal`);
+    this.title.setTitle(`Forum - ${this.category()} - Pip-Boy.com`);
   }
 }
