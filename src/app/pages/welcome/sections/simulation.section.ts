@@ -13,7 +13,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
     <p class="simulation-cta__body">
       Simulation work is hosted separately to keep it clearly non commercial.
     </p>
-    <div class="simulation-cta" role="note" aria-label="Simulation terminals">
+    <div class="simulation-cta" aria-label="Simulation terminals">
       <span class="simulation-cta__badge">External Site</span>
       <a
         class="simulation-cta__button"
