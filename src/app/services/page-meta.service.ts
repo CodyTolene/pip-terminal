@@ -20,7 +20,7 @@ export class PageMetaService {
   }
 
   public setTitle(title: string): void {
-    this.title.setTitle(`${title} - Pip-Boy Terminal`);
+    this.title.setTitle(`${title} - Pip-Boy.com`);
   }
 
   public setDefaultTags(): void {
