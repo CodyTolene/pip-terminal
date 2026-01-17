@@ -30,26 +30,28 @@ describe('Welcome page', () => {
           .should('be.visible');
       });
 
-      // Simulation section grid
+      // Simulation section CTA
       cy.get('section[welcome-simulation]').within(() => {
         cy.contains('h2', 'Simulation Terminals')
           .scrollIntoView()
           .should('be.visible');
-        cy.get('div[role="navigation"][aria-label="Pip-Boy Selector"]')
-          .as('simulationSelector')
-          .within(() => {
-            cy.get('a.pip-grid-item').should('have.length', 4);
-            cy.contains('h4', 'Pip-Boy 3000 Mk IV')
-              .scrollIntoView()
-              .should('be.visible');
-          });
-        cy.get('.note')
+        cy.contains(
+          'p',
+          'Simulation work is hosted separately to keep it clearly non commercial.',
+        )
           .scrollIntoView()
-          .contains('Coming soon')
           .should('be.visible');
-        cy.get('.note')
+        cy.get('a.simulation-cta__button')
+          .should('have.attr', 'href', 'https://pip-terminal.com/')
+          .and('have.attr', 'target', '_blank');
+        cy.contains('Opens pip-terminal.com in a new tab.')
           .scrollIntoView()
-          .contains('Partially Completed')
+          .should('be.visible');
+        cy.contains('Simulation work is hosted separately.')
+          .scrollIntoView()
+          .should('be.visible');
+        cy.contains('No official game assets are included.')
+          .scrollIntoView()
           .should('be.visible');
       });
     });

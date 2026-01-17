@@ -11,7 +11,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   template: `
     <pip-title h2>Simulation Terminals</pip-title>
     <p class="simulation-cta__body">
-      Simulation work is hosted separately to keep it clearly non-commercial.
+      Simulation work is hosted separately to keep it clearly non commercial.
     </p>
     <div class="simulation-cta" aria-label="Simulation terminals">
       <span class="simulation-cta__badge">External Site</span>
