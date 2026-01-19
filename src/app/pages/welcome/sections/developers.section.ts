@@ -221,6 +221,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   styleUrls: ['./welcome-section.scss'],
   styles: [
     `
+      @use '../../../styles/colors' as col;
+
       :host {
         margin-top: 2rem;
 
@@ -249,13 +251,12 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
               z-index: 10;
 
               pip-icon {
-                --pip-icon-size: 32px;
-                pointer-events: none;
-              }
+                color: rgba(col.$pip-green, 0.3);
 
-              &:hover {
-                transform: scale(1.2);
-                filter: brightness(1.3);
+                &:hover {
+                  color: col.$pip-green;
+                  transition: color 0.1s ease;
+                }
               }
             }
           }
