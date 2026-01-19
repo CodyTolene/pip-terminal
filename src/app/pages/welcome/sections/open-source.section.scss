@@ -1,0 +1,9 @@
+@use '../../../styles/variables' as var;
+:host {
+  margin-top: 1rem;
+}
+
+pip-button {
+  margin: 1rem auto;
+  max-width: var.$section-max-width;
+}

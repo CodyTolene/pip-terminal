@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   Signal,
   booleanAttribute,
@@ -21,8 +22,8 @@ import { IconName } from 'src/app/types/icon-name';
   templateUrl: './icon.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatIcon],
+  styleUrl: './icon.component.scss',
   standalone: true,
-  host: { class: 'mat-icon' },
 })
 export class PipIconComponent {
   public readonly name = input.required<IconName | IconCustomName>();
@@ -30,6 +31,17 @@ export class PipIconComponent {
   @Input() public ariaLabel?: string;
 
   @Input() public color?: ThemePalette;
+
+  @Input() public size?: number | string;
+
+  @HostBinding('style.--pip-icon-size')
+  protected get iconSize(): string | null {
+    if (this.size === null || this.size === undefined || this.size === '') {
+      return null;
+    }
+
+    return typeof this.size === 'number' ? `${this.size}px` : this.size;
+  }
 
   protected fontIcon: Signal<FontIcon> = computed(() =>
     (iconCustomNames as readonly string[]).includes(this.name())
