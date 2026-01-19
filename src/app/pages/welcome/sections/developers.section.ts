@@ -21,11 +21,31 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>rikkuness</h4>
         <div class="social-links">
-          <a href="https://github.com/rikkuness" target="_blank" aria-label="rikkuness GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/rikkuness"
+            target="_blank"
+            aria-label="rikkuness GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
-          <a href="https://log.robco-industries.org/" target="_blank" aria-label="rikkuness Website" title="Website">
-            <img src="/images/devs/website.svg" alt="Website" width="24" height="24" />
+          <a
+            href="https://log.robco-industries.org/"
+            target="_blank"
+            aria-label="rikkuness Website"
+            title="Website"
+          >
+            <img
+              src="/images/devs/website.svg"
+              alt="Website"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -33,11 +53,31 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>gfwilliams</h4>
         <div class="social-links">
-          <a href="https://github.com/gfwilliams" target="_blank" aria-label="gfwilliams GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/gfwilliams"
+            target="_blank"
+            aria-label="gfwilliams GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
-          <a href="https://www.pur3.co.uk/" target="_blank" aria-label="gfwilliams Website" title="Website">
-            <img src="/images/devs/website.svg" alt="Website" width="24" height="24" />
+          <a
+            href="https://www.pur3.co.uk/"
+            target="_blank"
+            aria-label="gfwilliams Website"
+            title="Website"
+          >
+            <img
+              src="/images/devs/website.svg"
+              alt="Website"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -45,8 +85,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>rblakesley</h4>
         <div class="social-links">
-          <a href="https://github.com/rblakesley" target="_blank" aria-label="rblakesley GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/rblakesley"
+            target="_blank"
+            aria-label="rblakesley GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -54,14 +104,44 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>AidansLab</h4>
         <div class="social-links">
-          <a href="https://github.com/AidansLab" target="_blank" aria-label="AidansLab GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/AidansLab"
+            target="_blank"
+            aria-label="AidansLab GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
-          <a href="https://www.youtube.com/@Aidans_Lab" target="_blank" aria-label="AidansLab YouTube" title="YouTube">
-            <img src="/images/devs/youtube.svg" alt="YouTube" width="24" height="24" />
+          <a
+            href="https://www.youtube.com/@Aidans_Lab"
+            target="_blank"
+            aria-label="AidansLab YouTube"
+            title="YouTube"
+          >
+            <img
+              src="/images/devs/youtube.svg"
+              alt="YouTube"
+              width="24"
+              height="24"
+            />
           </a>
-          <a href="https://aidanslab.github.io/" target="_blank" aria-label="AidansLab Website" title="Website">
-            <img src="/images/devs/website.svg" alt="Website" width="24" height="24" />
+          <a
+            href="https://aidanslab.github.io/"
+            target="_blank"
+            aria-label="AidansLab Website"
+            title="Website"
+          >
+            <img
+              src="/images/devs/website.svg"
+              alt="Website"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -69,8 +149,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>gnargle</h4>
         <div class="social-links">
-          <a href="https://github.com/gnargle" target="_blank" aria-label="gnargle GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/gnargle"
+            target="_blank"
+            aria-label="gnargle GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -78,8 +168,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>MercurialPony</h4>
         <div class="social-links">
-          <a href="https://github.com/MercurialPony" target="_blank" aria-label="MercurialPony GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/MercurialPony"
+            target="_blank"
+            aria-label="MercurialPony GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -87,8 +187,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>pip-4111</h4>
         <div class="social-links">
-          <a href="https://github.com/pip-4111" target="_blank" aria-label="pip-4111 GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/pip-4111"
+            target="_blank"
+            aria-label="pip-4111 GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -96,8 +206,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>killes007</h4>
         <div class="social-links">
-          <a href="https://github.com/killes007" target="_blank" aria-label="killes007 GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/killes007"
+            target="_blank"
+            aria-label="killes007 GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -105,11 +225,31 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>TetrisKid48</h4>
         <div class="social-links">
-          <a href="https://github.com/TetrisKid48" target="_blank" aria-label="TetrisKid48 GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/TetrisKid48"
+            target="_blank"
+            aria-label="TetrisKid48 GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
-          <a href="https://tetriskid48.github.io/" target="_blank" aria-label="TetrisKid48 Website" title="Website">
-            <img src="/images/devs/website.svg" alt="Website" width="24" height="24" />
+          <a
+            href="https://tetriskid48.github.io/"
+            target="_blank"
+            aria-label="TetrisKid48 Website"
+            title="Website"
+          >
+            <img
+              src="/images/devs/website.svg"
+              alt="Website"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -117,8 +257,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>tylerjbartlett</h4>
         <div class="social-links">
-          <a href="https://github.com/tylerjbartlett" target="_blank" aria-label="tylerjbartlett GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/tylerjbartlett"
+            target="_blank"
+            aria-label="tylerjbartlett GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
@@ -126,8 +276,18 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       <div class="pip-grid-item">
         <h4>Dougie</h4>
         <div class="social-links">
-          <a href="https://github.com/Dougie-1" target="_blank" aria-label="Dougie GitHub" title="GitHub">
-            <img src="/images/devs/github.svg" alt="GitHub" width="24" height="24" />
+          <a
+            href="https://github.com/Dougie-1"
+            target="_blank"
+            aria-label="Dougie GitHub"
+            title="GitHub"
+          >
+            <img
+              src="/images/devs/github.svg"
+              alt="GitHub"
+              width="24"
+              height="24"
+            />
           </a>
         </div>
       </div>
