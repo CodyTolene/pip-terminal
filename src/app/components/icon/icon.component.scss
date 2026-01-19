@@ -1,0 +1,13 @@
+:host {
+  --pip-icon-size: 1em;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.pip-icon {
+  font-size: var(--pip-icon-size);
+  height: var(--pip-icon-size);
+  line-height: var(--pip-icon-size);
+  width: var(--pip-icon-size);
+}

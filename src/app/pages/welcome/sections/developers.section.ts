@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipIconComponent } from 'src/app/components/icon/icon.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 @Component({
@@ -18,135 +19,199 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
 
     <div class="pip-grid" aria-label="Developers">
       <!-- rikkuness "Darrian" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/rikkuness"
-        target="_blank"
-      >
+      <div class="pip-grid-item">
         <h4>rikkuness</h4>
-        <!--
-        <span>"RobCo Industries" founder</span>
-        <span>Original Developer</span>
-        -->
-      </a>
+        <div class="social-links">
+          <a
+            href="https://github.com/rikkuness"
+            target="_blank"
+            aria-label="rikkuness GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+          <a
+            href="https://log.robco-industries.org/"
+            target="_blank"
+            aria-label="rikkuness Website"
+            title="Website"
+          >
+            <pip-icon name="website" size="40px"></pip-icon>
+          </a>
+        </div>
+      </div>
       <!-- gfwilliams "Gordon Williams" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/gfwilliams"
-        target="_blank"
-      >
+      <div class="pip-grid-item">
         <h4>gfwilliams</h4>
-        <!--<span>Original Developer</span>-->
-      </a>
+        <div class="social-links">
+          <a
+            href="https://github.com/gfwilliams"
+            target="_blank"
+            aria-label="gfwilliams GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+          <a
+            href="https://www.pur3.co.uk/"
+            target="_blank"
+            aria-label="gfwilliams Website"
+            title="Website"
+          >
+            <pip-icon name="website" size="40px"></pip-icon>
+          </a>
+        </div>
+      </div>
       <!-- rblakesley "Richard Blakesley" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/rblakesley"
-        target="_blank"
-      >
+      <div class="pip-grid-item">
         <h4>rblakesley</h4>
-        <!--
-        <span>Original Developer</span>
-        <span>"Asteroid"</span>
-        <span>"Custom IMG"</span>
-        <span>"Custom Map"</span>
-        <span>"Custom Text"</span>
-        <span>"Custom alarm"</span>
-        <span>"ID Card"</span>
-        <span>"Settings"</span>
-        -->
-      </a>
-      <!-- Gnargle "Athene" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/gnargle"
-        target="_blank"
-      >
-        <h4>gnargle</h4>
-        <!--
-        <span>"PipUI+ (Theme Picker)"</span>
-        <span>"Stats Display"</span>
-        -->
-      </a>
-      <!-- MercurialPony "Mercy" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/MercurialPony"
-        target="_blank"
-      >
-        <h4>MercurialPony</h4>
-        <!--
-        <span>"PipUI+"</span>
-        -->
-      </a>
-      <!-- pip-4111 -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/pip-4111"
-        target="_blank"
-      >
-        <h4>pip-4111</h4>
-        <!--
-        <span>"Porta Hack"</span>
-        -->
-      </a>
-      <!-- killes007 "k!lles" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/killes007"
-        target="_blank"
-      >
-        <h4>killes007</h4>
-        <!--
-        <span>"AsteroPIPs"</span>
-        <span>"Pip2048"</span>
-        -->
-      </a>
-      <!-- TetrisKid48 "tetriskid" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/TetrisKid48"
-        target="_blank"
-      >
-        <h4>TetrisKid48</h4>
-        <!--
-        <span>"Vault Breaker"</span>
-        -->
-      </a>
-      <!-- TylerJBarlett "Homicidal Mailman" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/tylerjbartlett"
-        target="_blank"
-      >
-        <h4>tylerjbartlett</h4>
-        <!--
-        <span>"MTG Life Counter"</span>
-        -->
-      </a>
+        <div class="social-links">
+          <a
+            href="https://github.com/rblakesley"
+            target="_blank"
+            aria-label="rblakesley GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
       <!-- AidansLab "NightmareGoggles" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/AidansLab"
-        target="_blank"
-      >
+      <div class="pip-grid-item">
         <h4>AidansLab</h4>
-        <!--
-        <span>"InventoryPatch"</span>
-        <span>"CFW"</span>
-        -->
-      </a>
+        <div class="social-links">
+          <a
+            href="https://github.com/AidansLab"
+            target="_blank"
+            aria-label="AidansLab GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+          <a
+            href="https://www.youtube.com/@Aidans_Lab"
+            target="_blank"
+            aria-label="AidansLab YouTube"
+            title="YouTube"
+          >
+            <pip-icon name="youtube" size="44px"></pip-icon>
+          </a>
+          <a
+            href="https://aidanslab.github.io/"
+            target="_blank"
+            aria-label="AidansLab Website"
+            title="Website"
+          >
+            <pip-icon name="website" size="40px"></pip-icon>
+          </a>
+        </div>
+      </div>
+      <!-- Gnargle "Athene" -->
+      <div class="pip-grid-item">
+        <h4>gnargle</h4>
+        <div class="social-links">
+          <a
+            href="https://github.com/gnargle"
+            target="_blank"
+            aria-label="gnargle GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
+      <!-- MercurialPony "Mercy" -->
+      <div class="pip-grid-item">
+        <h4>MercurialPony</h4>
+        <div class="social-links">
+          <a
+            href="https://github.com/MercurialPony"
+            target="_blank"
+            aria-label="MercurialPony GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
+      <!-- pip-4111 -->
+      <div class="pip-grid-item">
+        <h4>pip-4111</h4>
+        <div class="social-links">
+          <a
+            href="https://github.com/pip-4111"
+            target="_blank"
+            aria-label="pip-4111 GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
+      <!-- killes007 "k!lles" -->
+      <div class="pip-grid-item">
+        <h4>killes007</h4>
+        <div class="social-links">
+          <a
+            href="https://github.com/killes007"
+            target="_blank"
+            aria-label="killes007 GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
+      <!-- TetrisKid48 "tetriskid" -->
+      <div class="pip-grid-item">
+        <h4>TetrisKid48</h4>
+        <div class="social-links">
+          <a
+            href="https://github.com/TetrisKid48"
+            target="_blank"
+            aria-label="TetrisKid48 GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+          <a
+            href="https://tetriskid48.github.io/"
+            target="_blank"
+            aria-label="TetrisKid48 Website"
+            title="Website"
+          >
+            <pip-icon name="website" size="40px"></pip-icon>
+          </a>
+        </div>
+      </div>
+      <!-- TylerJBarlett "Homicidal Mailman" -->
+      <div class="pip-grid-item">
+        <h4>tylerjbartlett</h4>
+        <div class="social-links">
+          <a
+            href="https://github.com/tylerjbartlett"
+            target="_blank"
+            aria-label="tylerjbartlett GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
       <!-- Dougie "Dougie" -->
-      <a
-        class="pip-grid-item"
-        href="https://github.com/Dougie-1"
-        target="_blank"
-      >
+      <div class="pip-grid-item">
         <h4>Dougie</h4>
-        <!--
-        <span>"CFW"</span>
-        -->
-      </a>
+        <div class="social-links">
+          <a
+            href="https://github.com/Dougie-1"
+            target="_blank"
+            aria-label="Dougie GitHub"
+            title="GitHub"
+          >
+            <pip-icon name="github" size="34px"></pip-icon>
+          </a>
+        </div>
+      </div>
     </div>
 
     <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">
@@ -156,16 +221,55 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   styleUrls: ['./welcome-section.scss'],
   styles: [
     `
+      @use '../../../styles/colors' as col;
+
       :host {
         margin-top: 2rem;
 
         a > h4 {
           margin: 0;
         }
+
+        .pip-grid-item.pip-grid-item {
+          .social-links {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+
+            a {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 0.3rem;
+              border-radius: 4px;
+              transition: all 0.2s ease;
+              cursor: pointer;
+              position: relative;
+              z-index: 10;
+
+              pip-icon {
+                color: rgba(col.$pip-green, 0.3);
+
+                &:hover {
+                  color: col.$pip-green;
+                  transition: color 0.1s ease;
+                }
+              }
+            }
+          }
+        }
       }
     `,
   ],
-  imports: [PipButtonComponent, PipTitleComponent, RouterModule],
+  imports: [
+    PipButtonComponent,
+    PipTitleComponent,
+    RouterModule,
+    PipIconComponent,
+  ],
 })
 export class WelcomeDevelopersSection {
   protected openAppsRepo(): void {
