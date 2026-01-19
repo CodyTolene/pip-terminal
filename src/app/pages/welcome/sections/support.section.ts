@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import { PipIconComponent } from 'src/app/components/icon/icon.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
@@ -9,6 +8,6 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
   selector: 'section[welcome-support]',
   templateUrl: './support.section.html',
   styleUrls: ['./welcome-section.scss', './support.section.scss'],
-  imports: [PipIconComponent, PipTitleComponent, RouterModule],
+  imports: [PipIconComponent, PipTitleComponent],
 })
 export class WelcomeSupportSection {}

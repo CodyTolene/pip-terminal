@@ -25,6 +25,43 @@ pip-panel {
   padding: 1rem;
 }
 
+.pip-grid-item.pip-grid-item {
+  .social-links {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+
+    a,
+    .social-links__placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+    }
+
+    .social-links__placeholder {
+      cursor: default;
+    }
+
+    pip-icon {
+      color: rgba(col.$pip-green, 0.3);
+
+      &:hover {
+        color: col.$pip-green;
+        transition: color 0.1s ease;
+      }
+    }
+  }
+}
+
 pip-title {
   align-items: center;
   display: flex;
