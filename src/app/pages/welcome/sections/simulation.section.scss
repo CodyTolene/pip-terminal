@@ -9,7 +9,7 @@ pip-title[h2] {
   margin-bottom: 0;
 }
 
-.simulation-cta__body {
+.simulation-cta-body {
   margin-bottom: 1.5rem;
 }
 
@@ -40,6 +40,7 @@ pip-title[h2] {
   overflow: hidden;
   padding: 2rem 1.75rem;
   position: relative;
+  width: 100%;
 }
 
 .simulation-cta::before {
@@ -66,7 +67,7 @@ pip-title[h2] {
   pointer-events: none;
 }
 
-.simulation-cta__badge {
+.simulation-cta-badge {
   border: 1px solid rgba(0, 255, 0, 0.4);
   color: col.$pip-green-lightest;
   font-size: var.$font-xxs;
@@ -75,7 +76,7 @@ pip-title[h2] {
   text-transform: uppercase;
 }
 
-.simulation-cta__button {
+.simulation-cta-button {
   background: linear-gradient(
     180deg,
     rgba(0, 255, 0, 0.9),
@@ -96,16 +97,15 @@ pip-title[h2] {
     box-shadow 0.2s ease,
     transform 0.2s ease,
     filter 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 1rem 0;
+  border-radius: 6px;
+  font-weight: bolder;
 }
 
-.simulation-cta__button::after {
-  content: '>>';
-  margin-left: 0.65rem;
-  font-size: 0.9em;
-}
-
-.simulation-cta__button:hover,
-.simulation-cta__button:focus-visible {
+.simulation-cta-button:hover,
+.simulation-cta-button:focus-visible {
   box-shadow:
     0 0 16px rgba(0, 255, 0, 0.35),
     inset 0 0 10px rgba(0, 0, 0, 0.2);
@@ -113,12 +113,11 @@ pip-title[h2] {
   transform: translateY(-2px);
 }
 
-.simulation-cta__subtext,
-.simulation-cta__disclaimer {
+.simulation-cta-notes {
   font-size: var.$font-xxs;
 }
 
-.simulation-cta__disclaimer {
+.simulation-cta-notes {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
