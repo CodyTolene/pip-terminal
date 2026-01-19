@@ -28,7 +28,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="rikkuness GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
           <a
             href="https://log.robco-industries.org/"
@@ -36,7 +36,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="rikkuness Website"
             title="Website"
           >
-            <pip-icon name="website"></pip-icon>
+            <pip-icon name="website" size="40px"></pip-icon>
           </a>
         </div>
       </div>
@@ -50,7 +50,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="gfwilliams GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
           <a
             href="https://www.pur3.co.uk/"
@@ -58,7 +58,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="gfwilliams Website"
             title="Website"
           >
-            <pip-icon name="website"></pip-icon>
+            <pip-icon name="website" size="40px"></pip-icon>
           </a>
         </div>
       </div>
@@ -72,7 +72,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="rblakesley GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -86,7 +86,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="AidansLab GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
           <a
             href="https://www.youtube.com/@Aidans_Lab"
@@ -94,7 +94,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="AidansLab YouTube"
             title="YouTube"
           >
-            <pip-icon name="youtube"></pip-icon>
+            <pip-icon name="youtube" size="44px"></pip-icon>
           </a>
           <a
             href="https://aidanslab.github.io/"
@@ -102,7 +102,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="AidansLab Website"
             title="Website"
           >
-            <pip-icon name="website"></pip-icon>
+            <pip-icon name="website" size="40px"></pip-icon>
           </a>
         </div>
       </div>
@@ -116,8 +116,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="gnargle GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
-            />
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -131,7 +130,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="MercurialPony GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -145,7 +144,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="pip-4111 GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -159,7 +158,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="killes007 GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -173,7 +172,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="TetrisKid48 GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
           <a
             href="https://tetriskid48.github.io/"
@@ -181,7 +180,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="TetrisKid48 Website"
             title="Website"
           >
-            <pip-icon name="website"></pip-icon>
+            <pip-icon name="website" size="40px"></pip-icon>
           </a>
         </div>
       </div>
@@ -195,7 +194,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="tylerjbartlett GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -209,7 +208,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="Dougie GitHub"
             title="GitHub"
           >
-            <pip-icon name="github"></pip-icon>
+            <pip-icon name="github" size="34px"></pip-icon>
           </a>
         </div>
       </div>
@@ -248,6 +247,11 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
               cursor: pointer;
               position: relative;
               z-index: 10;
+
+              pip-icon {
+                --pip-icon-size: 32px;
+                pointer-events: none;
+              }
 
               &:hover {
                 transform: scale(1.2);

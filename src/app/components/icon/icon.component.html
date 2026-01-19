@@ -1,9 +1,11 @@
 <mat-icon
+  [attr.aria-hidden]="ariaLabel ? null : 'true'"
   [attr.aria-label]="ariaLabel || null"
   [color]="color"
   [fontIcon]="fontIcon() === 'font' ? name() : ''"
   [fontSet]="fontIcon() === 'font' ? fontSet : ''"
   [inline]="inline"
   [svgIcon]="fontIcon() === 'svg' ? name() : ''"
-  >{{ name() }}</mat-icon
+  class="pip-icon"
+  >{{ fontIcon() === 'font' ? name() : '' }}</mat-icon
 >
