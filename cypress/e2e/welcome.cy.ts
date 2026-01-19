@@ -37,20 +37,19 @@ describe('Welcome page', () => {
           .should('be.visible');
         cy.contains(
           'p',
-          'Simulation work is hosted separately to keep it clearly non commercial.',
+          'Pip-Boy inspired interfaces built for immersion and roleplay.',
         )
           .scrollIntoView()
           .should('be.visible');
-        cy.get('a.simulation-cta__button')
+        cy.get('a.simulation-cta-button')
           .should('have.attr', 'href', 'https://pip-terminal.com/')
           .and('have.attr', 'target', '_blank');
-        cy.contains('Opens pip-terminal.com in a new tab.')
+        cy.contains('Opens in a new tab.')
           .scrollIntoView()
           .should('be.visible');
-        cy.contains('Simulation work is hosted separately.')
-          .scrollIntoView()
-          .should('be.visible');
-        cy.contains('No official game assets are included.')
+        cy.contains(
+          'Free to use, always ad free. Built from scratch. No official assets.',
+        )
           .scrollIntoView()
           .should('be.visible');
       });
