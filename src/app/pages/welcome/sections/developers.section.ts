@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipIconComponent } from 'src/app/components/icon/icon.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 @Component({
@@ -27,12 +28,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="rikkuness GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
           <a
             href="https://log.robco-industries.org/"
@@ -40,12 +36,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="rikkuness Website"
             title="Website"
           >
-            <img
-              src="/images/devs/website.svg"
-              alt="Website"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="website"></pip-icon>
           </a>
         </div>
       </div>
@@ -59,12 +50,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="gfwilliams GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
           <a
             href="https://www.pur3.co.uk/"
@@ -72,12 +58,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="gfwilliams Website"
             title="Website"
           >
-            <img
-              src="/images/devs/website.svg"
-              alt="Website"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="website"></pip-icon>
           </a>
         </div>
       </div>
@@ -91,12 +72,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="rblakesley GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
         </div>
       </div>
@@ -110,12 +86,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="AidansLab GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
           <a
             href="https://www.youtube.com/@Aidans_Lab"
@@ -123,12 +94,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="AidansLab YouTube"
             title="YouTube"
           >
-            <img
-              src="/images/devs/youtube.svg"
-              alt="YouTube"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="youtube"></pip-icon>
           </a>
           <a
             href="https://aidanslab.github.io/"
@@ -136,12 +102,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="AidansLab Website"
             title="Website"
           >
-            <img
-              src="/images/devs/website.svg"
-              alt="Website"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="website"></pip-icon>
           </a>
         </div>
       </div>
@@ -155,11 +116,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="gnargle GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
+            <pip-icon name="github"></pip-icon>
             />
           </a>
         </div>
@@ -174,12 +131,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="MercurialPony GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
         </div>
       </div>
@@ -193,12 +145,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="pip-4111 GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
         </div>
       </div>
@@ -212,12 +159,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="killes007 GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
         </div>
       </div>
@@ -231,12 +173,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="TetrisKid48 GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
           <a
             href="https://tetriskid48.github.io/"
@@ -244,12 +181,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="TetrisKid48 Website"
             title="Website"
           >
-            <img
-              src="/images/devs/website.svg"
-              alt="Website"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="website"></pip-icon>
           </a>
         </div>
       </div>
@@ -263,12 +195,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="tylerjbartlett GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
         </div>
       </div>
@@ -282,12 +209,7 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
             aria-label="Dougie GitHub"
             title="GitHub"
           >
-            <img
-              src="/images/devs/github.svg"
-              alt="GitHub"
-              width="24"
-              height="24"
-            />
+            <pip-icon name="github"></pip-icon>
           </a>
         </div>
       </div>
@@ -327,12 +249,6 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
               position: relative;
               z-index: 10;
 
-              img {
-                width: 28px;
-                height: 28px;
-                pointer-events: none;
-              }
-
               &:hover {
                 transform: scale(1.2);
                 filter: brightness(1.3);
@@ -343,7 +259,12 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
       }
     `,
   ],
-  imports: [PipButtonComponent, PipTitleComponent, RouterModule],
+  imports: [
+    PipButtonComponent,
+    PipTitleComponent,
+    RouterModule,
+    PipIconComponent,
+  ],
 })
 export class WelcomeDevelopersSection {
   protected openAppsRepo(): void {
