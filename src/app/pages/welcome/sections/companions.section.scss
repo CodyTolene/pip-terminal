@@ -1,0 +1,15 @@
+@use '../../../styles/variables' as var;
+:host {
+  .pip-grid {
+    margin-bottom: 2rem;
+  }
+
+  p.note {
+    font-size: var.$font-xxs;
+    margin: 0 0 2rem 0;
+  }
+}
+
+pip-title[h2] {
+  margin-bottom: 0;
+}
