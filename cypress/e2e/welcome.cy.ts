@@ -97,7 +97,7 @@ describe('Welcome page', () => {
         .scrollIntoView()
         .should('be.visible');
       cy.get('div[aria-label="Support Team"]').within(() => {
-        cy.get('a.pip-grid-item').should('have.length', 3);
+        cy.get('div.pip-grid-item').should('have.length', 3);
         cy.contains('h4', 'Matchwood').scrollIntoView().should('be.visible');
       });
     });
