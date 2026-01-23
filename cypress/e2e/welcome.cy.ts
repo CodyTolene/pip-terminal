@@ -33,24 +33,10 @@ describe('Welcome page', () => {
         cy.contains('h2', 'Simulation Terminals')
           .scrollIntoView()
           .should('be.visible');
-<<<<<<< HEAD
         cy.contains(
           'p',
           'Pip-Boy inspired interfaces built for immersion and roleplay.',
         )
-=======
-        cy.get('div[role="navigation"][aria-label="Pip-Boy Selector"]')
-          .as('simulationSelector')
-          .within(() => {
-            cy.get('a.pip-grid-item').should('have.length', 4);
-            cy.contains('h4', 'Pip-Boy 3000 Mk IV')
-              .scrollIntoView()
-              .should('be.visible');
-            cy.contains('h4', 'WIP').should('be.visible');
-            cy.contains('h4', 'TBA').should('be.visible');
-          });
-        cy.get('.note')
->>>>>>> parent of 4dbc2b2 (Revert "v3.25.0 - Remove Ads")
           .scrollIntoView()
           .should('be.visible');
         cy.get('a.simulation-cta-button')
@@ -63,16 +49,6 @@ describe('Welcome page', () => {
           'Free to use, always ad free. Built from scratch. No official assets.',
         )
           .scrollIntoView()
-<<<<<<< HEAD
-=======
-          .contains('Work in progress')
-          .should('be.visible');
-      });
-
-      cy.get('section[welcome-community]').within(() => {
-        cy.contains('h2', 'Community Support')
-          .scrollIntoView()
->>>>>>> parent of 4dbc2b2 (Revert "v3.25.0 - Remove Ads")
           .should('be.visible');
       });
     });
@@ -88,7 +64,6 @@ describe('Welcome page', () => {
     cy.location('pathname').should('include', '/3000-mk-v');
     cy.go('back');
   });
-<<<<<<< HEAD
 
   it('has expected sponsor, developer, and support sections', () => {
     // Sponsors
@@ -157,6 +132,4 @@ describe('Welcome page', () => {
       '_blank',
     );
   });
-=======
->>>>>>> parent of 4dbc2b2 (Revert "v3.25.0 - Remove Ads")
 });
