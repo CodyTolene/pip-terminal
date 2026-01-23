@@ -1,137 +1,50 @@
-@use '../../../styles/colors' as col;
 @use '../../../styles/variables' as var;
+@use '../../../styles/colors' as col;
+
 :host {
-  margin-bottom: 2.5rem;
+  .pip-grid {
+    margin-bottom: 2rem;
+  }
+
+  p.note {
+    font-size: var.$font-xxs;
+    margin: 0 0 2rem 0;
+
+    strong {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 pip-title[h2] {
-  margin-top: 1rem;
-  margin-bottom: 0;
+  margin: 4rem 0 0 0;
 }
 
-.simulation-cta-body {
-  margin-bottom: 1.5rem;
-}
+:host ::ng-deep .pip-grid-item[aria-disabled='true'] {
+  .disabled-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 10, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    pointer-events: none;
 
-.simulation-cta {
-  align-items: center;
-  background:
-    linear-gradient(
-      160deg,
-      rgba(0, 255, 0, 0.08),
-      rgba(0, 255, 0, 0.02) 55%,
-      rgba(0, 0, 0, 0.4)
-    ),
-    repeating-linear-gradient(
-      180deg,
-      rgba(0, 255, 0, 0.04),
-      rgba(0, 255, 0, 0.04) 2px,
-      transparent 2px,
-      transparent 5px
-    );
-  border: 1px solid col.$pip-green-dark;
-  box-sizing: border-box;
-  box-shadow:
-    inset 0 0 18px rgba(0, 255, 0, 0.12),
-    0 0 12px rgba(0, 255, 0, 0.12);
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  max-width: 560px;
-  overflow: hidden;
-  padding: 2rem 1.75rem;
-  position: relative;
-  width: 100%;
-}
-
-.simulation-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0.5rem;
-  border: 1px solid rgba(0, 255, 0, 0.18);
-  pointer-events: none;
-}
-
-.simulation-cta::after {
-  content: '';
-  position: absolute;
-  inset: 0.5rem;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(0, 255, 0, 0.12) 50%,
-    transparent 100%
-  );
-  opacity: 0.22;
-  animation: scanline-sweep 12s ease-in-out infinite alternate;
-  will-change: transform;
-  pointer-events: none;
-}
-
-.simulation-cta-badge {
-  border: 1px solid rgba(0, 255, 0, 0.4);
-  color: col.$pip-green-lightest;
-  font-size: var.$font-xxs;
-  letter-spacing: 0.12em;
-  padding: 0.25rem 0.6rem;
-  text-transform: uppercase;
-}
-
-.simulation-cta-button {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 255, 0, 0.9),
-    rgba(0, 204, 0, 0.9)
-  );
-  border: 1px solid col.$pip-green-dark;
-  color: col.$pip-black;
-  display: inline-flex;
-  font-family: var.$default-font-family;
-  font-size: var.$font-md;
-  justify-content: center;
-  letter-spacing: 0.06em;
-  padding: 0.85rem 2.2rem;
-  position: relative;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease,
-    filter 0.2s ease;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 1rem 0;
-  border-radius: 6px;
-  font-weight: bolder;
-}
-
-.simulation-cta-button:hover,
-.simulation-cta-button:focus-visible {
-  box-shadow:
-    0 0 16px rgba(0, 255, 0, 0.35),
-    inset 0 0 10px rgba(0, 0, 0, 0.2);
-  filter: brightness(1.05);
-  transform: translateY(-2px);
-}
-
-.simulation-cta-notes {
-  font-size: var.$font-xxs;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  opacity: 0.9;
-}
-
-@keyframes scanline-sweep {
-  0% {
-    transform: translateY(-40%);
-    opacity: 0;
+    span {
+      border: 1px solid col.$pip-green-dark;
+      color: col.$pip-green;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      padding: 0.35rem 0.6rem;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.6);
+    }
   }
-  50% {
-    opacity: 0.22;
-  }
-  100% {
-    transform: translateY(40%);
-    opacity: 0;
+
+  img {
+    filter: grayscale(0.3) brightness(0.85);
   }
 }
