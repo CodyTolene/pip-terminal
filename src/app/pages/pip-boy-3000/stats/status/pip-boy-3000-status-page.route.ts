@@ -10,7 +10,6 @@ export const PIP_BOY_3000_STATUS_PAGE_ROUTE: PipRoute = {
     description: 'Pip-Boy 3000 device simulator!',
     keywords: ['Pip-Boy 3000', ...META_DEFAULT_KEYWORDS],
     layout: PageLayoutsEnum.PIP_3000,
-    // layout: PageLayoutsEnum.PIP_3000, // TODO
     title: 'Pip-Boy 3000 Simulator',
   },
   loadComponent: () =>

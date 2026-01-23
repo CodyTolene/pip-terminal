@@ -21,6 +21,10 @@ export class WelcomeIntroSection {
   protected readonly forumLink = forumLink;
 
   protected installApp(): void {
+    if (!this.pwaInstall.canInstall()) {
+      return;
+    }
+
     void this.pwaInstall.promptInstall();
   }
 
