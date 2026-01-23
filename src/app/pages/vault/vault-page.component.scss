@@ -44,8 +44,9 @@ section.user-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin: 0;
+  padding: 0 1rem;
   max-width: var.$section-max-width;
   width: 100%;
 
