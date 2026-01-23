@@ -1,7 +1,7 @@
 {
   "name": "pip-terminal",
   "description": "A special terminal for giving you a bit more control over your Pip-Boy 3000 Mk V!",
-  "version": "3.27.0",
+  "version": "3.27.1",
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
@@ -19,7 +19,7 @@
     "generate:sitemap": "ts-node --project .scripts/tsconfig.json .scripts/generate-sitemap.ts",
     "lint": "ng lint",
     "ng": "ng",
-    "postinstall": "is-ci || husky install && patch-package && cd api && npm install && cd ..",
+    "postinstall": "is-ci || husky install && patch-package && npm run update:version && cd api && npm install && cd ..",
     "prebuild": "npm run update:version",
     "prepare": "husky install",
     "prestart": "npm run update:version",
