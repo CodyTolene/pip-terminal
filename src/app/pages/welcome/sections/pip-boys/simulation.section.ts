@@ -1,5 +1,3 @@
-import { PageLayoutsEnum } from 'src/app/enums';
-
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -10,14 +8,11 @@ import { PageUrl } from 'src/app/types/page-url';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'section[welcome-companions]',
-  templateUrl: './companions.section.html',
-  styleUrls: ['./welcome-section.scss', './companions.section.scss'],
+  selector: 'section[welcome-simulation]',
+  templateUrl: './simulation.section.html',
+  styleUrls: ['../welcome-section.scss', './simulation.section.scss'],
   imports: [PipBadgeComponent, PipTitleComponent, RouterModule],
 })
-export class WelcomeCompanionsSection {
-  protected readonly PageLayoutsEnum = PageLayoutsEnum;
-
-  protected readonly pipboy3000Url: PageUrl = '3000-companion';
-  protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
+export class WelcomeSimulationSection {
+  protected readonly pipBoy3000Url: PageUrl = '3000';
 }

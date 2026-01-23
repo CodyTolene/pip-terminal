@@ -1,9 +1,9 @@
 import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
 import { WelcomeCommunitySection } from 'src/app/pages/welcome/sections/community.section';
-import { WelcomeCompanionsSection } from 'src/app/pages/welcome/sections/companions.section';
 import { WelcomeIntroSection } from 'src/app/pages/welcome/sections/intro.section';
 import { WelcomeOpenSourceSection } from 'src/app/pages/welcome/sections/open-source.section';
-import { WelcomeSimulationSection } from 'src/app/pages/welcome/sections/simulation.section';
+import { WelcomeCompanionsSection } from 'src/app/pages/welcome/sections/pip-boys/companions.section';
+import { WelcomeSimulationSection } from 'src/app/pages/welcome/sections/pip-boys/simulation.section';
 
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
