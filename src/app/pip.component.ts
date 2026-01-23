@@ -85,8 +85,11 @@ export class PipComponent implements OnInit {
       this.pageMetaService.setDescription(pageData.description);
       this.pageMetaService.setKeywords(pageData.keywords);
       this.pageMetaService.setTitle(pageData.title);
-      // Scroll to the top of the page smoothly when the route changes.
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const contentHost = document.querySelector(
+        'pip-content',
+      ) as HTMLElement | null;
+      const scrollTarget = contentHost ?? window;
+      scrollTarget.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 }

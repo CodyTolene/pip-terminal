@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { PipBadgeComponent } from 'src/app/components/badge/badge.component';
 import { PipTitleComponent } from 'src/app/components/title/title.component';
 
 import { PageUrl } from 'src/app/types/page-url';
@@ -10,7 +11,7 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'section[welcome-simulation]',
   templateUrl: './simulation.section.html',
   styleUrls: ['./welcome-section.scss', './simulation.section.scss'],
-  imports: [PipTitleComponent, RouterModule],
+  imports: [PipBadgeComponent, PipTitleComponent, RouterModule],
 })
 export class WelcomeSimulationSection {
   protected readonly pipBoy3000Url: PageUrl = '3000';
