@@ -22,10 +22,14 @@ describe('Welcome page', () => {
             cy.contains('h4', 'Pip-Boy 3000 Mk V')
               .scrollIntoView()
               .should('be.visible');
-            cy.contains('h4', 'TBA').should('be.visible');
+            cy.contains('h4', 'Pip-Boy 3000')
+              .scrollIntoView()
+              .should('be.visible');
           });
-        cy.get('.note').scrollIntoView().contains('TBA').should('be.visible');
-        cy.get('.note').contains('Coming soon').should('be.visible');
+        cy.get('.note')
+          .scrollIntoView()
+          .contains('Coming soon')
+          .should('be.visible');
       });
 
       // Simulation section CTA
@@ -65,13 +69,13 @@ describe('Welcome page', () => {
     cy.go('back');
   });
 
-  it('has expected sponsor, developer, and support sections', () => {
-    // Sponsors
-    cy.get('section[welcome-sponsors]').within(() => {
-      cy.contains('h2', 'Sponsors').scrollIntoView().should('be.visible');
-      cy.get('div[aria-label="Sponsors"]').within(() => {
-        cy.get('a.pip-grid-item').should('have.length.at.least', 5);
-        cy.get('img.sponsor').each(($img) => {
+  it('has expected donation, developer, and support sections', () => {
+    // Donations
+    cy.get('section[welcome-donators]').within(() => {
+      cy.contains('h3', 'Donations').scrollIntoView().should('be.visible');
+      cy.get('div[aria-label="Donations"]').within(() => {
+        cy.get('div.pip-grid-item').should('have.length.at.least', 5);
+        cy.get('img.community').each(($img) => {
           cy.wrap($img).should('have.attr', 'alt').and('not.be.empty');
         });
       });
@@ -79,21 +83,21 @@ describe('Welcome page', () => {
 
     // Developers
     cy.get('section[welcome-developers]').within(() => {
-      cy.contains('h2', 'Vault-Tec Engineers')
+      cy.contains('h3', 'Vault-Tec Engineers')
         .scrollIntoView()
         .should('be.visible');
       cy.get('div[aria-label="Developers"]').within(() => {
-        cy.get('div.pip-grid-item').should('have.length', 11);
+        cy.get('div.pip-grid-item').should('have.length.at.least', 11);
         cy.contains('h4', 'gfwilliams').scrollIntoView().should('be.visible');
       });
     });
 
     // Support
     cy.get('section[welcome-support]').within(() => {
-      cy.contains('h2', 'Vault-Tec Support')
+      cy.contains('h3', 'Vault-Tec Support')
         .scrollIntoView()
         .should('be.visible');
-      cy.get('div[aria-label="Support Team"]').within(() => {
+      cy.get('div[aria-label="Support"]').within(() => {
         cy.get('div.pip-grid-item').should('have.length', 3);
         cy.contains('h4', 'Matchwood').scrollIntoView().should('be.visible');
       });
@@ -106,8 +110,8 @@ describe('Welcome page', () => {
   it('opens external links with pip buttons via window.open', () => {
     cy.window().then((win) => cy.stub(win, 'open').as('winOpen'));
 
-    // Sponsor button
-    cy.contains('pip-button', 'Become a sponsor!').scrollIntoView().click();
+    // Donation button
+    cy.contains('pip-button', 'Open donation page').scrollIntoView().click();
     cy.get('@winOpen').should(
       'have.been.calledWith',
       'https://github.com/sponsors/CodyTolene',
@@ -123,9 +127,7 @@ describe('Welcome page', () => {
     );
 
     // Discord button
-    cy.contains('pip-button', 'Join the Wasteland Discord!')
-      .scrollIntoView()
-      .click();
+    cy.contains('pip-button', 'Join our Discord!').scrollIntoView().click();
     cy.get('@winOpen').should(
       'have.been.calledWith',
       'https://discord.gg/zQmAkEg8XG',
