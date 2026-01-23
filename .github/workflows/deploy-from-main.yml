@@ -40,6 +40,8 @@ jobs:
           git submodule foreach 'git reset --hard && git clean -fdx'
 
       - run: npm ci
+      - run: npm install --no-save --no-package-lock @vault-tec/pip-boy@latest
+      - run: npm ls @vault-tec/pip-boy
       - run: npm run lint
       - run: npm run prettier:check
       - run: npm run generate:apps
