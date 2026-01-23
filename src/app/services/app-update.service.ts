@@ -24,6 +24,8 @@ export class AppUpdateService {
       )
       .subscribe(async () => {
         await this.swUpdate.activateUpdate();
+        // Refresh to load the new version
+        document.location.reload();
       });
 
     // Handle fatal
