@@ -18,4 +18,11 @@
   >
     Join the Wasteland Discord!
   </pip-button>
+  <pip-button
+    [disabled]="!pwaInstall.canInstall()"
+    aria-label="Install Pip Terminal"
+    (click)="installApp()"
+    class="offline-install"
+    >Install App For Offline Use</pip-button
+  >
 </div>

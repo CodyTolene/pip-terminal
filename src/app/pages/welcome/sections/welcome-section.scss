@@ -69,11 +69,12 @@ pip-title {
   margin: 2rem 0 3rem 0;
 }
 
-.pip-grid a.terminal-card {
+.pip-grid .terminal-card {
   position: relative;
   transition: all 0.3s ease;
   border: 1px solid col.$pip-green-darkest;
   overflow: hidden;
+  cursor: default;
 
   &::before {
     content: '';
@@ -213,6 +214,10 @@ pip-title {
       }
     }
   }
+}
+
+.pip-grid a.terminal-card {
+  cursor: pointer;
 }
 
 @keyframes radar-pulse {
