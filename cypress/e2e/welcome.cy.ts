@@ -39,21 +39,14 @@ describe('Welcome page', () => {
           .should('be.visible');
         cy.contains(
           'p',
-          'Pip-Boy inspired interfaces built for immersion and roleplay.',
+          'Explore a set of fan made, in browser UI simulators inspired by the retro',
         )
           .scrollIntoView()
           .should('be.visible');
-        cy.get('a.simulation-cta-button')
-          .should('have.attr', 'href', 'https://pip-terminal.com/')
-          .and('have.attr', 'target', '_blank');
-        cy.contains('Opens in a new tab.')
+        cy.contains('p', 'Select a model below to begin.')
           .scrollIntoView()
           .should('be.visible');
-        cy.contains(
-          'Free to use, always ad free. Built from scratch. No official assets.',
-        )
-          .scrollIntoView()
-          .should('be.visible');
+        cy.contains('p', '*Planned').scrollIntoView().should('be.visible');
       });
     });
   });
