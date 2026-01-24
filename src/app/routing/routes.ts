@@ -4,9 +4,9 @@ import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
 import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/post-page.route';
 import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/view-page.route';
 import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
-import { PIP_BOY_2000_MK_VI_ROUTES } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi.routes';
+import { PIP_BOY_2000_MK_VI_PAGE_ROUTE } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-page.route';
 import { PIP_BOY_3000_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-companion/pip-boy-3000-companion-page.route';
-import { PIP_BOY_3000_MK_IV_ROUTES } from 'src/app/pages/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv.routes';
+import { PIP_BOY_3000_MK_IV_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv-page.route';
 import { PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.route';
 import { PIP_BOY_3000_MK_V_CFW_BUILDER_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-cfw-builder/pip-boy-3000-mk-v-cfw-builder-page.route';
 import { PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.route';
@@ -14,8 +14,8 @@ import { PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE } from 'src/app/pages/pip-
 import { PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.route';
 import { PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-radio/pip-boy-3000-mk-v-radio-page.route';
 import { PIP_BOY_3000_MK_V_UPDATE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-update/pip-boy-3000-mk-v-update-page.route';
-import { PIP_BOY_3000_ROUTES } from 'src/app/pages/pip-boy-3000/pip-boy-3000.routes';
-import { PIP_BOY_3000A_ROUTES } from 'src/app/pages/pip-boy-3000a/pip-boy-3000a.routes';
+import { PIP_BOY_3000_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000/pip-boy-3000-page.route';
+import { PIP_BOY_3000A_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000a/pip-boy-3000a-page.route';
 import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-policy-page.route';
 import { REGISTER_PAGE_ROUTE } from 'src/app/pages/register/register-page.route';
 import { STATUS_PAGE_ROUTE } from 'src/app/pages/status/status-page.route';
@@ -30,16 +30,17 @@ import { PipRoute } from 'src/app/types/pip-route';
 import { PipRouteRedirect } from 'src/app/types/pip-route-redirect';
 
 export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
+  WELCOME_PAGE_ROUTE, // Home page
   FORGOT_PASSWORD_PAGE_ROUTE,
   FORUM_CATEGORY_PAGE_ROUTE,
   FORUM_PAGE_ROUTE,
   FORUM_POST_PAGE_ROUTE,
   FORUM_VIEW_PAGE_ROUTE,
   LOGIN_PAGE_ROUTE,
-  PIP_BOY_2000_MK_VI_ROUTES,
-  PIP_BOY_3000A_ROUTES,
-  ...PIP_BOY_3000_MK_IV_ROUTES,
+  PIP_BOY_2000_MK_VI_PAGE_ROUTE,
+  PIP_BOY_3000A_PAGE_ROUTE,
   PIP_BOY_3000_COMPANION_PAGE_ROUTE,
+  PIP_BOY_3000_MK_IV_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_CFW_BUILDER_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE,
@@ -47,7 +48,7 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_UPDATE_PAGE_ROUTE,
-  PIP_BOY_3000_ROUTES,
+  PIP_BOY_3000_PAGE_ROUTE,
   PRIVACY_POLICY_PAGE_ROUTE,
   REGISTER_PAGE_ROUTE,
   STATUS_PAGE_ROUTE,
@@ -55,7 +56,6 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   TERMS_AND_CONDITIONS_PAGE_ROUTE,
   VAULT_PAGE_ROUTE,
   VERIFY_EMAIL_PAGE_ROUTE,
-  WELCOME_PAGE_ROUTE,
   PAGE_REDIRECTS['vault'],
   PAGE_REDIRECTS['404'],
 ];

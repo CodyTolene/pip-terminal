@@ -35,16 +35,4 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Pip-Boy 3000 Mk V File Management': '3000-mk-v/file-management',
   'Pip-Boy 3000 Mk V Radio': '3000-mk-v/radio',
   'Pip-Boy 3000 Mk V Update': '3000-mk-v/update',
-  /** Pip-Boy 3000 Mk IV Routes */
-  'DATA > QUESTS - Pip-Boy 3000 Mk IV': '3000-mk-iv/data/quests',
-  'DATA > STATS - Pip-Boy 3000 Mk IV': '3000-mk-iv/data/stats',
-  'DATA > WORKSHOPS - Pip-Boy 3000 Mk IV': '3000-mk-iv/data/workshops',
-  'INV > AID - Pip-Boy 3000 Mk IV': '3000-mk-iv/inv/aid',
-  'INV > APPAREL - Pip-Boy 3000 Mk IV': '3000-mk-iv/inv/apparel',
-  'INV > WEAPONS - Pip-Boy 3000 Mk IV': '3000-mk-iv/inv/weapons',
-  'MAP - Pip-Boy 3000 Mk IV': '3000-mk-iv/map',
-  'RADIO - Pip-Boy 3000 Mk IV': '3000-mk-iv/radio',
-  'STAT > PERKS - Pip-Boy 3000 Mk IV': '3000-mk-iv/stat/perks',
-  'STAT > SPECIAL - Pip-Boy 3000 Mk IV': '3000-mk-iv/stat/special',
-  'STAT > STATUS - Pip-Boy 3000 Mk IV': '3000-mk-iv/stat/status',
 };

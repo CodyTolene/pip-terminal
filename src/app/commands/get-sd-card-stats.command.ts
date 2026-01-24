@@ -1,8 +1,6 @@
 export function getSDCardStats(): string {
   return `
     (() => {
-      if (!Pip.isSDCardInserted()) return "Error: No SD card inserted.";
-
       try {
         let fs = require('fs');
         let stats = fs.getFree();
