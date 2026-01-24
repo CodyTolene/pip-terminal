@@ -1,18 +1,3 @@
-// Pip-Boy 3000 Mk IV Simulator Page Names
-const PIP_BOY_3000_MK_IV_PAGE_NAMES = [
-  'DATA > QUESTS - Pip-Boy 3000 Mk IV',
-  'DATA > STATS - Pip-Boy 3000 Mk IV',
-  'DATA > WORKSHOPS - Pip-Boy 3000 Mk IV',
-  'INV > AID - Pip-Boy 3000 Mk IV',
-  'INV > APPAREL - Pip-Boy 3000 Mk IV',
-  'INV > WEAPONS - Pip-Boy 3000 Mk IV',
-  'MAP - Pip-Boy 3000 Mk IV',
-  'RADIO - Pip-Boy 3000 Mk IV',
-  'STAT > PERKS - Pip-Boy 3000 Mk IV',
-  'STAT > SPECIAL - Pip-Boy 3000 Mk IV',
-  'STAT > STATUS - Pip-Boy 3000 Mk IV',
-] as const;
-
 // TWC: Pip-Boy 3000 Mk V Companion Terminals
 const PIP_BOY_3000_MK_V_PAGE_NAMES = [
   'Pip-Boy 3000 Mk V Apps',
@@ -57,7 +42,6 @@ export const PAGE_NAMES = [
   'Verify Email',
   ...FORUM_PAGE_NAMES,
   ...PIP_BOY_3000_COMPANION_PAGE_NAMES,
-  ...PIP_BOY_3000_MK_IV_PAGE_NAMES,
   ...PIP_BOY_3000_MK_V_PAGE_NAMES,
   ...PIP_BOY_SIMULATOR_PAGE_NAMES,
 ] as const;

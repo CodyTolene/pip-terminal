@@ -15,4 +15,5 @@ import { PageUrl } from 'src/app/types/page-url';
 })
 export class WelcomeSimulationSection {
   protected readonly pipBoy3000Url: PageUrl = '3000';
+  protected readonly pipBoy3000aUrl: PageUrl = '3000a';
 }
