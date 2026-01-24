@@ -22,7 +22,8 @@ export class PipGetDataService {
     const batteryLevel = Number(result);
 
     if (isNaN(batteryLevel)) {
-      throw new Error(`Invalid battery level: ${result}`);
+      logMessage(`ERROR: Invalid battery level: ${result}`);
+      return 0;
     }
 
     return batteryLevel;

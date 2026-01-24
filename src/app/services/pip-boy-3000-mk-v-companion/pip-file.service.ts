@@ -314,13 +314,11 @@ export class PipFileService {
 
       for (const branch of branches) {
         // Prevent infinite recursion caused by self referencing directories
-        // introduced in Pip-Boy JS Version 1.29
         if (
-          jsVersion >= 1.29 &&
-          (branch.name === '.' ||
-            branch.name === '..' ||
-            branch.path.includes('/./') ||
-            branch.path.includes('/../'))
+          branch.name === '.' ||
+          branch.name === '..' ||
+          branch.path.includes('/./') ||
+          branch.path.includes('/../')
         ) {
           continue;
         }
