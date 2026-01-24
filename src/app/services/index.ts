@@ -23,10 +23,6 @@ export * from './forum/forum-comments.service';
 export * from './forum/forum-image.service';
 export * from './forum/forum-posts.service';
 
-/** ---- Pip-Boy 3000 Mk IV Services ---- */
-
-export * from './pip-boy-3000-mk-iv/pip-boy-3000-tabs.service';
-
 /** ---- Pip-Boy 3000 Mk V Services ---- */
 export * from './pip-boy-3000-mk-v-companion/pip-command.service';
 export * from './pip-boy-3000-mk-v-companion/pip-connection.service';

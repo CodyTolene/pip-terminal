@@ -3,8 +3,8 @@ import { PageLayoutsEnum } from 'src/app/enums';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
-export const PIP_BOY_2000_MK_VI_STATUS_PAGE_ROUTE: PipRoute = {
-  path: '',
+export const PIP_BOY_2000_MK_VI_PAGE_ROUTE: PipRoute = {
+  path: '2000-mk-vi',
   data: {
     author: META_AUTHOR,
     description: 'Pip-Boy 2000 Mk VI device simulator!',
@@ -14,5 +14,5 @@ export const PIP_BOY_2000_MK_VI_STATUS_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 2000 Mk VI Simulator',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy2000MkVIStatusPageComponent),
+    import('src/app/pages').then((c) => c.PipBoy2000MkVIPageComponent),
 };
