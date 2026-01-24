@@ -14,8 +14,8 @@ export * from './pip-boy-3000-mk-v-file-management/pip-boy-3000-mk-v-file-manage
 export * from './pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.component';
 export * from './pip-boy-3000-mk-v-radio/pip-boy-3000-mk-v-radio-page.component';
 export * from './pip-boy-3000-mk-v-update/pip-boy-3000-mk-v-update-page.component';
-export * from './pip-boy-3000/index';
-export * from './pip-boy-3000a/index';
+export * from './pip-boy-3000/pip-boy-3000-page.component';
+export * from './pip-boy-3000a/pip-boy-3000a-page.component';
 export * from './privacy-policy/privacy-policy-page.component';
 export * from './register/register-page.component';
 export * from './status/status-page.component';

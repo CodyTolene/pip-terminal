@@ -4,10 +4,10 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'pip-boy-3000-status-page',
-  templateUrl: './pip-boy-3000-status-page.component.html',
+  selector: 'pip-boy-3000-page',
+  templateUrl: './pip-boy-3000-page.component.html',
   imports: [PipBoy3000, RouterModule],
-  styleUrl: './pip-boy-3000-status-page.component.scss',
+  styleUrl: './pip-boy-3000-page.component.scss',
   standalone: true,
 })
-export class PipBoy3000StatusPageComponent {}
+export class PipBoy3000PageComponent {}

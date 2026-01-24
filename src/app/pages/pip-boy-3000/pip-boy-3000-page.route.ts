@@ -3,8 +3,8 @@ import { PageLayoutsEnum } from 'src/app/enums';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
-export const PIP_BOY_3000_STATUS_PAGE_ROUTE: PipRoute = {
-  path: '',
+export const PIP_BOY_3000_PAGE_ROUTE: PipRoute = {
+  path: '3000',
   data: {
     author: META_AUTHOR,
     description: 'Pip-Boy 3000 device simulator!',
@@ -13,5 +13,5 @@ export const PIP_BOY_3000_STATUS_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 3000 Simulator',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy3000StatusPageComponent),
+    import('src/app/pages').then((c) => c.PipBoy3000PageComponent),
 };
