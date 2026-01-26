@@ -13,7 +13,9 @@
   />
   <h1 align="center">Pip Terminal - <a href="https://www.Pip-Boy.com">Pip-Boy.com</a></h1>
   <p align="center">
-    Pip-Boy.com brings Pip-Boy interfaces to the web with interactive simulations for multiple models. It also includes a companion app for the real Pip-Boy 3000 Mk V using Web Serial to flash firmware, install community apps, manage files, and run utilities.
+   Pip-Boy.com is a community-driven hub dedicated to bringing the iconic 
+   Pip-Boy experience to the web. Explore interactive interfaces and companion 
+   apps created by fans, for fans. Not affiliated with Bethesda.
   </p>
 </div>
 

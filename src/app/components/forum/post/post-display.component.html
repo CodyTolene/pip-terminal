@@ -31,7 +31,7 @@
       @if (simple) {
         <p>{{ post.contentPreview }}</p>
       } @else {
-        <p [innerHTML]="post.contentHtml"></p>
+        <div class="post-content ql-editor" [innerHTML]="post.safeHtml"></div>
       }
     </div>
     @if (post.isSpoiler && !spoilerRevealed()) {

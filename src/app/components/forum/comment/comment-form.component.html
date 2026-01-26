@@ -1,5 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitComment()">
   <pro-input-textarea
+    (keydown.enter)="$event.preventDefault()"
     [formControl]="formGroup.controls.content"
     appearance="outline"
     label="Comment"

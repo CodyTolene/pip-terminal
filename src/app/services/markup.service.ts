@@ -86,7 +86,11 @@ export class MarkupService {
   public toSafeHtml(untrustedHtml: string | null | undefined): SafeHtml {
     const clean =
       this.sanitizer.sanitize(SecurityContext.HTML, untrustedHtml ?? '') ?? '';
-    const hardened = clean.replace(
+    // Replaces non-breaking spaces (entities and Unicode) with regular spaces.
+    const normalizedSpacing = clean
+      .replace(/&nbsp;|&#160;/gi, ' ')
+      .replace(/\u00A0/g, ' ');
+    const hardened = normalizedSpacing.replace(
       /<a\b([^>]*href=['"][^'"]+['"][^>]*)>/gi,
       '<a $1 rel="nofollow noopener noreferrer" target="_blank">',
     );

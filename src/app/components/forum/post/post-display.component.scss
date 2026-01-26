@@ -54,23 +54,17 @@
         }
       }
 
-      p {
+      .post-content {
         background-color: rgba(col.$pip-green-darkest, 0.25);
         border-radius: 4px;
         color: col.$pip-green;
         font-size: var.$font-md;
         hyphens: auto;
         margin: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
         padding: 1rem;
-        white-space: normal;
-        word-break: break-word;
-
-        ::ng-deep img {
-          height: auto;
-          max-width: 100%;
-          width: auto;
-        }
+        white-space: pre-wrap;
+        word-break: normal;
       }
 
       .spoiler-cover {
