@@ -16,3 +16,6 @@
 
 // Quill styles
 @use './app/styles/quill';
+
+// Forum post content (needed for innerHTML)
+@use './app/styles/forum-post-content';

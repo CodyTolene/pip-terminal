@@ -1,0 +1,48 @@
+@use './colors' as col;
+
+.post-content > * {
+  margin: 0 0 0.75rem 0;
+}
+
+.post-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.post-content p {
+  margin: 0 0 0.75rem 0;
+}
+
+.post-content ol,
+.post-content ul {
+  margin: 0 0 0.75rem 1.25rem;
+  padding: 0;
+}
+
+.post-content blockquote {
+  margin: 0 0 0.75rem 0;
+  padding-left: 0.75rem;
+  border-left: 2px solid rgba(col.$pip-green, 0.4);
+}
+
+.post-content pre {
+  margin: 0 0 0.75rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.post-content img {
+  height: auto;
+  max-width: 100%;
+  width: auto;
+}
+
+.post-content .ql-align-center {
+  text-align: center;
+}
+
+.post-content .ql-align-right {
+  text-align: right;
+}
