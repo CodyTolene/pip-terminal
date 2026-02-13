@@ -5,7 +5,7 @@ export const environment: EnvironmentCredentials = {
   appsUrl: 'https://raw.githubusercontent.com/CodyTolene/pip-apps/releases',
   google: {
     firebase: {
-      apiKey: 'AIzaSyDDQ5YRhwcHP8m46TRe9XagXwHSeXdbSBE',
+      apiKey: 'AIzaSyB7cmxC7bhxZgh7ZCQy8lfTFKyk1Uzst_o',
       appId: '1:438882577130:web:dc1124a2ab2ad5d21c0593',
       authDomain: 'pip-terminal.firebaseapp.com',
       measurementId: 'G-1Z6DNZH2C2',
