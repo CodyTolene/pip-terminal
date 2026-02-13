@@ -13,9 +13,6 @@ export const environment: EnvironmentCredentials = {
       projectId: 'pip-terminal',
       storageBucket: 'pip-terminal.firebasestorage.app',
     },
-    maps: {
-      apiKey: 'AIzaSyD0ESBvQ6Ok20ddJmS0kI7K-N6u6LXXlyw',
-    },
     recaptcha: {
       apiKey: '6Ld_gbArAAAAAMTLly-cMtUkVmYMq0DlzEh4jPIi',
     },
