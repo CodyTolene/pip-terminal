@@ -6,9 +6,6 @@
   "author": "Cody Tolene <codyatolene@gmail.com>",
   "homepage": "https://pip-boy.com/",
   "private": true,
-  "engines": {
-    "node": ">=20.19.0 <23"
-  },
   "scripts": {
     "angular-version": "ng --version",
     "cypress:open": "cypress open",
@@ -98,5 +95,8 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "8.39.1"
+  },
+  "engines": {
+    "node": ">=24 <25"
   }
 }
