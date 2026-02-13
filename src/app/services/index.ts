@@ -2,7 +2,6 @@ export * from './app-install.service';
 export * from './app-update.service';
 export * from './auth.service';
 export * from './github.service';
-export * from './map.service';
 export * from './markup.service';
 export * from './page-data.service';
 export * from './page-meta.service';
