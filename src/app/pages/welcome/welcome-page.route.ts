@@ -1,5 +1,4 @@
 import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
-import { PageLayoutsEnum } from 'src/app/enums';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
@@ -11,7 +10,6 @@ export const WELCOME_PAGE_ROUTE: PipRoute = {
     description:
       'Welcome to Pip-Boy.com, a comprehensive resource for all things Pip-Boy!',
     keywords: ['Home', ...META_DEFAULT_KEYWORDS],
-    layout: PageLayoutsEnum.NONE,
     title: 'Home',
   },
   loadComponent: () =>
