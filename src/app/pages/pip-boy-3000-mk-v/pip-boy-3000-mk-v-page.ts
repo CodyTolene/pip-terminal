@@ -1,14 +1,14 @@
-import { PipFooterComponent } from 'src/app/layout/footer/footer.component';
+import { PipFooterComponent } from 'src/app/layout/footer/footer';
 import { PAGES } from 'src/app/routing';
 
 import { Component, OnDestroy, inject } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipDividerComponent } from 'src/app/components/divider/divider.component';
-import { PipNoticeComponent } from 'src/app/components/notice/notice.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipButtonComponent } from 'src/app/components/button/pip-button';
+import { PipDivider } from 'src/app/components/divider/divider';
+import { PipNotice } from 'src/app/components/notice/notice';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 
@@ -18,9 +18,9 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   imports: [
     MatExpansionModule,
     PipButtonComponent,
-    PipDividerComponent,
+    PipDivider,
     PipFooterComponent,
-    PipNoticeComponent,
+    PipNotice,
     PipTitleComponent,
     RouterModule,
   ],

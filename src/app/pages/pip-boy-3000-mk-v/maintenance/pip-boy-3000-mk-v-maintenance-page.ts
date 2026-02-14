@@ -5,13 +5,13 @@ import { logMessage } from 'src/app/utilities';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipActionsDateTimeComponent } from 'src/app/components/companion/actions-date-time/pip-actions-date-time.component';
-import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
-import { PipActionsOwnerComponent } from 'src/app/components/companion/actions-owner/pip-actions-owner.component';
-import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
-import { PipActionsTestingComponent } from 'src/app/components/companion/actions-testing/pip-actions-testing.component';
-import { PipLogComponent } from 'src/app/components/log/pip-log.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipActionsDateTimeComponent } from 'src/app/components/companion/actions-date-time/pip-actions-date-time';
+import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc';
+import { PipActionsOwnerComponent } from 'src/app/components/companion/actions-owner/pip-actions-owner';
+import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary';
+import { PipActionsTestingComponent } from 'src/app/components/companion/actions-testing/pip-actions-testing';
+import { PipLogComponent } from 'src/app/components/log/pip-log';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 

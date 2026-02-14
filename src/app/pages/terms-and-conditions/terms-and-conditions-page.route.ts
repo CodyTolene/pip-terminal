@@ -12,5 +12,5 @@ export const TERMS_AND_CONDITIONS_PAGE_ROUTE: PipRoute = {
     title: 'Terms and Conditions',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.TermsAndConditionsPageComponent),
+    import('src/app/pages').then((c) => c.TermsAndConditionsPage),
 };

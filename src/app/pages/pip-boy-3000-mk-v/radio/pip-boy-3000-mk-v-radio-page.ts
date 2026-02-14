@@ -20,12 +20,12 @@ import {
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
-import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
-import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload.component';
-import { PipLogComponent } from 'src/app/components/log/pip-log.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipButtonComponent } from 'src/app/components/button/pip-button';
+import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc';
+import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary';
+import { PipFileUploadComponent } from 'src/app/components/file-upload/file-upload';
+import { PipLogComponent } from 'src/app/components/log/pip-log';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { PipSoundService } from 'src/app/services/pip-boy-3000-mk-v-companion/pip-sound.service';
 import { ScriptsService } from 'src/app/services/scripts.service';

@@ -1,10 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged, filter, map } from 'rxjs';
-import {
-  ContentComponent,
-  HeaderComponent,
-  SidenavComponent,
-} from 'src/app/layout';
+import { Content, Header, Sidenav } from 'src/app/layout';
 import {
   AppUpdateService,
   PageDataService,
@@ -21,21 +17,21 @@ import { Analytics } from '@angular/fire/analytics';
 // import { setLogLevel } from '@angular/fire/firestore';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 
-import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.component';
+import { GdprBanner } from 'src/app/components/gdpr-banner/gdpr-banner';
 
 @UntilDestroy()
 @Component({
   selector: 'pip-root',
-  templateUrl: './pip.component.html',
+  templateUrl: './pip.html',
   imports: [
     CommonModule,
-    ContentComponent,
-    GdprBannerComponent,
-    HeaderComponent,
+    Content,
+    GdprBanner,
+    Header,
     MatLuxonDateModule,
-    SidenavComponent,
+    Sidenav,
   ],
-  styleUrl: './pip.component.scss',
+  styleUrl: './pip.scss',
   providers: [PageDataService, PageMetaService, SoundService, ThemeService],
 })
 export class PipComponent implements OnInit {

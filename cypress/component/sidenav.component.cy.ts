@@ -1,7 +1,7 @@
 import { MountResponse, mount } from 'cypress/angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { APP_VERSION } from 'src/app/constants';
-import { SidenavComponent } from 'src/app/layout/navigation/sidenav.component';
+import { Sidenav } from 'src/app/layout/navigation/sidenav';
 import { AuthService, ToastService } from 'src/app/services';
 import { isNavbarOpenSignal } from 'src/app/signals';
 
@@ -67,11 +67,11 @@ class MockToastService {
     `,
   ],
   standalone: true,
-  imports: [SidenavComponent],
+  imports: [Sidenav],
 })
-class HostComponent {}
+class Host {}
 
-describe('SidenavComponent', () => {
+describe('Sidenav', () => {
   let auth: MockAuthService;
   let dialog: MockMatDialog;
   let toast: MockToastService;
@@ -83,8 +83,8 @@ describe('SidenavComponent', () => {
     toast = new MockToastService();
   });
 
-  function mountHost(): Cypress.Chainable<MountResponse<HostComponent>> {
-    return mount(HostComponent, {
+  function mountHost(): Cypress.Chainable<MountResponse<Host>> {
+    return mount(Host, {
       imports: [CommonModule, MatSidenavModule, MatListModule],
       providers: [
         provideRouter([]),

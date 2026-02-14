@@ -5,13 +5,13 @@ import { logMessage } from 'src/app/utilities';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc.component';
-import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary.component';
-import { PipActionsZipUploadComponent } from 'src/app/components/companion/actions-zip-upload/pip-actions-zip-upload.component';
-import { PipFileExplorerComponent } from 'src/app/components/companion/file-explorer/pip-file-explorer.component';
-import { PipFileUploaderComponent } from 'src/app/components/companion/file-uploader/pip-file-uploader.component';
-import { PipLogComponent } from 'src/app/components/log/pip-log.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipActionsMiscComponent } from 'src/app/components/companion/actions-misc/pip-actions-misc';
+import { PipActionsPrimaryComponent } from 'src/app/components/companion/actions-primary/pip-actions-primary';
+import { PipActionsZipUploadComponent } from 'src/app/components/companion/actions-zip-upload/pip-actions-zip-upload';
+import { PipFileExplorerComponent } from 'src/app/components/companion/file-explorer/pip-file-explorer';
+import { PipFileUploaderComponent } from 'src/app/components/companion/file-uploader/pip-file-uploader';
+import { PipLogComponent } from 'src/app/components/log/pip-log';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 

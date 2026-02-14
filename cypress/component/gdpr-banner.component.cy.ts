@@ -1,7 +1,7 @@
 import { provideLocationMocks } from '@angular/common/testing';
 import { provideRouter } from '@angular/router';
 
-import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.component';
+import { GdprBanner } from 'src/app/components/gdpr-banner/gdpr-banner';
 
 import { StorageLocalService } from 'src/app/services/storage-local.service';
 
@@ -25,9 +25,9 @@ class MockStorageLocalService implements Pick<
   }
 }
 
-describe('GdprBannerComponent', () => {
+describe('GdprBanner', () => {
   it('shows the banner when consent is not present and hides it after acceptance', () => {
-    cy.mount(GdprBannerComponent, {
+    cy.mount(GdprBanner, {
       providers: [
         provideRouter([]),
         provideLocationMocks(),

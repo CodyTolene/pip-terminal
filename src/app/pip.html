@@ -1,0 +1,9 @@
+@if (headerIsDisplayedChanges | async) {
+<pip-header />
+<pip-sidenav>
+  <pip-content />
+</pip-sidenav>
+} @else {
+<pip-content />
+}
+<pip-gdpr-banner />

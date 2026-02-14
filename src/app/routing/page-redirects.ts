@@ -10,7 +10,6 @@ export const PAGE_REDIRECTS: Record<string, PipRouteRedirect> = {
     path: 'vault',
     pathMatch: 'full',
     canActivate: [vaultAuthGuard],
-    loadComponent: () =>
-      import('src/app/pages').then((c) => c.VaultPageComponent),
+    loadComponent: () => import('src/app/pages').then((c) => c.VaultPage),
   },
 };

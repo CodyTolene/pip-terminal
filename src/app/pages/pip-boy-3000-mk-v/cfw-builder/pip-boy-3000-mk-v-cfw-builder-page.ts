@@ -5,8 +5,8 @@ import { logMessage } from 'src/app/utilities';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipLogComponent } from 'src/app/components/log/pip-log.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipLogComponent } from 'src/app/components/log/pip-log';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { ScriptsService } from 'src/app/services/scripts.service';
 

@@ -1,0 +1,45 @@
+import { InputDirective } from '@proangular/pro-form';
+
+import { Component, Input, booleanAttribute } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+
+@Component({
+  selector: 'pip-file-upload',
+  templateUrl: './file-upload.html',
+  imports: [MatInputModule, ReactiveFormsModule],
+  styleUrl: './file-upload.scss',
+  standalone: true,
+})
+export class PipFileUploadComponent extends InputDirective<FileList | null> {
+  /** The file type that the input should accept. */
+  @Input({ required: true }) public accept: readonly AcceptableFileType[] = [];
+
+  public override readonly id = `file-upload-${++uniqueFileUploadId}`;
+
+  @Input({ transform: booleanAttribute })
+  public multiple = false;
+
+  protected onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.formControl.setValue(input.files);
+    } else {
+      this.formControl.setValue(null);
+    }
+    this.formControl.updateValueAndValidity();
+  }
+
+  protected resetFileInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = '';
+  }
+}
+
+/**
+ * A unique ID for each file upload input. This increments by one for each new
+ * file upload input created during the lifetime of the application.
+ */
+let uniqueFileUploadId = 0;
+
+type AcceptableFileType = '.wav' | '.zip' | '*/*';
