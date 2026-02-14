@@ -3,7 +3,6 @@ import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/category
 import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
 import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/post-page.route';
 import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/view-page.route';
-import { RESOURCES_PAGE_ROUTE } from 'src/app/pages/links/resources/resources-page.route';
 import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
 import { PIP_BOY_2000_MK_VI_PAGE_ROUTE } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-page.route';
 import { PIP_BOY_3000_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-companion/pip-boy-3000-companion-page.route';
@@ -19,6 +18,7 @@ import { PIP_BOY_3000_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000/pip-boy-3000
 import { PIP_BOY_3000A_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000a/pip-boy-3000a-page.route';
 import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-policy-page.route';
 import { REGISTER_PAGE_ROUTE } from 'src/app/pages/register/register-page.route';
+import { RESOURCES_PAGE_ROUTE } from 'src/app/pages/resources/resources-page.route';
 import { STATUS_PAGE_ROUTE } from 'src/app/pages/status/status-page.route';
 import { SUPPORT_PAGE_ROUTE } from 'src/app/pages/support/support-page.route';
 import { TERMS_AND_CONDITIONS_PAGE_ROUTE } from 'src/app/pages/terms-and-conditions/terms-and-conditions-page.route';

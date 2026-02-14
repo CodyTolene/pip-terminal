@@ -1,6 +1,6 @@
 /** Core Pages */
 export * from './privacy-policy/privacy-policy-page';
-export * from './links/resources/resources-page';
+export * from './resources/resources-page';
 export * from './status/status-page';
 export * from './support/support-page';
 export * from './terms-and-conditions/terms-and-conditions-page';
