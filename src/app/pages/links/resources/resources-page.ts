@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pip-links-page',
-  templateUrl: './links-page.html',
+  selector: 'pip-resources-page',
+  templateUrl: './resources-page.html',
   imports: [CommonModule, PipFooterComponent],
-  styleUrl: './links-page.scss',
+  styleUrl: './resources-page.scss',
   standalone: true,
 })
-export class LinksPage {}
+export class ResourcesPage {}

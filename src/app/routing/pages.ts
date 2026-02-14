@@ -21,10 +21,7 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Forum - New Post': 'forum/post',
   'Forum - View Post': 'forum/post/:id',
   /** Links Routes */
-  Links: 'links',
-  'Links - Products': 'links/products',
-  'Links - Resources': 'links/resources',
-  'Links - Support': 'links/support',
+  Resources: 'resources',
   /** Simulator Routes */
   'Pip-Boy 2000 Mk VI Simulator': '2000-mk-vi',
   'Pip-Boy 3000 Mk IV Simulator': '3000-mk-iv',

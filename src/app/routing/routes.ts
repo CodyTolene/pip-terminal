@@ -3,10 +3,7 @@ import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/category
 import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
 import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/post-page.route';
 import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/view-page.route';
-import { LINKS_PAGE_ROUTE } from 'src/app/pages/links/links-page.route';
-import { LINKS_PRODUCTS_PAGE_ROUTE } from 'src/app/pages/links/products/links-products-page.route';
-import { LINKS_RESOURCES_PAGE_ROUTE } from 'src/app/pages/links/resources/links-resources-page.route';
-import { LINKS_SUPPORT_PAGE_ROUTE } from 'src/app/pages/links/support/links-support-page.route';
+import { RESOURCES_PAGE_ROUTE } from 'src/app/pages/links/resources/resources-page.route';
 import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
 import { PIP_BOY_2000_MK_VI_PAGE_ROUTE } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-page.route';
 import { PIP_BOY_3000_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-companion/pip-boy-3000-companion-page.route';
@@ -40,10 +37,6 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   FORUM_PAGE_ROUTE,
   FORUM_POST_PAGE_ROUTE,
   FORUM_VIEW_PAGE_ROUTE,
-  LINKS_PAGE_ROUTE,
-  LINKS_PRODUCTS_PAGE_ROUTE,
-  LINKS_RESOURCES_PAGE_ROUTE,
-  LINKS_SUPPORT_PAGE_ROUTE,
   LOGIN_PAGE_ROUTE,
   PIP_BOY_2000_MK_VI_PAGE_ROUTE,
   PIP_BOY_3000A_PAGE_ROUTE,
@@ -59,6 +52,7 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   PIP_BOY_3000_PAGE_ROUTE,
   PRIVACY_POLICY_PAGE_ROUTE,
   REGISTER_PAGE_ROUTE,
+  RESOURCES_PAGE_ROUTE,
   STATUS_PAGE_ROUTE,
   SUPPORT_PAGE_ROUTE,
   TERMS_AND_CONDITIONS_PAGE_ROUTE,

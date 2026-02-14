@@ -2,8 +2,8 @@ import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
-export const LINKS_RESOURCES_PAGE_ROUTE: PipRoute = {
-  path: 'links/resources',
+export const RESOURCES_PAGE_ROUTE: PipRoute = {
+  path: 'resources',
   pathMatch: 'full',
   canActivate: [],
   data: {
@@ -11,8 +11,7 @@ export const LINKS_RESOURCES_PAGE_ROUTE: PipRoute = {
     description:
       'Discover a curated selection of resources to enhance your experience.',
     keywords: ['Resources', ...META_DEFAULT_KEYWORDS],
-    title: 'Links - Resources',
+    title: 'Resources',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.LinksResourcesPage),
+  loadComponent: () => import('src/app/pages').then((c) => c.ResourcesPage),
 };

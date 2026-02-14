@@ -1,5 +1,6 @@
 /** Core Pages */
 export * from './privacy-policy/privacy-policy-page';
+export * from './links/resources/resources-page';
 export * from './status/status-page';
 export * from './support/support-page';
 export * from './terms-and-conditions/terms-and-conditions-page';
@@ -10,12 +11,6 @@ export * from './forum/category/category-page';
 export * from './forum/forum-page';
 export * from './forum/post/post-page';
 export * from './forum/view/view-page';
-
-/** Links */
-export * from './links/links-page';
-export * from './links/products/links-products-page';
-export * from './links/resources/links-resources-page';
-export * from './links/support/links-support-page';
 
 /** Pip-Boy 3000a Companion */
 export * from './pip-boy-3000-companion/pip-boy-3000-companion-page';

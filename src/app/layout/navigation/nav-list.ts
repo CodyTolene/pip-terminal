@@ -91,39 +91,46 @@ export class NavList {
       commands: ['3000-mk-v'],
       icon: 'pip-boy-3000-mk-v',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000 Mk V Companion',
+      label: '3000 Mk V Companion',
     },
     {
       commands: ['3000-companion'],
       icon: 'pip-boy-3000',
+      isNewFeature: true,
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000 Companion',
+      label: '3000 Companion',
     },
     {
       commands: ['2000-mk-vi'],
       icon: 'pip-boy-2000-mk-vi',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 2000 Mk VI Sim',
+      label: '2000 Mk VI Simulator',
     },
     {
       commands: ['3000'],
       icon: 'pip-boy-3000',
       isNewFeature: true,
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000 Sim',
+      label: '3000 Simulator',
     },
     {
       commands: ['3000a'],
       icon: 'pip-boy-3000',
       isNewFeature: true,
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000A Sim',
+      label: '3000A Simulator',
     },
     {
       commands: ['3000-mk-iv'],
       icon: 'pip-boy-3000-mk-iv',
       fontSet: 'material-icons-outlined',
-      label: 'Pip-Boy 3000 Mk IV Sim',
+      label: '3000 Mk IV Simulator',
+    },
+    {
+      commands: ['resources'],
+      icon: 'link',
+      fontSet: 'material-icons-outlined',
+      label: 'Resources',
     },
     {
       commands: ['status'],
@@ -237,12 +244,12 @@ interface PageLink {
   icon: IconName | IconCustomName;
   label:
     | 'Logout'
-    | 'Pip-Boy 2000 Mk VI Sim'
-    | 'Pip-Boy 3000 Companion'
-    | 'Pip-Boy 3000 Mk IV Sim'
-    | 'Pip-Boy 3000 Mk V Companion'
-    | 'Pip-Boy 3000 Sim'
-    | 'Pip-Boy 3000A Sim'
+    | '2000 Mk VI Simulator'
+    | '3000 Companion'
+    | '3000 Mk IV Simulator'
+    | '3000 Mk V Companion'
+    | '3000 Simulator'
+    | '3000A Simulator'
     | PageName;
   exact?: boolean;
   isNewFeature?: boolean;

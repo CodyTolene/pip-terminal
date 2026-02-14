@@ -5,13 +5,6 @@ const FORUM_PAGE_NAMES = [
   'Forum',
 ] as const;
 
-const LINKS_PAGE_NAMES = [
-  'Links',
-  'Links - Products',
-  'Links - Resources',
-  'Links - Support',
-] as const;
-
 const PIP_BOY_3000_COMPANION_PAGE_NAMES = [
   'Pip-Boy 3000 Companion Terminal',
 ] as const;
@@ -41,12 +34,12 @@ export const PAGE_NAMES = [
   'Page Not Found',
   'Privacy Policy',
   'Register',
+  'Resources',
   'Status',
   'Support',
   'Terms and Conditions',
   'Verify Email',
   ...FORUM_PAGE_NAMES,
-  ...LINKS_PAGE_NAMES,
   ...PIP_BOY_3000_COMPANION_PAGE_NAMES,
   ...PIP_BOY_3000_MK_V_PAGE_NAMES,
   ...PIP_BOY_SIMULATOR_PAGE_NAMES,
