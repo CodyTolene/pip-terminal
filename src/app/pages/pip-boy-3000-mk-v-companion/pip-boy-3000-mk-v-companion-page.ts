@@ -13,8 +13,8 @@ import { PipTitleComponent } from 'src/app/components/title/title';
 import { ScriptsService } from 'src/app/services/scripts.service';
 
 @Component({
-  selector: 'pip-boy-3000-mk-v-page',
-  templateUrl: './pip-boy-3000-mk-v-page.html',
+  selector: 'pip-boy-3000-mk-v-companion-page',
+  templateUrl: './pip-boy-3000-mk-v-companion-page.html',
   imports: [
     MatExpansionModule,
     PipButtonComponent,
@@ -24,7 +24,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipTitleComponent,
     RouterModule,
   ],
-  styleUrl: './pip-boy-3000-mk-v-page.scss',
+  styleUrl: './pip-boy-3000-mk-v-companion-page.scss',
   standalone: true,
 })
 export class PipBoy3000MkVPage implements OnDestroy {

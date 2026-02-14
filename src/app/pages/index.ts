@@ -13,18 +13,21 @@ export * from './forum/view/view-page';
 
 /** Links */
 export * from './links/links-page';
+export * from './links/products/links-products-page';
+export * from './links/resources/links-resources-page';
+export * from './links/support/links-support-page';
 
 /** Pip-Boy 3000a Companion */
 export * from './pip-boy-3000-companion/pip-boy-3000-companion-page';
 
 /** Pip-Boy 3000 Mk V Companion */
-export * from './pip-boy-3000-mk-v/apps/pip-boy-3000-mk-v-apps-page';
-export * from './pip-boy-3000-mk-v/cfw-builder/pip-boy-3000-mk-v-cfw-builder-page';
-export * from './pip-boy-3000-mk-v/file-management/pip-boy-3000-mk-v-file-management-page';
-export * from './pip-boy-3000-mk-v/maintenance/pip-boy-3000-mk-v-maintenance-page';
-export * from './pip-boy-3000-mk-v/pip-boy-3000-mk-v-page';
-export * from './pip-boy-3000-mk-v/radio/pip-boy-3000-mk-v-radio-page';
-export * from './pip-boy-3000-mk-v/update/pip-boy-3000-mk-v-update-page';
+export * from './pip-boy-3000-mk-v-companion/apps/pip-boy-3000-mk-v-apps-page';
+export * from './pip-boy-3000-mk-v-companion/cfw-builder/pip-boy-3000-mk-v-cfw-builder-page';
+export * from './pip-boy-3000-mk-v-companion/file-management/pip-boy-3000-mk-v-file-management-page';
+export * from './pip-boy-3000-mk-v-companion/maintenance/pip-boy-3000-mk-v-maintenance-page';
+export * from './pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page';
+export * from './pip-boy-3000-mk-v-companion/radio/pip-boy-3000-mk-v-radio-page';
+export * from './pip-boy-3000-mk-v-companion/update/pip-boy-3000-mk-v-update-page';
 
 /** Pip-Boy Simulators */
 export * from './pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-page';
