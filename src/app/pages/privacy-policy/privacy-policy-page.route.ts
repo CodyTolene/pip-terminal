@@ -1,5 +1,4 @@
 import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
-import { PageLayoutsEnum } from 'src/app/enums';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
@@ -10,7 +9,6 @@ export const PRIVACY_POLICY_PAGE_ROUTE: PipRoute = {
     author: META_AUTHOR,
     description: 'View the privacy policy of Pip-Boy.com.',
     keywords: ['Privacy Policy', ...META_DEFAULT_KEYWORDS],
-    layout: PageLayoutsEnum.NONE,
     title: 'Privacy Policy',
   },
   loadComponent: () =>

@@ -1,13 +1,10 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged, filter, map } from 'rxjs';
-import { PageLayoutsEnum } from 'src/app/enums';
 import {
-  PipBoy2000MkVILayoutComponent,
-  PipBoy3000ALayoutComponent,
-  PipBoy3000LayoutComponent,
-  PipBoy3000MkIVLayoutComponent,
+  ContentComponent,
+  HeaderComponent,
+  SidenavComponent,
 } from 'src/app/layout';
-import { DefaultLayoutComponent } from 'src/app/layout/default/default-layout.component';
 import {
   AppUpdateService,
   PageDataService,
@@ -32,13 +29,11 @@ import { GdprBannerComponent } from 'src/app/components/gdpr-banner/gdpr-banner.
   templateUrl: './pip.component.html',
   imports: [
     CommonModule,
-    DefaultLayoutComponent,
+    ContentComponent,
     GdprBannerComponent,
+    HeaderComponent,
     MatLuxonDateModule,
-    PipBoy2000MkVILayoutComponent,
-    PipBoy3000ALayoutComponent,
-    PipBoy3000LayoutComponent,
-    PipBoy3000MkIVLayoutComponent,
+    SidenavComponent,
   ],
   styleUrl: './pip.component.scss',
   providers: [PageDataService, PageMetaService, SoundService, ThemeService],
@@ -61,8 +56,13 @@ export class PipComponent implements OnInit {
     shareSingleReplay(),
   );
 
-  protected readonly pageLayoutChanges = this.pageDataChanges.pipe(
-    map((pageData) => pageData.layout),
+  protected readonly headerIsDisplayedChanges = this.pageDataChanges.pipe(
+    map(
+      (data) =>
+        data.title !== 'Pip-Boy 3000 Simulator' &&
+        data.title !== 'Pip-Boy 3000A Simulator',
+    ),
+    distinctUntilChanged(),
   );
 
   // Bind the analytics service to the component.
@@ -70,8 +70,6 @@ export class PipComponent implements OnInit {
   protected readonly analytics = environment.isProduction
     ? inject(Analytics)
     : null;
-
-  protected readonly PageLayoutsEnum = PageLayoutsEnum;
 
   public ngOnInit(): void {
     this.appUpdateService.init();
