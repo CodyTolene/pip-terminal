@@ -1,5 +1,3 @@
-import { PageLayoutsEnum } from 'src/app/enums';
-
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -16,8 +14,6 @@ import { PageUrl } from 'src/app/types/page-url';
   imports: [PipBadgeComponent, PipTitleComponent, RouterModule],
 })
 export class WelcomeCompanionsSection {
-  protected readonly PageLayoutsEnum = PageLayoutsEnum;
-
   protected readonly pipboy3000Url: PageUrl = '3000-companion';
   protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
 }

@@ -2,7 +2,6 @@ export { DxRadioFileNameEnum } from './dx-radio-files.enum';
 export { FlagReasonEnum } from './flag-reason.enum';
 export { ForumCategoryEnum } from './forum-category.enum';
 export { MxRadioFileNameEnum } from './mx-radio-files.enum';
-export { PageLayoutsEnum } from './page-layouts.enum';
 export { PipAppTypeEnum } from './pip-app-type.enum';
 export { ScreenSizeEnum } from './screen-size.enum';
 export { SoundEnum } from './sound.enum';

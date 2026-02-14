@@ -1,21 +1,9 @@
-@switch (pageLayoutChanges | async) {
-  @case (PageLayoutsEnum.NONE) {
-    <pip-default-layout />
-  }
-  @case (PageLayoutsEnum.PIP_2000_MK_VI) {
-    <pip-boy-2000-mk-vi-layout />
-  }
-  @case (PageLayoutsEnum.PIP_3000) {
-    <pip-boy-3000-layout />
-  }
-  @case (PageLayoutsEnum.PIP_3000A) {
-    <pip-boy-3000a-layout />
-  }
-  @case (PageLayoutsEnum.PIP_3000_MK_IV) {
-    <pip-boy-3000-mk-iv-layout />
-  }
-  @default {
-    Loading...
-  }
+@if (headerIsDisplayedChanges | async) {
+  <pip-header />
+  <pip-sidenav>
+    <pip-content />
+  </pip-sidenav>
+} @else {
+  <pip-content />
 }
 <pip-gdpr-banner />
