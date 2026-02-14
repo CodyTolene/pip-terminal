@@ -12,7 +12,5 @@ export const PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 3000 Mk V Maintenance',
   },
   loadComponent: () =>
-    import('src/app/pages').then(
-      (c) => c.PipBoy3000MkVMaintenancePageComponent,
-    ),
+    import('src/app/pages').then((c) => c.PipBoy3000MkVMaintenancePage),
 };

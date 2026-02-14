@@ -13,8 +13,8 @@ import { PipTitleComponent } from 'src/app/components/title/title.component';
 import { ScriptsService } from 'src/app/services/scripts.service';
 
 @Component({
-  selector: 'pip-boy-3000-mk-v-companion-page',
-  templateUrl: './pip-boy-3000-mk-v-companion-page.component.html',
+  selector: 'pip-boy-3000-mk-v-page',
+  templateUrl: './pip-boy-3000-mk-v-page.html',
   imports: [
     MatExpansionModule,
     PipButtonComponent,
@@ -24,10 +24,10 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipTitleComponent,
     RouterModule,
   ],
-  styleUrl: './pip-boy-3000-mk-v-companion-page.component.scss',
+  styleUrl: './pip-boy-3000-mk-v-page.scss',
   standalone: true,
 })
-export class PipBoy3000MkVCompanionPageComponent implements OnDestroy {
+export class PipBoy3000MkVPage implements OnDestroy {
   public constructor() {
     this.scriptsService.loadScript('pip/webtools/uart.js');
   }

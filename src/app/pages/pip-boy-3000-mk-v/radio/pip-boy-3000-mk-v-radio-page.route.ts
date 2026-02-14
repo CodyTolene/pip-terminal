@@ -15,7 +15,7 @@ export const PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE: PipRoute = {
     {
       path: '',
       loadComponent: () =>
-        import('src/app/pages').then((c) => c.PipBoy3000MkVRadioPageComponent),
+        import('src/app/pages').then((c) => c.PipBoy3000MkVRadioPage),
     },
   ],
 };

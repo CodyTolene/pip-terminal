@@ -17,7 +17,5 @@ export const PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 3000 Mk V File Management',
   },
   loadComponent: () =>
-    import('src/app/pages').then(
-      (c) => c.PipBoy3000MkVFileManagementPageComponent,
-    ),
+    import('src/app/pages').then((c) => c.PipBoy3000MkVFileManagementPage),
 };

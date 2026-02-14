@@ -3,17 +3,18 @@ import { FORUM_CATEGORY_PAGE_ROUTE } from 'src/app/pages/forum/category/category
 import { FORUM_PAGE_ROUTE } from 'src/app/pages/forum/forum-page.route';
 import { FORUM_POST_PAGE_ROUTE } from 'src/app/pages/forum/post/post-page.route';
 import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/view-page.route';
+import { LINKS_PAGE_ROUTE } from 'src/app/pages/links/links-page.route';
 import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
 import { PIP_BOY_2000_MK_VI_PAGE_ROUTE } from 'src/app/pages/pip-boy-2000-mk-vi/pip-boy-2000-mk-vi-page.route';
 import { PIP_BOY_3000_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-companion/pip-boy-3000-companion-page.route';
 import { PIP_BOY_3000_MK_IV_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-iv/pip-boy-3000-mk-iv-page.route';
-import { PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-apps/pip-boy-3000-mk-v-apps-page.route';
-import { PIP_BOY_3000_MK_V_CFW_BUILDER_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-cfw-builder/pip-boy-3000-mk-v-cfw-builder-page.route';
-import { PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.route';
-import { PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-file-management/pip-boy-3000-mk-v-file-management-page.route';
-import { PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-maintenance/pip-boy-3000-mk-v-maintenance-page.route';
-import { PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-radio/pip-boy-3000-mk-v-radio-page.route';
-import { PIP_BOY_3000_MK_V_UPDATE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-update/pip-boy-3000-mk-v-update-page.route';
+import { PIP_BOY_3000_MK_V_APPS_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/apps/pip-boy-3000-mk-v-apps-page.route';
+import { PIP_BOY_3000_MK_V_CFW_BUILDER_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/cfw-builder/pip-boy-3000-mk-v-cfw-builder-page.route';
+import { PIP_BOY_3000_MK_V_FILE_MANAGEMENT_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/file-management/pip-boy-3000-mk-v-file-management-page.route';
+import { PIP_BOY_3000_MK_V_MAINTENANCE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/maintenance/pip-boy-3000-mk-v-maintenance-page.route';
+import { PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/pip-boy-3000-mk-v-page.route';
+import { PIP_BOY_3000_MK_V_RADIO_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/radio/pip-boy-3000-mk-v-radio-page.route';
+import { PIP_BOY_3000_MK_V_UPDATE_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v/update/pip-boy-3000-mk-v-update-page.route';
 import { PIP_BOY_3000_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000/pip-boy-3000-page.route';
 import { PIP_BOY_3000A_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000a/pip-boy-3000a-page.route';
 import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-policy-page.route';
@@ -36,6 +37,7 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   FORUM_PAGE_ROUTE,
   FORUM_POST_PAGE_ROUTE,
   FORUM_VIEW_PAGE_ROUTE,
+  LINKS_PAGE_ROUTE,
   LOGIN_PAGE_ROUTE,
   PIP_BOY_2000_MK_VI_PAGE_ROUTE,
   PIP_BOY_3000A_PAGE_ROUTE,

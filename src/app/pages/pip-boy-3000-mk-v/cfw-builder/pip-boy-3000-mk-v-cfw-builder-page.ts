@@ -29,12 +29,12 @@ declare const window: WindowWithCFW;
 
 @Component({
   selector: 'pip-boy-3000-mk-v-cfw-builder-page',
-  templateUrl: './pip-boy-3000-mk-v-cfw-builder-page.component.html',
+  templateUrl: './pip-boy-3000-mk-v-cfw-builder-page.html',
   imports: [PipLogComponent, PipTitleComponent, RouterModule],
-  styleUrl: './pip-boy-3000-mk-v-cfw-builder-page.component.scss',
+  styleUrl: './pip-boy-3000-mk-v-cfw-builder-page.scss',
   standalone: true,
 })
-export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
+export class PipBoy3000MkVCfwBuilderPage implements OnInit, OnDestroy {
   public constructor() {
     this.setConsoleLogInterceptor();
 
@@ -118,8 +118,7 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
 
   private async loadScripts(): Promise<void> {
     // Check if scripts were already loaded globally
-    const scriptsAlreadyLoaded =
-      PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded;
+    const scriptsAlreadyLoaded = PipBoy3000MkVCfwBuilderPage.cfwScriptsLoaded;
 
     // Set base path and logMessage - these need to be set every time
     window.CFW_BUILDER_BASE_PATH = 'Pip-Boy-CFW-Builder/';
@@ -127,7 +126,7 @@ export class PipBoy3000MkVCfwBuilderPageComponent implements OnInit, OnDestroy {
 
     // Only load scripts once globally to prevent redeclaration errors
     if (!scriptsAlreadyLoaded) {
-      PipBoy3000MkVCfwBuilderPageComponent.cfwScriptsLoaded = true;
+      PipBoy3000MkVCfwBuilderPage.cfwScriptsLoaded = true;
 
       // Load Initial Acorn & Espruino scripts
       for (const script of coreScripts) {

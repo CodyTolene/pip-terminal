@@ -35,7 +35,7 @@ import { pipSignals } from 'src/app/signals/pip.signals';
 @UntilDestroy()
 @Component({
   selector: 'pip-boy-3000-mk-v-radio-page',
-  templateUrl: './pip-boy-3000-mk-v-radio-page.component.html',
+  templateUrl: './pip-boy-3000-mk-v-radio-page.html',
   imports: [
     CommonModule,
     MatProgressBarModule,
@@ -48,10 +48,10 @@ import { pipSignals } from 'src/app/signals/pip.signals';
     ReactiveFormsModule,
     RouterModule,
   ],
-  styleUrl: './pip-boy-3000-mk-v-radio-page.component.scss',
+  styleUrl: './pip-boy-3000-mk-v-radio-page.scss',
   standalone: true,
 })
-export class PipBoy3000MkVRadioPageComponent
+export class PipBoy3000MkVRadioPage
   extends FormDirective<RadioSetFormGroup>
   implements OnInit, OnDestroy
 {

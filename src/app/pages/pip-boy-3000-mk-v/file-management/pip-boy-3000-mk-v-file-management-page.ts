@@ -17,7 +17,7 @@ import { ScriptsService } from 'src/app/services/scripts.service';
 
 @Component({
   selector: 'pip-boy-3000-mk-v-file-management-page',
-  templateUrl: './pip-boy-3000-mk-v-file-management-page.component.html',
+  templateUrl: './pip-boy-3000-mk-v-file-management-page.html',
   imports: [
     PipActionsMiscComponent,
     PipActionsPrimaryComponent,
@@ -28,10 +28,10 @@ import { ScriptsService } from 'src/app/services/scripts.service';
     PipTitleComponent,
     RouterModule,
   ],
-  styleUrl: './pip-boy-3000-mk-v-file-management-page.component.scss',
+  styleUrl: './pip-boy-3000-mk-v-file-management-page.scss',
   standalone: true,
 })
-export class PipBoy3000MkVFileManagementPageComponent implements OnDestroy {
+export class PipBoy3000MkVFileManagementPage implements OnDestroy {
   public constructor() {
     this.scriptsService.loadScript('pip/webtools/uart.js');
 

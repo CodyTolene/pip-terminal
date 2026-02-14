@@ -5,12 +5,12 @@ import { PipConnectionService } from 'src/app/services/pip-boy-3000-mk-v-compani
 
 @Component({
   selector: 'pip-boy-3000-mk-v-apps-page',
-  templateUrl: './pip-boy-3000-mk-v-apps-page.component.html',
+  templateUrl: './pip-boy-3000-mk-v-apps-page.html',
   imports: [],
-  styleUrl: './pip-boy-3000-mk-v-apps-page.component.scss',
+  styleUrl: './pip-boy-3000-mk-v-apps-page.scss',
   standalone: true,
 })
-export class PipBoy3000MkVAppsPageComponent implements OnInit {
+export class PipBoy3000MkVAppsPage implements OnInit {
   public constructor() {
     // Allow the official Pip-Boy Mod Tool to be loaded in an iframe.
     this.safeUrl =
