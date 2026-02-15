@@ -12,5 +12,5 @@ export const PIP_BOY_3000_COMPANION_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 3000 Companion Terminal',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy3000CompanionPageComponent),
+    import('src/app/pages').then((c) => c.PipBoy3000CompanionPage),
 };

@@ -1,0 +1,70 @@
+<form [formGroup]="formGroup" (ngSubmit)="register()">
+  <pro-input
+    [formControl]="formGroup.controls.displayName"
+    autocomplete="name"
+    appearance="fill"
+    label="Display Name"
+    placeholder="Enter your Display Name"
+    type="text"
+  ></pro-input>
+  @if ( !formGroup.controls.displayName.hasError('required') &&
+  formGroup.controls.displayName.hasError('pattern') && formGroup.touched ) {
+  <div class="custom-input-form-error">
+    <p>Only A-Z, 1-9, ".", "_", or "-" allowed.</p>
+  </div>
+  }
+  <pro-input
+    [formControl]="formGroup.controls.email"
+    appearance="fill"
+    autocomplete="email"
+    label="Email"
+    placeholder="Enter your Email Address"
+    type="email"
+  ></pro-input>
+  <pro-input
+    [formControl]="formGroup.controls.password"
+    autocomplete="new-password"
+    appearance="fill"
+    label="Password"
+    placeholder="Enter a Password"
+    type="password"
+  ></pro-input>
+  <pro-input
+    [formControl]="formGroup.controls.passwordConfirm"
+    autocomplete="new-password"
+    appearance="fill"
+    label="Confirm Password"
+    placeholder="Re-enter your Password"
+    type="password"
+  ></pro-input>
+  @if ( !formGroup.controls.passwordConfirm.hasError('required') &&
+  formGroup.hasError('passwordMismatch') && formGroup.touched ) {
+  <div class="custom-form-error">
+    <p>Passwords do not match.</p>
+  </div>
+  }
+  <p>Terms and Conditions</p>
+  <a
+    [href]="termsAndConditionsUrl"
+    class="terms-link"
+    target="_blank"
+    rel="noopener noreferrer"
+    >Click here to view</a
+  >
+  <pro-input-checkbox
+    [formControl]="formGroup.controls.terms"
+    label="I agree to the Terms and Conditions listed above."
+  ></pro-input-checkbox>
+  <pip-button
+    [disabled]="formGroup.invalid || formGroup.disabled || isRegistering()"
+    type="submit"
+    styling="filled"
+    >Register</pip-button
+  >
+</form>
+
+@if (registerErrorMessage()) {
+<div class="form-error" role="alert">
+  <p>{{ registerErrorMessage() }}</p>
+</div>
+}

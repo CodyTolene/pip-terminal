@@ -1,0 +1,114 @@
+<main>
+  <section class="intro">
+    <pip-title h2>Radio</pip-title>
+    <a [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Companion Terminal']"
+      >&lt; BACK TO PIP-BOY 3000 MK V</a
+    >
+    <p>
+      This page allows you to upload custom WAV files to your Pip-Boy's radio
+      system. Override the default radio tracks with your own selections, giving
+      you full control over the soundtrack that plays during your wasteland
+      adventures!
+    </p>
+    <img
+      class="fan-art"
+      src="images/fan-art/music_sm.png"
+      alt="Fan Art"
+      title="Fan Art"
+    />
+    <p>
+      You can download the
+      <a
+        href="https://github.com/CodyTolene/pip-boy-3000-mk-v-media-converter/releases"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Pip-Boy 3000 Mk V - Media Conversion Tool</a
+      >
+      to convert your audio files into the correct WAV format for upload.
+    </p>
+  </section>
+
+  <section>
+    <pip-actions-primary />
+  </section>
+
+  <section>
+    <pip-actions-misc hideDeleteAllAppsButton />
+  </section>
+
+  <section class="radio-host">
+    <pip-title h3>Radio Host/Voice Files</pip-title>
+    <p>Upload WAV Files (DX01 - DX03)</p>
+    @for (name of dxFileNames; track name; let i = $index) {
+    <div class="upload-container">
+      <pip-button
+        (click)="playRadioFile(name)"
+        [disabled]="disabledChanges | async"
+      >
+        Play current {{ name }}
+      </pip-button>
+      <pip-file-upload
+        [accept]="['.wav']"
+        [formControl]="formGroup.controls.dxFiles.controls[i]"
+        [label]="'Select WAV File for ' + name"
+      />
+      <pip-button
+        (click)="uploadFile(name)"
+        [disabled]="
+            !formGroup.controls.dxFiles.controls[i].value?.length ||
+            (disabledChanges | async)
+          "
+      >
+        Upload {{ name }}
+      </pip-button>
+      @if (uploadProgress[name] > 0) {
+      <div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="uploadProgress[name]"
+        ></mat-progress-bar>
+      </div>
+      }
+    </div>
+    }
+  </section>
+
+  <section class="radio-music">
+    <pip-title h3>Radio Music Files</pip-title>
+    <p>Upload WAV Files (MX01 - MX16)</p>
+    @for (name of mxFileNames; track name; let i = $index) {
+    <div class="upload-container">
+      <pip-button
+        (click)="playRadioFile(name)"
+        [disabled]="disabledChanges | async"
+      >
+        Play current {{ name }}
+      </pip-button>
+      <pip-file-upload
+        [accept]="['.wav']"
+        [formControl]="formGroup.controls.mxFiles.controls[i]"
+        [label]="'Select WAV File for ' + name"
+      />
+      <pip-button
+        (click)="uploadFile(name)"
+        [disabled]="
+            !formGroup.controls.mxFiles.controls[i].value?.length ||
+            (disabledChanges | async)
+          "
+      >
+        Upload {{ name }}
+      </pip-button>
+      @if (uploadProgress[name] > 0) {
+      <div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="uploadProgress[name]"
+        ></mat-progress-bar>
+      </div>
+      }
+    </div>
+    }
+  </section>
+</main>
+
+<pip-log />

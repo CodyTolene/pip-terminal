@@ -1,4 +1,4 @@
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
+import { PipButtonComponent } from 'src/app/components/button/pip-button';
 
 describe('PipButtonComponent', () => {
   it('renders projected content', () => {

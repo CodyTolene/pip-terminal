@@ -14,6 +14,5 @@ export const FORUM_POST_PAGE_ROUTE: PipRoute = {
     keywords: ['Forum', 'New', 'Post', ...META_DEFAULT_KEYWORDS],
     title: 'Forum - New Post',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.ForumPostPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.ForumPostPage),
 };

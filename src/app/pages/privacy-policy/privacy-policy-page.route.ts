@@ -11,6 +11,5 @@ export const PRIVACY_POLICY_PAGE_ROUTE: PipRoute = {
     keywords: ['Privacy Policy', ...META_DEFAULT_KEYWORDS],
     title: 'Privacy Policy',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.PrivacyPolicyPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.PrivacyPolicyPage),
 };

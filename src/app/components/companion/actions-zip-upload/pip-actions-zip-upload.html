@@ -1,0 +1,27 @@
+<pip-title h3>Zip Upload</pip-title>
+
+<p>
+  Upload a Zip file to be extracted to the root of the SD card on the Pip-Boy.
+</p>
+
+<pip-file-upload
+  [accept]="['.zip']"
+  [formControl]="formControl"
+  label="Select Zip File"
+/>
+
+<pip-button
+  (click)="uploadZipToDevice()"
+  [disabled]="!formControl.value?.length || (disabledChanges | async)"
+>
+  Start Upload
+</pip-button>
+
+@if (signals.updateProgress() > 0) {
+<div>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="signals.updateProgress()"
+  ></mat-progress-bar>
+</div>
+}

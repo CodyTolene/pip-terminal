@@ -1,0 +1,34 @@
+<main>
+  <header>
+    <pip-title h1>Resources</pip-title>
+    <p>
+      Official docs, upgrade tools, community hubs, and developer references for
+      all Pip-Boy models.
+    </p>
+  </header>
+
+  @for (group of resourceGroups; track group.title) {
+  <section [attr.aria-label]="group.title">
+    <header>
+      <h2>{{ group.title }}</h2>
+    </header>
+    <ul>
+      @for (resource of group.links; track resource.link.href) {
+      <li>
+        <a
+          [href]="resource.link.href"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>{{ resource.name }}</span>
+          <small>{{ resource.link.label }}</small>
+          <p>{{ resource.description }}</p>
+        </a>
+      </li>
+      }
+    </ul>
+  </section>
+  }
+</main>
+
+<pip-footer />

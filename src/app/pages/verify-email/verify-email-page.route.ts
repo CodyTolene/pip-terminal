@@ -13,6 +13,5 @@ export const VERIFY_EMAIL_PAGE_ROUTE: PipRoute = {
     keywords: ['Verify Email', ...META_DEFAULT_KEYWORDS],
     title: 'Verify Email',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.VerifyEmailPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.VerifyEmailPage),
 };

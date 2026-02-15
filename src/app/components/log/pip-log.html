@@ -1,0 +1,43 @@
+<aside>
+  <div class="header">
+    <h3>Log</h3>
+    <div class="button-container">
+      @if ((screenSizeChanges | async) !== 'desktop') {
+      <pip-button
+        type="button"
+        (click)="toggleCollapsed()"
+        [attr.aria-pressed]="isCollapsed().toString()"
+      >
+        {{ isCollapsed() ? 'Expand' : 'Collapse' }}
+      </pip-button>
+      }
+      <pip-button
+        type="button"
+        (click)="clearLog()"
+        [disabled]="!signals.logMessages().length || isCollapsed()"
+      >
+        Clear
+      </pip-button>
+    </div>
+  </div>
+
+  @if (!isCollapsed()) {
+  <div #scroller>
+    @for (entry of signals.logMessages(); track entry) {
+    <div>
+      <b>λ</b>&nbsp;&nbsp;{{ entry.message }}{{ entry.url ? '&#58;' : '' }} @if
+      (entry.url) {
+      <a [href]="entry.url" target="_blank" rel="noopener noreferrer"
+        >{{ entry.url }}</a
+      >
+      }
+    </div>
+    } @if (signals.logMessages().length === 0) {
+    <div>λ Log empty.</div>
+    }
+    <div #bottom aria-hidden="true" style="height: 1px"></div>
+  </div>
+  } @else {
+  <div class="collapsed-hint">Log is collapsed.</div>
+  }
+</aside>

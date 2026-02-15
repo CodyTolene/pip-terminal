@@ -5,8 +5,8 @@ import { WelcomeSupportSection } from 'src/app/pages/welcome/sections/community/
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipPanelComponent } from 'src/app/components/panel/panel.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipPanelComponent } from 'src/app/components/panel/panel';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

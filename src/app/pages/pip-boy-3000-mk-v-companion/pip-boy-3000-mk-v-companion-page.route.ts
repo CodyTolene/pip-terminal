@@ -11,6 +11,5 @@ export const PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE: PipRoute = {
     keywords: ['Pip-Boy 3000 Mk V', ...META_DEFAULT_KEYWORDS],
     title: 'Pip-Boy 3000 Mk V Companion Terminal',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy3000MkVCompanionPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.PipBoy3000MkVPage),
 };

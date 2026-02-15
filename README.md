@@ -418,8 +418,8 @@ ask in a discussion or open an issue.
     │  │  ├─ styles/               # Component-level or global SCSS partials.
     │  │  ├─ types/                # Shared TypeScript type definitions for the UI.
     │  │  ├─ utilities/            # Helper and utility functions for the Angular app.
-    │  │  ├─ pip.component.html    # Root UI template for the app.
-    │  │  ├─ pip.component.scss    # Styles scoped to the root component.
+    │  │  ├─ pip.html              # Root UI template for the app.
+    │  │  ├─ pip.scss              # Styles scoped to the root component.
     │  │  ├─ pip.component.ts      # Root component logic bootstrapped by Angular.
     │  │  └─ pip.config.ts         # Application-wide configuration settings.
     │  ├─ environments/            # Environment-specific Angular config files (dev/prod).

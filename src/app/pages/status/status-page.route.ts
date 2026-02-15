@@ -11,6 +11,5 @@ export const STATUS_PAGE_ROUTE: PipRoute = {
     keywords: ['Status', ...META_DEFAULT_KEYWORDS],
     title: 'Status',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.StatusPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.StatusPage),
 };
