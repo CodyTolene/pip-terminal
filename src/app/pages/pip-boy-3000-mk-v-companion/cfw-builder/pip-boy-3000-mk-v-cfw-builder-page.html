@@ -45,6 +45,17 @@
 
     <div class="step">
       <h3>Step 2: Select Patches to Apply</h3>
+      <div
+        id="size-counter"
+        style="
+          text-align: right;
+          margin-bottom: 5px;
+          font-size: 0.9em;
+          opacity: 0.8;
+        "
+      >
+        Est. Size: -- / 128 KB
+      </div>
       <div id="patch-list" class="patch-list">
         <p class="loading">LOADING PATCHES<span class="blink">█</span></p>
       </div>
@@ -66,17 +77,17 @@
       </p>
       <div style="display: flex; gap: 10px">
         <button id="write-flash-button" class="pip-button primary" disabled>
-          █ WRITE TO FLASH █
+          WRITE TO FLASH
         </button>
       </div>
       <div style="display: flex; gap: 10px">
-        <button id="install-from-sd-button" class="pip-button primary" disabled>
-          █ WRITE FROM SD CARD TO FLASH █
+        <button id="install-from-sd-button" class="pip-button primary">
+          WRITE FROM SD CARD TO FLASH
         </button>
       </div>
       <div style="display: flex; gap: 10px">
         <button id="write-sd-button" class="pip-button primary" disabled>
-          █ WRITE TO SD CARD █
+          WRITE TO SD CARD
         </button>
       </div>
     </div>
