@@ -9,7 +9,7 @@ export const RESOURCES_PAGE_ROUTE: PipRoute = {
   data: {
     author: META_AUTHOR,
     description:
-      'Discover a curated selection of resources to enhance your experience.',
+      'Official docs, upgrade tools, community hubs, and developer references for all Pip-Boy models.',
     keywords: ['Resources', ...META_DEFAULT_KEYWORDS],
     title: 'Resources',
   },
