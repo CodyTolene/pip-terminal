@@ -13,6 +13,5 @@ export const LOGIN_PAGE_ROUTE: PipRoute = {
     keywords: ['Login', ...META_DEFAULT_KEYWORDS],
     title: 'Login',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.LoginPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.LoginPage),
 };

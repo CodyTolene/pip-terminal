@@ -14,6 +14,5 @@ export const FORUM_VIEW_PAGE_ROUTE: PipRoute = {
     keywords: ['Forum', 'View', 'Post', ...META_DEFAULT_KEYWORDS],
     title: 'Forum - View Post',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.ForumViewPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.ForumViewPage),
 };

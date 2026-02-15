@@ -20,6 +20,8 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Forum - Category': 'forum/category/:id',
   'Forum - New Post': 'forum/post',
   'Forum - View Post': 'forum/post/:id',
+  /** Links Routes */
+  Resources: 'resources',
   /** Simulator Routes */
   'Pip-Boy 2000 Mk VI Simulator': '2000-mk-vi',
   'Pip-Boy 3000 Mk IV Simulator': '3000-mk-iv',

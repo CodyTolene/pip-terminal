@@ -1,0 +1,123 @@
+@use '../../../styles/animations/border-animation' as ani;
+@use '../../../styles/breakpoints' as bps;
+@use '../../../styles/colors' as col;
+@use '../../../styles/scrollbar' as sb;
+
+:host {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    flex-direction: column;
+  }
+
+  main,
+  pip-log {
+    flex: 1 1 50%;
+  }
+
+  // Apply to tablets and smaller.
+  @include bps.media('max', 'lg') {
+    > main {
+      flex: 1 1 70%;
+    }
+  }
+
+  main {
+    @include sb.scrollbar;
+    align-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 1rem;
+
+    > section {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      flex: 0 1 calc(50% - 0.75rem);
+
+      img.fan-art {
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .upload-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 0 1 calc(50% - 0.5rem);
+        margin-bottom: 1rem;
+
+        pip-button {
+          width: 100%;
+        }
+
+        // Apply to tablets and smaller.
+        @include bps.media('max', 'lg') {
+          flex: 0 1 100%;
+        }
+      }
+
+      // Apply to tablets and smaller.
+      @include bps.media('max', 'lg') {
+        flex: 0 1 100%;
+      }
+    }
+  }
+}
+
+section.intro {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  gap: 0;
+
+  > a {
+    display: block;
+    margin-bottom: 1rem;
+  }
+}
+
+pip-title {
+  margin: 0;
+  padding: 0 0 1rem 0;
+  text-align: start;
+  width: 100%;
+}
+
+section.radio-host,
+section.radio-music {
+  border: 2px dashed transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+
+  &:hover {
+    @include ani.borderAnimation;
+  }
+}
+
+pip-actions-quick-nav {
+  width: 100%;
+}
+
+h3,
+p {
+  margin: 0;
+  width: 100%;
+}
+
+h2 {
+  border-bottom: 2px dashed col.$pip-green-dark;
+  height: 33px;
+  margin: 0;
+  padding: 0 0 1rem 0;
+  width: 100%;
+}

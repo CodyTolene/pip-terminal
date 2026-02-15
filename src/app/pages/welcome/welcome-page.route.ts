@@ -12,6 +12,5 @@ export const WELCOME_PAGE_ROUTE: PipRoute = {
     keywords: ['Home', ...META_DEFAULT_KEYWORDS],
     title: 'Home',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.WelcomePageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.WelcomePage),
 };

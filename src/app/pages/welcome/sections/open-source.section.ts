@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipButtonComponent } from 'src/app/components/button/pip-button';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

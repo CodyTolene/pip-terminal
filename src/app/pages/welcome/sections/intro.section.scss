@@ -25,9 +25,34 @@ p {
   gap: 1rem;
   justify-content: center;
   margin-bottom: 0;
+  max-width: 800px;
+  width: 100%;
+
+  pip-button {
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+  }
+
+  .row-break {
+    flex-basis: 100%;
+    height: 0;
+  }
 
   pip-button.offline-install {
     flex-basis: auto;
     width: max-content;
+  }
+}
+
+@media (max-width: 800px) {
+  .actions {
+    .row-break {
+      display: none;
+    }
+
+    pip-button {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
   }
 }

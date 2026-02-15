@@ -14,6 +14,5 @@ export const FORUM_CATEGORY_PAGE_ROUTE: PipRoute = {
     keywords: ['Forum', 'Category', 'List', ...META_DEFAULT_KEYWORDS],
     title: 'Forum - Category',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.ForumCategoryPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.ForumCategoryPage),
 };

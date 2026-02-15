@@ -14,5 +14,5 @@ export const FORGOT_PASSWORD_PAGE_ROUTE: PipRoute = {
     title: 'Forgot Password',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.ForgotPasswordPageComponent),
+    import('src/app/pages').then((c) => c.ForgotPasswordPage),
 };

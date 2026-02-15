@@ -14,6 +14,5 @@ export const VAULT_PAGE_ROUTE: PipRoute = {
     keywords: ['Vault', 'User', 'Account', ...META_DEFAULT_KEYWORDS],
     title: 'My Vault',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.VaultPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.VaultPage),
 };

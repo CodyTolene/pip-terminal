@@ -18,6 +18,10 @@
   >
     Join the Wasteland Discord!
   </pip-button>
+  <span class="row-break" aria-hidden="true"></span>
+  <pip-button aria-label="Visit Pip-Boy Resources" [routerLink]="resourcesLink">
+    Pip-Boy Resources
+  </pip-button>
   <pip-button
     [disabled]="!pwaInstall.canInstall()"
     aria-label="Install Pip Terminal"

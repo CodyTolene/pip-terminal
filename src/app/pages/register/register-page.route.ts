@@ -13,6 +13,5 @@ export const REGISTER_PAGE_ROUTE: PipRoute = {
     keywords: ['Register', ...META_DEFAULT_KEYWORDS],
     title: 'Register',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.RegisterPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.RegisterPage),
 };

@@ -1,0 +1,46 @@
+import { PipFooterComponent } from 'src/app/layout/footer/footer';
+import { PAGES } from 'src/app/routing';
+
+import { Component, OnDestroy, inject } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
+
+import { PipButtonComponent } from 'src/app/components/button/pip-button';
+import { PipDivider } from 'src/app/components/divider/divider';
+import { PipNotice } from 'src/app/components/notice/notice';
+import { PipTitleComponent } from 'src/app/components/title/title';
+
+import { ScriptsService } from 'src/app/services/scripts.service';
+
+@Component({
+  selector: 'pip-boy-3000-mk-v-companion-page',
+  templateUrl: './pip-boy-3000-mk-v-companion-page.html',
+  imports: [
+    MatExpansionModule,
+    PipButtonComponent,
+    PipDivider,
+    PipFooterComponent,
+    PipNotice,
+    PipTitleComponent,
+    RouterModule,
+  ],
+  styleUrl: './pip-boy-3000-mk-v-companion-page.scss',
+  standalone: true,
+})
+export class PipBoy3000MkVPage implements OnDestroy {
+  public constructor() {
+    this.scriptsService.loadScript('pip/webtools/uart.js');
+  }
+
+  private scriptsService = inject(ScriptsService);
+
+  protected readonly PAGES = PAGES;
+
+  public ngOnDestroy(): void {
+    this.scriptsService.unloadAll();
+  }
+
+  protected openAppsRepo(): void {
+    window.open('https://github.com/CodyTolene/pip-boy-apps', '_blank');
+  }
+}

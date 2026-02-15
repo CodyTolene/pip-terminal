@@ -12,5 +12,5 @@ export const PIP_BOY_2000_MK_VI_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 2000 Mk VI Simulator',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy2000MkVIPageComponent),
+    import('src/app/pages').then((c) => c.PipBoy2000MkVIPage),
 };

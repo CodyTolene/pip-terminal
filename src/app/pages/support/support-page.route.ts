@@ -11,6 +11,5 @@ export const SUPPORT_PAGE_ROUTE: PipRoute = {
     keywords: ['Support', ...META_DEFAULT_KEYWORDS],
     title: 'Support',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.SupportPageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.SupportPage),
 };

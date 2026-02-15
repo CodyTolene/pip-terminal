@@ -35,6 +35,7 @@ export const PAGE_URLS = (
     'login',
     'privacy-policy',
     'register',
+    'resources',
     'status',
     'support',
     'terms-and-conditions',

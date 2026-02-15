@@ -12,5 +12,5 @@ export const PIP_BOY_3000_MK_IV_PAGE_ROUTE: PipRoute = {
     title: 'Pip-Boy 3000 Mk IV Simulator',
   },
   loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy3000MkIVPageComponent),
+    import('src/app/pages').then((c) => c.PipBoy3000MkIVPage),
 };

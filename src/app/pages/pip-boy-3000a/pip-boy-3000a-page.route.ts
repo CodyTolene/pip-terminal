@@ -10,6 +10,5 @@ export const PIP_BOY_3000A_PAGE_ROUTE: PipRoute = {
     keywords: ['Pip-Boy 3000A', ...META_DEFAULT_KEYWORDS],
     title: 'Pip-Boy 3000A Simulator',
   },
-  loadComponent: () =>
-    import('src/app/pages').then((c) => c.PipBoy3000APageComponent),
+  loadComponent: () => import('src/app/pages').then((c) => c.PipBoy3000APage),
 };

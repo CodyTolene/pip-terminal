@@ -3,8 +3,8 @@ import { AppInstallService } from 'src/app/services';
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PipButtonComponent } from 'src/app/components/button/pip-button.component';
-import { PipTitleComponent } from 'src/app/components/title/title.component';
+import { PipButtonComponent } from 'src/app/components/button/pip-button';
+import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { PageUrl } from 'src/app/types/page-url';
 
@@ -19,6 +19,7 @@ export class WelcomeIntroSection {
   protected readonly pwaInstall = inject(AppInstallService);
 
   protected readonly forumLink = forumLink;
+  protected readonly resourcesLink = resourcesLink;
 
   protected installApp(): void {
     if (!this.pwaInstall.canInstall()) {
@@ -34,3 +35,4 @@ export class WelcomeIntroSection {
 }
 
 const forumLink = '/' + ('forum' satisfies PageUrl);
+const resourcesLink = '/' + ('resources' satisfies PageUrl);

@@ -1,0 +1,35 @@
+<header>
+  <div class="logo-container">
+    <div class="branding">
+      <img
+        src="images/favicon/android-chrome-192x192.png"
+        alt="Logo"
+        class="logo"
+      />
+      <a [routerLink]="homeUrl" class="site-title">Pip-Boy.com</a>
+    </div>
+    <div class="menu-container">
+      @if (userChanges | async; as user) {
+      <a [routerLink]="userVaultUrl | async" title="User Vault"
+        >{{ user.displayName || user.email || 'User' }}</a
+      >
+      }
+      <button
+        (click)="toggleNavbar()"
+        [attr.aria-expanded]="isNavbarOpenSignal()"
+        [class.user-logged-in]="userChanges | async"
+        aria-controls="primary-nav"
+        id="menu-toggle"
+        type="button"
+      >
+        <span class="orn">&#10095;</span>
+        <span class="label-with-cursor" [ngClass]="caretClass()">
+          <span class="label-text" aria-live="polite">
+            {{ animatedLabelSignal() }}
+          </span>
+          <span class="cursor" aria-hidden="true"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
