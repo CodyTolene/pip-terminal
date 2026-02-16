@@ -86,10 +86,6 @@
         overflow: hidden;
         position: relative;
         text-align: left;
-        transition:
-          border-color 0.2s ease,
-          box-shadow 0.2s ease,
-          transform 0.2s ease;
 
         &::before {
           content: '';
@@ -149,7 +145,7 @@
 
         &:hover {
           border-color: col.$pip-green-light;
-          box-shadow: 0 0 10px col.$pip-green;
+          box-shadow: 0 0 8px col.$pip-green;
           transform: scale(1.01);
         }
 
