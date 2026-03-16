@@ -111,8 +111,8 @@ export class ForumCommentsService {
 
       const snap = await getDocs(qRef);
 
-      let hasMoreNext = false;
-      let hasMorePrev = false;
+      let hasMoreNext: boolean;
+      let hasMorePrev: boolean;
       let keptDocs: ReadonlyArray<QueryDocumentSnapshot<DocumentData>>;
 
       if (firstDoc) {

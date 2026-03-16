@@ -105,11 +105,13 @@ export class PipGetDataService {
     try {
       const parsedResult = JSON.parse(result);
       return {
-        totalMb: Number(parsedResult.totalMb),
         freeMb: Number(parsedResult.freeMb),
+        totalMb: Number(parsedResult.totalMb),
       };
     } catch (error) {
-      throw new Error(`Invalid SD card response: ${error}`);
+      throw new Error(`Invalid SD card response: ${result}`, {
+        cause: error,
+      });
     }
   }
 }

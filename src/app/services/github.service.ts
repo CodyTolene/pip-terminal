@@ -18,12 +18,21 @@ export class GithubService {
    * Returns SafeHtml or null.
    */
   public async getReadme(inputUrl: string): Promise<SafeHtml | null> {
-    let normalized: GithubUrlData | null = null;
+    let normalized: GithubUrlData | null;
 
     try {
       normalized = this.normalizeGithubUrl(inputUrl);
     } catch {
       return null; // reject non-GitHub or invalid URLs
+    }
+
+    if (
+      !normalized ||
+      !normalized.rawUrl ||
+      !normalized.rawDir ||
+      !normalized.blobBase
+    ) {
+      return null;
     }
 
     try {

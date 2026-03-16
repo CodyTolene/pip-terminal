@@ -1,5 +1,5 @@
 /** Prettier configuration and options. */
-var prettierConfig = {
+const prettierConfig = {
   $schema: 'https://json.schemastore.org/prettierrc',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   importOrderParserPlugins: ['typescript', 'decorators-legacy'],
@@ -18,9 +18,7 @@ var prettierConfig = {
   tabWidth: 2,
   trailingComma: 'all',
   useTabs: false,
-  // Order of import declarations
   importOrder: [
-    // Angular first.
     '^@angular/(.*)$',
     '^@angular/animations/(.*)$',
     '^@angular/cdk/(.*)$',
@@ -34,7 +32,6 @@ var prettierConfig = {
     '^@angular/platform-browser-dynamic/(.*)$',
     '^@angular/router/(.*)$',
     '^@angular/service-worker/(.*)$',
-    // Local application files second.
     '^src/app/components/(.*)$',
     '^src/app/constants/(.*)$',
     '^src/app/decorators/(.*)$',
@@ -47,11 +44,10 @@ var prettierConfig = {
     '^src/app/styles/(.*)$',
     '^src/app/types/(.*)$',
     '^src/app/utilities/(.*)$',
-    // Third-party libraries third.
     '^[./]',
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
 };
 
-module.exports = prettierConfig;
+export default prettierConfig;
