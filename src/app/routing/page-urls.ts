@@ -51,3 +51,38 @@ export const PAGE_URLS = (
     }
     return route;
   });
+
+// Public URLs that should appear in the public sitemap.
+export const PUBLIC_SITEMAP_URLS: ReadonlyArray<(typeof PAGE_URLS)[number]> = [
+  '', // Home
+  '2000-mk-vi',
+  '3000',
+  '3000-companion',
+  '3000-mk-iv',
+  '3000-mk-v',
+  '3000-mk-v/apps',
+  '3000-mk-v/cfw-builder',
+  '3000-mk-v/file-management',
+  '3000-mk-v/maintenance',
+  '3000-mk-v/radio',
+  '3000-mk-v/update',
+  '3000a',
+  'forgot-password',
+  'forum',
+  `forum/category/${id}`,
+  'forum/post',
+  `forum/post/${id}`,
+  'login',
+  'privacy-policy',
+  'register',
+  'resources',
+  'status',
+  'support',
+  'terms-and-conditions',
+];
+
+// Internal only URLs that should not appear in the public sitemap.
+export const PRIVATE_SITEMAP_URLS: ReadonlyArray<(typeof PAGE_URLS)[number]> = [
+  `vault/${id}`,
+  'verify-email',
+];
