@@ -153,8 +153,8 @@ export class ForumPostsService {
       const snap = await getDocs(qRef);
 
       let keptDocs: ReadonlyArray<QueryDocumentSnapshot<DocumentData>>;
-      let hasMoreNext = false;
-      let hasMorePrev = false;
+      let hasMoreNext: boolean;
+      let hasMorePrev: boolean;
 
       if (firstDoc) {
         hasMorePrev = snap.size > pageSize;

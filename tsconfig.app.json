@@ -10,6 +10,8 @@
     "src/main.ts"
   ],
   "include": [
+    "eslint.config.js",
+    "prettier.config.js",
     "src/**/*.d.ts"
   ]
 }

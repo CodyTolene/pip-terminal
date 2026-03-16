@@ -28,3 +28,4 @@ public/
 
 # Re-ignore sub-directories from the above exempt directories:
 .github/CODEOWNERS
+.github/images
