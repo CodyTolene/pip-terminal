@@ -1,3 +1,25 @@
+# Pip-Terminal - robots.txt
+# https://pip-boy.com
+
+# Allow all crawlers
 User-agent: *
 Allow: /
+
+# Disallow internal/private pages
+Disallow: /verify-email
+
+# Google-specific optimizations
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing-specific settings
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Sitemap location
 Sitemap: https://pip-boy.com/sitemap.xml
+
+# Host directive (optional for some crawlers)
+Host: https://pip-boy.com
