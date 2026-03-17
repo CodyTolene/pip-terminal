@@ -1,0 +1,19 @@
+<pip-title h3>Discord Server Boosters</pip-title>
+
+<p>
+  A special shoutout to our amazing Discord Server Boosters! Your support helps
+  us enhance the community experience!
+</p>
+
+<div class="pip-grid" aria-label="Support">
+  @for (userCard of vaultTecUserCards; track userCard.name) {
+  <pip-vault-tec-user-card type="booster" [userCard]="userCard" />
+  }
+</div>
+
+<pip-button
+  aria-label="Visit the Community Discord"
+  (click)="openDiscordPage()"
+>
+  Join our Discord!
+</pip-button>
