@@ -62,13 +62,13 @@ describe('Welcome page', () => {
     cy.go('back');
   });
 
-  it('has expected donation, developer, and support sections', () => {
+  it('has expected donation, developer, support, and booster sections', () => {
     // Donations
     cy.get('section[welcome-donators]').within(() => {
-      cy.contains('h3', 'Donations').scrollIntoView().should('be.visible');
+      cy.contains('h3', 'Donations').should('exist');
       cy.get('div[aria-label="Donations"]').within(() => {
-        cy.get('div.pip-grid-item').should('have.length.at.least', 5);
-        cy.get('img.community').each(($img) => {
+        cy.get('pip-vault-tec-user-card').should('have.length.at.least', 7);
+        cy.get('img.first-image').each(($img) => {
           cy.wrap($img).should('have.attr', 'alt').and('not.be.empty');
         });
       });
@@ -76,24 +76,32 @@ describe('Welcome page', () => {
 
     // Developers
     cy.get('section[welcome-developers]').within(() => {
-      cy.contains('h3', 'Vault-Tec Engineers')
-        .scrollIntoView()
-        .should('be.visible');
-      cy.get('div[aria-label="Developers"]').within(() => {
-        cy.get('div.pip-grid-item').should('have.length.at.least', 11);
-        cy.contains('h4', 'gfwilliams').scrollIntoView().should('be.visible');
+      cy.contains('h3', 'Vault-Tec Engineers').should('exist');
+      cy.get('div[aria-label="Support"]').within(() => {
+        cy.get('pip-vault-tec-user-card').should('have.length.at.least', 11);
+        cy.contains('h4', 'Gordon Williams')
+          .scrollIntoView()
+          .should('be.visible');
       });
     });
 
     // Support
     cy.get('section[welcome-support]').within(() => {
-      cy.contains('h3', 'Vault-Tec Support')
-        .scrollIntoView()
-        .should('be.visible');
+      cy.contains('h3', 'Vault-Tec Support').should('exist');
       cy.get('div[aria-label="Support"]').within(() => {
-        cy.get('div.pip-grid-item').should('have.length', 3);
+        cy.get('pip-vault-tec-user-card').should('have.length', 6);
         cy.contains('h4', 'Matchwood').scrollIntoView().should('be.visible');
       });
+    });
+
+    // Discord Server Boosters
+    cy.get('section[welcome-boosters]').within(() => {
+      cy.contains('h3', 'Discord Server Boosters').should('exist');
+      cy.get('div[aria-label="Support"]').within(() => {
+        cy.get('pip-vault-tec-user-card').should('have.length.at.least', 5);
+        cy.contains('.date', /Boost\s+#\d+:/).should('exist');
+      });
+      cy.contains('pip-button', 'Join our Discord!').should('be.visible');
     });
 
     // Footer element present
