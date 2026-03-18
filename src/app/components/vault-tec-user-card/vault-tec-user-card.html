@@ -1,0 +1,85 @@
+<div [ngClass]="['user-card-item', class]">
+  @if(type() === 'donator') { @let images = userCard().images ?? []; @let
+  imageFirst = images[0]; @let imageSecond = images[1]; @if (images.length > 1)
+  {
+  <div class="double-img-container">
+    <ng-container
+      *ngTemplateOutlet="imageFirstTemplate; context: { image: imageFirst }"
+    ></ng-container>
+    <ng-container
+      *ngTemplateOutlet="imageSecondTemplate; context: { image: imageSecond }"
+    ></ng-container>
+  </div>
+  } @else { @if (imageFirst) {
+  <ng-container
+    *ngTemplateOutlet="imageFirstTemplate; context: { image: imageFirst }"
+  ></ng-container>
+  } @if(imageSecond) {
+  <ng-container
+    *ngTemplateOutlet="imageSecondTemplate; context: { image: imageSecond }"
+  ></ng-container>
+  } } }
+
+  <h4>{{ userCard().name }}</h4>
+
+  <div class="social-links">
+    @if(userCard().donationAmount) {
+    <a
+      href="https://github.com/sponsors/CodyTolene"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="{{ userCard().name }}'s donation"
+      [matTooltip]="'Donator: $' + userCard().donationAmount + ' / month'"
+      matTooltipPosition="below"
+    >
+      <pip-icon name="attach_money" size="34px"></pip-icon>
+    </a>
+    } @if((userCard().links ?? []).length > 0) { @for (link of userCard().links;
+    track link.label) {
+    <a
+      aria-label="{{ userCard().name }} {{ link.label }}"
+      href="{{ link.link }}"
+      rel="noopener noreferrer"
+      target="_blank"
+      title="{{ userCard().name }} {{ link.label }}"
+    >
+      @if (link.type === 'github') {
+      <pip-icon name="github" size="34px"></pip-icon>
+      } @else if (link.type === 'youtube') {
+      <pip-icon name="youtube" size="44px"></pip-icon>
+      } @else if (link.type === 'other') {
+      <pip-icon name="website" size="40px"></pip-icon>
+      }
+    </a>
+    } } @else {
+    <span
+      class="social-links-placeholder"
+      aria-label="{{ userCard().name }} has no profile link"
+      title="No link"
+    >
+      <pip-icon name="link_off" size="34px"></pip-icon>
+    </span>
+    }
+  </div>
+  @if(type() === 'booster' && (userCard().boostDates ?? []).length > 0) {
+  <div class="dates">
+    @for (date of userCard().boostDates; track date; let index = $index) {
+    <span class="date"
+      >Boost &num;{{ index + 1 }}: {{ date | date:'longDate' }}</span
+    >
+    }
+  </div>
+  }
+</div>
+
+<ng-template #imageFirstTemplate let-image="image">
+  <img class="first-image" src="{{ image }}" alt="{{ userCard().name }}" />
+</ng-template>
+
+<ng-template #imageSecondTemplate let-image="image">
+  <img
+    [class]="userCard().secondImageClass"
+    alt="{{ userCard().name }}"
+    src="{{ image }}"
+  />
+</ng-template>

@@ -1,3 +1,4 @@
+import { WelcomeBoostersSection } from 'src/app/pages/welcome/sections/community/boosters.section';
 import { WelcomeDevelopersSection } from 'src/app/pages/welcome/sections/community/developers.section';
 import { WelcomeDonatorsSection } from 'src/app/pages/welcome/sections/community/donators.section';
 import { WelcomeSupportSection } from 'src/app/pages/welcome/sections/community/support.section';
@@ -18,6 +19,7 @@ import { PipTitleComponent } from 'src/app/components/title/title';
     PipTitleComponent,
     RouterModule,
     WelcomeDevelopersSection,
+    WelcomeBoostersSection,
     WelcomeDonatorsSection,
     WelcomeSupportSection,
   ],
