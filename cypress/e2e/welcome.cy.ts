@@ -77,7 +77,7 @@ describe('Welcome page', () => {
     // Developers
     cy.get('section[welcome-developers]').within(() => {
       cy.contains('h3', 'Vault-Tec Engineers').should('exist');
-      cy.get('div[aria-label="Support"]').within(() => {
+      cy.get('div[aria-label="Vault-Tec Engineers"]').within(() => {
         cy.get('pip-vault-tec-user-card').should('have.length.at.least', 11);
         cy.contains('h4', 'Gordon Williams')
           .scrollIntoView()
@@ -97,7 +97,7 @@ describe('Welcome page', () => {
     // Discord Server Boosters
     cy.get('section[welcome-boosters]').within(() => {
       cy.contains('h3', 'Discord Server Boosters').should('exist');
-      cy.get('div[aria-label="Support"]').within(() => {
+      cy.get('div[aria-label="Discord Server Boosters"]').within(() => {
         cy.get('pip-vault-tec-user-card').should('have.length.at.least', 5);
         cy.contains('.date', /Boost\s+#\d+:/).should('exist');
       });
