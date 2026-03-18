@@ -1,4 +1,4 @@
-<div [class]="class" class="user-card-item">
+<div [ngClass]="['user-card-item', class]">
   @if(type() === 'donator') { @let images = userCard().images ?? []; @let
   imageFirst = images[0]; @let imageSecond = images[1]; @if (images.length > 1)
   {

@@ -15,10 +15,10 @@ import { VaultTecUserInfo } from 'src/app/types/vault-tec-user-info';
   imports: [PipTitleComponent, VaultTecUserCardComponent],
 })
 export class WelcomeSupportSection {
-  protected readonly vaultTecUserCards = vaultTecDevelopers;
+  protected readonly vaultTecUserCards = vaultTecSupporters;
 }
 
-const vaultTecDevelopers: readonly VaultTecUserInfo[] = [
+const vaultTecSupporters: readonly VaultTecUserInfo[] = [
   /** Support */
   VAULT_TEC_USERS['forgoneZ'],
   VAULT_TEC_USERS['matchwood'],
