@@ -33,7 +33,6 @@ main {
 
     &.intro,
     &.companion-selection,
-    &.notice,
     &.quick-support {
       display: flex;
       justify-content: center;
@@ -117,4 +116,31 @@ mat-accordion {
 
 pip-button {
   margin-top: 2rem;
+}
+
+.companion-selection {
+  .pip-grid {
+    gap: 1rem;
+    max-width: 900px;
+  }
+
+  .pip-grid-item {
+    padding: 0.65rem;
+    width: 180px;
+
+    img {
+      max-width: 130px;
+    }
+
+    h4 {
+      font-size: var.$font-xs;
+      margin-top: 0.65rem;
+    }
+
+    span {
+      font-size: var.$font-xxs;
+      line-height: 1.2;
+      padding: 0.35rem 0;
+    }
+  }
 }

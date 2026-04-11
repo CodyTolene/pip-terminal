@@ -25,19 +25,33 @@
   <section class="companion-selection">
     <div class="pip-grid" role="navigation" aria-label="Pip-Boy Selector">
       <a
-        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Apps']"
         class="pip-grid-item"
+        href="https://lambda.guru/software/pip-boy/3000-mk-v/apps"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <img
           src="images/misc/apps_250x250.png"
-          alt="Pip-Boy 3000 Mk V Apps & Games"
+          alt="Pip-Boy 3000 Mk V Applications"
         />
-        <h4>Apps & Games</h4>
+        <h4>Applications</h4>
         <span> Browse and Install </span>
       </a>
       <a
-        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Maintenance']"
         class="pip-grid-item"
+        href="https://lambda.guru/software/pip-boy/3000-mk-v/games"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img src="images/misc/apps_250x250.png" alt="Pip-Boy 3000 Mk V Games" />
+        <h4>Games</h4>
+        <span> Browse and Install </span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://lambda.guru/software/pip-boy/3000-mk-v/file-manager"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <img
           src="images/misc/gear_250x250.png"
@@ -47,8 +61,10 @@
         <span>Device Management</span>
       </a>
       <a
-        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Radio']"
         class="pip-grid-item"
+        href="https://lambda.guru/software/pip-boy/3000-mk-v/radio"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <img
           src="images/misc/radio_250x250.png"
@@ -58,8 +74,10 @@
         <span>Add Custom Music</span>
       </a>
       <a
-        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V File Management']"
         class="pip-grid-item"
+        href="https://lambda.guru/software/pip-boy/3000-mk-v/file-manager"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <img
           src="images/misc/file_management_250x250.png"
@@ -69,8 +87,10 @@
         <span>Manage Files & Folders</span>
       </a>
       <a
-        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V Update']"
         class="pip-grid-item"
+        href="https://thewandcompany.com/pip-boy/upgrade/?erase"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <img
           src="images/misc/firmware_250x250.png"
@@ -80,8 +100,10 @@
         <span>Restore & Upgrade Firmware</span>
       </a>
       <a
-        [routerLink]="'/' + PAGES['Pip-Boy 3000 Mk V CFW Builder']"
         class="pip-grid-item"
+        href="https://aidanslab.github.io/Pip-Boy-CFW-Builder/"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <img
           src="images/misc/builder_250x250.png"
@@ -90,14 +112,46 @@
         <h4>CFW Builder</h4>
         <span>Build Custom Firmware</span>
       </a>
+      <a
+        class="pip-grid-item"
+        href="https://xn--wxa.guru/software/pip-boy/audio-converter"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          src="images/misc/radio_250x250.png"
+          alt="Pip-Boy Audio Converter"
+        />
+        <h4>Audio Converter</h4>
+        <span>Convert Audio for Pip-Boy</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://xn--wxa.guru/software/pip-boy/image-converter"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          src="images/misc/file_management_250x250.png"
+          alt="Pip-Boy Image Converter"
+        />
+        <h4>Image Converter</h4>
+        <span>Convert Images for Pip-Boy</span>
+      </a>
+      <a
+        class="pip-grid-item"
+        href="https://xn--wxa.guru/software/pip-boy/video-converter"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img src="images/misc/apps_250x250.png" alt="Pip-Boy Video Converter" />
+        <h4>Video Converter</h4>
+        <span>Convert Video for Pip-Boy</span>
+      </a>
     </div>
     <pip-button aria-label="Contributor Button" (click)="openAppsRepo()">
       Become an App Contributor!
     </pip-button>
-  </section>
-
-  <section class="notice">
-    <pip-notice />
   </section>
 
   <pip-divider />
@@ -195,7 +249,10 @@
         </mat-expansion-panel-header>
         <p>
           Fan created support page:
-          <a [routerLink]="['/' + PAGES.Support]"
+          <a
+            href="https://github.com/beaverboy-12/The-Wand-Company-Pip-Boy-3000-Mk-V-Community-Guide"
+            rel="noopener noreferrer"
+            target="_blank"
             >https://www.pip-boy.com/support</a
           >
         </p>

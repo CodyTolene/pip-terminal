@@ -66,17 +66,6 @@ api/*.local
 ./scripts/output/
 ./scripts/output
 
-# Submodules
-public/pip/**/*
-public/pip/*
-public/pip/
-public/pip
-
-# Generated
-ssl/
-ssl/localhost.crt
-ssl/localhost.key
-
 # Cypress (e2e testing)
 cypress/downloads
 cypress/screenshots

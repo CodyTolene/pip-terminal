@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
 import { PipDivider } from 'src/app/components/divider/divider';
-import { PipNotice } from 'src/app/components/notice/notice';
 
 @Component({
   selector: 'pip-welcome-page',
@@ -19,7 +18,6 @@ import { PipNotice } from 'src/app/components/notice/notice';
     MatIconModule,
     PipDivider,
     PipFooterComponent,
-    PipNotice,
     RouterModule,
     WelcomeCommunitySection,
     WelcomeCompanionsSection,

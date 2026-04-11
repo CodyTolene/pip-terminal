@@ -19,15 +19,6 @@ export class WelcomeIntroSection {
   protected readonly pwaInstall = inject(AppInstallService);
 
   protected readonly forumLink = forumLink;
-  protected readonly resourcesLink = resourcesLink;
-
-  protected installApp(): void {
-    if (!this.pwaInstall.canInstall()) {
-      return;
-    }
-
-    void this.pwaInstall.promptInstall();
-  }
 
   protected openDiscordPage(): void {
     window.open('https://discord.gg/zQmAkEg8XG', '_blank');
@@ -35,4 +26,3 @@ export class WelcomeIntroSection {
 }
 
 const forumLink = '/' + ('forum' satisfies PageUrl);
-const resourcesLink = '/' + ('resources' satisfies PageUrl);

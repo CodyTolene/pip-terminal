@@ -27,12 +27,7 @@
               {
                 "glob": "**/*",
                 "input": "public",
-                "ignore": ["pip/**"]
-              },
-              {
-                "glob": "**/*",
-                "input": "public/pip",
-                "output": "pip"
+                "ignore": []
               }
             ],
             "styles": ["src/styles.scss"],

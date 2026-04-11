@@ -1,5 +1,5 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { distinctUntilChanged, filter, map } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs';
 import { Content, Header, Sidenav } from 'src/app/layout';
 import {
   AppUpdateService,
@@ -50,15 +50,6 @@ export class PipComponent implements OnInit {
     filter(isNonEmptyValue),
     distinctUntilChanged(),
     shareSingleReplay(),
-  );
-
-  protected readonly headerIsDisplayedChanges = this.pageDataChanges.pipe(
-    map(
-      (data) =>
-        data.title !== 'Pip-Boy 3000 Simulator' &&
-        data.title !== 'Pip-Boy 3000A Simulator',
-    ),
-    distinctUntilChanged(),
   );
 
   // Bind the analytics service to the component.
