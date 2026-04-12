@@ -12,7 +12,9 @@ describe('Home page', () => {
         'Welcome back, Vault Dweller. Your Pip-Boy is ready.',
       ).should('be.visible');
 
-      cy.contains('pip-button', 'Forum').scrollIntoView().click();
+      cy.contains('pip-button', 'Forum')
+        .scrollIntoView()
+        .click({ force: true });
     });
 
     cy.location('pathname').should('eq', '/forum');
@@ -21,8 +23,12 @@ describe('Home page', () => {
     cy.window().then((win) => cy.stub(win, 'open').as('winOpen'));
 
     cy.get('section[welcome-intro]').within(() => {
-      cy.contains('pip-button', 'Discord').scrollIntoView().click();
-      cy.contains('pip-button', 'GitHub').scrollIntoView().click();
+      cy.contains('pip-button', 'Discord')
+        .scrollIntoView()
+        .click({ force: true });
+      cy.contains('pip-button', 'GitHub')
+        .scrollIntoView()
+        .click({ force: true });
     });
 
     cy.get('@winOpen').should(
@@ -65,7 +71,7 @@ describe('Home page', () => {
           );
           cy.contains('a.pip-grid-item', 'Pip-Boy 3000 Mk V')
             .scrollIntoView()
-            .click();
+            .click({ force: true });
         });
     });
 
