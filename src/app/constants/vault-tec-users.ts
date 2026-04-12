@@ -130,7 +130,6 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   hazaa7395: {
     name: 'Hazaa',
-    boostDates: [new Date(2026, 0, 3), new Date(2026, 0, 4)],
   },
   homicidalMailman: {
     name: 'tylerjbartlett',
@@ -161,7 +160,6 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   killes: {
     name: 'killes007',
-    boostDates: [new Date(2025, 3, 14)],
     links: [
       {
         label: 'GitHub',
@@ -172,11 +170,9 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   lore5032: {
     name: 'Lore',
-    boostDates: [new Date(2026, 2, 16), new Date(2026, 2, 16)],
   },
   michal092395: {
     name: 'Michal',
-    boostDates: [new Date(2026, 1, 25), new Date(2026, 1, 25)],
   },
   matchwood: {
     name: 'Matchwood',
@@ -233,7 +229,6 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   rikkuness: {
     name: 'Darrian',
-    boostDates: [new Date(2025, 9, 9)],
     links: [
       {
         label: 'GitHub',

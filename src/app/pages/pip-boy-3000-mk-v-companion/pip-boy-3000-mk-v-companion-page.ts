@@ -39,6 +39,9 @@ export class PipBoy3000MkVPage implements OnDestroy {
   }
 
   protected openAppsRepo(): void {
-    window.open('https://github.com/CodyTolene/pip-boy-apps', '_blank');
+    window.open(
+      'https://github.com/CodyTolene/pip-boy-3000-mk-v-apps',
+      '_blank',
+    );
   }
 }

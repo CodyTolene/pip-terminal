@@ -1,6 +1,5 @@
-import { AppInstallService } from 'src/app/services';
-
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button';
@@ -13,16 +12,16 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'section[welcome-intro]',
   templateUrl: './intro.section.html',
   styleUrls: ['./welcome-section.scss', './intro.section.scss'],
-  imports: [PipButtonComponent, PipTitleComponent, RouterModule],
+  imports: [PipButtonComponent, PipTitleComponent, RouterModule, MatTooltip],
 })
 export class WelcomeIntroSection {
-  protected readonly pwaInstall = inject(AppInstallService);
-
-  protected readonly forumLink = forumLink;
+  protected readonly forumLink = `/${'forum' satisfies PageUrl}`;
 
   protected openDiscordPage(): void {
     window.open('https://discord.gg/zQmAkEg8XG', '_blank');
   }
-}
 
-const forumLink = '/' + ('forum' satisfies PageUrl);
+  protected openGithubRepo(): void {
+    window.open('https://github.com/CodyTolene/pip-terminal', '_blank');
+  }
+}

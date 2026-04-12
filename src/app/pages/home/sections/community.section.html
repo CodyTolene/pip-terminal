@@ -1,0 +1,36 @@
+<pip-title h1>Community</pip-title>
+
+<h3>Vault Roster</h3>
+<p>Built by wastelanders, kept alive by the community.</p>
+
+<div class="pip-grid" aria-label="Community Members">
+  @for (userCard of vaultTecDonators; track userCard.name) {
+  <pip-vault-tec-user-card
+    [userCard]="userCard"
+    subtitle="Atomic Sponsor"
+    type="donator"
+  />
+  }
+</div>
+
+<div class="pip-grid" aria-label="Community Members">
+  @for (userCard of vaultTecEngineers; track userCard.name) {
+  <pip-vault-tec-user-card
+    [userCard]="userCard"
+    subtitle="Vault-Tec Engineer"
+    type="engineer"
+  />
+  } @for (userCard of vaultTecSupporters; track userCard.name) {
+  <pip-vault-tec-user-card
+    [userCard]="userCard"
+    subtitle="Vault-Tec Support"
+    type="support"
+  />
+  } @for (userCard of vaultTecDiscordServerBoosters; track userCard.name) {
+  <pip-vault-tec-user-card
+    [userCard]="userCard"
+    subtitle="Discord Booster"
+    type="booster"
+  />
+  }
+</div>

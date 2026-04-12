@@ -123,7 +123,7 @@ describe('Welcome page', () => {
     cy.contains('pip-button', 'Become A Contributor!').scrollIntoView().click();
     cy.get('@winOpen').should(
       'have.been.calledWith',
-      'https://github.com/CodyTolene/pip-boy-apps',
+      'https://github.com/CodyTolene/pip-boy-3000-mk-v-apps',
       '_blank',
     );
 

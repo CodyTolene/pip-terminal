@@ -538,7 +538,7 @@ Cody Tolene
 [link-license-mpl]: /LICENSE_MPL.md
 [link-license]: /LICENSE.md
 [link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
-[link-pip-apps]: https://github.com/CodyTolene/pip-boy-apps
+[link-pip-apps]: https://github.com/CodyTolene/pip-boy-3000-mk-v-apps
 [link-regular-users]: /api//src//seeds/users.seed.ts
 [link-robco-industries]: https://log.robco-industries.org/
 [link-terms]: /TERMS.md

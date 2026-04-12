@@ -14,7 +14,6 @@ export const PAGE_NAMES = [
   'Pip-Boy 3000 Mk V Companion Terminal',
   'Privacy Policy',
   'Register',
-  'Status',
   'Terms and Conditions',
   'Verify Email',
   ...FORUM_PAGE_NAMES,

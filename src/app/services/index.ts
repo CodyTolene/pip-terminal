@@ -1,22 +1,17 @@
-export * from './app-install.service';
 export * from './app-update.service';
 export * from './auth.service';
+export * from './forum/forum-comments.service';
+export * from './forum/forum-image.service';
+export * from './forum/forum-posts.service';
 export * from './markup.service';
 export * from './page-data.service';
 export * from './page-meta.service';
 export * from './screen.service';
 export * from './scripts.service';
 export * from './sound.service';
-export * from './status.service';
 export * from './storage-local.service';
 export * from './storage-session.service';
 export * from './stylesheets.service';
 export * from './theme.service';
 export * from './toast.service';
 export * from './user-profile.service';
-
-/** ---- Forum ---- */
-
-export * from './forum/forum-comments.service';
-export * from './forum/forum-image.service';
-export * from './forum/forum-posts.service';

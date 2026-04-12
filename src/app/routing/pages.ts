@@ -15,7 +15,6 @@ export const PAGES: Record<PageName, PageUrl> = {
   'Pip-Boy 3000 Mk V Companion Terminal': '3000-mk-v',
   'Privacy Policy': 'privacy-policy',
   Register: 'register',
-  Status: 'status',
   'Terms and Conditions': 'terms-and-conditions',
   'Verify Email': 'verify-email',
 };

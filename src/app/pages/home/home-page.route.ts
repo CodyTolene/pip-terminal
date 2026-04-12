@@ -2,7 +2,7 @@ import { META_AUTHOR, META_DEFAULT_KEYWORDS } from 'src/app/constants';
 
 import { PipRoute } from 'src/app/types/pip-route';
 
-export const WELCOME_PAGE_ROUTE: PipRoute = {
+export const HOME_PAGE_ROUTE: PipRoute = {
   path: '',
   pathMatch: 'full',
   data: {
@@ -12,5 +12,5 @@ export const WELCOME_PAGE_ROUTE: PipRoute = {
     keywords: ['Home', ...META_DEFAULT_KEYWORDS],
     title: 'Home',
   },
-  loadComponent: () => import('src/app/pages').then((c) => c.WelcomePage),
+  loadComponent: () => import('src/app/pages').then((c) => c.HomePage),
 };

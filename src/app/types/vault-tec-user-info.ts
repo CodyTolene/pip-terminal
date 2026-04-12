@@ -1,5 +1,4 @@
 export interface VaultTecUserInfo {
-  boostDates?: readonly Date[];
   donationAmount?: number;
   images?: readonly string[];
   links?: readonly VaultTecUserInfoLink[];

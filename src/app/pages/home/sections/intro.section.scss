@@ -29,13 +29,8 @@ p {
   width: 100%;
 
   pip-button {
-    flex: 1 1 calc(50% - 0.5rem);
-    max-width: calc(50% - 0.5rem);
-  }
-
-  .row-break {
-    flex-basis: 100%;
-    height: 0;
+    flex: 1 1 calc(33% - 0.5rem);
+    max-width: calc(33% - 0.5rem);
   }
 
   pip-button.offline-install {
@@ -46,10 +41,6 @@ p {
 
 @media (max-width: 800px) {
   .actions {
-    .row-break {
-      display: none;
-    }
-
     pip-button {
       flex-basis: 100%;
       max-width: 100%;

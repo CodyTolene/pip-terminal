@@ -129,12 +129,6 @@ export class NavList {
       label: '3000 Mk IV Simulator',
     },
     {
-      commands: ['status'],
-      icon: 'search_insights',
-      fontSet: 'material-icons-outlined',
-      label: 'Status',
-    },
-    {
       commands: ['privacy-policy'],
       icon: 'privacy_tip',
       fontSet: 'material-icons-outlined',

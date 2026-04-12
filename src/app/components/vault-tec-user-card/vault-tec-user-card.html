@@ -22,6 +22,12 @@
 
   <h4>{{ userCard().name }}</h4>
 
+  @if(subtitle(); as subtitle) {
+  <div class="subtitle-container">
+    <span class="subtitle">{{ subtitle }}</span>
+  </div>
+  }
+
   <div class="social-links">
     @if(userCard().donationAmount) {
     <a
@@ -61,15 +67,6 @@
     </span>
     }
   </div>
-  @if(type() === 'booster' && (userCard().boostDates ?? []).length > 0) {
-  <div class="dates">
-    @for (date of userCard().boostDates; track date; let index = $index) {
-    <span class="date"
-      >Boost &num;{{ index + 1 }}: {{ date | date:'longDate' }}</span
-    >
-    }
-  </div>
-  }
 </div>
 
 <ng-template #imageFirstTemplate let-image="image">
