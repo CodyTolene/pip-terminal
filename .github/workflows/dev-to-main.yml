@@ -10,11 +10,6 @@ permissions:
   contents: read
   pull-requests: write
 
-env:
-  # Update to the desired commit hash as needed
-  # https://github.com/AidansLab/Pip-Boy-CFW-Builder
-  CFW_COMMIT: 128c67edd512748f2546c9ea70c6b716ab15cb6f
-
 jobs:
   deploy_preview:
     if: |
@@ -24,30 +19,9 @@ jobs:
     steps:
       # Build and verify front-end code
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Checkout submodule
-        run: |
-          echo "Pulling public/pip..."
-          cd public/pip
-          git fetch origin main
-          git checkout main
-          git pull origin main
-          cd ../..
-
-          echo "Pulling public/Pip-Boy-CFW-Builder..."
-          cd public/Pip-Boy-CFW-Builder
-          git fetch origin
-          git checkout $CFW_COMMIT
-          cd ../..
-
-          echo "Ensuring submodules are clean..."
-          git submodule foreach 'git reset --hard && git clean -fdx'
-
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:check
-      - run: npm run generate:apps
       - run: npm run generate:sitemap
       - run: npm run build:prod
 

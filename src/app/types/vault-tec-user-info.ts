@@ -5,6 +5,12 @@ export interface VaultTecUserInfo {
   links?: readonly VaultTecUserInfoLink[];
   name: string;
   secondImageClass?: string;
+  subtitles: ReadonlyArray<
+    | 'Atomic Sponsor'
+    | 'Discord Booster'
+    | 'Vault-Tec Engineer'
+    | 'Vault-Tec Support'
+  >;
 }
 
 export interface VaultTecUserInfoLink {

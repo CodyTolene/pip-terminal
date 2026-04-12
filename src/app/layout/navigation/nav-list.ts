@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
 
 import { PipBadge } from 'src/app/components/badge/badge';
@@ -30,6 +31,7 @@ import { PageUrl } from 'src/app/types/page-url';
   imports: [
     CommonModule,
     MatListModule,
+    MatTooltipModule,
     PipBadge,
     PipIconComponent,
     RouterModule,
@@ -94,55 +96,37 @@ export class NavList {
       label: '3000 Mk V Companion',
     },
     {
-      commands: ['3000-companion'],
-      icon: 'pip-boy-3000',
-      isNewFeature: true,
+      href: 'https://lambda.guru/software/pip-boy',
+      icon: 'pip-boy-3000a',
       fontSet: 'material-icons-outlined',
-      label: '3000 Companion',
+      isDisabled: true,
+      label: '3000a Companion',
     },
     {
-      commands: ['2000-mk-vi'],
+      href: 'https://lambda.guru/software/pip-boy',
       icon: 'pip-boy-2000-mk-vi',
       fontSet: 'material-icons-outlined',
+      isDisabled: true,
       label: '2000 Mk VI Simulator',
     },
     {
-      commands: ['3000'],
+      href: 'https://lambda.guru/software/pip-boy/3000',
       icon: 'pip-boy-3000',
-      isNewFeature: true,
       fontSet: 'material-icons-outlined',
       label: '3000 Simulator',
     },
     {
-      commands: ['3000a'],
+      href: 'https://lambda.guru/software/pip-boy/3000a',
       icon: 'pip-boy-3000',
-      isNewFeature: true,
       fontSet: 'material-icons-outlined',
       label: '3000A Simulator',
     },
     {
-      commands: ['3000-mk-iv'],
+      href: 'https://lambda.guru/software/pip-boy',
       icon: 'pip-boy-3000-mk-iv',
       fontSet: 'material-icons-outlined',
+      isDisabled: true,
       label: '3000 Mk IV Simulator',
-    },
-    {
-      commands: ['resources'],
-      icon: 'link',
-      fontSet: 'material-icons-outlined',
-      label: 'Resources',
-    },
-    {
-      commands: ['status'],
-      icon: 'search_insights',
-      fontSet: 'material-icons-outlined',
-      label: 'Status',
-    },
-    {
-      commands: ['support'],
-      icon: 'contact_support',
-      fontSet: 'material-icons-outlined',
-      label: 'Support',
     },
     {
       commands: ['privacy-policy'],
@@ -209,6 +193,28 @@ export class NavList {
     }
   }
 
+  protected handleLinkClick(link: PageLink, mouseEvent: MouseEvent): void {
+    if (link.isDisabled) {
+      mouseEvent.preventDefault();
+      mouseEvent.stopPropagation();
+      return;
+    }
+
+    link.onClick?.(mouseEvent);
+
+    if (mouseEvent.defaultPrevented) {
+      this.closeNavBar();
+      return;
+    }
+
+    if (link.href) {
+      mouseEvent.preventDefault();
+      window.open(link.href, '_blank', 'noopener,noreferrer');
+    }
+
+    this.closeNavBar();
+  }
+
   private logout(): void {
     const dialogRef = this.dialog.open<
       PipDialogConfirmComponent,
@@ -239,19 +245,21 @@ export class NavList {
 }
 
 interface PageLink {
-  commands: ReadonlyArray<PageUrl | 'logout'>;
+  commands?: ReadonlyArray<PageUrl | 'logout'>;
   fontSet: IconFontSet;
+  href?: string;
   icon: IconName | IconCustomName;
   label:
     | 'Logout'
     | '2000 Mk VI Simulator'
-    | '3000 Companion'
+    | '3000a Companion'
     | '3000 Mk IV Simulator'
     | '3000 Mk V Companion'
     | '3000 Simulator'
     | '3000A Simulator'
     | PageName;
   exact?: boolean;
+  isDisabled?: boolean;
   isNewFeature?: boolean;
   isNewTab?: boolean;
   onClick?: (mouseEvent: MouseEvent) => void;

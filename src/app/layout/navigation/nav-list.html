@@ -2,13 +2,21 @@
   @for (link of linksChanges | async; track link) {
   <a
     #rla="routerLinkActive"
-    (click)="link.onClick?.($event); closeNavBar()"
+    (click)="handleLinkClick(link, $event)"
     [attr.aria-current]="rla.isActive ? 'page' : null"
-    [routerLinkActiveOptions]="
-        link.exact ? { exact: true } : { exact: false }
-      "
-    [routerLink]="link.onClick ? null : link.commands"
+    [attr.aria-disabled]="link.isDisabled ? 'true' : null"
+    [attr.href]="link.isDisabled ? null : link.href ?? null"
+    [attr.rel]="link.href && !link.isDisabled ? 'noopener noreferrer' : null"
+    [attr.tabindex]="link.isDisabled ? '-1' : null"
+    [attr.target]="link.href && !link.isDisabled ? '_blank' : null"
+    [class.disabled]="link.isDisabled"
+    [matTooltipDisabled]="!link.isDisabled"
+    [matTooltip]="link.isDisabled ? 'This page is not yet available.' : ''"
+    [routerLinkActiveOptions]="link.exact ? { exact: true } : { exact: false }"
+    [routerLink]="link.isDisabled || link.href || link.onClick ? null : link.commands"
     mat-list-item
+    matTooltipPosition="before"
+    matTooltipShowDelay="420"
     routerLinkActive="active"
     ><pip-icon [fontSet]="link.fontSet" [name]="link.icon" />{{ link.label }}
     @if (link.isNewFeature) {

@@ -1,0 +1,10 @@
+@use '../../../styles/colors' as col;
+@use '../../../styles/variables' as var;
+
+:host {
+  margin-top: 0;
+
+  a > h4 {
+    margin: 0;
+  }
+}
