@@ -88,16 +88,16 @@ pip-button {
   margin-bottom: 4rem;
 
   .pip-grid {
-    gap: 1rem;
+    gap: 1.5rem;
     max-width: var.$page-max-width;
   }
 
   .pip-grid-item {
     padding: 0.65rem;
-    width: 180px;
+    width: 220px;
 
     img {
-      max-width: 130px;
+      max-width: 200px;
     }
 
     h4 {
