@@ -13,21 +13,22 @@ import { VaultTecUserInfo } from 'src/app/types/vault-tec-user-info';
   styleUrl: './vault-tec-user-card.scss',
 })
 export class VaultTecUserCardComponent {
-  public type = input.required<
-    'booster' | 'donator' | 'engineer' | 'support'
-  >();
+  public type = input.required<'sponsor' | 'vault-tec'>();
 
   public userCard = input.required<VaultTecUserInfo>();
 
-  public subtitle = input<
-    | 'Atomic Sponsor'
-    | 'Discord Booster'
-    | 'Vault-Tec Engineer'
-    | 'Vault-Tec Support'
-    | null
-  >(null);
-
   public get class(): string {
     return this.type();
+  }
+
+  protected getBoostDatesText(boostDates: readonly Date[] | undefined): string {
+    if (!boostDates || boostDates.length === 0) {
+      return '';
+    }
+    const boostDatesText = boostDates
+      .map((date) => date.toLocaleDateString())
+      .join(', ');
+
+    return boostDatesText;
   }
 }

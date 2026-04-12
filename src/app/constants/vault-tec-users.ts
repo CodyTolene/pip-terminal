@@ -29,6 +29,7 @@ type VaultTecUser =
 export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   athene: {
     name: 'gnargle',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -39,6 +40,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   azrael: {
     name: 'beaverboy-12',
+    subtitles: ['Vault-Tec Support'],
     links: [
       {
         label: 'GitHub',
@@ -49,6 +51,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   beanutPudder: {
     name: 'BeanutPudder',
+    subtitles: ['Atomic Sponsor'],
     donationAmount: 5,
     images: ['images/community/beanut_pudder_250x250.jpg'],
     links: [
@@ -61,6 +64,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   crashrek: {
     name: 'Rio Padilla',
+    subtitles: ['Atomic Sponsor'],
     donationAmount: 5,
     images: ['images/community/rio_padilla_250x250.jpg'],
     links: [
@@ -78,6 +82,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   dougie: {
     name: 'Dougie',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -88,6 +93,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   eckserah: {
     name: 'eckserah',
+    subtitles: ['Atomic Sponsor'],
     donationAmount: 20,
     images: ['images/community/eckserah_birdstion_250x250.png'],
     links: [
@@ -105,6 +111,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   forgoneZ: {
     name: 'Forgone.Z',
+    subtitles: ['Vault-Tec Support'],
     links: [
       {
         label: 'Linktree',
@@ -115,6 +122,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   gfwilliams: {
     name: 'Gordon Williams',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -130,9 +138,12 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   hazaa7395: {
     name: 'Hazaa',
+    boostDates: [new Date(2026, 0, 3), new Date(2026, 0, 4)],
+    subtitles: ['Discord Booster'],
   },
   homicidalMailman: {
     name: 'tylerjbartlett',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -143,6 +154,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   jimDenson: {
     name: 'Jim D.',
+    subtitles: ['Atomic Sponsor', 'Vault-Tec Engineer'],
     donationAmount: 5,
     images: ['images/community/jim_d_250x250.jpg'],
     links: [
@@ -160,6 +172,8 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   killes: {
     name: 'killes007',
+    boostDates: [new Date(2025, 3, 14)],
+    subtitles: ['Vault-Tec Engineer', 'Discord Booster'],
     links: [
       {
         label: 'GitHub',
@@ -170,15 +184,21 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   lore5032: {
     name: 'Lore',
+    boostDates: [new Date(2026, 2, 16), new Date(2026, 2, 16)],
+    subtitles: ['Discord Booster'],
   },
   michal092395: {
     name: 'Michal',
+    boostDates: [new Date(2026, 1, 25), new Date(2026, 1, 25)],
+    subtitles: ['Discord Booster'],
   },
   matchwood: {
     name: 'Matchwood',
+    subtitles: ['Vault-Tec Support'],
   },
   mercy: {
     name: 'MercurialPony',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -189,6 +209,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   nightmareGoggles: {
     name: 'AidansLab',
+    subtitles: ['Vault-Tec Engineer', 'Vault-Tec Support'],
     links: [
       {
         label: 'GitHub',
@@ -209,6 +230,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   pip4111: {
     name: 'pip4111',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -219,6 +241,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   rblakesley: {
     name: 'Richard Blakesley',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -229,6 +252,8 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   rikkuness: {
     name: 'Darrian',
+    boostDates: [new Date(2025, 9, 9)],
+    subtitles: ['Vault-Tec Engineer', 'Vault-Tec Support', 'Discord Booster'],
     links: [
       {
         label: 'GitHub',
@@ -244,6 +269,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   s15Costuming: {
     name: 'S15 Costuming',
+    subtitles: ['Atomic Sponsor'],
     donationAmount: 5,
     images: [
       'images/community/s15_costuming_250x250.jpeg',
@@ -260,6 +286,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   sparercard: {
     name: 'Sparercard',
+    subtitles: ['Atomic Sponsor'],
     donationAmount: 25,
     images: ['images/community/sparercard_250x250.jpg'],
     links: [
@@ -272,6 +299,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   tetriskid: {
     name: 'TetrisKid48',
+    subtitles: ['Vault-Tec Engineer'],
     links: [
       {
         label: 'GitHub',
@@ -287,6 +315,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   theeohn: {
     name: 'Theeohn',
+    subtitles: ['Atomic Sponsor', 'Vault-Tec Support'],
     donationAmount: 25,
     images: [
       'images/community/theeohn_megistus_no_glasses_250x250.png',

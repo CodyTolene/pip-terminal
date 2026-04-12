@@ -16,32 +16,11 @@ import { VaultTecUserInfo } from 'src/app/types/vault-tec-user-info';
   imports: [PipTitleComponent, RouterModule, VaultTecUserCardComponent],
 })
 export class WelcomeCommunitySection {
-  protected readonly vaultTecDonators = vaultTecDonators;
-
-  protected readonly vaultTecEngineers = vaultTecEngineers;
-
-  protected readonly vaultTecSupporters = vaultTecSupporters;
-
-  protected readonly vaultTecDiscordServerBoosters =
-    vaultTecDiscordServerBoosters;
-
-  protected openAppsRepo(): void {
-    window.open(
-      'https://github.com/CodyTolene/pip-boy-3000-mk-v-apps',
-      '_blank',
-    );
-  }
-
-  protected openGitHubPage(): void {
-    window.open('https://github.com/CodyTolene/pip-terminal', '_blank');
-  }
-
-  protected openSponsorPage(): void {
-    window.open('https://github.com/sponsors/CodyTolene', '_blank');
-  }
+  protected readonly atomicSponsors = atomicSponsors;
+  protected readonly vaultTechUsers = vaultTechUsers;
 }
 
-const vaultTecDonators: readonly VaultTecUserInfo[] = [
+const atomicSponsors: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['theeohn'],
   VAULT_TEC_USERS['sparercard'],
   VAULT_TEC_USERS['eckserah'],
@@ -51,7 +30,7 @@ const vaultTecDonators: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['jimDenson'],
 ];
 
-const vaultTecEngineers: readonly VaultTecUserInfo[] = [
+const vaultTechUsers: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['gfwilliams'],
   VAULT_TEC_USERS['rblakesley'],
   VAULT_TEC_USERS['rikkuness'],
@@ -63,20 +42,9 @@ const vaultTecEngineers: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['tetriskid'],
   VAULT_TEC_USERS['homicidalMailman'],
   VAULT_TEC_USERS['dougie'],
-];
-
-const vaultTecSupporters: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['azrael'],
   VAULT_TEC_USERS['forgoneZ'],
   VAULT_TEC_USERS['matchwood'],
-  VAULT_TEC_USERS['nightmareGoggles'],
-  VAULT_TEC_USERS['rikkuness'],
-  VAULT_TEC_USERS['theeohn'],
-];
-
-const vaultTecDiscordServerBoosters: readonly VaultTecUserInfo[] = [
-  VAULT_TEC_USERS['killes'],
-  VAULT_TEC_USERS['rikkuness'],
   VAULT_TEC_USERS['hazaa7395'],
   VAULT_TEC_USERS['michal092395'],
   VAULT_TEC_USERS['lore5032'],

@@ -1,5 +1,5 @@
 <div [ngClass]="['user-card-item', class]">
-  @if(type() === 'donator') { @let images = userCard().images ?? []; @let
+  @if(type() === 'sponsor') { @let images = userCard().images ?? []; @let
   imageFirst = images[0]; @let imageSecond = images[1]; @if (images.length > 1)
   {
   <div class="double-img-container">
@@ -21,12 +21,6 @@
   } } }
 
   <h4>{{ userCard().name }}</h4>
-
-  @if(subtitle(); as subtitle) {
-  <div class="subtitle-container">
-    <span class="subtitle">{{ subtitle }}</span>
-  </div>
-  }
 
   <div class="social-links">
     @if(userCard().donationAmount) {
@@ -67,6 +61,23 @@
     </span>
     }
   </div>
+
+  @if(userCard().subtitles.length > 0) {
+  <div class="subtitle-container">
+    @for (subtitle of userCard().subtitles; track subtitle) {
+    <span class="subtitle">{{ subtitle }}</span>
+    }@if(userCard().subtitles.includes('Discord Booster') &&
+    userCard().boostDates?.length) {
+    <div class="dates">
+      @for (date of userCard().boostDates; track date; let index = $index) {
+      <span class="date"
+        >Boost &num;{{ index + 1 }}: {{ date | date:'longDate' }}</span
+      >
+      }
+    </div>
+    }
+  </div>
+  }
 </div>
 
 <ng-template #imageFirstTemplate let-image="image">
