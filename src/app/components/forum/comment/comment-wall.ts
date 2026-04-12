@@ -6,7 +6,7 @@ import {
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { filter } from 'rxjs';
 import { ForumComment, ForumPost } from 'src/app/models';
-import { ForumCommentsService } from 'src/app/services';
+import { AdsService, ForumCommentsService } from 'src/app/services';
 import { isNonEmptyValue } from 'src/app/utilities';
 
 import {
@@ -30,11 +30,14 @@ import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { ForumCommentPagedResult } from 'src/app/types/forum-comment-paged-result';
 
+import { AdsenseUnitComponent } from '../../adsense-unit/adsense-unit.component';
+
 @UntilDestroy()
 @Component({
   selector: 'pip-comment-wall[post]',
   templateUrl: './comment-wall.html',
   imports: [
+    AdsenseUnitComponent,
     InputDropdownComponent,
     InputDropdownOptionComponent,
     LoadingComponent,
@@ -71,6 +74,10 @@ export class PipCommentWallComponent implements OnInit {
   }
 
   private readonly forumCommentsService = inject(ForumCommentsService);
+
+  private readonly adsService = inject(AdsService);
+
+  protected readonly showAds = this.adsService.showAds;
 
   @Input({ required: true }) public post!: ForumPost;
 

@@ -78,8 +78,7 @@ export const FORUM_POSTS_SEED: readonly ForumPostApi[] = [
     authorId: 'user-4',
     authorName: 'Cody',
     category: 'Pip-Boy 3000 Mk V',
-    contentHtml:
-      '<p>Working on Espruino firmware mods for the Mk V. Join in!</p>',
+    contentHtml: '<p>Working on firmware mods for the Mk V. Join in!</p>',
     createdAt: { nanoseconds: 0, seconds: 1717500000 },
     flagsCount: 0,
     id: 'post-4',

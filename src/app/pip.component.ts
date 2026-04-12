@@ -1,7 +1,9 @@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged, filter } from 'rxjs';
+import { StripInlineStylesDirective } from 'src/app/directives';
 import { Content, Header, Sidenav } from 'src/app/layout';
 import {
+  AdsService,
   AppUpdateService,
   PageDataService,
   PageMetaService,
@@ -30,6 +32,7 @@ import { GdprBanner } from 'src/app/components/gdpr-banner/gdpr-banner';
     Header,
     MatLuxonDateModule,
     Sidenav,
+    StripInlineStylesDirective,
   ],
   styleUrl: './pip.scss',
   providers: [PageDataService, PageMetaService, SoundService, ThemeService],
@@ -41,6 +44,7 @@ export class PipComponent implements OnInit {
     // }
   }
 
+  private readonly adsService = inject(AdsService);
   private readonly appUpdateService = inject(AppUpdateService);
   private readonly pageDataService = inject(PageDataService);
   private readonly pageMetaService = inject(PageMetaService);
@@ -59,6 +63,7 @@ export class PipComponent implements OnInit {
     : null;
 
   public ngOnInit(): void {
+    this.adsService.init();
     this.appUpdateService.init();
     this.themeService.init();
 

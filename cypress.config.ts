@@ -1,9 +1,9 @@
 import { defineConfig } from 'cypress';
 
 const isCI = !!process.env['CI'];
-const host = process.env['APP_HOST'] ?? (isCI ? 'localhost' : 'pip-boy.local');
+const host = process.env['APP_HOST'] ?? 'localhost';
 const port = process.env['APP_PORT'] ?? '4200';
-const baseUrl = isCI ? `http://${host}:${port}` : `https://${host}:${port}`;
+const baseUrl = `http://${host}:${port}`;
 
 const downloadsFolder = 'cypress/downloads';
 const enableScreenshots = true;
