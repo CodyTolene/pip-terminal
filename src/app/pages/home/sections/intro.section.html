@@ -1,0 +1,26 @@
+<pip-title h1>User Terminal</pip-title>
+
+<h3>Vault Mainframe Accessed</h3>
+
+<p>Welcome back, Vault Dweller. Your Pip-Boy is ready.</p>
+
+<div class="actions">
+  <pip-button
+    [routerLink]="forumLink"
+    aria-label="Visit the Community Forum"
+    matTooltip="Visit the Community Forum"
+    >Forum</pip-button
+  >
+  <pip-button
+    (click)="openDiscordPage()"
+    aria-label="Join the Community Discord"
+    matTooltip="Join the Community Discord"
+    >Discord</pip-button
+  >
+  <pip-button
+    (click)="openGithubRepo()"
+    aria-label="View the Community GitHub"
+    matTooltip="View the Community GitHub"
+    >GitHub</pip-button
+  >
+</div>

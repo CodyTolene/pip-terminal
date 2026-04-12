@@ -129,58 +129,22 @@ To get started with development follow these steps:
    cd pip-terminal
    ```
 
-2. Run `git submodule update --init --recursive` to pull all submodules
-   recursively.
+2. Create a new branch `git checkout -b <your-branch-name>`.
 
-3. Create a new branch `git checkout -b <your-branch-name>`.
+3. Run `npm install` in the root folder to install the project dependencies.
 
-4. Run `npm install` in the root folder to install the project dependencies.
+4. Open a browser and navigate to `http://localhost:4200`.
 
-5. Generate a ssl cert:
+5. Make your changes to the code (browser will automatically reload).
 
-   ```bash
-   mkdir ssl
-   cd ssl
+6. Push your changes up to GitHub.
 
-   openssl req -x509 -newkey rsa:2048 -nodes -keyout pip-boy.local.key -out pip-boy.local.crt -days 365 -subj "/CN=pip-boy.local"
+7. Open a pull request to the `dev` branch here.
 
-   cd ..
-   ```
+8. Wait for the pull request to be reviewed and merged.
 
-6. Update your `hosts` file here: `C:\Windows\System32\drivers\etc\`:
-
-   ```bash
-   127.0.0.1 pip-boy.local
-   ```
-
-7. Get the latest changes in submodules, run the following:
-
-   ```bash
-   git submodule foreach git pull origin main
-   ```
-
-8. Be sure to generate the apps for the Pip-Boy mod tool/app loader:
-
-   ```bash
-   npm run generate:apps
-   ```
-
-9. Run `npm run start:https` to start the development app. HTTPS is required for
-   most features, so it's recommended to use it. You can run `npm run start` to
-   run on HTTP.
-
-10. Open a browser and navigate to `http://localhost:4200`.
-
-11. Make your changes to the code (browser will automatically reload).
-
-12. Push your changes up to GitHub.
-
-13. Open a pull request to the `dev` branch here.
-
-14. Wait for the pull request to be reviewed and merged.
-
-15. Once in the `dev` branch, your code will go out to production in the next
-    release.
+9. Once in the `dev` branch, your code will go out to production in the next
+   release.
 
 Thank you for any and all contributions!
 
@@ -427,11 +391,9 @@ ask in a discussion or open an issue.
     │  ├─ index.html               # Main HTML shell for the Angular app.
     │  ├─ main.ts                  # Angular bootstrap entry point.
     │  └─ styles.scss              # Global styles for the Angular app.
-    ├─ ssl/                        # Local SSL/TLS certificates for HTTPS development (gitignored).
     ├─ .editorconfig               # Shared editor formatting rules.
     ├─ .firebaserc                 # Firebase project alias configuration.
     ├─ .gitignore                  # Git ignore rules.
-    ├─ .gitmodules                 # Git submodule definitions.
     ├─ .prettierignore             # Files/folders to skip during Prettier formatting.
     ├─ angular.json                # Angular CLI project configuration.
     ├─ API.md                      # Documentation for API usage and structure.
@@ -500,11 +462,7 @@ This project uses the following third party libraries:
 - jszip: A library for creating, reading, and editing .zip files. Licensed under
   the [MIT License][link-license-mit].
 
-- https://github.com/CodyTolene/pip-boy-apps
-
-- https://github.com/espruino/EspruinoAppLoaderCore
-
-- https://github.com/espruino/EspruinoWebTools
+- https://github.com/CodyTolene/pip-boy-3000-mk-v-apps
 
 This project uses the **Monofonto** font by Typodermic Fonts Inc. for the
 project PNG logo.
@@ -549,11 +507,12 @@ For more information, see the full [Terms of Use][link-terms] document.
 
 ## 🏁 Wrapping Up <a name="wrapping-up"></a>
 
-Thank you to Bethesda & The Wand Company for such a fun device to tinker with!
 If you have any questions, please let me know by opening an issue
 [here][link-new-issue].
 
-Fin. Happy programming friend!
+Thanks to all who have supported this project!
+
+God Bless the Wastelanders!
 
 Cody Tolene
 
@@ -579,7 +538,7 @@ Cody Tolene
 [link-license-mpl]: /LICENSE_MPL.md
 [link-license]: /LICENSE.md
 [link-new-issue]: https://github.com/CodyTolene/pip-terminal/issues
-[link-pip-apps]: https://github.com/CodyTolene/pip-boy-apps
+[link-pip-apps]: https://github.com/CodyTolene/pip-boy-3000-mk-v-apps
 [link-regular-users]: /api//src//seeds/users.seed.ts
 [link-robco-industries]: https://log.robco-industries.org/
 [link-terms]: /TERMS.md

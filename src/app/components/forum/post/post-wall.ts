@@ -6,7 +6,7 @@ import {
 import { TableSortChangeEvent } from '@proangular/pro-table';
 import { filter } from 'rxjs';
 import { ForumPost } from 'src/app/models';
-import { AuthService, ForumPostsService } from 'src/app/services';
+import { AdsService, AuthService, ForumPostsService } from 'src/app/services';
 import { isNonEmptyValue, shareSingleReplay } from 'src/app/utilities';
 
 import { CommonModule } from '@angular/common';
@@ -27,6 +27,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
+import { AdsenseUnitComponent } from 'src/app/components/adsense-unit/adsense-unit.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button';
 import { PipForumPostDisplayComponent } from 'src/app/components/forum/post/post-display';
 import { LoadingComponent } from 'src/app/components/loading/loading';
@@ -41,6 +42,7 @@ import { PageUrl } from 'src/app/types/page-url';
   selector: 'pip-forum-post-wall',
   templateUrl: './post-wall.html',
   imports: [
+    AdsenseUnitComponent,
     CommonModule,
     InputDropdownComponent,
     InputDropdownOptionComponent,
@@ -82,6 +84,9 @@ export class PipForumPostWallComponent implements OnInit, OnChanges {
 
   private readonly forumPostsService = inject(ForumPostsService);
   private readonly authService = inject(AuthService);
+  private readonly adsService = inject(AdsService);
+
+  protected readonly showAds = this.adsService.showAds;
 
   protected readonly userChanges =
     this.authService.userChanges.pipe(shareSingleReplay());
