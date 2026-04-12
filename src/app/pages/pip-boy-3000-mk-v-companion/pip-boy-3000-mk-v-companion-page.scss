@@ -32,8 +32,7 @@ main {
     }
 
     &.intro,
-    &.companion-selection,
-    &.quick-support {
+    &.companion-selection {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -81,47 +80,16 @@ p {
   width: 100%;
 }
 
-pip-divider {
-  margin: 0 auto;
-  max-width: var.$page-max-width;
-  padding: 0 2rem;
-}
-
-mat-accordion {
-  color: col.$black;
-  display: flex;
-  margin-bottom: 1rem;
-  width: 100%;
-  max-width: var.$section-max-width;
-
-  mat-expansion-panel {
-    width: 100%;
-
-    p {
-      color: col.$black;
-    }
-
-    a:hover {
-      color: col.$black;
-    }
-
-    @include bps.media('max', 'md') {
-      mat-expansion-panel-header,
-      mat-panel-title {
-        font-size: var.$font-xxs;
-      }
-    }
-  }
-}
-
 pip-button {
   margin-top: 2rem;
 }
 
 .companion-selection {
+  margin-bottom: 4rem;
+
   .pip-grid {
     gap: 1rem;
-    max-width: 900px;
+    max-width: var.$page-max-width;
   }
 
   .pip-grid-item {
