@@ -1,14 +1,12 @@
 import { PipFooterComponent } from 'src/app/layout/footer/footer';
 import { PAGES } from 'src/app/routing';
 
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 
 import { PipButtonComponent } from 'src/app/components/button/pip-button';
 import { PipTitleComponent } from 'src/app/components/title/title';
-
-import { ScriptsService } from 'src/app/services/scripts.service';
 
 @Component({
   selector: 'pip-boy-3000-mk-v-companion-page',
@@ -23,18 +21,8 @@ import { ScriptsService } from 'src/app/services/scripts.service';
   styleUrl: './pip-boy-3000-mk-v-companion-page.scss',
   standalone: true,
 })
-export class PipBoy3000MkVPage implements OnDestroy {
-  public constructor() {
-    this.scriptsService.loadScript('pip/webtools/uart.js');
-  }
-
-  private scriptsService = inject(ScriptsService);
-
+export class PipBoy3000MkVPage {
   protected readonly PAGES = PAGES;
-
-  public ngOnDestroy(): void {
-    this.scriptsService.unloadAll();
-  }
 
   protected openAppsRepo(): void {
     window.open(

@@ -10,24 +10,45 @@ export class AdsService {
     const showAds = environment.isProduction;
     this.showAds.set(showAds);
 
-    // Load or unload ad scripts based on whether ads should be shown.
     if (showAds) {
-      void this.scripts.loadScript(
-        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4966893083726404',
-      );
-      void this.scripts.loadScript(
-        'https://fundingchoicesmessages.google.com/i/pub-4966893083726404?ers=1',
-      );
-      void this.scripts.loadScript('scripts/google-abr.js');
+      void this.loadAdsScripts();
     } else {
-      this.scripts.unloadAll();
+      this.unloadAdsScripts();
     }
   }
+
+  private readonly adScriptPaths = [
+    'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4966893083726404',
+    'https://fundingchoicesmessages.google.com/i/pub-4966893083726404?ers=1',
+    'scripts/google-abr.js',
+  ] as const;
 
   private readonly scripts = inject(ScriptsService);
   public readonly showAds = signal<boolean>(false);
 
   public init(): void {
     // No-op
+  }
+
+  private async loadAdsScripts(): Promise<void> {
+    const results = await Promise.allSettled(
+      this.adScriptPaths.map((path) => this.scripts.loadScript(path)),
+    );
+
+    const failedResult = results.find((result) => result.status === 'rejected');
+    if (failedResult) {
+      this.showAds.set(false);
+      this.unloadAdsScripts();
+      console.warn(
+        'Ads disabled because an ad script failed to load.',
+        failedResult.reason,
+      );
+    }
+  }
+
+  private unloadAdsScripts(): void {
+    for (const path of this.adScriptPaths) {
+      this.scripts.unloadScript(path);
+    }
   }
 }

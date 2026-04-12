@@ -22,6 +22,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 
+import { AdsenseUnitComponent } from 'src/app/components/adsense-unit/adsense-unit.component';
 import { PipButtonComponent } from 'src/app/components/button/pip-button';
 import { PipForumCommentDisplayComponent } from 'src/app/components/forum/comment/comment-display';
 import { LoadingComponent } from 'src/app/components/loading/loading';
@@ -29,8 +30,6 @@ import { PipPanelComponent } from 'src/app/components/panel/panel';
 import { PipTitleComponent } from 'src/app/components/title/title';
 
 import { ForumCommentPagedResult } from 'src/app/types/forum-comment-paged-result';
-
-import { AdsenseUnitComponent } from '../../adsense-unit/adsense-unit.component';
 
 @UntilDestroy()
 @Component({
