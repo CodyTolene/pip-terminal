@@ -91,11 +91,11 @@ describe('Home page', () => {
       cy.get('div[aria-label="Community Members"]')
         .eq(0)
         .find('pip-vault-tec-user-card')
-        .should('have.length', 7);
+        .should('have.length', 8);
       cy.get('div[aria-label="Community Members"]')
         .eq(1)
         .find('pip-vault-tec-user-card')
-        .should('have.length', 17);
+        .should('have.length', 16);
 
       cy.contains('h4', 'Gordon Williams')
         .scrollIntoView()
