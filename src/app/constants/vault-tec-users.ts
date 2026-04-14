@@ -253,7 +253,14 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   rikkuness: {
     name: 'Darrian',
     boostDates: [new Date(2025, 9, 9)],
-    subtitles: ['Vault-Tec Engineer', 'Vault-Tec Support', 'Discord Booster'],
+    donationAmount: 5,
+    subtitles: [
+      'Atomic Sponsor',
+      'Vault-Tec Engineer',
+      'Vault-Tec Support',
+      'Discord Booster',
+    ],
+    images: ['images/community/rikkuness_250x250.png'],
     links: [
       {
         label: 'GitHub',
