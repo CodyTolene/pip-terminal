@@ -28,12 +28,12 @@ const atomicSponsors: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['beanutPudder'],
   VAULT_TEC_USERS['crashrek'],
   VAULT_TEC_USERS['jimDenson'],
+  VAULT_TEC_USERS['rikkuness'],
 ];
 
 const vaultTechUsers: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['gfwilliams'],
   VAULT_TEC_USERS['rblakesley'],
-  VAULT_TEC_USERS['rikkuness'],
   VAULT_TEC_USERS['nightmareGoggles'],
   VAULT_TEC_USERS['athene'],
   VAULT_TEC_USERS['mercy'],

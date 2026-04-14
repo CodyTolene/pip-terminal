@@ -66,19 +66,25 @@
   <div class="subtitle-container">
     @for (subtitle of userCard().subtitles; track subtitle) {
     <span class="subtitle">{{ subtitle }}</span>
-    } @if(userCard().subtitles.includes('Discord Booster') &&
-    userCard().boostDates?.length) {
-    <div class="dates">
-      @for (date of userCard().boostDates; track date; let index = $index) {
-      <span class="date"
-        >Boost &num;{{ index + 1 }}: {{ date | date:'longDate' }}</span
-      >
-      }
-    </div>
+    } @if(type() !== 'sponsor') {
+    <ng-container *ngTemplateOutlet="boostDatesTemplate"></ng-container>
     }
   </div>
   }
 </div>
+
+<ng-template #boostDatesTemplate>
+  @if(userCard().subtitles.includes('Discord Booster')) {
+  @if(userCard().boostDates?.length) {
+  <div class="dates">
+    @for (date of userCard().boostDates; track date; let index = $index) {
+    <span class="date"
+      >Boost &num;{{ index + 1 }}: {{ date | date:'longDate' }}</span
+    >
+    }
+  </div>
+  } }
+</ng-template>
 
 <ng-template #imageFirstTemplate let-image="image">
   <img class="first-image" src="{{ image }}" alt="{{ userCard().name }}" />
