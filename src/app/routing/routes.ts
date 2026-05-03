@@ -6,6 +6,7 @@ import { FORUM_VIEW_PAGE_ROUTE } from 'src/app/pages/forum/view/view-page.route'
 import { HOME_PAGE_ROUTE } from 'src/app/pages/home/home-page.route';
 import { LOGIN_PAGE_ROUTE } from 'src/app/pages/login/login-page.route';
 import { PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page.route';
+import { PIP_BOY_3000A_COMPANION_PAGE_ROUTE } from 'src/app/pages/pip-boy-3000a-companion/pip-boy-3000a-companion-page.route';
 import { PRIVACY_POLICY_PAGE_ROUTE } from 'src/app/pages/privacy-policy/privacy-policy-page.route';
 import { REGISTER_PAGE_ROUTE } from 'src/app/pages/register/register-page.route';
 import { TERMS_AND_CONDITIONS_PAGE_ROUTE } from 'src/app/pages/terms-and-conditions/terms-and-conditions-page.route';
@@ -25,6 +26,7 @@ export const ROUTES: ReadonlyArray<PipRoute | PipRouteRedirect> = [
   FORUM_VIEW_PAGE_ROUTE,
   LOGIN_PAGE_ROUTE,
   PIP_BOY_3000_MK_V_COMPANION_PAGE_ROUTE,
+  PIP_BOY_3000A_COMPANION_PAGE_ROUTE,
   PRIVACY_POLICY_PAGE_ROUTE,
   REGISTER_PAGE_ROUTE,
   TERMS_AND_CONDITIONS_PAGE_ROUTE,

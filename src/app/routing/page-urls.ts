@@ -16,6 +16,7 @@ export const PAGE_URLS = (
     '', // Home
     '**', // Catch-all
     '3000-mk-v',
+    '3000a',
     'forgot-password',
     'forum',
     `forum/category/${id}`,
@@ -42,6 +43,7 @@ export const PAGE_URLS = (
 export const PUBLIC_SITEMAP_URLS: ReadonlyArray<(typeof PAGE_URLS)[number]> = [
   '', // Home
   '3000-mk-v',
+  '3000a',
   'forgot-password',
   'forum',
   `forum/category/${id}`,

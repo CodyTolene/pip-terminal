@@ -12,4 +12,5 @@ import { PageUrl } from 'src/app/types/page-url';
 })
 export class WelcomePipBoysSection {
   protected readonly pipboy3000MkVUrl: PageUrl = '3000-mk-v';
+  protected readonly pipboy3000aUrl: PageUrl = '3000a';
 }
