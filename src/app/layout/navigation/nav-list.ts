@@ -96,10 +96,9 @@ export class NavList {
       label: '3000 Mk V Companion',
     },
     {
-      href: 'https://lambda.guru/software/pip-boy',
+      commands: ['3000a'],
       icon: 'pip-boy-3000a',
       fontSet: 'material-icons-outlined',
-      isDisabled: true,
       label: '3000a Companion',
     },
     {
