@@ -48,4 +48,5 @@ const vaultTechUsers: readonly VaultTecUserInfo[] = [
   VAULT_TEC_USERS['hazaa7395'],
   VAULT_TEC_USERS['michal092395'],
   VAULT_TEC_USERS['lore5032'],
+  VAULT_TEC_USERS['nerf253'],
 ];
