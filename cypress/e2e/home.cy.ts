@@ -51,13 +51,13 @@ describe('Home page', () => {
         .as('selector')
         .within(() => {
           cy.get('.pip-grid-item.terminal-card').should('have.length', 6);
-          cy.get('[aria-disabled="true"]').should('have.length', 3);
+          cy.get('[aria-disabled="true"]').should('have.length', 2);
           cy.contains('h4', 'Pip-Boy 3000').should('be.visible');
           cy.contains('h4', 'Pip-Boy 3000A').should('be.visible');
           cy.contains('h4', 'Pip-Boy 3000 Mk IV*').should('be.visible');
           cy.contains('h4', 'Pip-Boy 2000 Mk VI*').should('be.visible');
           cy.contains('h4', 'Pip-Boy 3000 Mk V').should('be.visible');
-          cy.contains('h4', 'Pip-Boy 3000*').should('be.visible');
+          cy.contains('h4', 'Pip-Boy 3000A').should('be.visible');
 
           cy.contains('a.pip-grid-item', 'Pip-Boy 3000').should(
             'have.attr',
@@ -95,7 +95,7 @@ describe('Home page', () => {
       cy.get('div[aria-label="Community Members"]')
         .eq(1)
         .find('pip-vault-tec-user-card')
-        .should('have.length', 16);
+        .should('have.length', 17);
 
       cy.contains('h4', 'Gordon Williams')
         .scrollIntoView()
