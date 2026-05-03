@@ -210,6 +210,7 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   nerf253: {
     name: 'nerf253',
+    boostDates: [new Date(2026, 4, 2)],
     subtitles: ['Discord Booster'],
     links: [],
   },
