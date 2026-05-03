@@ -1,0 +1,110 @@
+@use '../../styles/breakpoints' as bps;
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  align-items: center;
+  box-sizing: border-box;
+  color: col.$pip-green;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+  width: 100%;
+
+  section {
+    box-sizing: border-box;
+    padding: 1rem;
+    max-width: 100%;
+    width: 100%;
+    word-wrap: break-word;
+
+    > p {
+      max-width: var.$section-max-width;
+      margin-bottom: 2rem;
+    }
+
+    &.intro,
+    &.companion-selection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    &:last-child {
+      margin-bottom: 5rem;
+    }
+  }
+}
+
+.intro {
+  pip-title {
+    margin: 2rem 0 1rem 0;
+  }
+}
+
+h1 {
+  color: col.$pip-green-dark;
+  font-size: var.$font-xl;
+  text-align: center;
+  width: 100%;
+
+  &.active {
+    color: col.$pip-green;
+  }
+
+  &.community-header {
+    margin-top: 0;
+  }
+}
+
+h2,
+h3 {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  color: col.$pip-green;
+  text-align: center;
+  width: 100%;
+}
+
+.companion-selection {
+  margin-bottom: 4rem;
+
+  .pip-grid {
+    gap: 1.5rem;
+    max-width: var.$page-max-width;
+  }
+
+  .pip-grid-item {
+    padding: 0.65rem;
+    width: 220px;
+
+    img {
+      max-width: 200px;
+    }
+
+    h4 {
+      font-size: var.$font-xs;
+      margin-top: 0.65rem;
+    }
+
+    span {
+      font-size: var.$font-xxs;
+      line-height: 1.2;
+      padding: 0.35rem 0;
+    }
+  }
+}

@@ -13,6 +13,7 @@ export const PAGES: Record<PageName, PageUrl> = {
   'My Vault': `vault/:id`,
   'Page Not Found': '**',
   'Pip-Boy 3000 Mk V Companion Terminal': '3000-mk-v',
+  'Pip-Boy 3000a Companion Terminal': '3000a',
   'Privacy Policy': 'privacy-policy',
   Register: 'register',
   'Terms and Conditions': 'terms-and-conditions',

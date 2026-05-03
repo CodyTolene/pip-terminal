@@ -12,6 +12,7 @@ export const PAGE_NAMES = [
   'My Vault',
   'Page Not Found',
   'Pip-Boy 3000 Mk V Companion Terminal',
+  'Pip-Boy 3000a Companion Terminal',
   'Privacy Policy',
   'Register',
   'Terms and Conditions',

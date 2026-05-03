@@ -17,6 +17,7 @@ type VaultTecUser =
   | 'matchwood'
   | 'mercy'
   | 'michal092395'
+  | 'nerf253'
   | 'nightmareGoggles'
   | 'pip4111'
   | 'rblakesley'
@@ -207,6 +208,12 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
       },
     ],
   },
+  nerf253: {
+    name: 'nerf253',
+    boostDates: [new Date(2026, 4, 2)],
+    subtitles: ['Discord Booster'],
+    links: [],
+  },
   nightmareGoggles: {
     name: 'AidansLab',
     subtitles: ['Vault-Tec Engineer', 'Vault-Tec Support'],
@@ -322,7 +329,8 @@ export const VAULT_TEC_USERS: Record<VaultTecUser, VaultTecUserInfo> = {
   },
   theeohn: {
     name: 'Theeohn',
-    subtitles: ['Atomic Sponsor', 'Vault-Tec Support'],
+    boostDates: [new Date(2025, 11, 23)],
+    subtitles: ['Atomic Sponsor', 'Vault-Tec Support', 'Discord Booster'],
     donationAmount: 25,
     images: [
       'images/community/theeohn_megistus_no_glasses_250x250.png',

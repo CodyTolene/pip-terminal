@@ -5,6 +5,7 @@ export * from './forum/post/post-page';
 export * from './forum/view/view-page';
 export * from './login/login-page';
 export * from './pip-boy-3000-mk-v-companion/pip-boy-3000-mk-v-companion-page';
+export * from './pip-boy-3000a-companion/pip-boy-3000a-companion-page';
 export * from './privacy-policy/privacy-policy-page';
 export * from './register/register-page';
 export * from './terms-and-conditions/terms-and-conditions-page';
