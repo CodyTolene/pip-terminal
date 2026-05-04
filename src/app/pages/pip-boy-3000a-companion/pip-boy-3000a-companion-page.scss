@@ -33,15 +33,12 @@ main {
     }
 
     &.intro,
-    &.companion-selection {
+    &.companion-selection,
+    &.companion-selection-notes {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-    }
-
-    &:last-child {
-      margin-bottom: 5rem;
     }
   }
 }
@@ -88,7 +85,7 @@ p {
 }
 
 .companion-selection {
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 
   .pip-grid {
     gap: 1.5rem;
@@ -114,4 +111,8 @@ p {
       padding: 0.35rem 0;
     }
   }
+}
+
+.companion-selection-notes {
+  margin-bottom: 5rem;
 }
